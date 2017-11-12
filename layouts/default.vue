@@ -43,8 +43,8 @@
 </template>
 
 <script>
-  import vHeader from '~components/Header.vue'
-  import vFooter from '~components/Footer.vue'
+  import vHeader from '~/components/Header.vue'
+  import vFooter from '~/components/Footer.vue'
 
   export default {
     components: {
