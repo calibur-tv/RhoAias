@@ -1,12 +1,16 @@
+<style lang="scss" scoped="">
+
+</style>
+
 <template>
-  <div class="main">
-    <h1>hello world</h1>
-  </div>
+  <header>
+    this is header
+  </header>
 </template>
 
 <script>
   export default {
-    name: 'v-page-index',
+    name: 'v-layout-header',
     components: {
 
     },

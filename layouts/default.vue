@@ -1,50 +1,26 @@
 <style lang="scss">
-  @import '~normalize.css';
-
-  html
-  {
-    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    word-spacing: 1px;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
+  #layout-default {
     height: 100%;
-  }
-
-  body {
-    height: 100%;
-
-    *, *:before, *:after
-    {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-    }
-  }
-
-  #__nuxt {
-    height: 100%;
-  }
-
-  #main {
-    min-height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+    >.main {
+      flex-grow: 1;
+    }
   }
 </style>
 
 <template>
-  <div id="main">
+  <div id="layout-default">
     <v-header></v-header>
-    <nuxt/>
+    <nuxt></nuxt>
     <v-footer></v-footer>
   </div>
 </template>
 
 <script>
-  import vHeader from '~/components/Header.vue'
-  import vFooter from '~/components/Footer.vue'
+  import vHeader from '~/components/layouts/Header.vue'
+  import vFooter from '~/components/layouts/Footer.vue'
 
   export default {
     components: {

@@ -1,15 +1,16 @@
-<style lang="scss" scoped>
+<style lang="scss" scoped="">
 
 </style>
 
 <template>
-  <header>
-  </header>
+  <footer>
+    this is footer
+  </footer>
 </template>
 
 <script>
   export default {
-    name: 'v-header',
+    name: 'v-layout-footer',
     components: {
 
     },
