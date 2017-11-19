@@ -7,6 +7,9 @@
 <script>
   export default {
     name: 'v-page-index',
+    head: {
+      title: '首页'
+    },
     components: {
 
     },
