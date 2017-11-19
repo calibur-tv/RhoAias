@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Cookies from 'js-cookie'
+import Backdrop from '~/assets/js/backdrop'
 
 const Helpers = {
   install: function (Vue, options) {
     Vue.prototype.$channel = new Vue()
 
     Vue.prototype.$cookie = Cookies
+
+    Vue.prototype.$backdrop = new Backdrop()
 
     Vue.prototype.$resize = (url, options = {}) => {
       if (url === '') {
