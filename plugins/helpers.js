@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Cookies from 'js-cookie'
-import Backdrop from '~/assets/js/backdrop'
+import Backdrop from '~/assets/js/Backdrop'
 
 const Helpers = {
   install: function (Vue, options) {
