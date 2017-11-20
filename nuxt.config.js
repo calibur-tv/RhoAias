@@ -10,7 +10,7 @@ module.exports = {
     { src: '~/plugins/mintUI.js' }
   ],
   modules: [
-    ['@nuxtjs/google-analytics', { ua: 'UA-80338273-2' }],
+    ['@nuxtjs/google-analytics', { ua: env.script.google }],
     ['@nuxtjs/axios', http.config]
   ],
   /*
