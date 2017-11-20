@@ -6,7 +6,8 @@ const webpack = require('webpack')
 module.exports = {
   plugins: [
     { src: '~/plugins/analytics.js', ssr: false },
-    { src: '~/plugins/helpers.js' }
+    { src: '~/plugins/helpers.js' },
+    { src: '~/plugins/mintUI.js' }
   ],
   modules: [
     ['@nuxtjs/google-analytics', { ua: 'UA-80338273-2' }],
