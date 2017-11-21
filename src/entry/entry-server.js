@@ -12,7 +12,6 @@ export default ssrContext => {
         // eslint-disable-next-line prefer-promise-reject-errors
         reject({ code: 404 })
       }
-      store.commit('SET_SSR_CTX', ssrContext.ctx)
       if (store._actions.init) {
         try {
           await store.dispatch('init', { app, ctx: ssrContext.ctx })
