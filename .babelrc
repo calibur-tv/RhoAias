@@ -3,6 +3,8 @@
     ["env", {"modules": false}]
   ],
   "plugins": [
+    "syntax-dynamic-import",
+    "transform-runtime",
     ["component", [
       {
         "libraryName": "mint-ui",

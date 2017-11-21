@@ -13,8 +13,8 @@ script:
 - echo "hello"
 after_success:
 - ssh -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST 'cd /var/www/m && git pull'
-- ssh -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST 'cd /var/www/m && npm run build'
-- ssh -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST 'cd /var/www/m && pm2 startOrRestart pm2.config.js --env=production'
+- ssh -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST 'cd /var/www/m && npm run staging'
+- ssh -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST 'cd /var/www/m && pm2 startOrRestart pm2.config.js --env=staging'
 env:
   global:
   - secure: TLH/oyXNeaYFsnNpjnR9ZVuT6rEApINiYE38bI2hlYLs+AsU6a28RB2baLaP656ysJOipK054upGOcq0IqSir+YkeLJGyEF3xpyzaSGSa88bMlsnAzZVSIS8rxYDFQL1s7ULnksnWV0ECNWLpXPwSlPSxbT7KilbVc2S0l/e4sdtWejBfiCS6wMWR2pCgvxKNmX1NUH3bNMY8VBbtAOAjP6q818JcZbrJEyiM6z2j+ujbKYDtSr3304DhKTTW7i+PGwWl7kTjuNoAEbD8ZxufgRc+z3QPUZP6UftgxDV6IksG9ngfa/+oe58fpWYIK2dFiYO9SdIxWfaZloBBLCdi2RMCGAQwY4o3yBGvzSJxgVA27W2CJ87scAlkup5HtGRf01U3rdXVAMOLMRu88DSrfV0eccnrK1O44UBOS4XECKVn2M+htJRlrojnBynWOULe1Y+SzczqSmw6AHnfFpuI15byl/fQOM3Yv9TZU12jlQD/uehLrZADXpERVGRvI39wAP31JJ20kQScfmIQ48U+PPzKPeqlYkEi6wBWwfBktbnVrmUXo05ea0XnSLXsrHmgvBKrpy/jAibsKU1CzSjwKZwj1/v6nLyWb6OAVxJhmFHaMXzotM59bncYu+fFAJW9vMyOKsQZdtruGBZjz6246JCyfT6ZE52RtoSdDl0phU=

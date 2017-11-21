@@ -1,0 +1,69 @@
+html, body, #app {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+  word-spacing: 1px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  color: $color-text-deep;
+
+  *, *:before, *:after
+  {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  *:focus, *:active {
+    outline-width: 0;
+  }
+}
+
+ul, li {
+  list-style-type: none;
+}
+
+li {
+  float: left;
+}
+
+img {
+  color: transparent;
+  background-color: transparent;
+  border: 0;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+input {
+  vertical-align: middle;
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 100px #e9fbfe inset !important;
+    background-color: #e9fbfe !important;
+    border-color: #e4f4f9 !important;
+  }
+}
+
+label {
+  display: inline-block;
+  cursor: pointer;
+  font-family: 'Hiragino Sans GB',Helvetica,Arial,sans-serif;
+  vertical-align: middle;
+  user-select: none;
+}
+
+input[type=checkbox], input[type=radio] {
+  cursor: pointer;
+}

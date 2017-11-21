@@ -1,8 +1,5 @@
 node_modules
-.nuxt
 dist
-.DS_Store
 .idea
+.DS_Store
 *.log
-.env.js
-build
