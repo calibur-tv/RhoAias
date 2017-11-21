@@ -15,7 +15,7 @@ export default ssrContext => {
       store.commit('SET_SSR_CTX', ssrContext.ctx)
       if (store._actions.init) {
         try {
-          await store.dispatch('init', { app, req: ssrContext.ctx })
+          await store.dispatch('init', { app, ctx: ssrContext.ctx })
         } catch (e) {
           reject(e)
         }
