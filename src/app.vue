@@ -29,7 +29,8 @@
       ],
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
-        { innerHTML: script.baiduPush, type: 'text/javascript' }
+        { innerHTML: script.baiduPush, type: 'text/javascript' },
+        { innerHTML: script.google, type: 'text/javascript' }
       ],
       __dangerouslyDisableSanitizers: 'script'
     }
