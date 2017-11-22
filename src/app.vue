@@ -25,7 +25,7 @@
         { hid: 'keywords', name: 'keywords', content: 'riuir，动漫，ACG，二次元，视频，番剧，动画，新番，神作' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/dist/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ],
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
