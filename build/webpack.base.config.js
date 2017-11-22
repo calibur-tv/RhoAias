@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const resolve = file => path.resolve(__dirname, file)
 const isProd = process.env.NODE_ENV === 'production'
@@ -126,7 +126,7 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new webpack.optimize.UglifyJsPlugin({
+        new UglifyJsPlugin({
           sourceMap: false
         }),
         new CopyWebpackPlugin([
