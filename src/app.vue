@@ -30,7 +30,8 @@
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
         { innerHTML: script.baiduPush, type: 'text/javascript' }
-      ]
+      ],
+      __dangerouslyDisableSanitizers: 'script'
     }
   }
 </script>
