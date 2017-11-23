@@ -23,9 +23,8 @@ export default () => {
     }
     if (err.message === `timeout of ${timeout.client}ms exceeded`) {
       // TODO handle timeout
-    } else {
-      return Promise.reject(err && err.response)
     }
+    return Promise.reject(err && (err.response || err.message))
   })
 
   return http

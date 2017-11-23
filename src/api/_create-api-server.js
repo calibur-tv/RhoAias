@@ -8,7 +8,10 @@ export default () => {
     timeout: timeout.server
   })
 
-  http.interceptors.response.use(res => res && res.data, err => Promise.reject(err))
+  http.interceptors.response.use(res => res && res.data && res.data.data, err => {
+    err.code = err.response.status
+    throw err
+  })
 
   return http
 }
