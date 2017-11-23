@@ -3,7 +3,7 @@ import { env, host, timeout } from '../../.env'
 
 export default () => {
   const http = axios.create({
-    baseURL: env === 'developoment' ? host[env] : 'http://localhost/',
+    baseURL: env === 'development' ? host[env] : 'http://localhost/',
     headers: { Accept: 'application/json' },
     timeout: timeout.server
   })
