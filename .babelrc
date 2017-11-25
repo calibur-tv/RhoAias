@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", {"modules": false}]
+    ["env"]
   ],
   "plugins": [
     "syntax-dynamic-import",
@@ -8,7 +8,7 @@
     ["component", [
       {
         "libraryName": "mint-ui",
-        "style": true
+        "style": false
       }
     ]]
   ]
