@@ -14,7 +14,7 @@ export default ssrContext => {
       }
       if (store._actions.init) {
         try {
-          await store.dispatch('init', { app, ctx: ssrContext.ctx })
+          await store.dispatch('init', { ctx: ssrContext.ctx })
         } catch (e) {
           reject(e)
         }

@@ -69,6 +69,7 @@
     "mocha": "^4.0.1",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.8",
+    "qiniu-webpack-plugin": "^0.4.2",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "rimraf": "^2.6.2",
@@ -82,7 +83,7 @@
     "webpack-bundle-analyzer": "^2.9.1",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.19.1",
-    "webpack-merge": "^4.0.0",
+    "webpack-merge": "^4.1.1",
     "webpack-node-externals": "^1.6.0"
   }
 }

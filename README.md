@@ -1,5 +1,7 @@
-### todolist
+### run
 
-1. 明确一下 i18n 的方案
-2. 研究 Nuxt.js 源码，寻找优化点
-3. 骨架屏？
+1. git clone
+2. npm install
+3. rename`.env.example.js` => `.env.js`
+4. npm run dev
+5. open localhost:3001

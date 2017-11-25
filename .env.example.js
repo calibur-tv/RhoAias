@@ -4,6 +4,18 @@ const host = {
   production: 'https://api.calibur.tv'
 }
 
+const cdn = {
+  host: 'https://cdn.calibur.tv/'
+}
+
+const qiniu = {
+  host: '',
+  access: '',
+  secret: '',
+  bucket: '',
+  prefix: ''
+}
+
 const timeout = {
   server: 60000,
   client: 30000
@@ -17,9 +29,14 @@ const script = {
 
 const env = process.env.NODE_ENV
 
+const listCacheLimit = 5
+
 module.exports = {
   host,
   timeout,
   env,
-  script
+  script,
+  listCacheLimit,
+  cdn,
+  qiniu
 }

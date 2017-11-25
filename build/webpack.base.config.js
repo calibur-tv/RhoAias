@@ -3,16 +3,18 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const QiniuPlugin = require('qiniu-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const resolve = file => path.resolve(__dirname, file)
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
+const qiniu = require('../.env').qiniu
 
 module.exports = {
   devtool: isDev ? 'sourcemap' : false,
   output: {
     path: resolve('../dist'),
-    publicPath: '/dist/',
+    publicPath: isProd ? `${qiniu.host}${qiniu.prefix}` : '/dist/',
     filename: '[name].[chunkhash].js'
   },
   resolve: {
@@ -76,7 +78,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: '[name].[ext]?[hash:8]'
+          name: '[name].[hash:8].[ext]'
         }
       },
       {
@@ -84,7 +86,7 @@ module.exports = {
         loader: 'file-loader',
         query: {
           limit: 10000,
-          name: '[name].[ext]?[hash:8]'
+          name: '[name].[hash:8].[ext]'
         }
       },
       {
@@ -121,7 +123,14 @@ module.exports = {
     ]
 
     if (isProd) {
-
+      pluginArr = pluginArr.concat([
+        new QiniuPlugin({
+          ACCESS_KEY: qiniu.access,
+          SECRET_KEY: qiniu.secret,
+          bucket: qiniu.bucket,
+          path: qiniu.prefix
+        })
+      ])
     }
 
     if (!isDev) {

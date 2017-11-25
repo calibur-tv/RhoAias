@@ -13,13 +13,13 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 
-if (!dev) {
-  router.afterEach((to) => {
+router.afterEach((to) => {
+  if (!dev) {
     _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
     ga('set', 'page', to.fullPath)             // eslint-disable-line no-undef
     ga('send', 'pageview')                     // eslint-disable-line no-undef
-  })
-}
+  }
+})
 
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
