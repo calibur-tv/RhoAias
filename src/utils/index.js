@@ -1,21 +1,17 @@
-import scrollToY from 'assets/js/scrollToY'
-import Backdrop from 'assets/js/Backdrop'
-import Toast from 'assets/js/Toast'
+import Vue from 'vue'
+import env from 'env'
 
-export default {
+Vue.use({
   install (Vue, options) {
-    Vue.prototype.$scrollToY = scrollToY
+    Vue.prototype.$cdn = env.cdn
 
     Vue.prototype.$channel = new Vue()
 
-    Vue.prototype.$backdrop = new Backdrop()
-
-    Vue.prototype.$toast = new Toast()
-
     Vue.prototype.$resize = (url, options = {}) => {
-      if (url === '') {
+      if (!url) {
         return ''
       }
+      const link = url.match(/^http/) === null ? `${env.cdn.image}${url}` : url
       const canUseWebP = () => {
         if (Vue.prototype.$isServer) {
           return false
@@ -36,57 +32,24 @@ export default {
       }
 
       const format = canUseWebP() ? '/format/webp' : ''
+      const mode = options.mode === undefined ? 1 : options.mode
 
-      if (options.width && options.width > 0) {
-        const width = `/w/${options.width}`
-        const mode = options.mode === undefined ? 1 : options.mode
-        const height = options.height ? `/h/${options.height}` : mode === 1 ? `/h/${options.width}` : ''
-
-        return `${url}?imageMogr2/auto-orient/strip|imageView2/${mode}${width}${height}${format}`
+      if ((mode === 1 && !options.width) || (!options.width && !options.height)) {
+        return `${link}?imageMogr2/auto-orient/strip${format}`
       }
-      return `${url}?imageMogr2/auto-orient/strip${format}`
-    }
 
-    Vue.prototype.$eventManager = (function () {
-      class Manager {
-        constructor () {
-          this.id = 0
-          this.listeners = {}
-        }
+      let width
+      let height
 
-        add (ele, evt, handler, capture = false) {
-          const events = typeof evt === 'string' ? [evt] : evt
-          const result = []
-          events.forEach(e => {
-            const id = this.id++
-            ele.addEventListener(e, handler, capture)
-            this.listeners[id] = {
-              element: ele,
-              event: e,
-              handler,
-              capture
-            }
-            result.push(id)
-          })
-          return result
-        }
-
-        del (id) {
-          id.forEach(item => {
-            if (this.listeners[item]) {
-              const h = this.listeners[item]
-              h.element.removeEventListener(h.event, h.handler, h.capture)
-              Reflect.deleteProperty(this.listeners, item)
-            }
-          })
-        }
+      if (mode === 1) {
+        width = `/w/${options.width}`
+        height = options.height ? `/h/${options.height}` : `/h/${options.width}`
+      } else {
+        width = options.width ? `/w/${options.width}` : ''
+        height = options.height ? `/h/${options.height}` : ''
       }
-      return new Manager()
-    }())
 
-    Vue.prototype.$checkInView = (dom, scale = 1) => {
-      const rect = dom.getBoundingClientRect()
-      return (rect.top < window.innerHeight * scale && rect.bottom > 0) && (rect.left < window.innerWidth * scale && rect.right > 0)
+      return `${link}?imageMogr2/auto-orient/strip|imageView2/${mode}${width}${height}${format}`
     }
   }
-}
+})

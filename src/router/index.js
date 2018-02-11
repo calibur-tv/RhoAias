@@ -17,17 +17,17 @@ export function createRouter () {
     routes: [
       {
         path: '/',
-        component: () => import('layout/default'),
+        component: () => import('~/layouts/default'),
         children: [
           {
             path: '',
             name: 'homepage',
-            component: () => import('view/index')
+            component: () => import('~/views/index')
           },
           {
             path: 'bangumi/news',
             name: 'bangumi-news',
-            component: () => import('view/bangumi/news')
+            component: () => import('~/views/bangumi/news')
           }
         ]
       }

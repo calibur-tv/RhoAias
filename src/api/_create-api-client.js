@@ -1,30 +1,32 @@
 import axios from 'axios'
-import { env, host, timeout } from '../../.env'
+import { env, host, timeout } from 'env'
 
-export default () => {
+export default (ctx) => {
   const http = axios.create({
     baseURL: host[env],
-    headers: { Accept: 'application/json' },
+    headers: { Accept: 'application/x.api.latest+json' },
     timeout: timeout.client
   })
 
-  http.interceptors.request.use(cfg => {
-    if (['post', 'put', 'delete'].indexOf(cfg.method) !== -1 && !cfg.data) {
-      cfg.data = {
-        fuc: 1
-      }
+  http.interceptors.request.use(config => {
+    if (!ctx) {
+      return config
     }
-    return cfg
+    Object.assign(config.headers, {
+      Authorization: `Bearer ${ctx.$store ? ctx.$store.state.login ? ctx.$store.state.user.token : '' : ctx}`
+    })
+    return config
   })
 
-  http.interceptors.response.use(res => res && res.data, err => {
-    if (err.response) {
-      // TODO handle 401 403
-    }
+  http.interceptors.response.use(res => res.data.data, err => {
     if (err.message === `timeout of ${timeout.client}ms exceeded`) {
-      // TODO handle timeout
+      return Promise.reject('网路请求超时') // eslint-disable-line prefer-promise-reject-errors
     }
-    return Promise.reject(err && (err.response || err.message))
+    try {
+      return Promise.reject(err.response.data.message)
+    } catch (e) {
+      console.error(e)
+    }
   })
 
   return http

@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import App from './app.vue'
-import 'assets/css/global.scss'
+import '~/assets/css/global'
 import { sync } from 'vuex-router-sync'
-import { createStore } from './store'
-import { createRouter } from './router'
-import './utils/mintUI'
-import utils from './utils'
-import ImageLazy from './utils/imagelazy'
+import { createStore } from '~/store'
+import { createRouter } from '~/router'
+import '~/utils'
+import ImageLazy from '~/assets/js/imagelazy'
+import NoSSR from '~/assets/js/nossr'
+import Time from '~/assets/js/timeago'
 
-Vue.use(utils)
 Vue.component(ImageLazy.name, ImageLazy)
+Vue.component(NoSSR.name, NoSSR)
+Vue.component(Time.name, Time)
 
 export function createApp () {
   const router = createRouter()

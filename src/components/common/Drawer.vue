@@ -57,26 +57,36 @@
   所以使用 transform
 -->
 <template>
-  <transition :name="`fade-${from}`">
-    <div class="drawer"
-         v-show="show"
-         :style="position"
-         @scroll.stop="handleScroll"
-         @touchstart.stop
-         @touchmove.stop
-         @click.stop="autoClose">
-      <slot></slot>
-    </div>
-  </transition>
+  <no-ssr>
+    <transition :name="`fade-${from}`">
+      <div class="drawer"
+           v-show="show"
+           :style="position"
+           @touchstart.stop
+           @touchmove.stop>
+        <slot></slot>
+      </div>
+    </transition>
+  </no-ssr>
 </template>
 
 <script>
+  /**
+   * 在 Safari 设备上对于 position:fixed 支持的不好
+   * 当使用 position: fixed 和 -webkit-overflow-scrolling: touch 属性时，导致 drawer 内部的 position:fixed 元素在 window.scroll 的时候上下跳动
+   * 因此这里在打开抽屉的时候将 body 设为 fixed，抽屉内部使用 position:absolute 来模拟 fixed
+   * 当抽屉关闭的时候，还原 body 的属性
+   */
   export default {
-    name: 'Drawer',
+    name: 'v-drawer',
     props: {
+      value: {
+        type: Boolean,
+        default: false
+      },
       id: {
-        required: true,
-        type: String
+        type: String,
+        default: ''
       },
       from: {
         type: String,
@@ -87,18 +97,6 @@
         type: String,
         default: '70%'
       },
-      defaultOpen: {
-        type: Boolean,
-        default: false
-      },
-      clickClose: {
-        type: Boolean,
-        default: false
-      },
-      scrollHook: {
-        type: String,
-        default: ''
-      },
       backdrop: {
         type: Boolean,
         default: true
@@ -106,18 +104,27 @@
     },
     data () {
       return {
-        show: this.defaultOpen,
+        show: this.value,
         pos: 0
       }
     },
+    watch: {
+      value (val) {
+        val ? this.open() : this.close()
+        this.show = val
+      },
+      show (val) {
+        this.$emit('input', val)
+      }
+    },
     created () {
-      /**
-       * 在 Safari 设备上对于 position:fixed 支持的不好
-       * 当使用 position: fixed 和 -webkit-overflow-scrolling: touch 属性时，导致 drawer 内部的 position:fixed 元素在 window.scroll 的时候上下跳动
-       * 因此这里在打开抽屉的时候将 body 设为 fixed，抽屉内部使用 position:absolute 来模拟 fixed
-       * 当抽屉关闭的时候，还原 body 的属性
-       */
-      this.$channel.$on(`drawer-open-${this.id}`, () => {
+      if (this.id) {
+        this.$channel.$on(`drawer-open-${this.id}`, this.open)
+        this.$channel.$on(`drawer-close-${this.id}`, this.close)
+      }
+    },
+    methods: {
+      open () {
         if (this.show) {
           return
         }
@@ -132,17 +139,17 @@
           document.body.style.height = `${window.innerHeight}px`
         }
         this.show = true
-        this.$channel.$emit(`drawer-open-event-${this.id}`)
+        if (this.id) {
+          this.$channel.$emit(`drawer-open-event-${this.id}`)
+        }
         if (this.backdrop) {
           this.$backdrop.show({
             parent: this.$el.parentNode,
-            click: () => {
-              this.$channel.$emit(`drawer-close-${this.id}`)
-            }
+            click: this.close
           })
         }
-      })
-      this.$channel.$on(`drawer-close-${this.id}`, () => {
+      },
+      close () {
         if (!this.show) {
           return
         }
@@ -160,12 +167,16 @@
         if (this.backdrop) {
           this.$backdrop.hide()
         }
-        this.$channel.$emit(`drawer-close-event-${this.id}`)
-      })
+        if (this.id) {
+          this.$channel.$emit(`drawer-close-event-${this.id}`)
+        }
+      }
     },
     beforeDestroy () {
-      this.$channel.$off(`drawer-open-${this.id}`)
-      this.$channel.$off(`drawer-close-${this.id}`)
+      if (this.id) {
+        this.$channel.$off(`drawer-open-${this.id}`)
+        this.$channel.$off(`drawer-close-${this.id}`)
+      }
     },
     computed: {
       position () {
@@ -181,21 +192,6 @@
         }
         style[this.from] = 0
         return style
-      }
-    },
-    methods: {
-      handleScroll () {
-        if (this.scrollHook) {
-          const el = this.$el.children[0]
-          if (el.getBoundingClientRect().top <= document.body.offsetHeight - el.offsetHeight) {
-            this.$channel.$emit(this.scrollHook)
-          }
-        }
-      },
-      autoClose () {
-        if (this.clickClose) {
-          this.$channel.$emit(`drawer-close-${this.id}`)
-        }
       }
     }
   }

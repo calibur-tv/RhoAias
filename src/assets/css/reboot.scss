@@ -2,6 +2,10 @@ html, body, #app {
   height: 100%;
 }
 
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 body {
   font-family: -apple-system, "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
   word-spacing: 1px;
@@ -21,12 +25,9 @@ body {
   }
 }
 
-ul, li {
+ul {
+  -webkit-overflow-scrolling: touch;
   list-style-type: none;
-}
-
-li {
-  float: left;
 }
 
 img {
@@ -36,34 +37,23 @@ img {
 }
 
 button {
-  cursor: pointer;
+  cursor: default;
   background-color: transparent;
-  border: 0;
+  border: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
 }
 
 a {
   text-decoration: none;
-  cursor: pointer;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
 }
 
-input {
-  vertical-align: middle;
-
-  &:-webkit-autofill {
-    box-shadow: 0 0 0 100px #e9fbfe inset !important;
-    background-color: #e9fbfe !important;
-    border-color: #e4f4f9 !important;
-  }
-}
-
-label {
-  display: inline-block;
-  cursor: pointer;
-  font-family: 'Hiragino Sans GB',Helvetica,Arial,sans-serif;
-  vertical-align: middle;
-  user-select: none;
-}
-
-input[type=checkbox], input[type=radio] {
-  cursor: pointer;
+input, textarea, div[contenteditable=true] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
 }

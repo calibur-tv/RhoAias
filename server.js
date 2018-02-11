@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV
 const isDev = env === 'development'
 const isProd = env === 'production'
 const host = isProd ? '0.0.0.0' : '127.0.0.1'
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3000
 const fs = require('fs')
 const path = require('path')
 const resolve = file => path.resolve(__dirname, file)
@@ -18,13 +18,14 @@ const microCache = LRU({
   maxAge: isDev ? 0 : 1000 * 60 * 15
 })
 const cacheHTML = (status) => {
-  const hit = microCache.get(`render-html-${status}`)
+  const code = [200, 404, 429, 500, 503].indexOf(status) !== -1 ? status : 500
+  const hit = microCache.get(`render-html-${code}`)
   let html
-  if (hit) {
+  if (hit && !isDev) {
     html = hit
   } else {
-    html = fs.readFileSync(resolve(`./src/templates/${status}.template.html`), 'utf-8')
-    microCache.set(`render-html-${status}`, html)
+    html = fs.readFileSync(resolve(`./src/templates/${code}.template.html`), 'utf-8')
+    microCache.set(`render-html-${code}`, html)
   }
   return html
 }

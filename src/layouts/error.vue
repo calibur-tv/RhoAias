@@ -5,7 +5,9 @@
       <div class="error-wrapper-message">
         <h2 class="error-message">{{ error.message }}</h2>
       </div>
-      <p v-if="error.statusCode === 404"><nuxt-link class="error-link" to="/">返回首页</nuxt-link></p>
+      <p v-if="error.statusCode === 404">
+        <a class="error-link" :href="$alias.index">返回首页</a>
+      </p>
     </div>
   </div>
 </template>

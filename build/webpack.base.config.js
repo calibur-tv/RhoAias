@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const QiniuPlugin = require('qiniu-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -11,7 +10,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const qiniu = require('../.env').qiniu
 
 module.exports = {
-  devtool: isDev ? 'sourcemap' : false,
+  devtool: isProd ? false : 'sourcemap',
   output: {
     path: resolve('../dist'),
     publicPath: isProd ? `${qiniu.host}${qiniu.prefix}` : '/dist/',
@@ -19,13 +18,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'api': resolve('../src/api'),
-      'view': resolve('../src/views'),
-      'utils': resolve('../src/utils'),
-      'assets': resolve('../src/assets'),
-      'static': resolve('../src/static'),
-      'layout': resolve('../src/layouts'),
-      'component': resolve('../src/components')
+      '~': resolve('../src'),
+      'env': resolve('../.env.js'),
+      'img': resolve('../src/assets/img'),
+      'static': resolve('../src/static')
     },
     extensions: ['.js', '.vue', '.scss', 'css']
   },
@@ -119,11 +115,17 @@ module.exports = {
     let pluginArr = [
       new webpack.ProvidePlugin({
 
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        }
       })
     ]
 
     if (isProd) {
       pluginArr = pluginArr.concat([
+        new UglifyJsPlugin(),
         new QiniuPlugin({
           ACCESS_KEY: qiniu.access,
           SECRET_KEY: qiniu.secret,
@@ -135,23 +137,13 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new UglifyJsPlugin({
-          sourceMap: false
-        }),
         new CopyWebpackPlugin([
           {from: resolve('../src/static')}
         ]),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
         }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new CompressionPlugin({
-          asset: '[path].gz[query]',
-          algorithm: 'gzip',
-          test: /\.js$|\.css$|\.html$/,
-          threshold: 10240,
-          minRatio: 0.8
-        })
+        new webpack.optimize.ModuleConcatenationPlugin()
       ])
     }
 

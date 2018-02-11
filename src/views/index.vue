@@ -17,7 +17,7 @@
   export default {
     name: 'page-index',
     head: {
-      title: '首页'
+      title: '天下漫友是一家'
     },
     props: {
 
