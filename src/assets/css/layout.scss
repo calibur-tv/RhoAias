@@ -1,13 +1,13 @@
 .container {
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: $container-padding;
+  padding-right: $container-padding;
 }
 
 .row {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -$container-padding;
+  margin-right: -$container-padding;
 }
 
 .container,

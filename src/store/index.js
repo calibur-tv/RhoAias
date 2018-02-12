@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import UserApi from '~/api/userApi'
 import ImageApi from '~/api/imageApi'
+import bangumi from './bangumi'
+import post from './post'
 
 Vue.use(Vuex)
 
@@ -65,6 +67,9 @@ export function createStore () {
       }
     },
     getters: {},
-    modules: {}
+    modules: {
+      bangumi,
+      post
+    }
   })
 }

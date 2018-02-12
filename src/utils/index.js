@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import env from 'env'
+import Alias from '~/assets/js/alias'
 
 Vue.use({
   install (Vue, options) {
     Vue.prototype.$cdn = env.cdn
 
     Vue.prototype.$channel = new Vue()
+
+    Vue.prototype.$alias = Alias
 
     Vue.prototype.$resize = (url, options = {}) => {
       if (!url) {

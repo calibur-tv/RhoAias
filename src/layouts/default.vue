@@ -13,7 +13,9 @@
 <template>
   <div id="layout-default">
     <v-header></v-header>
+    <div class="hr"></div>
     <router-view class="main-view"></router-view>
+    <div class="hr"></div>
     <v-footer></v-footer>
   </div>
 </template>

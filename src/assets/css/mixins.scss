@@ -2,6 +2,22 @@
   width: $size;
   height: $size;
   border-radius: $size / 2;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@mixin face($size) {
+  width: $size;
+  height: $size;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
 }
 
 @mixin filter-blur($size: 5) {
