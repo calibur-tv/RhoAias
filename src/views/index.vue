@@ -15,7 +15,7 @@
 
       img {
         position: absolute;
-        right: 20px;
+        right: $container-padding;
         top: 25px;
         width: 60px;
       }
