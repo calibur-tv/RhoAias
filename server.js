@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV
 const isDev = env === 'development'
 const isProd = env === 'production'
 const host = isProd ? '0.0.0.0' : '127.0.0.1'
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3001
 const fs = require('fs')
 const path = require('path')
 const resolve = file => path.resolve(__dirname, file)
