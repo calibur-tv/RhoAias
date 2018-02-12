@@ -5,6 +5,7 @@
     font-size: 12px;
     color: #999;
     padding: 5px 0;
+    margin: 10px 0;
   }
 
   .loadmore {
