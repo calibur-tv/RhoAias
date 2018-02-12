@@ -25,12 +25,27 @@
     .header-right {
       text-align: right;
       overflow: hidden;
+      height: 100%;
+
+      .search-btn {
+        display: inline-block;
+        vertical-align: middle;
+
+        i {
+          font-size: 24px;
+          line-height: 24px;
+        }
+      }
+
+      .search-drawer {
+        border-radius: 0 0 5px 5px;
+      }
 
       .avatar {
-        margin-top: ($nav-height - 24) / 2;
         margin-left: 15px;
         margin-right: 15px;
         display: inline-block;
+        vertical-align: middle;
         @include avatar(24px)
       }
 
@@ -109,12 +124,36 @@
       <img :src="$resize(`${$cdn.image}owner/logo`, { height: 64, mode: 2 })" alt="logo">
     </router-link>
     <div class="header-right">
+      <button class="search-btn" @click="openSearchDrawer = true">
+        <i class="iconfont icon-sousuo"></i>
+      </button>
+      <v-drawer
+        from="top"
+        size="40%"
+        id="search"
+        class="search-drawer"
+        v-model="openSearchDrawer"
+      >
+
+      </v-drawer>
       <template v-if="$store.state.login">
-        <router-link class="avatar" :to="$alias.user($store.state.user.zone)">
+        <button class="avatar" @click="openUserDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
-        </router-link>
+        </button>
+        <v-drawer
+          from="right"
+          size="70%"
+          id="user"
+          v-model="switchUserDrawer"
+          class="user-drawer"
+        >
+
+        </v-drawer>
       </template>
       <template v-else>
+        <button class="avatar" @click="openSignDrawer">
+          <img :src="$resize(avatar, { width: 48 })" alt="avatar">
+        </button>
         <v-drawer
           v-model="switchLoginDrawer"
           from="bottom"
@@ -230,11 +269,8 @@
             </div>
             <div class="captcha" data-text="登录" ref="signInCaptcha"></div>
           </form>
-          <button type="button" class="switch" @click="showRegisterForm = !showRegisterForm">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
+          <button class="switch" @click="showRegisterForm = !showRegisterForm">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
         </v-drawer>
-        <button class="avatar" @click="openSignDrawer">
-          <img :src="$resize(avatar, { width: 48 })" alt="avatar">
-        </button>
       </template>
     </div>
   </header>
@@ -262,6 +298,8 @@
     },
     data () {
       return {
+        openSearchDrawer: false,
+        switchUserDrawer: false,
         switchLoginDrawer: false,
         showRegisterForm: false,
         signIn: {
@@ -303,6 +341,9 @@
       openSignDrawer () {
         this.switchLoginDrawer = true
         this.showSignInCaptcha()
+      },
+      openUserDrawer () {
+        this.switchUserDrawer = true
       },
       showSignUpCaptcha () {
         if (!this.signUp.captcha && this.switchLoginDrawer) {
