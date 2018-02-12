@@ -8,10 +8,14 @@ import '~/utils'
 import ImageLazy from '~/assets/js/imagelazy'
 import NoSSR from '~/assets/js/nossr'
 import Time from '~/assets/js/timeago'
+import MoreBtn from '~/components/common/MoreBtn'
+import Drawer from '~/components/common/Drawer'
 
 Vue.component(ImageLazy.name, ImageLazy)
 Vue.component(NoSSR.name, NoSSR)
 Vue.component(Time.name, Time)
+Vue.component(MoreBtn.name, MoreBtn)
+Vue.component(Drawer.name, Drawer)
 
 export function createApp () {
   const router = createRouter()

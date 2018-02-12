@@ -1,74 +1,52 @@
-import Vue from 'vue'
-import VueToast from './toast'
+import './style.scss'
+
+const timeout = (duration = 0) => new Promise((resolve) => {
+  setTimeout(resolve, duration)
+})
+
+const fadeTimeout = 300
 
 export default class {
-  constructor () {
-    this._vm = undefined
-  }
+  start (args) {
+    const opts = args || {}
+    const time = opts.time || 1500
+    const tip = opts.tip || '加载中'
+    const type = opts.type || 'loading'
+    const auto = type === 'loading' ? opts.auto !== undefined || opts.time !== undefined : !(opts.auto !== undefined && !opts.auto)
 
-  show (opt = {}) {
-    if (typeof opt === 'string') {
-      opt = {
-        text: opt
-      }
-    }
-    if (!document.getElementById('toast-container')) {
-      this._selector = 'v-app-message-' + Math.random().toString(36).substring(3, 6)
-      this._el = document.createElement('div')
-      this._el.id = this._selector
-
-      this._parent = (opt && opt.dom) ? opt.dom : document.body
-      this._parent.appendChild(this._el)
-
-      this._vm = new Vue(VueToast).$mount('#' + this._selector)
-    }
-
-    return this._vm.show(opt)
-  }
-
-  success (opt = {}) {
-    if (typeof opt === 'string') {
-      opt = {
-        text: opt,
-        type: 'success'
-      }
+    let toast = document.getElementById('toast-container')
+    if (toast) {
+      toast.innerHTML = this.template(tip, type)
     } else {
-      opt = Object.assign(opt, {
-        type: 'success'
-      })
+      toast = document.createElement('div')
+      toast.id = 'toast-container'
+      toast.innerHTML = this.template(tip, type)
+      document.body.style.overflow = 'hidden'
+      document.body.appendChild(toast)
     }
-    this.show(opt)
+
+    setTimeout(() => {
+      toast.querySelector('.loading').classList.add('show')
+    }, fadeTimeout)
+
+    if (auto) {
+      return timeout(time).then(() => this.stop())
+    }
   }
 
-  error (opt = {}) {
-    if (typeof opt === 'string') {
-      opt = {
-        text: opt,
-        type: 'error'
-      }
-    } else {
-      opt = Object.assign(opt, {
-        type: 'error'
-      })
+  stop () {
+    const toast = document.getElementById('toast-container')
+    if (toast) {
+      toast.querySelector('.loading').classList.add('show')
+
+      setTimeout(() => {
+        toast.parentNode.removeChild(toast)
+      }, fadeTimeout)
+      document.body.removeAttribute('style')
     }
-    this.show(opt)
   }
 
-  warning (opt = {}) {
-    if (typeof opt === 'string') {
-      opt = {
-        text: opt,
-        type: 'warning'
-      }
-    } else {
-      opt = Object.assign(opt, {
-        type: 'warning'
-      })
-    }
-    this.show(opt)
-  }
-
-  clear () {
-    this._vm.clear()
+  template (tip, type) {
+    return `<div class="loading"><div class="toast-icon-${type}"></div><span class="tip">${tip}</span></div>`
   }
 }

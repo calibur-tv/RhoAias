@@ -1,5 +1,6 @@
 html, body, #app {
   height: 100%;
+  overflow-x: hidden;
 }
 
 html {
@@ -27,6 +28,9 @@ body {
 
 ul {
   -webkit-overflow-scrolling: touch;
+}
+
+li {
   list-style-type: none;
 }
 
@@ -56,4 +60,13 @@ input, textarea, div[contenteditable=true] {
   -moz-appearance: none;
   appearance: none;
   border: none;
+}
+
+input {
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 100px #fff inset !important;
+    background-color: #fff !important;
+    border-color: #fff !important;
+  }
 }

@@ -42,10 +42,28 @@
       transform: translateY(100%);
       opacity: 0;
     }
-  }
 
-  .reader-night-mode .drawer {
-    background-color: #3f3f3f;
+
+    .drawer-header {
+      position: relative;
+      height: 46px;
+      line-height: 46px;
+
+      a {
+        position: absolute;
+        font-size: 16px;
+        left: 20px;
+        top: 0;
+        color: #666;
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #333333;
+        text-align: center;
+      }
+    }
   }
 </style>
 <!--
@@ -64,6 +82,10 @@
            :style="position"
            @touchstart.stop
            @touchmove.stop>
+        <header class="drawer-header" v-if="headerText">
+          <a @click="close">关闭</a>
+          <h3 v-text="headerText"></h3>
+        </header>
         <slot></slot>
       </div>
     </transition>
@@ -100,6 +122,9 @@
       backdrop: {
         type: Boolean,
         default: true
+      },
+      headerText: {
+        type: String
       }
     },
     data () {
@@ -144,7 +169,7 @@
         }
         if (this.backdrop) {
           this.$backdrop.show({
-            parent: this.$el.parentNode,
+            ele: this.$el,
             click: this.close
           })
         }

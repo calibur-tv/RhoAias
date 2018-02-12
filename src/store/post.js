@@ -82,9 +82,9 @@ const mutations = {
       }
     })
   },
-  setTrending (state, { data, sort }) {
+  setTrending (state, { data, sort, reset }) {
     state.trending[sort] = {
-      data: state.trending[sort].data.concat(data),
+      data: reset ? data : state.trending[sort].data.concat(data),
       noMore: data.length < state.trending.take
     }
   },
@@ -161,17 +161,17 @@ const actions = {
     })
     commit('delComment', { postId, commentId })
   },
-  async getTrending ({ state, commit }, { sort, ctx }) {
-    if (state.trending[sort].noMore) {
+  async getTrending ({ state, commit }, { sort, ctx, reset = false }) {
+    if (state.trending[sort].noMore && !reset) {
       return
     }
     const api = new Api(ctx)
     const data = await api.trending({
       sort,
       take: state.trending.take,
-      seenIds: state.trending[sort].data.length ? state.trending[sort].data.map(item => item.id).join(',') : null
+      seenIds: reset ? null : state.trending[sort].data.length ? state.trending[sort].data.map(item => item.id).join(',') : null
     })
-    commit('setTrending', { sort, data })
+    commit('setTrending', { sort, data, reset })
   },
   async toggleLike ({ commit }, { ctx, id }) {
     const api = new Api(ctx)

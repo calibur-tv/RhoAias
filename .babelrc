@@ -8,7 +8,7 @@
     ["component", [
       {
         "libraryName": "mint-ui",
-        "style": false
+        "style": true
       }
     ]]
   ]

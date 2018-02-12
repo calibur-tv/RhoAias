@@ -5,6 +5,7 @@
     flex-direction: column;
 
     >.main-view {
+      margin-top: $nav-height;
       flex-grow: 1;
     }
   }
@@ -13,7 +14,6 @@
 <template>
   <div id="layout-default">
     <v-header></v-header>
-    <div class="hr"></div>
     <router-view class="main-view"></router-view>
     <div class="hr"></div>
     <v-footer></v-footer>

@@ -1,6 +1,17 @@
 import Vue from 'vue'
 import env from 'env'
 import Alias from '~/assets/js/alias'
+import Utils from '~/assets/js/utils'
+
+import {
+  Loadmore,
+  TabContainer,
+  TabContainerItem
+} from 'mint-ui'
+
+Vue.component(Loadmore.name, Loadmore)
+Vue.component(TabContainer.name, TabContainer)
+Vue.component(TabContainerItem.name, TabContainerItem)
 
 Vue.use({
   install (Vue, options) {
@@ -9,6 +20,8 @@ Vue.use({
     Vue.prototype.$channel = new Vue()
 
     Vue.prototype.$alias = Alias
+
+    Vue.prototype.$utils = Utils
 
     Vue.prototype.$resize = (url, options = {}) => {
       if (!url) {

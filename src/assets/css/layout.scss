@@ -3,6 +3,7 @@
   margin-left: auto;
   padding-left: $container-padding;
   padding-right: $container-padding;
+  width: 100%;
 }
 
 .row {
@@ -13,7 +14,6 @@
 .container,
 .row {
   position: relative;
-  width: 100%;
 
   &:after {
     content: '';

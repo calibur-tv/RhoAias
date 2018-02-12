@@ -5,6 +5,7 @@
   overflow: hidden;
 
   img {
+    display: block;
     width: 100%;
     height: auto;
   }
@@ -15,6 +16,7 @@
   height: $size;
 
   img {
+    display: block;
     width: 100%;
     height: auto;
   }
@@ -23,4 +25,18 @@
 @mixin filter-blur($size: 5) {
   filter: blur($size + px);
   filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=$size, MakeShadow=false);
+}
+
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content
+  }
+
+  @-webkit-keyframes #{$name} {
+    @content
+  }
+
+  @-moz-keyframes #{$name} {
+    @content
+  }
 }
