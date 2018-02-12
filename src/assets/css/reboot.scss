@@ -1,5 +1,10 @@
 html, body, #app {
   height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 body {
@@ -21,12 +26,12 @@ body {
   }
 }
 
-ul, li {
-  list-style-type: none;
+ul {
+  -webkit-overflow-scrolling: touch;
 }
 
 li {
-  float: left;
+  list-style-type: none;
 }
 
 img {
@@ -36,34 +41,32 @@ img {
 }
 
 button {
-  cursor: pointer;
+  cursor: default;
   background-color: transparent;
-  border: 0;
+  border: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
 }
 
 a {
   text-decoration: none;
-  cursor: pointer;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, textarea, div[contenteditable=true] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
 }
 
 input {
-  vertical-align: middle;
 
   &:-webkit-autofill {
-    box-shadow: 0 0 0 100px #e9fbfe inset !important;
-    background-color: #e9fbfe !important;
-    border-color: #e4f4f9 !important;
+    box-shadow: 0 0 0 100px #fff inset !important;
+    background-color: #fff !important;
+    border-color: #fff !important;
   }
-}
-
-label {
-  display: inline-block;
-  cursor: pointer;
-  font-family: 'Hiragino Sans GB',Helvetica,Arial,sans-serif;
-  vertical-align: middle;
-  user-select: none;
-}
-
-input[type=checkbox], input[type=radio] {
-  cursor: pointer;
 }

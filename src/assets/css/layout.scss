@@ -1,36 +1,29 @@
 .container {
-  width: 100%;
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: $container-padding;
+  padding-right: $container-padding;
+  width: 100%;
 }
 
-@media (min-width: 1050px) {
-  .container {
-    width: 1050px;
-  }
+.row {
+  margin-left: -$container-padding;
+  margin-right: -$container-padding;
 }
 
-.col-main {
-  width: 75%;
-}
-
-.col-aside {
-  width: 25%;
-}
-
-.col-main,
-.col-aside {
+.container,
+.row {
   position: relative;
-  min-height: 1px;
-  float: left;
-}
 
-@media (max-width: 768px) {
-  .col-main,
-  .col-aside {
-    width: 100%;
-    float: none;
+  &:after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+
+  &:before {
+    content: '';
+    clear: both;
+    display: table;
   }
 }

@@ -1,11 +1,10 @@
-<style lang="scss" scoped="">
+<style lang="scss">
 
 </style>
 
 <template>
   <div id="bangumi-news">
     <p>this is bangumi news page</p>
-    <router-link to="/">to index page</router-link>
   </div>
 </template>
 
