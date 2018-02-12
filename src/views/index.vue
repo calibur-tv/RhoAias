@@ -174,73 +174,106 @@
       <button @click="switchTab('new')" :class="{ 'active': sort === 'new' }">最新</button>
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
     </div>
-    <mt-loadmore
-      id="posts"
-      :top-method="fetchData"
-      :auto-fill="false"
-      ref="loadmore">
-      <li class="post"
-          v-for="item in list.data"
-          :key="item.id"
-      >
-        <div class="header">
-          <router-link class="avatar" :to="$alias.user(item.user.id)">
-            <v-img width="70" :src="item.user.avatar"></v-img>
-          </router-link>
-          <router-link class="name" :to="$alias.user(item.user.id)">
-            <p v-text="item.user.nickname"></p>
-            <v-time v-model="item.created_at"></v-time>
-          </router-link>
-        </div>
-        <router-link :to="$alias.post(item.id)" class="body">
-          <p class="content twoline" v-text="item.desc"></p>
-          <div class="images clearfix" v-if="item.images.length">
-            <v-img
-              class="image-full bg"
-              v-if="item.images.length === 1"
-              :src="item.images[0]"
-              height="190"
-              mode="2"
-              tag="div"
-            ></v-img>
-            <div class="image-list" v-else>
-              <v-img
-                v-for="(image, index) in imageFilter(item.images)"
-                :key="index"
-                :src="image"
-                width="110"
-              ></v-img>
-            </div>
-          </div>
-        </router-link>
-        <div class="footer">
-          <router-link
-            class="bangumi"
-            :to="$alias.bangumi(item.bangumi.id)"
-            v-text="item.bangumi.name"
-          ></router-link>
-          <div class="stats">
-            <span v-if="item.like_count" :class="{ 'done' : item.liked }">
-              <i class="iconfont icon-guanzhu"></i>
-              {{ $utils.shortenNumber(item.like_count) }}
-            </span>
-            <span v-if="item.mark_count" :class="{ 'done' : item.marked }">
-              <i class="iconfont icon-shoucang"></i>
-              {{ $utils.shortenNumber(item.mark_count) }}
-            </span>
-            <span v-if="item.comment_count" :class="{ 'done' : item.commented }">
-              <i class="iconfont icon-pinglun1"></i>
-              {{ $utils.shortenNumber(item.comment_count) }}
-            </span>
-            <span v-if="item.view_count">
-              <i class="iconfont icon-yuedu"></i>
-              {{ $utils.shortenNumber(item.view_count) }}
-            </span>
-          </div>
-        </div>
-        <div class="hr"></div>
-      </li>
-    </mt-loadmore>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
+    <p>123</p>
     <more-btn
       :no-more="list.noMore"
       :loading="loading"

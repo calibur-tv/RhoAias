@@ -70,7 +70,7 @@
             overflow: hidden;
             height: 100%;
             width: 100%;
-            padding-left: 105px;
+            padding-left: 90px;
           }
         }
 
@@ -191,7 +191,7 @@
                 v-model.trim="signUp.access"
                 @input="showSignUpCaptcha"
                 autocomplete="off"
-                placeholder="填写常用手机号，用于登录"
+                placeholder="填写常用手机号"
               >
             </div>
             <div class="form-item border-bottom">
@@ -220,7 +220,7 @@
                 v-model.trim="signUp.secret"
                 autocomplete="off"
                 @input="showSignUpCaptcha"
-                placeholder="6-16个字符组成，区分大小写"
+                placeholder="6-16个字符组成"
               >
             </div>
             <div class="form-item border-bottom">
