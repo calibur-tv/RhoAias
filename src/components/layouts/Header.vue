@@ -245,7 +245,7 @@
               <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
             </div>
           </div>
-          <ul class="routes container">
+          <ul class="routes container" @click="switchUserDrawer = false">
             <li class="border-bottom">
               <router-link :to="$alias.user(user.zone)">
                 <i class="iconfont icon-zhuye"></i>

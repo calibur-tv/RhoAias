@@ -177,7 +177,7 @@
           <i class="iconfont icon-pinglun1"></i>
           {{ $utils.shortenNumber(item.comment_count) }}
         </span>
-        <span v-if="item.view_count">
+        <span>
           <i class="iconfont icon-yuedu"></i>
           {{ $utils.shortenNumber(item.view_count) }}
         </span>

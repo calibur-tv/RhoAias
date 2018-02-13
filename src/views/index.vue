@@ -58,6 +58,7 @@
     <more-btn
       :no-more="list.noMore"
       :loading="loading"
+      :length="list.data.length"
       @fetch="fetchData(false)"
     ></more-btn>
   </div>

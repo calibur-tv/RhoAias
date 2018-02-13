@@ -9,6 +9,17 @@
       color: #999;
     }
 
+    .nothing {
+      height: 193px;
+
+      img {
+        width: 160px;
+        height: auto;
+        display: block;
+        margin: 20px auto;
+      }
+    }
+
     .loadmore {
       background-color: #ffffff;
       width: 100%;
@@ -22,7 +33,15 @@
 
 <template>
   <div class="nomore-wraper">
-    <div class="nomore" v-if="noMore">没有更多了，休息一下吧</div>
+    <div class="nomore" v-if="noMore">
+      <template v-if="length">
+        没有更多了，休息一下吧
+      </template>
+      <div class="nothing" v-else-if="!loading">
+        <img :src="$resize(`${$cdn.image}owner/no-content`, { width: 300 })" alt="no-content">
+        还没有内容
+      </div>
+    </div>
     <template v-else>
       <template v-if="auto">
         <button class="loadmore" v-show="loading">加载中...</button>
@@ -52,6 +71,10 @@
       auto: {
         type: Boolean,
         default: false
+      },
+      length: {
+        type: Number,
+        default: 1
       }
     },
     methods: {

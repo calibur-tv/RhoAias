@@ -137,8 +137,8 @@
         </button>
         <div class="summary">
           <p class="title" v-text="info.name"></p>
-          <span v-if="info.count_like">关注 {{ $utils.shortenNumber(info.count_like) }}</span>
-          <span v-if="posts.total">帖子 {{ $utils.shortenNumber(posts.total) }}</span>
+          <span>关注 {{ $utils.shortenNumber(info.count_like) }}</span>
+          <span>帖子 {{ $utils.shortenNumber(posts.total) }}</span>
         </div>
       </div>
     </section>
@@ -168,6 +168,7 @@
         :no-more="posts.noMore"
         :loading="postState.loading"
         :auto="true"
+        :length="posts.data.length"
       ></more-btn>
     </div>
   </div>
