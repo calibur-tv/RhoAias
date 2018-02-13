@@ -4,6 +4,7 @@ import UserApi from '~/api/userApi'
 import ImageApi from '~/api/imageApi'
 import bangumi from './bangumi'
 import post from './post'
+import users from './users'
 
 Vue.use(Vuex)
 
@@ -69,7 +70,8 @@ export function createStore () {
     getters: {},
     modules: {
       bangumi,
-      post
+      post,
+      users
     }
   })
 }

@@ -16,11 +16,11 @@ export default class {
 
     let toast = document.getElementById('toast-container')
     if (toast) {
-      toast.innerHTML = this.template(tip, type)
+      toast.innerHTML = this.constructor.template(tip, type)
     } else {
       toast = document.createElement('div')
       toast.id = 'toast-container'
-      toast.innerHTML = this.template(tip, type)
+      toast.innerHTML = this.constructor.template(tip, type)
       document.body.style.overflow = 'hidden'
       document.body.appendChild(toast)
     }
@@ -46,7 +46,35 @@ export default class {
     }
   }
 
-  template (tip, type) {
+  success (tip) {
+    this.start({
+      type: 'success',
+      tip
+    })
+  }
+
+  info (tip) {
+    this.start({
+      type: 'info',
+      tip
+    })
+  }
+
+  error (tip) {
+    this.start({
+      type: 'error',
+      tip
+    })
+  }
+
+  loading (tip) {
+    this.start({
+      type: 'loading',
+      tip
+    })
+  }
+
+  static template (tip, type) {
     return `<div class="loading"><div class="toast-icon-${type}"></div><span class="tip">${tip}</span></div>`
   }
 }

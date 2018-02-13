@@ -12,7 +12,9 @@ body {
   word-spacing: 1px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
   color: $color-text-deep;
+  background-color: $color-background;
 
   *, *:before, *:after
   {
@@ -53,6 +55,7 @@ a {
   text-decoration: none;
   cursor: default;
   -webkit-tap-highlight-color: transparent;
+  color: inherit;
 }
 
 input, textarea, div[contenteditable=true] {
@@ -60,6 +63,11 @@ input, textarea, div[contenteditable=true] {
   -moz-appearance: none;
   appearance: none;
   border: none;
+  line-height: normal;
+}
+
+textarea {
+  resize: none;
 }
 
 input {

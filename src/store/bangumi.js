@@ -75,8 +75,8 @@ const mutations = {
     }
     state.category.noMore = data.length < take
   },
-  SET_POSTS (state, { data, total }) {
-    const posts = state.posts.data.concat(data)
+  SET_POSTS (state, { data, total, reset }) {
+    const posts = reset ? data : state.posts.data.concat(data)
     state.posts = {
       data: posts,
       total: total,
@@ -152,15 +152,16 @@ const actions = {
     const data = await api.category({ id, page, take })
     commit('SET_CATEGORY', { data, page, take })
   },
-  async getPosts ({ state, commit }, { id, take, type, ctx }) {
-    const seenIds = state.posts.data.length
+  async getPosts ({ state, commit }, { id, take, type, ctx, reset = false }) {
+    const seenIds = reset ? null : state.posts.data.length
       ? state.posts.data.map(item => item.id).join(',')
       : null
     const api = new Api(ctx)
     const data = await api.posts({ id, take, type, seenIds })
     commit('SET_POSTS', {
       data: data.list,
-      total: data.total
+      total: data.total,
+      reset
     })
   }
 }

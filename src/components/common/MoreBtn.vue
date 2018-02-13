@@ -1,25 +1,40 @@
 <style lang="scss" scoped>
-  .nomore {
+  .nomore-wraper {
     text-align: center;
-    background-color: $color-background;
-    font-size: 12px;
-    color: #999;
-    padding: 5px 0;
-  }
 
-  .loadmore {
-    text-align: center;
-    background-color: #ffffff;
-    width: 100%;
-    height: 44px;
-    line-height: 44px;
-    font-size: 14px;
+    .nomore {
+      padding: 15px 0;
+      background-color: $color-background;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .loadmore {
+      background-color: #ffffff;
+      width: 100%;
+      height: 44px;
+      line-height: 24px;
+      font-size: 14px;
+      padding: 10px 0;
+    }
   }
 </style>
 
 <template>
-  <div class="nomore" v-if="noMore">没有更多了，休息一下吧</div>
-  <button class="loadmore" @click="handleFetch" v-else>{{ loading ? '加载中...' : '点击加载更多' }}</button>
+  <div class="nomore-wraper">
+    <div class="nomore" v-if="noMore">没有更多了，休息一下吧</div>
+    <template v-else>
+      <template v-if="auto">
+        <button class="loadmore" v-show="loading">加载中...</button>
+      </template>
+      <template v-else>
+        <button
+          class="loadmore"
+          @click="handleFetch"
+        >{{ loading ? '加载中...' : '点击加载更多' }}</button>
+      </template>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -33,6 +48,10 @@
       loading: {
         type: Boolean,
         required: true
+      },
+      auto: {
+        type: Boolean,
+        default: false
       }
     },
     methods: {

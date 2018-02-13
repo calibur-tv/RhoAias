@@ -1,14 +1,37 @@
 @mixin avatar($size) {
   width: $size;
   height: $size;
-  border-radius: $size / 2;
-  overflow: hidden;
 
   img {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: $size / 2;
+    overflow: hidden;
   }
+}
+
+@mixin border($color, $radio: 0px) {
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid $color;
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5);
+    transform-origin: left top;
+    border-radius: $radio;
+  }
+}
+
+@mixin btn-empty($color) {
+  position: relative;
+  padding: 2px 10px;
+  font-size: 14px;
+  color: $color;
+  @include border($color, 8px);
 }
 
 @mixin face($size) {
