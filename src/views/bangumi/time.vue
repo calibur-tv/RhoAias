@@ -3,7 +3,9 @@
     $time-size: 0;
 
     .collections {
-      margin-top: 20px;
+      padding-top: 20px;
+      padding-bottom: 5px;
+      background-color: #ffffff;
 
       .collection {
         .time {
@@ -26,56 +28,34 @@
           }
         }
 
+        $bangumi-height: 60px;
         .bangumi {
           margin-bottom: 10px;
+          height: $bangumi-height;
 
-          figure {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: flex-start;
+          .face {
+            width: $bangumi-height;
+            height: $bangumi-height;
+            flex-shrink: 0;
+            margin-right: 15px;
+            display: block;
+            border-radius: 5px;
+            float: left;
+          }
 
-            .face {
-              width: 60px;
-              height: 60px;
-              flex-shrink: 0;
-              margin-right: 15px;
-              display: block;
-              border-radius: 5px;
+          .content {
+            overflow: hidden;
+
+            .name {
+              font-size: 14px;
+              font-weight: bold;
+              margin-bottom: 8px;
             }
 
-            .content {
-              flex: auto;
-
-              .head {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-
-                .name {
-                  font-size: 14px;
-                  font-weight: bold;
-
-                  &:hover {
-                    text-decoration: underline;
-                  }
-                }
-
-                .score {
-
-                }
-              }
-
-              .body {
-                margin: 8.5px 0;
-                color: $color-text-light;
-                font-size: 13px;
-                line-height: 18px;
-              }
-
-              .foot {
-              }
+            .body {
+              color: $color-text-light;
+              font-size: 13px;
+              line-height: 18px;
             }
           }
         }
@@ -89,36 +69,35 @@
     <div class="tabs border-bottom">
       <button class="active">时间轴</button>
     </div>
-    <ul class="collections container"
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loading"
-        infinite-scroll-distance="50">
-      <ul v-for="col in timeline" :key="col.date" class="collection">
+    <ul
+      class="collections container"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="notFetch"
+      infinite-scroll-distance="50"
+    >
+      <ul v-for="col in timeline.data" :key="col.date" class="collection">
         <h3 class="time" v-text="col.date"></h3>
         <li class="bangumi" v-for="item in col.list" :key="item.id">
-          <figure>
-            <router-link :to="$alias.bangumi(item.id)">
-              <v-img
-                class="face"
-                :title="item.name"
-                :alt="item.name"
-                :src="$resize(item.avatar, { width: 120 })">
-              </v-img>
-            </router-link>
-            <figcaption class="content">
-              <p class="head">
-                <router-link :to="$alias.bangumi(item.id)" class="name" v-text="item.name"></router-link>
-                <!--<span v-text="item.count_score"></span>-->
-              </p>
+          <router-link :to="$alias.bangumi(item.id)">
+            <v-img
+              class="face"
+              :title="item.name"
+              :alt="item.name"
+              :src="$resize(item.avatar, { width: 120 })">
+            </v-img>
+            <div class="content">
+              <p class="name" v-text="item.name"></p>
               <p class="body twoline" v-text="item.summary"></p>
-              <div class="foot">
-                <!--<span v-text="item.count_like"></span>-->
-              </div>
-            </figcaption>
-          </figure>
+            </div>
+          </router-link>
         </li>
       </ul>
     </ul>
+    <more-btn
+      :no-more="timeline.noMore"
+      :loading="loading"
+      :auto="true"
+    ></more-btn>
   </div>
 </template>
 
@@ -130,10 +109,10 @@
     },
     computed: {
       timeline () {
-        return this.$store.state.bangumi.timeline.data
+        return this.$store.state.bangumi.timeline
       },
-      noMore () {
-        return this.$store.state.bangumi.timeline.noMore
+      notFetch () {
+        return this.loading || this.timeline.noMore
       }
     },
     data () {
@@ -143,12 +122,17 @@
     },
     methods: {
       async loadMore () {
-        if (this.loading || this.noMore) {
+        if (this.notFetch) {
           return
         }
         this.loading = true
-        await this.$store.dispatch('bangumi/getTimeline')
-        this.loading = false
+        try {
+          await this.$store.dispatch('bangumi/getTimeline')
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loading = false
+        }
       }
     }
   }

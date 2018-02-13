@@ -28,6 +28,21 @@ export function createRouter () {
             path: 'bangumi/timeline',
             name: 'bangumi-time',
             component: () => import('~/views/bangumi/time')
+          },
+          {
+            path: 'bangumi/:id(\\d+)',
+            name: 'bangumi-show',
+            component: () => import('~/views/bangumi/show')
+          },
+          {
+            path: 'user/:slug',
+            name: 'user-show',
+            component: () => import('~/views/user/show')
+          },
+          {
+            path: 'post/:id(\\d+)',
+            name: 'post-show',
+            component: () => import('~/views/post/show')
           }
         ]
       }

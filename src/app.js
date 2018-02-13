@@ -11,6 +11,7 @@ import Time from '~/assets/js/timeago'
 import MoreBtn from '~/components/common/MoreBtn'
 import Drawer from '~/components/common/Drawer'
 import Radio from '~/components/common/Radio'
+import Post from '~/components/items/Post'
 
 Vue.component(ImageLazy.name, ImageLazy)
 Vue.component(NoSSR.name, NoSSR)
@@ -18,6 +19,7 @@ Vue.component(Time.name, Time)
 Vue.component(MoreBtn.name, MoreBtn)
 Vue.component(Drawer.name, Drawer)
 Vue.component(Radio.name, Radio)
+Vue.component(Post.name, Post)
 
 export function createApp () {
   const router = createRouter()

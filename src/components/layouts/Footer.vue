@@ -2,8 +2,9 @@
   #footer {
     text-align: center;
     color: #999;
-    margin: 15px;
+    padding: $container-padding;
     font-size: 13px;
+    background-color: #ffffff;
 
     .panel {
       margin-top: 14px;
@@ -62,7 +63,7 @@
 <template>
   <footer id="footer">
     <div class="panel">
-      <button @click="logout" v-if="$store.state.login">注销</button>
+      <button @click="logout" v-if="$store.state.login">登出</button>
       <template v-else>
         <button @click="login">登录</button>
         <button @click="register">注册</button>

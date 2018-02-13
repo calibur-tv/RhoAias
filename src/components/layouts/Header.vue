@@ -606,14 +606,19 @@
         }
         this.signDayLoading = true
 
-        await this.$store.dispatch('users/daySign', {
-          ctx: this
-        })
-        this.$store.commit('SET_USER_INFO', {
-          daySign: true,
-          coin: this.coinCount + 1
-        })
-        this.signDayLoading = false
+        try {
+          await this.$store.dispatch('users/daySign', {
+            ctx: this
+          })
+          this.$store.commit('SET_USER_INFO', {
+            daySign: true,
+            coin: this.coinCount + 1
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.signDayLoading = false
+        }
       },
       logout () {
         this.$cookie.remove('JWT-TOKEN')
