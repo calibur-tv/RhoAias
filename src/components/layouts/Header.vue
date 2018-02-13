@@ -39,6 +39,58 @@
 
       .search-drawer {
         border-radius: 0 0 5px 5px;
+
+        $search-height: 24px;
+        .search-wrap {
+          margin-top: 8px;
+          margin-bottom: 8px;
+          height: $search-height;
+          line-height: $search-height;
+          font-size: 12px;
+
+          .cancel {
+            float: right;
+            padding-top: 5px;
+            padding-left: 10px;
+          }
+
+          .content {
+            overflow: hidden;
+            background-color: #f4f4f4;
+            border-radius: 4px;
+
+            .iconfont {
+              float: left;
+              margin: 0 10px;
+            }
+
+            .clear {
+              display: block;
+              float: right;
+              margin: 5px 10px;
+              width: 14px;
+              height: 14px;
+              text-align: center;
+              line-height: 13px;
+              font-size: 12px;
+              background-color: #999;
+              color: #fff;
+              border-radius: 50%;
+              user-select: none;
+            }
+
+            .input-wrap {
+              height: 100%;
+              overflow: hidden;
+
+              input {
+                height: $search-height;
+                width: 100%;
+                background-color: transparent;
+              }
+            }
+          }
+        }
       }
 
       .nav-avatar {
@@ -214,12 +266,28 @@
       </button>
       <v-drawer
         from="top"
-        size="40%"
+        size="30%"
         id="search"
         class="search-drawer"
         v-model="openSearchDrawer"
       >
-
+        <div class="container">
+          <div class="search-wrap">
+            <button class="cancel" @click="openSearchDrawer = false">取消</button>
+            <div class="content">
+              <i class="iconfont icon-sousuo"></i>
+              <span class="clear" @click="q = ''" v-show="q">×</span>
+              <div class="input-wrap">
+                <input
+                  type="text"
+                  v-model.trim="q"
+                  placeholder="搜索番剧"
+                  @keyup.enter="search()"
+                >
+              </div>
+            </div>
+          </div>
+        </div>
       </v-drawer>
       <template v-if="$store.state.login">
         <button class="nav-avatar" @click="openUserDrawer">
@@ -396,6 +464,7 @@
 
 <script>
   import UserApi from '~/api/userApi'
+  import SearchApi from '~/api/searchApi'
 
   export default {
     name: 'v-header',
@@ -459,7 +528,8 @@
          * 4：可再次发送邮件或短信
          * 5: captcha 邮箱或手机号已注册
          */
-        signUpStep: 0
+        signUpStep: 0,
+        q: ''
       }
     },
     methods: {
@@ -625,6 +695,23 @@
         const api = new UserApi(this)
         api.logout()
         window.location.reload()
+      },
+      search (words) {
+        const q = words || this.q
+        console.log(q)
+        if (!q.length) {
+          return
+        }
+        const api = new SearchApi()
+        api.index({ q }).then((res) => {
+          if (res) {
+            window.location = res
+          } else {
+            window.location = '/bangumi/timeline'
+          }
+        }).catch(() => {
+          window.location = '/bangumi/timeline'
+        })
       }
     },
     mounted () {
