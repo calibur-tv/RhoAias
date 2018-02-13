@@ -89,7 +89,7 @@
         <img :src="$resize(user.avatar, { width: 92 })" alt="avatar">
       </div>
       <div class="info">
-        <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
+        <button v-if="isMe" @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
         <p class="nickname oneline" v-text="user.nickname"></p>
       </div>
     </div>
