@@ -4,17 +4,147 @@
     color: #999;
     margin: 15px;
     font-size: 13px;
+
+    .panel {
+      margin-top: 14px;
+
+      button {
+        padding: 0 24px;
+        color: #666;
+        font-size: 12px;
+
+        &:not(:last-child) {
+          position: relative;
+
+          &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #ccc;
+            right: 0;
+          }
+        }
+      }
+    }
+
+    .slogan {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .feedback-drawer {
+      text-align: left;
+
+      .desc {
+        margin-top: 20px;
+
+        p {
+          margin: 8px 0;
+        }
+
+        textarea {
+          width: 100%;
+          min-height: 120px;
+        }
+      }
+
+      .btn-submit {
+        margin-top: 15px;
+      }
+    }
   }
 </style>
 
 <template>
   <footer id="footer">
-    天下漫友是一家 - calibur
+    <div class="panel">
+      <button @click="logout" v-if="$store.state.login">注销</button>
+      <template v-else>
+        <button @click="login">登录</button>
+        <button @click="register">注册</button>
+      </template>
+      <button @click="openFeedbackDrawer = true">反馈</button>
+    </div>
+    <v-drawer
+      class="feedback-drawer"
+      v-model="openFeedbackDrawer"
+      from="bottom"
+      size="100%"
+      header-text="反馈"
+    >
+      <div class="container">
+        <v-radio
+          title="反馈类型"
+          v-model="selectedType"
+          :options="options">
+        </v-radio>
+        <div class="desc">
+          <p>详细信息</p>
+          <textarea v-model.trim="content" placeholder="请填写详细信息"></textarea>
+        </div>
+        <button @click="submitFeedback" class="btn-submit">提交</button>
+      </div>
+    </v-drawer>
+    <p class="slogan">天下漫友是一家 - calibur</p>
   </footer>
 </template>
 
 <script>
+  import UserApi from '~/api/userApi'
+
   export default {
-    name: 'v-footer'
+    name: 'v-footer',
+    data () {
+      return {
+        openFeedbackDrawer: false,
+        options: [
+          {
+            label: '功能建议',
+            value: 1
+          },
+          {
+            label: '遇到错误',
+            value: 2
+          },
+          {
+            label: '其它问题',
+            value: 3
+          }
+        ],
+        selectedType: 1,
+        content: ''
+      }
+    },
+    methods: {
+      logout () {
+        this.$cookie.remove('JWT-TOKEN')
+        const api = new UserApi(this)
+        api.logout()
+        window.location.reload()
+      },
+      login () {
+        this.$channel.$emit('switch-to-register', false)
+        this.$channel.$emit('drawer-open-sign')
+      },
+      register () {
+        this.$channel.$emit('switch-to-register', true)
+        this.$channel.$emit('drawer-open-sign')
+      },
+      async submitFeedback () {
+        if (!this.content.length) {
+          this.$toast.info('请先填写反馈信息！')
+          return
+        }
+        const api = new UserApi(this)
+        await api.feedback({
+          type: this.selectedType,
+          desc: this.content
+        })
+        this.$toast.success('反馈成功，感谢您的反馈！')
+        this.openFeedbackDrawer = false
+      }
+    }
   }
 </script>

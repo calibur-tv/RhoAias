@@ -18,7 +18,7 @@
 
       img {
         position: absolute;
-        right: $container-padding;
+        right: 8px;
         top: 25px;
         width: 60px;
       }
@@ -168,7 +168,7 @@
       <ul>
         <li>一个「纯粹」的二次元社区</li>
         <li>致力于实现「天下漫友是一家」</li>
-        <li>交流观点，沟通想法，结实「朋友」</li>
+        <li>交流观点，沟通想法，结识「朋友」</li>
       </ul>
       <img src="https://image.calibur.tv/owner/slogan" alt="slogan">
     </div>

@@ -65,3 +65,12 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.btn-submit {
+  height: 44px;
+  width: 100%;
+  border-radius: 3px;
+  background-color: $color-blue-normal;
+  font-weight: bold;
+  color: #ffffff;
+}

@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
   .drawer {
-    z-index: 12;
+    z-index: 100;
     position: fixed;
     overflow-x: hidden;
     overflow-y: auto;
@@ -142,7 +142,7 @@
         this.$emit('input', val)
       }
     },
-    created () {
+    mounted () {
       if (this.id) {
         this.$channel.$on(`drawer-open-${this.id}`, this.open)
         this.$channel.$on(`drawer-close-${this.id}`, this.close)

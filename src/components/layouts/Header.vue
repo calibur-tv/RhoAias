@@ -41,12 +41,24 @@
         border-radius: 0 0 5px 5px;
       }
 
-      .avatar {
+      .nav-avatar {
         margin-left: 15px;
-        margin-right: 15px;
         display: inline-block;
         vertical-align: middle;
-        @include avatar(24px)
+        @include avatar(24px);
+        position: relative;
+
+        .badge {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: red;
+          @include border(#fff, 50%);
+        }
       }
 
       .sign-drawer {
@@ -76,11 +88,6 @@
 
         .captcha {
           position: relative;
-          height: 44px;
-          width: 100%;
-          border-radius: 3px;
-          background-color: $color-blue-normal;
-          font-weight: bold;
           margin-top: 15px;
 
           &:before {
@@ -114,6 +121,84 @@
           color: $color-text-normal;
         }
       }
+
+      .user-drawer {
+        text-align: left;
+
+        .user-section {
+          height: 110px;
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+          padding: $container-padding;
+
+          .bg {
+            @include filter-blur();
+            width: 120%;
+            height: 120%;
+            position: absolute;
+            left: -10%;
+            top: -10%;
+            z-index: -1;
+            background-color: #999;
+          }
+          
+          .avatar {
+            position: relative;
+            display: block;
+            @include avatar(50px);
+            @include border(#fff, 50%);
+            float: left;
+            margin-right: 10px;
+          }
+
+          .panel {
+            overflow: hidden;
+            text-shadow: 0 1px 10px gray;
+            color: #ffffff;
+            line-height: 25px;
+
+            button {
+              @include btn-empty(#ffffff);
+            }
+          }
+        }
+
+        .routes {
+          margin-top: 10px;
+
+          li {
+            height: 40px;
+            position: relative;
+            padding: 5px 0;
+            margin-left: 3px;
+          }
+
+          i {
+            font-size: 13px;
+          }
+
+          a, button {
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: 30px;
+            text-align: left;
+            font-size: 13px;
+            color: #333;
+          }
+          .badge-count {
+            border-radius: 12px;
+            font-size: 15px;
+            padding: 2px 8px;
+            background-color: red;
+            color: #fff;
+            height: 20px;
+            line-height: 16px;
+            margin-left: 5px;
+          }
+        }
+      }
     }
   }
 </style>
@@ -137,8 +222,9 @@
 
       </v-drawer>
       <template v-if="$store.state.login">
-        <button class="avatar" @click="openUserDrawer">
+        <button class="nav-avatar" @click="openUserDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
+          <span class="badge" v-if="notificationCount"></span>
         </button>
         <v-drawer
           from="right"
@@ -147,18 +233,50 @@
           v-model="switchUserDrawer"
           class="user-drawer"
         >
-
+          <div class="user-section">
+            <div class="bg" :style="{ backgroundImage: `url(${$resize(user.banner, { height: 250, mode: 2 })})` }"></div>
+            <router-link :to="$alias.user(user.zone)" class="avatar">
+              <img :src="$resize(user.avatar)" alt="me">
+            </router-link>
+            <div class="panel">
+              <div>
+                <router-link class="oneline" :to="$alias.user(user.zone)" v-text="user.nickname"></router-link>
+              </div>
+              <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
+            </div>
+          </div>
+          <ul class="routes container">
+            <li class="border-bottom">
+              <router-link :to="$alias.user(user.zone)">
+                <i class="iconfont icon-zhuye"></i>
+                个人主页
+              </router-link>
+            </li>
+            <li class="border-bottom">
+              <a href="">
+                <i class="iconfont icon-nitification"></i>
+                消息通知
+                <span v-if="notificationCount" class="badge-count">{{ notificationCount }}</span>
+              </a>
+            </li>
+            <li class="border-bottom">
+              <button @click="logout">
+                <i class="iconfont icon-tuichu"></i>
+                退出登录
+              </button>
+            </li>
+          </ul>
         </v-drawer>
       </template>
       <template v-else>
-        <button class="avatar" @click="openSignDrawer">
+        <button class="nav-avatar" @click="openSignDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
         </button>
         <v-drawer
           v-model="switchLoginDrawer"
           from="bottom"
           size="100%"
-          header-text="登录"
+          :header-text="showRegisterForm ? '注册' : '登录'"
           class="sign-drawer"
           id="sign"
         >
@@ -234,7 +352,7 @@
                 placeholder="可为空"
               >
             </div>
-            <div class="captcha" data-text="注册" ref="signUpCaptcha"></div>
+            <div class="captcha btn-submit" data-text="注册" ref="signUpCaptcha"></div>
           </form>
           <form
             v-show="!showRegisterForm"
@@ -267,7 +385,7 @@
                 @input="showSignInCaptcha"
               >
             </div>
-            <div class="captcha" data-text="登录" ref="signInCaptcha"></div>
+            <div class="captcha btn-submit" data-text="登录" ref="signInCaptcha"></div>
           </form>
           <button class="switch" @click="showRegisterForm = !showRegisterForm">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
         </v-drawer>
@@ -284,8 +402,11 @@
     computed: {
       avatar () {
         return this.$store.state.login
-          ? this.$store.state.user.avatar
+          ? this.user.avatar
           : `${this.$cdn.image}default/user-avatar`
+      },
+      user () {
+        return this.$store.state.user
       },
       getAuthCodeBtnText () {
         if (this.signUpStep === 3) {
@@ -294,10 +415,20 @@
           return '点击重新获取'
         }
         return '点击获取验证码'
+      },
+      daySigned () {
+        return this.user.daySign
+      },
+      coinCount () {
+        return this.user.coin
+      },
+      notificationCount () {
+        return this.user.notification - this.$store.state.users.notifications.checked
       }
     },
     data () {
       return {
+        signDayLoading: false,
         openSearchDrawer: false,
         switchUserDrawer: false,
         switchLoginDrawer: false,
@@ -343,6 +474,7 @@
         this.showSignInCaptcha()
       },
       openUserDrawer () {
+        this.$store.dispatch('getNotification', this)
         this.switchUserDrawer = true
       },
       showSignUpCaptcha () {
@@ -359,10 +491,7 @@
                     window.location.reload()
                   }).catch((err) => {
                     this.signUp.captcha = false
-                    this.$toast.start({
-                      type: 'error',
-                      tip: err
-                    })
+                    this.$toast.error(err)
                     setTimeout(() => {
                       captcha.reset()
                     }, 500)
@@ -392,10 +521,7 @@
                     window.location.reload()
                   }).catch((err) => {
                     this.signIn.captcha = false
-                    this.$toast.start({
-                      type: 'error',
-                      tip: err
-                    })
+                    this.$toast.error(err)
                     setTimeout(() => {
                       captcha.reset()
                     }, 500)
@@ -447,22 +573,13 @@
                 })
               }
             } else {
-              this.$toast.start({
-                type: 'info',
-                tip: `请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`
-              })
+              this.$toast.info(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
             }
           } else {
-            this.$toast.start({
-              type: 'info',
-              tip: `请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`
-            })
+            this.$toast.info(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.start({
-            type: 'info',
-            tip: '请先填写昵称'
-          })
+          this.$toast.info('请先填写昵称')
         }
       },
       getRegisterAuthCode (geetest) {
@@ -477,18 +594,38 @@
         }).then(() => {
           this.signUp.tempAccess = ''
           this.signUpStep = 3
-          this.$toast.start({
-            type: 'success',
-            tip: `${this.signUp.method === 'email' ? '邮件' : '短信'}已发送，请查收`
-          })
+          this.$toast.success(`${this.signUp.method === 'email' ? '邮件' : '短信'}已发送，请查收`)
         }).catch((err) => {
-          this.$toast.start({
-            type: 'error',
-            tip: err
-          })
+          this.$toast.error(err)
           this.signUpStep = 5
         })
+      },
+      async handleDaySign () {
+        if (this.daySigned || this.signDayLoading) {
+          return
+        }
+        this.signDayLoading = true
+
+        await this.$store.dispatch('users/daySign', {
+          ctx: this
+        })
+        this.$store.commit('SET_USER_INFO', {
+          daySign: true,
+          coin: this.coinCount + 1
+        })
+        this.signDayLoading = false
+      },
+      logout () {
+        this.$cookie.remove('JWT-TOKEN')
+        const api = new UserApi(this)
+        api.logout()
+        window.location.reload()
       }
+    },
+    mounted () {
+      this.$channel.$on('switch-to-register', result => {
+        this.showRegisterForm = result
+      })
     }
   }
 </script>
