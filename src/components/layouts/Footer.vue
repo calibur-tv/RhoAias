@@ -47,6 +47,8 @@
         textarea {
           width: 100%;
           min-height: 120px;
+          background-color: #fafafa;
+          padding: 10px;
         }
       }
 
