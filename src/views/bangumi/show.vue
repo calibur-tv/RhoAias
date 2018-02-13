@@ -36,11 +36,13 @@
           height: 54px;
           margin-right: 12px;
           float: left;
+          box-shadow: 0 4px 10px rgba(0,0,0,.2);
         }
 
         .follow {
-          margin-top: 15px;
           float: right;
+          margin-top: 15px;
+          margin-left: 5px;
           @include btn-empty(#fff)
         }
 
@@ -136,7 +138,7 @@
           {{ info.followed ? '已关注' : '关注' }}
         </button>
         <div class="summary">
-          <p class="title" v-text="info.name"></p>
+          <p class="title oneline" v-text="info.name"></p>
           <span>关注 {{ $utils.shortenNumber(info.count_like) }}</span>
           <span>帖子 {{ $utils.shortenNumber(posts.total) }}</span>
         </div>
@@ -261,7 +263,7 @@
             this.$toast.error(e)
           }
         } else {
-          this.$channel.$emit('sign-in')
+          this.$channel.$emit('drawer-open-sign')
         }
       },
       async getPost (reset = false) {
