@@ -76,6 +76,86 @@
         }
       }
     }
+
+    #posts-of-reply {
+      background-color: #ffffff;
+
+      li {
+        float: none;
+        padding: 10px;
+        position: relative;
+
+        .header {
+          position: relative;
+          height: 32px;
+          line-height: 32px;
+
+          .time {
+            float: right;
+            display: block;
+            color: #999;
+            font-size: 12px;
+            position: relative;
+            z-index: 1;
+            margin-right: 12px;
+          }
+        }
+
+        .origin {
+          display: block;
+          background-color: $color-gray-normal;
+          padding: 10px 20px;
+          margin: 10px 0;
+          border-radius: 5px;
+        }
+
+        .reply {
+          display: block;
+          border-left: 5px solid $color-gray-normal;
+          margin: 10px 0;
+          padding-left: 10px;
+        }
+
+        .content {
+          margin-top: 3px;
+          color: #666;
+          font-size: 12px;
+          line-height: 22px;
+          max-height: 44px;
+          overflow: hidden;
+        }
+
+        .images {
+          margin-bottom: 5px;
+
+          .image-full {
+            height: 190px;
+            width: 100%;
+          }
+
+          .image-list {
+            img {
+              width: 32%;
+              height: auto;
+
+              &:not(:last-child) {
+                margin-right: 2%;
+              }
+            }
+          }
+        }
+
+        .footer {
+          color: #a3a8ad;
+          font-size: 12px;
+          line-height: 24px;
+
+          span {
+            margin: 0 5px;
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -98,7 +178,7 @@
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
     </div>
-    <ul id="bangumis" class="container" v-show="sort === 'bangumi'">
+    <ul id="bangumis" class="container" v-if="sort === 'bangumi'">
         <li
           v-for="item in bangumis"
           :key="item.id"
@@ -113,19 +193,93 @@
           </router-link>
         </li>
       </ul>
-    <ul id="posts-of-mine" v-show="sort === 'mine'">
-      <v-post-item
-        v-for="item in posts.data"
-        :key="item.id"
-        :item="item"
-      ></v-post-item>
-    </ul>
+    <template v-else>
+      <ul
+        id="posts-of-mine"
+        v-if="sort === 'mine'"
+        v-infinite-scroll="getUserPosts"
+        infinite-scroll-disabled="noFetch"
+        infinite-scroll-distance="50"
+      >
+        <v-post-item
+          v-for="item in posts.data"
+          :key="item.id"
+          :item="item"
+        ></v-post-item>
+      </ul>
+      <ul
+        id="posts-of-reply"
+        v-else-if="sort === 'reply'"
+        v-infinite-scroll="getUserPosts"
+        infinite-scroll-disabled="noFetch"
+        infinite-scroll-distance="50"
+      >
+        <li
+          v-for="item in posts.data"
+          :key="item.id"
+          class="border-bottom"
+        >
+          <router-link class="header" :to="$alias.post(item.post.id)" v-text="item.post.title"></router-link>
+          <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.parent.id })">
+            <span>{{ item.user.nickname }}</span>：
+            <div class="content" v-html="item.parent.content"></div>
+            <div class="images clearfix" v-if="item.parent.images.length">
+              <v-img
+                class="image-full bg"
+                v-if="item.parent.images.length === 1"
+                :src="item.parent.images[0]"
+                height="190"
+                mode="2"
+                tag="div"
+              ></v-img>
+              <div class="image-list" v-else>
+                <v-img
+                  v-for="(image, index) in imageFilter(item.parent.images)"
+                  :key="index"
+                  :src="image"
+                  width="110"
+                ></v-img>
+              </div>
+            </div>
+          </router-link>
+          <router-link class="reply" :to="$alias.post(item.post.id, { comment: item.parent.id, reply: item.id })">
+            <div class="content" v-html="item.content"></div>
+            <div class="images clearfix" v-if="item.images.length">
+              <v-img
+                class="image-full bg"
+                v-if="item.images.length === 1"
+                :src="item.images[0]"
+                height="190"
+                mode="2"
+                tag="div"
+              ></v-img>
+              <div class="image-list" v-else>
+                <v-img
+                  v-for="(image, index) in imageFilter(item.images)"
+                  :key="index"
+                  :src="image"
+                  width="110"
+                ></v-img>
+              </div>
+            </div>
+          </router-link>
+          <router-link class="footer" :to="$alias.bangumi(item.bangumi.id)">
+            回复于
+            <span v-text="item.bangumi.name"></span>
+            <v-time v-model="item.created_at"></v-time>
+          </router-link>
+        </li>
+      </ul>
+      <more-btn
+        :no-more="posts.noMore"
+        :loading="posts.loading"
+        :auto="true"
+      ></more-btn>
+    </template>
   </div>
 </template>
 
 <script>
-//  import UserApi from '~/api/userApi'
-
   export default {
     name: 'page-user',
     async asyncData ({ route, store, ctx }) {
@@ -173,13 +327,16 @@
         return this.$store.state.users.list[this.slug].bangumis
       },
       posts () {
-        return this.sort === 'bangumi' ? [] : this.$store.state.users.posts[this.sort]
+        return this.sort === 'bangumi' ? {} : this.$store.state.users.posts[this.sort]
       },
       daySigned () {
         return this.self.daySign
       },
       coinCount () {
         return this.self.coin
+      },
+      noFetch () {
+        return this.sort === 'bangumi' ? true : (this.posts.loading || this.posts.noMore)
       }
     },
     data () {
@@ -195,7 +352,7 @@
           this.getUserPosts(true)
         }
       },
-      getUserPosts (isFirstRequest) {
+      getUserPosts (isFirstRequest = false) {
         if (isFirstRequest && this.$store.state.users.posts[this.sort].data.length) {
           return
         }
@@ -223,6 +380,9 @@
         } finally {
           this.signDayLoading = false
         }
+      },
+      imageFilter (images) {
+        return images.slice(0, 3)
       }
     }
   }
