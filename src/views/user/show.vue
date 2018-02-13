@@ -273,6 +273,7 @@
       <more-btn
         :no-more="posts.noMore"
         :loading="posts.loading"
+        :length="posts.data.length"
         :auto="true"
       ></more-btn>
     </template>
