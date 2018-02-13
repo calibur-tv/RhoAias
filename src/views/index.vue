@@ -24,38 +24,6 @@
       }
     }
 
-    .tabs {
-      background-color: #ffffff;
-      position: relative;
-      height: 40px;
-      padding-left: $container-padding;
-      padding-right: $container-padding;
-      width: 100%;
-
-      button {
-        height: 40px;
-        line-height: 40px;
-        margin-right: 28px;
-        color: #000;
-        font-size: 14px;
-
-        &.active {
-          position: relative;
-
-          &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 1px;
-            width: 30px;
-            height: 2px;
-            background: #333;
-            border-radius: 3px;
-          }
-        }
-      }
-    }
-
     #posts {
       .mint-loadmore-top {
         font-size: 12px;
@@ -176,6 +144,7 @@
     <div class="tabs border-bottom">
       <button @click="switchTab('new')" :class="{ 'active': sort === 'new' }">最新</button>
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
+      <router-link class="fr" :to="$alias.bangumiTimeline">番剧列表</router-link>
     </div>
     <mt-loadmore
       id="posts"

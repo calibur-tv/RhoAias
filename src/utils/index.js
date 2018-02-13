@@ -4,9 +4,11 @@ import Alias from '~/assets/js/alias'
 import Utils from '~/assets/js/utils'
 
 import {
-  Loadmore
+  Loadmore,
+  InfiniteScroll
 } from 'mint-ui'
 
+Vue.use(InfiniteScroll)
 Vue.component(Loadmore.name, Loadmore)
 
 Vue.use({

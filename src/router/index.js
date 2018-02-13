@@ -25,9 +25,9 @@ export function createRouter () {
             component: () => import('~/views/index')
           },
           {
-            path: 'bangumi/news',
-            name: 'bangumi-news',
-            component: () => import('~/views/bangumi/news')
+            path: 'bangumi/timeline',
+            name: 'bangumi-time',
+            component: () => import('~/views/bangumi/time')
           }
         ]
       }
