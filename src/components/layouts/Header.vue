@@ -11,8 +11,8 @@
     z-index: 99;
 
     .logo {
-      height: 32px;
-      margin-top: ($nav-height - 32) / 2;
+      height: 28px;
+      margin-top: ($nav-height - 28) / 2;
       display: block;
       float: left;
 
@@ -258,7 +258,7 @@
 <template>
   <header id="header" class="container">
     <router-link class="logo" to="/">
-      <img :src="$resize(`${$cdn.image}owner/logo`, { height: 64, mode: 2 })" alt="logo">
+      <img :src="$resize(`${$cdn.image}owner/logo`, { height: 56, mode: 2 })" alt="logo">
     </router-link>
     <div class="header-right">
       <button class="search-btn" @click="openSearchDrawer = true">
