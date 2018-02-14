@@ -11,7 +11,7 @@
         margin: 8px 0 15px;
       }
 
-      .user-panel {
+      .user {
         .avatar {
           float: left;
           margin-right: 9px;
@@ -87,6 +87,54 @@
     }
 
     .post-comment-drawer {
+      .reply {
+        .user {
+          padding-top: $container-padding;
+
+          .avatar {
+            float: left;
+            margin-right: 9px;
+            @include avatar(35px)
+          }
+
+          .summary {
+            overflow: hidden;
+
+            .nickname {
+              font-size: 14px;
+              color: #333;
+            }
+
+            .info {
+              line-height: 16px;
+              font-size: 12px;
+              color: #999;
+
+              span {
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+
+        .content {
+          font-size: 16px;
+          line-height: 24px;
+          padding-top: 16px;
+          padding-bottom: 16px;
+          color: #000;
+
+          .image-area {
+            margin: 16px 0;
+
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+        }
+      }
+
       .total {
         padding-left: 17px;
         height: 40px;
@@ -97,16 +145,47 @@
 
       .comments {
         li {
-          padding: 1.5px 10px 0;
-          font-size: 14px;
-          line-height: 19px;
+          padding: 17px 0 13px;
+          position: relative;
+          @include border-bottom();
 
-          .nickname {
-            color: $color-blue-deep
+          .from-user {
+            .avatar {
+              float: left;
+              display: block;
+              margin-right: 9px;
+              @include avatar(35px);
+            }
+
+            .summary {
+              overflow: hidden;
+
+              .nickname {
+                display: block;
+                font-size: 14px;
+                line-height: 14px;
+                margin-bottom: 6px;
+                margin-top: 2px;
+                color: $color-blue-deep;
+              }
+
+              .info {
+                font-size: 12px;
+                line-height: 12px;
+                color: #999;
+              }
+            }
           }
 
-          .comment-content {
-            margin-right: 6px;
+          .content {
+            padding-top: 11px;
+            font-size: 16px;
+            line-height: 24px;
+            margin-left: 45px;
+
+            a {
+              font-size: 16px;
+            }
           }
         }
       }
@@ -119,7 +198,7 @@
     <div class="container">
       <div class="post">
         <h1 class="title" v-text="post.title"></h1>
-        <div class="user-panel">
+        <div class="user">
           <router-link class="avatar" :to="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">
           </router-link>
@@ -189,28 +268,93 @@
       v-model="openCommentModal"
       from="bottom"
       size="100%"
-      :header-text="`评论列表 - ${focusReply.floor_count}楼`"
+      :header-text="`评论列表 - ${focusReply ? focusReply.floor_count : ''}楼`"
       class="post-comment-drawer"
     >
       <div
         class="container"
       >
-        <div class="hr"></div>
-        <p class="total">{{ focusReply.comment_count }}条回复</p>
-        <ul class="comments">
+        <template v-if="focusReply">
+          <div class="reply">
+            <div class="user clearfix">
+              <router-link class="avatar" :to="$alias.user(focusReply.user.zone)">
+                <img :src="$resize(focusReply.user.avatar, { width: 70 })">
+              </router-link>
+              <div class="summary">
+                <router-link
+                  class="nickname"
+                  :to="$alias.user(focusReply.user.zone)"
+                  v-text="focusReply.user.nickname"
+                ></router-link>
+                <div class="info">
+                  <v-time v-model="post.created_at"></v-time>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="text-area" v-html="focusReply.content"></div>
+              <div class="image-area">
+                <div
+                  class="image-package"
+                  v-for="(img, idx) in focusReply.images"
+                  :key="img"
+                  @click="$previewImages(focusReply.images, idx)"
+                >
+                  <v-img class="image" :src="img" width="150" mode="2"></v-img>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hr"></div>
+          <p class="total">{{ focusReply.comment_count }}条回复</p>
+        </template>
+        <ul
+          class="comments"
+          v-infinite-scroll="loadMoreComment"
+          infinite-scroll-disabled="notFetchComment"
+          infinite-scroll-distance="50"
+        >
           <li
             v-for="item in focusComments"
           >
-            <router-link class="nickname" :to="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></router-link>
-            <template v-if="item.to_user_zone">
-              回复
-              <router-link class="nickname" :to="$alias.user(item.to_user_zone)" v-text="item.to_user_name"></router-link>
-            </template>
-            :
-            <span class="comment-content">{{ item.content }}</span>
+            <div class="from-user">
+              <router-link
+                class="avatar"
+                :to="$alias.user(item.from_user_zone)"
+              >
+                <img :src="$resize(item.from_user_avatar, { width: 70 })"/>
+              </router-link>
+              <div class="summary">
+                <router-link
+                  class="nickname"
+                  :to="$alias.user(item.from_user_zone)"
+                  v-text="item.from_user_name"
+                ></router-link>
+                <div class="info">
+                  <v-time v-model="item.created_at"></v-time>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <template v-if="item.to_user_zone">
+                回复
+                <router-link
+                  class="nickname"
+                  :to="$alias.user(item.to_user_zone)"
+                  v-text="item.to_user_name"
+                ></router-link>
+                :
+              </template>
+              <span class="comment-content">{{ item.content }}</span>
+            </div>
           </li>
         </ul>
       </div>
+      <more-btn
+        :no-more="notFetchComment"
+        :loading="loadingComments"
+        :auto="true"
+      ></more-btn>
     </v-drawer>
   </div>
 </template>
@@ -281,9 +425,14 @@
       },
       focusReply () {
         if (!this.openCommentId) {
-          return {}
+          return null
         }
         return this.list[this.openCommentIndex]
+      },
+      notFetchComment () {
+        return this.openCommentId
+          ? this.focusComments.length >= this.focusReply.comment_count
+          : true
       }
     },
     data () {
@@ -293,7 +442,8 @@
         loadingToggleMark: false,
         openCommentIndex: 0,
         openCommentId: 0,
-        openCommentModal: false
+        openCommentModal: false,
+        loadingComments: false
       }
     },
     methods: {
@@ -377,6 +527,21 @@
         this.openCommentIndex = data.index
         this.openCommentId = data.id
         this.openCommentModal = true
+      },
+      async loadMoreComment () {
+        if (this.loadingComments) {
+          return
+        }
+        this.loadingComments = true
+        try {
+          await this.$store.dispatch('post/getComments', {
+            postId: this.openCommentId
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingComments = false
+        }
       }
     }
   }

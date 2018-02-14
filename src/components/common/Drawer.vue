@@ -140,6 +140,9 @@
       },
       show (val) {
         this.$emit('input', val)
+      },
+      '$route' () {
+        this.resetPos()
       }
     },
     mounted () {
@@ -153,16 +156,14 @@
         if (this.show) {
           return
         }
-        if (this.from === 'left' || this.from === 'right') {
-          this.pos = window.scrollY
-          document.body.style.overflow = 'hidden'
-          document.body.style.position = 'fixed'
-          document.body.style.top = 0
-          document.body.style.bottom = 0
-          document.body.style.right = 0
-          document.body.style.left = 0
-          document.body.style.height = `${window.innerHeight}px`
-        }
+        this.pos = window.scrollY
+        document.body.style.overflow = 'hidden'
+        document.body.style.position = 'fixed'
+        document.body.style.top = 0
+        document.body.style.bottom = 0
+        document.body.style.right = 0
+        document.body.style.left = 0
+        document.body.style.height = `${window.innerHeight}px`
         this.show = true
         if (this.id) {
           this.$channel.$emit(`drawer-open-event-${this.id}`)
@@ -178,16 +179,8 @@
         if (!this.show) {
           return
         }
-        if (this.from === 'left' || this.from === 'right') {
-          document.body.style.overflow = ''
-          document.body.style.position = ''
-          document.body.style.top = ''
-          document.body.style.bottom = ''
-          document.body.style.right = ''
-          document.body.style.left = ''
-          document.body.style.height = ''
-          window.scrollTo(0, this.pos)
-        }
+        this.resetPos()
+        window.scrollTo(0, this.pos)
         this.show = false
         if (this.backdrop) {
           this.$backdrop.hide()
@@ -195,6 +188,15 @@
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
+      },
+      resetPos () {
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.bottom = ''
+        document.body.style.right = ''
+        document.body.style.left = ''
+        document.body.style.height = ''
       }
     },
     beforeDestroy () {
