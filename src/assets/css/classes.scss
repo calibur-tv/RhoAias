@@ -37,21 +37,6 @@
   margin-right: -$container-padding;
 }
 
-.border-bottom {
-  &:after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1px;
-    background-color: #F0F0F0;
-    transform: scaleY(0.5);
-    margin-left: -$container-padding;
-    margin-right: -$container-padding;
-  }
-}
-
 .fl {
   float: left;
 }
@@ -82,6 +67,7 @@
   padding-left: $container-padding;
   padding-right: $container-padding;
   width: 100%;
+  @include border-bottom();
 
   button {
     height: 40px;

@@ -39,7 +39,7 @@
       <img src="https://image.calibur.tv/owner/slogan" alt="slogan">
     </div>
     <div class="hr"></div>
-    <div class="tabs border-bottom">
+    <div class="tabs">
       <button @click="switchTab('new')" :class="{ 'active': sort === 'new' }">最新</button>
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
       <router-link class="fr" :to="$alias.bangumiTimeline">番剧列表</router-link>

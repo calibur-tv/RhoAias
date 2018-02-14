@@ -26,11 +26,13 @@
   }
 }
 
-@mixin btn-empty($color) {
+@mixin btn-empty($color, $background: transparent) {
   position: relative;
-  padding: 2px 10px;
+  padding: 4px 10px;
   font-size: 14px;
   color: $color;
+  background-color: $background;
+  border-radius: 8px;
   @include border($color, 8px);
 }
 
@@ -61,5 +63,20 @@
 
   @-moz-keyframes #{$name} {
     @content
+  }
+}
+
+@mixin border-bottom($margin: -$container-padding) {
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: #F0F0F0;
+    transform: scaleY(0.5);
+    margin-left: $margin;
+    margin-right: $margin;
   }
 }

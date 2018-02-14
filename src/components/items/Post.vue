@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="scss" scoped>
   .post {
     background-color: #ffffff;
     padding-top: $container-padding;

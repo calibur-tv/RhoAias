@@ -41,7 +41,7 @@
 
         .follow {
           float: right;
-          margin-top: 15px;
+          margin-top: 13px;
           margin-left: 5px;
           @include btn-empty(#fff)
         }
@@ -146,7 +146,7 @@
     </section>
     <div class="hr"></div>
     <div>
-      <div class="tabs border-bottom">
+      <div class="tabs">
         <button class="active">看帖</button>
       </div>
       <ul

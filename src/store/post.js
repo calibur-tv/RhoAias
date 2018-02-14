@@ -13,7 +13,6 @@ const state = () => ({
     }
   },
   show: {
-    init: true,
     take: 10,
     info: {
       bangumi: null,
@@ -29,19 +28,18 @@ const state = () => ({
 })
 
 const mutations = {
-  setPost (state, data) {
+  setPost (state, { data, reset }) {
     state.show.data = {
-      list: state.show.data.list.concat(data.list),
-      noMore: state.show.init ? (data.list.length < state.show.take - 1) : (data.list.length < state.show.take),
+      list: reset ? data.list : state.show.data.list.concat(data.list),
+      noMore: reset ? (data.list.length < state.show.take - 1) : (data.list.length < state.show.take),
       total: data.total
     }
-    if (state.show.init) {
+    if (reset) {
       state.show.info = {
         bangumi: data.bangumi,
         user: data.user,
         post: data.post
       }
-      state.show.init = false
     }
   },
   setComment (state, { postId, data }) {
@@ -111,15 +109,15 @@ const mutations = {
 }
 
 const actions = {
-  async getPost ({ state, commit }, { id, ctx, only }) {
+  async getPost ({ state, commit }, { id, ctx, only, reset = false }) {
     const api = new Api(ctx)
     const data = await api.show({
       id,
       only,
-      seenIds: state.show.data.list.length ? state.show.data.list.map(item => item.id).join(',') : null,
+      seenIds: reset ? null : state.show.data.list.length ? state.show.data.list.map(item => item.id).join(',') : null,
       take: state.show.take
     })
-    commit('setPost', data)
+    commit('setPost', { data, reset })
   },
   async getComments ({ state, commit }, { postId }) {
     state.show.data.list.forEach(async (post, index) => {

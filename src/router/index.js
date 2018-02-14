@@ -14,6 +14,9 @@ export function createRouter () {
   return new Router({
     mode: 'history',
     base: '/',
+    scrollBehavior (to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    },
     routes: [
       {
         path: '/',
