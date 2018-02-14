@@ -5,11 +5,15 @@ import Utils from '~/assets/js/utils'
 
 import {
   Loadmore,
-  InfiniteScroll
+  InfiniteScroll,
+  Swipe,
+  SwipeItem
 } from 'mint-ui'
 
 Vue.use(InfiniteScroll)
 Vue.component(Loadmore.name, Loadmore)
+Vue.component(Swipe.name, Swipe)
+Vue.component(SwipeItem.name, SwipeItem)
 
 Vue.use({
   install (Vue, options) {

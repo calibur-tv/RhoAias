@@ -62,3 +62,13 @@ Vue.use({
     }
   }
 })
+
+Vue.mixin({
+  methods: {
+    $previewImages (images, index) {
+      this.$channel.$emit('open-image-reader', {
+        images, index
+      })
+    }
+  }
+})
