@@ -47,8 +47,38 @@
         margin: 16px 0;
 
         img {
-          max-width: 100%;
+          width: 100%;
           height: auto;
+        }
+      }
+    }
+
+    .footer {
+      text-align: center;
+      margin-bottom: 30px;
+
+      button {
+        margin: 0 10px;
+        font-size: 13px;
+
+        i {
+          font-size: 12px;
+          line-height: 16px;
+        }
+      }
+
+      .post-like-btn {
+        @include btn-empty(#ffffff, #fa5555);
+
+        &.liked {
+          @include btn-empty(#fa5555);
+        }
+      }
+
+      .post-mark-btn {
+        @include btn-empty(#ffffff, #eb9e05);
+        &.marked {
+          @include btn-empty(#eb9e05);
         }
       }
     }
@@ -79,27 +109,31 @@
       <div class="content">
         <div class="text-area" v-html="post.content"></div>
         <div class="image-area">
-          <div class="image-package"
-               v-for="(img, idx) in post.images"
-               :key="img" @click="$previewImages(post.images, idx)">
-            <v-img class="image" :src="img" width="500" mode="2"></v-img>
+          <div
+            class="image-package"
+            v-for="(img, idx) in post.images"
+            :key="img"
+            @click="$previewImages(post.images, idx)"
+          >
+            <v-img class="image" :src="img" width="150" mode="2"></v-img>
           </div>
         </div>
       </div>
       <div class="footer">
         <button
+          class="post-like-btn"
+          :class="{ 'liked' : post.liked }"
           @click="toggleLike"
-          :loading="loadingToggleLike"
-          round>
+        >
           <i class="iconfont icon-guanzhu"></i>
           {{ post.liked ? '已喜欢' : '喜欢' }}{{ post.like_count ? `(${post.like_count})` : '' }}
         </button>
         <button
+          class="post-mark-btn"
+          :class="{ 'marked' : post.marked }"
           @click="toggleMark"
-          :loading="loadingToggleMark"
-          round
         >
-          <i class="iconfont icon-buoumaotubiao44"></i>
+          <i class="iconfont icon-shoucang"></i>
           {{ post.marked ? '已收藏' : '收藏' }}{{ post.mark_count ? `(${post.mark_count})` : '' }}
         </button>
       </div>
@@ -116,7 +150,8 @@
         ctx,
         only: route.query.only
           ? parseInt(route.query.only, 10) ? 1 : 0
-          : 0
+          : 0,
+        reset: true
       })
     },
     components: {

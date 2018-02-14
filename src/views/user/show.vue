@@ -44,7 +44,7 @@
         }
 
         button {
-          margin-top: 10px;
+          margin-top: 8px;
           float: right;
           @include btn-empty($color-blue-normal)
         }

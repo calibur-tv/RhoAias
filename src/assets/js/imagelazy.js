@@ -95,6 +95,7 @@ export default {
       } else {
         src = this.resource
       }
+      src = src.split('|http').length > 1 ? `http${src.split('|http').pop()}` : src
       this.tag.toLowerCase() === 'img'
         ? image.setAttribute('src', src)
         : image.style.backgroundImage = `url(${src})`

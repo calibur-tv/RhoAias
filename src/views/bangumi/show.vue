@@ -41,7 +41,7 @@
 
         .follow {
           float: right;
-          margin-top: 15px;
+          margin-top: 13px;
           margin-left: 5px;
           @include btn-empty(#fff)
         }
