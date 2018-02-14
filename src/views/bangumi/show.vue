@@ -253,17 +253,17 @@
     },
     methods: {
       async actionFollow () {
-        if (this.$store.state.login) {
-          try {
-            await this.$store.dispatch('bangumi/follow', {
-              ctx: this,
-              id: this.id
-            })
-          } catch (e) {
-            this.$toast.error(e)
-          }
-        } else {
+        if (!this.$store.state.login) {
           this.$channel.$emit('drawer-open-sign')
+          return
+        }
+        try {
+          await this.$store.dispatch('bangumi/follow', {
+            ctx: this,
+            id: this.id
+          })
+        } catch (e) {
+          this.$toast.error(e)
         }
       },
       async getPost (reset = false) {

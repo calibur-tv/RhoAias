@@ -479,11 +479,11 @@
       },
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
+          this.$channel.$emit('drawer-open-sign')
           return
         }
         if (this.isMaster) {
-          this.$toast.info('不能给自己点赞')
+          this.$toast.info('不能赞赏自己的帖子')
           return
         }
         if (this.loadingToggleLike) {
@@ -502,7 +502,7 @@
       },
       async toggleMark () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
+          this.$channel.$emit('drawer-open-sign')
           return
         }
         if (this.isMaster) {
