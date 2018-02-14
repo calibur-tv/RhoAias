@@ -1,12 +1,7 @@
 <style lang="scss">
   #layout-default {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-
     >.main-view {
       margin-top: $nav-height;
-      flex-grow: 1;
     }
   }
 </style>

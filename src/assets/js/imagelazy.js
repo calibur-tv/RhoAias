@@ -57,7 +57,7 @@ export default {
       if (this.$checkInView(image, (this.scale - 0))) {
         this.loadResource(image)
       } else {
-        const id = this.$eventManager.add(document.getElementById('app'), this.events, throttle(() => {
+        const id = this.$eventManager.add(document, this.events, throttle(() => {
           if (this.$checkInView(image, (this.scale - 0))) {
             this.loadResource(image)
             this.$eventManager.del(id)

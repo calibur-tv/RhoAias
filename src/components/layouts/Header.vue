@@ -117,6 +117,7 @@
         .form-item {
           position: relative;
           height: 48px;
+          @include border-bottom();
 
           label {
             text-align: left;
@@ -224,6 +225,7 @@
             position: relative;
             padding: 5px 0;
             margin-left: 3px;
+            @include border-bottom();
           }
 
           i {
@@ -314,20 +316,20 @@
             </div>
           </div>
           <ul class="routes container" @click="switchUserDrawer = false">
-            <li class="border-bottom">
+            <li>
               <router-link :to="$alias.user(user.zone)">
                 <i class="iconfont icon-zhuye"></i>
                 个人主页
               </router-link>
             </li>
-            <li class="border-bottom">
+            <li>
               <a href="">
                 <i class="iconfont icon-nitification"></i>
                 消息通知
                 <span v-if="notificationCount" class="badge-count">{{ notificationCount }}</span>
               </a>
             </li>
-            <li class="border-bottom">
+            <li>
               <button @click="logout">
                 <i class="iconfont icon-tuichu"></i>
                 退出登录
@@ -354,7 +356,7 @@
             autocomplete="off"
             data-vv-scope="sign-up"
           >
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="sign-up-nickname">昵称</label>
               <input
                 name="nickname"
@@ -367,7 +369,7 @@
                 placeholder="2-14个字符组成"
               >
             </div>
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="sign-up-access">手机号</label>
               <input
                 id="sign-up-access"
@@ -380,7 +382,7 @@
                 placeholder="填写常用手机号"
               >
             </div>
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="sign-up-auth-code">验证码</label>
               <input
                 id="sign-up-auth-code"
@@ -396,7 +398,7 @@
                       type="button"
               >{{ getAuthCodeBtnText }}</button>
             </div>
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="sign-up-secret">密码</label>
               <input
                 id="sign-up-secret"
@@ -409,7 +411,7 @@
                 placeholder="6-16个字符组成"
               >
             </div>
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="sign-up-invite-code">邀请码</label>
               <input
                 id="sign-up-invite-code"
@@ -428,7 +430,7 @@
             autocomplete="off"
             data-vv-scope="sign-in"
           >
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="login-access">手机号</label>
               <input
                 name="access"
@@ -440,7 +442,7 @@
                 @input="showSignInCaptcha"
               >
             </div>
-            <div class="form-item border-bottom">
+            <div class="form-item">
               <label for="login-secret">密码</label>
               <input
                 name="secret"

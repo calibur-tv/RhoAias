@@ -2,83 +2,112 @@
   #post-show {
     background-color: #fff;
 
-    .title {
-      color: #000;
-      font-size: 18px;
-      font-weight: 700;
-      line-height: 28px;
-      margin: 8px 0 15px;
-    }
-
-    .user-panel {
-      .avatar {
-        float: left;
-        margin-right: 9px;
-        @include avatar(35px)
+    .post {
+      .title {
+        color: #000;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 28px;
+        margin: 8px 0 15px;
       }
 
-      .summary {
-        overflow: hidden;
-
-        .nickname {
-          font-size: 14px;
-          color: #333;
+      .user-panel {
+        .avatar {
+          float: left;
+          margin-right: 9px;
+          @include avatar(35px)
         }
 
-        .info {
-          line-height: 16px;
-          font-size: 12px;
-          color: #999;
+        .summary {
+          overflow: hidden;
 
-          >* {
-            margin-right: 8px;
+          .nickname {
+            font-size: 14px;
+            color: #333;
+          }
+
+          .info {
+            line-height: 16px;
+            font-size: 12px;
+            color: #999;
+
+            span {
+              margin-right: 5px;
+            }
           }
         }
       }
-    }
 
-    .content {
-      color: #000;
-      font-size: 16px;
-      margin: 22px 0;
-      line-height: 24px;
+      .content {
+        color: #000;
+        font-size: 16px;
+        margin: 22px 0;
+        line-height: 24px;
 
-      .image-area {
-        margin: 16px 0;
+        .image-area {
+          margin: 16px 0;
 
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-    }
-
-    .footer {
-      text-align: center;
-      margin-bottom: 30px;
-
-      button {
-        margin: 0 10px;
-        font-size: 13px;
-
-        i {
-          font-size: 12px;
-          line-height: 16px;
+          img {
+            width: 100%;
+            height: auto;
+          }
         }
       }
 
-      .post-like-btn {
-        @include btn-empty(#ffffff, #fa5555);
+      .footer {
+        text-align: center;
+        margin-bottom: 30px;
 
-        &.liked {
+        button {
+          margin: 0 10px;
+          font-size: 13px;
+
+          i {
+            font-size: 12px;
+            line-height: 16px;
+          }
+        }
+
+        .post-like-btn {
+          @include btn-empty(#ffffff, #fa5555);
+        }
+
+        .post-liked-btn {
           @include btn-empty(#fa5555);
         }
+
+        .post-mark-btn {
+          @include btn-empty(#ffffff, #eb9e05);
+        }
+
+        .post-marked-btn {
+          @include btn-empty(#eb9e05);
+        }
+      }
+    }
+
+    .post-comment-drawer {
+      .total {
+        padding-left: 17px;
+        height: 40px;
+        line-height: 40px;
+        color: #000;
+        font-size: 16px;
       }
 
-      .post-mark-btn {
-        @include btn-empty(#ffffff, #eb9e05);
-        &.marked {
-          @include btn-empty(#eb9e05);
+      .comments {
+        li {
+          padding: 1.5px 10px 0;
+          font-size: 14px;
+          line-height: 19px;
+
+          .nickname {
+            color: $color-blue-deep
+          }
+
+          .comment-content {
+            margin-right: 6px;
+          }
         }
       }
     }
@@ -86,62 +115,109 @@
 </style>
 
 <template>
-  <div id="post-show" class="container">
-    <div class="post">
-      <h1 class="title" v-text="post.title"></h1>
-      <div class="user-panel">
-        <router-link class="avatar" :to="$alias.user(master.zone)">
-          <img :src="$resize(master.avatar, { width: 70 })">
-        </router-link>
-        <div class="summary">
-          <router-link
-            class="nickname"
-            :to="$alias.user(master.zone)"
-            v-text="master.nickname"
-          ></router-link>
-          <div class="info">
-            <span>第1楼</span>
-            <span>|</span>
-            <v-time v-model="post.created_at"></v-time>
+  <div id="post-show">
+    <div class="container">
+      <div class="post">
+        <h1 class="title" v-text="post.title"></h1>
+        <div class="user-panel">
+          <router-link class="avatar" :to="$alias.user(master.zone)">
+            <img :src="$resize(master.avatar, { width: 70 })">
+          </router-link>
+          <div class="summary">
+            <router-link
+              class="nickname"
+              :to="$alias.user(master.zone)"
+              v-text="master.nickname"
+            ></router-link>
+            <div class="info">
+              <span>第1楼</span>
+              <span>·</span>
+              <template v-if="total > 1">
+                <span>共{{ total }}楼</span>
+                <span>·</span>
+              </template>
+              <v-time v-model="post.created_at"></v-time>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="content">
-        <div class="text-area" v-html="post.content"></div>
-        <div class="image-area">
-          <div
-            class="image-package"
-            v-for="(img, idx) in post.images"
-            :key="img"
-            @click="$previewImages(post.images, idx)"
+        <div class="content">
+          <div class="text-area" v-html="post.content"></div>
+          <div class="image-area">
+            <div
+              class="image-package"
+              v-for="(img, idx) in post.images"
+              :key="img"
+              @click="$previewImages(post.images, idx)"
+            >
+              <v-img class="image" :src="img" width="150" mode="2"></v-img>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <button
+            :class="[ post.liked ? 'post-liked-btn' : 'post-like-btn' ]"
+            @click="toggleLike"
           >
-            <v-img class="image" :src="img" width="150" mode="2"></v-img>
-          </div>
+            <i class="iconfont icon-guanzhu"></i>
+            {{ post.liked ? '已喜欢' : '喜欢' }}{{ post.like_count ? `(${post.like_count})` : '' }}
+          </button>
+          <button
+            :class="[ post.marked ? 'post-marked-btn' : 'post-mark-btn' ]"
+            @click="toggleMark"
+          >
+            <i class="iconfont icon-shoucang"></i>
+            {{ post.marked ? '已收藏' : '收藏' }}{{ post.mark_count ? `(${post.mark_count})` : '' }}
+          </button>
         </div>
       </div>
-      <div class="footer">
-        <button
-          class="post-like-btn"
-          :class="{ 'liked' : post.liked }"
-          @click="toggleLike"
-        >
-          <i class="iconfont icon-guanzhu"></i>
-          {{ post.liked ? '已喜欢' : '喜欢' }}{{ post.like_count ? `(${post.like_count})` : '' }}
-        </button>
-        <button
-          class="post-mark-btn"
-          :class="{ 'marked' : post.marked }"
-          @click="toggleMark"
-        >
-          <i class="iconfont icon-shoucang"></i>
-          {{ post.marked ? '已收藏' : '收藏' }}{{ post.mark_count ? `(${post.mark_count})` : '' }}
-        </button>
-      </div>
+      <div class="hr"></div>
+      <post-reply
+        v-for="(item, index) in list"
+        :key="item.id"
+        :post="item"
+        :index="index"
+        @delete="deletePost(item.id)"
+        @loadcomment="handleCommentLoad"
+      ></post-reply>
     </div>
+    <more-btn
+      :no-more="noMore"
+      :loading="loadingLoadMore"
+      @fetch="getPosts(false)"
+    ></more-btn>
+    <v-drawer
+      v-model="openCommentModal"
+      from="bottom"
+      size="100%"
+      :header-text="`评论列表 - ${focusReply.floor_count}楼`"
+      class="post-comment-drawer"
+    >
+      <div
+        class="container"
+      >
+        <div class="hr"></div>
+        <p class="total">{{ focusReply.comment_count }}条回复</p>
+        <ul class="comments">
+          <li
+            v-for="item in focusComments"
+          >
+            <router-link class="nickname" :to="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></router-link>
+            <template v-if="item.to_user_zone">
+              回复
+              <router-link class="nickname" :to="$alias.user(item.to_user_zone)" v-text="item.to_user_name"></router-link>
+            </template>
+            :
+            <span class="comment-content">{{ item.content }}</span>
+          </li>
+        </ul>
+      </div>
+    </v-drawer>
   </div>
 </template>
 
 <script>
+  import PostReply from '~/components/post/reply'
+
   export default {
     name: 'post-show',
     async asyncData ({ route, store, ctx }) {
@@ -155,6 +231,7 @@
       })
     },
     components: {
+      PostReply
     },
     head () {
       return {
@@ -166,7 +243,7 @@
         return this.$store.state.post.show
       },
       list () {
-        return this.$orderBy(this.resource.data.list, 'id', 'asc')
+        return this.resource.data.list
       },
       total () {
         return this.resource.data.total
@@ -195,13 +272,28 @@
         }
         const currentUserId = this.$store.state.user.id
         return currentUserId === this.masterId
+      },
+      focusComments () {
+        if (!this.openCommentId) {
+          return []
+        }
+        return this.list[this.openCommentIndex].comments
+      },
+      focusReply () {
+        if (!this.openCommentId) {
+          return {}
+        }
+        return this.list[this.openCommentIndex]
       }
     },
     data () {
       return {
         loadingLoadMore: false,
         loadingToggleLike: false,
-        loadingToggleMark: false
+        loadingToggleMark: false,
+        openCommentIndex: 0,
+        openCommentId: 0,
+        openCommentModal: false
       }
     },
     methods: {
@@ -225,12 +317,13 @@
           }
         }).catch(() => {})
       },
-      async getPosts () {
+      async getPosts (reset) {
         this.loadingLoadMore = true
         await this.$store.dispatch('post/getPost', {
           id: this.post.id,
           ctx: this,
-          only: this.onlySeeMaster
+          only: this.onlySeeMaster,
+          reset
         })
         this.loadingLoadMore = false
       },
@@ -279,6 +372,11 @@
           this.$toast.error(err)
         }
         this.loadingToggleMark = false
+      },
+      handleCommentLoad (data) {
+        this.openCommentIndex = data.index
+        this.openCommentId = data.id
+        this.openCommentModal = true
       }
     }
   }

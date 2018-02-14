@@ -66,7 +66,7 @@
 
 <template>
   <div id="bangumi-timeline">
-    <div class="tabs border-bottom">
+    <div class="tabs">
       <button class="active">时间轴</button>
     </div>
     <ul

@@ -1,0 +1,240 @@
+<style lang="scss" scoped>
+  .post-reply-item {
+    position: relative;
+    margin-top: $container-padding;
+    padding-bottom: $container-padding;
+    @include border-bottom();
+
+    .avatar {
+      float: left;
+      margin-right: 9px;
+      @include avatar(35px);
+    }
+
+    .content {
+      overflow: hidden;
+
+      .header {
+        .nickname {
+          font-size: 14px;
+          line-height: 18px;
+          color: #333;
+        }
+
+        .info {
+          color: #999;
+          line-height: 16px;
+          font-size: 12px;
+
+          span {
+            margin-right: 5px;
+          }
+        }
+      }
+
+      .main {
+        font-size: 16px;
+        margin: 10px 0 4px;
+        color: #333;
+        line-height: 24px;
+
+        .image-area {
+          margin: 10px 0;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+      }
+
+      .footer {
+        .comments {
+          padding: 7px 0 7.5px;
+          margin-top: 5px;
+          position: relative;
+          background-color: #F5F5F5;
+
+          ul {
+            li {
+              padding: 1.5px 10px 0;
+              font-size: 14px;
+              line-height: 19px;
+
+              .nickname {
+                color: $color-blue-deep
+              }
+
+              .comment-content {
+                margin-right: 6px;
+              }
+            }
+          }
+
+          .load-all-comment {
+            position: relative;
+            margin-top: 6px;
+            font-size: 12px;
+            margin-bottom: 0;
+            padding: 0 10px;
+            color: #999;
+            width: 100%;
+            text-align: left;
+
+            &:after {
+              content: '';
+              position: absolute;
+              top: 50%;
+              border: 3px solid #f5f5f5;
+              border-left-color: #999;
+              transform: translateY(-50%);
+              margin-left: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<template>
+  <div class="post-reply-item">
+    <router-link class="avatar" :to="$alias.user(post.user.zone)">
+      <v-img :src="post.user.avatar" :width="80" :height="80"></v-img>
+    </router-link>
+    <div class="content">
+      <div class="header">
+        <router-link
+          class="nickname oneline"
+          :to="$alias.user(post.user.zone)"
+          v-text="post.user.nickname"
+        ></router-link>
+        <div class="info">
+          <span>第{{ post.floor_count }}楼</span>
+          <span>·</span>
+          <v-time v-model="post.created_at"></v-time>
+        </div>
+      </div>
+      <div class="main">
+        <div class="text-area" v-html="post.content"></div>
+        <div class="image-area">
+          <div
+            class="image-package"
+            v-for="(img, idx) in post.images"
+            :key="img"
+            @click="$previewImages(post.images, idx)"
+          >
+            <v-img class="image" :src="img" width="150" mode="2"></v-img>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="comments" v-if="comments.length">
+          <ul>
+            <li
+              v-for="item in comments"
+            >
+              <router-link class="nickname" :to="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></router-link>
+              <template v-if="item.to_user_zone">
+                回复
+                <router-link class="nickname" :to="$alias.user(item.to_user_zone)" v-text="item.to_user_name"></router-link>
+              </template>
+              :
+              <span class="comment-content">{{ item.content }}</span>
+            </li>
+          </ul>
+          <button
+            v-if="post.comment_count > 10"
+            class="load-all-comment"
+            @click="loadAllComment"
+          >
+            查看全部{{ post.comment_count }}条评论
+          </button>
+        </div>
+      </div>
+      <!--<div class="footer">-->
+        <!--<div class="info-bar">-->
+          <!--<button class="like-btn" @click="toggleLike">-->
+            <!--{{ post.liked ? '已赞' : '赞' }}-->
+            <!--<span v-if="post.like_count">({{ post.like_count }})</span>-->
+          <!--</button>-->
+          <!--<button class="delete-btn" v-if="canDelete" @click="deletePost">删除</button>-->
+          <!--<span class="floor-count">{{ post.floor_count }}楼</span>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<post-comment-list :post="post"></post-comment-list>&ndash;&gt;-->
+      <!--</div>-->
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'post-reply-item',
+    props: {
+      post: {
+        type: Object,
+        required: true
+      },
+      index: {
+        type: Number,
+        required: true
+      }
+    },
+    data () {
+      return {
+        loadingToggleLike: false
+      }
+    },
+    computed: {
+      canDelete () {
+        return this.isMine || this.isMaster
+      },
+      currentUserId () {
+        return this.$store.state.login ? this.$store.state.user.id : 0
+      },
+      isMine () {
+        return this.currentUserId === this.post.user.id
+      },
+      isMaster () {
+        return this.currentUserId === this.$store.state.post.show.info.user.id
+      },
+      comments () {
+        return this.post.comments
+      }
+    },
+    methods: {
+      deletePost () {
+        this.$emit('delete')
+      },
+      async toggleLike () {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        if (this.isMine) {
+          this.$toast.info('不能给自己点赞')
+          return
+        }
+        if (this.loadingToggleLike) {
+          return
+        }
+        this.loadingToggleLike = true
+        try {
+          await this.$store.dispatch('post/toggleLike', {
+            ctx: this,
+            id: this.post.id
+          })
+        } catch (err) {
+          this.$toast.error(err)
+        }
+        this.loadingToggleLike = false
+      },
+      loadAllComment () {
+        this.$emit('loadcomment', {
+          id: this.post.id,
+          index: this.index
+        })
+      }
+    }
+  }
+</script>

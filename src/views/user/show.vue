@@ -58,6 +58,7 @@
         position: relative;
         height: 62px;
         padding: 8px 0;
+        @include border-bottom();
 
         img {
           width: 46px;
@@ -84,6 +85,7 @@
         float: none;
         padding: 10px;
         position: relative;
+        @include border-bottom();
 
         .header {
           position: relative;
@@ -173,26 +175,25 @@
         <p class="nickname oneline" v-text="user.nickname"></p>
       </div>
     </div>
-    <div class="tabs border-bottom">
+    <div class="tabs">
       <button @click="switchTab('bangumi')" :class="{ 'active': sort === 'bangumi' }">番剧</button>
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
     </div>
     <ul id="bangumis" class="container" v-if="sort === 'bangumi'">
-        <li
-          v-for="item in bangumis"
-          :key="item.id"
-          class="border-bottom"
-        >
-          <router-link :to="$alias.bangumi(item.id)">
-            <v-img class="bg"
-                   :alt="item.name"
-                   :src="$resize(item.avatar, { width: 160, height: 160 })"
-            ></v-img>
-            <p class="twoline" v-text="item.name"></p>
-          </router-link>
-        </li>
-      </ul>
+      <li
+        v-for="item in bangumis"
+        :key="item.id"
+      >
+        <router-link :to="$alias.bangumi(item.id)">
+          <v-img class="bg"
+                 :alt="item.name"
+                 :src="$resize(item.avatar, { width: 160, height: 160 })"
+          ></v-img>
+          <p class="twoline" v-text="item.name"></p>
+        </router-link>
+      </li>
+    </ul>
     <template v-else>
       <ul
         id="posts-of-mine"
@@ -217,7 +218,6 @@
         <li
           v-for="item in posts.data"
           :key="item.id"
-          class="border-bottom"
         >
           <router-link class="header" :to="$alias.post(item.post.id)" v-text="item.post.title"></router-link>
           <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.parent.id })">

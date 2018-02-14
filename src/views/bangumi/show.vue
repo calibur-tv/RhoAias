@@ -146,7 +146,7 @@
     </section>
     <div class="hr"></div>
     <div>
-      <div class="tabs border-bottom">
+      <div class="tabs">
         <button class="active">看帖</button>
       </div>
       <ul
