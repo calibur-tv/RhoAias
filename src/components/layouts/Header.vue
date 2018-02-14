@@ -698,22 +698,19 @@
         api.logout()
         window.location.reload()
       },
-      search (words) {
+      async search (words) {
         const q = words || this.q
-        console.log(q)
         if (!q.length) {
           return
         }
+        this.$toast.loading('搜索中...')
         const api = new SearchApi()
-        api.index({ q }).then((res) => {
-          if (res) {
-            window.location = res
-          } else {
-            window.location = '/bangumi/timeline'
-          }
-        }).catch(() => {
-          window.location = '/bangumi/timeline'
-        })
+        try {
+          const url = await api.index({ q })
+          window.location = url || '/bangumi/timeline'
+        } catch (e) {
+          this.$toast.error(e)
+        }
       }
     },
     mounted () {
