@@ -267,10 +267,6 @@
             回复
           </button>
         </div>
-        <write-post
-          v-model="openReplyDrawer"
-          :post-id="post.id"
-        ></write-post>
       </div>
       <div class="hr"></div>
       <post-reply
@@ -384,7 +380,6 @@
 
 <script>
   import PostReply from '~/components/post/Reply'
-  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'post-show',
@@ -399,7 +394,7 @@
       })
     },
     components: {
-      PostReply, WritePost
+      PostReply
     },
     head () {
       return {
@@ -569,11 +564,9 @@
         }
       },
       handleReplyBtnClick () {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
-          return
-        }
-        this.openReplyDrawer = true
+        this.$store.state.login
+          ? this.$channel.$emit('drawer-open-write-post')
+          : this.$channel.$emit('drawer-open-sign')
       }
     }
   }

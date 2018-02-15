@@ -27,9 +27,11 @@
       overflow: hidden;
       height: 100%;
 
-      .search-btn {
+      .search-btn,
+      .create-btn {
         display: inline-block;
         vertical-align: middle;
+        margin-left: 24px;
 
         i {
           font-size: 24px;
@@ -264,6 +266,9 @@
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
       </button>
+      <write-post
+        :post-id="createPostId"
+      ></write-post>
       <v-drawer
         from="top"
         size="30%"
@@ -465,9 +470,13 @@
 <script>
   import UserApi from '~/api/userApi'
   import SearchApi from '~/api/searchApi'
+  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'v-header',
+    components: {
+      WritePost
+    },
     computed: {
       avatar () {
         return this.$store.state.login

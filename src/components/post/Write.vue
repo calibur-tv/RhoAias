@@ -1,5 +1,7 @@
 <style lang="scss">
   .post-write-drawer {
+    text-align: left;
+
     textarea {
       font-size: 16px;
       line-height: 24px;
@@ -23,11 +25,16 @@
 </style>
 
 <template>
-  <v-drawer
+  <span>
+    <button class="create-btn">
+      <i class="iconfont icon-pinglun" @click="open = true"></i>
+    </button>
+    <v-drawer
     class="post-write-drawer"
     v-model="open"
     from="right"
     size="100%"
+    id="write-post"
     :header-text="postId ? '发表回复' : '发帖'"
   >
     <div class="container">
@@ -56,6 +63,7 @@
       >发布</button>
     </div>
   </v-drawer>
+  </span>
 </template>
 
 <script>
@@ -67,23 +75,11 @@
       },
       bangumiId: {
         type: Number
-      },
-      value: {
-        required: true,
-        type: Boolean
-      }
-    },
-    watch: {
-      open (val) {
-        this.$emit('input', val)
-      },
-      value (val) {
-        this.open = val
       }
     },
     data () {
       return {
-        open: this.value,
+        open: false,
         uploadHeaders: {
           token: ''
         },
