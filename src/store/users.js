@@ -130,6 +130,7 @@ const actions = {
         zone
       })
     }
+    return data
   },
   async getFollowPosts ({ state, commit }, { type, zone }) {
     if (state.posts.zone !== zone) {

@@ -266,8 +266,12 @@
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
       </button>
+      <button class="create-btn">
+        <i class="iconfont icon-pinglun" @click="handleCreateBtnClick"></i>
+      </button>
       <write-post
         :post-id="createPostId"
+        :bangumi-id="createBangumiId"
       ></write-post>
       <v-drawer
         from="top"
@@ -389,7 +393,7 @@
               <label for="sign-up-auth-code">验证码</label>
               <input
                 id="sign-up-auth-code"
-                type="text"
+                type="number"
                 name="auth-code"
                 v-validate="'required|len:6'"
                 autocomplete="off"
@@ -502,6 +506,12 @@
       },
       notificationCount () {
         return this.user.notification - this.$store.state.users.notifications.checked
+      },
+      createPostId () {
+        return this.$route.name === 'post-show' ? parseInt(this.$route.params.id, 10) : 0
+      },
+      createBangumiId () {
+        return this.$route.name === 'bangumi-show' ? parseInt(this.$route.params.id, 10) : 0
       }
     },
     data () {
@@ -718,6 +728,11 @@
         } catch (e) {
           this.$toast.error(e)
         }
+      },
+      handleCreateBtnClick () {
+        this.$store.state.login
+          ? this.$channel.$emit('drawer-open-write-post')
+          : this.$channel.$emit('drawer-open-sign')
       }
     },
     mounted () {

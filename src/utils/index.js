@@ -7,7 +7,8 @@ import {
   Loadmore,
   InfiniteScroll,
   Swipe,
-  SwipeItem
+  SwipeItem,
+  Picker
 } from 'mint-ui'
 
 import {
@@ -19,6 +20,7 @@ Vue.use(InfiniteScroll)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
+Vue.component(Picker.name, Picker)
 
 Vue.use({
   install (Vue, options) {

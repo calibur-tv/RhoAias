@@ -2,13 +2,34 @@
   .post-write-drawer {
     text-align: left;
 
-    textarea {
+    .title {
+      font-size: 16px;
+      color: #000;
+      line-height: 20px;
+      padding-top: 20px;
+    }
+
+    .bangumi {
+      font-size: 16px;
+
+      span {
+        color: #666;
+        float: left;
+      }
+
+      div {
+        color: #000;
+        overflow: hidden;
+      }
+    }
+
+    .content {
       font-size: 16px;
       line-height: 24px;
       color: #000;
       font-weight: 400;
-      padding: 20px 17px 0;
       height: 120px;
+      padding-top: 10px;
     }
 
     .el-upload-list__item,
@@ -25,11 +46,7 @@
 </style>
 
 <template>
-  <span>
-    <button class="create-btn">
-      <i class="iconfont icon-pinglun" @click="open = true"></i>
-    </button>
-    <v-drawer
+  <v-drawer
     class="post-write-drawer"
     v-model="open"
     from="right"
@@ -38,8 +55,39 @@
     :header-text="postId ? '发表回复' : '发帖'"
   >
     <div class="container">
+      <template v-if="!postId">
+        <input
+          class="title"
+          type="text"
+          v-model.trim="title"
+          maxlength="40"
+          placeholder="加个标题哟~"
+        >
+        <div class="bangumi">
+          <span>发布到：</span>
+          <div
+            @click="handleBangumiPickerBtnClick"
+            v-text="selectedBangumi"
+          ></div>
+        </div>
+        <v-drawer
+          v-model="openBangumisDrawer"
+          class="bangumis-drawer"
+          from="bottom"
+          size="40%"
+          header-text="选择番剧"
+        >
+          <mt-picker
+            :slots="slots"
+            @change="onValuesChange"
+            valueKey="name"
+          ></mt-picker>
+        </v-drawer>
+      </template>
       <textarea
-        placeholder="也来说两句（500字以内）"
+        class="content"
+        :placeholder="postId ? '也来说两句（500字以内）' : '来吧，尽情的（在500字以内）发挥吧'"
+        maxlength="500"
         v-model.trim="content"
       ></textarea>
       <el-upload
@@ -63,7 +111,6 @@
       >发布</button>
     </div>
   </v-drawer>
-  </span>
 </template>
 
 <script>
@@ -86,7 +133,25 @@
         images: [],
         exceed: 4,
         content: '',
-        title: ''
+        title: '',
+        slots: [
+          {
+            flex: 1,
+            defaultIndex: 0,
+            values: [],
+            textAlign: 'center'
+          }
+        ],
+        followedBangumi: false,
+        openBangumisDrawer: false,
+        loading: false
+      }
+    },
+    watch: {
+      open (val) {
+        if (val && !this.postId) {
+          this.getUserFollowedBangumis()
+        }
       }
     },
     computed: {
@@ -106,6 +171,15 @@
       },
       formatImages () {
         return this.images.map(item => item.img)
+      },
+      selectedBangumi () {
+        if (this.loading) {
+          return '加载中...'
+        }
+        if (!this.followedBangumi) {
+          return '点击选择番剧'
+        }
+        return this.slots[0].values[this.slots[0].defaultIndex].name
       }
     },
     methods: {
@@ -160,6 +234,20 @@
           this.$toast.error('内容不能为空！')
           return
         }
+        if (this.loading) {
+          this.$toast.error('番剧加载中')
+          return
+        }
+        if (!this.postId) {
+          if (!this.followedBangumi) {
+            this.$toast.error('必须先关注才能发帖')
+            return
+          }
+          if (!this.title) {
+            this.$toast.error('标题不能为空！')
+            return
+          }
+        }
         this.$captcha(async ({ data }) => {
           if (this.postId) {
             try {
@@ -186,7 +274,7 @@
             try {
               const id = await this.$store.dispatch('post/create', {
                 title: this.title,
-                bangumiId: this.bangumiId,
+                bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
                 desc: this.content.substring(0, 120),
                 content: this.formatContent,
                 images: this.formatImages,
@@ -195,6 +283,7 @@
               })
               this.images = []
               this.$toast.success('发布成功！')
+              this.open = false
               this.$router.push({
                 name: 'post-show',
                 params: { id: id.toString() }
@@ -204,6 +293,42 @@
             }
           }
         })
+      },
+      onValuesChange (picker, values) {
+        if (!values[0]) {
+          return
+        }
+        const id = values[0].id
+        this.slots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.slots[0].defaultIndex = index
+            this.followedBangumi = true
+          }
+        })
+      },
+      async getUserFollowedBangumis () {
+        if (this.loading) {
+          return
+        }
+        this.loading = true
+        try {
+          this.slots[0].values = await this.$store.dispatch('users/getFollowBangumis', {
+            zone: this.$store.state.user.zone,
+            self: true
+          })
+          this.followedBangumi = false
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loading = false
+        }
+      },
+      handleBangumiPickerBtnClick () {
+        if (!this.slots[0].values.length) {
+          this.$toast.error('还没有关注任何番剧')
+          return
+        }
+        this.openBangumisDrawer = true
       }
     },
     mounted () {

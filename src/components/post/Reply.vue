@@ -92,6 +92,19 @@
             }
           }
         }
+
+        .social {
+          margin-top: 15px;
+          font-size: 12px;
+
+          .reply-liked-btn {
+            color: $color-blue-deep;
+          }
+
+          button {
+            color: #666;
+          }
+        }
       }
     }
   }
@@ -154,6 +167,19 @@
             @click="loadAllComment"
           >
             查看全部{{ post.comment_count }}条评论
+          </button>
+        </div>
+        <div class="social">
+          <button
+            :class="[ post.liked ? 'reply-liked-btn' : 'reply-like-btn' ]"
+            @click="toggleLike"
+          >
+            <i class="iconfont icon-icon_good"></i>
+            {{ post.liked ? '已赞' : '赞' }}
+            <span v-if="post.like_count">({{ post.like_count }})</span>
+          </button>
+          <button class="fr" @click="handleCommentBtnClick">
+            回复
           </button>
         </div>
       </div>
@@ -238,6 +264,12 @@
         this.$emit('loadcomment', {
           id: this.post.id,
           index: this.index
+        })
+      },
+      handleCommentBtnClick () {
+        this.$emit('addcomment', {
+          postId: this.post.id,
+          targetUserId: this.isMine ? 0 : this.post.user.id
         })
       }
     }

@@ -193,6 +193,33 @@
         }
       }
     }
+
+    .create-post-comment-drawer {
+      border-radius: 0 0 5px 5px;
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin-top: -46px;
+        padding-top: 46px;
+        z-index: -1;
+      }
+
+      textarea {
+        font-size: 16px;
+        line-height: 24px;
+        color: #000;
+        font-weight: 400;
+        padding-top: 10px;
+        flex-grow: 1;
+      }
+
+      .btn-submit {
+        margin-top: $container-padding;
+        margin-bottom: $container-padding;
+      }
+    }
   }
 </style>
 
@@ -219,7 +246,7 @@
                 <span>·</span>
               </template>
               <v-time v-model="post.created_at"></v-time>
-              <span class="fr">
+              <span class="fr" v-if="post.view_count">
                 <i class="iconfont icon-yuedu"></i>
                 {{ $utils.shortenNumber(post.view_count) }}
               </span>
@@ -276,6 +303,7 @@
         :index="index"
         @delete="deletePost(item.id)"
         @loadcomment="handleCommentLoad"
+        @addcomment="handleCommentAdd"
       ></post-reply>
     </div>
     <more-btn
@@ -375,6 +403,25 @@
         :auto="true"
       ></more-btn>
     </v-drawer>
+    <v-drawer
+      v-model="createComment.open"
+      from="top"
+      size="40%"
+      header-text="发布回复"
+      class="create-post-comment-drawer"
+    >
+      <div class="container">
+        <textarea
+          placeholder="50字以内任你发挥"
+          v-model.trim="createComment.content"
+          maxlength="50"
+        ></textarea>
+        <button
+          class="btn-submit"
+          @click="submitComment"
+        >发布</button>
+      </div>
+    </v-drawer>
   </div>
 </template>
 
@@ -463,7 +510,14 @@
         openCommentId: 0,
         openCommentsDrawer: false,
         loadingComments: false,
-        openReplyDrawer: false
+        openReplyDrawer: false,
+        createComment: {
+          open: false,
+          content: '',
+          postId: 0,
+          targetUserId: 0,
+          loading: false
+        }
       }
     },
     methods: {
@@ -567,6 +621,38 @@
         this.$store.state.login
           ? this.$channel.$emit('drawer-open-write-post')
           : this.$channel.$emit('drawer-open-sign')
+      },
+      handleCommentAdd (data) {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('drawer-open-sign')
+          return
+        }
+        this.createComment.postId = data.postId
+        this.createComment.targetUserId = data.targetUserId
+        this.createComment.open = true
+      },
+      async submitComment () {
+        if (!this.createComment.content) {
+          this.$toast.error('内容不能为空')
+          return
+        }
+        if (this.createComment.loading) {
+          return
+        }
+        this.createComment.loading = true
+        this.$toast.loading('发布中...')
+        try {
+          await this.$store.dispatch('post/setComment', Object.assign(this.createComment, {
+            ctx: this
+          }))
+          this.$toast.success('回复成功')
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.createComment.open = false
+          this.createComment.content = ''
+          this.createComment.loading = false
+        }
       }
     }
   }
