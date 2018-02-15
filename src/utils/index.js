@@ -71,3 +71,23 @@ Vue.use({
     }
   }
 })
+
+Vue.mixin({
+  methods: {
+    $computeImageAspect (image) {
+      if (image.split('|http').length === 1) {
+        return 0
+      }
+
+      const attr = image.split('|http').shift().split('-')
+      const width = attr[0]
+      const height = attr[1]
+
+      if (!width || !height) {
+        return 0
+      }
+
+      return height / width
+    }
+  }
+})

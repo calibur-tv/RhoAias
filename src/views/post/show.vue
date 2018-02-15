@@ -136,7 +136,6 @@
       }
 
       .total {
-        padding-left: 17px;
         height: 40px;
         line-height: 40px;
         color: #000;
@@ -228,7 +227,12 @@
               :key="img"
               @click="$previewImages(post.images, idx)"
             >
-              <v-img class="image" :src="img" width="150" mode="2"></v-img>
+              <v-img
+                :src="img"
+                width="150"
+                mode="2"
+                :aspect="$computeImageAspect(img)"
+              ></v-img>
             </div>
           </div>
         </div>
