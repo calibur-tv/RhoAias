@@ -215,6 +215,10 @@
                 <span>·</span>
               </template>
               <v-time v-model="post.created_at"></v-time>
+              <span class="fr">
+                <i class="iconfont icon-yuedu"></i>
+                {{ $utils.shortenNumber(post.view_count) }}
+              </span>
             </div>
           </div>
         </div>
