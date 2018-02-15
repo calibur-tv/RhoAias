@@ -44,7 +44,7 @@ export function createRouter () {
           },
           {
             path: 'post/:id(\\d+)',
-            name: '帖子',
+            name: 'post-show',
             component: () => import('~/views/post/show')
           }
         ]

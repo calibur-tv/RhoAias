@@ -7,13 +7,20 @@ import {
   Loadmore,
   InfiniteScroll,
   Swipe,
-  SwipeItem
+  SwipeItem,
+  Picker
 } from 'mint-ui'
 
+import {
+  Upload
+} from 'element-ui'
+
+Vue.use(Upload)
 Vue.use(InfiniteScroll)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
+Vue.component(Picker.name, Picker)
 
 Vue.use({
   install (Vue, options) {
@@ -68,6 +75,26 @@ Vue.use({
       }
 
       return `${link}?imageMogr2/auto-orient/strip|imageView2/${mode}${width}${height}${format}`
+    }
+  }
+})
+
+Vue.mixin({
+  methods: {
+    $computeImageAspect (image) {
+      if (image.split('|http').length === 1) {
+        return 0
+      }
+
+      const attr = image.split('|http').shift().split('-')
+      const width = attr[0]
+      const height = attr[1]
+
+      if (!width || !height) {
+        return 0
+      }
+
+      return height / width
     }
   }
 })

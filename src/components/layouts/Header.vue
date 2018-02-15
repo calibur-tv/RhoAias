@@ -27,9 +27,11 @@
       overflow: hidden;
       height: 100%;
 
-      .search-btn {
+      .search-btn,
+      .create-btn {
         display: inline-block;
         vertical-align: middle;
+        margin-left: 24px;
 
         i {
           font-size: 24px;
@@ -85,7 +87,6 @@
 
               input {
                 height: $search-height;
-                width: 100%;
                 background-color: transparent;
               }
             }
@@ -134,7 +135,6 @@
             display: block;
             overflow: hidden;
             height: 100%;
-            width: 100%;
             padding-left: 90px;
           }
         }
@@ -266,6 +266,13 @@
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
       </button>
+      <button class="create-btn">
+        <i class="iconfont icon-pinglun" @click="handleCreateBtnClick"></i>
+      </button>
+      <write-post
+        :post-id="createPostId"
+        :bangumi-id="createBangumiId"
+      ></write-post>
       <v-drawer
         from="top"
         size="30%"
@@ -386,7 +393,7 @@
               <label for="sign-up-auth-code">验证码</label>
               <input
                 id="sign-up-auth-code"
-                type="text"
+                type="number"
                 name="auth-code"
                 v-validate="'required|len:6'"
                 autocomplete="off"
@@ -467,9 +474,13 @@
 <script>
   import UserApi from '~/api/userApi'
   import SearchApi from '~/api/searchApi'
+  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'v-header',
+    components: {
+      WritePost
+    },
     computed: {
       avatar () {
         return this.$store.state.login
@@ -495,6 +506,12 @@
       },
       notificationCount () {
         return this.user.notification - this.$store.state.users.notifications.checked
+      },
+      createPostId () {
+        return this.$route.name === 'post-show' ? parseInt(this.$route.params.id, 10) : 0
+      },
+      createBangumiId () {
+        return this.$route.name === 'bangumi-show' ? parseInt(this.$route.params.id, 10) : 0
       }
     },
     data () {
@@ -711,6 +728,11 @@
         } catch (e) {
           this.$toast.error(e)
         }
+      },
+      handleCreateBtnClick () {
+        this.$store.state.login
+          ? this.$channel.$emit('drawer-open-write-post')
+          : this.$channel.$emit('drawer-open-sign')
       }
     },
     mounted () {

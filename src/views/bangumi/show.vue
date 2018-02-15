@@ -194,7 +194,8 @@
           ctx,
           id,
           take: defaultParams.post.take,
-          type: defaultParams.post.type
+          type: defaultParams.post.type,
+          reset: true
         })
       ])
     },

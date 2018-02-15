@@ -354,7 +354,11 @@
         }
       },
       getUserPosts (isFirstRequest = false) {
-        if (isFirstRequest && this.$store.state.users.posts[this.sort].data.length) {
+        if (
+          isFirstRequest &&
+          this.$store.state.users.posts[this.sort].data.length &&
+          this.$store.state.users.posts.zone === this.user.zone
+        ) {
           return
         }
         this.$store.dispatch('users/getFollowPosts', {

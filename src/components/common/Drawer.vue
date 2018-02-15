@@ -130,7 +130,8 @@
     data () {
       return {
         show: this.value,
-        pos: 0
+        pos: 0,
+        backdropId: 0
       }
     },
     watch: {
@@ -169,7 +170,7 @@
           this.$channel.$emit(`drawer-open-event-${this.id}`)
         }
         if (this.backdrop) {
-          this.$backdrop.show({
+          this.backdropId = this.$backdrop.show({
             ele: this.$el,
             click: this.close
           })
@@ -183,7 +184,7 @@
         window.scrollTo(0, this.pos)
         this.show = false
         if (this.backdrop) {
-          this.$backdrop.hide()
+          this.$backdrop.hide(this.backdropId)
         }
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
