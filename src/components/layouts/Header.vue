@@ -85,7 +85,6 @@
 
               input {
                 height: $search-height;
-                width: 100%;
                 background-color: transparent;
               }
             }
@@ -134,7 +133,6 @@
             display: block;
             overflow: hidden;
             height: 100%;
-            width: 100%;
             padding-left: 90px;
           }
         }

@@ -10,6 +10,11 @@ import {
   SwipeItem
 } from 'mint-ui'
 
+import {
+  Upload
+} from 'element-ui'
+
+Vue.use(Upload)
 Vue.use(InfiniteScroll)
 Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe)

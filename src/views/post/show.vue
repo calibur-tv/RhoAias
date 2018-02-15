@@ -83,6 +83,10 @@
         .post-marked-btn {
           @include btn-empty(#eb9e05);
         }
+
+        .post-comment-btn {
+          @include btn-empty(#ffffff, $color-blue-normal);
+        }
       }
     }
 
@@ -255,7 +259,18 @@
             <i class="iconfont icon-shoucang"></i>
             {{ post.marked ? '已收藏' : '收藏' }}{{ post.mark_count ? `(${post.mark_count})` : '' }}
           </button>
+          <button
+            class="post-comment-btn"
+            @click="handleReplyBtnClick"
+          >
+            <i class="iconfont icon-pinglun1"></i>
+            回复
+          </button>
         </div>
+        <write-post
+          v-model="openReplyDrawer"
+          :post-id="post.id"
+        ></write-post>
       </div>
       <div class="hr"></div>
       <post-reply
@@ -273,7 +288,7 @@
       @fetch="getPosts(false)"
     ></more-btn>
     <v-drawer
-      v-model="openCommentModal"
+      v-model="openCommentsDrawer"
       from="bottom"
       size="100%"
       :header-text="`评论列表 - ${focusReply ? focusReply.floor_count : ''}楼`"
@@ -368,7 +383,8 @@
 </template>
 
 <script>
-  import PostReply from '~/components/post/reply'
+  import PostReply from '~/components/post/Reply'
+  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'post-show',
@@ -383,7 +399,7 @@
       })
     },
     components: {
-      PostReply
+      PostReply, WritePost
     },
     head () {
       return {
@@ -450,8 +466,9 @@
         loadingToggleMark: false,
         openCommentIndex: 0,
         openCommentId: 0,
-        openCommentModal: false,
-        loadingComments: false
+        openCommentsDrawer: false,
+        loadingComments: false,
+        openReplyDrawer: false
       }
     },
     methods: {
@@ -534,7 +551,7 @@
       handleCommentLoad (data) {
         this.openCommentIndex = data.index
         this.openCommentId = data.id
-        this.openCommentModal = true
+        this.openCommentsDrawer = true
       },
       async loadMoreComment () {
         if (this.loadingComments) {
@@ -550,6 +567,13 @@
         } finally {
           this.loadingComments = false
         }
+      },
+      handleReplyBtnClick () {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('drawer-open-sign')
+          return
+        }
+        this.openReplyDrawer = true
       }
     }
   }
