@@ -239,7 +239,7 @@
       },
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
+          this.$channel.$emit('drawer-open-sign')
           return
         }
         if (this.isMine) {
