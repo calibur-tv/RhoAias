@@ -725,6 +725,7 @@
         try {
           const url = await api.index({ q })
           window.location = url || '/bangumi/timeline'
+          this.$toast.stop()
         } catch (e) {
           this.$toast.error(e)
         }

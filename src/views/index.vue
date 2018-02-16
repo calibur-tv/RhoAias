@@ -44,17 +44,13 @@
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
       <router-link class="fr" :to="$alias.bangumiTimeline">番剧列表</router-link>
     </div>
-    <mt-loadmore
-      id="posts"
-      :top-method="fetchData"
-      :auto-fill="false"
-      ref="loadmore">
+    <ul>
       <v-post-item
-          v-for="item in list.data"
-          :key="item.id"
-          :item="item"
+        v-for="item in list.data"
+        :key="item.id"
+        :item="item"
       ></v-post-item>
-    </mt-loadmore>
+    </ul>
     <more-btn
       :no-more="list.noMore"
       :loading="loading"
@@ -114,7 +110,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.$refs.loadmore.onTopLoaded()
           this.loading = false
         }
       },
