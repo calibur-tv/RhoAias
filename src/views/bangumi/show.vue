@@ -149,27 +149,17 @@
       <div class="tabs">
         <button class="active">看帖</button>
       </div>
-      <ul
-        v-infinite-scroll="getPost"
-        infinite-scroll-disabled="notFetch"
-        infinite-scroll-distance="50"
-      >
-        <mt-loadmore
-          id="posts"
-          :top-method="refreshPost"
-          :auto-fill="false"
-          ref="loadmore">
-          <v-post-item
-            v-for="item in posts.data"
-            :key="item.id"
-            :item="item"
-          ></v-post-item>
-        </mt-loadmore>
+      <ul>
+        <v-post-item
+          v-for="item in posts.data"
+          :key="item.id"
+          :item="item"
+        ></v-post-item>
       </ul>
       <more-btn
         :no-more="posts.noMore"
         :loading="postState.loading"
-        :auto="true"
+        @fetch="getPost"
         :length="posts.data.length"
       ></more-btn>
     </div>
@@ -284,7 +274,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.$refs.loadmore.onTopLoaded()
           this.postState.loading = false
         }
       },

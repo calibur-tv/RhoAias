@@ -4,7 +4,6 @@ import Alias from '~/assets/js/alias'
 import Utils from '~/assets/js/utils'
 
 import {
-  Loadmore,
   InfiniteScroll,
   Swipe,
   SwipeItem,
@@ -17,7 +16,6 @@ import {
 
 Vue.use(Upload)
 Vue.use(InfiniteScroll)
-Vue.component(Loadmore.name, Loadmore)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Picker.name, Picker)
