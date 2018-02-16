@@ -6,6 +6,11 @@
 @import "layout";
 @import "reboot";
 
+#app {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 a {
   font-size: $font-size;
 }
