@@ -46,6 +46,11 @@ export function createRouter () {
             path: 'post/:id(\\d+)',
             name: 'post-show',
             component: () => import('~/views/post/show')
+          },
+          {
+            path: 'notification/list',
+            name: 'notification-list',
+            component: () => import('~/views/notification/list')
           }
         ]
       }

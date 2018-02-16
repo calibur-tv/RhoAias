@@ -330,11 +330,11 @@
               </router-link>
             </li>
             <li>
-              <a href="">
+              <router-link to="/notification/list">
                 <i class="iconfont icon-nitification"></i>
                 消息通知
                 <span v-if="notificationCount" class="badge-count">{{ notificationCount }}</span>
-              </a>
+              </router-link>
             </li>
             <li>
               <button @click="logout">
