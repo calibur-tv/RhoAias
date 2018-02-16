@@ -81,6 +81,7 @@
             :class="[ computeImageType(item) === 3 ? 'is-height' : 'is-width' ]"
             :src="computeImageSize(item)"
             :id="`image-reader-${index}`"
+            :loading="true"
           ></v-img>
         </mt-swipe-item>
       </mt-swipe>
