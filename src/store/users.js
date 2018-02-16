@@ -67,8 +67,8 @@ const mutations = {
     const temp = state.notifications
     state.notifications = {
       checked: temp.checked,
-      take: temp.count,
-      noMore: temp.count > data.length,
+      take: temp.take,
+      noMore: temp.take > data.length,
       data: temp.data.concat(data)
     }
   },
@@ -163,7 +163,8 @@ const actions = {
     }
     const api = new Api(ctx)
     const data = await api.getNotifications({
-      minId: length ? state.notifications.data[length - 1].id : null
+      minId: length ? state.notifications.data[length - 1].id : null,
+      take: state.notifications.take
     })
     commit('SET_NOTIFICATIONS', data)
   },
