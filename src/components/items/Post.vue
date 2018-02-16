@@ -96,6 +96,7 @@
         span {
           margin-left: 10px;
           font-size: 12px;
+          margin-right: 2px;
         }
 
         i {
