@@ -76,7 +76,7 @@
     async asyncData ({ store, ctx }) {
       await store.dispatch('users/getNotifications', {
         ctx,
-        init: true
+        reset: true
       })
     },
     computed: {
@@ -111,7 +111,7 @@
         try {
           await this.$store.dispatch('users/getNotifications', {
             ctx: this,
-            init: false
+            reset: false
           })
         } catch (e) {
           this.$toast.error(e)

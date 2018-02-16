@@ -105,6 +105,14 @@ const mutations = {
         loading: false
       }
     }
+  },
+  CLEAR_NOTIFICATIONS (state) {
+    state.notifications = {
+      checked: 0,
+      take: 10,
+      noMore: false,
+      data: []
+    }
   }
 }
 
@@ -156,9 +164,12 @@ const actions = {
     const api = new Api(ctx)
     await api.daySign()
   },
-  async getNotifications ({ state, commit }, { ctx, init }) {
+  async getNotifications ({ state, commit }, { ctx, reset }) {
+    if (reset) {
+      commit('CLEAR_NOTIFICATIONS')
+    }
     const length = state.notifications.data.length
-    if ((init && length) || state.notifications.noMore) {
+    if (state.notifications.noMore) {
       return
     }
     const api = new Api(ctx)
