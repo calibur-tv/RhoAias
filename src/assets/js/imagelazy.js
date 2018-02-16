@@ -38,17 +38,24 @@ export default {
     aspect: {
       type: Number,
       default: 0
+    },
+    loading: {
+      type: Boolean,
+      default: false
     }
   },
   render: function (createElement) {
     return createElement(this.tag, {
       attrs: {
         src: this.tag.toLowerCase() === 'img'
-          ? 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA'
+          ? this.loading
+            ? 'data:image/gif;base64,R0lGODlhEAAQAKIGAMLY8YSx5HOm4Mjc88/g9Ofw+v///wAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAGACwAAAAAEAAQAAADMGi6RbUwGjKIXCAA016PgRBElAVlG/RdLOO0X9nK61W39qvqiwz5Ls/rRqrggsdkAgAh+QQFCgAGACwCAAAABwAFAAADD2hqELAmiFBIYY4MAutdCQAh+QQFCgAGACwGAAAABwAFAAADD1hU1kaDOKMYCGAGEeYFCQAh+QQFCgAGACwKAAIABQAHAAADEFhUZjSkKdZqBQG0IELDQAIAIfkEBQoABgAsCgAGAAUABwAAAxBoVlRKgyjmlAIBqCDCzUoCACH5BAUKAAYALAYACgAHAAUAAAMPaGpFtYYMAgJgLogA610JACH5BAUKAAYALAIACgAHAAUAAAMPCAHWFiI4o1ghZZJB5i0JACH5BAUKAAYALAAABgAFAAcAAAMQCAFmIaEp1motpDQySMNFAgA7'
+            : 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA'
           : null
       },
       'class': {
-        'image-lazy-mask': this.aspect
+        'image-lazy-mask': this.aspect,
+        'image-loading': this.loading
       },
       style: this.aspect ? {
         paddingBottom: `${this.aspect * 100}%`
@@ -108,13 +115,10 @@ export default {
       src = src.split('|http').length > 1 ? `http${src.split('|http').pop()}` : src
       if (this.tag.toLowerCase() === 'img') {
         image.setAttribute('src', src)
-        if (this.aspect) {
-          const id = this.$eventManager.add(this.$el, 'load', () => {
-            this.$utils.setStyle(this.$el, 'padding-bottom', 0)
-            this.$el.classList.remove('image-lazy-mask')
-            this.$eventManager.del(id)
-          })
-        }
+        image.addEventListener('load', () => {
+          this.$utils.setStyle(image, 'padding-bottom', 0)
+          image.classList.remove('image-lazy-mask', 'image-loading')
+        })
       } else {
         image.style.backgroundImage = `url(${src})`
       }
