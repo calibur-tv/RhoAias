@@ -1,5 +1,5 @@
-<style lang="scss" scoped>
-  .post {
+<style lang="scss">
+  .post-item {
     background-color: #ffffff;
     padding-top: $container-padding;
     padding-left: $container-padding;
@@ -115,7 +115,7 @@
 </style>
 
 <template>
-  <li class="post">
+  <li class="post-item">
     <div class="header">
       <template v-if="item.user">
         <router-link class="avatar" :to="$alias.user(item.user.zone)">

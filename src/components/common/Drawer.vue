@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
   .drawer {
     z-index: 100;
     position: fixed;
