@@ -1,4 +1,4 @@
-<style lang="scss" scoped>
+<style lang="scss">
   .post-reply-item {
     position: relative;
     margin-top: $container-padding;
@@ -183,17 +183,6 @@
           </button>
         </div>
       </div>
-      <!--<div class="footer">-->
-        <!--<div class="info-bar">-->
-          <!--<button class="like-btn" @click="toggleLike">-->
-            <!--{{ post.liked ? '已赞' : '赞' }}-->
-            <!--<span v-if="post.like_count">({{ post.like_count }})</span>-->
-          <!--</button>-->
-          <!--<button class="delete-btn" v-if="canDelete" @click="deletePost">删除</button>-->
-          <!--<span class="floor-count">{{ post.floor_count }}楼</span>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<post-comment-list :post="post"></post-comment-list>&ndash;&gt;-->
-      <!--</div>-->
     </div>
   </div>
 </template>
