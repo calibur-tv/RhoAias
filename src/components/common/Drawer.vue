@@ -157,14 +157,16 @@
         if (this.show) {
           return
         }
-        this.pos = window.scrollY
-        document.body.style.overflow = 'hidden'
-        document.body.style.position = 'fixed'
-        document.body.style.top = 0
-        document.body.style.bottom = 0
-        document.body.style.right = 0
-        document.body.style.left = 0
-        document.body.style.height = `${window.innerHeight}px`
+        if (this.from !== 'top') {
+          this.pos = window.scrollY
+          document.body.style.overflow = 'hidden'
+          document.body.style.position = 'fixed'
+          document.body.style.top = 0
+          document.body.style.bottom = 0
+          document.body.style.right = 0
+          document.body.style.left = 0
+          document.body.style.height = `${window.innerHeight}px`
+        }
         this.show = true
         if (this.id) {
           this.$channel.$emit(`drawer-open-event-${this.id}`)
@@ -180,8 +182,10 @@
         if (!this.show) {
           return
         }
-        this.resetPos()
-        window.scrollTo(0, this.pos)
+        if (this.from !== 'top') {
+          this.resetPos()
+          window.scrollTo(0, this.pos)
+        }
         this.show = false
         if (this.backdrop) {
           this.$backdrop.hide(this.backdropId)
