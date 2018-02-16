@@ -551,6 +551,13 @@
         q: ''
       }
     },
+    watch: {
+      switchLoginDrawer (val) {
+        if (val) {
+          this.showSignInCaptcha()
+        }
+      }
+    },
     methods: {
       handleFetch () {
         if (this.loading) {
@@ -560,7 +567,6 @@
       },
       openSignDrawer () {
         this.switchLoginDrawer = true
-        this.showSignInCaptcha()
       },
       openUserDrawer () {
         this.$store.dispatch('getNotification', this)
