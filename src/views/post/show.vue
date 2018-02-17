@@ -724,6 +724,9 @@
         }
       },
       commentToComment (comment) {
+        if (!this.$store.state.login) {
+          return
+        }
         this.createComment.postId = this.focusReply.id
         this.createComment.targetUserId = comment.from_user_id
         this.createComment.to_user_name = comment.from_user_name
