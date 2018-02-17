@@ -12,18 +12,53 @@
       }
 
       .user {
+        position: relative;
         .avatar {
           float: left;
           margin-right: 9px;
           @include avatar(35px)
         }
 
+        .selector {
+          position: absolute;
+          right: 5px;
+          top: 0;
+          width: 102px;
+          line-height: 16px;
+          font-size: 12px;
+          color: #535353;
+          z-index: 5;
+
+          .v-select-options-wrap {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 3px #ccc;
+            border-radius: 4px;
+            top: 18px;
+          }
+
+          .v-select-options-item {
+            height: 36px;
+            line-height: 35px;
+            color: #535353;
+            font-size: 12px;
+            padding-left: 15px;
+
+            &:not(:last-child) {
+              border-bottom: 1px solid #f0f0f0;
+            }
+          }
+        }
+
         .summary {
           overflow: hidden;
 
           .nickname {
+            overflow: hidden;
+            display: block;
             font-size: 14px;
             color: #333;
+            padding-right: 80px;
           }
 
           .info {
@@ -232,6 +267,15 @@
           <router-link class="avatar" :to="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">
           </router-link>
+          <v-select
+            class="selector"
+            placeholder=""
+            :abort="true"
+            :options="options"
+            @submit="handleSelectSubmit"
+          >
+            <template slot="tail">···</template>
+          </v-select>
           <div class="summary">
             <router-link
               class="nickname"
@@ -315,8 +359,9 @@
       v-model="openCommentsDrawer"
       from="bottom"
       size="100%"
-      :header-text="`评论列表 - ${focusReply ? focusReply.floor_count : ''}楼`"
       class="post-comment-drawer"
+      :header-text="`评论列表 - ${focusReply ? focusReply.floor_count : ''}楼`"
+      :backdrop="false"
     >
       <div
         class="container"
@@ -382,7 +427,7 @@
                 </div>
               </div>
             </div>
-            <div class="content">
+            <div class="content" @click="commentToComment(item)">
               <template v-if="item.to_user_zone">
                 回复
                 <router-link
@@ -412,7 +457,7 @@
     >
       <div class="container">
         <textarea
-          placeholder="50字以内任你发挥"
+          :placeholder="createComment.to_user_name ? `回复：${createComment.to_user_name}（50字以内任你发挥）` : '50字以内任你发挥'"
           v-model.trim="createComment.content"
           maxlength="50"
         ></textarea>
@@ -499,6 +544,18 @@
         return this.openCommentId
           ? this.focusComments.length >= this.focusReply.comment_count
           : true
+      },
+      options () {
+        const result = ['回复']
+        if (this.isMaster) {
+          result.push('删除')
+        } else {
+          result.push(this.post.liked ? '取消喜欢' : '喜欢')
+          result.push(this.post.marked ? '取消收藏' : '收藏')
+        }
+        result.push(this.onlySeeMaster ? '取消只看楼主' : '只看楼主')
+
+        return result
       }
     },
     data () {
@@ -516,7 +573,8 @@
           content: '',
           postId: 0,
           targetUserId: 0,
-          loading: false
+          loading: false,
+          to_user_name: ''
         }
       }
     },
@@ -527,11 +585,7 @@
         })
       },
       deletePost (id) {
-        this.$confirm('删除后无法找回, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async () => {
+        this.$confirm('删除后无法找回, 是否继续?').then(async () => {
           await this.$store.dispatch('post/deletePost', {
             ctx: this,
             id
@@ -629,6 +683,7 @@
         }
         this.createComment.postId = data.postId
         this.createComment.targetUserId = data.targetUserId
+        this.createComment.to_user_name = ''
         this.createComment.open = true
       },
       async submitComment () {
@@ -651,8 +706,28 @@
         } finally {
           this.createComment.open = false
           this.createComment.content = ''
+          this.createComment.to_user_name = ''
           this.createComment.loading = false
         }
+      },
+      handleSelectSubmit (option) {
+        if (option === '只看楼主' || option === '取消只看楼主') {
+          this.switchOnlyMaster()
+        } else if (option === '删除') {
+          this.deletePost(this.post.id)
+        } else if (option === '喜欢' || option === '取消喜欢') {
+          this.toggleLike()
+        } else if (option === '收藏' || option === '取消收藏') {
+          this.toggleMark()
+        } else if (option === '回复') {
+          this.handleCommentAdd()
+        }
+      },
+      commentToComment (comment) {
+        this.createComment.postId = this.focusReply.id
+        this.createComment.targetUserId = comment.from_user_id
+        this.createComment.to_user_name = comment.from_user_name
+        this.createComment.open = true
       }
     }
   }
