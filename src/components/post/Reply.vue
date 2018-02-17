@@ -15,19 +15,51 @@
       overflow: hidden;
 
       .header {
-        .nickname {
-          font-size: 14px;
-          line-height: 18px;
-          color: #333;
-        }
 
-        .info {
-          color: #999;
+        .selector {
+          width: 102px;
+          float: right;
           line-height: 16px;
           font-size: 12px;
+          color: #535353;
+          margin-top: 9px;
 
-          span {
-            margin-right: 5px;
+          .v-select-options-wrap {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 3px #ccc;
+            border-radius: 4px;
+            top: 18px;
+          }
+
+          .v-select-options-item {
+            height: 36px;
+            line-height: 35px;
+            color: #535353;
+            font-size: 12px;
+            padding-left: 15px;
+
+            &:not(:last-child) {
+              border-bottom: 1px solid #f0f0f0;
+            }
+          }
+        }
+
+        .user {
+          .nickname {
+            font-size: 14px;
+            line-height: 18px;
+            color: #333;
+          }
+
+          .info {
+            color: #999;
+            line-height: 16px;
+            font-size: 12px;
+
+            span {
+              margin-right: 5px;
+            }
           }
         }
       }
@@ -37,6 +69,7 @@
         margin: 10px 0 4px;
         color: #333;
         line-height: 24px;
+        min-height: 65px;
 
         .image-area {
           margin: 10px 0;
@@ -117,15 +150,26 @@
     </router-link>
     <div class="content">
       <div class="header">
-        <router-link
-          class="nickname oneline"
-          :to="$alias.user(post.user.zone)"
-          v-text="post.user.nickname"
-        ></router-link>
-        <div class="info">
-          <span>第{{ post.floor_count }}楼</span>
-          <span>·</span>
-          <v-time v-model="post.created_at"></v-time>
+        <v-select
+          class="selector"
+          placeholder=""
+          :abort="true"
+          :options="options"
+          @submit="handleSelectSubmit"
+        >
+          <template slot="tail">···</template>
+        </v-select>
+        <div class="user">
+          <router-link
+            class="nickname oneline"
+            :to="$alias.user(post.user.zone)"
+            v-text="post.user.nickname"
+          ></router-link>
+          <div class="info">
+            <span>第{{ post.floor_count }}楼</span>
+            <span>·</span>
+            <v-time v-model="post.created_at"></v-time>
+          </div>
         </div>
       </div>
       <div class="main">
@@ -220,12 +264,20 @@
       },
       comments () {
         return this.post.comments
+      },
+      options () {
+        const result = ['回复']
+        if (this.canDelete) {
+          result.push('删除')
+        }
+        if (!this.isMine) {
+          result.push(this.post.liked ? '取消赞' : '赞')
+        }
+
+        return result
       }
     },
     methods: {
-      deletePost () {
-        this.$emit('delete')
-      },
       async toggleLike () {
         if (!this.$store.state.login) {
           this.$channel.$emit('drawer-open-sign')
@@ -260,6 +312,15 @@
           postId: this.post.id,
           targetUserId: this.isMine ? 0 : this.post.user.id
         })
+      },
+      handleSelectSubmit (option) {
+        if (option === '删除') {
+          this.$emit('delete')
+        } else if (option === '赞' || option === '取消赞') {
+          this.toggleLike()
+        } else if (option === '回复') {
+          this.handleCommentBtnClick()
+        }
       }
     }
   }

@@ -12,6 +12,7 @@ import MoreBtn from '~/components/common/MoreBtn'
 import Drawer from '~/components/common/Drawer'
 import Radio from '~/components/common/Radio'
 import Post from '~/components/items/Post'
+import Select from '~/components/common/Select'
 
 Vue.component(ImageLazy.name, ImageLazy)
 Vue.component(NoSSR.name, NoSSR)
@@ -20,6 +21,7 @@ Vue.component(MoreBtn.name, MoreBtn)
 Vue.component(Drawer.name, Drawer)
 Vue.component(Radio.name, Radio)
 Vue.component(Post.name, Post)
+Vue.component(Select.name, Select)
 
 export function createApp () {
   const router = createRouter()
