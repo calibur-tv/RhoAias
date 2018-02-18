@@ -184,6 +184,8 @@
           overflow: hidden;
           position: relative;
           padding: $container-padding;
+          text-shadow: 0 1px 10px gray;
+          color: #ffffff;
 
           .bg {
             @include filter-blur();
@@ -207,8 +209,6 @@
 
           .panel {
             overflow: hidden;
-            text-shadow: 0 1px 10px gray;
-            color: #ffffff;
             line-height: 25px;
 
             button {
@@ -312,15 +312,18 @@
         >
           <div class="user-section">
             <div class="bg" :style="{ backgroundImage: `url(${$resize(user.banner, { height: 250, mode: 2 })})` }"></div>
-            <router-link :to="$alias.user(user.zone)" class="avatar">
-              <img :src="$resize(user.avatar)" alt="me">
-            </router-link>
-            <div class="panel">
-              <div>
-                <router-link class="oneline" :to="$alias.user(user.zone)" v-text="user.nickname"></router-link>
+            <div>
+              <router-link :to="$alias.user(user.zone)" class="avatar">
+                <img :src="$resize(user.avatar)" alt="me">
+              </router-link>
+              <div class="panel">
+                <div>
+                  <router-link class="oneline" :to="$alias.user(user.zone)" v-text="user.nickname"></router-link>
+                </div>
+                <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
               </div>
-              <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
             </div>
+            邀请码：{{ user.id }}
           </div>
           <ul class="routes container" @click="switchUserDrawer = false">
             <li>
