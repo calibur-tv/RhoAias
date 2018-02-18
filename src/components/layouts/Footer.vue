@@ -69,6 +69,9 @@
         <button @click="register">注册</button>
       </template>
       <button @click="openFeedbackDrawer = true">反馈</button>
+      <router-link to="/about/hello">
+        <button>欢迎</button>
+      </router-link>
     </div>
     <v-drawer
       class="feedback-drawer"

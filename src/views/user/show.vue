@@ -180,20 +180,28 @@
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
     </div>
-    <ul id="bangumis" class="container" v-if="sort === 'bangumi'">
-      <li
-        v-for="item in bangumis"
-        :key="item.id"
-      >
-        <router-link :to="$alias.bangumi(item.id)">
-          <v-img class="bg"
-                 :alt="item.name"
-                 :src="$resize(item.avatar, { width: 160, height: 160 })"
-          ></v-img>
-          <p class="twoline" v-text="item.name"></p>
-        </router-link>
-      </li>
-    </ul>
+    <template v-if="sort === 'bangumi'">
+      <ul id="bangumis" class="container" v-if="bangumis.length">
+        <li
+          v-for="item in bangumis"
+          :key="item.id"
+        >
+          <router-link :to="$alias.bangumi(item.id)">
+            <v-img class="bg"
+                   :alt="item.name"
+                   :src="$resize(item.avatar, { width: 160, height: 160 })"
+            ></v-img>
+            <p class="twoline" v-text="item.name"></p>
+          </router-link>
+        </li>
+      </ul>
+      <more-btn
+        v-else
+        :no-more="true"
+        :auto="true"
+        :length="0"
+      ></more-btn>
+    </template>
     <template v-else>
       <ul
         id="posts-of-mine"
