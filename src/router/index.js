@@ -51,6 +51,11 @@ export function createRouter () {
             path: 'notification/list',
             name: 'notification-list',
             component: () => import('~/views/notification/list')
+          },
+          {
+            path: 'about/hello',
+            name: 'hello',
+            component: () => import('~/views/about/hello')
           }
         ]
       }
