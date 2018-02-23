@@ -215,6 +215,11 @@
               @include btn-empty(#ffffff);
             }
           }
+
+          .badge {
+            margin-right: 30px;
+            font-size: 14px;
+          }
         }
 
         .routes {
@@ -314,22 +319,29 @@
             <div class="bg" :style="{ backgroundImage: `url(${$resize(user.banner, { height: 250, mode: 2 })})` }"></div>
             <div>
               <router-link :to="$alias.user(user.zone)" class="avatar">
-                <img :src="$resize(user.avatar)" alt="me">
+                <img :src="$resize(user.avatar, { width: 50 })" alt="me">
               </router-link>
               <div class="panel">
                 <div>
                   <router-link class="oneline" :to="$alias.user(user.zone)" v-text="user.nickname"></router-link>
                 </div>
-                <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
+                <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}</button>
               </div>
             </div>
-            邀请码：{{ user.id }}
+            <span class="badge">金币：{{ coinCount }} 个</span>
+            <span class="badge">邀请码：{{ user.id }}</span>
           </div>
           <ul class="routes container" @click="switchUserDrawer = false">
             <li>
               <router-link :to="$alias.user(user.zone)">
                 <i class="iconfont icon-zhuye"></i>
                 个人主页
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/me/setting">
+                <i class="iconfont icon-shezhi"></i>
+                用户设置
               </router-link>
             </li>
             <li>
@@ -508,7 +520,8 @@
         return this.user.coin
       },
       notificationCount () {
-        return this.user.notification - this.$store.state.users.notifications.checked
+        const result = this.user.notification - this.$store.state.users.notifications.checked
+        return result < 0 ? 0 : result
       },
       createPostId () {
         return this.$route.name === 'post-show' ? parseInt(this.$route.params.id, 10) : 0
@@ -722,7 +735,7 @@
         this.$cookie.remove('JWT-TOKEN')
         const api = new UserApi(this)
         api.logout()
-        window.location.reload()
+        window.location.href = '/'
       },
       async search (words) {
         const q = words || this.q
