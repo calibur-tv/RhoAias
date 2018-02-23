@@ -177,7 +177,9 @@ const actions = {
       minId: length ? state.notifications.data[length - 1].id : null,
       take: state.notifications.take
     })
-    commit('SET_NOTIFICATIONS', data)
+    if (data) {
+      commit('SET_NOTIFICATIONS', data)
+    }
   },
   async readMessage ({ state, commit }, { ctx, id }) {
     state.notifications.data.forEach(async message => {

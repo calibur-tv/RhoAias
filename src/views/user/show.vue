@@ -6,7 +6,6 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      box-shadow: inset 0 0 15px 0 rgba(0,0,0,.5);
       z-index: 1;
       height: $banner-height;
 

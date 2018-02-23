@@ -56,6 +56,11 @@ export function createRouter () {
             path: 'about/hello',
             name: 'hello',
             component: () => import('~/views/about/hello')
+          },
+          {
+            path: 'me/setting',
+            name: 'user-setting',
+            component: () => import('~/views/user/setting')
           }
         ]
       }

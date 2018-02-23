@@ -87,7 +87,9 @@
         return this.$store.state.users.notifications.noMore
       },
       notFetch () {
-        return this.loading || this.noMore
+        return this.$store.state.login
+          ? this.loading || this.noMore
+          : true
       }
     },
     data () {
