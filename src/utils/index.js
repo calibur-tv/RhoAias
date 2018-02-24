@@ -2,6 +2,8 @@ import Vue from 'vue'
 import env from 'env'
 import Alias from '~/assets/js/alias'
 import Utils from '~/assets/js/utils'
+import { Datetime } from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
 
 import {
   InfiniteScroll,
@@ -14,6 +16,7 @@ import {
   Upload
 } from 'element-ui'
 
+Vue.component('datetime', Datetime)
 Vue.use(Upload)
 Vue.use(InfiniteScroll)
 Vue.component(Swipe.name, Swipe)

@@ -32,24 +32,58 @@
         height: 48px;
         @include border-bottom();
 
-        label {
-          text-align: left;
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          width: 80px;
-          background-color: #fff;
-          font-size: 16px;
-          line-height: 48px;
-        }
-
-        .input {
+        input {
           display: block;
           overflow: hidden;
           height: 100%;
           padding-left: 90px;
         }
+
+        .vdatetime {
+          height: 100%;
+
+          .vdatetime-popup__header,
+          .vdatetime-calendar__month__day--selected > span > span,
+          .vdatetime-calendar__month__day--selected:hover > span > span {
+            background: $color-blue-normal;
+          }
+
+          .vdatetime-year-picker__item--selected,
+          .vdatetime-time-picker__item--selected,
+          .vdatetime-popup__actions__button {
+            color: $color-blue-normal;
+          }
+        }
+      }
+
+      .label {
+        text-align: left;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 80px;
+        background-color: #fff;
+        font-size: 16px;
+        line-height: 48px;
+      }
+
+      .other-form-wrap {
+        position: relative;
+
+        .mint-radiolist {
+          padding-left: 70px;
+        }
+
+        .mint-radiolist-title {
+          display: none;
+        }
+      }
+
+      #signature {
+        min-height: 120px;
+        padding-left: 80px;
+        line-height: 48px;
       }
     }
 
@@ -137,6 +171,50 @@
         </div>
       </div>
     </div>
+    <div class="hr"></div>
+    <div class="form-item">
+      <p class="title">其它：</p>
+      <div class="container">
+        <div class="input-item">
+          <label class="label" for="nickname">昵称：</label>
+          <input
+            name="nickname"
+            id="nickname"
+            type="text"
+            class="input"
+            v-validate="'required|nickname:2-14'"
+            v-model.trim="settingForm.nickname"
+            autocomplete="off"
+            placeholder="2-14个字符组成"
+          >
+        </div>
+        <div class="input-item">
+          <label class="label">生日：</label>
+          <datetime
+            min-datetime="1990-01-01"
+            max-datetime="2008-01-01"
+            v-model="settingForm.birthday"
+          ></datetime>
+        </div>
+        <div class="other-form-wrap">
+          <label class="label">性别：</label>
+          <v-radio
+            v-model="settingForm.sex"
+            :options="sexOptions">
+          </v-radio>
+        </div>
+        <div class="other-form-wrap">
+          <label for="signature" class="label">签名：</label>
+          <textarea
+            id="signature"
+            v-model.trim="settingForm.signature"
+            placeholder="用简单的言语，表达深刻的心"
+            maxlength="20"
+          ></textarea>
+        </div>
+        <button @click="saveSetting" class="btn-submit">保存</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -179,7 +257,25 @@
           loading: false,
           file: null,
           data: ''
-        }
+        },
+        sexOptions: [
+          {
+            label: '男 - 公开',
+            value: 1
+          },
+          {
+            label: '女 - 公开',
+            value: 2
+          },
+          {
+            label: '男 - 私密',
+            value: 3
+          },
+          {
+            label: '女 - 私密',
+            value: 4
+          }
+        ]
       }
     },
     methods: {
@@ -284,6 +380,27 @@
         }
         this.bannerSelector.loading = false
         this.cancelAvatarSelect()
+      },
+      saveSetting () {
+        const birthday = this.settingForm.birthday ? new Date(this.settingForm.birthday).getTime() / 1000 : 0
+        if (birthday && (Date.now() / 1000 - birthday < 315360000)) {
+          this.$toast.error('小于10岁？不应该...')
+          return
+        }
+        const api = new UserApi(this)
+        const data = {
+          nickname: this.settingForm.nickname,
+          signature: this.settingForm.signature,
+          sex: parseInt(this.settingForm.sex, 10) + (this.settingForm.sexSecret ? 2 : 0),
+          birthday: birthday !== birthday ? 0 : birthday // eslint-disable-line
+        }
+        api.settingProfile(data).then(() => {
+          this.$toast.success('设置成功')
+          this.$store.commit('SET_USER_INFO', Object.assign({}, this.self, data))
+          this.$store.commit('users/removeUser', this.slug)
+        }).catch((err) => {
+          this.$toast.error(err)
+        })
       }
     },
     mounted () {
@@ -295,7 +412,7 @@
         signature: this.user.signature,
         sex: this.user.sex > 2 ? this.user.sex - 2 : this.user.sex,
         sexSecret: this.user.sex > 2,
-        birthday: this.user.birthday ? this.user.birthday * 1000 : ''
+        birthday: this.user.birthday ? this.$utils.timeLong(this.user.birthday * 1000).split(' ').shift() : ''
       }
     }
   }
