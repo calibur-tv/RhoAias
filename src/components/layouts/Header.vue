@@ -129,6 +129,7 @@
             width: 80px;
             background-color: #fff;
             font-size: 16px;
+            line-height: 48px;
           }
 
           input {
@@ -136,6 +137,7 @@
             overflow: hidden;
             height: 100%;
             padding-left: 90px;
+            line-height: 48px;
           }
         }
 
@@ -171,6 +173,14 @@
           height: 100%;
           padding: 0 10px;
           font-size: 12px;
+          color: $color-text-normal;
+        }
+
+        .tip {
+          text-align: left;
+          line-height: 25px;
+          font-size: 13px;
+          margin-top: 10px;
           color: $color-text-normal;
         }
       }
@@ -413,6 +423,7 @@
                 v-validate="'required|len:6'"
                 autocomplete="off"
                 v-model.trim="signUp.authCode"
+                @input="showSignUpCaptcha"
                 placeholder="请填写验证码"
               >
               <button class="checkAndSend"
@@ -441,10 +452,14 @@
                 type="text"
                 autocomplete="off"
                 v-model.trim="signUp.inviteCode"
+                @input="showSignUpCaptcha"
                 placeholder="可为空"
               >
             </div>
             <div class="captcha btn-submit" data-text="注册" ref="signUpCaptcha"></div>
+            <div class="tip">
+              提示：由于注册时要根据初始昵称为每个用户分配独立域名，因此注册时的昵称不支持日文和特殊符号和标点符号，可在注册完成后在个人设置页面修改昵称
+            </div>
           </form>
           <form
             v-show="!showRegisterForm"
@@ -571,6 +586,17 @@
       switchLoginDrawer (val) {
         if (val) {
           this.showSignInCaptcha()
+        }
+      },
+      signUpStep (val) {
+        if (val === 3) {
+          this.signUp.timeout = 60
+          const timer = setInterval(() => {
+            if (!--this.signUp.timeout) {
+              this.signUpStep = 4
+              clearInterval(timer)
+            }
+          }, 1000)
         }
       }
     },

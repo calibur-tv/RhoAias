@@ -88,7 +88,7 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: isDev
-          ? ['vue-style-loader', 'css-loader', 'sass-loader']
+          ? ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
           : ExtractTextPlugin.extract({
             fallback: 'vue-style-loader',
             use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
