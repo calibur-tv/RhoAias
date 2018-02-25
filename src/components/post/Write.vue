@@ -144,7 +144,8 @@
         ],
         followedBangumi: false,
         openBangumisDrawer: false,
-        loading: false
+        loading: false,
+        submitting: false
       }
     },
     watch: {
@@ -230,6 +231,9 @@
         this.uploadHeaders.token = this.$store.state.user.uptoken.upToken
       },
       submit () {
+        if (this.submitting) {
+          return
+        }
         if (!this.content) {
           this.$toast.error('内容不能为空！')
           return
@@ -248,49 +252,59 @@
             return
           }
         }
-        this.$captcha(async ({ data }) => {
-          if (this.postId) {
-            try {
-              await this.$store.dispatch('post/reply', {
-                postId: this.postId,
-                content: this.formatContent,
-                images: this.formatImages,
-                geetest: data,
-                ctx: this
-              })
-              this.images = []
-              this.content = ''
-              this.$refs.uploader.clearFiles()
-              this.$toast.success('回复成功！')
-              this.open = false
-              const list = document.querySelectorAll('.post-reply-item')
-              setTimeout(() => {
-                this.$scrollToY(list[list.length - 1].offsetTop, 400)
-              }, 1000)
-            } catch (err) {
-              this.$toast.error(err)
+        this.submitting = true
+        this.$captcha({
+          success: async ({ data }) => {
+            if (this.postId) {
+              try {
+                await this.$store.dispatch('post/reply', {
+                  postId: this.postId,
+                  content: this.formatContent,
+                  images: this.formatImages,
+                  geetest: data,
+                  ctx: this
+                })
+                this.images = []
+                this.content = ''
+                this.$refs.uploader.clearFiles()
+                this.$toast.success('回复成功！')
+                this.open = false
+                const list = document.querySelectorAll('.post-reply-item')
+                setTimeout(() => {
+                  this.$scrollToY(list[list.length - 1].offsetTop, 400)
+                }, 1000)
+              } catch (err) {
+                this.$toast.error(err)
+              } finally {
+                this.submitting = false
+              }
+            } else {
+              try {
+                const id = await this.$store.dispatch('post/create', {
+                  title: this.title,
+                  bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
+                  desc: this.content.substring(0, 120),
+                  content: this.formatContent,
+                  images: this.formatImages,
+                  geetest: data,
+                  ctx: this
+                })
+                this.images = []
+                this.$toast.success('发布成功！')
+                this.open = false
+                this.$router.push({
+                  name: 'post-show',
+                  params: { id: id.toString() }
+                })
+              } catch (err) {
+                this.$toast.error(err)
+              } finally {
+                this.submitting = false
+              }
             }
-          } else {
-            try {
-              const id = await this.$store.dispatch('post/create', {
-                title: this.title,
-                bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
-                desc: this.content.substring(0, 120),
-                content: this.formatContent,
-                images: this.formatImages,
-                geetest: data,
-                ctx: this
-              })
-              this.images = []
-              this.$toast.success('发布成功！')
-              this.open = false
-              this.$router.push({
-                name: 'post-show',
-                params: { id: id.toString() }
-              })
-            } catch (err) {
-              this.$toast.error(err)
-            }
+          },
+          error: () => {
+            this.submitting = false
           }
         })
       },
