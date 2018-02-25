@@ -67,6 +67,10 @@
     #videos {
       background-color: #ffffff;
 
+      .sub-title {
+        margin-top: $container-padding;
+      }
+
       .video {
         margin-bottom: 15px;
         width: 100%;
@@ -145,7 +149,11 @@
           <template v-for="season in videos.data">
             <h3 class="sub-title" v-text="season.name" :key="season.name"></h3>
             <ul :key="season.name">
-              <li v-for="(video, index) in season.data" :key="video.id">
+              <li
+                v-for="(video, index) in season.data"
+                :key="video.id"
+                class="video"
+              >
                 <router-link :to="$alias.video(video.id)">
                   <figure class="clearfix">
                     <v-img class="bg"
