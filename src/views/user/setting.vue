@@ -7,24 +7,8 @@
       padding-bottom: $container-padding;
       background-color: #fff;
 
-      .title {
-        color: #333;
-        font-size: 14px;
-        position: relative;
-        padding-left: 12px;
-        margin-bottom: 10px;
+      .sub-title {
         margin-left: $container-padding;
-
-        &:before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 3px;
-          height: 100%;
-          background-color: $color-blue-normal;
-          border-radius: 3px;
-        }
       }
 
       .input-item {
@@ -144,7 +128,7 @@
 <template>
   <div id="user-setting">
     <div class="form-item">
-      <p class="title">背景：</p>
+      <p class="sub-title">背景：</p>
       <div class="banner" :style="{ backgroundImage: showBanner }">
         <template v-if="bannerSelector.data">
           <button class="submit-banner-btn" @click="cancelBannerSelect">取消</button>
@@ -158,7 +142,7 @@
     </div>
     <div class="hr"></div>
     <div class="form-item">
-      <p class="title">头像：</p>
+      <p class="sub-title">头像：</p>
       <div class="container">
         <div class="avatar" :style="{ backgroundImage: showAvatar }"></div>
         <template v-if="avatarSelector.data">
@@ -173,7 +157,7 @@
     </div>
     <div class="hr"></div>
     <div class="form-item">
-      <p class="title">其它：</p>
+      <p class="sub-title">其它：</p>
       <div class="container">
         <div class="input-item">
           <label class="label" for="nickname">昵称：</label>

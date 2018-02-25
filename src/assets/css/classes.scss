@@ -129,3 +129,22 @@
     z-index: 1;
   }
 }
+
+.sub-title {
+  color: #333;
+  font-size: 14px;
+  position: relative;
+  padding-left: 12px;
+  margin-bottom: 10px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background-color: $color-blue-normal;
+    border-radius: 3px;
+  }
+}

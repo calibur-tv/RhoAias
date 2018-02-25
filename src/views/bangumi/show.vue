@@ -64,61 +64,36 @@
       }
     }
 
-    $video-item-width: 255px;
-    $video-item-margin: 15px;
-    $video-item-height: 70px;
     #videos {
-      li {
-        margin: 0 $video-item-margin 15px 0;
-      }
+      background-color: #ffffff;
 
-      a {
+      .video {
+        margin-bottom: 15px;
+        width: 100%;
         display: block;
-        position: relative;
-      }
 
-      figure {
-        width: $video-item-width - $video-item-margin;
-        height: $video-item-height;
-        background-color: $color-gray-normal;
-        cursor: pointer;
-        border-radius: 3px;
-        overflow: hidden;
-
-        &:hover p {
-          color: $color-blue-normal;
+        &:first-child {
+          margin-top: $container-padding;
         }
 
         img {
-          width: 110px;
-          height: 100%;
-          cursor: pointer;
-          margin-right: 12px;
+          width: 128px;
+          height: 80px;
+          border-radius: 5px;
+          margin-right: 10px;
+          float: left;
         }
 
         figcaption {
-          padding-left: 122px;
-          padding-right: 12px;
+          overflow: hidden;
+        }
 
-          p {
-            display: block;
-            color: $color-text-deep;
-            font-size: 12px;
-            line-height: 14px;
-            margin-top: 6px;
-            margin-bottom: 5px;
-          }
-
-          span {
-            font-size: 12px;
-            line-height: 14px;
-            color: $color-text-normal;
-          }
+        p {
+          font-size: 16px;
+          line-height: 20px;
+          margin-bottom: 5px;
         }
       }
-    }
-
-    #posts {
     }
   }
 </style>
@@ -147,21 +122,52 @@
     <div class="hr"></div>
     <div>
       <div class="tabs">
-        <button class="active">看帖</button>
+        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
+        <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
       </div>
-      <ul>
-        <v-post-item
-          v-for="item in posts.data"
-          :key="item.id"
-          :item="item"
-        ></v-post-item>
-      </ul>
-      <more-btn
-        :no-more="posts.noMore"
-        :loading="postState.loading"
-        @fetch="getPost"
-        :length="posts.data.length"
-      ></more-btn>
+      <template v-if="sort === 'post'">
+        <ul>
+          <v-post-item
+            v-for="item in posts.data"
+            :key="item.id"
+            :item="item"
+          ></v-post-item>
+        </ul>
+        <more-btn
+          :no-more="posts.noMore"
+          :loading="postState.loading"
+          @fetch="getPost"
+          :length="posts.data.length"
+        ></more-btn>
+      </template>
+      <template v-else-if="sort === 'video'">
+        <ul id="videos" class="container">
+          <li
+            v-for="video in videos.data"
+            :key="video.id"
+            class="video"
+          >
+            <router-link :to="$alias.video(video.id)">
+              <figure class="clearfix">
+                <v-img class="bg"
+                       :alt="video.name"
+                       :src="$resize(video.poster, { width: 128, height: 80 })">
+                </v-img>
+                <figcaption>
+                  <p class="oneline">第{{ video.part }}话</p>
+                  <span class="twoline" v-text="video.name"></span>
+                </figcaption>
+              </figure>
+            </router-link>
+          </li>
+        </ul>
+        <more-btn
+          :no-more="!videos.data.length && videoState.fetched"
+          :auto="true"
+          :loading="videoState.loading"
+          :length="videos.data.length"
+        ></more-btn>
+      </template>
     </div>
   </div>
 </template>
@@ -238,8 +244,10 @@
         },
         videoState: {
           loading: false,
-          init: false
-        }
+          init: false,
+          fetched: false
+        },
+        sort: 'post'
       }
     },
     methods: {
@@ -257,11 +265,28 @@
           this.$toast.error(e)
         }
       },
+      async getVideos () {
+        if (this.videoState.loading) {
+          return
+        }
+        this.videoState.loading = true
+        this.videoState.init = true
+
+        try {
+          await this.$store.dispatch('bangumi/getVideos', this.id)
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.videoState.fetched = true
+          this.videoState.loading = false
+        }
+      },
       async getPost (reset = false) {
         if (this.postState.loading || (this.posts.noMore && !reset)) {
           return
         }
         this.postState.loading = true
+        this.postState.init = true
 
         try {
           await this.$store.dispatch('bangumi/getPosts', {
@@ -279,6 +304,18 @@
       },
       refreshPost () {
         this.getPost(true)
+      },
+      switchTab (tab) {
+        this.sort = tab
+        if (tab === 'post') {
+          if (!this.postState.init) {
+            this.getPost()
+          }
+        } else if (tab === 'video') {
+          if (!this.videoState.init) {
+            this.getVideos()
+          }
+        }
       }
     }
   }
