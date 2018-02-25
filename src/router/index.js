@@ -61,6 +61,10 @@ export function createRouter () {
             path: 'me/setting',
             name: 'user-setting',
             component: () => import('~/views/user/setting')
+          },
+          {
+            path: 'video/:id(\\d+)',
+            component: () => import('~/views/video/show')
           }
         ]
       }

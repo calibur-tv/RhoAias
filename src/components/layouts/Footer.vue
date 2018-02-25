@@ -62,7 +62,7 @@
 <template>
   <footer id="footer">
     <div class="panel">
-      <button @click="logout" v-if="$store.state.login">登出</button>
+      <button @click="logout" v-if="$store.state.login">退出</button>
       <template v-else>
         <button @click="login">登录</button>
         <button @click="register">注册</button>

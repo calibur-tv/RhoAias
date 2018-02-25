@@ -61,8 +61,6 @@
 </template>
 
 <script>
-  const defaultSort = 'new'
-
   export default {
     name: 'page-index',
     head: {
@@ -70,7 +68,7 @@
     },
     async asyncData ({ store, ctx }) {
       await store.dispatch('post/getTrending', {
-        sort: defaultSort,
+        sort: 'new',
         ctx
       })
     },
@@ -81,17 +79,8 @@
     },
     data () {
       return {
-        sort: defaultSort,
-        active: defaultSort,
+        sort: 'new',
         loading: false
-      }
-    },
-    watch: {
-      active (tab) {
-        this.sort = tab
-        if (!this.$store.state.post.trending[tab].data.length) {
-          this.fetchData(false)
-        }
       }
     },
     methods: {
