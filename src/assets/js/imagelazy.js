@@ -42,6 +42,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    debug: {
+      type: Boolean,
+      default: false
     }
   },
   render: function (createElement) {
@@ -120,11 +124,8 @@ export default {
           image.classList.remove('image-lazy-mask', 'image-loading')
         })
       } else {
-        image.style.backgroundImage = `url(${src})`
+        this.$utils.setStyle(image, 'background-image', `url(${src})`)
       }
-      this.tag.toLowerCase() === 'img'
-        ? image.setAttribute('src', src)
-        : image.style.backgroundImage = `url(${src})`
     }
   }
 }
