@@ -202,7 +202,7 @@
         return this.bangumi.others_site_video
           ? this.video.url
           : this.video.resource
-            ? this.video.resource.this.video[720].src || this.video.url
+            ? this.video.resource.video[720].src || this.video.url
             : this.video.url
       }
     },
