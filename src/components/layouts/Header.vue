@@ -115,6 +115,8 @@
       }
 
       .sign-drawer {
+        text-align: center;
+
         .form-item {
           position: relative;
           height: 48px;
@@ -160,10 +162,9 @@
 
         .switch {
           text-align: center;
-          width: 100%;
           font-size: 13px;
           color: #666;
-          padding: 20px 0;
+          padding: 20px 10px;
         }
 
         .checkAndSend {
@@ -383,6 +384,50 @@
           id="sign"
         >
           <form
+            v-show="showForgotForm"
+            class="container"
+            autocomplete="off"
+            data-vv-scope="reset"
+          >
+            <div class="form-item">
+              <label for="reset-access">手机号</label>
+              <input name="access"
+                     id="reset-access"
+                     type="number"
+                     v-validate="'required|numeric|len:11'"
+                     v-model.trim="resetPassword.access"
+                     @input="showResetCaptcha"
+                     placeholder="登录的手机号">
+            </div>
+            <div class="form-item">
+              <label for="reset-auth-code">验证码</label>
+              <input type="text"
+                     id="reset-auth-code"
+                     name="auth-code"
+                     v-validate="'required|len:6'"
+                     v-model.trim="resetPassword.authCode"
+                     @input="showResetCaptcha"
+                     autocomplete="off"
+                     placeholder="请填写验证码">
+              <button class="checkAndSend"
+                      @click="handleResetAuthCode"
+                      type="button"
+              >{{ getResetBtnText }}</button>
+            </div>
+            <div class="form-item">
+              <label for="reset-new-secret">新密码</label>
+              <input name="secret"
+                     id="reset-new-secret"
+                     type="password"
+                     v-validate="'required|min:6|max:16'"
+                     v-model.trim="resetPassword.secret"
+                     autocomplete="off"
+                     @input="showResetCaptcha"
+                     placeholder="新密码">
+            </div>
+            <div class="captcha" data-text="提交" ref="resetCaptcha"></div>
+          </form>
+          <form
             v-show="showRegisterForm"
             class="container"
             autocomplete="off"
@@ -462,7 +507,7 @@
             </div>
           </form>
           <form
-            v-show="!showRegisterForm"
+            v-show="showLoginForm"
             class="container"
             autocomplete="off"
             data-vv-scope="sign-in"
@@ -494,7 +539,8 @@
             </div>
             <div class="captcha btn-submit" data-text="登录" ref="signInCaptcha"></div>
           </form>
-          <button class="switch" @click="showRegisterForm = !showRegisterForm">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
+          <button v-show="!showForgotForm" class="switch" @click="showRegisterForm ? switchSignModal('login') : switchSignModal('register')">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
+          <button class="switch" @click="showForgotForm ? switchSignModal('login') : switchSignModal('forgot')" v-show="!showRegisterForm">{{ showForgotForm ? '返回登录' : '忘记密码' }}</button>
         </v-drawer>
       </template>
     </div>
@@ -528,6 +574,14 @@
         }
         return '点击获取验证码'
       },
+      getResetBtnText () {
+        if (this.resetStep === 3) {
+          return `${this.resetPassword.timeout}秒后可重新获取`
+        } else if (this.resetStep === 4) {
+          return '点击重新获取'
+        }
+        return '点击获取验证码'
+      },
       daySigned () {
         return this.user.daySign
       },
@@ -552,6 +606,8 @@
         switchUserDrawer: false,
         switchLoginDrawer: false,
         showRegisterForm: false,
+        showForgotForm: false,
+        showLoginForm: true,
         signIn: {
           captcha: false,
           access: '',
@@ -569,6 +625,15 @@
           tempAccess: '',
           timeout: 0
         },
+        resetPassword: {
+          captcha: false,
+          access: '',
+          secret: '',
+          authCode: '',
+          method: 'phone',
+          tempAccess: '',
+          timeout: 0
+        },
         /**
          * signUpStep
          * 0：未获取 captcha
@@ -579,6 +644,7 @@
          * 5: captcha 邮箱或手机号已注册
          */
         signUpStep: 0,
+        resetStep: 0,
         q: ''
       }
     },
@@ -598,9 +664,35 @@
             }
           }, 1000)
         }
+      },
+      resetStep (val) {
+        if (val === 3) {
+          this.resetPassword.timeout = 60
+          const timer = setInterval(() => {
+            if (!--this.resetPassword.timeout) {
+              this.resetStep = 4
+              clearInterval(timer)
+            }
+          }, 1000)
+        }
       }
     },
     methods: {
+      switchSignModal (type) {
+        if (type === 'forgot') {
+          this.showLoginForm = false
+          this.showRegisterForm = false
+          this.showForgotForm = true
+        } else if (type === 'login') {
+          this.showForgotForm = false
+          this.showRegisterForm = false
+          this.showLoginForm = true
+        } else if (type === 'register') {
+          this.showForgotForm = false
+          this.showLoginForm = false
+          this.showRegisterForm = true
+        }
+      },
       handleFetch () {
         if (this.loading) {
           return
@@ -666,6 +758,41 @@
                 },
                 error: () => {
                   this.signIn.captcha = false
+                }
+              })
+            }
+          })
+        }
+      },
+      showResetCaptcha () {
+        if (!this.resetPassword.captcha) {
+          this.$validator.validateAll('reset').then((result) => {
+            if (result) {
+              this.resetPassword.captcha = true
+              this.$captcha({
+                type: 'float',
+                elem: this.$refs.resetCaptcha,
+                success: ({ data, captcha }) => {
+                  const api = new UserApi()
+                  api.resetPassword({
+                    method: this.resetPassword.method,
+                    access: this.resetPassword.access,
+                    authCode: this.resetPassword.authCode,
+                    secret: this.resetPassword.secret,
+                    geetest: data
+                  }).then((res) => {
+                    this.$toast.success(res)
+                    this.switchSignModal('login')
+                  }).catch((err) => {
+                    this.resetPassword.captcha = false
+                    this.$toast.error(err)
+                    setTimeout(() => {
+                      captcha.reset()
+                    }, 500)
+                  })
+                },
+                error: () => {
+                  this.resetPassword.captcha = false
                 }
               })
             }
@@ -782,11 +909,47 @@
         this.$store.state.login
           ? this.$channel.$emit('drawer-open-write-post')
           : this.$channel.$emit('drawer-open-sign')
+      },
+      async handleResetAuthCode () {
+        const accessIsOK = await this.$validator.validate('reset.access')
+        if (accessIsOK) {
+          if (this.resetPassword.access !== this.resetPassword.tempAccess) {
+            if (this.resetStep === 0 || this.resetStep === 4 || this.resetStep === 5) {
+              this.resetStep = 1
+              this.$captcha(({ data }) => {
+                this.resetStep = 2
+                this.getResetAuthCode(data)
+              })
+            }
+          } else {
+            this.$toast.warning(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+          }
+        } else {
+          this.$toast.warning(`请填写正确的${this.resetPassword.method === 'email' ? '邮箱' : '手机'}`)
+        }
+      },
+      getResetAuthCode (geetest) {
+        const api = new UserApi()
+        this.resetPassword.tempAccess = this.resetPassword.access
+        api.forgotPassword({
+          method: this.resetPassword.method,
+          access: this.resetPassword.access,
+          nickname: this.resetPassword.nickname,
+          mustNew: true,
+          geetest
+        }).then(() => {
+          this.resetPassword.tempAccess = ''
+          this.resetStep = 3
+          this.$toast.success(`${this.resetPassword.method === 'email' ? '邮件' : '短信'}已发送，请查收`)
+        }).catch((err) => {
+          this.resetStep = 3
+          this.$toast.error(err)
+        })
       }
     },
     mounted () {
       this.$channel.$on('switch-to-register', result => {
-        this.showRegisterForm = result
+        this.switchSignModal(result ? 'register' : 'login')
       })
     }
   }
