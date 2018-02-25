@@ -66,12 +66,15 @@
 
     #videos {
       background-color: #ffffff;
-      padding-top: $container-padding;
 
       .video {
         margin-bottom: 15px;
         width: 100%;
         display: block;
+
+        &:first-child {
+          margin-top: $container-padding;
+        }
 
         img {
           width: 128px;
@@ -137,26 +140,34 @@
           :length="posts.data.length"
         ></more-btn>
       </template>
-      <ul v-else-if="sort === 'video'" id="videos" class="container">
-        <li
-          v-for="video in videos.data"
-          :key="video.id"
-          class="video"
-        >
-          <router-link :to="$alias.video(video.id)">
-            <figure class="clearfix">
-              <v-img class="bg"
-                     :alt="video.name"
-                     :src="$resize(video.poster, { width: 128, height: 80 })">
-              </v-img>
-              <figcaption>
-                <p class="oneline">第{{ video.part }}话</p>
-                <span class="twoline" v-text="video.name"></span>
-              </figcaption>
-            </figure>
-          </router-link>
-        </li>
-      </ul>
+      <template v-else-if="sort === 'video'">
+        <ul id="videos" class="container">
+          <li
+            v-for="video in videos.data"
+            :key="video.id"
+            class="video"
+          >
+            <router-link :to="$alias.video(video.id)">
+              <figure class="clearfix">
+                <v-img class="bg"
+                       :alt="video.name"
+                       :src="$resize(video.poster, { width: 128, height: 80 })">
+                </v-img>
+                <figcaption>
+                  <p class="oneline">第{{ video.part }}话</p>
+                  <span class="twoline" v-text="video.name"></span>
+                </figcaption>
+              </figure>
+            </router-link>
+          </li>
+        </ul>
+        <more-btn
+          :no-more="!videos.data.length && videoState.fetched"
+          :auto="true"
+          :loading="videoState.loading"
+          :length="videos.data.length"
+        ></more-btn>
+      </template>
     </div>
   </div>
 </template>
@@ -233,7 +244,8 @@
         },
         videoState: {
           loading: false,
-          init: false
+          init: false,
+          fetched: false
         },
         sort: 'post'
       }
@@ -263,10 +275,11 @@
         try {
           await this.$store.dispatch('bangumi/getVideos', this.id)
         } catch (e) {
-          console.log(e)
+          this.$toast.error(e)
+        } finally {
+          this.videoState.fetched = true
+          this.videoState.loading = false
         }
-
-        this.videoState.loading = false
       },
       async getPost (reset = false) {
         if (this.postState.loading || (this.posts.noMore && !reset)) {
