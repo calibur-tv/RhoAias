@@ -140,8 +140,29 @@
           :length="posts.data.length"
         ></more-btn>
       </template>
-      <template v-else-if="sort === 'video'">
-        <ul id="videos" class="container">
+      <div id="videos" v-else-if="sort === 'video'">
+        <div v-if="info.season" class="container">
+          <template v-for="season in videos.data">
+            <h3 class="sub-title" v-text="season.name" :key="season.name"></h3>
+            <ul :key="season.name">
+              <li v-for="(video, index) in season.data" :key="video.id">
+                <router-link :to="$alias.video(video.id)">
+                  <figure class="clearfix">
+                    <v-img class="bg"
+                           :alt="video.name"
+                           :src="$resize(video.poster, { width: 128, height: 80 })">
+                    </v-img>
+                    <figcaption>
+                      <p class="oneline">第{{ videos.repeat ? index + 1 : video.part }}话</p>
+                      <span class="twoline" v-text="video.name"></span>
+                    </figcaption>
+                  </figure>
+                </router-link>
+              </li>
+            </ul>
+          </template>
+        </div>
+        <ul class="container" v-else>
           <li
             v-for="video in videos.data"
             :key="video.id"
@@ -167,7 +188,7 @@
           :loading="videoState.loading"
           :length="videos.data.length"
         ></more-btn>
-      </template>
+      </div>
     </div>
   </div>
 </template>
