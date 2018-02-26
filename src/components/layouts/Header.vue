@@ -425,7 +425,12 @@
                      @input="showResetCaptcha"
                      placeholder="新密码">
             </div>
-            <div class="captcha" data-text="提交" ref="resetCaptcha"></div>
+            <div
+              class="captcha"
+              data-text="提交"
+              ref="resetCaptcha"
+              @click="showResetCaptcha"
+            ></div>
           </form>
           <form
             v-show="showRegisterForm"
@@ -501,7 +506,12 @@
                 placeholder="可为空"
               >
             </div>
-            <div class="captcha btn-submit" data-text="注册" ref="signUpCaptcha"></div>
+            <div
+              class="captcha btn-submit"
+              data-text="注册"
+              ref="signUpCaptcha"
+              @click="showSignUpCaptcha"
+            ></div>
             <div class="tip">
               提示：由于注册时要根据初始昵称为每个用户分配独立域名，因此注册时的昵称不支持日文和特殊符号和标点符号，可在注册完成后在个人设置页面修改昵称
             </div>
@@ -537,7 +547,12 @@
                 @input="showSignInCaptcha"
               >
             </div>
-            <div class="captcha btn-submit" data-text="登录" ref="signInCaptcha"></div>
+            <div
+              class="captcha btn-submit"
+              data-text="登录"
+              ref="signInCaptcha"
+              @click="showSignInCaptcha"
+            ></div>
           </form>
           <button v-show="!showForgotForm" class="switch" @click="showRegisterForm ? switchSignModal('login') : switchSignModal('register')">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
           <button class="switch" @click="showForgotForm ? switchSignModal('login') : switchSignModal('forgot')" v-show="!showRegisterForm">{{ showForgotForm ? '返回登录' : '忘记密码' }}</button>

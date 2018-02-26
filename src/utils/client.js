@@ -5,6 +5,7 @@ import captcha from '~/assets/js/captcha'
 import Cookies from 'js-cookie'
 import Toast from '~/assets/js/Toast'
 import { MessageBox } from 'mint-ui'
+import './validate'
 
 Vue.use({
   install (Vue, options) {
@@ -72,9 +73,9 @@ Vue.use({
 
 Vue.mixin({
   methods: {
-    $previewImages (images, index) {
+    $previewImages (images, image) {
       this.$channel.$emit('open-image-reader', {
-        images, index
+        images, image
       })
     }
   }
