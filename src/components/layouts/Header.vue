@@ -465,7 +465,7 @@
                 id="sign-up-auth-code"
                 type="number"
                 name="auth-code"
-                v-validate="'required|len:6'"
+                v-validate="'required|numeric|len:6'"
                 autocomplete="off"
                 v-model.trim="signUp.authCode"
                 @input="showSignUpCaptcha"
