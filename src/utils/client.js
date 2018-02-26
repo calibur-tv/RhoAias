@@ -5,6 +5,7 @@ import captcha from '~/assets/js/captcha'
 import Cookies from 'js-cookie'
 import Toast from '~/assets/js/Toast'
 import { MessageBox } from 'mint-ui'
+import './validate'
 
 Vue.use({
   install (Vue, options) {
