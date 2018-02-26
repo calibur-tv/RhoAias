@@ -179,7 +179,7 @@
             class="image-package"
             v-for="(img, idx) in post.images"
             :key="img"
-            @click="$previewImages(post.images, idx)"
+            @click="$previewImages(preview, img)"
           >
             <v-img
               :src="img"
@@ -241,6 +241,11 @@
       },
       index: {
         type: Number,
+        required: true
+      },
+      preview: {
+        type: Array,
+        default: [],
         required: true
       }
     },

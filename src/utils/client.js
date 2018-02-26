@@ -72,9 +72,9 @@ Vue.use({
 
 Vue.mixin({
   methods: {
-    $previewImages (images, index) {
+    $previewImages (images, image) {
       this.$channel.$emit('open-image-reader', {
-        images, index
+        images, image
       })
     }
   }

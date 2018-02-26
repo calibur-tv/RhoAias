@@ -106,10 +106,16 @@
     },
     mounted () {
       this.computeMaxSize()
-      this.$channel.$on('open-image-reader', ({ images, index }) => {
-        if (!images) {
+      this.$channel.$on('open-image-reader', ({ images, image }) => {
+        if (!images || !image) {
           return
         }
+        let index = 0
+        images.forEach((img, idx) => {
+          if (img === images) {
+            index = idx
+          }
+        })
         this.images = Array.isArray(images) ? images : [images]
         this.index = index || 0
         this.curPage = index + 1

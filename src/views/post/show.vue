@@ -304,7 +304,7 @@
               class="image-package"
               v-for="(img, idx) in post.images"
               :key="img"
-              @click="$previewImages(post.images, idx)"
+              @click="$previewImages(post.images, img)"
             >
               <v-img
                 :src="img"
@@ -345,6 +345,7 @@
         :key="item.id"
         :post="item"
         :index="index"
+        :preview="post.previewImages"
         @delete="deletePost(item.id)"
         @loadcomment="handleCommentLoad"
         @addcomment="handleCommentAdd"
