@@ -227,12 +227,11 @@
         return this.showAll ? metas : metas.slice(begin, begin + this.take)
       },
       videoSrc () {
-        return 'https://video.calibur.tv/bangumi/cowboy-bebop/video/720/1.Flv'
-//        return this.bangumi.others_site_video
-//          ? this.video.url
-//          : this.video.resource
-//            ? this.video.resource.video[720].src || this.video.url
-//            : this.video.url
+        return this.bangumi.others_site_video
+          ? this.video.url
+          : this.video.resource
+            ? this.video.resource.video[720].src || this.video.url
+            : this.video.url
       },
       isFlv () {
         return this.bangumi.others_site_video
