@@ -26,18 +26,19 @@
       }
 
       button {
-        width: 50px;
-        height: 50px;
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
         color: #fff;
         position: absolute;
         left: 50%;
         top: 50%;
-        margin-left: -25px;
-        margin-top: -25px;
+        margin-left: -40px;
+        margin-top: -40px;
         overflow: hidden;
         background-color: rgba(255, 255, 255, .5);
-        text-indent: 4px;
+        text-indent: 6px;
+        font-size: 30px;
       }
     }
 
