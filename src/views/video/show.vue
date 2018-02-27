@@ -2,10 +2,11 @@
   #video-show {
     .video {
       width: 100%;
-      min-height: 56vw;
+      height: 56vw;
       background-color: #000;
       color: #ffffff;
       text-align: center;
+      position: relative;
 
       p {
         padding-top: 20vw;
@@ -17,6 +18,26 @@
         border-radius: 5px;
         border: 1px solid #fff;
         padding: 10px 15px;
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+      }
+
+      button {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
+        overflow: hidden;
+        background-color: rgba(255, 255, 255, .5);
+        text-indent: 4px;
       }
     }
 
@@ -114,21 +135,25 @@
 
 <template>
   <div id="video-show">
-    <div class="video" v-if="bangumi.others_site_video">
-      <p>应版权方要求，该视频暂不提供站内播放</p>
-      <a :href="videoSrc" target="_blank">播放链接</a>
+    <div class="video">
+      <template v-if="bangumi.others_site_video">
+        <p>应版权方要求，该视频暂不提供站内播放</p>
+        <a :href="videoSrc" target="_blank">播放链接</a>
+      </template>
+      <video
+        :src="videoSrc"
+        :poster="video.poster"
+        preload="metadata"
+        ref="video"
+        v-else
+      ></video>
+      <button
+        class="iconfont icon-bofang"
+        v-if="!playing"
+        @click="togglePlaying"
+      >
+      </button>
     </div>
-    <video
-      class="video"
-      :src="videoSrc"
-      :poster="video.poster"
-      preload="metadata"
-      controls
-      controlsList="nodownload"
-      @playing="handlePlaying"
-      ref="video"
-      v-else
-    ></video>
     <div class="container">
       <div id="bangumi">
         <router-link class="avatar" :to="$alias.bangumi(bangumi.id)">
@@ -221,7 +246,9 @@
         part: 0,
         page: 0,
         showAll: false,
-        firstPlay: true
+        firstPlay: true,
+        player: null,
+        playing: false
       }
     },
     methods: {
@@ -239,6 +266,16 @@
           const api = new VideoApi(this)
           api.playing(this.id)
         }
+      },
+      togglePlaying () {
+        this.handlePlaying()
+        if (this.playing) {
+          this.player.pause()
+          this.playing = false
+        } else {
+          this.player.play()
+          this.playing = true
+        }
       }
     },
     mounted () {
@@ -249,7 +286,12 @@
           url: this.videoSrc
         })
         flvPlayer.attachMediaElement(this.$refs.video)
+        this.player = flvPlayer
+      } else {
+        this.player = this.$refs.video
+        this.player.controls = false
       }
+      this.player.load()
     }
   }
 </script>
