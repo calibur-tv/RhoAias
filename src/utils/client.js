@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import Toast from '~/assets/js/Toast'
 import { MessageBox } from 'mint-ui'
 import './validate'
+import flvjs from 'flv.js'
 
 Vue.use({
   install (Vue, options) {
@@ -16,6 +17,8 @@ Vue.use({
     Vue.prototype.$channel = new Vue()
 
     Vue.prototype.$backdrop = new Backdrop()
+
+    Vue.prototype.$flvjs = flvjs
 
     Vue.prototype.$toast = new Toast()
 

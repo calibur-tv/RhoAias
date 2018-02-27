@@ -122,9 +122,11 @@
       class="video"
       :src="videoSrc"
       :poster="video.poster"
+      preload="metadata"
       controls
       controlsList="nodownload"
       @playing="handlePlaying"
+      ref="video"
       v-else
     ></video>
     <div class="container">
@@ -199,11 +201,17 @@
         return this.showAll ? metas : metas.slice(begin, begin + this.take)
       },
       videoSrc () {
+        return 'https://video.calibur.tv/bangumi/cowboy-bebop/video/720/1.Flv'
+//        return this.bangumi.others_site_video
+//          ? this.video.url
+//          : this.video.resource
+//            ? this.video.resource.video[720].src || this.video.url
+//            : this.video.url
+      },
+      isFlv () {
         return this.bangumi.others_site_video
-          ? this.video.url
-          : this.video.resource
-            ? this.video.resource.video[720].src || this.video.url
-            : this.video.url
+          ? false
+          : this.videoSrc.split('.').pop().toLowerCase() === 'flv'
       }
     },
     data () {
@@ -235,6 +243,13 @@
     },
     mounted () {
       this.computePage()
+      if (this.isFlv && this.$flvjs.isSupported()) {
+        const flvPlayer = this.$flvjs.createPlayer({
+          type: 'flv',
+          url: this.videoSrc
+        })
+        flvPlayer.attachMediaElement(this.$refs.video)
+      }
     }
   }
 </script>
