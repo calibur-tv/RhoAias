@@ -141,19 +141,23 @@
         <p>应版权方要求，该视频暂不提供站内播放</p>
         <a :href="videoSrc" target="_blank">播放链接</a>
       </template>
-      <video
-        :src="videoSrc"
-        :poster="video.poster"
-        preload="metadata"
-        ref="video"
-        v-else
-      ></video>
-      <button
-        class="iconfont icon-bofang"
-        v-if="!playing"
-        @click="togglePlaying"
-      >
-      </button>
+      <template v-else-if="notSupport">
+        <p>该视频格式暂不支持在 iOS Safari 浏览器上播放</p>
+      </template>
+      <template v-else>
+        <video
+          :src="videoSrc"
+          :poster="video.poster"
+          preload="metadata"
+          ref="video"
+        ></video>
+        <button
+          class="iconfont icon-bofang"
+          v-if="!playing"
+          @click="togglePlaying"
+        >
+        </button>
+      </template>
     </div>
     <div class="container">
       <div id="bangumi">
@@ -248,7 +252,8 @@
         showAll: false,
         firstPlay: true,
         player: null,
-        playing: false
+        playing: false,
+        notSupport: false
       }
     },
     methods: {
@@ -280,13 +285,17 @@
     },
     mounted () {
       this.computePage()
-      if (this.isFlv && this.$flvjs.isSupported()) {
-        const flvPlayer = this.$flvjs.createPlayer({
-          type: 'flv',
-          url: this.videoSrc
-        })
-        flvPlayer.attachMediaElement(this.$refs.video)
-        this.player = flvPlayer
+      if (this.isFlv) {
+        if (this.$flvjs.isSupported()) {
+          const flvPlayer = this.$flvjs.createPlayer({
+            type: 'flv',
+            url: this.videoSrc
+          })
+          flvPlayer.attachMediaElement(this.$refs.video)
+          this.player = flvPlayer
+        } else {
+          this.notSupport = true
+        }
       } else {
         this.player = this.$refs.video
         this.player.controls = false
