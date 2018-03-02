@@ -58,7 +58,7 @@
             display: block;
             font-size: 14px;
             color: #333;
-            padding-right: 80px;
+            margin-right: 80px;
           }
 
           .info {
