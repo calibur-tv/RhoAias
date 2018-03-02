@@ -199,7 +199,7 @@
               overflow: hidden;
 
               .nickname {
-                display: block;
+                display: inline-block;
                 font-size: 14px;
                 line-height: 14px;
                 margin-bottom: 6px;
@@ -347,6 +347,7 @@
         :index="index"
         :preview="post.previewImages"
         @delete="deletePost(item.id)"
+        @reply="handlePostReply"
         @loadcomment="handleCommentLoad"
         @addcomment="handleCommentAdd"
       ></post-reply>
@@ -731,6 +732,12 @@
         this.createComment.postId = this.focusReply.id
         this.createComment.targetUserId = comment.from_user_id
         this.createComment.to_user_name = comment.from_user_name
+        this.createComment.open = true
+      },
+      handlePostReply (data) {
+        this.createComment.postId = data.postId
+        this.createComment.targetUserId = data.targetUserId
+        this.createComment.to_user_name = data.to_user_name
         this.createComment.open = true
       }
     }
