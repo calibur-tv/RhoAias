@@ -67,7 +67,7 @@
     <div class="images-wrapper">
       <mt-swipe
         :auto="0"
-        :speed="150"
+        :speed="50"
         :defaultIndex="index"
         :showIndicators="false"
         :continuous="false"
@@ -112,7 +112,7 @@
         }
         let index = 0
         images.forEach((img, idx) => {
-          if (img === images) {
+          if (img === image) {
             index = idx
           }
         })
