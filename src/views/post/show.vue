@@ -55,10 +55,9 @@
 
           .nickname {
             overflow: hidden;
-            display: block;
+            display: inline-block;
             font-size: 14px;
             color: #333;
-            margin-right: 80px;
           }
 
           .info {
