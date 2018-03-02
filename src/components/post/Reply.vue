@@ -195,6 +195,7 @@
           <ul>
             <li
               v-for="item in comments"
+              @click="handleCommentClick(item)"
             >
               <router-link class="nickname" :to="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></router-link>
               <template v-if="item.to_user_zone">
@@ -326,6 +327,19 @@
         } else if (option === '回复') {
           this.handleCommentBtnClick()
         }
+      },
+      handleCommentClick (comment) {
+        if (!this.currentUserId) {
+          return
+        }
+        if (this.currentUserId === comment.from_user_id) {
+          return
+        }
+        this.$emit('reply', {
+          postId: this.post.id,
+          targetUserId: comment.from_user_id,
+          to_user_name: comment.from_user_name
+        })
       }
     }
   }
