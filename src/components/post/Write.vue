@@ -290,6 +290,9 @@
                   ctx: this
                 })
                 this.images = []
+                this.title = ''
+                this.content = ''
+                this.$refs.uploader.clearFiles()
                 this.$toast.success('发布成功！')
                 this.open = false
                 this.$router.push({
