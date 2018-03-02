@@ -16,13 +16,12 @@ if (window.__INITIAL_STATE__) {
 
 window.M = Object.create(null)
 
-router.afterEach((to) => {
-  if (!dev) {
-    _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
-  }
-})
-
 router.onReady(() => {
+  router.afterEach((to) => {
+    if (!dev) {
+      _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
+    }
+  })
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const asyncDataHooks = matched.map(c => c.asyncData).filter(_ => _)
