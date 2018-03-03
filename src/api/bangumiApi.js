@@ -13,6 +13,10 @@ export default class extends BaseApi {
     return this.http.get(`bangumi/${id}/videos`)
   }
 
+  roles ({ bangumiId, seenIds }) {
+    return this.http.get(`bangumi/${bangumiId}/roles`, { seenIds })
+  }
+
   posts ({ id, seenIds, take, type }) {
     return this.http.post(`bangumi/${id}/posts`, { seenIds, take, type })
   }

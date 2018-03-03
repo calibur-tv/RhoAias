@@ -1,6 +1,5 @@
 <style lang="scss">
   #about-hello {
-    background-color: #fff;
     padding-bottom: 15px;
 
     h1 {

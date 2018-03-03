@@ -1,7 +1,5 @@
 <style lang="scss">
   #post-show {
-    background-color: #fff;
-
     .post {
       .title {
         color: #000;

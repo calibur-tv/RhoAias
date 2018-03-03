@@ -5,7 +5,6 @@
     .collections {
       padding-top: 20px;
       padding-bottom: 5px;
-      background-color: #ffffff;
 
       .collection {
         .time {

@@ -23,7 +23,6 @@
     .user-panel {
       position: relative;
       z-index: 2;
-      background-color: #ffffff;
 
       .avatar {
         position: absolute;
@@ -51,7 +50,6 @@
     }
 
     #bangumis {
-      background-color: #ffffff;
 
       li {
         position: relative;

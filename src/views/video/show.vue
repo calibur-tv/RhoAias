@@ -43,8 +43,6 @@
     }
 
     .container {
-      background-color: #ffffff;
-
       #bangumi {
         margin-top: 20px;
         position: relative;

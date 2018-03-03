@@ -43,7 +43,8 @@
           float: right;
           margin-top: 13px;
           margin-left: 5px;
-          @include btn-empty(#fff)
+          @include btn-empty(#fff);
+          text-shadow: 0 1px 10px gray;
         }
 
         .summary {
@@ -65,7 +66,6 @@
     }
 
     #videos {
-      background-color: #ffffff;
 
       .sub-title {
         margin-top: $container-padding;
@@ -99,6 +99,82 @@
         }
       }
     }
+
+    #roles {
+      li {
+        position: relative;
+        margin: 15px 0;
+        padding-bottom: 15px;
+
+        &:not(:last-child) {
+          @include border-bottom();
+        }
+
+        .avatar {
+          width: 100px;
+          height: 100px;
+          display: block;
+          float: left;
+          overflow: hidden;
+          border-radius: 5px;
+          margin-right: 10px;
+          border: 1px solid $color-gray-normal;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        .summary {
+          overflow: hidden;
+
+          .role {
+            font-size: 14px;
+            line-height: 20px;
+            height: 60px;
+            overflow: hidden;
+
+            .name {
+              font-weight: bold;
+            }
+
+            .intro {
+              color: #000;
+            }
+          }
+
+          .lover {
+            margin-top: 20px;
+            height: 20px;
+            line-height: 20px;
+            vertical-align: middle;
+            color: $color-text-normal;
+            text-align: right;
+
+            img {
+              width: 20px;
+              height: 20px;
+              border-radius: 15px;
+              vertical-align: middle;
+              border: 1px solid $color-gray-normal;
+              margin-left: 10px;
+            }
+
+            a {
+              font-size: 12px;
+              color: $color-text-normal;
+            }
+
+            span {
+              margin-left: 10px;
+              font-size: 12px;
+              margin-right: 2px;
+            }
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -128,6 +204,7 @@
       <div class="tabs">
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
         <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
+        <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
       </div>
       <template v-if="sort === 'post'">
         <ul>
@@ -197,6 +274,46 @@
           :length="videos.data.length"
         ></more-btn>
       </div>
+      <div id="roles" v-else-if="sort === 'role'">
+        <ul class="container">
+          <li v-for="item in roles.data">
+            <div class="clearfix">
+              <router-link :to="$alias.role(item.id, item.bangumi_id)" class="avatar">
+                <v-img :src="item.avatar" width="90" height="90"></v-img>
+              </router-link>
+              <div class="summary">
+                <div class="role">
+                  <router-link :to="$alias.role(item.id, item.bangumi_id)" class="name" v-text="item.name"></router-link>
+                  <span class="intro">：{{ item.intro }}</span>
+                </div>
+                <div class="lover">
+                  <span>
+                    粉丝:
+                    {{ $utils.shortenNumber(item.fans_count) }}
+                  </span>
+                  <span>
+                    金币:
+                    {{ $utils.shortenNumber(item.star_count) }}
+                  </span>
+                  <span>
+                    守护者：
+                    <router-link :to="$alias.user(item.lover.zone)">
+                      {{ item.lover.nickname }}
+                      <v-img :src="item.lover.avatar" width="20" height="20"></v-img>
+                    </router-link>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <more-btn
+          :no-more="roles.noMore"
+          :length="roles.data.length"
+          :loading="roleState.loading"
+          @fetch="getRoles"
+        ></more-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -261,6 +378,9 @@
       },
       notFetch () {
         return this.postState.loading || this.posts.noMore
+      },
+      roles () {
+        return this.$store.state.bangumi.roles
       }
     },
     data () {
@@ -275,6 +395,10 @@
           loading: false,
           init: false,
           fetched: false
+        },
+        roleState: {
+          loading: false,
+          init: false
         },
         sort: 'post'
       }
@@ -334,6 +458,25 @@
       refreshPost () {
         this.getPost(true)
       },
+      async getRoles (reset = false) {
+        if (this.roleState.loading) {
+          return
+        }
+        this.roleState.loading = true
+        this.roleState.init = true
+
+        try {
+          await this.$store.dispatch('bangumi/getRoles', {
+            ctx: this,
+            bangumiId: this.id,
+            reset
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.roleState.loading = false
+        }
+      },
       switchTab (tab) {
         this.sort = tab
         if (tab === 'post') {
@@ -343,6 +486,10 @@
         } else if (tab === 'video') {
           if (!this.videoState.init) {
             this.getVideos()
+          }
+        } else if (tab === 'role') {
+          if (!this.roleState.init) {
+            this.getRoles(true)
           }
         }
       }

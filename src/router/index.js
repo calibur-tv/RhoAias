@@ -65,6 +65,10 @@ export function createRouter () {
           {
             path: 'video/:id(\\d+)',
             component: () => import('~/views/video/show')
+          },
+          {
+            path: 'trending/role',
+            component: () => import('~/views/role/trending')
           }
         ]
       }

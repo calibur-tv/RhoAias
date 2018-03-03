@@ -47,7 +47,6 @@
         top: 0;
         height: 100%;
         width: 80px;
-        background-color: #fff;
         font-size: 16px;
         line-height: 48px;
       }
