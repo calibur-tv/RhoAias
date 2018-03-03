@@ -858,13 +858,13 @@
                 })
               }
             } else {
-              this.$toast.info(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+              this.$toast.warn(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
             }
           } else {
-            this.$toast.info(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+            this.$toast.warn(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.info('请先填写昵称')
+          this.$toast.warn('请先填写昵称')
         }
       },
       getRegisterAuthCode (geetest) {

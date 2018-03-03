@@ -14,3 +14,18 @@
 a {
   font-size: $font-size;
 }
+
+.el-message {
+  min-width: unset !important;
+  padding: 5px 15px !important;
+  background-color: pink !important;
+  border-color: pink !important;
+
+  .el-message__icon {
+    display: none !important;
+  }
+
+  .el-message__content {
+    color: #fff !important;
+  }
+}

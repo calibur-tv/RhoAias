@@ -47,7 +47,6 @@
         top: 0;
         height: 100%;
         width: 80px;
-        background-color: #fff;
         font-size: 16px;
         line-height: 48px;
       }
@@ -266,7 +265,7 @@
       selectAvatar (e) {
         const file = e.target.files[0]
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.info('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()
@@ -317,7 +316,7 @@
       selectBanner (e) {
         const file = e.target.files[0]
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.info('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()

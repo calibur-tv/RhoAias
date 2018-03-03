@@ -1,7 +1,5 @@
 <style lang="scss">
   #post-show {
-    background-color: #fff;
-
     .post {
       .title {
         color: #000;
@@ -612,11 +610,11 @@
           return
         }
         if (this.isMaster) {
-          this.$toast.info('不能赞赏自己的帖子')
+          this.$toast.warn('不能赞赏自己的帖子')
           return
         }
         if (!this.$store.state.user.coin) {
-          this.$toast.info('金币不足')
+          this.$toast.warn('金币不足')
           return
         }
         if (this.loadingToggleLike) {
@@ -640,7 +638,7 @@
           return
         }
         if (this.isMaster) {
-          this.$toast.info('不能收藏自己的帖子')
+          this.$toast.warn('不能收藏自己的帖子')
           return
         }
         if (this.loadingToggleMark) {

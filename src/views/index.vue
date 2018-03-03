@@ -23,6 +23,17 @@
       }
     }
 
+    .pages {
+      background-color: #fff;
+      padding: 20px $container-padding;
+
+      a {
+        @include btn-empty(#000);
+        margin-right: 10px;
+        margin-bottom: 8px;
+      }
+    }
+
     #posts {
     }
   }
@@ -39,10 +50,14 @@
       <img src="https://image.calibur.tv/owner/slogan" alt="slogan">
     </div>
     <div class="hr"></div>
+    <div class="pages">
+      <router-link :to="$alias.bangumiTimeline">番剧列表</router-link>
+      <router-link to="/trending/role">偶像排行榜</router-link>
+    </div>
+    <div class="hr"></div>
     <div class="tabs">
       <button @click="switchTab('new')" :class="{ 'active': sort === 'new' }">最新</button>
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
-      <router-link class="fr" :to="$alias.bangumiTimeline">番剧列表</router-link>
     </div>
     <ul>
       <v-post-item
