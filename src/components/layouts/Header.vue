@@ -327,7 +327,7 @@
           class="user-drawer"
         >
           <div class="user-section">
-            <div class="bg" :style="{ backgroundImage: `url(${$resize(user.banner, { height: 250, mode: 2 })})` }"></div>
+            <div class="bg" :style="computeUserDrawerBg"></div>
             <div>
               <router-link :to="$alias.user(user.zone)" class="avatar">
                 <img :src="$resize(user.avatar, { width: 50 })" alt="me">
@@ -577,6 +577,12 @@
         return this.$store.state.login
           ? this.user.avatar
           : `${this.$cdn.image}default/user-avatar`
+      },
+      computeUserDrawerBg () {
+        if (this.user.banner.split('/default/user-banner').length > 1) {
+          return {}
+        }
+        return { backgroundImage: `url(${this.$resize(this.user.banner, { height: 250, mode: 2 })})` }
       },
       user () {
         return this.$store.state.user

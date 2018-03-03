@@ -25,6 +25,9 @@ export function createStore () {
         Object.keys(data).forEach(key => {
           state.user[key] = data[key]
         })
+      },
+      USE_COIN (state) {
+        state.user.coin && state.user.coin--
       }
     },
     actions: {
