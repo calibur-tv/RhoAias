@@ -5,13 +5,18 @@ export default {
   state: () => ({
     trending: {
       data: [],
-      noMore: false,
-      take: 15
+      noMore: false
     },
-    bangumi: null,
-    info: null,
-    list: null,
-    season: null
+    fans: {
+      new: {
+        data: [],
+        noMore: false
+      },
+      hot: {
+        data: [],
+        noMore: false
+      }
+    }
   }),
   mutations: {
     SET_DATA (state, data) {
@@ -22,7 +27,23 @@ export default {
     },
     SET_TRENDING (state, data) {
       state.trending.data = state.trending.data.concat(data)
-      state.trending.noMore = data.length < state.trending.take
+      state.trending.noMore = data.length < 15
+    },
+    SET_FANS_LIST (state, { data, reset, sort }) {
+      if (reset) {
+        state.fans = {
+          new: {
+            data: [],
+            noMore: false
+          },
+          hot: {
+            data: [],
+            noMore: false
+          }
+        }
+      }
+      state.fans[sort].data = state.fans[sort].data.concat(data)
+      state.fans[sort].noMore = data.length < 15
     }
   },
   actions: {
@@ -40,6 +61,21 @@ export default {
         seenIds: state.trending.data.length ? state.trending.data.map(item => item.id).join(',') : null
       })
       commit('SET_TRENDING', data)
+    },
+    async getFansList ({ state, commit }, { bangumiId, roleId, sort, reset }) {
+      if (state.fans[sort].noMore && !reset) {
+        return
+      }
+      const api = new Api()
+      const length = state.fans[sort].data.length
+      const data = await api.fans({
+        seenIds: length ? state.fans[sort].data.map(item => item.id).join(',') : null,
+        minId: length ? state.fans[sort].data[length - 1].id : null,
+        sort,
+        bangumiId,
+        roleId
+      })
+      commit('SET_FANS_LIST', { data, reset, sort })
     }
   },
   getters: {}

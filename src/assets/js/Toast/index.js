@@ -1,4 +1,5 @@
 import './style.scss'
+import { Message } from 'element-ui'
 
 const timeout = (duration = 0) => new Promise((resolve) => {
   setTimeout(resolve, duration)
@@ -54,6 +55,13 @@ export default class {
   }
 
   info (tip) {
+    Message({
+      message: tip,
+      center: true
+    })
+  }
+
+  warn (tip) {
     this.start({
       type: 'info',
       tip

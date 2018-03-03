@@ -1,4 +1,5 @@
 import Api from '~/api/bangumiApi'
+import CartoonRoleApi from '~/api/cartoonRoleApi'
 
 export default {
   namespaced: true,
@@ -37,6 +38,18 @@ export default {
       const tag = state.tags[index]
       tag.selected = !tag.selected
       state.tags[index] = tag
+    },
+    ADD_ROLE_STATE (state, { roleId, hasStar }) {
+      state.roles.data.forEach((item, index) => {
+        if (item.id === roleId) {
+          if (!hasStar) {
+            state.roles.data[index].has_star = 0
+            state.roles.data[index].fans_count++
+          }
+          state.roles.data[index].star_count++
+          state.roles.data[index].has_star++
+        }
+      })
     },
     SET_FOLLOW (state, { followed, self }) {
       state.info.followed = followed
@@ -183,6 +196,13 @@ export default {
         total: data.total,
         reset
       })
+    },
+    async starRole ({ commit }, { bangumiId, roleId, ctx, hasStar }) {
+      const api = new CartoonRoleApi(ctx)
+      try {
+        await api.star({ bangumiId, roleId })
+        commit('ADD_ROLE_STATE', { roleId, hasStar })
+      } catch (e) {}
     }
   },
   getters: {}

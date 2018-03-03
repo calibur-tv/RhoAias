@@ -5,7 +5,13 @@ export default class extends BaseApi {
     return this.http.get('/trending/cartoon_role', { seenIds })
   }
 
-  playing (id) {
-    return this.http.post(`/video/${id}/playing`)
+  star ({ bangumiId, roleId }) {
+    return this.http.post(`/bangumi/${bangumiId}/role/${roleId}/star`)
+  }
+
+  fans ({ bangumiId, roleId, seenIds, minId, sort }) {
+    return this.http.get(`/bangumi/${bangumiId}/role/${roleId}/fans`, {
+      params: { seenIds, minId, sort }
+    })
   }
 }

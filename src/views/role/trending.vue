@@ -2,7 +2,7 @@
   #trending-role {
     li {
       position: relative;
-      margin: 15px 0;
+      margin-top: 15px;
 
       &:not(:last-child) {
         @include border-bottom();
@@ -130,12 +130,12 @@
         :key="item.id"
       >
         <div class="clearfix">
-          <router-link :to="$alias.role(item.id, item.bangumi_id)" class="avatar">
+          <router-link :to="$alias.bangumi(item.bangumi_id)" class="avatar">
             <v-img :src="item.avatar" width="90" height="90"></v-img>
           </router-link>
           <div class="summary">
             <div class="role">
-              <router-link :to="$alias.role(item.id, item.bangumi_id)" class="name" v-text="item.name"></router-link>
+              <router-link :to="$alias.bangumi(item.bangumi_id)" class="name" v-text="item.name"></router-link>
               <span class="intro">：{{ item.intro }}</span>
             </div>
             <div class="lover">

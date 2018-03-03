@@ -9,6 +9,13 @@
 <script>
   export default {
     name: 'RoleShow',
+    async asyncData ({ store, route, ctx }) {
+      await store.dispatch('cartoonRole/getRoleInfo', {
+        ctx,
+        bangumiId: route.params.bangumiId,
+        roleId: route.params.roleid
+      })
+    },
     components: {
 
     },
