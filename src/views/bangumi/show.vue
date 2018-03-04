@@ -388,7 +388,7 @@
                 金币:
                 {{ $utils.shortenNumber(item.star_count) }}
               </span>
-              <span>
+              <span v-if="item.lover">
                 守护者：
                 <router-link :to="$alias.user(item.lover.zone)">
                   {{ item.lover.nickname }}
@@ -606,9 +606,6 @@
           this.postState.loading = false
         }
       },
-      refreshPost () {
-        this.getPost(true)
-      },
       async getRoles (reset = false) {
         if (this.roleState.loading) {
           return
@@ -646,6 +643,10 @@
         }
       },
       async handleStarRole (role) {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('drawer-open-sign')
+          return
+        }
         if (!this.$store.state.user.coin) {
           this.$toast.warn('金币不足')
           return
@@ -658,7 +659,7 @@
             hasStar: role.has_star
           })
           this.$store.commit('USE_COIN')
-          this.$toast.info(`+${role.has_star + 1}s`)
+          this.$toast.info(`+${role.has_star}s`)
         } catch (e) {}
       },
       async showRoleDetail (role) {

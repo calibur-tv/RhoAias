@@ -42,12 +42,13 @@ export default {
     ADD_ROLE_STATE (state, { roleId, hasStar }) {
       state.roles.data.forEach((item, index) => {
         if (item.id === roleId) {
-          if (!hasStar) {
-            state.roles.data[index].has_star = 0
+          if (hasStar) {
+            state.roles.data[index].has_star++
+          } else {
+            state.roles.data[index].has_star = 1
             state.roles.data[index].fans_count++
           }
           state.roles.data[index].star_count++
-          state.roles.data[index].has_star++
         }
       })
     },
