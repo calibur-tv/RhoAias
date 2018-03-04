@@ -28,6 +28,12 @@ export default {
         loading: false
       }
     },
+    roles: {
+      zone: '',
+      data: [],
+      page: 1,
+      noMore: false
+    },
     notifications: {
       checked: 0,
       take: 10,
@@ -39,6 +45,19 @@ export default {
     }
   }),
   mutations: {
+    RESET_USER_ROLES (state) {
+      state.roles = {
+        zone: '',
+        data: [],
+        page: 1,
+        noMore: false
+      }
+    },
+    SET_USER_ROLES (state, { data, zone }) {
+      state.roles.zone = zone
+      state.roles.data = state.roles.data.concat(data)
+      state.roles.noMore = data.length < 15
+    },
     SET_USER_INFO (state, { data, zone }) {
       state.list[zone] = state.list[zone]
         ? Object.assign(state.list[zone], data)
@@ -189,6 +208,27 @@ export default {
           commit('READ_NOTIFICATION', id)
         }
       })
+    },
+    async getFollowRoles ({ state, commit }, { ctx, zone, reset }) {
+      if (
+        reset &&
+        state.roles.data.length &&
+        state.roles.zone === zone
+      ) {
+        return
+      }
+      if (reset) {
+        commit('RESET_USER_ROLES')
+      }
+      if (state.roles.noMore) {
+        return
+      }
+      const api = new Api(ctx)
+      const data = await api.followRoles({
+        zone,
+        page: state.roles.page
+      })
+      commit('SET_USER_ROLES', { data, zone })
     }
   },
   getters: {}

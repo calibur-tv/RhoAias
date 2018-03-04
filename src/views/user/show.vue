@@ -155,6 +155,70 @@
         }
       }
     }
+
+    #roles-of-mine {
+      li {
+        position: relative;
+        margin-top: 15px;
+        padding-bottom: 15px;
+
+        &:not(:last-child) {
+          @include border-bottom();
+        }
+
+        .avatar {
+          width: 80px;
+          height: 80px;
+          display: block;
+          float: left;
+          overflow: hidden;
+          border-radius: 5px;
+          margin-right: 10px;
+          border: 1px solid $color-gray-normal;
+
+          img {
+            width: 100%;
+            height: auto;
+          }
+        }
+
+        .summary {
+          overflow: hidden;
+
+          .role {
+            display: block;
+            font-size: 14px;
+            line-height: 20px;
+            height: 60px;
+            overflow: hidden;
+
+            .name {
+              font-weight: bold;
+            }
+
+            .intro {
+              color: #000;
+            }
+          }
+
+          .lover {
+            height: 20px;
+            line-height: 20px;
+            vertical-align: middle;
+            font-size: 13px;
+            color: $color-text-normal;
+            overflow: hidden;
+            text-align: right;
+
+            span {
+              margin-left: 10px;
+              font-size: 12px;
+              margin-right: 2px;
+            }
+          }
+        }
+      }
+    }
   }
 </style>
 
@@ -176,6 +240,7 @@
       <button @click="switchTab('bangumi')" :class="{ 'active': sort === 'bangumi' }">番剧</button>
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
+      <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
     </div>
     <template v-if="sort === 'bangumi'">
       <ul id="bangumis" class="container" v-if="bangumis.length">
@@ -197,6 +262,52 @@
         :no-more="true"
         :auto="true"
         :length="0"
+      ></more-btn>
+    </template>
+    <template v-else-if="sort === 'role'">
+      <ul
+        class="container"
+        id="roles-of-mine"
+        v-infinite-scroll="getUserRoles"
+        infinite-scroll-disabled="noFetchRoles"
+        infinite-scroll-distance="50"
+      >
+        <li
+          v-for="item in roles"
+          :key="item.id"
+        >
+          <div class="clearfix">
+            <div class="avatar">
+              <v-img :src="item.avatar" width="80" height="80"></v-img>
+            </div>
+            <div class="summary">
+              <div class="role">
+                <span class="name" v-text="item.name"></span>
+                <span class="intro">：{{ item.intro }}</span>
+              </div>
+              <div class="lover">
+                <span>
+                  粉丝:
+                  {{ $utils.shortenNumber(item.fans_count) }}
+                </span>
+                <span>
+                  金币:
+                  {{ $utils.shortenNumber(item.star_count) }}
+                </span>
+                <span>
+                  贡献:
+                  {{ item.has_star }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <more-btn
+        :no-more="noMoreRoles"
+        :loading="loadingRoles"
+        :length="roles.length"
+        :auto="true"
       ></more-btn>
     </template>
     <template v-else>
@@ -343,20 +454,35 @@
       },
       noFetch () {
         return this.sort === 'bangumi' ? true : (this.posts.loading || this.posts.noMore)
+      },
+      roles () {
+        return this.$store.state.users.roles.data
+      },
+      noMoreRoles () {
+        return this.$store.state.users.roles.noMore
+      },
+      noFetchRoles () {
+        return this.loadingRoles || this.noMoreRoles
       }
     },
     data () {
       return {
         signDayLoading: false,
-        sort: 'bangumi'
+        sort: 'bangumi',
+        loadingRoles: false
       }
     },
     methods: {
       switchTab (tab) {
         this.sort = tab
-        if (tab !== 'bangumi') {
-          this.getUserPosts(true)
+        if (tab === 'bangumi') {
+          return
         }
+        if (tab === 'role') {
+          this.getUserRoles(true)
+          return
+        }
+        this.getUserPosts(true)
       },
       getUserPosts (isFirstRequest = false) {
         if (
@@ -370,6 +496,23 @@
           type: this.sort,
           zone: this.user.zone
         })
+      },
+      async getUserRoles (isFirstRequest = false) {
+        if (this.loadingRoles) {
+          return
+        }
+        this.loadingRoles = true
+        try {
+          await this.$store.dispatch('users/getFollowRoles', {
+            ctx: this,
+            zone: this.user.zone,
+            reset: isFirstRequest
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingRoles = false
+        }
       },
       async handleDaySign () {
         if (this.daySigned || this.signDayLoading) {
