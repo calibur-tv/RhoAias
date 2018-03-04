@@ -39,6 +39,12 @@ export default class extends BaseApi {
     return this.http.get(`user/${zone}/followed/bangumi`)
   }
 
+  followRoles ({ zone, page }) {
+    return this.http.get(`user/${zone}/followed/role`, {
+      params: { page }
+    })
+  }
+
   followPosts ({ type, zone, seenIds, take }) {
     return this.http.post(`user/${zone}/posts/${type}`, { seenIds, take })
   }
