@@ -63,6 +63,7 @@
         overflow: hidden;
 
         .role {
+          display: block;
           font-size: 14px;
           line-height: 20px;
           height: 60px;
@@ -134,17 +135,18 @@
             <v-img :src="item.avatar" width="90" height="90"></v-img>
           </router-link>
           <div class="summary">
-            <div class="role">
-              <router-link :to="$alias.bangumi(item.bangumi_id)" class="name" v-text="item.name"></router-link>
+            <router-link :to="$alias.bangumi(item.bangumi_id)" class="role">
+              <span class="name" v-text="item.name"></span>
               <span class="intro">：{{ item.intro }}</span>
-            </div>
-            <div class="lover">
+            </router-link>
+            <div class="lover" v-if="item.lover_id">
               <span>守护者：</span>
               <router-link class="fr" :to="$alias.user(item.lover_zone)">
                 <span v-text="item.lover_nickname"></span>
                 <v-img :src="item.lover_avatar" width="20" height="20"></v-img>
               </router-link>
             </div>
+            <div class="lover" v-else></div>
           </div>
           <div class="footer">
             <router-link class="bangumi" :to="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></router-link>
@@ -158,7 +160,7 @@
                 {{ $utils.shortenNumber(item.star_count) }}
               </span>
               <span>排名:</span>
-              <span class="top" :data-index="index + 1"></span>
+              <span class="top" :data-index="item.fans_count ? index + 1 : '无'"></span>
             </div>
           </div>
         </div>
@@ -181,7 +183,7 @@
     },
     computed: {
       list () {
-        return this.$store.state.cartoonRole.trending.data
+        return this.$utils.orderBy(this.$store.state.cartoonRole.trending.data, 'star_count', 'desc')
       },
       noMore () {
         return this.$store.state.cartoonRole.trending.noMore

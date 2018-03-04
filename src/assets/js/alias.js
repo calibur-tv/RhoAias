@@ -42,9 +42,5 @@ export default {
 
   postTrending (sort) {
     return `/post/trending/${sort}`
-  },
-
-  role (roleId, bangumiId) {
-    return `/bangumi/${bangumiId}/role/${roleId}`
   }
 }
