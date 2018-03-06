@@ -68,13 +68,15 @@ export default {
       }
       const api = new Api()
       const length = state.fans[sort].data.length
-      const data = await api.fans({
-        seenIds: length ? state.fans[sort].data.map(item => item.id).join(',') : null,
-        minId: length ? state.fans[sort].data[length - 1].id : null,
+      const data = await api.fans(Object.assign({
         sort,
         bangumiId,
         roleId
-      })
+      }, sort === 'new' ? {
+        minId: reset ? null : length ? state.fans[sort].data[length - 1].id : null
+      } : {
+        seenIds: reset ? null : length ? state.fans[sort].data.map(item => item.id).join(',') : null
+      }))
       commit('SET_FANS_LIST', { data, reset, sort })
     }
   },
