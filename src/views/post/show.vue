@@ -613,7 +613,8 @@
           this.$toast.warn('不能赞赏自己的帖子')
           return
         }
-        if (!this.$store.state.user.coin) {
+        const notLike = !this.post.liked
+        if (notLike && !this.$store.state.user.coin) {
           this.$toast.warn('金币不足')
           return
         }
@@ -626,7 +627,9 @@
             ctx: this,
             id: this.post.id
           })
-          this.$store.commit('USE_COIN')
+          if (notLike) {
+            this.$store.commit('USE_COIN')
+          }
         } catch (err) {
           this.$toast.error(err)
         }

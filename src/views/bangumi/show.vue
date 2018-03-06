@@ -565,6 +565,7 @@
             ctx: this,
             id: this.id
           })
+          this.$store.commit('USE_COIN')
         } catch (e) {
           this.$toast.error(e)
         }
