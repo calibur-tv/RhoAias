@@ -727,7 +727,7 @@
         } else if (option === '收藏' || option === '取消收藏') {
           this.toggleMark()
         } else if (option === '回复') {
-          this.handleCommentAdd()
+          this.handleReplyBtnClick()
         }
       },
       commentToComment (comment) {
