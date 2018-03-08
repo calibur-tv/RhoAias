@@ -90,7 +90,7 @@
   <div class="v-select-wrap">
     <div
       class="v-select-submit-wrap"
-      @click="handleSubmitClick"
+      @click.stop="handleSubmitClick"
       :class="{ 'open': show }"
     >
       <slot name="tail">
@@ -148,7 +148,7 @@
       </div>
     </div>
     <transition name="zoom-in-top">
-      <ul class="v-select-options-wrap" v-show="show">
+      <ul class="v-select-options-wrap" ref="ul" v-show="show">
         <slot name="options">
           <li
             v-for="item in list"
@@ -458,7 +458,10 @@
     },
     mounted () {
       document.body.addEventListener('click', (e) => {
-        if (!this.$el.contains(e.target)) {
+        if (!this.show) {
+          return
+        }
+        if (!this.$refs.ul.contains(e.target)) {
           this.show = false
         }
       })
