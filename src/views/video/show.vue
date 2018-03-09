@@ -74,9 +74,18 @@
 
       #metas {
         margin-top: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         overflow: hidden;
         position: relative;
+
+        ul {
+          margin-bottom: 2px;
+        }
+
+        .season-title {
+          padding-bottom: 10px;
+          margin-left: 2px;
+        }
 
         ul {
           margin-left: -10px;
@@ -173,10 +182,24 @@
       </div>
       <div id="metas">
         <div>
-          <h3 class="sub-title">选集（{{ list.length }}）</h3>
-          <div class="more" v-if="take < list.length" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+          <h3 class="sub-title">选集（{{ videos.length }}）</h3>
+          <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </div>
-        <ul>
+        <template v-if="season && showAll">
+          <template v-for="(metas, idx) in list">
+            <h6 class="season-title" v-text="season.name[idx]"></h6>
+            <ul>
+              <li v-for="(meta, index) in metas.data" :key="meta.id">
+                <a class="meta"
+                   :class="{ 'router-link-active' : $route.params.id == meta.id }"
+                   :href="$alias.video(meta.id)">
+                  <span>第{{ videoPackage.list.repeat ? index + 1 : meta.part }}话</span>
+                </a>
+              </li>
+            </ul>
+          </template>
+        </template>
+        <ul v-else>
           <li v-for="meta in sortVideos" :key="meta.id">
             <a class="meta"
                :class="{ 'router-link-active' : $route.params.id == meta.id }"
@@ -214,19 +237,37 @@
       id () {
         return parseInt(this.$route.params.id, 10)
       },
+      videoPackage () {
+        return this.$store.state.video
+      },
       video () {
-        return this.$store.state.video.info
+        return this.videoPackage.info
       },
       list () {
-        return this.$store.state.video.list.videos
+        return this.videoPackage.list.videos
       },
       bangumi () {
-        return this.$store.state.video.bangumi
+        return this.videoPackage.bangumi
+      },
+      season () {
+        return this.videoPackage.season
+      },
+      showMoreBtn () {
+        return this.take < this.videos.length
+      },
+      videos () {
+        if (!this.season) {
+          return this.list
+        }
+        let result = []
+        this.list.forEach(videos => {
+          result = result.concat(videos.data)
+        })
+        return result
       },
       sortVideos () {
         const begin = (this.page - 1) * this.take
-        const metas = this.$utils.orderBy(this.list, 'part')
-        return this.showAll ? metas : metas.slice(begin, begin + this.take)
+        return this.showAll ? this.videos : this.videos.slice(begin, begin + this.take)
       },
       videoSrc () {
         return this.bangumi.others_site_video
@@ -256,7 +297,7 @@
     },
     methods: {
       computePage () {
-        this.list.forEach((meta) => {
+        this.videos.forEach((meta) => {
           if (meta.id === this.id) {
             this.part = meta.part
           }
