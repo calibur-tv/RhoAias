@@ -115,13 +115,14 @@ export default {
     }
   },
   actions: {
-    async getPost ({ state, commit }, { id, ctx, only, reset = false }) {
+    async getPost ({ state, commit }, { id, ctx, only, reply, reset = false }) {
       const api = new Api(ctx)
       const data = await api.show({
         id,
         only,
         seenIds: reset ? null : state.show.data.list.length ? state.show.data.list.map(item => item.id).join(',') : null,
-        take: state.show.take
+        take: state.show.take,
+        replyId: reset ? reply : null
       })
       commit('setPost', { data, reset })
     },

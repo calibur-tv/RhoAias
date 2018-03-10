@@ -144,7 +144,7 @@
 </style>
 
 <template>
-  <div class="post-reply-item">
+  <div class="post-reply-item" :id="`post-reply-${post.id}`">
     <router-link class="avatar" :to="$alias.user(post.user.zone)">
       <v-img :src="post.user.avatar" :width="80" :height="80"></v-img>
     </router-link>

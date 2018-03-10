@@ -481,7 +481,8 @@
         only: route.query.only
           ? parseInt(route.query.only, 10) ? 1 : 0
           : 0,
-        reset: true
+        reset: true,
+        reply: route.query.reply
       })
     },
     components: {
@@ -497,7 +498,7 @@
         return this.$store.state.post.show
       },
       list () {
-        return this.resource.data.list
+        return this.$utils.orderBy(this.resource.data.list, 'floor_count')
       },
       total () {
         return this.resource.data.total
@@ -744,7 +745,23 @@
         this.createComment.targetUserId = data.targetUserId
         this.createComment.to_user_name = data.to_user_name
         this.createComment.open = true
+      },
+      scrollToReply () {
+        const replyId = this.$route.query.reply
+        if (!replyId) {
+          return
+        }
+        const reply = document.getElementById(`post-reply-${replyId}`)
+        if (!reply) {
+          return
+        }
+        this.$nextTick(() => {
+          this.$scrollToY(reply.offsetTop, 400)
+        })
       }
+    },
+    mounted () {
+      this.scrollToReply()
     }
   }
 </script>
