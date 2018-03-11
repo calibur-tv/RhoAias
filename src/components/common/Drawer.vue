@@ -177,6 +177,9 @@
             click: this.close
           })
         }
+        this.$nextTick(() => {
+          this.$emit('open')
+        })
       },
       close () {
         if (!this.show) {
@@ -193,6 +196,9 @@
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
+        this.$nextTick(() => {
+          this.$emit('close')
+        })
       },
       resetPos () {
         document.body.style.overflow = ''

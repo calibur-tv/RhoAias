@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <sign-drawer></sign-drawer>
   </div>
 </template>
 
 <script>
   import { qiniu, script } from 'env'
+  import SignDrawer from '~/components/common/Sign'
 
   export default {
     name: 'Entry',
@@ -32,6 +34,9 @@
         { innerHTML: script.baiduPush, type: 'text/javascript' }
       ],
       __dangerouslyDisableSanitizers: 'script'
+    },
+    components: {
+      SignDrawer
     },
     mounted () {
       if (this.$store.state.login) {
