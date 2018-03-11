@@ -314,9 +314,6 @@
       <ul
         id="posts-of-mine"
         v-if="sort === 'mine'"
-        v-infinite-scroll="getUserPosts"
-        infinite-scroll-disabled="noFetch"
-        infinite-scroll-distance="50"
       >
         <v-post-item
           v-for="item in posts.data"
@@ -327,9 +324,6 @@
       <ul
         id="posts-of-reply"
         v-else-if="sort === 'reply'"
-        v-infinite-scroll="getUserPosts"
-        infinite-scroll-disabled="noFetch"
-        infinite-scroll-distance="50"
       >
         <li
           v-for="item in posts.data"
@@ -390,7 +384,7 @@
         :no-more="posts.noMore"
         :loading="posts.loading"
         :length="posts.data.length"
-        :auto="true"
+        @fetch="getUserPosts"
       ></more-btn>
     </template>
   </div>
@@ -452,7 +446,7 @@
       coinCount () {
         return this.self.coin
       },
-      noFetch () {
+      noFetchPost () {
         return this.sort === 'bangumi' ? true : (this.posts.loading || this.posts.noMore)
       },
       roles () {
