@@ -95,11 +95,12 @@
       }
 
       .nav-avatar {
+        position: relative;
         margin-left: 15px;
         display: inline-block;
         vertical-align: middle;
         @include avatar(24px);
-        position: relative;
+        @include border($color-gray-normal, 50%);
 
         .badge {
           display: block;

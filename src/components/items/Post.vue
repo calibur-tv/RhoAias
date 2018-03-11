@@ -13,7 +13,9 @@
         margin-right: 10px;
         display: block;
         float: left;
+        position: relative;
         @include avatar(35px);
+        @include border($color-gray-normal, 50%);
       }
 
       .face {
