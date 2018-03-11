@@ -83,15 +83,17 @@
       line-height: 44px;
 
       .bangumi {
-        float: left;
         color: #999;
         font-size: 12px;
+        display: block;
+        margin-right: 8px;
       }
 
       .stats {
-        overflow: hidden;
-        text-align: right;
+        height: 100%;
         color: #666;
+        float: right;
+        margin-top: -2px;
 
         span {
           margin-left: 10px;
@@ -162,12 +164,6 @@
       </div>
     </router-link>
     <div class="footer">
-      <router-link
-        v-if="item.bangumi && item.user"
-        class="bangumi"
-        :to="$alias.bangumi(item.bangumi.id)"
-        v-text="item.bangumi.name"
-      ></router-link>
       <div class="stats">
         <span :class="{ 'done' : item.liked }">
           <i class="iconfont icon-guanzhu"></i>
@@ -186,6 +182,12 @@
           {{ $utils.shortenNumber(item.view_count) }}
         </span>
       </div>
+      <router-link
+        v-if="item.bangumi && item.user"
+        class="bangumi oneline"
+        :to="$alias.bangumi(item.bangumi.id)"
+        v-text="item.bangumi.name"
+      ></router-link>
     </div>
     <div class="hr"></div>
   </li>
