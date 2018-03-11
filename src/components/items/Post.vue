@@ -100,14 +100,17 @@
         }
 
         i {
-          font-size: 18px;
-          margin-top: -2px;
+          font-size: 12px;
           display: inline-block;
           vertical-align: middle;
         }
 
         .done {
           color: $color-blue-normal;
+        }
+
+        .icon-shoucang {
+          margin-top: -3px;
         }
       }
     }
@@ -166,15 +169,15 @@
         v-text="item.bangumi.name"
       ></router-link>
       <div class="stats">
-        <span v-if="item.like_count" :class="{ 'done' : item.liked }">
+        <span :class="{ 'done' : item.liked }">
           <i class="iconfont icon-guanzhu"></i>
           {{ $utils.shortenNumber(item.like_count) }}
         </span>
-        <span v-if="item.mark_count" :class="{ 'done' : item.marked }">
+        <span :class="{ 'done' : item.marked }">
           <i class="iconfont icon-shoucang"></i>
           {{ $utils.shortenNumber(item.mark_count) }}
         </span>
-        <span v-if="item.comment_count" :class="{ 'done' : item.commented }">
+        <span :class="{ 'done' : item.commented }">
           <i class="iconfont icon-pinglun1"></i>
           {{ $utils.shortenNumber(item.comment_count) }}
         </span>
