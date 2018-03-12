@@ -33,6 +33,8 @@ Vue.use({
 
     Vue.prototype.$utils = Utils
 
+    Vue.prototype.$siteQR = `${env.cdn.image}owner/site-qr.png`
+
     Vue.prototype.$resize = (url, options = {}) => {
       if (!url) {
         return ''
