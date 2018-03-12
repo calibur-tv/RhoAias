@@ -42,6 +42,7 @@
         box-shadow: 0 0.3rem 2rem rgba(51,51,51,.15);
         width: 100%;
         height: 480px;
+        display: block;
 
         .ad {
           opacity: 0;

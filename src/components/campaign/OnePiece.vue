@@ -3,7 +3,7 @@
 
     .canvas-wrap {
       background-image: url(~img/campaign/one-piece.jpg);
-      background-size: 300px auto;
+      background-size: 100% auto;
       background-repeat: repeat-y;
       background-position: center -30px;
 
