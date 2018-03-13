@@ -25,14 +25,14 @@
       right: 0;
       left: 0;
       top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
 
       >* {
-        position: absolute;
         width: 300px;
         height: 520px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
       }
 
       .canvas-wrap {
@@ -54,28 +54,41 @@
         .ad {
           opacity: 1 !important;
         }
+
+        .file-input-wrap {
+          display: none;
+        }
+
+        .textarea {
+          outline: none;
+        }
       }
 
-      .controls {
-        width: 100%;
-        height: 40px;
-        padding-top: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+      .file-input-wrap {
+        overflow: hidden;
+        position: relative;
 
-        button {
-          font-size: 12px;
-          background-color: #fff;
-          color: $color-text-normal;
-          height: 30px;
-          padding: 0 15px;
-          line-height: 20px;
-          border-radius: 10px;
-          text-align: center;
-          margin: 5px 5px;
+        input {
+          opacity: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
         }
+
+        .text {
+          position: absolute;
+          width: 100%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          z-index: 0;
+        }
+      }
+
+      .textarea {
+        outline-style: dashed;
+        outline-width: 2px;
       }
     }
 
@@ -116,7 +129,7 @@
       <component :is="selectedTheme" :image="result"></component>
     </div>
     <div id="campaign-footer">
-      <button class="select-btn" @click="openSelectThemeDrawer = true">更换场景</button>
+      <button class="select-btn" @click="changeTheme">更换场景</button>
       <button class="create-btn" @click="create">{{ result ? '重新制作' : '生成海报' }}</button>
     </div>
     <v-drawer
@@ -173,24 +186,21 @@
       }
     },
     methods: {
-      getImage (e) {
-        const file = e.target.files[0]
-        const reader = new FileReader()
-        reader.onload = (evt) => {
-          this.list[this.index].imageValue = evt.target.result
-          this.$refs.upload.value = ''
-        }
-        reader.readAsDataURL(file)
+      changeTheme () {
+        this.$toast.info('更多场景开发中...')
+        // this.openSelectThemeDrawer = true
       },
       create () {
         if (this.creating) {
           return
         }
         if (this.result) {
+          this.$channel.$emit('campaign-canvas-reset')
           this.result = ''
           return
         }
         this.creating = true
+        this.$channel.$emit('campaign-canvas-creating')
 
         this.$toast.loading('制作中...')
 

@@ -1,30 +1,65 @@
 <style lang="scss">
+  $color: RGB(78, 73, 74);
   #campaign-one-piece {
-
     .canvas-wrap {
       background-image: url(~img/campaign/one-piece.png);
       height: 434px;
+      color: $color;
 
-      .ad {
+      .file-input-wrap, .avatar {
         position: absolute;
-        left: 45px;
-        right: 45px;
-        bottom: 40px;
-        height: 50px;
-        background-color: rgba(255, 255, 255, .9);
+        left: 27px;
+        top: 90px;
+        width: 247px;
+        height: 186px;
+      }
 
+      .file-input-wrap {
         .text {
-          overflow: hidden;
-
-          .title {
-            font-size: 13px;
-            margin-top: 8px;
-            margin-left: 8px;
-          }
+          width: 80% !important;
         }
+      }
 
-        .qrcode {
-          float: right;
+      textarea, input {
+        background-color: transparent;
+        outline-color: $color;
+        color: $color;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
+        width: 100%;
+        height: 100%;
+        letter-spacing: -1px;
+      }
+
+      .name-wrap {
+        position: absolute;
+        top: 310px;
+        left: 30px;
+        right: 30px;
+        height: 42px;
+        width: auto;
+
+        .name {
+          line-height: 42px;
+          font-size: 42px;
+          font-weight: 700;
+        }
+      }
+
+      .dollar-wrap {
+        position: absolute;
+        top: 363px;
+        left: 30px;
+        right: 30px;
+        height: 23px;
+        width: auto;
+
+        .dollar {
+          font-size: 20px;
+          font-weight: 600;
         }
       }
     }
@@ -35,20 +70,30 @@
   <div id="campaign-one-piece">
     <img class="canvas-wrap" :src="image" v-if="image">
     <div class="canvas-wrap bg" v-else>
-      <div class="ad">
-        <img class="qrcode" :src="$resize($siteQR, { width: 100 })" width="50" height="50">
-        <div class="text">
-          <p class="title">
-            calibur.tv 天下漫友是一家
-          </p>
-        </div>
+      <div
+        v-if="selectedAvatar"
+        class="avatar bg"
+        :style="{ backgroundImage: `url(${selectedAvatar})` }"
+      ></div>
+      <div class="file-input-wrap">
+        <div class="textarea text">点击上传头像</div>
+        <input type="file" ref="uploader" @change="selectAvatar">
       </div>
-    </div>
-    <div class="controls">
-      <button>头像</button>
-      <button>条件</button>
-      <button>名称</button>
-      <button>赏金</button>
+      <div class="name-wrap">
+        <input
+          v-model="name"
+          class="textarea name oneline"
+          placeholder="输入名称"
+        />
+      </div>
+      <div class="dollar-wrap">
+        <input
+          v-model="dollar"
+          class="textarea dollar oneline"
+          placeholder="输入赏金"
+          type="number"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -60,21 +105,42 @@
       image: {
         required: true,
         type: String
+      },
+      avatar: {
+        type: String,
+        default: ''
       }
     },
     data () {
       return {
-
+        selectedAvatar: this.avatar,
+        name: '',
+        dollar: ''
       }
     },
-    created () {
-
-    },
     methods: {
-
+      selectAvatar (e) {
+        const file = e.target.files[0]
+        const reader = new FileReader()
+        reader.onload = (evt) => {
+          this.selectedAvatar = evt.target.result
+          this.$refs.uploader.value = ''
+        }
+        reader.readAsDataURL(file)
+      }
     },
     mounted () {
-
+      this.$channel.$on('campaign-canvas-reset', () => {
+        this.selectedAvatar = this.avatar
+      })
+      this.$channel.$on('campaign-canvas-creating', () => {
+        if (!this.name) {
+          this.name = '無'
+        }
+        if (!this.dollar) {
+          this.dollar = 50
+        }
+      })
     }
   }
 </script>
