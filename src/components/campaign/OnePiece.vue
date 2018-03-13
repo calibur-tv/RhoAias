@@ -31,7 +31,6 @@
         font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
         width: 100%;
         height: 100%;
-        letter-spacing: -1px;
       }
 
       .name-wrap {
@@ -56,10 +55,29 @@
         right: 30px;
         height: 23px;
         width: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
 
-        .dollar {
+        .dollar-icon {
+          width: 60px;
+          height: 60px;
+          background-image: url(~img/campaign/dollar.png);
+        }
+
+        .dollar-input {
           font-size: 20px;
           font-weight: 600;
+          position: relative;
+          left: -15px;
+        }
+
+        .dollar-tail {
+          width: 30px;
+          height: 50px;
+          line-height: 50px;
+          margin-left: -10px;
         }
       }
     }
@@ -87,12 +105,15 @@
         />
       </div>
       <div class="dollar-wrap">
+        <div class="dollar-icon bg"></div>
         <input
           v-model="dollar"
-          class="textarea dollar oneline"
+          class="textarea dollar-input"
           placeholder="输入赏金"
           type="number"
+          :style="dollarInputWidth"
         />
+        <div class="dollar-tail">一</div>
       </div>
     </div>
   </div>
@@ -116,6 +137,14 @@
         selectedAvatar: this.avatar,
         name: '',
         dollar: ''
+      }
+    },
+    computed: {
+      dollarInputWidth () {
+        const length = this.dollar.length
+        return {
+          width: `${(length + 1) * 5 + 15}px`
+        }
       }
     },
     methods: {
