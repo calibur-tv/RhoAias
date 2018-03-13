@@ -2,10 +2,8 @@
   #campaign-one-piece {
 
     .canvas-wrap {
-      background-image: url(~img/campaign/one-piece.jpg);
-      background-size: 100% auto;
-      background-repeat: repeat-y;
-      background-position: center -30px;
+      background-image: url(~img/campaign/one-piece.png);
+      height: 434px;
 
       .ad {
         position: absolute;
@@ -36,7 +34,7 @@
 <template>
   <div id="campaign-one-piece">
     <img class="canvas-wrap" :src="image" v-if="image">
-    <div class="canvas-wrap" v-else>
+    <div class="canvas-wrap bg" v-else>
       <div class="ad">
         <img class="qrcode" :src="$resize($siteQR, { width: 100 })" width="50" height="50">
         <div class="text">
