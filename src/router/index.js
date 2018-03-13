@@ -71,6 +71,16 @@ export function createRouter () {
             component: () => import('~/views/role/trending')
           }
         ]
+      },
+      {
+        path: '/campaign',
+        component: () => import('~/layouts/empty'),
+        children: [
+          {
+            path: 'canvas',
+            component: () => import('~/views/campaign/canvas')
+          }
+        ]
       }
     ]
   })

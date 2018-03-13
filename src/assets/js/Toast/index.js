@@ -10,7 +10,7 @@ const fadeTimeout = 300
 export default class {
   start (args) {
     const opts = args || {}
-    const time = opts.time || 1500
+    const time = opts.time || 2000
     const tip = opts.tip || '加载中'
     const type = opts.type || 'loading'
     const auto = type === 'loading' ? opts.auto !== undefined || opts.time !== undefined : !(opts.auto !== undefined && !opts.auto)

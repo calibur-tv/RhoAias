@@ -24,7 +24,7 @@ module.exports = {
       'img': resolve('../src/assets/img'),
       'static': resolve('../src/static')
     },
-    extensions: ['.js', '.vue', '.scss', 'css']
+    extensions: ['.js', '.vue', '.scss', '.css']
   },
   module: {
     noParse: /es6-promise\.js$/,
@@ -60,6 +60,10 @@ module.exports = {
                   }
                 ],
                 i18n: '@kazupon/vue-i18n-loader'
+              },
+              cssModules: {
+                localIdentName: isDev ? '[path][name]---[local]---[hash:base64:5]' : '[local]-[hash:base64:5]',
+                camelCase: true
               }
             }
           }
@@ -71,7 +75,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
