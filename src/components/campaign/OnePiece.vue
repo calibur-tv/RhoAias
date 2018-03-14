@@ -106,7 +106,7 @@
       ></div>
       <div class="file-input-wrap">
         <div class="textarea text">点击上传头像</div>
-        <input type="file" ref="uploader" @change="selectAvatar">
+        <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png" ref="uploader" @change="selectAvatar">
       </div>
       <div class="name-wrap">
         <input
