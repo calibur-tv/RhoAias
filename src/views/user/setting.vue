@@ -135,7 +135,7 @@
         </template>
         <div class="submit-banner-btn file-input" v-else>
           点击更新背景
-          <input type="file" name="file" ref="bannerInput" @change="selectBanner">
+          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png" name="file" ref="bannerInput" @change="selectBanner">
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@
         </template>
         <div class="change-image-btn file-input" v-else>
           点击更新头像
-          <input type="file" name="file" ref="avatarInput" @change="selectAvatar">
+          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png" name="file" ref="avatarInput" @change="selectAvatar">
         </div>
       </div>
     </div>
