@@ -10,9 +10,11 @@
     align-items: center;
 
     #campaign-header {
-      position: relative;
+      position: absolute;
       height: 30px;
       width: 100%;
+      top: 0;
+      left: 0;
 
       .home {
         width: 90px;
