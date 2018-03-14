@@ -1,9 +1,19 @@
 <style lang="scss">
   $color: RGB(78, 73, 74);
   #campaign-one-piece {
+    width: 300px;
+    height: 434px;
+    margin: 30px auto 0;
+    box-shadow: 0 0.3rem 2rem rgba(51,51,51,.15);
+    border-radius: 5px;
+    overflow: hidden;
+
     .canvas-wrap {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: block;
       background-image: url(~img/campaign/one-piece.png);
-      height: 434px;
       color: $color;
 
       .file-input-wrap, .avatar {

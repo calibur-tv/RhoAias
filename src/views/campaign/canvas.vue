@@ -4,17 +4,11 @@
   #campaign-canvas {
     min-height: 100vh;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     #campaign-header {
-      position: absolute;
+      position: relative;
       height: 30px;
       width: 100%;
-      top: 0;
-      left: 0;
 
       .home {
         width: 90px;
@@ -33,37 +27,8 @@
     }
 
     #campaign-body {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-
-      >* {
-        width: 300px;
-        height: 100%;
-      }
-
-      .canvas-wrap {
-        position: relative;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0 0.3rem 2rem rgba(51,51,51,.15);
-        width: 100%;
-        display: block;
-
-        .ad {
-          opacity: 0;
-          transition: .2s;
-        }
-      }
 
       .creating {
-        .ad {
-          opacity: 1 !important;
-        }
-
         .file-input-wrap {
           display: none;
         }
@@ -102,9 +67,12 @@
     }
 
     #campaign-footer {
+      position: fixed;
       width: 100%;
       height: $footer-height;
       font-size: 0;
+      left: 0;
+      bottom: 0;
 
       button {
         height: 100%;
@@ -123,6 +91,12 @@
         color: #fff;
       }
     }
+
+    .shim-footer {
+      width: 100%;
+      height: $footer-height;
+      background-color: transparent;
+    }
   }
 </style>
 
@@ -140,6 +114,7 @@
       <button class="select-btn" @click="changeTheme">更换场景</button>
       <button class="create-btn" @click="create">{{ result ? '重新制作' : '生成海报' }}</button>
     </div>
+    <div class="shim-footer"></div>
     <v-drawer
       v-model="openSelectThemeDrawer"
       from="bottom"
