@@ -4,27 +4,34 @@
   #campaign-canvas {
     min-height: 100vh;
     position: relative;
-    padding-bottom: $footer-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     #campaign-header {
-      position: absolute;
-      top: 0;
-      left: 15px;
-      z-index: 9;
-      background-color: #fff;
-      color: $color-blue-normal;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 2px 10px 5px 10px;
-      border-radius: 0 0 5px 5px;
+      position: relative;
+      height: 30px;
+      width: 100%;
+
+      .home {
+        width: 90px;
+        height: 25px;
+        position: absolute;
+        top: 0;
+        left: 15px;
+        z-index: 9;
+        background-color: #fff;
+        color: $color-blue-normal;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 2px 10px 5px 10px;
+        border-radius: 0 0 5px 5px;
+      }
     }
 
     #campaign-body {
-      position: absolute;
-      bottom: $footer-height;
-      right: 0;
-      left: 0;
-      top: 30px;
+      flex-grow: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -92,9 +99,6 @@
     }
 
     #campaign-footer {
-      position: fixed;
-      left: 0;
-      bottom: 0;
       width: 100%;
       height: $footer-height;
       font-size: 0;
@@ -121,9 +125,11 @@
 
 <template>
   <div id="campaign-canvas">
-    <router-link to="/" id="campaign-header">
-      calibur.tv
-    </router-link>
+    <div id="campaign-header">
+      <router-link class="home" to="/" id="campaign-header">
+        calibur.tv
+      </router-link>
+    </div>
     <div id="campaign-body" :class="{ 'creating': creating }">
       <component :is="selectedTheme" :image="result"></component>
     </div>
