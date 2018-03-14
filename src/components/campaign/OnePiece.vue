@@ -87,7 +87,7 @@
 
 <template>
   <div id="campaign-one-piece">
-    <img class="canvas-wrap" :src="image" v-if="image">
+    <img class="canvas-wrap bg" :src="image" v-if="image">
     <div class="canvas-wrap bg" v-else>
       <div
         v-if="selectedAvatar"
