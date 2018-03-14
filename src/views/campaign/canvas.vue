@@ -36,10 +36,11 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      width: 100%;
 
       >* {
         width: 300px;
-        height: 520px;
+        height: 100%;
       }
 
       .canvas-wrap {
@@ -56,7 +57,7 @@
         }
       }
 
-      &.creating {
+      .creating {
         .ad {
           opacity: 1 !important;
         }
@@ -130,8 +131,8 @@
         calibur.tv
       </router-link>
     </div>
-    <div id="campaign-body" :class="{ 'creating': creating }">
-      <component :is="selectedTheme" :image="result"></component>
+    <div id="campaign-body">
+      <component :class="{ 'creating': creating }" :is="selectedTheme" :image="result"></component>
     </div>
     <div id="campaign-footer">
       <button class="select-btn" @click="changeTheme">更换场景</button>
