@@ -38,13 +38,14 @@
         top: 310px;
         left: 30px;
         right: 30px;
-        height: 42px;
+        height: 50px;
         width: auto;
 
         .name {
           font-size: 42px;
           line-height: 42px;
           font-weight: 700;
+          padding: 4px 0;
         }
       }
 
@@ -109,7 +110,7 @@
         <input
           v-model="dollar"
           class="textarea dollar-input"
-          placeholder="赏金"
+          placeholder="金"
           type="number"
           :style="dollarInputWidth"
         />
