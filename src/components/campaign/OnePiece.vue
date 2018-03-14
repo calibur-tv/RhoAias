@@ -42,8 +42,8 @@
         width: auto;
 
         .name {
-          line-height: 1;
           font-size: 42px;
+          line-height: 42px;
           font-weight: 700;
         }
       }
@@ -101,7 +101,7 @@
         <input
           v-model="name"
           class="textarea name oneline"
-          placeholder="输入名称"
+          placeholder="名称"
         />
       </div>
       <div class="dollar-wrap">
@@ -109,7 +109,7 @@
         <input
           v-model="dollar"
           class="textarea dollar-input"
-          placeholder="输入赏金"
+          placeholder="赏金"
           type="number"
           :style="dollarInputWidth"
         />
