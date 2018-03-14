@@ -24,7 +24,7 @@
       bottom: $footer-height;
       right: 0;
       left: 0;
-      top: 0;
+      top: 30px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -41,7 +41,6 @@
         overflow: hidden;
         box-shadow: 0 0.3rem 2rem rgba(51,51,51,.15);
         width: 100%;
-        max-height: 480px;
         display: block;
 
         .ad {

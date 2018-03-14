@@ -42,7 +42,7 @@
         width: auto;
 
         .name {
-          line-height: 42px;
+          line-height: 1;
           font-size: 42px;
           font-weight: 700;
         }
@@ -143,7 +143,7 @@
       dollarInputWidth () {
         const length = this.dollar.length
         return {
-          width: `${(length + 1) * 5 + 15}px`
+          width: `${(length + 1) * 5 + 20}px`
         }
       }
     },
