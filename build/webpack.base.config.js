@@ -142,7 +142,6 @@ module.exports = {
 
     if (isProd) {
       pluginArr = pluginArr.concat([
-        new UglifyJsPlugin(),
         new QiniuPlugin({
           ACCESS_KEY: qiniu.access,
           SECRET_KEY: qiniu.secret,
@@ -154,6 +153,7 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
+        new UglifyJsPlugin(),
         new CopyWebpackPlugin([
           { from: resolve('../static') }
         ]),

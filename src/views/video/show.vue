@@ -270,7 +270,7 @@
         return this.showAll ? this.videos : this.videos.slice(begin, begin + this.take)
       },
       videoSrc () {
-        // return 'https://video.calibur.tv/bangumi/fullmetal-alchemist/video/720/81.Flv'
+        const video = this.video
         return this.bangumi.others_site_video
           ? video.url
           : video.resource
