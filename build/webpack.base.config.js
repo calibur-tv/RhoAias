@@ -47,7 +47,12 @@ module.exports = {
               loaders: {
                 scss: [
                   'vue-style-loader',
-                  'css-loader',
+                  {
+                    loader: 'css-loader',
+                    options: isDev ? {} : {
+                      minimize: true
+                    }
+                  },
                   'sass-loader',
                   {
                     loader: 'sass-resources-loader',
@@ -75,7 +80,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg)$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -96,7 +101,14 @@ module.exports = {
           ? ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
           : ExtractTextPlugin.extract({
             fallback: 'vue-style-loader',
-            use: ['css-loader?minimize', 'postcss-loader', 'sass-loader']
+            use: [
+              {
+                loader: 'css-loader',
+                options: {
+                  minimize: true,
+                  importLoaders: 2
+                }
+              }, 'postcss-loader', 'sass-loader']
           })
       },
       {
@@ -143,7 +155,7 @@ module.exports = {
     if (!isDev) {
       pluginArr = pluginArr.concat([
         new CopyWebpackPlugin([
-          {from: resolve('../src/static')}
+          { from: resolve('../static') }
         ]),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
