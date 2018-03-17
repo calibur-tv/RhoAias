@@ -195,7 +195,7 @@
 
         setTimeout(() => {
           html2canvas(document.querySelector('.canvas-wrap'), config).then((canvas) => {
-            this.result = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+            this.result = canvas.toDataURL('image/png')
             this.$toast.success('制作成功！长按图片可保持')
             this.creating = false
           }).catch(() => {
