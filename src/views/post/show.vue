@@ -252,6 +252,37 @@
         margin-bottom: $container-padding;
       }
     }
+
+    .bangumi {
+      display: block;
+      padding-top: $container-padding;
+      padding-bottom: $container-padding;
+
+      img {
+        width: 50px;
+        height: 50px;
+        vertical-align: middle;
+        margin-right: 5px;
+        float: left;
+      }
+
+      .content {
+        overflow: hidden;
+        height: 50px;
+
+        .name {
+          font-weight: 700;
+          line-height: 20px;
+        }
+
+        .summary {
+          font-size: 12px;
+          line-height: 13px;
+          margin-top: 4px;
+          color: #666;
+        }
+      }
+    }
   }
 </style>
 
@@ -354,6 +385,14 @@
       :loading="loadingLoadMore"
       @fetch="getPosts(false)"
     ></more-btn>
+    <div class="hr"></div>
+    <router-link class="bangumi container" :to="$alias.bangumi(bangumi.id)">
+      <v-img :src="$resize(bangumi.avatar, { width: 100 })"></v-img>
+      <div class="content">
+        <span class="name" v-text="bangumi.name"></span>
+        <p class="summary twoline" v-text="bangumi.summary"></p>
+      </div>
+    </router-link>
     <v-drawer
       v-model="openCommentsDrawer"
       from="bottom"
