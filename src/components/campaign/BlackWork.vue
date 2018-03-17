@@ -44,7 +44,7 @@
           span {
             display: inline-block;
             vertical-align: middle;
-            width: 52px;
+            width: 55px;
             text-align: right;
             float: left;
             line-height: 18px;
@@ -61,6 +61,7 @@
             width: 100%;
             height: 100%;
             font-size: 13px;
+            line-height: 18px;
           }
         }
       }
