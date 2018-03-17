@@ -154,7 +154,7 @@
       dollarInputWidth () {
         const length = this.dollar.length
         return {
-          width: `${(length + 1) * 5 + 20}px`
+          width: `${(length + 1) * 10 + 7}px`
         }
       }
     },

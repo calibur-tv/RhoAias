@@ -30,7 +30,7 @@
 
       .creating {
         .file-input-wrap {
-          display: none;
+          opacity: 0;
         }
 
         .textarea {
@@ -133,16 +133,20 @@
 <script>
   import html2canvas from 'html2canvas'
   import OnePiece from '~/components/campaign/OnePiece'
+  import BlackWork from '~/components/campaign/BlackWork'
 
   export default {
     name: 'campaign-canvas',
     components: {
-      OnePiece
+      OnePiece,
+      BlackWork
     },
     watch: {
       selectedTheme () {
         setTimeout(() => {
           this.openSelectThemeDrawer = false
+          this.$channel.$emit('campaign-canvas-reset')
+          this.result = ''
         }, 300)
       }
     },
@@ -160,18 +164,17 @@
           {
             label: '博多豚骨拉面团 - 黑色工作',
             value: 'black-work'
-          },
-          {
-            label: '无头骑士异闻录 - dollars',
-            value: 'dollars'
           }
+//          {
+//            label: '无头骑士异闻录 - dollars',
+//            value: 'dollars'
+//          }
         ]
       }
     },
     methods: {
       changeTheme () {
-        this.$toast.info('更多场景开发中...')
-        // this.openSelectThemeDrawer = true
+        this.openSelectThemeDrawer = true
       },
       create () {
         if (this.creating) {
