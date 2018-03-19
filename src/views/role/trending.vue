@@ -102,15 +102,16 @@
         line-height: 44px;
 
         .bangumi {
-          float: left;
           color: #999;
           font-size: 12px;
+          overflow: hidden;
+          margin-right: 8px;
         }
 
         .stats {
-          overflow: hidden;
           text-align: right;
           color: #666;
+          float: right;
 
           span {
             margin-left: 10px;
@@ -149,7 +150,6 @@
             <div class="lover" v-else></div>
           </div>
           <div class="footer">
-            <router-link class="bangumi" :to="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></router-link>
             <div class="stats">
               <span>
                 粉丝:
@@ -162,6 +162,7 @@
               <span>排名:</span>
               <span class="top" :data-index="item.fans_count ? index + 1 : '无'"></span>
             </div>
+            <router-link class="bangumi" :to="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></router-link>
           </div>
         </div>
       </li>
