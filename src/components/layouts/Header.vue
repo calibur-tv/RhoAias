@@ -115,6 +115,17 @@
         }
       }
 
+      .faker-avatar {
+        margin-left: 15px;
+        width: 24px;
+        height: 24px;
+        font-size: 23px;
+        line-height: 24px;
+        margin-top: -4px;
+        vertical-align: middle;
+        color: #333;
+      }
+
       .sign-drawer {
         text-align: center;
 
@@ -372,11 +383,7 @@
           </ul>
         </v-drawer>
       </template>
-      <template v-else>
-        <button class="nav-avatar" @click="openSignDrawer">
-          <img :src="$resize(avatar, { width: 48 })" alt="avatar">
-        </button>
-      </template>
+      <button class="faker-avatar iconfont icon-icon" @click="openSignDrawer" v-else></button>
     </div>
   </header>
 </template>
@@ -454,9 +461,12 @@
         }
       },
       handleCreateBtnClick () {
-        this.$store.state.login
-          ? this.$channel.$emit('drawer-open-write-post')
-          : this.$channel.$emit('drawer-open-sign')
+        if (this.$store.state.login) {
+          this.$channel.$emit('drawer-open-write-post')
+        } else {
+          this.$toast.info('继续操作前请先登录')
+          this.$channel.$emit('drawer-open-sign')
+        }
       },
       async handleDaySign () {
         if (!this.$store.state.login) {

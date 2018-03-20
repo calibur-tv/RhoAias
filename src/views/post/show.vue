@@ -253,33 +253,36 @@
       }
     }
 
-    .bangumi {
-      display: block;
+    .bangumi-panel {
       padding-top: $container-padding;
-      padding-bottom: $container-padding;
 
-      img {
-        width: 50px;
-        height: 50px;
-        vertical-align: middle;
-        margin-right: 5px;
-        float: left;
-      }
+      a {
+        display: block;
+        padding-bottom: $container-padding;
 
-      .content {
-        overflow: hidden;
-        height: 50px;
-
-        .name {
-          font-weight: 700;
-          line-height: 20px;
+        img {
+          width: 50px;
+          height: 50px;
+          vertical-align: middle;
+          margin-right: 10px;
+          float: left;
         }
 
-        .summary {
-          font-size: 12px;
-          line-height: 13px;
-          margin-top: 4px;
-          color: #666;
+        .content {
+          overflow: hidden;
+          height: 50px;
+
+          .name {
+            font-weight: 700;
+            line-height: 20px;
+          }
+
+          .summary {
+            font-size: 12px;
+            line-height: 13px;
+            margin-top: 4px;
+            color: #666;
+          }
         }
       }
     }
@@ -386,13 +389,16 @@
       @fetch="getPosts(false)"
     ></more-btn>
     <div class="hr"></div>
-    <router-link class="bangumi container" :to="$alias.bangumi(bangumi.id)">
-      <v-img :src="$resize(bangumi.avatar, { width: 100 })"></v-img>
-      <div class="content">
-        <span class="name" v-text="bangumi.name"></span>
-        <p class="summary twoline" v-text="bangumi.summary"></p>
-      </div>
-    </router-link>
+    <div class="bangumi-panel container">
+      <h3 class="sub-title">所属番剧：</h3>
+      <router-link :to="$alias.bangumi(bangumi.id)">
+        <v-img :src="$resize(bangumi.avatar, { width: 100 })"></v-img>
+        <div class="content">
+          <span class="name" v-text="bangumi.name"></span>
+          <p class="summary twoline" v-text="bangumi.summary"></p>
+        </div>
+      </router-link>
+    </div>
     <v-drawer
       v-model="openCommentsDrawer"
       from="bottom"
