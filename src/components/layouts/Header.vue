@@ -121,7 +121,6 @@
         height: 24px;
         font-size: 23px;
         line-height: 24px;
-        margin-top: -4px;
         vertical-align: middle;
         color: #333;
       }
@@ -383,7 +382,7 @@
           </ul>
         </v-drawer>
       </template>
-      <button class="faker-avatar iconfont icon-icon" @click="openSignDrawer" v-else></button>
+      <button class="faker-avatar iconfont icon-avatar" @click="openSignDrawer" v-else></button>
     </div>
   </header>
 </template>
