@@ -296,13 +296,9 @@
       <button class="create-btn">
         <i class="iconfont icon-pinglun" @click="handleCreateBtnClick"></i>
       </button>
-      <write-post
-        :post-id="createPostId"
-        :bangumi-id="createBangumiId"
-      ></write-post>
       <v-drawer
         from="top"
-        size="30%"
+        size="40px"
         id="search"
         class="search-drawer"
         v-model="openSearchDrawer"
@@ -319,6 +315,7 @@
                   v-model.trim="q"
                   placeholder="搜索番剧"
                   @keyup.enter="search()"
+                  ref="searchInput"
                 >
               </div>
             </div>
@@ -326,6 +323,7 @@
         </div>
       </v-drawer>
       <template v-if="$store.state.login">
+        <write-post></write-post>
         <button class="nav-avatar" @click="openUserDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
           <span class="badge" v-if="notificationCount"></span>
@@ -408,12 +406,6 @@
           return {}
         }
         return { backgroundImage: `url(${this.$resize(this.user.banner, { height: 250, mode: 2 })})` }
-      },
-      createPostId () {
-        return this.$route.name === 'post-show' ? parseInt(this.$route.params.id, 10) : 0
-      },
-      createBangumiId () {
-        return this.$route.name === 'bangumi-show' ? parseInt(this.$route.params.id, 10) : 0
       },
       user () {
         return this.$store.state.user

@@ -29,6 +29,11 @@ export default {
     }
   }),
   mutations: {
+    followBangumi (state, { id, result }) {
+      if (state.show.info.post.id === id) {
+        state.show.info.bangumi.followed = result
+      }
+    },
     setPost (state, { data, reset }) {
       state.show.data = {
         list: reset ? data.list : state.show.data.list.concat(data.list),

@@ -553,7 +553,8 @@
         openRoleDetailDrawer: false,
         currentRole: {},
         focusRoleSort: 'new',
-        loadingRoleFans: false
+        loadingRoleFans: false,
+        loadingFollow: false
       }
     },
     methods: {
@@ -562,14 +563,19 @@
           this.$channel.$emit('drawer-open-sign')
           return
         }
+        if (this.loadingFollow) {
+          return
+        }
+        this.loadingFollow = true
         try {
           await this.$store.dispatch('bangumi/follow', {
             ctx: this,
             id: this.id
           })
-          this.$store.commit('USE_COIN')
         } catch (e) {
           this.$toast.error(e)
+        } finally {
+          this.loadingFollow = false
         }
       },
       async getVideos () {

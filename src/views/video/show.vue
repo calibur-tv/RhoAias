@@ -43,32 +43,12 @@
     }
 
     .container {
-      #bangumi {
+      .bangumi-panel {
         margin-top: 20px;
-        position: relative;
-        @include border-bottom();
-        padding-bottom: 20px;
 
-        .avatar {
+        .part {
+          font-size: 14px;
           display: block;
-          float: left;
-          width: 80px;
-          height: 92px;
-          border-radius: 5px;
-          overflow: hidden;
-          margin-right: 10px;
-        }
-
-        .info {
-          overflow: hidden;
-          min-height: 92px;
-
-          .name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-          }
         }
       }
 
@@ -167,19 +147,15 @@
       </template>
     </div>
     <div class="container">
-      <div id="bangumi">
-        <router-link class="avatar" :to="$alias.bangumi(bangumi.id)">
-          <img :src="$resize(bangumi.avatar, { width: 80, height: 92 })">
-        </router-link>
-        <div class="info">
-          <router-link
-            class="name"
-            :to="$alias.bangumi(bangumi.id)"
-            v-text="bangumi.name"
-          ></router-link>
-          <p>第{{ video.part }}话&nbsp;{{ video.name }}</p>
-        </div>
-      </div>
+      <v-bangumi-panel
+        class="bangumi-panel"
+        :id="bangumi.id"
+        :avatar="bangumi.avatar"
+        :name="bangumi.name"
+        :followed="bangumi.followed"
+      >
+        <p class="part twoline">第{{ video.part }}话&nbsp;{{ video.name }}</p>
+      </v-bangumi-panel>
       <div id="metas">
         <div>
           <h3 class="sub-title">选集（{{ videos.length }}）</h3>

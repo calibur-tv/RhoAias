@@ -91,7 +91,7 @@
         margin-bottom: 30px;
 
         button {
-          margin: 0 10px;
+          margin: 0 5px;
           font-size: 13px;
 
           i {
@@ -255,35 +255,12 @@
 
     .bangumi-panel {
       padding-top: $container-padding;
+      padding-bottom: $container-padding;
 
-      a {
-        display: block;
-        padding-bottom: $container-padding;
-
-        img {
-          width: 50px;
-          height: 50px;
-          vertical-align: middle;
-          margin-right: 10px;
-          float: left;
-        }
-
-        .content {
-          overflow: hidden;
-          height: 50px;
-
-          .name {
-            font-weight: 700;
-            line-height: 20px;
-          }
-
-          .summary {
-            font-size: 12px;
-            line-height: 13px;
-            margin-top: 4px;
-            color: #666;
-          }
-        }
+      .summary {
+        font-size: 12px;
+        line-height: 13px;
+        color: #666;
       }
     }
   }
@@ -389,15 +366,17 @@
       @fetch="getPosts(false)"
     ></more-btn>
     <div class="hr"></div>
-    <div class="bangumi-panel container">
+    <div class="container bangumi-panel">
       <h3 class="sub-title">所属番剧：</h3>
-      <router-link :to="$alias.bangumi(bangumi.id)">
-        <v-img :src="$resize(bangumi.avatar, { width: 100 })"></v-img>
-        <div class="content">
-          <span class="name" v-text="bangumi.name"></span>
-          <p class="summary twoline" v-text="bangumi.summary"></p>
-        </div>
-      </router-link>
+      <v-bangumi-panel
+        :id="bangumi.id"
+        :avatar="bangumi.avatar"
+        :name="bangumi.name"
+        :followed="bangumi.followed"
+        @follow="handleBangumiFollow"
+      >
+        <p class="summary twoline" v-text="bangumi.summary"></p>
+      </v-bangumi-panel>
     </div>
     <v-drawer
       v-model="openCommentsDrawer"
@@ -624,6 +603,12 @@
       }
     },
     methods: {
+      handleBangumiFollow (result) {
+        this.$store.commit('post/followBangumi', {
+          id: this.post.id,
+          result
+        })
+      },
       switchOnlyMaster () {
         window.location = this.$alias.post(this.post.id, {
           only: this.onlySeeMaster ? 0 : 1

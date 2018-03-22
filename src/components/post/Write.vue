@@ -52,10 +52,10 @@
     from="right"
     size="100%"
     id="write-post"
-    :header-text="postId ? '发表回复' : '发帖'"
+    :header-text="postId && isReply ? '发表回复' : '发帖'"
   >
     <div class="container">
-      <template v-if="!postId">
+      <template v-if="!postId || !isReply">
         <input
           class="title"
           type="text"
@@ -67,7 +67,7 @@
           <span>发布到：</span>
           <div
             @click="handleBangumiPickerBtnClick"
-            v-text="selectedBangumi"
+            v-text="bangumiPlaceholder"
           ></div>
         </div>
         <v-drawer
@@ -116,14 +116,6 @@
 <script>
   export default {
     name: 'write-post-reply',
-    props: {
-      postId: {
-        type: Number
-      },
-      bangumiId: {
-        type: Number
-      }
-    },
     data () {
       return {
         open: false,
@@ -142,20 +134,36 @@
             textAlign: 'center'
           }
         ],
-        followedBangumi: false,
+        selectedBangumi: false,
         openBangumisDrawer: false,
         loading: false,
-        submitting: false
+        submitting: false,
+        isReply: true,
+        appendBangumi: null
       }
     },
     watch: {
       open (val) {
-        if (val && !this.postId) {
-          this.getUserFollowedBangumis()
+        if (val) {
+          if (!this.postId || !this.isReply) {
+            this.getUserFollowedBangumis()
+          }
+        } else {
+          this.isReply = true
+          this.appendBangumi = null
         }
       }
     },
     computed: {
+      postId () {
+        return this.$route.name === 'post-show' ? parseInt(this.$route.params.id, 10) : 0
+      },
+      bangumiId () {
+        return this.$route.name === 'bangumi-show' ? parseInt(this.$route.params.id, 10) : 0
+      },
+      currentBangumi () {
+        return this.bangumiId ? this.$store.state.bangumi.info : null
+      },
       formatContent () {
         let content = this.content
         while (content.match('\n\n') !== null) {
@@ -165,7 +173,7 @@
 
         const res = []
         content.forEach(item => {
-          res.push(item ? `<p>${item}</p>` : '<p><br/></p>')
+          res.push(item.trim() ? `<p>${item}</p>` : '<p><br/></p>')
         })
 
         return res.join('')
@@ -173,11 +181,11 @@
       formatImages () {
         return this.images.map(item => item.img)
       },
-      selectedBangumi () {
+      bangumiPlaceholder () {
         if (this.loading) {
           return '加载中...'
         }
-        if (!this.followedBangumi) {
+        if (!this.selectedBangumi) {
           return '点击选择番剧'
         }
         return this.slots[0].values[this.slots[0].defaultIndex].name
@@ -243,10 +251,6 @@
           return
         }
         if (!this.postId) {
-          if (!this.followedBangumi) {
-            this.$toast.error('必须先关注才能发帖')
-            return
-          }
           if (!this.title) {
             this.$toast.error('标题不能为空！')
             return
@@ -255,7 +259,7 @@
         this.submitting = true
         this.$captcha({
           success: async ({ data }) => {
-            if (this.postId) {
+            if (this.postId && this.isReply) {
               try {
                 await this.$store.dispatch('post/reply', {
                   postId: this.postId,
@@ -308,6 +312,9 @@
           },
           error: () => {
             this.submitting = false
+          },
+          close: () => {
+            this.submitting = false
           }
         })
       },
@@ -319,7 +326,7 @@
         this.slots[0].values.forEach((item, index) => {
           if (item.id === id) {
             this.slots[0].defaultIndex = index
-            this.followedBangumi = true
+            this.selectedBangumi = true
           }
         })
       },
@@ -329,11 +336,22 @@
         }
         this.loading = true
         try {
-          this.slots[0].values = await this.$store.dispatch('users/getFollowBangumis', {
+          const bangumis = await this.$store.dispatch('users/getFollowBangumis', {
             zone: this.$store.state.user.zone,
             self: true
           })
-          this.followedBangumi = false
+          if (this.bangumiId && bangumis.every(_ => _.id !== this.bangumiId)) {
+            bangumis.unshift({
+              id: this.currentBangumi.id,
+              name: this.currentBangumi.name,
+              avatar: this.currentBangumi.avatar
+            })
+          }
+          if (this.appendBangumi && bangumis.every(_ => _.id !== this.appendBangumi.id)) {
+            bangumis.unshift(this.appendBangumi)
+          }
+          this.slots[0].values = bangumis
+          this.selectedBangumi = false
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -352,6 +370,11 @@
       if (this.$store.state.login) {
         this.getUpToken()
       }
+      this.$channel.$on('open-create-post-drawer', (data) => {
+        this.appendBangumi = data
+        this.isReply = false
+        this.open = true
+      })
     }
   }
 </script>
