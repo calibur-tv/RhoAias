@@ -28,14 +28,14 @@ export function createRouter () {
             component: () => import('~/views/index')
           },
           {
-            path: 'bangumi/timeline',
-            name: 'bangumi-time',
-            component: () => import('~/views/bangumi/time')
-          },
-          {
             path: 'bangumi/:id(\\d+)',
             name: 'bangumi-show',
             component: () => import('~/views/bangumi/show')
+          },
+          {
+            path: 'bangumi/:sort',
+            name: 'bangumi-sort',
+            component: () => import('~/views/bangumi/sort')
           },
           {
             path: 'user/:slug',

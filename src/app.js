@@ -14,7 +14,10 @@ import Radio from '~/components/common/Radio'
 import Post from '~/components/items/Post'
 import Select from '~/components/common/Select'
 import BangumiPanel from '~/components/panel/BangumiPanel'
+import { TabContainer, TabContainerItem } from 'mint-ui'
 
+Vue.component(TabContainer.name, TabContainer)
+Vue.component(TabContainerItem.name, TabContainerItem)
 Vue.component(ImageLazy.name, ImageLazy)
 Vue.component(NoSSR.name, NoSSR)
 Vue.component(Time.name, Time)

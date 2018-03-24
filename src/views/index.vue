@@ -51,7 +51,7 @@
     </div>
     <div class="hr"></div>
     <div class="pages">
-      <router-link :to="$alias.bangumiTimeline">番剧列表</router-link>
+      <router-link :to="$alias.bangumiNews">番剧列表</router-link>
       <router-link to="/trending/role">偶像排行榜</router-link>
       <router-link to="/campaign/canvas">情景海报</router-link>
     </div>
