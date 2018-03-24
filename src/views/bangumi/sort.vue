@@ -191,7 +191,7 @@
       <div id="bangumi-news" v-else>
         <div id="weekly-btn-group">
           <button
-            v-for="(btn, index) in weeklys"
+            v-for="(btn, index) in showtime"
             v-text="btn"
             @click="handleWeeklySwitch(index)"
             :class="{ 'active': showWeek === `tab-weekly-${index}` }"
@@ -245,6 +245,8 @@
 </template>
 
 <script>
+  const weeklys = ['最新', '一', '二', '三', '四', '五', '六', '日']
+
   export default {
     name: 'page-bangumi-time',
     async asyncData ({ store, route, ctx }) {
@@ -275,8 +277,8 @@
       return {
         loading: false,
         sort: this.$route.params.sort,
-        showWeek: 'tab-weekly-0',
-        weeklys: ['最新', '一', '二', '三', '四', '五', '六', '日']
+        showWeek: `tab-weekly-${new Date().getDay() || 7}`,
+        showtime: weeklys
       }
     },
     methods: {
