@@ -69,12 +69,13 @@
   width: 100%;
   @include border-bottom();
 
-  button {
+  a, button {
     height: 40px;
     line-height: 40px;
     margin-right: 28px;
     color: #000;
     font-size: 14px;
+    display: inline-block;
 
     &.active {
       position: relative;
@@ -90,10 +91,6 @@
         border-radius: 3px;
       }
     }
-  }
-
-  a {
-    margin-top: 12px;
   }
 }
 

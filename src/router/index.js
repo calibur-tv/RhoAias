@@ -33,9 +33,19 @@ export function createRouter () {
             component: () => import('~/views/bangumi/show')
           },
           {
-            path: 'bangumi/:sort',
-            name: 'bangumi-sort',
-            component: () => import('~/views/bangumi/sort')
+            path: 'bangumi/timeline',
+            name: 'bangumi-timeline',
+            component: () => import('~/views/bangumi/time')
+          },
+          {
+            path: 'bangumi/news',
+            name: 'bangumi-news',
+            component: () => import('~/views/bangumi/news')
+          },
+          {
+            path: 'bangumi/tags/:id?',
+            name: 'bangumi-tags',
+            component: () => import('~/views/bangumi/tags')
           },
           {
             path: 'user/:slug',
