@@ -166,8 +166,8 @@
       },
       formatContent () {
         let content = this.content
-        while (content.match('\n\n') !== null) {
-          content = content.replace('\n\n', '\n')
+        while (content.match('\n\n\n') !== null) {
+          content = content.replace(/\n\n\n/g, '\n\n')
         }
         content = content.split('\n')
 
