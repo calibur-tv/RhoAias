@@ -114,6 +114,10 @@
             value: 2
           },
           {
+            label: '资源问题',
+            value: 4
+          },
+          {
             label: '其它问题',
             value: 3
           }
