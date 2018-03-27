@@ -321,6 +321,9 @@
         this.player.controls = false
       }
       this.player.load()
+      this.player.addEventListener('pause', () => {
+        this.playing = false
+      })
     }
   }
 </script>
