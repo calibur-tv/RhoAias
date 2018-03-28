@@ -138,8 +138,7 @@
         openBangumisDrawer: false,
         loading: false,
         submitting: false,
-        isReply: true,
-        appendBangumi: null
+        isReply: true
       }
     },
     watch: {
@@ -150,7 +149,6 @@
           }
         } else {
           this.isReply = true
-          this.appendBangumi = null
         }
       }
     },
@@ -189,6 +187,9 @@
           return '点击选择番剧'
         }
         return this.slots[0].values[this.slots[0].defaultIndex].name
+      },
+      followBangumis () {
+        return this.$store.state.users.self.followBangumi
       }
     },
     methods: {
@@ -322,7 +323,9 @@
         if (!values[0]) {
           return
         }
-        const id = values[0].id
+        this.saveSelectedBangumi(values[0].id)
+      },
+      saveSelectedBangumi (id) {
         this.slots[0].values.forEach((item, index) => {
           if (item.id === id) {
             this.slots[0].defaultIndex = index
@@ -330,28 +333,35 @@
           }
         })
       },
+      appendCurrentBangumi () {
+        if (!this.bangumiId || this.slots[0].values.some(_ => _.id === this.bangumiId)) {
+          this.saveSelectedBangumi(this.bangumiId)
+          return
+        }
+        this.slots[0].values.unshift({
+          id: this.currentBangumi.id,
+          name: this.currentBangumi.name,
+          avatar: this.currentBangumi.avatar
+        })
+        this.slots[0].defaultIndex = 0
+      },
       async getUserFollowedBangumis () {
+        if (this.followBangumis.length) {
+          this.appendCurrentBangumi()
+          return
+        }
         if (this.loading) {
           return
         }
         this.loading = true
         try {
-          const bangumis = await this.$store.dispatch('users/getFollowBangumis', {
+          this.slots[0].values = await this.$store.dispatch('users/getFollowBangumis', {
             zone: this.$store.state.user.zone,
             self: true
           })
-          if (this.bangumiId && bangumis.every(_ => _.id !== this.bangumiId)) {
-            bangumis.unshift({
-              id: this.currentBangumi.id,
-              name: this.currentBangumi.name,
-              avatar: this.currentBangumi.avatar
-            })
-          }
-          if (this.appendBangumi && bangumis.every(_ => _.id !== this.appendBangumi.id)) {
-            bangumis.unshift(this.appendBangumi)
-          }
-          this.slots[0].values = bangumis
-          this.selectedBangumi = false
+          this.$nextTick(() => {
+            this.appendCurrentBangumi()
+          })
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -371,7 +381,7 @@
         this.getUpToken()
       }
       this.$channel.$on('open-create-post-drawer', (data) => {
-        this.appendBangumi = data
+        this.this.slots[0].values.push(data)
         this.isReply = false
         this.open = true
       })
