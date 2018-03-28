@@ -34,11 +34,11 @@
 
       .info {
         padding-left: 90px;
-        line-height: 40px;
         padding-bottom: 10px;
 
         .nickname {
           overflow: hidden;
+          line-height: 40px;
         }
 
         button {
