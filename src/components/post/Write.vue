@@ -355,10 +355,11 @@
         }
         this.loading = true
         try {
-          this.slots[0].values = await this.$store.dispatch('users/getFollowBangumis', {
+          const bangumis = await this.$store.dispatch('users/getFollowBangumis', {
             zone: this.$store.state.user.zone,
             self: true
           })
+          this.slots[0].values = this.slots[0].values.concat(bangumis)
           this.$nextTick(() => {
             this.appendCurrentBangumi()
           })
