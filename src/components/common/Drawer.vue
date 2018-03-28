@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="scss" scoped>
   .drawer {
     z-index: 100;
     position: fixed;
@@ -43,18 +43,17 @@
       opacity: 0;
     }
 
-
     .drawer-header {
       position: relative;
       height: 46px;
       line-height: 46px;
+      z-index: 1;
 
-      a {
+      button {
         position: absolute;
         font-size: 16px;
         left: 20px;
-        top: 0;
-        color: #666;
+        top: 14px;
       }
 
       h3 {
@@ -77,13 +76,15 @@
 <template>
   <no-ssr>
     <transition :name="`fade-${from}`">
-      <div class="drawer"
-           v-show="show"
-           :style="position"
-           @touchstart.stop
-           @touchmove.stop>
+      <div
+        class="drawer"
+        v-show="show"
+        :style="position"
+        @touchstart.stop
+        @touchmove.stop
+      >
         <header class="drawer-header" v-if="headerText">
-          <a @click="close">关闭</a>
+          <button @click="close">关闭</button>
           <h3 v-text="headerText"></h3>
         </header>
         <slot></slot>
@@ -119,12 +120,13 @@
         type: String,
         default: '70%'
       },
+      headerText: {
+        type: String,
+        default: ''
+      },
       backdrop: {
         type: Boolean,
         default: true
-      },
-      headerText: {
-        type: String
       }
     },
     data () {
@@ -143,7 +145,7 @@
         this.$emit('input', val)
       },
       '$route' () {
-        this.resetPos()
+        this.close()
       }
     },
     mounted () {
@@ -157,7 +159,7 @@
         if (this.show) {
           return
         }
-        if (this.from !== 'top') {
+        if (this.from === 'left' || this.from === 'right') {
           this.pos = window.scrollY
           document.body.style.overflow = 'hidden'
           document.body.style.position = 'fixed'
@@ -177,16 +179,22 @@
             click: this.close
           })
         }
-        this.$nextTick(() => {
-          this.$emit('open')
-        })
       },
       close () {
+        const needReset = this.from === 'left' || this.from === 'right'
+        if (needReset) {
+          document.body.style.overflow = ''
+          document.body.style.position = ''
+          document.body.style.top = ''
+          document.body.style.bottom = ''
+          document.body.style.right = ''
+          document.body.style.left = ''
+          document.body.style.height = ''
+        }
         if (!this.show) {
           return
         }
-        if (this.from !== 'top') {
-          this.resetPos()
+        if (needReset) {
           window.scrollTo(0, this.pos)
         }
         this.show = false
@@ -196,18 +204,6 @@
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
-        this.$nextTick(() => {
-          this.$emit('close')
-        })
-      },
-      resetPos () {
-        document.body.style.overflow = ''
-        document.body.style.position = ''
-        document.body.style.top = ''
-        document.body.style.bottom = ''
-        document.body.style.right = ''
-        document.body.style.left = ''
-        document.body.style.height = ''
       }
     },
     beforeDestroy () {

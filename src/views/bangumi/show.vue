@@ -323,10 +323,11 @@
               >
                 <router-link :to="$alias.video(video.id)">
                   <figure class="clearfix">
-                    <v-img class="bg"
-                           :alt="video.name"
-                           :src="$resize(video.poster, { width: 128, height: 80 })">
-                    </v-img>
+                    <v-img
+                      class="bg"
+                      :alt="video.name"
+                      :src="$resize(video.poster, { width: 128, height: 80 })"
+                    ></v-img>
                     <figcaption>
                       <p class="oneline">第{{ videos.repeat ? index + 1 : video.part }}话</p>
                       <span class="twoline" v-text="video.name"></span>
@@ -345,10 +346,11 @@
           >
             <router-link :to="$alias.video(video.id)">
               <figure class="clearfix">
-                <v-img class="bg"
-                       :alt="video.name"
-                       :src="$resize(video.poster, { width: 128, height: 80 })">
-                </v-img>
+                <v-img
+                  class="bg"
+                  :alt="video.name"
+                  :src="$resize(video.poster, { width: 128, height: 80 })"
+                ></v-img>
                 <figcaption>
                   <p class="oneline">第{{ video.part }}话</p>
                   <span class="twoline" v-text="video.name"></span>
