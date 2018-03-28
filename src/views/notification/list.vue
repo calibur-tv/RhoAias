@@ -2,6 +2,14 @@
   #notification-list {
     background-color: #fff;
 
+    .clear-btn {
+      width: 100%;
+      padding: 10px 0;
+      margin: 10px 0;
+      font-size: 12px;
+      color: $color-text-normal;
+    }
+
     li {
       font-size: 13px;
       width: 100%;
@@ -25,6 +33,7 @@
 
 <template>
   <div id="notification-list">
+    <button class="clear-btn" @click="readAll">全部设为已读</button>
     <ul
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="notFetch"
@@ -90,6 +99,10 @@
         return this.$store.state.login
           ? this.loading || this.noMore
           : true
+      },
+      notificationsCount () {
+        const result = this.$store.state.user.notification - this.$store.state.users.notifications.checked
+        return result < 0 ? 0 : result
       }
     },
     data () {
@@ -119,6 +132,18 @@
           this.$toast.error(e)
         } finally {
           this.loading = false
+        }
+      },
+      readAll () {
+        if (!this.notificationsCount) {
+          this.$toast.info('消息已清空')
+          return
+        }
+        try {
+          this.$store.dispatch('users/readAllMessage', this)
+          this.$toast.info('消息已清空')
+        } catch (e) {
+          this.$toast.error(e)
         }
       }
     }
