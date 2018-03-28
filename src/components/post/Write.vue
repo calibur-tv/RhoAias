@@ -381,7 +381,7 @@
         this.getUpToken()
       }
       this.$channel.$on('open-create-post-drawer', (data) => {
-        this.this.slots[0].values.push(data)
+        this.slots[0].values.push(data)
         this.isReply = false
         this.open = true
       })
