@@ -382,7 +382,10 @@
         this.getUpToken()
       }
       this.$channel.$on('open-create-post-drawer', (data) => {
-        this.slots[0].values.push(data)
+        if (this.slots[0].values.every(_ => _.id !== data.id)) {
+          this.slots[0].values.push(data)
+        }
+        this.saveSelectedBangumi(data.id)
         this.isReply = false
         this.open = true
       })
