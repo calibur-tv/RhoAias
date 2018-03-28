@@ -249,9 +249,10 @@
           :key="item.id"
         >
           <router-link :to="$alias.bangumi(item.id)">
-            <v-img class="bg"
-                   :alt="item.name"
-                   :src="$resize(item.avatar, { width: 160, height: 160 })"
+            <v-img
+              class="bg"
+              :alt="item.name"
+              :src="$resize(item.avatar, { width: 160, height: 160 })"
             ></v-img>
             <p class="twoline" v-text="item.name"></p>
           </router-link>
