@@ -49,6 +49,7 @@
         .part {
           font-size: 14px;
           display: block;
+          @include twoline(16px)
         }
       }
 
@@ -154,7 +155,7 @@
         :name="bangumi.name"
         :followed="bangumi.followed"
       >
-        <p class="part twoline">第{{ video.part }}话&nbsp;{{ video.name }}</p>
+        <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
       <div id="metas">
         <div>

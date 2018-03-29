@@ -52,7 +52,7 @@
             .body {
               color: $color-text-light;
               font-size: 13px;
-              line-height: 18px;
+              @include twoline(18px)
             }
           }
         }
@@ -87,7 +87,7 @@
             </v-img>
             <div class="content">
               <p class="name" v-text="item.name"></p>
-              <p class="body twoline" v-text="item.summary"></p>
+              <p class="body" v-text="item.summary"></p>
             </div>
           </router-link>
         </li>

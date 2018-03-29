@@ -65,12 +65,11 @@
         }
 
         p {
-          overflow: hidden;
           color: $color-text-deep;
           font-size: 12px;
-          line-height: 14px;
           margin-top: 6px;
           margin-bottom: 5px;
+          @include twoline(14px)
         }
       }
     }
@@ -254,7 +253,7 @@
               :alt="item.name"
               :src="$resize(item.avatar, { width: 160, height: 160 })"
             ></v-img>
-            <p class="twoline" v-text="item.name"></p>
+            <p class="name" v-text="item.name"></p>
           </router-link>
         </li>
       </ul>

@@ -57,8 +57,8 @@
       .content {
         color: #000;
         font-size: 16px;
-        line-height: 24px;
         margin-bottom: 4px;
+        @include twoline(24px)
       }
 
       .images {
@@ -145,7 +145,7 @@
       </template>
     </div>
     <router-link :to="$alias.post(item.id)" class="body">
-      <p class="content twoline" v-text="item.desc"></p>
+      <p class="content" v-text="item.desc"></p>
       <div class="images clearfix" v-if="item.images.length">
         <v-img
           class="image-full bg"
