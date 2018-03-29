@@ -259,8 +259,8 @@
 
       .summary {
         font-size: 12px;
-        line-height: 13px;
         color: #666;
+        @include twoline(13px)
       }
     }
   }
@@ -375,7 +375,7 @@
         :followed="bangumi.followed"
         @follow="handleBangumiFollow"
       >
-        <p class="summary twoline" v-text="bangumi.summary"></p>
+        <p class="summary" v-text="bangumi.summary"></p>
       </v-bangumi-panel>
     </div>
     <v-drawer

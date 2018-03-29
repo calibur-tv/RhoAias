@@ -51,6 +51,7 @@
           font-size: 14px;
           font-weight: bold;
           margin-bottom: 8px;
+          @include twoline(16px)
         }
 
         .body {
@@ -123,7 +124,7 @@
               <div class="content">
                 <router-link
                   :to="$alias.bangumi(item.id)"
-                  class="name twoline"
+                  class="name"
                   v-text="item.name"
                 ></router-link>
                 <div class="body">

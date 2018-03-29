@@ -90,6 +90,10 @@
 
         figcaption {
           overflow: hidden;
+
+          .name {
+            @include twoline(18px)
+          }
         }
 
         p {
@@ -329,8 +333,8 @@
                       :src="$resize(video.poster, { width: 128, height: 80 })"
                     ></v-img>
                     <figcaption>
-                      <p class="oneline">第{{ videos.repeat ? index + 1 : video.part }}话</p>
-                      <span class="twoline" v-text="video.name"></span>
+                      <p class="part oneline">第{{ videos.repeat ? index + 1 : video.part }}话</p>
+                      <span class="name" v-text="video.name"></span>
                     </figcaption>
                   </figure>
                 </router-link>
@@ -352,8 +356,8 @@
                   :src="$resize(video.poster, { width: 128, height: 80 })"
                 ></v-img>
                 <figcaption>
-                  <p class="oneline">第{{ video.part }}话</p>
-                  <span class="twoline" v-text="video.name"></span>
+                  <p class="part oneline">第{{ video.part }}话</p>
+                  <span class="name" v-text="video.name"></span>
                 </figcaption>
               </figure>
             </router-link>
