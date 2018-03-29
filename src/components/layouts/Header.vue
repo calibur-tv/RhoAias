@@ -372,6 +372,12 @@
               </router-link>
             </li>
             <li>
+              <router-link to="/about/hello">
+                <i class="iconfont icon-bangzhu"></i>
+                功能简介
+              </router-link>
+            </li>
+            <li>
               <button @click="logout">
                 <i class="iconfont icon-tuichu"></i>
                 退出登录

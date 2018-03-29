@@ -25,12 +25,13 @@
 
     .pages {
       background-color: #fff;
-      padding: 20px $container-padding;
+      padding: 20px $container-padding 16px $container-padding;
 
       a {
         @include btn-empty(#000);
         margin-right: 10px;
         margin-bottom: 8px;
+        display: inline-block;
       }
     }
 
@@ -54,6 +55,7 @@
       <router-link :to="$alias.bangumiNews">番剧列表</router-link>
       <router-link to="/trending/role">偶像排行榜</router-link>
       <router-link to="/campaign/canvas">情景海报</router-link>
+      <router-link to="/about/hello">功能简介</router-link>
     </div>
     <div class="hr"></div>
     <div class="tabs">

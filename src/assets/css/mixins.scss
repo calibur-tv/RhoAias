@@ -42,6 +42,7 @@
   color: $color;
   background-color: $background;
   border-radius: 8px;
+  white-space: nowrap;
   @include border($color, 8px);
 }
 
