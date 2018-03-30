@@ -15,7 +15,7 @@ module.exports = {
   output: {
     path: resolve('../dist'),
     publicPath: isProd ? `${qiniu.host}${qiniu.prefix}` : '/dist/',
-    filename: '[name].[chunkhash].js'
+    filename: isDev ? '[name].js' : '[name].[chunkhash].js'
   },
   resolve: {
     alias: {
@@ -158,7 +158,7 @@ module.exports = {
           { from: resolve('../static') }
         ]),
         new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
+          filename: 'common.[contenthash].css'
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new CompressionPlugin({
