@@ -675,7 +675,9 @@
           })
           this.$store.commit('USE_COIN')
           this.$toast.info(`+${role.has_star}s`)
-        } catch (e) {}
+        } catch (e) {
+          this.$toast.error(e)
+        }
       },
       async showRoleDetail (role) {
         this.currentRole = role

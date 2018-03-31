@@ -616,10 +616,14 @@
       },
       deletePost (id) {
         this.$confirm('删除后无法找回, 是否继续?').then(async () => {
-          await this.$store.dispatch('post/deletePost', {
-            ctx: this,
-            id
-          })
+          try {
+            await this.$store.dispatch('post/deletePost', {
+              ctx: this,
+              id
+            })
+          } catch (e) {
+            this.$toast.error(e)
+          }
           if (id === this.post.id) {
             window.location = this.$alias.bangumi(this.bangumi.id)
           }
@@ -627,13 +631,18 @@
       },
       async getPosts (reset) {
         this.loadingLoadMore = true
-        await this.$store.dispatch('post/getPost', {
-          id: this.post.id,
-          ctx: this,
-          only: this.onlySeeMaster,
-          reset
-        })
-        this.loadingLoadMore = false
+        try {
+          await this.$store.dispatch('post/getPost', {
+            id: this.post.id,
+            ctx: this,
+            only: this.onlySeeMaster,
+            reset
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingLoadMore = false
+        }
       },
       async toggleLike () {
         if (!this.$store.state.login) {
@@ -663,8 +672,9 @@
           }
         } catch (err) {
           this.$toast.error(err)
+        } finally {
+          this.loadingToggleLike = false
         }
-        this.loadingToggleLike = false
       },
       async toggleMark () {
         if (!this.$store.state.login) {
@@ -686,8 +696,9 @@
           })
         } catch (err) {
           this.$toast.error(err)
+        } finally {
+          this.loadingToggleMark = false
         }
-        this.loadingToggleMark = false
       },
       handleCommentLoad (data) {
         this.openCommentIndex = data.index

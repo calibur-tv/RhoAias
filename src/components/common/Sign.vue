@@ -362,7 +362,8 @@
                     }, 500)
                   })
                 },
-                error: () => {
+                error: (e) => {
+                  this.$toast.error(e)
                   this.signUp.captcha = false
                 },
                 close: () => {
@@ -395,7 +396,8 @@
                     }, 500)
                   })
                 },
-                error: () => {
+                error: (e) => {
+                  this.$toast.error(e)
                   this.signIn.captcha = false
                 },
                 close: () => {
@@ -433,7 +435,8 @@
                     }, 500)
                   })
                 },
-                error: () => {
+                error: (e) => {
+                  this.$toast.error(e)
                   this.resetPassword.captcha = false
                 },
                 close: () => {
@@ -476,9 +479,14 @@
             if (this.signUp.access !== this.signUp.tempAccess) {
               if (this.signUpStep === 0 || this.signUpStep === 4) {
                 this.signUpStep = 1
-                this.$captcha(({ data }) => {
-                  this.signUpStep = 2
-                  this.getRegisterAuthCode(data)
+                this.$captcha({
+                  success: ({ data }) => {
+                    this.signUpStep = 2
+                    this.getRegisterAuthCode(data)
+                  },
+                  error: (e) => {
+                    this.$toast.error(e)
+                  }
                 })
               }
             } else {
@@ -523,9 +531,14 @@
           if (this.resetPassword.access !== this.resetPassword.tempAccess) {
             if (this.resetStep === 0 || this.resetStep === 4) {
               this.resetStep = 1
-              this.$captcha(({ data }) => {
-                this.resetStep = 2
-                this.getResetAuthCode(data)
+              this.$captcha({
+                success: ({ data }) => {
+                  this.resetStep = 2
+                  this.getResetAuthCode(data)
+                },
+                error: (e) => {
+                  this.$toast.error(e)
+                }
               })
             }
           } else {
