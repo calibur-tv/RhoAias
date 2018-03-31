@@ -289,14 +289,14 @@
 
         this.$toast.loading('上传中...')
         this.avatarSelector.loading = true
-        await this.$store.dispatch('getUpToken')
         const key = `user/${this.user.id}/avatar/${Date.now()}-${Math.random().toString(36).substring(3, 6)}`
-        const formData = new FormData()
-        formData.append('file', this.avatarSelector.file)
-        formData.append('token', this.user.uptoken.upToken)
-        formData.append('key', key)
         const imageApi = new ImageApi()
         try {
+          await this.$store.dispatch('getUpToken')
+          const formData = new FormData()
+          formData.append('file', this.avatarSelector.file)
+          formData.append('token', this.user.uptoken.upToken)
+          formData.append('key', key)
           await imageApi.uploadToQiniu(formData)
           const userApi = new UserApi(this)
           await userApi.settingImage({
@@ -308,10 +308,13 @@
           })
           this.$toast.success('头像更新成功')
         } catch (e) {
-          this.$toast.error('头像更新失败，请联系管理员查看')
+          typeof e === 'string'
+            ? this.$toast.error(e)
+            : this.$toast.error('头像更新失败，请刷新网页重试')
+        } finally {
+          this.avatarSelector.loading = false
+          this.cancelAvatarSelect()
         }
-        this.avatarSelector.loading = false
-        this.cancelAvatarSelect()
       },
       selectBanner (e) {
         const file = e.target.files[0]
@@ -340,14 +343,14 @@
 
         this.$toast.loading('上传中...')
         this.bannerSelector.loading = true
-        await this.$store.dispatch('getUpToken')
         const key = `user/${this.user.id}/banner/${Date.now()}-${Math.random().toString(36).substring(3, 6)}`
-        const formData = new FormData()
-        formData.append('file', this.bannerSelector.file)
-        formData.append('token', this.user.uptoken.upToken)
-        formData.append('key', key)
         const imageApi = new ImageApi()
         try {
+          await this.$store.dispatch('getUpToken')
+          const formData = new FormData()
+          formData.append('file', this.bannerSelector.file)
+          formData.append('token', this.user.uptoken.upToken)
+          formData.append('key', key)
           await imageApi.uploadToQiniu(formData)
           const userApi = new UserApi(this)
           await userApi.settingImage({
@@ -359,10 +362,13 @@
           })
           this.$toast.success('背景更新成功')
         } catch (e) {
-          this.$toast.error('背景更新失败，请联系管理员查看')
+          typeof e === 'string'
+            ? this.$toast.error(e)
+            : this.$toast.error('背景更新失败，请刷新网页重试')
+        } finally {
+          this.bannerSelector.loading = false
+          this.cancelAvatarSelect()
         }
-        this.bannerSelector.loading = false
-        this.cancelAvatarSelect()
       },
       saveSetting () {
         const birthday = this.settingForm.birthday ? new Date(this.settingForm.birthday).getTime() / 1000 : 0

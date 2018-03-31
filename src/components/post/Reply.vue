@@ -304,8 +304,9 @@
           })
         } catch (err) {
           this.$toast.error(err)
+        } finally {
+          this.loadingToggleLike = false
         }
-        this.loadingToggleLike = false
       },
       loadAllComment () {
         this.$emit('loadcomment', {

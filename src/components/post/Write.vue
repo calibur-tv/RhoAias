@@ -236,8 +236,12 @@
         return true
       },
       async getUpToken () {
-        await this.$store.dispatch('getUpToken')
-        this.uploadHeaders.token = this.$store.state.user.uptoken.upToken
+        try {
+          await this.$store.dispatch('getUpToken')
+          this.uploadHeaders.token = this.$store.state.user.uptoken.upToken
+        } catch (e) {
+          this.$toast.error(e)
+        }
       },
       submit () {
         if (this.submitting) {
@@ -311,7 +315,8 @@
               }
             }
           },
-          error: () => {
+          error: (e) => {
+            this.$toast.error(e)
             this.submitting = false
           },
           close: () => {
