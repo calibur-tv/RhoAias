@@ -5,7 +5,7 @@ import ProgressBar from '~/components/layouts/ProgressBar'
 import '~/utils/client'
 
 const dev = process.env.NODE_ENV === 'development'
-const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount()
+const bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
 
 const { app, router, store } = createApp()
@@ -16,12 +16,13 @@ if (window.__INITIAL_STATE__) {
 
 window.M = Object.create(null)
 
+router.afterEach((to) => {
+  if (!dev) {
+    _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
+  }
+})
+
 router.onReady(() => {
-  router.afterEach((to) => {
-    if (!dev) {
-      _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
-    }
-  })
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const asyncDataHooks = matched.map(c => c.asyncData).filter(_ => _)
