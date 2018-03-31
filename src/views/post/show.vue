@@ -616,18 +616,16 @@
       },
       deletePost (id) {
         this.$confirm('删除后无法找回, 是否继续?').then(async () => {
-          try {
-            await this.$store.dispatch('post/deletePost', {
-              ctx: this,
-              id
-            })
-          } catch (e) {
-            this.$toast.error(e)
-          }
+          await this.$store.dispatch('post/deletePost', {
+            ctx: this,
+            id
+          })
           if (id === this.post.id) {
             window.location = this.$alias.bangumi(this.bangumi.id)
           }
-        }).catch(() => {})
+        }).catch((e) => {
+          this.$toast.error(e)
+        })
       },
       async getPosts (reset) {
         this.loadingLoadMore = true
