@@ -125,7 +125,7 @@
 <template>
   <div id="video-show">
     <div class="video">
-      <template v-if="bangumi.others_site_video">
+      <template v-if="useOtherSiteSource">
         <p>应版权方要求，该视频暂不提供站内播放</p>
         <a :href="videoSrc" target="_blank">播放链接</a>
       </template>
@@ -246,9 +246,12 @@
         const begin = (this.page - 1) * this.take
         return this.showAll ? this.videos : this.videos.slice(begin, begin + this.take)
       },
+      useOtherSiteSource () {
+        return !!(this.bangumi.others_site_video || !this.video.resource)
+      },
       videoSrc () {
         const video = this.video
-        return this.bangumi.others_site_video
+        return this.useOtherSiteSource
           ? video.url
           : video.resource
             ? (
@@ -259,7 +262,7 @@
             : video.url
       },
       isFlv () {
-        return this.bangumi.others_site_video
+        return this.useOtherSiteSource
           ? false
           : this.videoSrc.split('.').pop().toLowerCase() === 'flv'
       }
