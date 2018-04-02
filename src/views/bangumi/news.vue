@@ -148,7 +148,9 @@
               :loading="false"
               :length="0"
               v-if="!list.length"
-            ></more-btn>
+            >
+              <button @click="openFeedbackForResource">求资源</button>
+            </more-btn>
           </ul>
         </tab-container-item>
       </tab-container>
@@ -182,6 +184,12 @@
     methods: {
       handleWeeklySwitch (index) {
         this.showWeek = `tab-weekly-${index}`
+      },
+      openFeedbackForResource () {
+        this.$channel.$emit('open-feedback', {
+          type: 5,
+          desc: '我想看新番：'
+        })
       }
     }
   }

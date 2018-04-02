@@ -114,8 +114,16 @@
             value: 2
           },
           {
-            label: '资源问题',
+            label: '资源报错',
             value: 4
+          },
+          {
+            label: '求资源',
+            value: 5
+          },
+          {
+            label: '求偶像',
+            value: 6
           },
           {
             label: '其它问题',
@@ -154,6 +162,13 @@
         this.$toast.success('反馈成功，感谢您的反馈！')
         this.openFeedbackDrawer = false
       }
+    },
+    mounted () {
+      this.$channel.$on('open-feedback', ({ type, desc }) => {
+        this.selectedType = type || 1
+        this.content = desc || ''
+        this.openFeedbackDrawer = true
+      })
     }
   }
 </script>
