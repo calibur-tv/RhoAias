@@ -313,7 +313,9 @@
           :loading="postState.loading"
           @fetch="getPost"
           :length="posts.data.length"
-        ></more-btn>
+        >
+          <button @click="openCreatePostModal">发表《{{ info.name }}》的第一个帖子</button>
+        </more-btn>
       </template>
       <div id="videos" v-else-if="sort === 'video'">
         <div v-if="info.season" class="container">
@@ -368,7 +370,9 @@
           :auto="true"
           :loading="videoState.loading"
           :length="videos.data.length"
-        ></more-btn>
+        >
+          <button @click="openFeedbackForResource">求资源</button>
+        </more-btn>
       </div>
       <div id="roles" v-else-if="sort === 'role'">
         <ul id="role-list" class="container" v-if="roleState.fetched">
@@ -409,7 +413,9 @@
           :length="roles.data.length"
           :loading="roleState.loading"
           @fetch="getRoles"
-        ></more-btn>
+        >
+          <button @click="openFeedbackForRole">求偶像</button>
+        </more-btn>
         <v-drawer
           v-model="openRoleDetailDrawer"
           :header-text="currentRole.name"
@@ -709,6 +715,26 @@
           this.$toast.error(e)
         } finally {
           this.loadingRoleFans = false
+        }
+      },
+      openFeedbackForResource () {
+        this.$channel.$emit('open-feedback', {
+          type: 5,
+          desc: `我想看《${this.info.name}》第 ? 集`
+        })
+      },
+      openFeedbackForRole () {
+        this.$channel.$emit('open-feedback', {
+          type: 6,
+          desc: `我想要为《${this.info.name}》的 ? 应援`
+        })
+      },
+      openCreatePostModal () {
+        if (this.$store.state.login) {
+          this.$channel.$emit('drawer-open-write-post')
+        } else {
+          this.$toast.info('继续操作前请先登录')
+          this.$channel.$emit('drawer-open-sign')
         }
       }
     }

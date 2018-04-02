@@ -10,13 +10,18 @@
     }
 
     .nothing {
-      height: 193px;
+      height: 245px;
 
       img {
         width: 160px;
         height: auto;
         display: block;
         margin: 20px auto;
+      }
+
+      button {
+        margin-top: 15px;
+        @include btn-empty(#333);
       }
     }
 
@@ -39,7 +44,8 @@
       </template>
       <div class="nothing" v-else-if="!loading">
         <img :src="$resize(`${$cdn.image}owner/no-content`, { width: 300 })" alt="no-content">
-        还没有内容
+        <p>还没有内容</p>
+        <slot></slot>
       </div>
     </div>
     <template v-else>
