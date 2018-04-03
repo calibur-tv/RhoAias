@@ -34,7 +34,7 @@
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
         { innerHTML: script.baiduPush, type: 'text/javascript' },
-        env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : '',
+        env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : ''
       ].filter(_ => _),
       __dangerouslyDisableSanitizers: 'script'
     },
