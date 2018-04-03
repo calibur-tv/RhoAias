@@ -533,9 +533,6 @@
       posts () {
         return this.$store.state.bangumi.posts
       },
-      notFetch () {
-        return this.postState.loading || this.posts.noMore
-      },
       roles () {
         return this.$store.state.bangumi.roles
       },

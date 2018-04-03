@@ -4,7 +4,8 @@ import { createApp } from '~/app.js'
 import ProgressBar from '~/components/layouts/ProgressBar'
 import '~/utils/client'
 
-const dev = process.env.NODE_ENV === 'development'
+const env = process.env.NODE_ENV
+const dev = env === 'development'
 const bar = new Vue(ProgressBar).$mount()
 document.body.appendChild(bar.$el)
 
@@ -12,6 +13,11 @@ const { app, router, store } = createApp()
 
 if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
+}
+
+if (env === 'staging') {
+  // eslint-disable-next-line
+  new VConsole()
 }
 
 window.M = Object.create(null)

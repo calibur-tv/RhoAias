@@ -423,14 +423,10 @@
           <div class="hr"></div>
           <p class="total">{{ focusReply.comment_count }}条回复</p>
         </template>
-        <ul
-          class="comments"
-          v-infinite-scroll="loadMoreComment"
-          infinite-scroll-disabled="notFetchComment"
-          infinite-scroll-distance="50"
-        >
+        <ul class="comments">
           <li
             v-for="item in focusComments"
+            :key="item.id"
           >
             <div class="from-user">
               <router-link
@@ -466,9 +462,9 @@
         </ul>
       </div>
       <more-btn
-        :no-more="notFetchComment"
+        :no-more="noMoreComment"
         :loading="loadingComments"
-        :auto="true"
+        @fetch="loadMoreComment"
       ></more-btn>
     </v-drawer>
     <v-drawer
@@ -564,7 +560,7 @@
         }
         return this.list[this.openCommentIndex]
       },
-      notFetchComment () {
+      noMoreComment () {
         return this.openCommentId
           ? this.focusComments.length >= this.focusReply.comment_count
           : true

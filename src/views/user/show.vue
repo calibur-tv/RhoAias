@@ -265,13 +265,7 @@
       ></more-btn>
     </template>
     <template v-else-if="sort === 'role'">
-      <ul
-        class="container"
-        id="roles-of-mine"
-        v-infinite-scroll="getUserRoles"
-        infinite-scroll-disabled="noFetchRoles"
-        infinite-scroll-distance="50"
-      >
+      <ul class="container" id="roles-of-mine">
         <li
           v-for="item in roles"
           :key="item.id"
@@ -307,7 +301,7 @@
         :no-more="noMoreRoles"
         :loading="loadingRoles"
         :length="roles.length"
-        :auto="true"
+        @fetch="getUserRoles"
       ></more-btn>
     </template>
     <template v-else>
