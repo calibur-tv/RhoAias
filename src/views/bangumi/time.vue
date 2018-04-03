@@ -5,6 +5,8 @@
       padding-bottom: 5px;
 
       .collection {
+        display: block;
+
         .time {
           position: relative;
           font-weight: 400;
