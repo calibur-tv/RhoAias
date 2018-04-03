@@ -6,14 +6,16 @@
 </template>
 
 <script>
-  import { qiniu, script } from 'env'
+  import { qiniu, script, env } from 'env'
   import SignDrawer from '~/components/common/Sign'
 
   export default {
     name: 'Entry',
     head: {
       title: '天下漫友是一家',
-      titleTemplate: '%s - calibur',
+      titleTemplate: (titleChunk) => {
+        return titleChunk ? `${titleChunk} - calibur` : '天下漫友是一家 - calibur'
+      },
       htmlAttrs: {
         lang: 'zh-CN'
       },
@@ -31,8 +33,9 @@
       ],
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
-        { innerHTML: script.baiduPush, type: 'text/javascript' }
-      ],
+        { innerHTML: script.baiduPush, type: 'text/javascript' },
+        env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : '',
+      ].filter(_ => _),
       __dangerouslyDisableSanitizers: 'script'
     },
     components: {
