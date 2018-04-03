@@ -8,6 +8,10 @@
         @include border-bottom();
       }
 
+      .clearfix {
+        overflow: hidden;
+      }
+
       .top {
         position: relative;
         display: block;
