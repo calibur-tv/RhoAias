@@ -106,11 +106,7 @@
       <div id="bangumis" v-if="bangumis.length">
         <div class="hr"></div>
         <h3 class="sub-title">番剧列表</h3>
-        <ul
-          v-infinite-scroll="loadMore"
-          infinite-scroll-disabled="notFetch"
-          infinite-scroll-distance="50"
-        >
+        <ul>
           <li v-for="item in bangumis" :key="item.id">
             <router-link :to="$alias.bangumi(item.id)">
               <v-img
@@ -128,6 +124,13 @@
         </ul>
       </div>
     </div>
+    <more-btn
+      v-if="bangumis.length"
+      :no-more="noMore"
+      :loading="loading"
+      :length="bangumis.length"
+      @fetch="loadMore"
+    ></more-btn>
   </div>
 </template>
 
@@ -152,8 +155,8 @@
       tags () {
         return this.$store.state.bangumi.tags
       },
-      notFetch () {
-        return this.loading || this.$store.state.bangumi.category.noMore
+      noMore () {
+        return this.$store.state.bangumi.category.noMore
       },
       bangumis () {
         return this.$store.state.bangumi.category.data
@@ -177,7 +180,7 @@
         }
       },
       async loadMore () {
-        if (this.notFetch) {
+        if (this.loading) {
           return
         }
         this.loading = true

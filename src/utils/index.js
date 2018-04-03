@@ -15,7 +15,6 @@ import Select from '~/components/common/Select'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 
 import {
-  InfiniteScroll,
   Swipe,
   SwipeItem,
   Picker
@@ -27,7 +26,6 @@ import {
 
 Vue.component('datetime', Datetime)
 Vue.use(Upload)
-Vue.use(InfiniteScroll)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Picker.name, Picker)

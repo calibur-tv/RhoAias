@@ -70,13 +70,7 @@
       <router-link :to="$alias.bangumiTimeline" class="active">时间轴</router-link>
       <router-link :to="$alias.bangumiTag()">分类索引</router-link>
     </div>
-    <ul
-      id="collections"
-      class="container"
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="notFetch"
-      infinite-scroll-distance="50"
-    >
+    <ul id="collections" class="container">
       <ul v-for="col in timeline.data" :key="col.date" class="collection">
         <h3 class="time" v-text="col.date"></h3>
         <li class="bangumi" v-for="item in col.list" :key="item.id">
@@ -98,7 +92,7 @@
     <more-btn
       :no-more="timeline.noMore"
       :loading="loading"
-      :auto="true"
+      @fetch="loadMore"
     ></more-btn>
   </div>
 </template>
@@ -112,9 +106,6 @@
     computed: {
       timeline () {
         return this.$store.state.bangumi.timeline
-      },
-      notFetch () {
-        return this.loading || this.timeline.noMore
       }
     },
     data () {
@@ -124,7 +115,7 @@
     },
     methods: {
       async loadMore () {
-        if (this.notFetch) {
+        if (this.loading) {
           return
         }
         this.loading = true

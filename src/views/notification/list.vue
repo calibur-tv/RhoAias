@@ -34,11 +34,7 @@
 <template>
   <div id="notification-list">
     <button class="clear-btn" @click="readAll">全部设为已读</button>
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="notFetch"
-      infinite-scroll-distance="50"
-    >
+    <ul>
       <li
         v-for="item in list"
         :key="item.id"
@@ -74,7 +70,7 @@
     <more-btn
       :no-more="noMore"
       :loading="loading"
-      :auto="true"
+      @fetch="loadMore"
     ></more-btn>
   </div>
 </template>
@@ -94,11 +90,6 @@
       },
       noMore () {
         return this.$store.state.users.notifications.noMore
-      },
-      notFetch () {
-        return this.$store.state.login
-          ? this.loading || this.noMore
-          : true
       },
       notificationsCount () {
         const result = this.$store.state.user.notification - this.$store.state.users.notifications.checked
