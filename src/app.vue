@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import { qiniu, script, env } from 'env'
+  import { qiniu, script } from 'env'
   import SignDrawer from '~/components/common/Sign'
 
   export default {
@@ -34,7 +34,8 @@
       script: [
         { innerHTML: script.baiduStat, type: 'text/javascript' },
         { innerHTML: script.baiduPush, type: 'text/javascript' },
-        env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : ''
+//        env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : ''
+        { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' }
       ].filter(_ => _),
       __dangerouslyDisableSanitizers: 'script'
     },
