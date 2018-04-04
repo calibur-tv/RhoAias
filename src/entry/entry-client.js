@@ -15,10 +15,10 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 
-if (env === 'staging') {
+// if (env === 'staging') {
   // eslint-disable-next-line
-  new VConsole()
-}
+new VConsole()
+// }
 
 window.M = Object.create(null)
 
