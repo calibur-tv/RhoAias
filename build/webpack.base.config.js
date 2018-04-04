@@ -158,7 +158,8 @@ module.exports = {
           { from: resolve('../static') }
         ]),
         new ExtractTextPlugin({
-          filename: 'common.[contenthash].css'
+          filename: 'common.[contenthash].css',
+          allChunks: true
         }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new CompressionPlugin({
