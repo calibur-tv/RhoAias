@@ -449,13 +449,11 @@
         }
         this.$toast.loading('搜索中...')
         const api = new SearchApi()
-        try {
-          const url = await api.index({ q })
-          window.location = url || '/bangumi/timeline'
-          this.$toast.stop()
-        } catch (e) {
-          this.$toast.error(e)
-        }
+        api.index({ q }).then((data) => {
+          window.location = data || '/bangumi/news?from=search'
+        }).catch(() => {
+          window.location = '/bangumi/news?from=search'
+        })
       },
       handleCreateBtnClick () {
         if (this.$store.state.login) {
