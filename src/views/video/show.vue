@@ -43,18 +43,9 @@
     }
 
     .container {
-      .bangumi-panel {
-        margin-top: 20px;
-
-        .part {
-          font-size: 14px;
-          display: block;
-          @include twoline(16px)
-        }
-      }
+      padding-top: 15px;
 
       #metas {
-        margin-top: 20px;
         margin-bottom: 8px;
         overflow: hidden;
         position: relative;
@@ -118,6 +109,27 @@
           color: $color-text-normal;
         }
       }
+
+      .bangumi-panel {
+        margin-bottom: 15px;
+
+        .part {
+          font-size: 14px;
+          display: block;
+          @include twoline(16px)
+        }
+      }
+
+      .video-report-btn {
+        width: 100%;
+        height: 30px;
+        line-height: 28px;
+        font-size: 13px;
+        text-align: center;
+        border: 1px solid #666;
+        border-radius: 15px;
+        margin-bottom: 10px;
+      }
     }
   }
 </style>
@@ -148,15 +160,6 @@
       </template>
     </div>
     <div class="container">
-      <v-bangumi-panel
-        class="bangumi-panel"
-        :id="bangumi.id"
-        :avatar="bangumi.avatar"
-        :name="bangumi.name"
-        :followed="bangumi.followed"
-      >
-        <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
-      </v-bangumi-panel>
       <div id="metas">
         <div>
           <h3 class="sub-title">选集（{{ videos.length }}）</h3>
@@ -186,6 +189,18 @@
           </li>
         </ul>
       </div>
+      <h3 class="sub-title">番剧简介</h3>
+      <v-bangumi-panel
+        class="bangumi-panel"
+        :id="bangumi.id"
+        :avatar="bangumi.avatar"
+        :name="bangumi.name"
+        :followed="bangumi.followed"
+      >
+        <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
+      </v-bangumi-panel>
+      <h3 class="sub-title">视频报错</h3>
+      <button class="video-report-btn" @click="handleVideoReportClick">点击反馈视频问题</button>
     </div>
   </div>
 </template>
@@ -316,6 +331,12 @@
           this.player.play()
           this.playing = true
         }
+      },
+      handleVideoReportClick () {
+        this.$channel.$emit('open-feedback', {
+          type: 4,
+          desc: `【PC】-《${this.bangumi.name}》第${this.part}话 视频有错误，错误详情为：`
+        })
       }
     },
     mounted () {

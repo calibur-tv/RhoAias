@@ -54,6 +54,7 @@
 
       .btn-submit {
         margin-top: 15px;
+        margin-bottom: 30px;
       }
     }
   }
