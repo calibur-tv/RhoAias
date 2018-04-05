@@ -351,6 +351,15 @@
       this.player.addEventListener('pause', () => {
         this.playing = false
       })
+
+      this.player.addEventListener('abort', () => {
+        console.log('abort')
+        this.$alert('视频加载失败，请刷新网页重试！')
+      })
+
+      this.player.addEventListener('error', () => {
+        this.$alert('视频加载失败，请刷新网页重试！')
+      })
     }
   }
 </script>
