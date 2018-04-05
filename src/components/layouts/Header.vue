@@ -309,15 +309,14 @@
             <div class="content">
               <i class="iconfont icon-sousuo"></i>
               <span class="clear" @click="q = ''" v-show="q">×</span>
-              <div class="input-wrap">
+              <form method="get" @submit.prevent="search()" class="input-wrap">
                 <input
-                  type="text"
+                  type="search"
                   v-model.trim="q"
                   placeholder="搜索番剧"
-                  @keyup.enter="search()"
                   ref="searchInput"
                 >
-              </div>
+              </form>
             </div>
           </div>
         </div>
