@@ -309,7 +309,7 @@
             <div class="content">
               <i class="iconfont icon-sousuo"></i>
               <span class="clear" @click="q = ''" v-show="q">×</span>
-              <form method="get" @submit.prevent="search()" class="input-wrap">
+              <form method="get" action="#" @submit.prevent="search()" class="input-wrap">
                 <input
                   type="search"
                   v-model.trim="q"
