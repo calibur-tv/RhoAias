@@ -90,5 +90,5 @@ router.get('*', async ctx => {
 
 app.use(router.routes()).use(router.allowedMethods())
 
-app.listen(port, host)
+isDev ? app.listen(port) : app.listen(port, host)
 console.log('Server listening on ' + host + ':' + port)
