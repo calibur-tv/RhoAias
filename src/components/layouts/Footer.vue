@@ -158,7 +158,8 @@
         const api = new UserApi(this)
         await api.feedback({
           type: this.selectedType,
-          desc: this.content
+          desc: this.content,
+          ua: window.navigator.userAgent
         })
         this.$toast.success('反馈成功，感谢您的反馈！')
         this.openFeedbackDrawer = false
