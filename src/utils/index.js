@@ -2,8 +2,6 @@ import Vue from 'vue'
 import env from 'env'
 import Alias from '~/assets/js/alias'
 import Utils from '~/assets/js/utils'
-import { Datetime } from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
 import ImageLazy from '~/assets/js/imagelazy'
 import NoSSR from '~/assets/js/nossr'
 import Time from '~/assets/js/timeago'
@@ -24,7 +22,6 @@ import {
   Upload
 } from 'element-ui'
 
-Vue.component('datetime', Datetime)
 Vue.use(Upload)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)

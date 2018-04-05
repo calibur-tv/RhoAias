@@ -342,16 +342,7 @@
     mounted () {
       this.computePage()
       if (this.isFlv) {
-        if (this.$flvjs.isSupported()) {
-          const flvPlayer = this.$flvjs.createPlayer({
-            type: 'flv',
-            url: this.videoSrc
-          })
-          flvPlayer.attachMediaElement(this.$refs.video)
-          this.player = flvPlayer
-        } else {
-          this.notSupport = true
-        }
+        this.notSupport = true
       } else {
         this.player = this.$refs.video
         this.player.controls = false
