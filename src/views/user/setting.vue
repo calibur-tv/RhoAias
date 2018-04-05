@@ -171,14 +171,6 @@
             placeholder="2-14个字符组成"
           >
         </div>
-        <div class="input-item">
-          <label class="label">生日：</label>
-          <datetime
-            min-datetime="1990-01-01"
-            max-datetime="2008-01-01"
-            v-model="settingForm.birthday"
-          ></datetime>
-        </div>
         <div class="other-form-wrap">
           <label class="label">性别：</label>
           <v-radio
