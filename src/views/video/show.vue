@@ -142,7 +142,7 @@
         <a :href="videoSrc" target="_blank">播放链接</a>
       </template>
       <template v-else-if="notSupport">
-        <p>该视频格式暂不支持在 iOS Safari 浏览器上播放</p>
+        <p>该视频格式仅支持在电脑上播放</p>
       </template>
       <template v-else>
         <video
