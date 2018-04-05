@@ -335,7 +335,7 @@
       handleVideoReportClick () {
         this.$channel.$emit('open-feedback', {
           type: 4,
-          desc: `【PC】-《${this.bangumi.name}》第${this.part}话 视频有错误，错误详情为：`
+          desc: `【H5】-《${this.bangumi.name}》第${this.part}话 视频有错误，错误详情为：`
         })
       }
     },
