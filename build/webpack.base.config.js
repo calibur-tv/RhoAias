@@ -9,9 +9,9 @@ const resolve = file => path.resolve(__dirname, file)
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
 const qiniu = require('../.env').qiniu
-const SentryPlugin = require('./webpack.sentry.plugin.js')
-const SentryConfig = require('./sentry.config.js')
-const now = new Date().getTime()
+// const SentryPlugin = require('./webpack.sentry.plugin.js')
+// const SentryConfig = require('./sentry.config.js')
+// const now = new Date().getTime()
 
 module.exports = {
   cache: true,
