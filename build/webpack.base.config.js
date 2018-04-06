@@ -154,15 +154,15 @@ module.exports = {
 
     if (isProd) {
       pluginArr = pluginArr.concat([
-        new SentryPlugin({
-          baseSentryURL: SentryConfig.url,
-          include: SentryConfig.include,
-          organisation: SentryConfig.org,
-          project: SentryConfig.project,
-          token: SentryConfig.token,
-          release: now,
-          deleteAfterCompile: true
-        }),
+        // new SentryPlugin({
+        //   baseSentryURL: SentryConfig.url,
+        //   include: SentryConfig.include,
+        //   organisation: SentryConfig.org,
+        //   project: SentryConfig.project,
+        //   token: SentryConfig.token,
+        //   release: now,
+        //   deleteAfterCompile: true
+        // }),
         new QiniuPlugin({
           ACCESS_KEY: qiniu.access,
           SECRET_KEY: qiniu.secret,
