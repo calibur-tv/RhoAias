@@ -11,11 +11,11 @@ const isDev = process.env.NODE_ENV === 'development'
 const qiniu = require('../.env').qiniu
 // const SentryPlugin = require('./webpack.sentry.plugin.js')
 // const SentryConfig = require('./sentry.config.js')
-// const now = new Date().getTime()
+const now = new Date().getTime()
 
 module.exports = {
   cache: true,
-  devtool: isDev ? false : 'sourcemap',
+  devtool: isProd ? false : 'sourcemap',
   output: {
     path: resolve('../dist'),
     publicPath: isProd ? `${qiniu.host}${qiniu.prefix}` : '/dist/',
@@ -175,7 +175,7 @@ module.exports = {
     if (!isDev) {
       pluginArr = pluginArr.concat([
         new UglifyJsPlugin({
-          sourceMap: true
+          // sourceMap: true
         }),
         new CopyWebpackPlugin([
           { from: resolve('../static') }
