@@ -156,14 +156,10 @@
           return
         }
         const api = new UserApi(this)
-        const userAgent = navigator.userAgent || ''
-        const appVersion = navigator.appVersion || ''
-        const vendor = navigator.vendor || ''
-        const ua = userAgent + ' ' + appVersion + ' ' + vendor
         await api.feedback({
           type: this.selectedType,
           desc: this.content,
-          ua: ua
+          ua: navigator.userAgent
         })
         this.$toast.success('反馈成功，感谢您的反馈！')
         this.openFeedbackDrawer = false
