@@ -11,6 +11,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const qiniu = require('../.env').qiniu
 const SentryPlugin = require('./webpack.sentry.plugin.js')
 const SentryConfig = require('./sentry.config.js')
+const now = new Date().getTime()
 
 module.exports = {
   cache: true,
@@ -146,7 +147,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          RELEASE: JSON.stringify(process.env.RELEASE || 'dev')
+          RELEASE: JSON.stringify(now || 'dev')
         }
       })
     ]
@@ -159,7 +160,7 @@ module.exports = {
           organisation: SentryConfig.org,
           project: SentryConfig.project,
           token: SentryConfig.token,
-          release: process.env.RELEASE,
+          release: now,
           deleteAfterCompile: true
         }),
         new QiniuPlugin({
