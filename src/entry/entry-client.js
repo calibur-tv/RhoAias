@@ -3,10 +3,12 @@ import Vue from 'vue'
 import { createApp } from '~/app.js'
 import ProgressBar from '~/components/layouts/ProgressBar'
 import '~/utils/client'
+import Sentry from '~/assets/js/sentry'
+import { sentry, env } from 'env'
 
-const env = process.env.NODE_ENV
 const dev = env === 'development'
 const bar = new Vue(ProgressBar).$mount()
+
 document.body.appendChild(bar.$el)
 
 const { app, router, store } = createApp()
@@ -15,12 +17,17 @@ if (window.__INITIAL_STATE__) {
   store.replaceState(window.__INITIAL_STATE__)
 }
 
-if (env === 'staging') {
+if (env === 'production') {
+  Sentry({
+    url: sentry.url,
+    version: process.env.RELEASE
+  })
+} else if (env === 'staging') {
   // eslint-disable-next-line
   new VConsole()
 }
 
-window.M = Object.create(null)
+window.M = window.M || Object.create(null)
 
 router.afterEach((to) => {
   if (!dev) {
