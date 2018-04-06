@@ -343,7 +343,7 @@
       this.computePage()
       if (this.isFlv) {
         this.notSupport = true
-      } else {
+      } else if (!this.useOtherSiteSource) {
         this.player = this.$refs.video
         this.player.controls = false
         this.player.load()
