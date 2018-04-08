@@ -3,7 +3,7 @@
     #weekly-btn-group {
       font-size: 0;
       position: relative;
-      margin-bottom: $container-padding;
+      padding-bottom: 5px;
       @include border-bottom();
 
       button {
@@ -59,7 +59,6 @@
           font-size: 13px;
           line-height: 18px;
           text-align: right;
-          margin-right: $container-padding;
 
           .part {
             border-radius: 9px;
@@ -96,8 +95,7 @@
       <router-link :to="$alias.bangumiTimeline">时间轴</router-link>
       <router-link :to="$alias.bangumiTag()">分类索引</router-link>
     </div>
-    <div class="container">
-      <div id="weekly-btn-group">
+    <div id="weekly-btn-group" class="container">
         <button
           v-for="(btn, index) in showtime"
           v-text="btn"
@@ -105,56 +103,58 @@
           :class="{ 'active': showWeek === `tab-weekly-${index}` }"
         ></button>
       </div>
-      <tab-container v-model="showWeek" :swipeable="true">
-        <tab-container-item
-          v-for="(list, index) in released"
-          :id="`tab-weekly-${index}`"
-          :key="index"
-        >
-          <ul>
-            <li v-for="item in list" :key="item.id">
-              <router-link :to="$alias.bangumi(item.id)">
-                <img
-                  class="face"
-                  :title="item.name"
-                  :alt="item.name"
-                  :src="$resize(item.avatar, { width: 120 })"
-                />
-              </router-link>
-              <div class="content">
-                <router-link
-                  :to="$alias.bangumi(item.id)"
-                  class="name"
-                  v-text="item.name"
-                ></router-link>
-                <div class="body">
-                  <router-link v-if="item.released_video_id" :to="$alias.video(item.released_video_id)">
-                    更新至
-                    <span class="part" :class="[item.update ? 'new' : 'old']">
+    <tab-container v-model="showWeek" :swipeable="true">
+      <tab-container-item
+        v-for="(list, index) in released"
+        :id="`tab-weekly-${index}`"
+        :key="index"
+        class="container"
+      >
+        <ul>
+          <li v-for="item in list" :key="item.id">
+            <router-link :to="$alias.bangumi(item.id)">
+              <img
+                class="face"
+                :title="item.name"
+                :alt="item.name"
+                :src="$resize(item.avatar, { width: 120 })"
+              />
+            </router-link>
+            <div class="content">
+              <router-link
+                :to="$alias.bangumi(item.id)"
+                class="name"
+                v-text="item.name"
+              ></router-link>
+              <div class="body">
+                <router-link v-if="item.released_video_id" :to="$alias.video(item.released_video_id)">
+                  更新至
+                  <span class="part old" v-if="item.end">已完结</span>
+                  <span class="part" :class="[item.update ? 'new' : 'old']" v-else>
                       {{ `${item.released_part}话` }}
                     </span>
-                  </router-link>
-                  <strong v-else>
-                    更新至
-                    <span class="part" :class="[item.update ? 'new' : 'old']">
+                </router-link>
+                <strong v-else>
+                  更新至
+                  <span class="part old" v-if="item.end">已完结</span>
+                  <span class="part" :class="[item.update ? 'new' : 'old']" v-else>
                       {{ `${item.released_part}话` }}
                     </span>
-                  </strong>
-                </div>
+                </strong>
               </div>
-            </li>
-            <more-btn
-              :no-more="true"
-              :loading="false"
-              :length="0"
-              v-if="!list.length"
-            >
-              <button @click="openFeedbackForResource">求资源</button>
-            </more-btn>
-          </ul>
-        </tab-container-item>
-      </tab-container>
-    </div>
+            </div>
+          </li>
+          <more-btn
+            :no-more="true"
+            :loading="false"
+            :length="0"
+            v-if="!list.length"
+          >
+            <button @click="openFeedbackForResource">求资源</button>
+          </more-btn>
+        </ul>
+      </tab-container-item>
+    </tab-container>
   </div>
 </template>
 
