@@ -266,9 +266,11 @@
     </template>
     <template v-else-if="sort === 'role'">
       <ul class="container" id="roles-of-mine">
-        <li
+        <router-link
           v-for="item in roles"
           :key="item.id"
+          :to="$alias.bangumi(item.bangumi_id)"
+          tag="li"
         >
           <div class="clearfix">
             <div class="avatar">
@@ -295,7 +297,7 @@
               </div>
             </div>
           </div>
-        </li>
+        </router-link>
       </ul>
       <more-btn
         :no-more="noMoreRoles"
