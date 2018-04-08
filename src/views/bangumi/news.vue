@@ -129,17 +129,15 @@
               <div class="body">
                 <router-link v-if="item.released_video_id" :to="$alias.video(item.released_video_id)">
                   更新至
-                  <span class="part old" v-if="item.end">已完结</span>
-                  <span class="part" :class="[item.update ? 'new' : 'old']" v-else>
-                      {{ `${item.released_part}话` }}
-                    </span>
+                  <span class="part" :class="[item.update ? 'new' : 'old']">
+                    {{ item.end ? '已完结' : `${item.released_part}话` }}
+                  </span>
                 </router-link>
                 <strong v-else>
                   更新至
-                  <span class="part old" v-if="item.end">已完结</span>
-                  <span class="part" :class="[item.update ? 'new' : 'old']" v-else>
-                      {{ `${item.released_part}话` }}
-                    </span>
+                  <span class="part" :class="[item.update ? 'new' : 'old']">
+                    {{ item.end ? '已完结' : `${item.released_part}话` }}
+                  </span>
                 </strong>
               </div>
             </div>
