@@ -120,6 +120,12 @@
         }
       }
 
+      .tip {
+        font-size: 12px;
+        color: $color-text-normal;
+        margin-bottom: 8px;
+      }
+
       .video-report-btn {
         width: 100%;
         height: 30px;
@@ -200,6 +206,7 @@
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
       <h3 class="sub-title">视频报错</h3>
+      <p class="tip">PS：安卓用户建议大家使用 QQ 或 UC 浏览器播放，不要使用系统自带的浏览器</p>
       <button class="video-report-btn" @click="handleVideoReportClick">点击反馈视频问题</button>
     </div>
   </div>
