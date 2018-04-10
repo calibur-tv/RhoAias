@@ -442,17 +442,11 @@
       coinCount () {
         return this.self.coin
       },
-      noFetchPost () {
-        return this.sort === 'bangumi' ? true : (this.posts.loading || this.posts.noMore)
-      },
       roles () {
         return this.$store.state.users.roles.data
       },
       noMoreRoles () {
         return this.$store.state.users.roles.noMore
-      },
-      noFetchRoles () {
-        return this.loadingRoles || this.noMoreRoles
       }
     },
     data () {
