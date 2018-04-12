@@ -27,7 +27,6 @@
           .v-select-options-wrap {
             background-color: #fff;
             border: 1px solid #f0f0f0;
-            box-shadow: 0 2px 3px #ccc;
             border-radius: 4px;
             top: 18px;
           }
