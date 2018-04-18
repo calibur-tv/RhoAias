@@ -144,11 +144,15 @@
   <div id="video-show">
     <div class="video">
       <template v-if="useOtherSiteSource">
-        <p>应版权方要求，该视频暂不提供站内播放</p>
+        <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
         <a :href="videoSrc" target="_blank">播放链接</a>
       </template>
       <template v-else-if="notSupport">
-        <p>该视频格式仅支持在电脑上播放</p>
+        <p>该视频格式仅支持在电脑上播放 (눈_눈)</p>
+      </template>
+      <template v-else-if="isGuest">
+        <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
+        <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
       <template v-else>
         <video
@@ -235,6 +239,9 @@
     computed: {
       id () {
         return parseInt(this.$route.params.id, 10)
+      },
+      isGuest () {
+        return !this.$store.state.login
       },
       videoPackage () {
         return this.$store.state.video
@@ -350,22 +357,27 @@
       this.computePage()
       if (this.isFlv) {
         this.notSupport = true
-      } else if (!this.useOtherSiteSource) {
-        this.player = this.$refs.video
-        this.player.controls = false
-        this.player.load()
-        this.player.addEventListener('pause', () => {
-          this.playing = false
-        })
-
-        this.player.addEventListener('abort', () => {
-          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
-        })
-
-        this.player.addEventListener('error', () => {
-          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
-        })
       }
+      if (this.useOtherSiteSource) {
+        return
+      }
+      if (this.isGuest) {
+        return
+      }
+      this.player = this.$refs.video
+      this.player.controls = false
+      this.player.load()
+      this.player.addEventListener('pause', () => {
+        this.playing = false
+      })
+
+      this.player.addEventListener('abort', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+      })
+
+      this.player.addEventListener('error', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+      })
     }
   }
 </script>
