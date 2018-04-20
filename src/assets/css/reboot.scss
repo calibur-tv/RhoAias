@@ -61,12 +61,26 @@ a {
 }
 
 input, textarea, div[contenteditable=true] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   border: none;
   line-height: normal;
   width: 100%;
+}
+
+input[type=text],
+input[type=number],
+input[type=password],
+input[type=file],
+textarea,
+div[contenteditable=true] {
+  appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+::-webkit-input-placeholder {
+  line-height: normal;
 }
 
 textarea {
