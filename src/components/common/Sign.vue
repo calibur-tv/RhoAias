@@ -24,7 +24,6 @@
         overflow: hidden;
         height: 100%;
         padding: 9px 0 9px 65px;
-        line-height: 30px;
       }
     }
 
