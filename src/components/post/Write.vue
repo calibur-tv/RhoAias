@@ -262,6 +262,7 @@
           }
         }
         this.submitting = true
+        this.$toast.loading('加载中')
         this.$captcha({
           success: async ({ data }) => {
             if (this.postId && this.isReply) {
@@ -314,6 +315,9 @@
                 this.submitting = false
               }
             }
+          },
+          ready: () => {
+            this.$toast.stop()
           },
           error: (e) => {
             this.$toast.error(e)

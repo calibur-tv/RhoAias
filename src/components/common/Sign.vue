@@ -13,7 +13,7 @@
         left: 0;
         top: 0;
         height: 100%;
-        width: 80px;
+        width: 60px;
         background-color: #fff;
         font-size: 16px;
         line-height: 48px;
@@ -23,8 +23,8 @@
         display: block;
         overflow: hidden;
         height: 100%;
-        padding-left: 90px;
-        line-height: 48px;
+        padding: 9px 0 9px 65px;
+        line-height: 30px;
       }
     }
 
@@ -349,9 +349,13 @@
               this.signUp.captcha = true
               const ele = this.$refs.signUpCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
                   this.register(data).then((res) => {
                     this.$cookie.set('JWT-TOKEN', res)
@@ -383,9 +387,13 @@
               this.signIn.captcha = true
               const ele = this.$refs.signInCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
                   this.login(data).then((token) => {
                     this.$cookie.set('JWT-TOKEN', token, { expires: 365 })
@@ -417,9 +425,13 @@
               this.resetPassword.captcha = true
               const ele = this.$refs.resetCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
                   const api = new UserApi()
                   api.resetPassword({
@@ -483,7 +495,11 @@
             if (this.signUp.access !== this.signUp.tempAccess) {
               if (this.signUpStep === 0 || this.signUpStep === 4) {
                 this.signUpStep = 1
+                this.$toast.loading('加载中')
                 this.$captcha({
+                  ready: () => {
+                    this.$toast.stop()
+                  },
                   success: ({ data }) => {
                     this.signUpStep = 2
                     this.getRegisterAuthCode(data)
@@ -535,7 +551,11 @@
           if (this.resetPassword.access !== this.resetPassword.tempAccess) {
             if (this.resetStep === 0 || this.resetStep === 4) {
               this.resetStep = 1
+              this.$toast.loading('加载中')
               this.$captcha({
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data }) => {
                   this.resetStep = 2
                   this.getResetAuthCode(data)
