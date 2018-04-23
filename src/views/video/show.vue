@@ -304,7 +304,7 @@
       isFlv () {
         return this.useOtherSiteSource
           ? false
-          : this.videoSrc.split('.').pop().toLowerCase() === 'flv'
+          : this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv'
       }
     },
     data () {
