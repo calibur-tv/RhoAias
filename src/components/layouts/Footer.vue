@@ -159,7 +159,7 @@
         await api.feedback({
           type: this.selectedType,
           desc: this.content,
-          ua: navigator.userAgent
+          ua: navigator.userAgent + navigator.appVersion + navigator.vendor
         })
         this.$toast.success('反馈成功，感谢您的反馈！')
         this.openFeedbackDrawer = false
