@@ -176,25 +176,25 @@
           <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </div>
         <template v-if="season && showAll">
-          <template v-for="(metas, idx) in list">
+          <template v-for="(videos, idx) in list">
             <h6 class="season-title" v-text="season.name[idx]"></h6>
             <ul>
-              <li v-for="(meta, index) in metas.data" :key="meta.id">
+              <li v-for="(video, index) in videos.data" :key="video.id">
                 <a class="meta"
-                   :class="{ 'router-link-active' : $route.params.id == meta.id }"
-                   :href="$alias.video(meta.id)">
-                  <span>第{{ videoPackage.list.repeat ? index + 1 : meta.part }}话</span>
+                   :class="{ 'router-link-active' : $route.params.id == video.id }"
+                   :href="$alias.video(video.id)">
+                  <span>第{{ video.part - videos.base }}话</span>
                 </a>
               </li>
             </ul>
           </template>
         </template>
         <ul v-else>
-          <li v-for="meta in sortVideos" :key="meta.id">
+          <li v-for="video in sortVideos" :key="video.id">
             <a class="meta"
-               :class="{ 'router-link-active' : $route.params.id == meta.id }"
-               :href="$alias.video(meta.id)">
-              <span>第{{ meta.part }}话</span>
+               :class="{ 'router-link-active' : $route.params.id == video.id }"
+               :href="$alias.video(video.id)">
+              <span>第{{ video.part }}话</span>
             </a>
           </li>
         </ul>
