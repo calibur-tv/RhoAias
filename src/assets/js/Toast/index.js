@@ -41,7 +41,7 @@ export default class {
       toast.querySelector('.loading').classList.add('show')
 
       setTimeout(() => {
-        toast.parentNode.removeChild(toast)
+        toast && toast.parentNode.removeChild(toast)
       }, fadeTimeout)
       document.body.removeAttribute('style')
     }
