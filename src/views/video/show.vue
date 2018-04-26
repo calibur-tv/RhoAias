@@ -337,13 +337,17 @@
         }
       },
       togglePlaying () {
-        this.handlePlaying()
-        if (this.playing) {
-          this.player.pause()
-          this.playing = false
-        } else {
-          this.player.play()
-          this.playing = true
+        try {
+          this.handlePlaying()
+          if (this.playing) {
+            this.player.pause()
+            this.playing = false
+          } else {
+            this.player.play()
+            this.playing = true
+          }
+        } catch (e) {
+          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
         }
       },
       handleVideoReportClick () {
@@ -357,6 +361,7 @@
       this.computePage()
       if (this.isFlv) {
         this.notSupport = true
+        return
       }
       if (this.useOtherSiteSource) {
         return
@@ -366,7 +371,12 @@
       }
       this.player = this.$refs.video
       this.player.controls = false
-      this.player.load()
+      try {
+        this.player.load()
+      } catch (e) {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+        return
+      }
       this.player.addEventListener('pause', () => {
         this.playing = false
       })

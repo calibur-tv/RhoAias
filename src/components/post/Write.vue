@@ -281,7 +281,8 @@
                 this.open = false
                 const list = document.querySelectorAll('.post-reply-item')
                 setTimeout(() => {
-                  this.$scrollToY(list[list.length - 1].offsetTop, 400)
+                  const dom = list[list.length - 1]
+                  dom && this.$scrollToY(dom.offsetTop, 400)
                 }, 1000)
               } catch (err) {
                 this.$toast.error(err)
