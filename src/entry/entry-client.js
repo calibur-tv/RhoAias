@@ -29,12 +29,6 @@ if (env === 'production') {
 
 window.M = window.M || Object.create(null)
 
-router.afterEach((to) => {
-  if (!dev) {
-    _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
-  }
-})
-
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
@@ -51,6 +45,12 @@ router.onReady(() => {
       bar.finish()
       next()
     }).catch(next)
+  })
+
+  router.afterEach((to) => {
+    if (!dev) {
+      _hmt.push(['_trackPageview', to.fullPath]) // eslint-disable-line no-undef
+    }
   })
 
   app.$mount('#app')
