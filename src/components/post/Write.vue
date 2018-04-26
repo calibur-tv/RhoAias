@@ -74,7 +74,7 @@
           v-model="openBangumisDrawer"
           class="bangumis-drawer"
           from="bottom"
-          size="40%"
+          size="250px"
           header-text="选择番剧"
         >
           <mt-picker

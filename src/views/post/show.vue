@@ -470,7 +470,7 @@
     <v-drawer
       v-model="createComment.open"
       from="top"
-      size="40%"
+      size="250px"
       header-text="发布回复"
       class="create-post-comment-drawer"
     >
