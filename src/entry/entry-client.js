@@ -5,6 +5,7 @@ import ProgressBar from '~/components/layouts/ProgressBar'
 import '~/utils/client'
 import Sentry from '~/assets/js/sentry'
 import { sentry, env } from 'env'
+import FastClick from 'fastclick'
 
 const dev = env === 'development'
 const bar = new Vue(ProgressBar).$mount()
@@ -30,6 +31,8 @@ if (env === 'production') {
 window.M = window.M || Object.create(null)
 
 router.onReady(() => {
+  FastClick.attach(document.body)
+
   router.beforeResolve((to, from, next) => {
     const matched = router.getMatchedComponents(to)
     const asyncDataHooks = matched.map(c => c.asyncData).filter(_ => _)
