@@ -160,13 +160,13 @@
           :poster="video.poster"
           preload="metadata"
           ref="video"
+          controlsList="nodownload"
         ></video>
         <button
           class="iconfont icon-bofang"
           v-if="!playing"
           @click="togglePlaying"
-        >
-        </button>
+        ></button>
       </template>
     </div>
     <div class="container">
