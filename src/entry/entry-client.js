@@ -7,8 +7,10 @@ import Sentry from '~/assets/js/sentry'
 import { sentry, env } from 'env'
 import FastClick from 'fastclick'
 
-const dev = env === 'development'
 const bar = new Vue(ProgressBar).$mount()
+
+const release = process.env.RELEASE || 'development'
+const dev = env === 'development'
 
 document.body.appendChild(bar.$el)
 
@@ -21,11 +23,16 @@ if (window.__INITIAL_STATE__) {
 if (env === 'production') {
   Sentry({
     url: sentry.url,
-    version: process.env.RELEASE
+    version: release
   })
 } else if (env === 'staging') {
   // eslint-disable-next-line
   new VConsole()
+}
+
+if (!dev && typeof console !== 'undefined') {
+  console.log(`Release: ${release}`)
+  console.log(`Environment: ${env}`)
 }
 
 window.M = window.M || Object.create(null)
