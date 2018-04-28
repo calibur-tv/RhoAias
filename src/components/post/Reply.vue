@@ -289,7 +289,7 @@
           return
         }
         if (this.isMine) {
-          this.$toast.warn('不能给自己点赞')
+          this.$toast.error('不能给自己点赞')
           return
         }
         if (this.loadingToggleLike) {

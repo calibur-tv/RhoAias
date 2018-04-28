@@ -152,7 +152,7 @@
       },
       async submitFeedback () {
         if (!this.content.length) {
-          this.$toast.warn('请先填写反馈信息！')
+          this.$toast.error('请先填写反馈信息！')
           return
         }
         const api = new UserApi(this)

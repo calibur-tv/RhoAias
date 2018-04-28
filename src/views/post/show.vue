@@ -644,12 +644,12 @@
           return
         }
         if (this.isMaster) {
-          this.$toast.warn('不能赞赏自己的帖子')
+          this.$toast.error('不能赞赏自己的帖子')
           return
         }
         const notLike = !this.post.liked
         if (notLike && !this.$store.state.user.coin) {
-          this.$toast.warn('金币不足')
+          this.$toast.error('金币不足')
           return
         }
         if (this.loadingToggleLike) {
@@ -676,7 +676,7 @@
           return
         }
         if (this.isMaster) {
-          this.$toast.warn('不能收藏自己的帖子')
+          this.$toast.error('不能收藏自己的帖子')
           return
         }
         if (this.loadingToggleMark) {
