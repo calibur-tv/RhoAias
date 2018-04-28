@@ -27,6 +27,7 @@ export default class {
   }
 
   loading (tip) {
+    this.stop()
     Indicator.open({
       text: tip || '加载中...',
       spinnerType: 'triple-bounce'
