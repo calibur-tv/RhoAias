@@ -509,13 +509,13 @@
                 })
               }
             } else {
-              this.$toast.warn(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+              this.$toast.error(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
             }
           } else {
-            this.$toast.warn(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+            this.$toast.error(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.warn('请先填写昵称')
+          this.$toast.error('请先填写昵称')
         }
       },
       async getRegisterAuthCode (geetest) {
@@ -565,10 +565,10 @@
               })
             }
           } else {
-            this.$toast.warn(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+            this.$toast.error(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.warn(`请填写正确的${this.resetPassword.method === 'email' ? '邮箱' : '手机'}`)
+          this.$toast.error(`请填写正确的${this.resetPassword.method === 'email' ? '邮箱' : '手机'}`)
         }
       },
       async getResetAuthCode (geetest) {

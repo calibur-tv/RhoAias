@@ -257,11 +257,11 @@
       selectAvatar (e) {
         const file = e.target.files[0]
         if (!file) {
-          this.$toast.warn('图片选择失败')
+          this.$toast.error('图片选择失败')
           return
         }
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()
@@ -315,7 +315,7 @@
       selectBanner (e) {
         const file = e.target.files[0]
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()
