@@ -3,6 +3,7 @@ import { Toast, Indicator } from 'mint-ui'
 
 export default class {
   success (tip) {
+    this.stop()
     Toast({
       message: tip,
       iconClass: 'iconfont icon-caozuochenggong'
@@ -10,6 +11,7 @@ export default class {
   }
 
   info (tip) {
+    this.stop()
     Message({
       message: tip,
       center: true
@@ -17,6 +19,7 @@ export default class {
   }
 
   error (tip) {
+    this.stop()
     Toast({
       message: tip,
       iconClass: 'iconfont icon-cuowuhttp'
