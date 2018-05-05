@@ -287,6 +287,7 @@
         :no-more="true"
         :auto="true"
         :length="0"
+        :loading="false"
       ></more-btn>
     </template>
     <template v-else-if="sort === 'role'">
