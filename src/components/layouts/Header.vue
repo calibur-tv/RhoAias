@@ -8,7 +8,7 @@
     line-height: $nav-height;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     background-color: #ffffff;
-    z-index: 95;
+    z-index: 90;
 
     .logo {
       height: 28px;
@@ -247,7 +247,6 @@
         </div>
       </v-drawer>
       <template v-if="$store.state.login">
-        <write-post></write-post>
         <button class="nav-avatar" @click="openUserDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
           <span class="badge" v-if="notificationCount"></span>
@@ -318,13 +317,9 @@
 <script>
   import UserApi from '~/api/userApi'
   import SearchApi from '~/api/searchApi'
-  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'v-header',
-    components: {
-      WritePost
-    },
     computed: {
       avatar () {
         return this.$store.state.login

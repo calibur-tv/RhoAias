@@ -55,37 +55,42 @@
 </style>
 
 <template>
-  <div id="creator-menu-wrap">
-    <palette-button
-      content="+"
-      direction="t"
-      @expand="handlePaletteOpen"
-      @collapse="handlePaletteClose"
-      ref="palette"
-    >
-      <button
-        class="ic-btn iconfont icon-tupian"
-        @click="handleImageClick"
-      ></button>
-      <button
-        class="ic-btn iconfont icon-pinglun"
-        @click="handlePostClick"
-      ></button>
-      <button
-        class="ic-btn iconfont icon-pinglun1"
-        @click="handleFeedClick"
-      ></button>
-    </palette-button>
+  <div class="creators-container">
+    <div id="creator-menu-wrap">
+      <palette-button
+        content="+"
+        direction="t"
+        @expand="handlePaletteOpen"
+        @collapse="handlePaletteClose"
+        ref="palette"
+      >
+        <button
+          class="ic-btn iconfont icon-tupian"
+          @click="handleImageClick"
+        ></button>
+        <button
+          class="ic-btn iconfont icon-pinglun"
+          @click="handlePostClick"
+        ></button>
+        <button
+          class="ic-btn iconfont icon-pinglun1"
+          @click="handleFeedClick"
+        ></button>
+      </palette-button>
+    </div>
+    <v-post></v-post>
   </div>
 </template>
 
 <script>
   import { PaletteButton } from 'mint-ui'
+  import vPost from '~/components/creators/PostDrawer'
 
   export default {
     name: 'v-creator-menu',
     components: {
-      PaletteButton
+      PaletteButton,
+      vPost
     },
     methods: {
       handlePaletteOpen () {
