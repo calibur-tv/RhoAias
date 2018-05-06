@@ -123,18 +123,28 @@
       .tip {
         font-size: 12px;
         color: $color-text-normal;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
+        line-height: 15px;
       }
 
       .video-report-btn {
-        width: 100%;
+        width: 48%;
         height: 30px;
         line-height: 28px;
         font-size: 13px;
         text-align: center;
         border: 1px solid #666;
         border-radius: 15px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        margin-top: 3px;
+
+        &:first-child {
+          margin-right: 2%;
+        }
+
+        &:last-child {
+          margin-left: 2%;
+        }
       }
     }
   }
@@ -209,9 +219,13 @@
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
-      <h3 class="sub-title">视频报错</h3>
-      <p class="tip">PS：安卓用户建议大家使用 QQ 或 UC 浏览器播放，不要使用系统自带的浏览器</p>
-      <button class="video-report-btn" @click="handleVideoReportClick">点击反馈视频问题</button>
+      <h3 class="sub-title">下载与反馈</h3>
+      <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
+      <p class="tip">2：安卓用户建议大家使用 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
+      <div>
+        <button class="video-report-btn" @click="downloadVideo">下载视频</button>
+        <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
+      </div>
     </div>
   </div>
 </template>
@@ -355,6 +369,18 @@
           type: 4,
           desc: `【H5】-《${this.bangumi.name}》第${this.part}话 视频有错误，错误详情为：`
         })
+      },
+      downloadVideo () {
+        if (this.useOtherSiteSource) {
+          this.$toast.error('第三方资源部支持下载')
+          return
+        }
+        if (this.isGuest) {
+          this.$toast.info('继续操作前请先登录')
+          this.$channel.$emit('drawer-open-sign')
+          return
+        }
+        window.open(this.videoSrc)
       }
     },
     mounted () {
