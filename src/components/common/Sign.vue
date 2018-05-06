@@ -402,7 +402,9 @@
                   this.$toast.stop()
                 },
                 success: ({ data, captcha }) => {
+                  this.$toast.loading('登录中...')
                   this.login(data).then((token) => {
+                    this.$toast.success('登录成功')
                     this.$cookie.set('JWT-TOKEN', token, { expires: 365 })
                     window.location.reload()
                   }).catch((err) => {
