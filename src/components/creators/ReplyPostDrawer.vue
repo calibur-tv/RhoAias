@@ -233,7 +233,7 @@
 
 <script>
   export default {
-    name: 'post-reply-item',
+    name: 'reply-post-drawer',
     props: {
       post: {
         type: Object,

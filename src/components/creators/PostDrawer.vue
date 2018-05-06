@@ -1,6 +1,7 @@
 <style lang="scss">
   .post-write-drawer {
     text-align: left;
+    line-height: 40px;
 
     .title {
       font-size: 16px;
@@ -115,7 +116,7 @@
 
 <script>
   export default {
-    name: 'write-post-reply',
+    name: 'create-post-drawer',
     data () {
       return {
         open: false,
@@ -144,6 +145,9 @@
     watch: {
       open (val) {
         if (val) {
+          if (this.$store.state.login) {
+            this.getUpToken()
+          }
           if (!this.postId || !this.isReply) {
             this.getUserFollowedBangumis()
           }
@@ -388,9 +392,6 @@
       }
     },
     mounted () {
-      if (this.$store.state.login) {
-        this.getUpToken()
-      }
       this.$channel.$on('open-create-post-drawer', (data) => {
         if (this.slots[0].values.every(_ => _.id !== data.id)) {
           this.slots[0].values.push(data)
