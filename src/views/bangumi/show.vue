@@ -296,8 +296,8 @@
     <div class="hr"></div>
     <div>
       <div class="tabs">
-        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
         <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
+        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
       </div>
       <template v-if="sort === 'post'">
@@ -474,26 +474,13 @@
 </template>
 
 <script>
-  const defaultParams = {
-    post: {
-      take: 10,
-      type: 'new'
-    }
-  }
-
   export default {
     name: 'bangumi-show',
     async asyncData ({ route, store, ctx }) {
       const id = route.params.id
       await Promise.all([
         store.dispatch('bangumi/getBangumi', { ctx, id }),
-        store.dispatch('bangumi/getPosts', {
-          ctx,
-          id,
-          take: defaultParams.post.take,
-          type: defaultParams.post.type,
-          reset: true
-        })
+        store.dispatch('bangumi/getVideos', { ctx, id })
       ])
     },
     head () {
@@ -542,23 +529,23 @@
     },
     data () {
       return {
-        postState: {
-          take: defaultParams.post.take,
-          type: defaultParams.post.type,
-          loading: false,
-          init: true
-        },
         videoState: {
           loading: false,
-          init: false,
+          init: true,
           fetched: false
+        },
+        postState: {
+          take: 10,
+          type: 'new',
+          loading: false,
+          init: false
         },
         roleState: {
           loading: false,
           init: false,
           fetched: false
         },
-        sort: 'post',
+        sort: 'video',
         openRoleDetailDrawer: false,
         currentRole: {},
         focusRoleSort: 'new',
@@ -595,7 +582,10 @@
         this.videoState.init = true
 
         try {
-          await this.$store.dispatch('bangumi/getVideos', this.id)
+          await this.$store.dispatch('bangumi/getVideos', {
+            ctx: this,
+            id: this.id
+          })
         } catch (e) {
           this.$toast.error(e)
         } finally {
