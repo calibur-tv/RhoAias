@@ -221,9 +221,6 @@
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
       </button>
-      <button class="create-btn">
-        <i class="iconfont icon-pinglun" @click="handleCreateBtnClick"></i>
-      </button>
       <v-drawer
         from="top"
         size="40px"
@@ -381,14 +378,6 @@
         }).catch(() => {
           window.location = '/bangumi/news?from=search'
         })
-      },
-      handleCreateBtnClick () {
-        if (this.$store.state.login) {
-          this.$channel.$emit('drawer-open-write-post')
-        } else {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
-        }
       },
       async handleDaySign () {
         if (!this.$store.state.login) {

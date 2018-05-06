@@ -16,7 +16,7 @@
       pointer-events: auto;
       position: absolute;
       left: 50%;
-      bottom: 25px;
+      bottom: 20px;
       margin-left: -25px;
       width: 50px;
       height: 50px;

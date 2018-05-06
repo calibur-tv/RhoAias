@@ -80,8 +80,6 @@
         class="drawer"
         v-show="show"
         :style="position"
-        @touchstart.stop
-        @touchmove.stop
       >
         <header class="drawer-header" v-if="headerText">
           <button @click="close">关闭</button>
