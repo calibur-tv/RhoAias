@@ -166,7 +166,7 @@
       }
     },
     mounted () {
-      this.$channel.$on('open-feedback', ({ type, desc }) => {
+      this.$channel.$on('open-feedback', ({ type, desc } = {}) => {
         this.selectedType = type || 1
         this.content = desc || ''
         this.openFeedbackDrawer = true
