@@ -380,7 +380,9 @@
           this.$channel.$emit('drawer-open-sign')
           return
         }
-        window.open(this.videoSrc)
+        this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
+          window.open(this.videoSrc)
+        })
       }
     },
     mounted () {
