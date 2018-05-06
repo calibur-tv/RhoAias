@@ -8,7 +8,7 @@
     line-height: $nav-height;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     background-color: #ffffff;
-    z-index: 99;
+    z-index: 95;
 
     .logo {
       height: 28px;
