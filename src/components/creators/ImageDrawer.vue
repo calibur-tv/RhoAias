@@ -130,13 +130,14 @@
           <span>图片：</span>
           <el-upload
             action="https://upload.qiniup.com"
-            ref="uploader"
+            ref="imageUploader"
+            list-type="picture-card"
             :data="uploadHeaders"
             :on-error="handleImageUploadError"
             :on-remove="handleRemoveImage"
-            :on-success="handleSuccess"
-            :before-upload="beforeUploadImage"
-            :file-list="form.images"
+            :on-success="handleImageUploadSuccess"
+            :before-upload="beforeImageUpload"
+            :file-list="image.data"
             :on-exceed="handleExceed"
             multiple
             :limit="exceed"
@@ -172,10 +173,11 @@
             list-type="picture-card"
             ref="albumUploader"
             :data="uploadHeaders"
-            :on-error="handleImageUploadError"
+            :on-error="handlePosterUploadError"
             :on-success="handleAlbumUploadSuccess"
             :before-upload="beforeUpload"
             :on-preview="handleAlbumPosterPreview"
+            :file-list="album.poster"
           >+</el-upload>
         </div>
         <button
@@ -330,16 +332,54 @@
           selectedAlbum: false,
           data: []
         },
-        options: []
+        options: [],
+        pendingUpload: 0,
+        exceed: 10
       }
     },
     methods: {
       switchTab (tab) {
         this.sort = tab
       },
-      handleImageUploadError (err, file) {
+      handlePosterUploadError (err, file) {
         console.log(err)
         this.$toast.error(`图片：${file.name} 上传失败`)
+      },
+      handleImageUploadError (err, file) {
+        console.log(err)
+        this.pendingUpload = this.pendingUpload - 1
+        this.$toast.error(`图片：${file.name} 上传失败`)
+      },
+      handleExceed () {
+        this.$toast.error(`最多可上传 ${this.exceed} 张图片!`)
+      },
+      beforeImageUpload (file) {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        const isFormat = ['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) !== -1
+        const isLt5M = file.size / 1024 / 1024 < 5
+
+        if (!isFormat) {
+          this.$toast.error('图片只能是 JPG 或 PNG 格式!')
+          return false
+        }
+        if (!isLt5M) {
+          this.$toast.error('图片大小不能超过 5MB!')
+          return false
+        }
+        this.image.data.push({
+          name: file.name,
+          percentage: 0,
+          raw: file,
+          size: file.size,
+          status: 'uploading',
+          uid: file.uid
+        })
+        this.pendingUpload++
+
+        this.uploadHeaders.key = `user/${this.$store.state.user.id}/image/${new Date().getTime()}-${Math.random().toString(36).substring(3, 6)}.${file.type.split('/').pop()}`
       },
       handleRemoveImage (file) {
         this.image.data.forEach((item, index) => {
@@ -545,12 +585,25 @@
         this.album.poster = [
           {
             name: file.name,
-            url: res.data
+            data: res.data,
+            url: this.$resize(res.data.key, { width: 100 })
           }
         ]
       },
       handleAlbumPosterPreview () {
         this.$refs.albumUploader.clearFiles()
+      },
+      handleImageUploadSuccess (res, file) {
+        this.image.data.forEach((item, index) => {
+          if (item.uid === file.uid) {
+            this.image.data[index] = Object.assign(item, {
+              data: res.data,
+              status: 'success',
+              url: this.$resize(res.data.key, { width: 100 })
+            })
+          }
+        })
+        this.pendingUpload--
       },
       async createAlbum () {
         if (!this.album.name) {
@@ -565,7 +618,7 @@
           this.$toast.error('请选择要投稿的番剧')
           return
         }
-        const poster = this.album.poster.length ? this.album.poster[0]['url'] : null
+        const poster = this.album.poster.length ? this.album.poster[0]['data'] : null
         if (!poster) {
           this.$toast.error('请先上传封面')
           return
