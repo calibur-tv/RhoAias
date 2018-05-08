@@ -7,6 +7,7 @@ import post from './post'
 import video from './video'
 import users from './users'
 import cartoonRole from './cartoonRole'
+import image from './image'
 
 Vue.use(Vuex)
 
@@ -78,7 +79,8 @@ export function createStore () {
       post,
       users,
       video,
-      cartoonRole
+      cartoonRole,
+      image
     }
   })
 }

@@ -32,8 +32,8 @@ export default {
       fetched: false
     },
     roles: {
+      id: 0,
       data: [],
-      take: 15,
       noMore: false
     }
   }),
@@ -113,9 +113,10 @@ export default {
         fetched: true
       }
     },
-    SET_ROLES (state, { data, reset }) {
-      state.roles.data = reset ? data : state.roles.data.concat(data)
-      state.roles.noMore = data.length < state.roles.take
+    SET_ROLES (state, { data, bangumiId }) {
+      state.roles.data = state.roles.data.concat(data)
+      state.roles.noMore = true
+      state.roles.id = bangumiId
     }
   },
   actions: {
@@ -137,15 +138,14 @@ export default {
       const data = await api.videos(id)
       commit('SET_VIDEOS', data)
     },
-    async getRoles ({ state, commit }, { bangumiId, ctx, reset }) {
+    async getRoles ({ state, commit }, { bangumiId, ctx }) {
+      if (state.roles.id === bangumiId) {
+        return state.roles.data
+      }
       const api = new Api(ctx)
-      const data = await api.roles({
-        bangumiId,
-        seenIds: reset ? null : state.roles.data.length
-          ? state.roles.data.map(item => item.id).join(',')
-          : null
-      })
-      commit('SET_ROLES', { data, reset })
+      const data = await api.roles({ bangumiId })
+      commit('SET_ROLES', { data, bangumiId })
+      return data
     },
     async follow ({ commit, rootState }, { ctx, id }) {
       const api = new Api(ctx)
