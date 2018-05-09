@@ -50,7 +50,7 @@ export default {
     async getShow ({ commit }, { id, ctx }) {
       const api = new Api(ctx)
       const data = await api.getShow(id)
-      commit('SET_DATA', data)
+      data && commit('SET_DATA', data)
     },
     async getTrending ({ state, commit }) {
       if (state.trending.noMore) {
@@ -60,7 +60,7 @@ export default {
       const data = await api.trending({
         seenIds: state.trending.data.length ? state.trending.data.map(item => item.id).join(',') : null
       })
-      commit('SET_TRENDING', data)
+      data && commit('SET_TRENDING', data)
     },
     async getFansList ({ state, commit }, { bangumiId, roleId, sort, reset }) {
       if (state.fans[sort].noMore && !reset) {
@@ -77,7 +77,7 @@ export default {
       } : {
         seenIds: reset ? null : length ? state.fans[sort].data.map(item => item.id).join(',') : null
       }))
-      commit('SET_FANS_LIST', { data, reset, sort })
+      data && commit('SET_FANS_LIST', { data, reset, sort })
     }
   },
   getters: {}

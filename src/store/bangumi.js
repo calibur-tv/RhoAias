@@ -126,17 +126,17 @@ export default {
       }
       const api = new Api(ctx)
       const tags = await api.tags()
-      commit('SET_TAGS', { tags, id })
+      tags && commit('SET_TAGS', { tags, id })
     },
     async getBangumi ({ commit }, { ctx, id }) {
       const api = new Api(ctx)
       const data = await api.show(id)
-      commit('SET_BANGUMI', data)
+      data && commit('SET_BANGUMI', data)
     },
     async getVideos ({ commit }, { id, ctx }) {
       const api = new Api(ctx)
       const data = await api.videos(id)
-      commit('SET_VIDEOS', data)
+      data && commit('SET_VIDEOS', data)
     },
     async getRoles ({ state, commit }, { bangumiId, ctx }) {
       if (state.roles.id === bangumiId) {
@@ -144,8 +144,10 @@ export default {
       }
       const api = new Api(ctx)
       const data = await api.roles({ bangumiId })
-      commit('SET_ROLES', { data, bangumiId })
-      return data
+      if (data) {
+        commit('SET_ROLES', { data, bangumiId })
+        return data
+      }
     },
     async follow ({ commit, rootState }, { ctx, id }) {
       const api = new Api(ctx)
@@ -166,7 +168,7 @@ export default {
       }
       const api = new Api(ctx)
       const data = await api.released()
-      commit('SET_RELEASED', data)
+      data && commit('SET_RELEASED', data)
     },
     async getTimeline ({ state, commit }, ctx) {
       if (state.timeline.noMore) {
@@ -177,7 +179,7 @@ export default {
         year: state.timeline.year,
         take: state.timeline.take
       })
-      commit('SET_TIMELINE', data)
+      data && commit('SET_TIMELINE', data)
     },
     async getCategory ({ state, commit }, { id, ctx }) {
       const api = new Api(ctx)
@@ -186,7 +188,7 @@ export default {
         page: state.category.page,
         take: state.category.take
       })
-      commit('SET_CATEGORY', data)
+      data && commit('SET_CATEGORY', data)
     },
     async getPosts ({ state, commit }, { id, take, type, ctx, reset = false }) {
       const seenIds = reset ? null : state.posts.data.length
@@ -194,7 +196,7 @@ export default {
         : null
       const api = new Api(ctx)
       const data = await api.posts({ id, take, type, seenIds })
-      commit('SET_POSTS', {
+      data && commit('SET_POSTS', {
         data: data.list,
         total: data.total,
         reset

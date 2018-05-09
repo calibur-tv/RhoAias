@@ -143,7 +143,7 @@ export default {
         roleId: waterfall.roleId,
         creator: waterfall.creator
       })
-      commit('SET_WATERFALL', data)
+      data && commit('SET_WATERFALL', data)
     },
     async getUserImages ({ state, commit }, { zone, ctx, force }) {
       if (state.waterfall.noMore && !force) {
@@ -163,7 +163,7 @@ export default {
         bangumiId: waterfall.bangumiId,
         creator: waterfall.creator
       })
-      commit('SET_WATERFALL', data)
+      data && commit('SET_WATERFALL', data)
     },
     async getTrendingImages ({ state, commit }, { sort, ctx, force }) {
       if (state.waterfall.noMore && !force) {
@@ -183,7 +183,7 @@ export default {
         creator: waterfall.creator,
         sort
       })
-      commit('SET_WATERFALL', data)
+      data && commit('SET_WATERFALL', data)
     },
     async getRoleImages ({ state, commit }, { ctx, id, force }) {
       if (state.waterfall.noMore && !force) {
@@ -203,18 +203,20 @@ export default {
         tags: waterfall.tags,
         creator: waterfall.creator
       })
-      commit('SET_WATERFALL', data)
+      data && commit('SET_WATERFALL', data)
     },
     async userAlbum ({ commit }, { ctx }) {
       const api = new UserApi(ctx)
       const data = await api.getUserAlbums()
-      commit('SET_USER_IMAGE_ALBUMS', data)
-      return data
+      if (data) {
+        commit('SET_USER_IMAGE_ALBUMS', data)
+        return data
+      }
     },
     async getAlbumData ({ commit }, { id, ctx }) {
       const api = new ImageApi(ctx)
       const data = await api.getAlbumData({ id })
-      commit('SET_ALBUM', data)
+      data && commit('SET_ALBUM', data)
     },
     async sortAlbumImage ({ state, commit }, { prev, next, ctx, id }) {
       let idsArr = state.albumShow.info.images.split(',')
