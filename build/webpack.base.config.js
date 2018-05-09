@@ -156,7 +156,14 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new UglifyJsPlugin(),
+        new UglifyJsPlugin({
+          sourceMap: false,
+          uglifyOptions: {
+            ecma: 8,
+            safari10: true,
+            mangle: { safari10: true }
+          }
+        }),
         new CopyWebpackPlugin([
           { from: resolve('../static') }
         ]),

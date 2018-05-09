@@ -79,18 +79,21 @@
       </palette-button>
     </div>
     <v-post></v-post>
+    <v-image></v-image>
   </div>
 </template>
 
 <script>
   import { PaletteButton } from 'mint-ui'
   import vPost from '~/components/creators/PostDrawer'
+  import vImage from '~/components/creators/ImageDrawer'
 
   export default {
     name: 'v-creator-menu',
     components: {
       PaletteButton,
-      vPost
+      vPost,
+      vImage
     },
     methods: {
       handlePaletteOpen () {
@@ -109,7 +112,12 @@
       },
       handleImageClick () {
         this.close()
-        this.$toast.error('图片功能开发中')
+        if (this.$store.state.login) {
+          this.$channel.$emit('open-create-image-drawer')
+        } else {
+          this.$toast.info('继续操作前请先登录')
+          this.$channel.$emit('drawer-open-sign')
+        }
       },
       handlePostClick () {
         this.close()

@@ -18,4 +18,16 @@ export default class extends BaseApi {
       'Content-Type': 'multipart/form-data'
     })
   }
+
+  getUploadType () {
+    return this.http.get('image/uploadType')
+  }
+
+  createAlbum ({ bangumiId, isCartoon, name, url, width, height, creator }) {
+    return this.http.post('image/createAlbum', { bangumiId, isCartoon, name, url, width, height, creator })
+  }
+
+  uploadImage ({ images, bangumiId, roleId, tags, size, creator, albumId }) {
+    return this.http.post('image/upload', { images, bangumiId, roleId, tags, size, creator, albumId })
+  }
 }

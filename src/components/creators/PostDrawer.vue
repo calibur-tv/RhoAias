@@ -361,6 +361,7 @@
       },
       async getUserFollowedBangumis () {
         if (this.followBangumis.length) {
+          this.slots[0].values = this.slots[0].values.concat(this.followBangumis)
           this.appendCurrentBangumi()
           return
         }

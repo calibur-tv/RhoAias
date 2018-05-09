@@ -90,4 +90,8 @@ export default class extends BaseApi {
       method, access, geetest, authCode, secret
     })
   }
+
+  getUserAlbums () {
+    return this.http.get('user/images/albums')
+  }
 }

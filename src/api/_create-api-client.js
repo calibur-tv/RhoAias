@@ -1,6 +1,24 @@
 import axios from 'axios'
 import { env, host, timeout } from 'env'
 
+const pendingQueue = {}
+
+const createRequestKey = (method, args) => {
+  let url = args[0]
+  let params = {}
+  if (args[1]) {
+    params = method === 'get' ? args[1].params || null : args[1]
+  }
+  if (!params) {
+    return `${method}-${url}`
+  }
+  url += `${method}-${url}?`
+  Object.keys(params).forEach(key => {
+    url += `${key}=${params[key]}&`
+  })
+  return url.slice(0, -1)
+}
+
 export default (ctx) => {
   const http = axios.create({
     baseURL: host[env],
@@ -36,5 +54,51 @@ export default (ctx) => {
     }
   })
 
-  return http
+  const Request = class {
+    get () {
+      return this.pending('get', arguments)
+    }
+
+    post () {
+      return this.pending('post', arguments)
+    }
+
+    delete () {
+      return http.delete(...arguments)
+    }
+
+    put () {
+      return http.put(...arguments)
+    }
+
+    head () {
+      return http.head(...arguments)
+    }
+
+    pending (method, args) {
+      const key = createRequestKey(method, args)
+      if (pendingQueue[key]) {
+        return new Promise((resolve, reject) => {
+          pendingQueue[key].then(() => {
+            resolve()
+          }).catch(() => {
+            reject() // eslint-disable-line
+          })
+        })
+      }
+      const task = new Promise((resolve, reject) => {
+        http[method](...args).then((res) => {
+          resolve(res)
+          delete pendingQueue[key]
+        }).catch((err) => {
+          reject(err)
+          delete pendingQueue[key]
+        })
+      })
+      pendingQueue[key] = task
+      return task
+    }
+  }
+
+  return new Request()
 }

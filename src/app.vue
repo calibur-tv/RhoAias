@@ -46,7 +46,6 @@
         this.$store.dispatch('getNotification', this)
         this.$cookie.set('JWT-TOKEN', this.$store.state.user.token)
       }
-      window.$toast = this.$toast
     }
   }
 </script>
