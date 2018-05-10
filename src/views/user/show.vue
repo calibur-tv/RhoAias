@@ -76,6 +76,10 @@
         padding: 8px 0;
         @include border-bottom();
 
+        a {
+          display: block;
+        }
+
         img {
           width: 46px;
           height: 46px;
@@ -272,7 +276,7 @@
           v-for="item in bangumis"
           :key="item.id"
         >
-          <router-link :to="$alias.bangumi(item.id)">
+          <router-link class="clearfix" :to="$alias.bangumi(item.id)">
             <v-img
               class="bg"
               :alt="item.name"
