@@ -297,8 +297,9 @@
     <div>
       <div class="tabs">
         <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
-        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
+        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
+        <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
       </div>
       <template v-if="sort === 'post'">
         <ul>
@@ -469,11 +470,19 @@
           ></more-btn>
         </v-drawer>
       </div>
+      <div id="images" v-else-if="sort === 'image'">
+        <image-waterfall
+          :loading="imageState.loading"
+          @fetch="getImages(false)"
+        ></image-waterfall>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import ImageWaterfall from '~/components/lists/ImageWaterfall'
+
   export default {
     name: 'bangumi-show',
     async asyncData ({ route, store, ctx }) {
@@ -482,6 +491,9 @@
         store.dispatch('bangumi/getBangumi', { ctx, id }),
         store.dispatch('bangumi/getVideos', { ctx, id })
       ])
+    },
+    components: {
+      ImageWaterfall
     },
     head () {
       if (!this.id) {
@@ -541,6 +553,11 @@
           init: false
         },
         roleState: {
+          loading: false,
+          init: false,
+          fetched: false
+        },
+        imageState: {
           loading: false,
           init: false,
           fetched: false
@@ -634,6 +651,26 @@
           this.roleState.loading = false
         }
       },
+      async getImages (force = false) {
+        if (this.imageState.loading) {
+          return
+        }
+        this.imageState.loading = true
+        this.imageState.init = true
+
+        try {
+          await this.$store.dispatch('image/getBangumiImages', {
+            ctx: this,
+            id: this.id,
+            force
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.imageState.fetched = true
+          this.imageState.loading = false
+        }
+      },
       switchTab (tab) {
         this.sort = tab
         if (tab === 'post') {
@@ -647,6 +684,10 @@
         } else if (tab === 'role') {
           if (!this.roleState.init) {
             this.getRoles(true)
+          }
+        } else if (tab === 'image') {
+          if (!this.imageState.init) {
+            this.getImages(true)
           }
         }
       },

@@ -348,7 +348,7 @@
         </div>
       </div>
       <div class="hr"></div>
-      <post-reply-modal
+      <post-reply
         v-for="(item, index) in list"
         :key="item.id"
         :post="item"
@@ -358,7 +358,7 @@
         @reply="handlePostReply"
         @loadcomment="handleCommentLoad"
         @addcomment="handleCommentAdd"
-      ></post-reply-modal>
+      ></post-reply>
     </div>
     <more-btn
       :no-more="noMore"
@@ -490,7 +490,7 @@
 </template>
 
 <script>
-  import PostReplyModal from '~/components/creators/ReplyPostDrawer'
+  import PostReply from '~/components/items/PostReply'
 
   export default {
     name: 'post-show',
@@ -506,7 +506,7 @@
       })
     },
     components: {
-      PostReplyModal
+      PostReply
     },
     head () {
       return {

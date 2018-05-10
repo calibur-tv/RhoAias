@@ -92,13 +92,15 @@ export default {
         noMore: data.length < state.trending.take
       }
     },
-    TOGGLE_LIKE (state, { id, result }) {
+    TOGGLE_LIKE (state, { id }) {
       if (id === state.show.info.post.id) {
+        const result = !state.show.info.post.liked
         state.show.info.post.liked = result
         result ? state.show.info.post.like_count++ : state.show.info.post.like_count--
       } else {
         state.show.data.list.forEach((item, index) => {
           if (item.id === id) {
+            const result = !state.show.data.list[index].liked
             state.show.data.list[index].liked = result
             result ? state.show.data.list[index].like_count++ : state.show.data.list[index].like_count--
           }
@@ -188,9 +190,9 @@ export default {
       data && commit('setTrending', { sort, data, reset })
     },
     async toggleLike ({ commit }, { ctx, id }) {
+      commit('TOGGLE_LIKE', { id })
       const api = new Api(ctx)
-      const result = await api.toggleLike(id)
-      commit('TOGGLE_LIKE', { id, result })
+      await api.toggleLike(id)
     },
     async toggleMark ({ commit }, { ctx, id }) {
       const api = new Api(ctx)
