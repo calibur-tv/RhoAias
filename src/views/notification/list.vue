@@ -65,6 +65,10 @@
           <router-link :to="item.data.link" v-text="item.data.title"></router-link>
           下的回复
         </template>
+        <template v-else-if="item.type === 5">
+          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          喜欢了你上传的图片
+        </template>
       </li>
     </ul>
     <more-btn
