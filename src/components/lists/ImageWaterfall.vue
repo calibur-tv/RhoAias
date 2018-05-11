@@ -7,7 +7,7 @@
     .image-container {
       position: relative;
       width: 310px;
-      margin: 0 auto;
+      margin: 0 auto $container-padding auto;
     }
 
     .image-item {
@@ -160,10 +160,21 @@
           border-top: 1px solid #F2F2F2;
           background-color: #fafafa;
           font-size: 12px;
+          line-height: 14px;
           color: #999;
 
           .margin-top {
             margin-top: 8px;
+          }
+
+          .info {
+            overflow: hidden;
+          }
+
+          a {
+            display: block;
+            color: #777;
+            font-size: 12px;
           }
         }
 
@@ -171,43 +182,27 @@
 
           .avatar {
             float: left;
-            margin-right: 10px;
+            margin-right: 8px;
 
             img {
-              width: 34px;
-              height: 34px;
+              width: 28px;
+              height: 28px;
             }
-          }
-
-          .info {
-            overflow: hidden;
-            line-height: 14px;
           }
         }
 
         .user {
+
           .avatar {
             float: left;
-            margin-right: 5px;
+            margin-right: 8px;
             overflow: hidden;
             border: 1px solid #F0F0F0;
             border-radius: 50%;
             @include avatar(28px);
           }
 
-          .info {
-            overflow: hidden;
-            line-height: 14px;
-
-            a {
-              display: block;
-              font-size: 12px;
-              color: #777;
-            }
-          }
-
           .extra {
-            line-height: 14px;
             margin-top: 3px;
           }
         }
@@ -304,7 +299,6 @@
         </waterfall-slot>
       </waterfall>
     </no-ssr>
-    <div class="hr"></div>
     <more-btn
       :no-more="noMore"
       :loading="loading"
@@ -614,9 +608,12 @@
       },
       handleImageClick (image) {
         if (image.image_count) {
-          // vue-router
-          // window.open(this.$alias.imageAlbum(image.id))
-          this.$toast.error('相册开发中...')
+          this.$router.push({
+            name: 'image-album',
+            params: {
+              id: image.id
+            }
+          })
         } else {
           const result = `${image.width}-${image.height}|${image.url}`
           this.$previewImages([result], result)

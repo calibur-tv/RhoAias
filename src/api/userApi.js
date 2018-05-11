@@ -91,6 +91,10 @@ export default class extends BaseApi {
     })
   }
 
+  images ({ zone, take, seenIds, size, tags, bangumiId, creator }) {
+    return this.http.post(`user/${zone}/images/list`, { take, seenIds, size, tags, bangumiId, creator })
+  }
+
   getUserAlbums () {
     return this.http.get('user/images/albums')
   }

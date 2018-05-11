@@ -24,7 +24,10 @@ Vue.mixin({
         store: this.$store,
         route: to,
         ctx: store.state.login ? store.state.user.token : ''
-      }).then(next).catch(next)
+      }).then(next).catch((e) => {
+        Vue.prototype.$toast.error(typeof e === 'string' ? e : '网络请求失败，请稍后再试！')
+        next(false)
+      })
     } else {
       next()
     }
@@ -78,7 +81,7 @@ router.onReady(() => {
       })))
       next()
     } catch (e) {
-      Vue.prototype.$toast.error('网络请求失败，请稍后再试！')
+      Vue.prototype.$toast.error(typeof e === 'string' ? e : '网络请求失败，请稍后再试！')
       next(false)
     } finally {
       bar.finish()
