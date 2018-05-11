@@ -144,11 +144,11 @@
       },
       login () {
         this.$channel.$emit('switch-to-register', false)
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in')
       },
       register () {
         this.$channel.$emit('switch-to-register', true)
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in')
       },
       async submitFeedback () {
         if (!this.content.length) {

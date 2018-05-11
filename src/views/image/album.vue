@@ -26,11 +26,6 @@
       .images-wrap {
         .image-package {
           position: relative;
-
-          img {
-            width: 100%;
-            height: auto;
-          }
         }
       }
 
@@ -156,6 +151,16 @@
         id: route.params.id
       })
     },
+    head () {
+      const category = `${this.info.is_cartoon ? '漫画' : '相簿'}`
+      return {
+        title: `${this.info.name} - ${category}`,
+        meta: [
+          { hid: 'description', name: 'description', content: this.bangumi.summary },
+          { hid: 'keywords', name: 'keywords', content: `${this.info.name}，${this.bangumi.name}，${category}，${this.user.nickname}` }
+        ]
+      }
+    },
     computed: {
       id () {
         return this.$route.params.id
@@ -192,7 +197,8 @@
       }
     },
     methods: {
-      handleBangumiFollow () {
+      handleBangumiFollow (result) {
+        this.$store.commit('image/FOLLOW_ALBUM_BANGUMI', { result })
       },
       toggleLike () {
       }

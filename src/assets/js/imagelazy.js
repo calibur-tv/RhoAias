@@ -109,16 +109,18 @@ export default {
       src = src.split('|http').length > 1 ? `http${src.split('|http').pop()}` : src
       if (this.tag.toLowerCase() === 'img') {
         image.setAttribute('src', src)
-        image.addEventListener('load', () => {
-          this.$utils.setStyle(image, 'padding-bottom', 0)
-          image.classList.remove('image-loading')
-          if (this.aspect) {
-            image.classList.add('image-lazy-active')
-            setTimeout(() => {
-              image.classList.remove('image-lazy-active', 'image-lazy-init')
-            }, 300)
-          }
-        })
+        if (this.aspect || this.loading) {
+          image.addEventListener('load', () => {
+            image.removeAttribute('style')
+            image.classList.remove('image-loading')
+            if (this.aspect) {
+              image.classList.add('image-lazy-active')
+              setTimeout(() => {
+                image.classList.remove('image-lazy-active', 'image-lazy-init')
+              }, 300)
+            }
+          })
+        }
       } else {
         this.$utils.setStyle(image, 'background-image', `url(${src})`)
       }

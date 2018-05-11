@@ -362,7 +362,7 @@
           ? this.$store.state.user.id
           : -1
       },
-      slug () {
+      zone () {
         return this.$store.state.user.zone
       },
       selectionSize () {
@@ -475,9 +475,11 @@
       },
       computeBoxHeight (image) {
         return this.computeImageHeight(image) + (
-            this.page === 'user-show'
-              ? image.bangumi_id ? 93 : 52
-              : (image.bangumi || image.user ? 93 : 52)
+            this.page === 'role-show'
+              ? 48
+              : this.page === 'user-show'
+                ? image.bangumi_id ? 93 : 48
+                : (image.bangumi || image.user ? 93 : 48)
           )
       },
       computeImageHeight (image) {
@@ -581,12 +583,11 @@
       },
       handleLikeBtnClick (e, image) {
         if (!this.$store.state.login) {
-          this.$toast.info('继续操作前请先登录')
           this.$channel.$emit('sign-in')
           return
         }
         if (this.isMine(image.user_id)) {
-          this.$toast.info('不能为自己的图片点赞')
+          this.$toast.error('不能为自己的图片点赞')
           return
         }
         const btn = e.currentTarget
@@ -666,7 +667,7 @@
         try {
           this.bangumis = await this.$store.dispatch('users/getFollowBangumis', {
             ctx: this,
-            zone: this.slug
+            zone: this.zone
           })
         } finally {
           this.loadingUserBangumiFetch = false
@@ -720,7 +721,7 @@
           return
         }
         this.submitting = true
-        this.$toast.info('修改中...')
+        this.$toast.loading('修改中...')
         const api = new Api(this)
         try {
           const id = this.form.id
@@ -779,7 +780,7 @@
           return
         }
         this.submitting = false
-        this.$toast.info('修改中...')
+        this.$toast.loading('修改中...')
         const api = new Api(this)
         const id = this.albumForm.id
         const poster = this.albumForm.poster.length ? this.albumForm.poster[0]['url'] : null

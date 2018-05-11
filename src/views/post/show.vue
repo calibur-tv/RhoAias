@@ -640,7 +640,7 @@
       },
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMaster) {
@@ -672,7 +672,7 @@
       },
       async toggleMark () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMaster) {
@@ -717,11 +717,11 @@
       handleReplyBtnClick () {
         this.$store.state.login
           ? this.$channel.$emit('drawer-open-write-post')
-          : this.$channel.$emit('drawer-open-sign')
+          : this.$channel.$emit('sign-in')
       },
       handleCommentAdd (data) {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         this.createComment.postId = data.postId

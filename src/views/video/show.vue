@@ -376,8 +376,7 @@
           return
         }
         if (this.isGuest) {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {

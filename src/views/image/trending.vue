@@ -30,8 +30,10 @@
     components: {
       ImageWaterfall
     },
-    head: {
-      title: '相册'
+    head () {
+      return {
+        title: `相册 - ${this.sort === 'new' ? '最新上传' : '最多喜欢'}`
+      }
     },
     computed: {
       images () {

@@ -66,6 +66,11 @@
           margin-top: 5px;
         }
       }
+
+      .signature {
+        font-size: 13px;
+        line-height: 18px;
+      }
     }
 
     #bangumis {
@@ -257,6 +262,10 @@
         <button v-if="isMe" @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
         <p class="nickname oneline" v-text="user.nickname"></p>
       </div>
+      <p class="signature">
+        <strong>签名：</strong>
+        {{ user.signature || '这个人还很神秘...' }}
+      </p>
       <div class="faker-tips" v-if="user.faker">
         <span>重要提醒</span>
         <p>这是一个运营号，并非本人，该账号下所有信息都是搬运而来</p>
@@ -300,7 +309,7 @@
         <router-link
           v-for="item in roles"
           :key="item.id"
-          :to="$alias.bangumi(item.bangumi_id)"
+          :to="$alias.cartoonRole(item.id)"
           tag="li"
         >
           <div class="clearfix">
@@ -432,7 +441,7 @@
   export default {
     name: 'page-user',
     async asyncData ({ route, store, ctx }) {
-      const zone = route.params.slug
+      const zone = route.params.zone
       const arr = [
         store.dispatch('users/getUser', {
           ctx, zone
@@ -444,7 +453,7 @@
       await Promise.all(arr)
     },
     head () {
-      if (!this.slug) {
+      if (!this.zone) {
         return
       }
       return {
@@ -459,12 +468,12 @@
       ImageWaterfall
     },
     computed: {
-      slug () {
-        return this.$route.params.slug
+      zone () {
+        return this.$route.params.zone
       },
       isMe () {
         return this.$store.state.login
-          ? this.slug === this.self.zone
+          ? this.zone === this.self.zone
           : false
       },
       self () {
@@ -473,10 +482,10 @@
       user () {
         return this.isMe
           ? this.self
-          : this.$store.state.users.list[this.slug]
+          : this.$store.state.users.list[this.zone]
       },
       bangumis () {
-        return this.$store.state.users.list[this.slug].bangumis
+        return this.$store.state.users.list[this.zone].bangumis
       },
       posts () {
         return this.sort === 'bangumi' ? {} : this.$store.state.users.posts[this.sort]
