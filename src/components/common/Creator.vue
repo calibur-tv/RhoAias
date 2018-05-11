@@ -95,9 +95,14 @@
       vPost,
       vImage
     },
+    data () {
+      return {
+        backdropId: 0
+      }
+    },
     methods: {
       handlePaletteOpen () {
-        this.$backdrop.show({
+        this.backdropId = this.$backdrop.show({
           ele: this.$refs.palette.$el,
           click: () => {
             this.close()
@@ -108,7 +113,7 @@
         this.$refs.palette.collapse()
       },
       handlePaletteClose () {
-        this.$backdrop.hide()
+        this.$backdrop.hide(this.backdropId)
       },
       handleImageClick () {
         this.close()

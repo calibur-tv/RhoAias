@@ -1,46 +1,37 @@
-<style lang="scss" scoped="">
-
+<style lang="scss">
+  #role-show {
+    .container {
+      height: 80vh;
+      padding-top: 200px;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
 </style>
 
 <template>
-  <p>偶像详情页</p>
+  <div id="role-show">
+    <div class="container">
+      页面施工中...
+    </div>
+  </div>
 </template>
 
 <script>
   export default {
-    name: 'RoleShow',
+    name: 'role-show',
     async asyncData ({ store, route, ctx }) {
-      await store.dispatch('cartoonRole/getRoleInfo', {
-        ctx,
-        bangumiId: route.params.bangumiId,
-        roleId: route.params.roleid
-      })
-    },
-    components: {
-
-    },
-    props: {
-
-    },
-    watch: {
-
-    },
-    computed: {
-
-    },
-    data () {
-      return {
-
-      }
-    },
-    created () {
-
-    },
-    methods: {
-
-    },
-    mounted () {
-
+      const id = route.params.id
+      await Promise.all([
+        store.dispatch('cartoonRole/getRoleInfo', { ctx, id }),
+        store.dispatch('cartoonRole/getFansList', {
+          ctx,
+          bangumiId: 0,
+          roleId: id,
+          sort: 'new',
+          reset: false
+        })
+      ])
     }
   }
 </script>

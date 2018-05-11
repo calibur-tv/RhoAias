@@ -78,6 +78,11 @@ export default {
         seenIds: reset ? null : length ? state.fans[sort].data.map(item => item.id).join(',') : null
       }))
       data && commit('SET_FANS_LIST', { data, reset, sort })
+    },
+    async getRoleInfo ({ commit }, { ctx, id }) {
+      const api = new Api(ctx)
+      const data = await api.show(id)
+      commit('SET_ROLE_INFO', data)
     }
   },
   getters: {}

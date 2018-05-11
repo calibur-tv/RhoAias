@@ -269,6 +269,7 @@
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
       <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
+      <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
     </div>
     <template v-if="sort === 'bangumi'">
       <ul id="bangumis" class="container" v-if="bangumis.length">
@@ -335,6 +336,15 @@
         :length="roles.length"
         @fetch="getUserRoles"
       ></more-btn>
+    </template>
+    <template v-else-if="sort === 'image'">
+      <image-waterfall
+        :loading="loadingUserImageFetch"
+        :bangumi="bangumis"
+        @fetch="getUserImages(false)"
+      >
+        <button v-if="isMe">上传图片</button>
+      </image-waterfall>
     </template>
     <template v-else>
       <ul
@@ -417,6 +427,8 @@
 </template>
 
 <script>
+  import ImageWaterfall from '~/components/lists/ImageWaterfall'
+
   export default {
     name: 'page-user',
     async asyncData ({ route, store, ctx }) {
@@ -442,6 +454,9 @@
           { hid: 'keywords', name: 'keywords', content: `calibur,用户,天下漫友是一家,${this.user.zone},${this.user.nickname}` }
         ]
       }
+    },
+    components: {
+      ImageWaterfall
     },
     computed: {
       slug () {
@@ -477,13 +492,17 @@
       },
       noMoreRoles () {
         return this.$store.state.users.roles.noMore
+      },
+      images () {
+        return this.$store.state.image.waterfall
       }
     },
     data () {
       return {
-        signDayLoading: false,
         sort: 'bangumi',
-        loadingRoles: false
+        signDayLoading: false,
+        loadingRoles: false,
+        loadingUserImageFetch: false
       }
     },
     methods: {
@@ -494,6 +513,10 @@
         }
         if (tab === 'role') {
           this.getUserRoles(true)
+          return
+        }
+        if (tab === 'image') {
+          this.getUserImage(true)
           return
         }
         this.getUserPosts(true)
@@ -510,6 +533,26 @@
           type: this.sort,
           zone: this.user.zone
         })
+      },
+      async getUserImage (isFirstRequest = false) {
+        if (isFirstRequest && this.images.data.length) {
+          return
+        }
+        if (this.loadingUserImageFetch) {
+          return
+        }
+        this.loadingUserImageFetch = true
+        try {
+          await this.$store.dispatch('image/getUserImages', {
+            zone: this.user.zone,
+            ctx: this,
+            force: isFirstRequest
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingUserImageFetch = false
+        }
       },
       async getUserRoles (isFirstRequest = false) {
         if (this.loadingRoles) {
