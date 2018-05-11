@@ -120,8 +120,7 @@
         if (this.$store.state.login) {
           this.$channel.$emit('open-create-image-drawer')
         } else {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
         }
       },
       handlePostClick () {
@@ -129,8 +128,7 @@
         if (this.$store.state.login) {
           this.$channel.$emit('drawer-open-write-post')
         } else {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
         }
       },
       handleFeedClick () {

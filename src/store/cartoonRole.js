@@ -19,6 +19,19 @@ export default {
     }
   }),
   mutations: {
+    ADD_ROLE_STATE (state, { hasStar, user }) {
+      if (hasStar) {
+        state.info.data.hasStar++
+      } else {
+        state.info.data.hasStar = 1
+        state.info.data.fans_count++
+        state.fans.new.data.unshift(user)
+      }
+      state.info.data.star_count++
+    },
+    FOLLOW_ROLE_BANGUMI (state, { result }) {
+      state.info.bangumi.followed = result
+    },
     SET_DATA (state, data) {
       state.list = data.list
       state.info = data.info
@@ -28,6 +41,9 @@ export default {
     SET_TRENDING (state, data) {
       state.trending.data = state.trending.data.concat(data)
       state.trending.noMore = data.length < 15
+    },
+    SET_ROLE_INFO (state, data) {
+      state.info = data
     },
     SET_FANS_LIST (state, { data, reset, sort }) {
       if (reset) {
@@ -83,6 +99,20 @@ export default {
       const api = new Api(ctx)
       const data = await api.show(id)
       commit('SET_ROLE_INFO', data)
+    },
+    async star ({ rootState, commit }, { bangumiId, roleId, ctx, hasStar }) {
+      const api = new Api(ctx)
+      await api.star({ bangumiId, roleId })
+      const self = rootState.user
+      commit('ADD_ROLE_STATE', {
+        hasStar,
+        user: {
+          id: self.id,
+          zone: self.zone,
+          avatar: self.avatar,
+          nickname: self.nickname
+        }
+      })
     }
   },
   getters: {}

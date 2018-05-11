@@ -285,7 +285,7 @@
     methods: {
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMine) {

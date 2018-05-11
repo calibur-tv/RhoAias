@@ -48,7 +48,7 @@ export function createRouter () {
             component: () => import('~/views/bangumi/tags')
           },
           {
-            path: 'user/:slug',
+            path: 'user/:zone',
             name: 'user-show',
             component: () => import('~/views/user/show')
           },

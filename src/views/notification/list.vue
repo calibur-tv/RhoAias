@@ -127,12 +127,12 @@
       },
       readAll () {
         if (!this.notificationsCount) {
-          this.$toast.info('消息已清空')
+          this.$toast.success('消息已清空')
           return
         }
         try {
           this.$store.dispatch('users/readAllMessage', this)
-          this.$toast.info('消息已清空')
+          this.$toast.success('消息已清空')
         } catch (e) {
           this.$toast.error(e)
         }

@@ -192,7 +192,7 @@
     },
     mounted () {
       if (this.$route.query.from === 'search') {
-        this.$toast.info('您搜索的资源未收录')
+        this.$toast.error('您搜索的资源未收录')
       }
     }
   }

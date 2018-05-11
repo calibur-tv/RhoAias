@@ -26,17 +26,49 @@
       text-align: right;
       overflow: hidden;
       height: 100%;
+      font-size: 0;
 
-      .search-btn,
-      .create-btn {
+      .search-btn {
         display: inline-block;
         vertical-align: middle;
         margin-left: 24px;
+        margin-top: 2px;
 
         i {
           font-size: 24px;
           line-height: 24px;
         }
+      }
+
+      .nav-avatar {
+        position: relative;
+        margin-left: 15px;
+        display: inline-block;
+        vertical-align: middle;
+        @include avatar(24px);
+        @include border($color-gray-normal, 50%);
+
+        .badge {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: red;
+          @include border(#fff, 50%);
+        }
+      }
+
+      .faker-avatar {
+        margin-left: 15px;
+        width: 24px;
+        height: 24px;
+        font-size: 23px;
+        line-height: 24px;
+        vertical-align: middle;
+        color: #333;
       }
 
       .search-drawer {
@@ -92,37 +124,6 @@
             }
           }
         }
-      }
-
-      .nav-avatar {
-        position: relative;
-        margin-left: 15px;
-        display: inline-block;
-        vertical-align: middle;
-        @include avatar(24px);
-        @include border($color-gray-normal, 50%);
-
-        .badge {
-          display: block;
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: red;
-          @include border(#fff, 50%);
-        }
-      }
-
-      .faker-avatar {
-        margin-left: 15px;
-        width: 24px;
-        height: 24px;
-        font-size: 23px;
-        line-height: 24px;
-        vertical-align: middle;
-        color: #333;
       }
 
       .user-drawer {
@@ -376,7 +377,7 @@
       },
       async handleDaySign () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.daySigned || this.signDayLoading) {
@@ -403,7 +404,7 @@
         this.switchUserDrawer = true
       },
       openSignDrawer () {
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in')
       }
     }
   }
