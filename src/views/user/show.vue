@@ -502,7 +502,8 @@
         sort: 'bangumi',
         signDayLoading: false,
         loadingRoles: false,
-        loadingUserImageFetch: false
+        loadingUserImageFetch: false,
+        userImageLoaded: false
       }
     },
     methods: {
@@ -535,7 +536,7 @@
         })
       },
       async getUserImage (isFirstRequest = false) {
-        if (isFirstRequest && this.images.data.length) {
+        if (isFirstRequest && this.userImageLoaded) {
           return
         }
         if (this.loadingUserImageFetch) {
@@ -548,6 +549,7 @@
             ctx: this,
             force: isFirstRequest
           })
+          this.userImageLoaded = true
         } catch (e) {
           this.$toast.error(e)
         } finally {

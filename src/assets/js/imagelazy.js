@@ -49,7 +49,7 @@ export default {
   render: function (createElement) {
     return createElement(this.tag, {
       'class': {
-        'image-lazy-mask': this.aspect,
+        'image-lazy-init': this.aspect,
         'image-loading': this.loading
       },
       style: this.aspect ? {
@@ -111,7 +111,13 @@ export default {
         image.setAttribute('src', src)
         image.addEventListener('load', () => {
           this.$utils.setStyle(image, 'padding-bottom', 0)
-          image.classList.remove('image-lazy-mask', 'image-loading')
+          image.classList.remove('image-loading')
+          if (this.aspect) {
+            image.classList.add('image-lazy-active')
+            setTimeout(() => {
+              image.classList.remove('image-lazy-active', 'image-lazy-init')
+            }, 300)
+          }
         })
       } else {
         this.$utils.setStyle(image, 'background-image', `url(${src})`)

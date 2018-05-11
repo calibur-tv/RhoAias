@@ -170,7 +170,7 @@
           <span>原创：</span>
           <mt-switch v-model="album.creator"></mt-switch>
         </div>
-        <div class="field">
+        <div class="field" v-if="user.faker">
           <span>漫画：</span>
           <mt-switch v-model="album.cartoon"></mt-switch>
         </div>
@@ -273,6 +273,9 @@
           return '相册'
         }
         return '选项卡'
+      },
+      user () {
+        return this.$store.state.user || {}
       }
     },
     data () {
@@ -591,7 +594,7 @@
         this.loadingBangumi = true
         try {
           const bangumis = await this.$store.dispatch('users/getFollowBangumis', {
-            zone: this.$store.state.user.zone,
+            zone: this.user.zone,
             self: true
           })
           this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(bangumis)
