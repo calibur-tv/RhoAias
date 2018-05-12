@@ -20,16 +20,9 @@
         padding: 10px 15px;
       }
 
-      #video-wrap {
-        width: 100%;
-        height: 100%;
-      }
-
       video {
         width: 100%;
         height: 100%;
-        display: block;
-        background-color: #000;
       }
 
       button {
@@ -171,7 +164,20 @@
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
         <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
-      <div id="video-wrap" v-else></div>
+      <template v-else>
+        <video
+          :src="videoSrc"
+          :poster="video.poster"
+          preload="none"
+          ref="video"
+          controlsList="nodownload"
+        ></video>
+        <button
+          class="iconfont icon-bofang"
+          v-if="!playing"
+          @click="togglePlaying"
+        ></button>
+      </template>
     </div>
     <div class="container">
       <div id="metas">
@@ -214,7 +220,8 @@
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
       <h3 class="sub-title">下载与反馈</h3>
-      <p class="tip">大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
+      <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
+      <p class="tip">2：安卓用户建议大家使用最新版 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
       <div>
         <button class="video-report-btn" @click="downloadVideo">下载视频</button>
         <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
@@ -225,8 +232,6 @@
 
 <script>
   import VideoApi from '~/api/videoApi'
-  import ChimeeMobilePlayer from 'chimee-mobile-player'
-  import 'chimee-mobile-player/lib/chimee-mobile-player.browser.css'
 
   export default {
     name: 'video-show',
@@ -345,6 +350,20 @@
           api.playing(this.id)
         }
       },
+      togglePlaying () {
+        try {
+          this.handlePlaying()
+          if (this.playing) {
+            this.player.pause()
+            this.playing = false
+          } else {
+            this.player.play()
+            this.playing = true
+          }
+        } catch (e) {
+          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+        }
+      },
       handleVideoReportClick () {
         this.$channel.$emit('open-feedback', {
           type: 4,
@@ -377,17 +396,24 @@
       if (this.isGuest) {
         return
       }
-      this.player = new ChimeeMobilePlayer({
-        wrapper: '#video-wrap',
-        src: this.videoSrc,
-        poster: this.video.poster,
-        autoplay: false,
-        controls: true,
-        playsInline: false,
-        preload: 'metadata',
-        x5VideoPlayerFullscreen: true,
-        x5VideoOrientation: true,
-        xWebkitAirplay: true
+      this.player = this.$refs.video
+      this.player.controls = false
+      try {
+        this.player.load()
+      } catch (e) {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+        return
+      }
+      this.player.addEventListener('pause', () => {
+        this.playing = false
+      })
+
+      this.player.addEventListener('abort', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+      })
+
+      this.player.addEventListener('error', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
       })
     }
   }
