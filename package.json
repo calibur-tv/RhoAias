@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "chimee-mobile-player": "^0.2.4",
     "element-ui": "^2.2.0",
     "es6-promise": "^4.1.1",
     "fastclick": "^1.0.6",
