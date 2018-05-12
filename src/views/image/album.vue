@@ -2,6 +2,7 @@
   #image-album {
     .header {
       margin-top: $container-padding;
+      margin-bottom: $container-padding;
 
       .title {
         font-size: 20px;
@@ -143,6 +144,8 @@
 </template>
 
 <script>
+  import Api from '~/api/imageApi'
+
   export default {
     name: 'image-album',
     async asyncData ({ store, route, ctx }) {
@@ -201,6 +204,43 @@
         this.$store.commit('image/FOLLOW_ALBUM_BANGUMI', { result })
       },
       toggleLike () {
+        if (!this.$store.state.login) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        if (this.isMine) {
+          this.$toast.error('不能为自己的相簿点赞')
+          return
+        }
+        if (this.loadingFollowAlbum) {
+          return
+        }
+        this.loadingFollowAlbum = true
+        if (this.info.is_creator && !this.info.liked) {
+          this.$confirm('原创相簿点赞需要金币, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.submitLikeRequest()
+          }).catch(() => {})
+          return
+        }
+        this.submitLikeRequest()
+      },
+      async submitLikeRequest () {
+        const api = new Api(this)
+        try {
+          const result = await api.toggleLike({
+            id: this.id
+          })
+          this.$store.commit('image/ALBUM_LIKE', { result })
+          this.$toast.success('操作成功')
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingFollowAlbum = false
+        }
       }
     }
   }
