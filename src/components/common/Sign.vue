@@ -620,8 +620,8 @@
       this.$channel.$on('switch-to-register', result => {
         this.switchSignModal(result ? 'register' : 'login')
       })
-      this.$channel.$on('sign-in', () => {
-        this.$toast.error('继续操作前请先登录')
+      this.$channel.$on('sign-in', (showToast = true) => {
+        showToast && this.$toast.error('继续操作前请先登录')
         this.switchSignModal('login')
         this.openDrawer = true
       })
