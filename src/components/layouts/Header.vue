@@ -404,7 +404,7 @@
         this.switchUserDrawer = true
       },
       openSignDrawer () {
-        this.$channel.$emit('sign-in')
+        this.$channel.$emit('sign-in', (false))
       }
     }
   }
