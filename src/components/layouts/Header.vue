@@ -70,18 +70,21 @@
         vertical-align: middle;
         color: #333;
       }
-
+      .show {
+        transform: translateY(0) !important;
+      }
       .search-drawer {
         border-radius: 0 0 5px 5px;
-
+        transform: translateY(-50px);
         $search-height: 24px;
+
         .search-wrap {
           margin-top: 8px;
           margin-bottom: 8px;
           height: $search-height;
           line-height: $search-height;
           font-size: 12px;
-
+          
           .cancel {
             float: right;
             padding-top: 5px;
@@ -219,7 +222,7 @@
       <img :src="$resize(`${$cdn.image}owner/logo`, { height: 56, mode: 2 })" alt="logo">
     </router-link>
     <div class="header-right">
-      <button class="search-btn" @click="openSearchDrawer = true">
+      <button class="search-btn" @click="openSDHandle">
         <i class="iconfont icon-sousuo"></i>
       </button>
       <v-drawer
@@ -227,7 +230,8 @@
         size="40px"
         id="search"
         class="search-drawer"
-        v-model="openSearchDrawer"
+        :class="{ show: openSearchDrawer }"
+        :value="true"
       >
         <div class="container">
           <div class="search-wrap">
@@ -237,6 +241,7 @@
               <span class="clear" @click="q = ''" v-show="q">×</span>
               <form method="get" action="#" @submit.prevent="search()" class="input-wrap">
                 <input
+                  id="searchInput"
                   type="search"
                   v-model.trim="q"
                   placeholder="搜索番剧"
@@ -361,6 +366,10 @@
         const api = new UserApi(this)
         api.logout()
         window.location.href = '/'
+      },
+      openSDHandle () {
+        this.openSearchDrawer = true
+        this.$refs.searchInput.focus()
       },
       async search (words) {
         const q = words || this.q
