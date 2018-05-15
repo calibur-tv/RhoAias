@@ -223,14 +223,14 @@
           return
         }
         const isFormat = ['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) !== -1
-        const isLt2M = file.size / 1024 / 1024 < 2
+        const isLt2M = file.size / 1024 / 1024 < 3
 
         if (!isFormat) {
           this.$toast.error('图片只能是 JPG 或 PNG 格式!')
           return false
         }
         if (!isLt2M) {
-          this.$toast.error('图片大小不能超过 2MB!')
+          this.$toast.error('图片大小不能超过 3MB!')
           return false
         }
 
