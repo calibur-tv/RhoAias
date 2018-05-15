@@ -87,8 +87,8 @@
       </template>
       <textarea
         class="content"
-        :placeholder="postId ? '也来说两句（500字以内）' : '来吧，尽情的（在500字以内）发挥吧'"
-        maxlength="500"
+        :placeholder="postId ? '也来说两句（1000字以内）' : '来吧，尽情的（在1000字以内）发挥吧'"
+        maxlength="1000"
         v-model.trim="content"
       ></textarea>
       <el-upload
