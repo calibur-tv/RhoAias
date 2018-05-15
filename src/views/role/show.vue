@@ -17,11 +17,12 @@
 
         .name {
           font-size: 18px;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
         }
 
         .lover {
           height: 26px;
+          margin-bottom: 5px;
 
           img {
             vertical-align: middle;
@@ -32,7 +33,6 @@
         }
 
         .star {
-          float: right;
           @include btn-empty(#000)
         }
       }
@@ -276,7 +276,7 @@
             hasStar: this.role.hasStar
           })
           this.$store.commit('USE_COIN')
-          this.$toast.success(`+${this.role.hasStar}s`)
+          this.$toast.info(`+${this.role.hasStar}s`)
         } catch (e) {
           this.$toast.error(e)
         }
@@ -291,7 +291,7 @@
             ctx: this,
             bangumiId: this.bangumi.id,
             roleId: this.id,
-            sort: this.focusRoleSort
+            sort: 'new'
           })
         } catch (e) {
           this.$toast.error(e)
