@@ -210,7 +210,7 @@
         if (!this.album.selectedBangumi) {
           return '点击选择番剧'
         }
-        return this.bangumiSlots[0].values[this.bangumiSlots[0].defaultIndex].name
+        return this.getSelectedMeta('bangumi', 'name')
       },
       imageBangumiPlaceholder () {
         if (this.loadingBangumi) {
@@ -219,7 +219,7 @@
         if (!this.image.selectedBangumi) {
           return '点击选择番剧'
         }
-        return this.bangumiSlots[0].values[this.bangumiSlots[0].defaultIndex].name
+        return this.getSelectedMeta('bangumi', 'name')
       },
       imageTagsPlaceholder () {
         if (this.loadingUploadType) {
@@ -228,7 +228,7 @@
         if (!this.image.selectedTags) {
           return '点击选择类型'
         }
-        return this.tagsSlots[0].values[this.tagsSlots[0].defaultIndex].name
+        return this.getSelectedMeta('tags', 'name')
       },
       imageSizePlaceholder () {
         if (this.loadingUploadType) {
@@ -237,7 +237,7 @@
         if (!this.image.selectedSize) {
           return '点击选择尺寸'
         }
-        return this.sizeSlots[0].values[this.sizeSlots[0].defaultIndex].name
+        return this.getSelectedMeta('size', 'name')
       },
       imageRolePlaceholder () {
         if (this.loadingBangumiRole) {
@@ -246,7 +246,7 @@
         if (!this.image.selectedRole) {
           return '点击选择角色（可选）'
         }
-        return this.roleSlots[0].values[this.roleSlots[0].defaultIndex].name
+        return this.getSelectedMeta('role', 'name')
       },
       imageAlbumPlaceholder () {
         if (this.loadingUserAlbum) {
@@ -255,7 +255,7 @@
         if (!this.image.selectedAlbum) {
           return '点击选择相册（可选）'
         }
-        return this.albumSlots[0].values[this.albumSlots[0].defaultIndex].name
+        return this.getSelectedMeta('album', 'name')
       },
       followBangumis () {
         return this.$store.state.users.self.followBangumi
@@ -497,9 +497,14 @@
         if (!values[0]) {
           return
         }
-        this.saveSelectedBangumi(values[0].id)
+        const id = values[0].id
+        this.bangumiSlots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.bangumiSlots[0].defaultIndex = index
+          }
+        })
         if (this.sort === 'image') {
-          this.getBangumiRoles(this.getSelectedId('bangumi'))
+          this.getBangumiRoles(this.getSelectedMeta('bangumi', 'id'))
         }
       },
       async getBangumiRoles (bangumiId) {
@@ -565,13 +570,6 @@
         this.albumSlots[0].values.forEach((item, index) => {
           if (item.id === id) {
             this.albumSlots[0].defaultIndex = index
-          }
-        })
-      },
-      saveSelectedBangumi (id) {
-        this.bangumiSlots[0].values.forEach((item, index) => {
-          if (item.id === id) {
-            this.bangumiSlots[0].defaultIndex = index
           }
         })
       },
@@ -654,7 +652,7 @@
         const api = new ImageApi(this)
         try {
           const data = await api.createAlbum({
-            bangumiId: this.getSelectedId('bangumi'),
+            bangumiId: this.getSelectedMeta('bangumi', 'id'),
             isCartoon: this.album.cartoon,
             name: this.album.name,
             url: poster ? poster.key : '',
@@ -742,11 +740,11 @@
         try {
           const data = await api.uploadImage({
             creator: this.image.creator,
-            bangumiId: this.getSelectedId('bangumi'),
-            tags: this.getSelectedId('tags'),
-            size: this.getSelectedId('size'),
-            roleId: this.image.selectedRole ? this.getSelectedId('role') : 0,
-            albumId: this.image.selectedAlbum ? this.getSelectedId('album') : 0,
+            bangumiId: this.getSelectedMeta('bangumi', 'id'),
+            tags: this.getSelectedMeta('tags', 'id'),
+            size: this.getSelectedMeta('size', 'id'),
+            roleId: this.image.selectedRole ? this.getSelectedMeta('role', 'id') : 0,
+            albumId: this.image.selectedAlbum ? this.getSelectedMeta('album', 'id') : 0,
             images: this.image.data.map(_ => _.data)
           })
           this.$toast.success('图片上传成功！')
@@ -771,12 +769,12 @@
           this.submitting = false
         }
       },
-      getSelectedId (name) {
+      getSelectedMeta (name, value) {
         const key = `${name}Slots`
         if (!this[key][0].values.length) {
           return 0
         }
-        return this[key][0].values[this[key][0].defaultIndex].id
+        return this[key][0].values[this[key][0].defaultIndex][value]
       }
     },
     mounted () {

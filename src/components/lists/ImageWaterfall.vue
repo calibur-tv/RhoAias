@@ -208,6 +208,37 @@
         }
       }
     }
+
+    .edit-image-modal {
+      .field {
+        font-size: 16px;
+        line-height: 48px;
+
+        span {
+          float: left;
+        }
+
+        div {
+          color: #000;
+          overflow: hidden;
+        }
+      }
+
+      .btn-submit {
+        margin-top: 15px;
+      }
+    }
+
+    .el-upload-list__item,
+    .el-upload--picture-card {
+      width: 15vw;
+      height: 15vw;
+      line-height: 15vw;
+    }
+
+    .el-upload-list__item-delete {
+      float: none !important;
+    }
   }
 </style>
 
@@ -305,7 +336,128 @@
       :length="list.length"
       @fetch="handleLoadMoreClick(false)"
     ></more-btn>
+    <v-drawer
+      v-model="openEditModal"
+      :header-text="openEditAlbumModal ? '编辑相册' : '编辑图片'"
+      from="bottom"
+      size="100%"
+      class="edit-image-modal"
+      :backdrop="false"
+    >
+      <!-- 编辑图片弹窗 -->
+      <div class="container">
+        <template v-if="openEditAlbumModal">
+          <div class="field">
+            <v-field
+              v-model="albumForm.name"
+              label="名称"
+              placeholder="请填写相册名称"
+              label-size="48px"
+            ></v-field>
+          </div>
+          <div class="field">
+            <span>番剧：</span>
+            <div
+              @click="handleAlbumBangumiPickerBtnClick"
+              v-text="albumBangumiPlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>封面：</span>
+            <el-upload
+              action="https://upload.qiniup.com"
+              list-type="picture-card"
+              ref="albumUploader"
+              :data="uploadHeaders"
+              :on-error="handleError"
+              :before-upload="beforeUpload"
+              :on-remove="handleAlbumPosterRemove"
+              :on-success="handleAlbumUploadSuccess"
+            >+</el-upload>
+          </div>
+          <button
+            class="btn-submit"
+            @click="handleAlbumEditDone"
+          >确认修改</button>
+        </template>
+        <template v-else>
+          <div class="field">
+            <span>类型：</span>
+            <div
+              @click="handleImageTagsPickerBtnClick"
+              v-text="imageTagsPlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>尺寸：</span>
+            <div
+              @click="handleImageSizePickerBtnClick"
+              v-text="imageSizePlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>番剧：</span>
+            <div
+              @click="handleImageBangumiPickerBtnClick"
+              v-text="imageBangumiPlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>角色：</span>
+            <div
+              @click="handleRolePickerBtnClick"
+              v-text="imageRolePlaceholder"
+            ></div>
+          </div>
+          <button
+            class="btn-submit"
+            @click="handleImageEditDone"
+          >确认修改</button>
+        </template>
+      </div>
+      <!-- picker 的 drawer -->
+      <v-drawer
+        v-model="openPickerDrawer"
+        class="bangumis-drawer"
+        from="bottom"
+        size="250px"
+        :header-text="pickerDrawerHeaderText"
+      >
+        <mt-picker
+          v-if="openBangumisDrawer"
+          :slots="bangumiSlots"
+          @change="onBangumiValuesChange"
+          valueKey="name"
+        ></mt-picker>
+        <mt-picker
+          v-else-if="openImageTagsDrawer"
+          :slots="tagsSlots"
+          @change="onTagsValuesChange"
+          valueKey="name"
+        ></mt-picker>
+        <mt-picker
+          v-else-if="openImageSizeDrawer"
+          :slots="sizeSlots"
+          @change="onSizeValuesChange"
+          valueKey="name"
+        ></mt-picker>
+        <mt-picker
+          v-else-if="openImageRoleDrawer"
+          :slots="roleSlots"
+          @change="onRoleValuesChange"
+          valueKey="name"
+        ></mt-picker>
+      </v-drawer>
+    </v-drawer>
   </div>
+  <more-btn
+    v-else
+    :no-more="noMore"
+    :length="list.length"
+    :loading="false"
+  >
+    <button @click="openCreateImageModal">上传图片</button>
+  </more-btn>
 </template>
 
 <script>
@@ -365,35 +517,69 @@
       zone () {
         return this.$store.state.user.zone
       },
-      selectionSize () {
-        return this.options.size ? [{
-          id: 0,
-          name: '全部尺寸'
-        }].concat(this.options.size) : []
+      pickerDrawerHeaderText () {
+        if (this.openBangumisDrawer) {
+          return '番剧'
+        } else if (this.openImageTagsDrawer) {
+          return '类型'
+        } else if (this.openImageSizeDrawer) {
+          return '尺寸'
+        } else if (this.openImageRoleDrawer) {
+          return '角色'
+        } else if (this.openImageAlbumDrawer) {
+          return '相册'
+        }
+        return '选项卡'
       },
-      selectionTags () {
-        return this.options.tags ? [{
-          id: 0,
-          name: '全部类型'
-        }].concat(this.options.tags) : []
+      albumBangumiPlaceholder () {
+        if (this.loadingBangumi) {
+          return '加载中...'
+        }
+        let result = '点击选择番剧'
+
+        this.bangumiSlots[0].values.forEach(item => {
+          if (item.id === this.albumForm.bangumiId) {
+            result = item.name
+          }
+        })
+
+        return result
       },
-      selectionBangumis () {
-        return this.bangumi.length ? [{
-          id: -1,
-          name: '全部番剧'
-        }, {
-          id: 0,
-          name: '未指定'
-        }].concat(this.bangumi) : []
+      imageBangumiPlaceholder () {
+        if (this.loadingBangumi) {
+          return '加载中...'
+        }
+        if (!this.imageData.selectedBangumi) {
+          return '点击选择番剧'
+        }
+        return this.getNameById('bangumi', this.imageData.bangumiId)
       },
-      selectionRoles () {
-        return this.role.length ? [{
-          id: -1,
-          name: '全部角色'
-        }, {
-          id: 0,
-          name: '未指定'
-        }].concat(this.role) : []
+      imageTagsPlaceholder () {
+        if (this.loadingUploadType) {
+          return '加载中...'
+        }
+        if (!this.imageData.selectedTags) {
+          return '点击选择类型'
+        }
+        return this.getNameById('tags', this.imageData.tagsId)
+      },
+      imageSizePlaceholder () {
+        if (this.loadingUploadType) {
+          return '加载中...'
+        }
+        if (!this.imageData.selectedSize) {
+          return '点击选择尺寸'
+        }
+        return this.getNameById('size', this.imageData.sizeId)
+      },
+      imageRolePlaceholder () {
+        if (this.loadingBangumiRole) {
+          return '加载中...'
+        }
+        if (!this.imageData.selectedRole) {
+          return '点击选择角色（可选）'
+        }
+        return this.getNameById('role', this.imageData.roleId)
       }
     },
     data () {
@@ -404,24 +590,9 @@
         openEditModal: false,
         openEditAlbumModal: false,
         bangumiRoles: {},
-        bangumis: [],
-        roles: [],
         loadingUserBangumiFetch: false,
         loadingUploadTypeFetch: false,
         submitting: false,
-        form: {
-          id: '',
-          bangumiId: '',
-          size: '',
-          tags: '',
-          roleId: ''
-        },
-        origin: {
-          bangumiId: '',
-          roleId: '',
-          size: '',
-          tags: ''
-        },
         selectedTagsId: 0,
         selectedSizeId: 0,
         selectedBangumiId: -1,
@@ -452,7 +623,65 @@
           name: '',
           bangumiId: '',
           url: ''
-        }
+        },
+        imageData: {
+          id: 0,
+          bangumiId: '',
+          roleId: '',
+          sizeId: '',
+          tagsId: '',
+          selectedBangumi: false,
+          selectedTags: false,
+          selectedSize: false,
+          selectedRole: false
+        },
+        originImageData: {
+          bangumiId: '',
+          roleId: '',
+          sizeId: '',
+          tagsId: ''
+        },
+        loadingBangumi: false,
+        loadingUploadType: false,
+        loadingBangumiRole: false,
+        bangumiSlots: [
+          {
+            flex: 1,
+            defaultIndex: 0,
+            values: [],
+            textAlign: 'center'
+          }
+        ],
+        tagsSlots: [
+          {
+            flex: 1,
+            defaultIndex: 0,
+            values: [],
+            textAlign: 'center'
+          }
+        ],
+        sizeSlots: [
+          {
+            flex: 1,
+            defaultIndex: 0,
+            values: [],
+            textAlign: 'center'
+          }
+        ],
+        roleSlots: [
+          {
+            flex: 1,
+            defaultIndex: 0,
+            values: [],
+            textAlign: 'center'
+          }
+        ],
+        openPickerDrawer: false,
+        openBangumisDrawer: false,
+        openImageTagsDrawer: false,
+        openImageSizeDrawer: false,
+        openImageRoleDrawer: false,
+        openImageAlbumDrawer: false
       }
     },
     methods: {
@@ -487,10 +716,18 @@
       },
       computeImageType (image) {
         const tags = image.tags
-        this.form.size = image.size.id
-        this.origin.size = image.size.id
-        this.form.tags = tags.length ? tags[0].id : ''
-        this.origin.tags = tags.length ? tags[0].id : ''
+        const sizeId = image.size.id
+        if (sizeId) {
+          this.originImageData.sizeId = sizeId
+          this.imageData.sizeId = sizeId
+          this.imageData.selectedSize = true
+        }
+        if (tags.length) {
+          const tagId = tags.length ? tags[0].id : ''
+          this.originImageData.tagsId = tagId
+          this.imageData.tagsId = tagId
+          this.imageData.selectedTags = true
+        }
       },
       handleLoadMoreClick (reset) {
         if (reset) {
@@ -515,36 +752,39 @@
           this.$toast.error(err)
         })
       },
-      editImage (image) {
-        this.form.id = image.id
+      startEditImage (image) {
+        this.imageData.id = image.id
         const bangumiId = image.bangumi_id
         const roleId = image.role_id
         this.getUserBangumis()
         if (bangumiId) {
-          this.origin.bangumiId = bangumiId
-          this.form.bangumiId = bangumiId
+          this.originImageData.bangumiId = bangumiId
+          this.imageData.selectedBangumi = true
+          this.imageData.bangumiId = bangumiId
           this.getBangumiRoles(bangumiId)
         }
         if (roleId) {
-          this.origin.roleId = roleId
-          this.form.roleId = roleId
+          this.originImageData.roleId = roleId
+          this.imageData.roleId = roleId
+          this.imageData.selectedRole = true
         }
         this.computeImageType(image)
         this.openEditModal = true
       },
-      editAlbum (album) {
+      startEditAlbum (album) {
         this.albumForm.id = album.id
         this.albumForm.name = album.name
         this.albumForm.url = album.url
         this.originAlbumData.name = album.name
         this.originAlbumData.url = album.url
-        if (album.bangumiId) {
-          this.albumForm.bangumiId = album.bangumiId
-          this.originAlbumData.bangumiId = album.bangumiId
+        const bangumiId = album.bangumi_id
+        if (bangumiId) {
+          this.albumForm.bangumiId = bangumiId
+          this.originAlbumData.bangumiId = bangumiId
         }
         this.getUpToken()
         this.getUserBangumis()
-        this.openEditAlbumModal = true
+        this.openEditModal = true
       },
       reportImage (image) {
         this.$prompt('请输入举报原因', '提示', {
@@ -574,10 +814,32 @@
             })
           }).catch(() => {})
         } else if (option === '编辑') {
+          this.tagsSlots[0].values = this.options.tags
+          this.sizeSlots[0].values = this.options.size
           if (image.image_count) {
-            this.editAlbum(image)
+            this.albumForm = {
+              id: 0,
+              name: '',
+              bangumiId: '',
+              url: '',
+              poster: []
+            }
+            this.openEditAlbumModal = true
+            this.startEditAlbum(image)
           } else {
-            this.editImage(image)
+            this.imageData = {
+              id: 0,
+              bangumiId: '',
+              roleId: '',
+              sizeId: '',
+              tagsId: '',
+              selectedBangumi: false,
+              selectedTags: false,
+              selectedSize: false,
+              selectedRole: false
+            }
+            this.openEditAlbumModal = false
+            this.startEditImage(image)
           }
         }
       },
@@ -620,6 +882,60 @@
           this.$previewImages([result], result)
         }
       },
+      handleRolePickerBtnClick () {
+        if (!this.imageData.selectedBangumi) {
+          this.$toast.error('请先选择番剧')
+          return
+        }
+        if (this.loadingBangumiRole) {
+          this.$toast.error('数据加载中')
+          return
+        }
+        if (!this.roleSlots[0].values.length) {
+          this.$toast.error('该番剧下没用可选角色')
+          return
+        }
+        this.imageData.selectedRole = true
+        if (!this.imageData.roleId) {
+          this.imageData.roleId = this.getSelectedMeta('role', 'id')
+        }
+        this.switchPickerDrawer('openImageRoleDrawer')
+      },
+      handleAlbumBangumiPickerBtnClick () {
+        if (!this.bangumiSlots[0].values.length) {
+          this.$toast.error('还没有关注任何番剧')
+          return
+        }
+        if (!this.albumForm.bangumiId) {
+          this.albumForm.bangumiId = this.getSelectedMeta('bangumi', 'id')
+        }
+        this.switchPickerDrawer('openBangumisDrawer')
+      },
+      handleImageBangumiPickerBtnClick () {
+        if (!this.bangumiSlots[0].values.length) {
+          this.$toast.error('还没有关注任何番剧')
+          return
+        }
+        this.imageData.selectedBangumi = true
+        this.switchPickerDrawer('openBangumisDrawer')
+      },
+      handleImageTagsPickerBtnClick () {
+        this.imageData.selectedTags = true
+        this.switchPickerDrawer('openImageTagsDrawer')
+      },
+      handleImageSizePickerBtnClick () {
+        this.imageData.selectedSize = true
+        this.switchPickerDrawer('openImageSizeDrawer')
+      },
+      switchPickerDrawer (name) {
+        this.openBangumisDrawer = false
+        this.openImageTagsDrawer = false
+        this.openImageSizeDrawer = false
+        this.openImageRoleDrawer = false
+        this.openImageAlbumDrawer = false
+        this[name] = true
+        this.openPickerDrawer = true
+      },
       async getUpToken () {
         try {
           await this.$store.dispatch('getUpToken', this)
@@ -657,7 +973,7 @@
         }
       },
       async getUserBangumis () {
-        if (this.bangumis.length) {
+        if (this.bangumiSlots[0].values.length) {
           return
         }
         if (this.loadingUserBangumiFetch) {
@@ -665,7 +981,7 @@
         }
         this.loadingUserBangumiFetch = true
         try {
-          this.bangumis = await this.$store.dispatch('users/getFollowBangumis', {
+          this.bangumiSlots[0].values = await this.$store.dispatch('users/getFollowBangumis', {
             ctx: this,
             zone: this.zone
           })
@@ -678,26 +994,26 @@
           return
         }
         if (this.bangumiRoles[bangumiId]) {
-          this.roles = this.bangumiRoles[bangumiId]
+          this.roleSlots[0].values = this.bangumiRoles[bangumiId]
           return
         }
         const data = await this.$store.dispatch('bangumi/getRoles', {
           ctx: this,
-          bangumiId: this.form.bangumiId
+          bangumiId
         })
         this.bangumiRoles[bangumiId] = data
-        this.roles = data
+        this.roleSlots[0].values = data
       },
       async handleImageEditDone () {
-        if (!this.form.size) {
+        if (!this.imageData.selectedSize) {
           this.$toast.error('请先选择尺寸')
           return
         }
-        if (!this.form.tags) {
+        if (!this.imageData.selectedTags) {
           this.$toast.error('请先选择类型')
           return
         }
-        if (!this.form.bangumiId) {
+        if (!this.imageData.selectedBangumi) {
           this.$toast.error('请选择要投稿的番剧')
           return
         }
@@ -705,43 +1021,29 @@
           return
         }
         if (
-          this.form.bangumiId === this.origin.bangumiId &&
-          this.form.roleId === this.origin.roleId &&
-          this.form.size === this.origin.size &&
-          this.form.tags === this.origin.tags
+          this.imageData.bangumiId === this.originImageData.bangumiId &&
+          this.imageData.roleId === this.originImageData.roleId &&
+          this.imageData.sizeId === this.originImageData.sizeId &&
+          this.imageData.tagsId === this.originImageData.tagsId
         ) {
           this.openEditModal = false
-          this.form = {
-            id: '',
-            bangumiId: '',
-            size: '',
-            tags: '',
-            roleId: ''
-          }
           return
         }
         this.submitting = true
         this.$toast.loading('修改中...')
         const api = new Api(this)
         try {
-          const id = this.form.id
+          const id = this.imageData.id
           const data = await api.editImage({
             id,
-            bangumiId: this.form.bangumiId || 0,
-            roleId: this.form.roleId || 0,
-            tags: this.form.tags,
-            size: this.form.size
+            bangumiId: this.imageData.bangumiId || 0,
+            roleId: this.imageData.selectedRole ? this.imageData.roleId || 0 : 0,
+            tags: this.imageData.tagsId,
+            size: this.imageData.sizeId
           })
           this.$toast.success('图片编辑成功！')
           this.$store.commit('image/EDIT_WATERFALL', { id, data })
           this.openEditModal = false
-          this.form = {
-            id: '',
-            bangumiId: '',
-            size: '',
-            tags: '',
-            roleId: ''
-          }
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -769,14 +1071,7 @@
           this.albumForm.name === this.originAlbumData.name &&
           this.albumForm.poster.length === 0
         ) {
-          this.openEditAlbumModal = false
-          this.albumForm = {
-            id: 0,
-            name: '',
-            bangumiId: '',
-            url: '',
-            poster: []
-          }
+          this.openEditModal = false
           return
         }
         this.submitting = false
@@ -797,15 +1092,8 @@
           this.$store.commit('image/EDIT_ALBUM', { id, data })
           this.$store.commit('image/EDIT_WATERFALL', { id, data })
           this.$toast.success('专辑编辑成功！')
-          this.openEditAlbumModal = false
+          this.openEditModal = false
           this.$refs.uploader.clearFiles()
-          this.albumForm = {
-            id: 0,
-            name: '',
-            bangumiId: '',
-            url: '',
-            poster: []
-          }
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -845,6 +1133,87 @@
             url: res.data
           }
         ]
+      },
+      openCreateImageModal () {
+        if (this.$store.state.login) {
+          this.$channel.$emit('open-create-image-drawer')
+        } else {
+          this.$channel.$emit('sign-in')
+        }
+      },
+      getSelectedMeta (name, value) {
+        const key = `${name}Slots`
+        if (!this[key][0].values.length) {
+          return 0
+        }
+        return this[key][0].values[this[key][0].defaultIndex][value]
+      },
+      getNameById (name, id) {
+        const key = `${name}Slots`
+        let result = ''
+        if (!this[key][0].values.length) {
+          return result
+        }
+        this[key][0].values.forEach(item => {
+          if (item.id === id) {
+            result = item.name
+          }
+        })
+        return result
+      },
+      onTagsValuesChange (picker, values) {
+        if (!values[0]) {
+          return
+        }
+        const id = values[0].id
+        this.imageData.tagsId = id
+        this.tagsSlots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.tagsSlots[0].defaultIndex = index
+          }
+        })
+      },
+      onSizeValuesChange (picker, values) {
+        if (!values[0]) {
+          return
+        }
+        const id = values[0].id
+        this.imageData.sizeId = id
+        this.sizeSlots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.sizeSlots[0].defaultIndex = index
+          }
+        })
+      },
+      onRoleValuesChange (picker, values) {
+        if (!values[0]) {
+          return
+        }
+        const id = values[0].id
+        this.imageData.roleId = id
+        this.roleSlots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.roleSlots[0].defaultIndex = index
+          }
+        })
+      },
+      onBangumiValuesChange (picker, values) {
+        if (!values[0]) {
+          return
+        }
+        const id = values[0].id
+        this.bangumiSlots[0].values.forEach((item, index) => {
+          if (item.id === id) {
+            this.bangumiSlots[0].defaultIndex = index
+          }
+        })
+        if (this.openEditAlbumModal) {
+          this.albumForm.bangumiId = id
+        } else {
+          this.imageData.bangumiId = id
+          this.imageData.selectedRole = false
+          this.getBangumiRoles(this.getSelectedMeta('bangumi', 'id'))
+        }
       }
     }
   }
