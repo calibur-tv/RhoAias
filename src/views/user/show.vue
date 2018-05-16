@@ -54,6 +54,7 @@
         border-radius: 4px;
         background-color: #fef0f0;
         color: #f56c6c;
+        margin-top: 10px;
 
         span {
           font-size: 13px;
