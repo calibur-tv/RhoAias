@@ -760,9 +760,6 @@
           this.$refs.imageUploader.clearFiles()
           this.$store.commit('image/CREATE_WATERFALL', data)
           this.show = false
-          setTimeout(() => {
-            this.$toast.success('图片功能目前仅支持电脑查看')
-          }, 1000)
         } catch (e) {
           this.$toast.error(e)
         } finally {
