@@ -6,6 +6,10 @@ export default (params) => {
   const api = new Api()
   const product = type || 'bind'
   api.getCaptcha().then((data) => {
+    if (!window.initGeetest) {
+      error && error('验证码加载失败，请刷新网页重试')
+      return
+    }
     window.initGeetest({
       gt: data.id,
       challenge: data.secret,

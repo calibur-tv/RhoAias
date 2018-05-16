@@ -120,15 +120,31 @@
         }
       }
 
+      .tip {
+        font-size: 12px;
+        color: $color-text-normal;
+        margin-bottom: 5px;
+        line-height: 15px;
+      }
+
       .video-report-btn {
-        width: 100%;
+        width: 48%;
         height: 30px;
         line-height: 28px;
         font-size: 13px;
         text-align: center;
         border: 1px solid #666;
         border-radius: 15px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        margin-top: 3px;
+
+        &:first-child {
+          margin-right: 2%;
+        }
+
+        &:last-child {
+          margin-left: 2%;
+        }
       }
     }
   }
@@ -138,25 +154,29 @@
   <div id="video-show">
     <div class="video">
       <template v-if="useOtherSiteSource">
-        <p>应版权方要求，该视频暂不提供站内播放</p>
+        <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
         <a :href="videoSrc" target="_blank">播放链接</a>
       </template>
       <template v-else-if="notSupport">
-        <p>该视频格式仅支持在电脑上播放</p>
+        <p>该视频格式仅支持在电脑上播放 (눈_눈)</p>
+      </template>
+      <template v-else-if="isGuest">
+        <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
+        <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
       <template v-else>
         <video
           :src="videoSrc"
           :poster="video.poster"
-          preload="metadata"
+          preload="none"
           ref="video"
+          controlsList="nodownload"
         ></video>
         <button
           class="iconfont icon-bofang"
           v-if="!playing"
           @click="togglePlaying"
-        >
-        </button>
+        ></button>
       </template>
     </div>
     <div class="container">
@@ -166,25 +186,25 @@
           <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </div>
         <template v-if="season && showAll">
-          <template v-for="(metas, idx) in list">
+          <template v-for="(videos, idx) in list">
             <h6 class="season-title" v-text="season.name[idx]"></h6>
             <ul>
-              <li v-for="(meta, index) in metas.data" :key="meta.id">
+              <li v-for="(video, index) in videos.data" :key="video.id">
                 <a class="meta"
-                   :class="{ 'router-link-active' : $route.params.id == meta.id }"
-                   :href="$alias.video(meta.id)">
-                  <span>第{{ videoPackage.list.repeat ? index + 1 : meta.part }}话</span>
+                   :class="{ 'router-link-active' : $route.params.id == video.id }"
+                   :href="$alias.video(video.id)">
+                  <span>第{{ video.part - videos.base }}话</span>
                 </a>
               </li>
             </ul>
           </template>
         </template>
         <ul v-else>
-          <li v-for="meta in sortVideos" :key="meta.id">
+          <li v-for="video in sortVideos" :key="video.id">
             <a class="meta"
-               :class="{ 'router-link-active' : $route.params.id == meta.id }"
-               :href="$alias.video(meta.id)">
-              <span>第{{ meta.part }}话</span>
+               :class="{ 'router-link-active' : $route.params.id == video.id }"
+               :href="$alias.video(video.id)">
+              <span>第{{ video.part }}话</span>
             </a>
           </li>
         </ul>
@@ -199,8 +219,13 @@
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
-      <h3 class="sub-title">视频报错</h3>
-      <button class="video-report-btn" @click="handleVideoReportClick">点击反馈视频问题</button>
+      <h3 class="sub-title">下载与反馈</h3>
+      <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
+      <p class="tip">2：安卓用户建议大家使用最新版 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
+      <div>
+        <button class="video-report-btn" @click="downloadVideo">下载视频</button>
+        <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
+      </div>
     </div>
   </div>
 </template>
@@ -228,6 +253,9 @@
     computed: {
       id () {
         return parseInt(this.$route.params.id, 10)
+      },
+      isGuest () {
+        return !this.$store.state.login
       },
       videoPackage () {
         return this.$store.state.video
@@ -290,7 +318,7 @@
       isFlv () {
         return this.useOtherSiteSource
           ? false
-          : this.videoSrc.split('.').pop().toLowerCase() === 'flv'
+          : this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv'
       }
     },
     data () {
@@ -323,13 +351,17 @@
         }
       },
       togglePlaying () {
-        this.handlePlaying()
-        if (this.playing) {
-          this.player.pause()
-          this.playing = false
-        } else {
-          this.player.play()
-          this.playing = true
+        try {
+          this.handlePlaying()
+          if (this.playing) {
+            this.player.pause()
+            this.playing = false
+          } else {
+            this.player.play()
+            this.playing = true
+          }
+        } catch (e) {
+          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
         }
       },
       handleVideoReportClick () {
@@ -337,28 +369,52 @@
           type: 4,
           desc: `【H5】-《${this.bangumi.name}》第${this.part}话 视频有错误，错误详情为：`
         })
+      },
+      downloadVideo () {
+        if (this.useOtherSiteSource) {
+          this.$toast.error('第三方资源部支持下载')
+          return
+        }
+        if (this.isGuest) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
+          window.open(this.videoSrc)
+        })
       }
     },
     mounted () {
       this.computePage()
       if (this.isFlv) {
         this.notSupport = true
-      } else if (!this.useOtherSiteSource) {
-        this.player = this.$refs.video
-        this.player.controls = false
-        this.player.load()
-        this.player.addEventListener('pause', () => {
-          this.playing = false
-        })
-
-        this.player.addEventListener('abort', () => {
-          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
-        })
-
-        this.player.addEventListener('error', () => {
-          this.$alert('视频加载失败，建议使用QQ浏览器播放！')
-        })
+        return
       }
+      if (this.useOtherSiteSource) {
+        return
+      }
+      if (this.isGuest) {
+        return
+      }
+      this.player = this.$refs.video
+      this.player.controls = false
+      try {
+        this.player.load()
+      } catch (e) {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+        return
+      }
+      this.player.addEventListener('pause', () => {
+        this.playing = false
+      })
+
+      this.player.addEventListener('abort', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+      })
+
+      this.player.addEventListener('error', () => {
+        this.$alert('视频加载失败，建议使用QQ浏览器播放！')
+      })
     }
   }
 </script>

@@ -1,5 +1,12 @@
+<style lang="scss">
+  #__share-logo {
+    display: none;
+  }
+</style>
+
 <template>
   <div id="app">
+    <img id="__share-logo" class="share-image" src="http://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/150/h/150" alt="logo">
     <router-view></router-view>
     <sign-drawer></sign-drawer>
   </div>
@@ -32,8 +39,8 @@
         { rel: 'shortcut icon', type: 'image/x-icon', href: `${qiniu.host}/favicon.ico` }
       ],
       script: [
-        { innerHTML: script.baiduStat, type: 'text/javascript' },
-        { innerHTML: script.baiduPush, type: 'text/javascript' },
+        env !== 'development' ? { innerHTML: script.baiduStat, type: 'text/javascript', async: true } : '',
+        env !== 'development' ? { innerHTML: script.baiduPush, type: 'text/javascript', async: true } : '',
         env === 'staging' ? { src: 'https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js', type: 'text/javascript' } : ''
       ].filter(_ => _),
       __dangerouslyDisableSanitizers: 'script'

@@ -11,11 +11,13 @@ import Radio from '~/components/common/Radio'
 import Post from '~/components/items/Post'
 import Select from '~/components/common/Select'
 import BangumiPanel from '~/components/panel/BangumiPanel'
+import Field from '~/components/common/Field'
 
 import {
   Swipe,
   SwipeItem,
-  Picker
+  Picker,
+  Switch
 } from 'mint-ui'
 
 import {
@@ -23,6 +25,7 @@ import {
 } from 'element-ui'
 
 Vue.use(Upload)
+Vue.component(Field.name, Field)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
 Vue.component(Picker.name, Picker)
@@ -35,6 +38,7 @@ Vue.component(Radio.name, Radio)
 Vue.component(Post.name, Post)
 Vue.component(Select.name, Select)
 Vue.component(BangumiPanel.name, BangumiPanel)
+Vue.component(Switch.name, Switch)
 
 Vue.use({
   install (Vue, options) {

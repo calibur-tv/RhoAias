@@ -144,29 +144,29 @@
       },
       login () {
         this.$channel.$emit('switch-to-register', false)
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in')
       },
       register () {
         this.$channel.$emit('switch-to-register', true)
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in')
       },
       async submitFeedback () {
         if (!this.content.length) {
-          this.$toast.warn('请先填写反馈信息！')
+          this.$toast.error('请先填写反馈信息！')
           return
         }
         const api = new UserApi(this)
         await api.feedback({
           type: this.selectedType,
           desc: this.content,
-          ua: navigator.userAgent
+          ua: navigator.userAgent + navigator.appVersion + navigator.vendor
         })
         this.$toast.success('反馈成功，感谢您的反馈！')
         this.openFeedbackDrawer = false
       }
     },
     mounted () {
-      this.$channel.$on('open-feedback', ({ type, desc }) => {
+      this.$channel.$on('open-feedback', ({ type, desc } = {}) => {
         this.selectedType = type || 1
         this.content = desc || ''
         this.openFeedbackDrawer = true

@@ -470,7 +470,7 @@
     <v-drawer
       v-model="createComment.open"
       from="top"
-      size="40%"
+      size="250px"
       header-text="发布回复"
       class="create-post-comment-drawer"
     >
@@ -490,7 +490,7 @@
 </template>
 
 <script>
-  import PostReply from '~/components/post/Reply'
+  import PostReply from '~/components/items/PostReply'
 
   export default {
     name: 'post-show',
@@ -640,16 +640,16 @@
       },
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMaster) {
-          this.$toast.warn('不能赞赏自己的帖子')
+          this.$toast.error('不能赞赏自己的帖子')
           return
         }
         const notLike = !this.post.liked
         if (notLike && !this.$store.state.user.coin) {
-          this.$toast.warn('金币不足')
+          this.$toast.error('金币不足')
           return
         }
         if (this.loadingToggleLike) {
@@ -672,11 +672,11 @@
       },
       async toggleMark () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMaster) {
-          this.$toast.warn('不能收藏自己的帖子')
+          this.$toast.error('不能收藏自己的帖子')
           return
         }
         if (this.loadingToggleMark) {
@@ -717,11 +717,11 @@
       handleReplyBtnClick () {
         this.$store.state.login
           ? this.$channel.$emit('drawer-open-write-post')
-          : this.$channel.$emit('drawer-open-sign')
+          : this.$channel.$emit('sign-in')
       },
       handleCommentAdd (data) {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         this.createComment.postId = data.postId

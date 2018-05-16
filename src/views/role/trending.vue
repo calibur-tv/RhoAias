@@ -136,11 +136,11 @@
         :key="item.id"
       >
         <div class="clearfix">
-          <router-link :to="$alias.bangumi(item.bangumi_id)" class="avatar">
+          <router-link :to="$alias.cartoonRole(item.id)" class="avatar">
             <v-img :src="item.avatar" width="90" height="90"></v-img>
           </router-link>
           <div class="summary">
-            <router-link :to="$alias.bangumi(item.bangumi_id)" class="role">
+            <router-link :to="$alias.cartoonRole(item.id)" class="role">
               <span class="name" v-text="item.name"></span>
               <span class="intro">：{{ item.intro }}</span>
             </router-link>

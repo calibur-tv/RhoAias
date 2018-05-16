@@ -57,6 +57,7 @@ export default {
       state.roles.zone = zone
       state.roles.data = state.roles.data.concat(data)
       state.roles.noMore = data.length < 15
+      state.roles.page++
     },
     SET_USER_INFO (state, { data, zone }) {
       state.list[zone] = state.list[zone]
@@ -145,25 +146,27 @@ export default {
     async getUser ({ commit }, { ctx, zone }) {
       const api = new Api(ctx)
       const data = await api.getUserInfo({ zone })
-      commit('SET_USER_INFO', { data, zone })
+      data && commit('SET_USER_INFO', { data, zone })
     },
     async getFollowBangumis ({ commit }, { ctx, zone, self }) {
       const api = new Api(ctx)
       const data = await api.followBangumis(zone)
-      if (self) {
-        commit('SET_SELF_INFO', {
-          key: 'followBangumi',
-          value: data
-        })
-      } else {
-        commit('SET_USER_INFO', {
-          data: {
-            bangumis: data
-          },
-          zone
-        })
+      if (data) {
+        if (self) {
+          commit('SET_SELF_INFO', {
+            key: 'followBangumi',
+            value: data
+          })
+        } else {
+          commit('SET_USER_INFO', {
+            data: {
+              bangumis: data
+            },
+            zone
+          })
+        }
+        return data
       }
-      return data
     },
     async getFollowPosts ({ state, commit }, { type, zone }) {
       if (state.posts.zone !== zone) {
@@ -180,7 +183,7 @@ export default {
         zone,
         seenIds: state.posts[type].data.length ? state.posts[type].data.map(item => item.id).join(',') : null
       })
-      commit('SET_FOLLOW_POST_DATA', { type, data, zone })
+      data && commit('SET_FOLLOW_POST_DATA', { type, data, zone })
     },
     async daySign ({ rootState }, { ctx }) {
       if (rootState.user.signed) {
@@ -202,9 +205,7 @@ export default {
         minId: length ? state.notifications.data[length - 1].id : null,
         take: state.notifications.take
       })
-      if (data) {
-        commit('SET_NOTIFICATIONS', data)
-      }
+      data && commit('SET_NOTIFICATIONS', data)
     },
     async readMessage ({ state, commit }, { ctx, id }) {
       let msg = null
@@ -243,7 +244,7 @@ export default {
         zone,
         page: state.roles.page
       })
-      commit('SET_USER_ROLES', { data, zone })
+      data && commit('SET_USER_ROLES', { data, zone })
     }
   },
   getters: {}

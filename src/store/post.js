@@ -92,13 +92,15 @@ export default {
         noMore: data.length < state.trending.take
       }
     },
-    TOGGLE_LIKE (state, { id, result }) {
+    TOGGLE_LIKE (state, { id }) {
       if (id === state.show.info.post.id) {
+        const result = !state.show.info.post.liked
         state.show.info.post.liked = result
         result ? state.show.info.post.like_count++ : state.show.info.post.like_count--
       } else {
         state.show.data.list.forEach((item, index) => {
           if (item.id === id) {
+            const result = !state.show.data.list[index].liked
             state.show.data.list[index].liked = result
             result ? state.show.data.list[index].like_count++ : state.show.data.list[index].like_count--
           }
@@ -129,7 +131,7 @@ export default {
         take: state.show.take,
         replyId: reset ? reply : null
       })
-      commit('setPost', { data, reset })
+      data && commit('setPost', { data, reset })
     },
     async getComments ({ state, commit }, { postId }) {
       let fetchIndex = -1
@@ -144,13 +146,13 @@ export default {
           ? state.show.data.list[fetchIndex].comments.map(item => item.id).join(',')
           : null
         const data = await api.comments({ postId, seenIds })
-        commit('setComments', { postId, data })
+        data && commit('setComments', { postId, data })
       }
     },
     async setComment ({ commit }, { postId, targetUserId, content, ctx }) {
       const api = new Api(ctx)
       const data = await api.comment({ postId, targetUserId, content })
-      commit('setComment', { data, postId })
+      data && commit('setComment', { data, postId })
     },
     // eslint-disable-next-line no-empty-pattern
     async create ({}, params) {
@@ -161,7 +163,7 @@ export default {
     async reply ({ commit }, params) {
       const api = new Api(params.ctx)
       const data = await api.reply(params)
-      commit('REPLY_POST', data)
+      data && commit('REPLY_POST', data)
     },
     async deletePost ({ commit }, { ctx, id }) {
       const api = new Api(ctx)
@@ -185,12 +187,12 @@ export default {
         take: state.trending.take,
         seenIds: reset ? null : state.trending[sort].data.length ? state.trending[sort].data.map(item => item.id).join(',') : null
       })
-      commit('setTrending', { sort, data, reset })
+      data && commit('setTrending', { sort, data, reset })
     },
     async toggleLike ({ commit }, { ctx, id }) {
+      commit('TOGGLE_LIKE', { id })
       const api = new Api(ctx)
-      const result = await api.toggleLike(id)
-      commit('TOGGLE_LIKE', { id, result })
+      await api.toggleLike(id)
     },
     async toggleMark ({ commit }, { ctx, id }) {
       const api = new Api(ctx)

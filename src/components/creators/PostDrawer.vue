@@ -1,6 +1,7 @@
 <style lang="scss">
   .post-write-drawer {
     text-align: left;
+    line-height: 40px;
 
     .title {
       font-size: 16px;
@@ -74,7 +75,7 @@
           v-model="openBangumisDrawer"
           class="bangumis-drawer"
           from="bottom"
-          size="40%"
+          size="250px"
           header-text="选择番剧"
         >
           <mt-picker
@@ -86,8 +87,8 @@
       </template>
       <textarea
         class="content"
-        :placeholder="postId ? '也来说两句（500字以内）' : '来吧，尽情的（在500字以内）发挥吧'"
-        maxlength="500"
+        :placeholder="postId ? '也来说两句（1000字以内）' : '来吧，尽情的（在1000字以内）发挥吧'"
+        maxlength="1000"
         v-model.trim="content"
       ></textarea>
       <el-upload
@@ -115,7 +116,7 @@
 
 <script>
   export default {
-    name: 'write-post-reply',
+    name: 'create-post-drawer',
     data () {
       return {
         open: false,
@@ -144,6 +145,9 @@
     watch: {
       open (val) {
         if (val) {
+          if (this.$store.state.login) {
+            this.getUpToken()
+          }
           if (!this.postId || !this.isReply) {
             this.getUserFollowedBangumis()
           }
@@ -219,14 +223,14 @@
           return
         }
         const isFormat = ['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) !== -1
-        const isLt2M = file.size / 1024 / 1024 < 2
+        const isLt2M = file.size / 1024 / 1024 < 3
 
         if (!isFormat) {
           this.$toast.error('图片只能是 JPG 或 PNG 格式!')
           return false
         }
         if (!isLt2M) {
-          this.$toast.error('图片大小不能超过 2MB!')
+          this.$toast.error('图片大小不能超过 3MB!')
           return false
         }
 
@@ -262,6 +266,7 @@
           }
         }
         this.submitting = true
+        this.$toast.loading('加载中')
         this.$captcha({
           success: async ({ data }) => {
             if (this.postId && this.isReply) {
@@ -280,7 +285,8 @@
                 this.open = false
                 const list = document.querySelectorAll('.post-reply-item')
                 setTimeout(() => {
-                  this.$scrollToY(list[list.length - 1].offsetTop, 400)
+                  const dom = list[list.length - 1]
+                  dom && this.$scrollToY(dom.offsetTop, 400)
                 }, 1000)
               } catch (err) {
                 this.$toast.error(err)
@@ -314,6 +320,9 @@
                 this.submitting = false
               }
             }
+          },
+          ready: () => {
+            this.$toast.stop()
           },
           error: (e) => {
             this.$toast.error(e)
@@ -352,6 +361,7 @@
       },
       async getUserFollowedBangumis () {
         if (this.followBangumis.length) {
+          this.slots[0].values = this.slots[0].values.concat(this.followBangumis)
           this.appendCurrentBangumi()
           return
         }
@@ -383,9 +393,6 @@
       }
     },
     mounted () {
-      if (this.$store.state.login) {
-        this.getUpToken()
-      }
       this.$channel.$on('open-create-post-drawer', (data) => {
         if (this.slots[0].values.every(_ => _.id !== data.id)) {
           this.slots[0].values.push(data)

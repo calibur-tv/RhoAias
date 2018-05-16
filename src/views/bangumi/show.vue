@@ -296,9 +296,10 @@
     <div class="hr"></div>
     <div>
       <div class="tabs">
-        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">看帖</button>
         <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
+        <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
+        <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
       </div>
       <template v-if="sort === 'post'">
         <ul>
@@ -335,7 +336,7 @@
                       :src="$resize(video.poster, { width: 128, height: 80 })"
                     ></v-img>
                     <figcaption>
-                      <p class="part oneline">第{{ videos.repeat ? index + 1 : video.part }}话</p>
+                      <p class="part oneline">第{{ video.part - season.base }}话</p>
                       <span class="name" v-text="video.name"></span>
                     </figcaption>
                   </figure>
@@ -469,17 +470,18 @@
           ></more-btn>
         </v-drawer>
       </div>
+      <div id="images" v-else-if="sort === 'image'">
+        <image-waterfall
+          :loading="imageState.loading"
+          @fetch="getImages(false)"
+        ></image-waterfall>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  const defaultParams = {
-    post: {
-      take: 10,
-      type: 'new'
-    }
-  }
+  import ImageWaterfall from '~/components/lists/ImageWaterfall'
 
   export default {
     name: 'bangumi-show',
@@ -487,14 +489,11 @@
       const id = route.params.id
       await Promise.all([
         store.dispatch('bangumi/getBangumi', { ctx, id }),
-        store.dispatch('bangumi/getPosts', {
-          ctx,
-          id,
-          take: defaultParams.post.take,
-          type: defaultParams.post.type,
-          reset: true
-        })
+        store.dispatch('bangumi/getVideos', { ctx, id })
       ])
+    },
+    components: {
+      ImageWaterfall
     },
     head () {
       if (!this.id) {
@@ -542,23 +541,28 @@
     },
     data () {
       return {
-        postState: {
-          take: defaultParams.post.take,
-          type: defaultParams.post.type,
-          loading: false,
-          init: true
-        },
         videoState: {
           loading: false,
-          init: false,
+          init: true,
           fetched: false
+        },
+        postState: {
+          take: 10,
+          type: 'new',
+          loading: false,
+          init: false
         },
         roleState: {
           loading: false,
           init: false,
           fetched: false
         },
-        sort: 'post',
+        imageState: {
+          loading: false,
+          init: false,
+          fetched: false
+        },
+        sort: 'video',
         openRoleDetailDrawer: false,
         currentRole: {},
         focusRoleSort: 'new',
@@ -569,7 +573,7 @@
     methods: {
       async actionFollow () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.loadingFollow) {
@@ -595,7 +599,10 @@
         this.videoState.init = true
 
         try {
-          await this.$store.dispatch('bangumi/getVideos', this.id)
+          await this.$store.dispatch('bangumi/getVideos', {
+            ctx: this,
+            id: this.id
+          })
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -644,6 +651,26 @@
           this.roleState.loading = false
         }
       },
+      async getImages (force = false) {
+        if (this.imageState.loading) {
+          return
+        }
+        this.imageState.loading = true
+        this.imageState.init = true
+
+        try {
+          await this.$store.dispatch('image/getBangumiImages', {
+            ctx: this,
+            id: this.id,
+            force
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.imageState.fetched = true
+          this.imageState.loading = false
+        }
+      },
       switchTab (tab) {
         this.sort = tab
         if (tab === 'post') {
@@ -658,15 +685,19 @@
           if (!this.roleState.init) {
             this.getRoles(true)
           }
+        } else if (tab === 'image') {
+          if (!this.imageState.init) {
+            this.getImages(true)
+          }
         }
       },
       async handleStarRole (role) {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (!this.$store.state.user.coin) {
-          this.$toast.warn('金币不足')
+          this.$toast.error('金币不足')
           return
         }
         try {
@@ -730,8 +761,7 @@
         if (this.$store.state.login) {
           this.$channel.$emit('drawer-open-write-post')
         } else {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
         }
       }
     }

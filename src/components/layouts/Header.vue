@@ -8,7 +8,7 @@
     line-height: $nav-height;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     background-color: #ffffff;
-    z-index: 99;
+    z-index: 90;
 
     .logo {
       height: 28px;
@@ -26,17 +26,49 @@
       text-align: right;
       overflow: hidden;
       height: 100%;
+      font-size: 0;
 
-      .search-btn,
-      .create-btn {
+      .search-btn {
         display: inline-block;
         vertical-align: middle;
         margin-left: 24px;
+        margin-top: 2px;
 
         i {
           font-size: 24px;
           line-height: 24px;
         }
+      }
+
+      .nav-avatar {
+        position: relative;
+        margin-left: 15px;
+        display: inline-block;
+        vertical-align: middle;
+        @include avatar(24px);
+        @include border($color-gray-normal, 50%);
+
+        .badge {
+          display: block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: red;
+          @include border(#fff, 50%);
+        }
+      }
+
+      .faker-avatar {
+        margin-left: 15px;
+        width: 24px;
+        height: 24px;
+        font-size: 23px;
+        line-height: 24px;
+        vertical-align: middle;
+        color: #333;
       }
 
       .search-drawer {
@@ -91,109 +123,6 @@
               }
             }
           }
-        }
-      }
-
-      .nav-avatar {
-        position: relative;
-        margin-left: 15px;
-        display: inline-block;
-        vertical-align: middle;
-        @include avatar(24px);
-        @include border($color-gray-normal, 50%);
-
-        .badge {
-          display: block;
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: red;
-          @include border(#fff, 50%);
-        }
-      }
-
-      .faker-avatar {
-        margin-left: 15px;
-        width: 24px;
-        height: 24px;
-        font-size: 23px;
-        line-height: 24px;
-        vertical-align: middle;
-        color: #333;
-      }
-
-      .sign-drawer {
-        text-align: center;
-
-        .form-item {
-          position: relative;
-          height: 48px;
-          @include border-bottom();
-
-          label {
-            text-align: left;
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 80px;
-            background-color: #fff;
-            font-size: 16px;
-            line-height: 48px;
-          }
-
-          input {
-            display: block;
-            overflow: hidden;
-            height: 100%;
-            padding-left: 90px;
-            line-height: 48px;
-          }
-        }
-
-        .captcha {
-          position: relative;
-          margin-top: 15px;
-
-          &:before {
-            content: attr(data-text);
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            text-align: center;
-            line-height: 44px;
-            color: $color-white;
-          }
-        }
-
-        .switch {
-          text-align: center;
-          font-size: 13px;
-          color: #666;
-          padding: 20px 10px;
-        }
-
-        .checkAndSend {
-          position: absolute;
-          right: 0;
-          top: 0;
-          height: 100%;
-          padding: 0 10px;
-          font-size: 12px;
-          color: $color-text-normal;
-        }
-
-        .tip {
-          text-align: left;
-          line-height: 25px;
-          font-size: 13px;
-          margin-top: 10px;
-          color: $color-text-normal;
         }
       }
 
@@ -293,9 +222,6 @@
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
       </button>
-      <button class="create-btn">
-        <i class="iconfont icon-pinglun" @click="handleCreateBtnClick"></i>
-      </button>
       <v-drawer
         from="top"
         size="40px"
@@ -322,7 +248,6 @@
         </div>
       </v-drawer>
       <template v-if="$store.state.login">
-        <write-post></write-post>
         <button class="nav-avatar" @click="openUserDrawer">
           <img :src="$resize(avatar, { width: 48 })" alt="avatar">
           <span class="badge" v-if="notificationCount"></span>
@@ -393,13 +318,9 @@
 <script>
   import UserApi from '~/api/userApi'
   import SearchApi from '~/api/searchApi'
-  import WritePost from '~/components/post/Write'
 
   export default {
     name: 'v-header',
-    components: {
-      WritePost
-    },
     computed: {
       avatar () {
         return this.$store.state.login
@@ -454,17 +375,9 @@
           window.location = '/bangumi/news?from=search'
         })
       },
-      handleCreateBtnClick () {
-        if (this.$store.state.login) {
-          this.$channel.$emit('drawer-open-write-post')
-        } else {
-          this.$toast.info('继续操作前请先登录')
-          this.$channel.$emit('drawer-open-sign')
-        }
-      },
       async handleDaySign () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.daySigned || this.signDayLoading) {
@@ -491,7 +404,7 @@
         this.switchUserDrawer = true
       },
       openSignDrawer () {
-        this.$channel.$emit('drawer-open-sign')
+        this.$channel.$emit('sign-in', (false))
       }
     }
   }

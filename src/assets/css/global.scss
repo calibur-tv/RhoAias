@@ -29,3 +29,30 @@ a {
     color: #fff !important;
   }
 }
+
+.mint-indicator {
+  z-index: 5000;
+  position: relative;
+}
+
+.mint-msgbox {
+  .mint-msgbox-message {
+    line-height: 24px;
+
+    span {
+      display: block;
+      text-align: left;
+      font-size: 14px;
+      text-indent: 2em;
+      word-break: break-all;
+    }
+
+    p {
+      line-height: 36px;
+    }
+  }
+
+  .mint-msgbox-confirm {
+    color: $color-blue-normal !important;
+  }
+}

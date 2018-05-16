@@ -47,6 +47,31 @@
           @include btn-empty($color-blue-normal)
         }
       }
+
+      .faker-tips {
+        margin-bottom: 5px;
+        padding: 8px 16px;
+        border-radius: 4px;
+        background-color: #fef0f0;
+        color: #f56c6c;
+        margin-top: 10px;
+
+        span {
+          font-size: 13px;
+          line-height: 18px;
+          font-weight: 700;
+        }
+
+        p {
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+
+      .signature {
+        font-size: 13px;
+        line-height: 18px;
+      }
     }
 
     #bangumis {
@@ -56,6 +81,10 @@
         height: 62px;
         padding: 8px 0;
         @include border-bottom();
+
+        a {
+          display: block;
+        }
 
         img {
           width: 46px;
@@ -234,12 +263,23 @@
         <button v-if="isMe" @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
         <p class="nickname oneline" v-text="user.nickname"></p>
       </div>
+      <p class="signature">
+        <strong>签名：</strong>
+        {{ user.signature || '这个人还很神秘...' }}
+      </p>
+      <div class="faker-tips" v-if="user.faker">
+        <span>重要提醒</span>
+        <p>这是一个运营号，并非本人，该账号下所有信息都是搬运而来</p>
+        <p>如果你就是该账号本人，可以联系网站工作人员拿回该账号，该账号通过搬运资源获得的金币也将归你所有</p>
+        <p>当然，你也有权要求我们删除所有你的内容</p>
+      </div>
     </div>
     <div class="tabs">
       <button @click="switchTab('bangumi')" :class="{ 'active': sort === 'bangumi' }">番剧</button>
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
       <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
+      <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
     </div>
     <template v-if="sort === 'bangumi'">
       <ul id="bangumis" class="container" v-if="bangumis.length">
@@ -247,7 +287,7 @@
           v-for="item in bangumis"
           :key="item.id"
         >
-          <router-link :to="$alias.bangumi(item.id)">
+          <router-link class="clearfix" :to="$alias.bangumi(item.id)">
             <v-img
               class="bg"
               :alt="item.name"
@@ -262,13 +302,16 @@
         :no-more="true"
         :auto="true"
         :length="0"
+        :loading="false"
       ></more-btn>
     </template>
     <template v-else-if="sort === 'role'">
       <ul class="container" id="roles-of-mine">
-        <li
+        <router-link
           v-for="item in roles"
           :key="item.id"
+          :to="$alias.cartoonRole(item.id)"
+          tag="li"
         >
           <div class="clearfix">
             <div class="avatar">
@@ -295,7 +338,7 @@
               </div>
             </div>
           </div>
-        </li>
+        </router-link>
       </ul>
       <more-btn
         :no-more="noMoreRoles"
@@ -303,6 +346,15 @@
         :length="roles.length"
         @fetch="getUserRoles"
       ></more-btn>
+    </template>
+    <template v-else-if="sort === 'image'">
+      <image-waterfall
+        :loading="loadingUserImageFetch"
+        :bangumi="bangumis"
+        @fetch="getUserImages(false)"
+      >
+        <button v-if="isMe">上传图片</button>
+      </image-waterfall>
     </template>
     <template v-else>
       <ul
@@ -385,10 +437,12 @@
 </template>
 
 <script>
+  import ImageWaterfall from '~/components/lists/ImageWaterfall'
+
   export default {
     name: 'page-user',
     async asyncData ({ route, store, ctx }) {
-      const zone = route.params.slug
+      const zone = route.params.zone
       const arr = [
         store.dispatch('users/getUser', {
           ctx, zone
@@ -400,7 +454,7 @@
       await Promise.all(arr)
     },
     head () {
-      if (!this.slug) {
+      if (!this.zone) {
         return
       }
       return {
@@ -411,13 +465,16 @@
         ]
       }
     },
+    components: {
+      ImageWaterfall
+    },
     computed: {
-      slug () {
-        return this.$route.params.slug
+      zone () {
+        return this.$route.params.zone
       },
       isMe () {
         return this.$store.state.login
-          ? this.slug === this.self.zone
+          ? this.zone === this.self.zone
           : false
       },
       self () {
@@ -426,10 +483,10 @@
       user () {
         return this.isMe
           ? this.self
-          : this.$store.state.users.list[this.slug]
+          : this.$store.state.users.list[this.zone]
       },
       bangumis () {
-        return this.$store.state.users.list[this.slug].bangumis
+        return this.$store.state.users.list[this.zone].bangumis
       },
       posts () {
         return this.sort === 'bangumi' ? {} : this.$store.state.users.posts[this.sort]
@@ -440,24 +497,23 @@
       coinCount () {
         return this.self.coin
       },
-      noFetchPost () {
-        return this.sort === 'bangumi' ? true : (this.posts.loading || this.posts.noMore)
-      },
       roles () {
         return this.$store.state.users.roles.data
       },
       noMoreRoles () {
         return this.$store.state.users.roles.noMore
       },
-      noFetchRoles () {
-        return this.loadingRoles || this.noMoreRoles
+      images () {
+        return this.$store.state.image.waterfall
       }
     },
     data () {
       return {
-        signDayLoading: false,
         sort: 'bangumi',
-        loadingRoles: false
+        signDayLoading: false,
+        loadingRoles: false,
+        loadingUserImageFetch: false,
+        userImageLoaded: false
       }
     },
     methods: {
@@ -468,6 +524,10 @@
         }
         if (tab === 'role') {
           this.getUserRoles(true)
+          return
+        }
+        if (tab === 'image') {
+          this.getUserImage(true)
           return
         }
         this.getUserPosts(true)
@@ -484,6 +544,27 @@
           type: this.sort,
           zone: this.user.zone
         })
+      },
+      async getUserImage (isFirstRequest = false) {
+        if (isFirstRequest && this.userImageLoaded) {
+          return
+        }
+        if (this.loadingUserImageFetch) {
+          return
+        }
+        this.loadingUserImageFetch = true
+        try {
+          await this.$store.dispatch('image/getUserImages', {
+            zone: this.user.zone,
+            ctx: this,
+            force: isFirstRequest
+          })
+          this.userImageLoaded = true
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingUserImageFetch = false
+        }
       },
       async getUserRoles (isFirstRequest = false) {
         if (this.loadingRoles) {

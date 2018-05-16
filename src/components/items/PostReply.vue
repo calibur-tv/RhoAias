@@ -27,7 +27,6 @@
           .v-select-options-wrap {
             background-color: #fff;
             border: 1px solid #f0f0f0;
-            box-shadow: 0 2px 3px #ccc;
             border-radius: 4px;
             top: 18px;
           }
@@ -234,7 +233,7 @@
 
 <script>
   export default {
-    name: 'post-reply-item',
+    name: 'post-reply',
     props: {
       post: {
         type: Object,
@@ -286,11 +285,11 @@
     methods: {
       async toggleLike () {
         if (!this.$store.state.login) {
-          this.$channel.$emit('drawer-open-sign')
+          this.$channel.$emit('sign-in')
           return
         }
         if (this.isMine) {
-          this.$toast.warn('不能给自己点赞')
+          this.$toast.error('不能给自己点赞')
           return
         }
         if (this.loadingToggleLike) {

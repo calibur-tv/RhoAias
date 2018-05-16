@@ -13,7 +13,7 @@
         left: 0;
         top: 0;
         height: 100%;
-        width: 80px;
+        width: 60px;
         background-color: #fff;
         font-size: 16px;
         line-height: 48px;
@@ -23,8 +23,7 @@
         display: block;
         overflow: hidden;
         height: 100%;
-        padding-left: 90px;
-        line-height: 48px;
+        padding: 9px 0 9px 65px;
       }
     }
 
@@ -346,12 +345,24 @@
         if (!this.signUp.captcha && this.openDrawer) {
           this.$validator.validateAll('sign-up').then((result) => {
             if (result) {
+              if (!(/^([\u4e00-\u9fa5]|[a-z0-9])+$/i.test(this.signUp.nickname))) {
+                this.$toast.error('昵称不符合要求')
+                return
+              }
+              if (!(/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(this.signUp.access))) {
+                this.$toast.error('错误的手机号格式')
+                return
+              }
               this.signUp.captcha = true
               const ele = this.$refs.signUpCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
                   this.register(data).then((res) => {
                     this.$cookie.set('JWT-TOKEN', res)
@@ -383,11 +394,17 @@
               this.signIn.captcha = true
               const ele = this.$refs.signInCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
+                  this.$toast.loading('登录中...')
                   this.login(data).then((token) => {
+                    this.$toast.success('登录成功')
                     this.$cookie.set('JWT-TOKEN', token, { expires: 365 })
                     window.location.reload()
                   }).catch((err) => {
@@ -417,9 +434,13 @@
               this.resetPassword.captcha = true
               const ele = this.$refs.resetCaptcha
               ele.innerHTML = ''
+              this.$toast.loading('加载中')
               this.$captcha({
                 type: 'float',
                 elem: ele,
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data, captcha }) => {
                   const api = new UserApi()
                   api.resetPassword({
@@ -478,12 +499,24 @@
         }
         const nicknameIsOK = await this.$validator.validate('sign-up.nickname')
         if (nicknameIsOK) {
+          if (!(/^([\u4e00-\u9fa5]|[a-z0-9])+$/i.test(this.signUp.nickname))) {
+            this.$toast.error('昵称不符合要求')
+            return
+          }
+          if (!(/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(this.signUp.access))) {
+            this.$toast.error('错误的手机号格式')
+            return
+          }
           const accessIsOK = await this.$validator.validate('sign-up.access')
           if (accessIsOK) {
             if (this.signUp.access !== this.signUp.tempAccess) {
               if (this.signUpStep === 0 || this.signUpStep === 4) {
                 this.signUpStep = 1
+                this.$toast.loading('加载中')
                 this.$captcha({
+                  ready: () => {
+                    this.$toast.stop()
+                  },
                   success: ({ data }) => {
                     this.signUpStep = 2
                     this.getRegisterAuthCode(data)
@@ -494,13 +527,13 @@
                 })
               }
             } else {
-              this.$toast.warn(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+              this.$toast.error(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
             }
           } else {
-            this.$toast.warn(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+            this.$toast.error(`请填写正确的${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.warn('请先填写昵称')
+          this.$toast.error('请先填写昵称')
         }
       },
       async getRegisterAuthCode (geetest) {
@@ -535,7 +568,11 @@
           if (this.resetPassword.access !== this.resetPassword.tempAccess) {
             if (this.resetStep === 0 || this.resetStep === 4) {
               this.resetStep = 1
+              this.$toast.loading('加载中')
               this.$captcha({
+                ready: () => {
+                  this.$toast.stop()
+                },
                 success: ({ data }) => {
                   this.resetStep = 2
                   this.getResetAuthCode(data)
@@ -546,10 +583,10 @@
               })
             }
           } else {
-            this.$toast.warning(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
+            this.$toast.error(`请更换${this.signUp.method === 'email' ? '邮箱' : '手机'}`)
           }
         } else {
-          this.$toast.warning(`请填写正确的${this.resetPassword.method === 'email' ? '邮箱' : '手机'}`)
+          this.$toast.error(`请填写正确的${this.resetPassword.method === 'email' ? '邮箱' : '手机'}`)
         }
       },
       async getResetAuthCode (geetest) {
@@ -582,6 +619,11 @@
     mounted () {
       this.$channel.$on('switch-to-register', result => {
         this.switchSignModal(result ? 'register' : 'login')
+      })
+      this.$channel.$on('sign-in', (showToast = true) => {
+        showToast && this.$toast.error('继续操作前请先登录')
+        this.switchSignModal('login')
+        this.openDrawer = true
       })
     }
   }

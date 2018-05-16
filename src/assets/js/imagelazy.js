@@ -20,7 +20,7 @@ export default {
     },
     scale: {
       type: [Number, String],
-      default: 2
+      default: 1.3
     },
     mode: {
       type: [Number, String],
@@ -29,7 +29,7 @@ export default {
     events: {
       type: Array,
       default: function () {
-        return ['scroll', 'resize']
+        return ['scroll']
       }
     },
     id: {},
@@ -49,7 +49,7 @@ export default {
   render: function (createElement) {
     return createElement(this.tag, {
       'class': {
-        'image-lazy-mask': this.aspect,
+        'image-lazy-init': this.aspect,
         'image-loading': this.loading
       },
       style: this.aspect ? {
@@ -65,19 +65,18 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      const image = this.$el
-      if (this.$checkInView(image, (this.scale - 0))) {
-        this.loadResource(image)
+      if (this.$checkInView(this.$el, (this.scale - 0))) {
+        this.loadResource(this.$el)
       } else {
         const id = this.$eventManager.add(document, this.events, this.$utils.throttle(() => {
-          if (this.$checkInView(image, (this.scale - 0))) {
-            this.loadResource(image)
+          if (this.$checkInView(this.$el, (this.scale - 0))) {
+            this.loadResource(this.$el)
             this.$eventManager.del(id)
           }
-        }, 500))
+        }, 200))
         if (this.id) {
           this.$channel.$on(`image-load-${this.id}`, () => {
-            this.loadResource(image)
+            this.loadResource(this.$el)
             this.$eventManager.del(id)
             this.$channel.$off(`image-load-${this.id}`)
           })
@@ -110,10 +109,18 @@ export default {
       src = src.split('|http').length > 1 ? `http${src.split('|http').pop()}` : src
       if (this.tag.toLowerCase() === 'img') {
         image.setAttribute('src', src)
-        image.addEventListener('load', () => {
-          this.$utils.setStyle(image, 'padding-bottom', 0)
-          image.classList.remove('image-lazy-mask', 'image-loading')
-        })
+        if (this.aspect || this.loading) {
+          image.addEventListener('load', () => {
+            image.removeAttribute('style')
+            image.classList.remove('image-loading')
+            if (this.aspect) {
+              image.classList.add('image-lazy-active')
+              setTimeout(() => {
+                image.classList.remove('image-lazy-active', 'image-lazy-init')
+              }, 300)
+            }
+          })
+        }
       } else {
         this.$utils.setStyle(image, 'background-image', `url(${src})`)
       }

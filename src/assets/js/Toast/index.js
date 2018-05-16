@@ -1,88 +1,79 @@
-import './style.scss'
 import { Message } from 'element-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 const timeout = (duration = 0) => new Promise((resolve) => {
   setTimeout(resolve, duration)
 })
 
-const fadeTimeout = 300
+const showTime = 1500
 
 export default class {
-  start (args) {
-    const opts = args || {}
-    const time = opts.time || 2000
-    const tip = opts.tip || '加载中'
-    const type = opts.type || 'loading'
-    const auto = type === 'loading' ? opts.auto !== undefined || opts.time !== undefined : !(opts.auto !== undefined && !opts.auto)
-
-    let toast = document.getElementById('toast-container')
-    if (toast) {
-      toast.innerHTML = this.constructor.template(tip, type)
-    } else {
-      toast = document.createElement('div')
-      toast.id = 'toast-container'
-      toast.innerHTML = this.constructor.template(tip, type)
-      document.body.style.overflow = 'hidden'
-      document.body.appendChild(toast)
-    }
-
-    setTimeout(() => {
-      toast.querySelector('.loading').classList.add('show')
-    }, fadeTimeout)
-
-    if (auto) {
-      return timeout(time).then(() => this.stop())
-    }
-  }
-
-  stop () {
-    const toast = document.getElementById('toast-container')
-    if (toast) {
-      toast.querySelector('.loading').classList.add('show')
-
-      setTimeout(() => {
-        toast.parentNode.removeChild(toast)
-      }, fadeTimeout)
-      document.body.removeAttribute('style')
-    }
-  }
-
   success (tip) {
-    this.start({
-      type: 'success',
-      tip
+    this.stop()
+    let text = ''
+    let time
+    if (typeof tip === 'object') {
+      text = tip.tip
+      time = tip.time || showTime
+    } else {
+      text = tip
+      time = showTime
+    }
+    Toast({
+      duration: time,
+      message: text || '操作成功',
+      iconClass: 'iconfont icon-caozuochenggong'
     })
+    return timeout(time)
   }
 
   info (tip) {
+    this.stop()
     Message({
       message: tip,
       center: true
     })
   }
 
-  warn (tip) {
-    this.start({
-      type: 'info',
-      tip
-    })
-  }
-
   error (tip) {
-    this.start({
-      type: 'error',
-      tip
+    this.stop()
+    let text = ''
+    let time
+    if (typeof tip === 'object') {
+      text = tip.tip
+      time = tip.time || showTime
+    } else {
+      text = tip
+      time = showTime
+    }
+    Toast({
+      duration: time,
+      message: text || '操作失败',
+      iconClass: 'iconfont icon-cuowuhttp'
     })
+    return timeout(time)
   }
 
   loading (tip) {
-    this.start({
-      type: 'loading',
-      tip
+    this.stop()
+    let message = ''
+    let time
+    if (typeof tip === 'object') {
+      message = tip.tip
+      time = tip.time
+    } else {
+      message = tip
+    }
+    Indicator.open({
+      text: message || '加载中...',
+      spinnerType: 'triple-bounce'
     })
+    if (time) {
+      return timeout(time).then(() => this.stop())
+    }
   }
 
-  static template (tip, type) {
-    return `<div class="loading"><div class="toast-icon-${type}"></div><span class="tip">${tip}</span></div>`
+  stop () {
+    Indicator.close()
   }
 }

@@ -66,7 +66,8 @@
       #signature {
         min-height: 120px;
         padding-left: 80px;
-        line-height: 48px;
+        line-height: 25px;
+        padding-top: 12px;
       }
     }
 
@@ -184,7 +185,7 @@
             id="signature"
             v-model.trim="settingForm.signature"
             placeholder="用简单的言语，表达深刻的心"
-            maxlength="20"
+            maxlength="150"
           ></textarea>
         </div>
         <button @click="saveSetting" class="btn-submit">保存</button>
@@ -256,8 +257,12 @@
     methods: {
       selectAvatar (e) {
         const file = e.target.files[0]
+        if (!file) {
+          this.$toast.error('图片选择失败')
+          return
+        }
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()
@@ -311,7 +316,7 @@
       selectBanner (e) {
         const file = e.target.files[0]
         if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.warn('仅支持 jpg / jpeg / png 格式的图片')
+          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
           return
         }
         const reader = new FileReader()
@@ -325,7 +330,7 @@
         this.bannerSelector.file = null
         this.bannerSelector.data = ''
         this.$nextTick(() => {
-          this.$refs.avatarInput.value = ''
+          this.$refs.bannerInput.value = ''
         })
       },
       async submitBannerChange () {
@@ -363,22 +368,16 @@
         }
       },
       saveSetting () {
-        const birthday = this.settingForm.birthday ? new Date(this.settingForm.birthday).getTime() / 1000 : 0
-        if (birthday && (Date.now() / 1000 - birthday < 315360000)) {
-          this.$toast.error('小于10岁？不应该...')
-          return
-        }
         const api = new UserApi(this)
         const data = {
           nickname: this.settingForm.nickname,
           signature: this.settingForm.signature,
           sex: parseInt(this.settingForm.sex, 10) + (this.settingForm.sexSecret ? 2 : 0),
-          birthday: birthday !== birthday ? 0 : birthday // eslint-disable-line
+          birthday: 0
         }
         api.settingProfile(data).then(() => {
           this.$toast.success('设置成功')
-          this.$store.commit('SET_USER_INFO', Object.assign({}, this.self, data))
-          this.$store.commit('users/removeUser', this.slug)
+          this.$store.commit('SET_USER_INFO', Object.assign({}, this.user, data))
         }).catch((err) => {
           this.$toast.error(err)
         })
