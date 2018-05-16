@@ -526,7 +526,7 @@
           return
         }
         if (tab === 'image') {
-          this.getUserImage(true)
+          this.getUserImages(true)
           return
         }
         this.getUserPosts(true)
@@ -544,7 +544,7 @@
           zone: this.user.zone
         })
       },
-      async getUserImage (isFirstRequest = false) {
+      async getUserImages (isFirstRequest = false) {
         if (isFirstRequest && this.userImageLoaded) {
           return
         }
