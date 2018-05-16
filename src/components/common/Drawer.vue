@@ -52,7 +52,6 @@
       button {
         position: absolute;
         font-size: 16px;
-        left: 20px;
         top: 14px;
       }
 
@@ -61,6 +60,14 @@
         font-size: 16px;
         color: #333333;
         text-align: center;
+      }
+
+      .close-btn {
+        left: 20px;
+      }
+
+      .submit-btn {
+        right: 20px;
       }
     }
   }
@@ -82,8 +89,9 @@
         :style="position"
       >
         <header class="drawer-header" v-if="headerText">
-          <button @click="close">关闭</button>
+          <button class="close-btn" @click.stop.prevent="close">关闭</button>
           <h3 v-text="headerText"></h3>
+          <button v-if="showSubmit" class="submit-btn" @click.stop.prevent="submit">确认</button>
         </header>
         <slot></slot>
       </div>
@@ -125,6 +133,10 @@
       backdrop: {
         type: Boolean,
         default: true
+      },
+      showSubmit: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -202,6 +214,12 @@
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
+      },
+      submit () {
+        this.close()
+        this.$nextTick(() => {
+          this.$emit('submit')
+        })
       }
     },
     beforeDestroy () {
