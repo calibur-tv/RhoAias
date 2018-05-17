@@ -26,8 +26,9 @@
 
     .mint-main-button {
       background-color: $color-blue-light;
-      line-height: 45px;
-      font-size: 30px;
+      line-height: 50px;
+      font-size: 20px;
+      vertical-align: middle;
     }
 
     .ic-btn {
