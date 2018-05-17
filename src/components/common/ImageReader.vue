@@ -54,19 +54,19 @@
           width: auto;
         }
       }
+    }
 
-      #download-btn {
-        position: absolute;
-        bottom: -35px;
-        width: 80px;
-        color: #fff;
-        text-align: center;
-        font-size: 12px;
-        opacity: 0.8;
-        padding: 10px 0;
-        left: 50%;
-        margin-left: -40px;
-      }
+    #download-btn {
+      position: absolute;
+      bottom: 15px;
+      width: 80px;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.8;
+      padding: 10px 0;
+      left: 50%;
+      margin-left: -40px;
     }
   }
 </style>
@@ -99,14 +99,14 @@
           ></v-img>
         </mt-swipe-item>
       </mt-swipe>
-      <a id="download-btn" target="_blank" :href="imageHref" :download="imageName">下载原图</a>
     </div>
+    <a id="download-btn" target="_blank" :href="imageHref" :download="imageName" @click.stop>下载原图</a>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'ImageReader',
+    name: 'image-reader',
     data () {
       return {
         images: [],
