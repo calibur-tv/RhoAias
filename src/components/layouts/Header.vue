@@ -95,7 +95,7 @@
 
             .iconfont {
               float: left;
-              margin: 0 10px;
+              margin: 6px 10px 0 10px;
             }
 
             .clear {
