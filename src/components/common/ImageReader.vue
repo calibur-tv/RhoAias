@@ -23,6 +23,7 @@
       width: 100%;
       height: 80%;
       margin-top: 15%;
+      position: relative;
 
       .mint-swipe {
         overflow: visible;
@@ -52,6 +53,19 @@
           height: 100%;
           width: auto;
         }
+      }
+
+      #download-btn {
+        position: absolute;
+        bottom: -35px;
+        width: 80px;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        opacity: 0.8;
+        padding: 10px 0;
+        left: 50%;
+        margin-left: -40px;
       }
     }
   }
@@ -85,6 +99,7 @@
           ></v-img>
         </mt-swipe-item>
       </mt-swipe>
+      <a id="download-btn" target="_blank" :href="imageHref" :download="imageName">下载原图</a>
     </div>
   </div>
 </template>
@@ -102,6 +117,14 @@
         maxHeight: 0,
         maxWidthHeightRate: 0,
         maxHeightWidthRate: 0
+      }
+    },
+    computed: {
+      imageHref () {
+        return this.images.length ? this.images[this.curPage - 1].split('|').pop() : ''
+      },
+      imageName () {
+        return this.imageHref ? `calibur-tv-${Date.now()}.${this.imageHref.split('.').pop()}` : ''
       }
     },
     mounted () {
