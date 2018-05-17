@@ -243,6 +243,7 @@
       width: 100%;
       padding-bottom: 5px;
       margin-bottom: 10px;
+      padding-top: 15px;
 
       span {
         float: left;
