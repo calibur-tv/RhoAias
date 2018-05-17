@@ -25,7 +25,7 @@
         height: 100%;
       }
 
-      button {
+      .play-btn {
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -39,6 +39,22 @@
         background-color: rgba(255, 255, 255, .5);
         text-indent: 6px;
         font-size: 30px;
+      }
+
+      .video-loading {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -40px;
+        margin-top: -40px;
+        background-color: transparent;
+        font-size: 30px;
+        line-height: 80px;
+        animation: rolling 1s infinite linear;
       }
     }
 
@@ -173,10 +189,12 @@
           controlsList="nodownload"
         ></video>
         <button
-          class="iconfont icon-bofang"
+          class="play-btn iconfont icon-bofang"
           v-if="!playing"
           @click="togglePlaying"
         ></button>
+        <div v-if="loading" class="video-loading iconfont icon-jiazailoading-A">
+        </div>
       </template>
     </div>
     <div class="container">
@@ -232,6 +250,7 @@
 
 <script>
   import VideoApi from '~/api/videoApi'
+  import env from 'env'
 
   export default {
     name: 'video-show',
@@ -249,6 +268,11 @@
         id: route.params.id,
         ctx
       })
+    },
+    watch: {
+      '$route' () {
+        this.resetPlayer()
+      }
     },
     computed: {
       id () {
@@ -331,7 +355,8 @@
         firstPlay: true,
         player: null,
         playing: false,
-        notSupport: false
+        notSupport: false,
+        loading: false
       }
     },
     methods: {
@@ -345,6 +370,7 @@
       },
       handlePlaying () {
         if (this.firstPlay) {
+          this.loading = true
           this.firstPlay = false
           const api = new VideoApi(this)
           api.playing(this.id)
@@ -382,6 +408,15 @@
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
           window.open(this.videoSrc)
         })
+      },
+      resetPlayer () {
+        if (this.playing) {
+          this.playing = false
+          this.player.pause()
+        }
+        this.player.removeAttribute('src')
+        this.player.load()
+        this.player.setAttribute('src', this.videoSrc)
       }
     },
     mounted () {
@@ -398,6 +433,11 @@
       }
       this.player = this.$refs.video
       this.player.controls = false
+      if (env !== 'production') {
+        import('~/assets/js/videoDebug').then(module => {
+          new module.default(this.player) // eslint-disable-line
+        })
+      }
       try {
         this.player.load()
       } catch (e) {
@@ -406,6 +446,10 @@
       }
       this.player.addEventListener('pause', () => {
         this.playing = false
+      })
+
+      this.player.addEventListener('timeupdate', () => {
+        this.loading = false
       })
 
       this.player.addEventListener('abort', () => {
