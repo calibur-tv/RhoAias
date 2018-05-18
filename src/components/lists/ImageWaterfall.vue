@@ -268,25 +268,27 @@
   <div id="image-waterfall" v-if="list.length">
     <no-ssr>
       <div class="image-container">
-        <button class="btn-sort clearfix" @click="openSortDrawer">
-          <span>筛选</span>
-          <i class="iconfont icon-101"></i>
-        </button>
-        <v-drawer
-          v-model="toggleSortDrawer"
-          header-text="图片筛选"
-          from="bottom"
-          size="250px"
-          class="sort-image-drawer"
-          :show-submit="true"
-          @submit="handleSelectedSort"
-        >
-          <mt-picker
-            :slots="sortSlots"
-            @change="onSortValuesChange"
-            valueKey="name"
-          ></mt-picker>
-        </v-drawer>
+        <template v-if="showSortHeader">
+          <button class="btn-sort clearfix" @click="openSortDrawer">
+            <span>筛选</span>
+            <i class="iconfont icon-101"></i>
+          </button>
+          <v-drawer
+            v-model="toggleSortDrawer"
+            header-text="图片筛选"
+            from="bottom"
+            size="250px"
+            class="sort-image-drawer"
+            :show-submit="true"
+            @submit="handleSelectedSort"
+          >
+            <mt-picker
+              :slots="sortSlots"
+              @change="onSortValuesChange"
+              valueKey="name"
+            ></mt-picker>
+          </v-drawer>
+        </template>
         <waterfall :line-gap="155" :auto-resize="false">
           <waterfall-slot
             v-for="(item, index) in list"
@@ -539,6 +541,9 @@
     computed: {
       page () {
         return this.$route.name
+      },
+      showSortHeader () {
+        return !Array.isArray(this.options)
       },
       waterfall () {
         return this.$store.state.image.waterfall
@@ -866,8 +871,9 @@
           id: 0,
           name: '全部'
         }]
-        const tagsOptions = defaultSelect.concat(this.options.tags)
-        const sizeOptions = defaultSelect.concat(this.options.size)
+        const hasOptions = !Array.isArray(this.options)
+        const tagsOptions = hasOptions ? defaultSelect.concat(this.options.tags) : []
+        const sizeOptions = hasOptions ? defaultSelect.concat(this.options.size) : []
         this.sortSlots[0].values = tagsOptions
         this.sortSlots[1].values = sizeOptions
         tagsOptions.forEach((item, index) => {
