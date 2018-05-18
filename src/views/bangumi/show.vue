@@ -104,6 +104,12 @@
       }
     }
 
+    #cartoon {
+      .image-container {
+        padding-top: 10px;
+      }
+    }
+
     #roles {
       #role-list {
         li {
@@ -296,8 +302,9 @@
     <div class="hr"></div>
     <div>
       <div class="tabs">
-        <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
+        <button v-if="info.has_video" @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
+        <button v-if="info.has_cartoon" @click="switchTab('cartoon')" :class="{ 'active': sort === 'cartoon' }">漫画</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
         <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
       </div>
@@ -367,7 +374,7 @@
           </li>
         </ul>
         <more-btn
-          :no-more="!videos.data.length && videoState.fetched"
+          :no-more="videos.noMore"
           :auto="true"
           :loading="videoState.loading"
           :length="videos.data.length"
@@ -375,8 +382,14 @@
           <button @click="openFeedbackForResource">求资源</button>
         </more-btn>
       </div>
+      <div id="cartoon" v-else-if="sort === 'cartoon'">
+        <image-waterfall
+          :loading="cartoonState.loading"
+          @fetch="getCartoons(false)"
+        ></image-waterfall>
+      </div>
       <div id="roles" v-else-if="sort === 'role'">
-        <ul id="role-list" class="container" v-if="roleState.fetched">
+        <ul id="role-list" class="container" v-if="roles.data.length">
           <li v-for="item in roles.data">
             <div class="clearfix">
               <div class="avatar" @click="showRoleDetail(item)">
@@ -489,7 +502,7 @@
       const id = route.params.id
       await Promise.all([
         store.dispatch('bangumi/getBangumi', { ctx, id }),
-        store.dispatch('bangumi/getVideos', { ctx, id })
+        store.dispatch('bangumi/getPosts', { ctx, id, reset: true })
       ])
     },
     components: {
@@ -541,28 +554,27 @@
     },
     data () {
       return {
-        videoState: {
-          loading: false,
-          init: true,
-          fetched: false
-        },
         postState: {
-          take: 10,
-          type: 'new',
+          loading: false,
+          init: true
+        },
+        cartoonState: {
+          loading: false,
+          init: false
+        },
+        videoState: {
           loading: false,
           init: false
         },
         roleState: {
           loading: false,
-          init: false,
-          fetched: false
+          init: false
         },
         imageState: {
           loading: false,
-          init: false,
-          fetched: false
+          init: false
         },
-        sort: 'video',
+        sort: 'post',
         openRoleDetailDrawer: false,
         currentRole: {},
         focusRoleSort: 'new',
@@ -606,7 +618,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.videoState.fetched = true
           this.videoState.loading = false
         }
       },
@@ -621,8 +632,6 @@
           await this.$store.dispatch('bangumi/getPosts', {
             ctx: this,
             id: this.id,
-            take: this.postState.take,
-            type: this.postState.type,
             reset
           })
         } catch (e) {
@@ -647,8 +656,25 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.roleState.fetched = true
           this.roleState.loading = false
+        }
+      },
+      async getCartoons (force = false) {
+        if (this.cartoonState.loading) {
+          return
+        }
+        this.cartoonState.loading = true
+
+        try {
+          await this.$store.dispatch('image/getCartoons', {
+            ctx: this,
+            id: this.id,
+            force
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.cartoonState.loading = false
         }
       },
       async getImages (force = false) {
@@ -667,7 +693,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.imageState.fetched = true
           this.imageState.loading = false
         }
       },
@@ -681,14 +706,14 @@
           if (!this.videoState.init) {
             this.getVideos()
           }
+        } else if (tab === 'cartoon') {
+          this.getCartoons(true)
         } else if (tab === 'role') {
           if (!this.roleState.init) {
             this.getRoles(true)
           }
         } else if (tab === 'image') {
-          if (!this.imageState.init) {
-            this.getImages(true)
-          }
+          this.getImages(true)
         }
       },
       async handleStarRole (role) {
