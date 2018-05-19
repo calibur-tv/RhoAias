@@ -96,6 +96,7 @@
         multiple
         list-type="picture-card"
         ref="uploader"
+        :disabled="true"
         :data="uploadHeaders"
         :on-error="handleError"
         :on-remove="handleRemove"

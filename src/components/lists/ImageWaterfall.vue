@@ -414,6 +414,7 @@
               list-type="picture-card"
               ref="albumUploader"
               :data="uploadHeaders"
+              :disabled="true"
               :on-error="handleError"
               :before-upload="beforeUpload"
               :on-remove="handleAlbumPosterRemove"
