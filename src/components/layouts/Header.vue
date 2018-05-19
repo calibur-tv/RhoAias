@@ -120,6 +120,7 @@
               input {
                 height: $search-height;
                 background-color: transparent;
+                display: block;
               }
             }
           }
