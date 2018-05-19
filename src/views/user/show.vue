@@ -454,14 +454,15 @@
       await Promise.all(arr)
     },
     head () {
-      if (!this.zone) {
+      const user = this.user
+      if (!user) {
         return
       }
       return {
-        title: `${this.user.nickname} - 用户`,
+        title: `${user.nickname} - 用户`,
         meta: [
-          { hid: 'description', name: 'description', content: this.user.signature },
-          { hid: 'keywords', name: 'keywords', content: `calibur,用户,天下漫友是一家,${this.user.zone},${this.user.nickname}` }
+          { hid: 'description', name: 'description', content: user.signature },
+          { hid: 'keywords', name: 'keywords', content: `calibur,用户,天下漫友是一家,${user.zone},${user.nickname}` }
         ]
       }
     },
@@ -486,16 +487,17 @@
           : this.$store.state.users.list[this.zone]
       },
       bangumis () {
-        return this.$store.state.users.list[this.zone].bangumis
+        const user = this.$store.state.users.list[this.zone]
+        return user ? user.bangumis : []
       },
       posts () {
         return this.sort === 'bangumi' ? {} : this.$store.state.users.posts[this.sort]
       },
       daySigned () {
-        return this.self.daySign
+        return this.self ? this.self.daySign : false
       },
       coinCount () {
-        return this.self.coin
+        return this.self ? this.self.coin : 0
       },
       roles () {
         return this.$store.state.users.roles.data

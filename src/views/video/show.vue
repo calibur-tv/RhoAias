@@ -180,7 +180,7 @@
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
         <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
-      <template v-else>
+      <template v-else-if="video">
         <video
           :src="videoSrc"
           :poster="video.poster"
@@ -230,6 +230,7 @@
       <h3 class="sub-title">番剧简介</h3>
       <v-bangumi-panel
         class="bangumi-panel"
+        v-if="bangumi"
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
@@ -255,11 +256,16 @@
   export default {
     name: 'video-show',
     head () {
+      const bangumi = this.bangumi
+      const video = this.video
+      if (!bangumi || !video) {
+        return
+      }
       return {
-        title: `${this.bangumi.name} : 第${this.video.part}话 ${this.video.name} - 视频`,
+        title: `${bangumi.name} : 第${video.part}话 ${video.name} - 视频`,
         meta: [
-          { hid: 'description', name: 'description', content: this.bangumi.summary },
-          { hid: 'keywords', name: 'keywords', content: `${this.bangumi.name}，第${this.video.part}话，${this.video.name}，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站` }
+          { hid: 'description', name: 'description', content: bangumi.summary },
+          { hid: 'keywords', name: 'keywords', content: `${bangumi.name}，第${video.part}话，${video.name}，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站` }
         ]
       }
     },
@@ -288,7 +294,7 @@
         return this.videoPackage.info
       },
       list () {
-        return this.videoPackage.list.videos
+        return this.videoPackage.list ? this.videoPackage.list.videos : []
       },
       bangumi () {
         return this.videoPackage.bangumi
@@ -314,6 +320,9 @@
         return this.showAll ? this.videos : this.videos.slice(begin, begin + this.take)
       },
       useOtherSiteSource () {
+        if (!this.bangumi) {
+          return false
+        }
         if (this.bangumi.others_site_video) {
           return true
         }
@@ -329,6 +338,9 @@
       },
       videoSrc () {
         const video = this.video
+        if (!video) {
+          return ''
+        }
         return this.useOtherSiteSource
           ? video.url
           : video.resource
@@ -342,7 +354,7 @@
       isFlv () {
         return this.useOtherSiteSource
           ? false
-          : this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv'
+          : this.videoSrc ? this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv' : false
       }
     },
     data () {
