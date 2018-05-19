@@ -56,3 +56,17 @@ a {
     color: $color-blue-normal !important;
   }
 }
+
+.el-upload {
+  position: relative;
+
+  .el-upload__input {
+    display: block !important;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
