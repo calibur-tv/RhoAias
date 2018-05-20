@@ -252,7 +252,7 @@
         @click="showSignInCaptcha"
       ></div>
     </form>
-    <button v-show="!showForgotForm" class="switch" @click="showRegisterForm ? switchSignModal('login') : switchSignModal('register')">{{ showRegisterForm ? '返回登录' : '立即注册' }}</button>
+    <button v-show="!showForgotForm" class="switch" @click="showRegisterForm ? switchSignModal('login') : switchSignModal('register')">{{ showRegisterForm ? '回到登录' : '立即注册' }}</button>
     <button class="switch" @click="showForgotForm ? switchSignModal('login') : switchSignModal('forgot')" v-show="!showRegisterForm">{{ showForgotForm ? '返回登录' : '忘记密码' }}</button>
   </v-drawer>
 </template>
