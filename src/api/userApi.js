@@ -46,7 +46,9 @@ export default class extends BaseApi {
   }
 
   followPosts ({ type, zone, seenIds, take }) {
-    return this.http.post(`user/${zone}/posts/${type}`, { seenIds, take })
+    return this.http.get(`user/${zone}/posts/${type}`, {
+      params: { seenIds, take }
+    })
   }
 
   settingImage ({ type, url }) {
@@ -92,7 +94,9 @@ export default class extends BaseApi {
   }
 
   images ({ zone, take, seenIds, size, tags, bangumiId, creator }) {
-    return this.http.post(`user/${zone}/images/list`, { take, seenIds, size, tags, bangumiId, creator })
+    return this.http.get(`user/${zone}/images/list`, {
+      params: { take, seenIds, size, tags, bangumiId, creator }
+    })
   }
 
   getUserAlbums () {
