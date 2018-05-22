@@ -176,10 +176,12 @@
       <template v-else-if="notSupport">
         <p>该视频格式仅支持在电脑上播放 (눈_눈)</p>
       </template>
+      <!--
       <template v-else-if="isGuest">
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
         <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
+      -->
       <template v-else-if="video">
         <video
           :src="videoSrc"
@@ -413,10 +415,10 @@
           this.$toast.error('第三方资源部支持下载')
           return
         }
-        if (this.isGuest) {
-          this.$channel.$emit('sign-in')
-          return
-        }
+//        if (this.isGuest) {
+//          this.$channel.$emit('sign-in')
+//          return
+//        }
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
           window.open(this.videoSrc)
         })
@@ -440,9 +442,9 @@
       if (this.useOtherSiteSource) {
         return
       }
-      if (this.isGuest) {
-        return
-      }
+//      if (this.isGuest) {
+//        return
+//      }
       this.player = this.$refs.video
       this.player.controls = false
       if (env !== 'production') {
