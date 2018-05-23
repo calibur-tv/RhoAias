@@ -89,7 +89,7 @@
       </template>
       <button @click="openFeedbackDrawer = true">反馈</button>
       <router-link to="/about/hello" tag="button">欢迎</router-link>
-      <button @click="openShareModal">推广</button>
+      <button @click="openShareModal">分享</button>
     </div>
     <v-drawer
       class="feedback-drawer"
@@ -116,7 +116,7 @@
       v-model="toggleShareModal"
       from="bottom"
       size="80%"
-      header-text="推广语"
+      header-text="分享语"
     >
       <div class="container">
         <p>
