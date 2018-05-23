@@ -134,20 +134,22 @@ export default {
       data && commit('setPost', { data, reset })
     },
     async getComments ({ state, commit }, { postId }) {
-      let fetchIndex = -1
-      state.show.data.list.forEach((post, index) => {
-        if (post.id === postId) {
-          fetchIndex = index
-        }
-      })
-      if (fetchIndex !== -1) {
-        const api = new Api()
-        const seenIds = state.show.data.list[fetchIndex].comments.length
-          ? state.show.data.list[fetchIndex].comments.map(item => item.id).join(',')
-          : null
-        const data = await api.comments({ postId, seenIds })
-        data && commit('setComments', { postId, data })
+      const list = state.show.data.list
+      let maxId = 0
+      let post
+      if (list.length) {
+        list.forEach(item => {
+          if (item.id === postId) {
+            post = item
+          }
+        })
       }
+      if (post && post.comments.length) {
+        maxId = post.comments[post.comments.length - 1].id
+      }
+      const api = new Api()
+      const data = await api.comments({ postId, maxId })
+      data && commit('setComments', { postId, data })
     },
     async setComment ({ commit }, { postId, targetUserId, content, ctx }) {
       const api = new Api(ctx)
