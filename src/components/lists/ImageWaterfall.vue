@@ -400,7 +400,7 @@
               label-size="48px"
             ></v-field>
           </div>
-          <div class="field">
+          <div class="field" v-if="!albumData.is_cartoon">
             <span>番剧：</span>
             <div
               @click="handleAlbumBangumiPickerBtnClick"
@@ -651,7 +651,8 @@
           name: '',
           bangumiId: '',
           url: '',
-          poster: []
+          poster: [],
+          is_cartoon: false
         },
         originAlbumData: {
           name: '',
@@ -840,6 +841,7 @@
         this.openEditModal = true
       },
       startEditAlbum (album) {
+        this.albumData.is_cartoon = album.is_cartoon
         this.albumData.id = album.id
         this.albumData.name = album.name
         this.albumData.url = album.url
