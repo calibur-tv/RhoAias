@@ -15,7 +15,6 @@ const dev = env === 'development'
 document.body.appendChild(bar.$el)
 
 const { app, router, store } = createApp()
-const ua = store.state.ua
 
 Vue.mixin({
   beforeRouteUpdate (to, from, next) {
@@ -60,14 +59,6 @@ router.onReady(() => {
   FastClick.attach(document.body)
 
   router.beforeResolve(async (to, from, next) => {
-    const fullPath = to.fullPath
-
-    if (ua.wechat || ua.qq) {
-      // 如果在出发页面已经登录过了，则仍使用路由跳转，需要依赖 store 来判断
-      // 如果目标页面是需要用户登录，而出发页面不需要用户登录，则使用页面跳转，而不是路由跳转
-      window.location = fullPath
-      return next(false)
-    }
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
     let diffed = false

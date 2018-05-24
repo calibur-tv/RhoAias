@@ -303,8 +303,8 @@
     <div>
       <div class="tabs">
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
-        <button v-if="info.has_video" @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
-        <button v-if="info.has_cartoon" @click="switchTab('cartoon')" :class="{ 'active': sort === 'cartoon' }">漫画</button>
+        <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }" v-if="info.has_video">视频</button>
+        <button @click="switchTab('cartoon')" :class="{ 'active': sort === 'cartoon' }" v-if="info.has_cartoon">漫画</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
         <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
       </div>
@@ -788,6 +788,13 @@
         } else {
           this.$channel.$emit('sign-in')
         }
+      }
+    },
+    mounted () {
+      if (this.info.has_video) {
+        setTimeout(() => {
+          this.switchTab('video')
+        }, 1000)
       }
     }
   }
