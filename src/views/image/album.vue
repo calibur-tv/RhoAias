@@ -30,6 +30,34 @@
         }
       }
 
+      .cartoon-list {
+        margin-top: 20px;
+
+        li {
+          width: 25%;
+          display: inline-block;
+          text-align: center;
+          margin-bottom: 7px;
+          padding: 0 10px;
+        }
+
+        a {
+          border: 1px solid $color-gray-deep;
+          height: 30px;
+          color: $color-link;
+          border-radius: 4px;
+          display: block;
+          font-size: 12px;
+          line-height: 28px;
+        }
+
+        .router-link-active {
+          border-color: $color-blue-light;
+          background-color: $color-blue-light;
+          color: $color-white;
+        }
+      }
+
       .reward-panel {
         text-align: center;
         margin-top: 30px;
@@ -111,6 +139,15 @@
           ></v-img>
         </div>
       </div>
+      <ul class="cartoon-list" v-if="cartoon.length">
+        <li v-for="item in cartoon">
+          <router-link
+            :to="$alias.imageAlbum(item.id)"
+            v-text="item.name"
+            class="oneline"
+          ></router-link>
+        </li>
+      </ul>
       <div class="container">
         <div class="reward-panel">
           <button
@@ -176,6 +213,9 @@
       },
       images () {
         return this.album.images
+      },
+      cartoon () {
+        return this.album.cartoon
       },
       previewImages () {
         return this.images.map(_ => _.url)
