@@ -96,18 +96,6 @@
           display: block;
           font-size: 12px;
           line-height: 28px;
-
-          span {
-            min-width: 16px;
-            display: inline-block;
-            text-align: right;
-          }
-
-          &:hover {
-            border-color: $color-blue-light;
-            background-color: $color-blue-light;
-            color: $color-white;
-          }
         }
 
         .router-link-active {
@@ -210,10 +198,12 @@
             <h6 class="season-title" v-text="season.name[idx]"></h6>
             <ul>
               <li v-for="(video, index) in videos.data" :key="video.id">
-                <a class="meta"
-                   :class="{ 'router-link-active' : $route.params.id == video.id }"
-                   :href="$alias.video(video.id)">
-                  <span>第{{ video.part - videos.base }}话</span>
+                <a
+                  class="meta oneline"
+                  :class="{ 'router-link-active' : $route.params.id == video.id }"
+                  :href="$alias.video(video.id)"
+                >
+                  第{{ video.part - videos.base }}话
                 </a>
               </li>
             </ul>
@@ -221,10 +211,12 @@
         </template>
         <ul v-else>
           <li v-for="video in sortVideos" :key="video.id">
-            <a class="meta"
-               :class="{ 'router-link-active' : $route.params.id == video.id }"
-               :href="$alias.video(video.id)">
-              <span>第{{ video.part }}话</span>
+            <a
+              class="meta oneline"
+              :class="{ 'router-link-active' : $route.params.id == video.id }"
+              :href="$alias.video(video.id)"
+            >
+              第{{ video.part }}话
             </a>
           </li>
         </ul>
@@ -276,11 +268,6 @@
         id: route.params.id,
         ctx
       })
-    },
-    watch: {
-      '$route' () {
-        this.resetPlayer()
-      }
     },
     computed: {
       id () {
@@ -422,15 +409,6 @@
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
           window.open(this.videoSrc)
         })
-      },
-      resetPlayer () {
-        if (this.playing) {
-          this.playing = false
-          this.player.pause()
-        }
-        this.player.removeAttribute('src')
-        this.player.load()
-        this.player.setAttribute('src', this.videoSrc)
       }
     },
     mounted () {
