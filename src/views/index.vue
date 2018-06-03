@@ -52,11 +52,11 @@
     </div>
     <div class="hr"></div>
     <div class="pages">
-      <router-link :to="$alias.bangumiNews">番剧列表</router-link>
-      <router-link to="/role/trending">偶像排行榜</router-link>
-      <router-link to="/image/trending/new">图片列表</router-link>
-      <router-link to="/campaign/canvas">情景海报</router-link>
-      <router-link to="/about/hello">功能简介</router-link>
+      <a :href="$alias.bangumiNews">番剧列表</a>
+      <a href="/role/trending">偶像排行榜</a>
+      <a href="/image/trending/new">图片列表</a>
+      <a href="/campaign/canvas">情景海报</a>
+      <a href="/about/hello">功能简介</a>
     </div>
     <div class="hr"></div>
     <div class="tabs">

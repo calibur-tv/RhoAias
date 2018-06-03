@@ -311,10 +311,7 @@
                 this.$refs.uploader.clearFiles()
                 this.$toast.success('发布成功！')
                 this.open = false
-                this.$router.push({
-                  name: 'post-show',
-                  params: { id: id.toString() }
-                })
+                window.location = this.$alias.post(id)
               } catch (err) {
                 this.$toast.error(err)
               } finally {

@@ -123,11 +123,11 @@
               <h1 class="name" v-text="role.name"></h1>
               <div class="lover">
                 <template v-if="role.lover">
-                  <router-link :to="$alias.user(role.lover.zone)">
+                  <a :href="$alias.user(role.lover.zone)">
                     守护者：
                     <img :src="$resize(role.lover.avatar, { width: 52 })">
                     {{ role.lover.nickname }}
-                  </router-link>
+                  </a>
                 </template>
               </div>
               <button @click="handleStarRole" class="star">为TA应援</button>
@@ -173,11 +173,11 @@
       <template v-if="sort === 'fans'">
         <ul class="role-fans container">
           <li v-for="item in fans.data">
-            <router-link :to="$alias.user(item.zone)">
+            <a :href="$alias.user(item.zone)">
               <img class="avatar" :src="$resize(item.avatar, { width: 60 })">
               {{ item.nickname }}
               <v-time v-model="item.score"></v-time>
-            </router-link>
+            </a>
           </li>
         </ul>
         <more-btn

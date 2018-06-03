@@ -46,13 +46,13 @@
 
 <template>
   <div :class="$style.bangumiPanel">
-    <router-link :class="$style.avatar" :to="$alias.bangumi(id)">
+    <a :class="$style.avatar" :href="$alias.bangumi(id)">
       <v-img :src="$resize(avatar, { width: 80, height: 92 })"></v-img>
-    </router-link>
+    </a>
     <div :class="$style.content">
-      <router-link :to="$alias.bangumi(id)">
+      <a :href="$alias.bangumi(id)">
         <h5 :class="$style.name" v-text="name"></h5>
-      </router-link>
+      </a>
       <div :class="$style.summary">
         <slot></slot>
       </div>

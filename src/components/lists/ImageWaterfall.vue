@@ -340,34 +340,34 @@
                 </div>
               </div>
               <div class="detail user clearfix" v-if="page === 'image-trending'">
-                <router-link class="avatar" :to="$alias.user(item.user.zone)">
+                <a class="avatar" :href="$alias.user(item.user.zone)">
                   <img :src="$resize(item.user.avatar, { width: 56 })">
-                </router-link>
+                </a>
                 <div class="info">
-                  <router-link class="oneline" :class="{ 'margin-top': !item.bangumi }" :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
-                  <router-link class="oneline" v-if="item.bangumi_id" :to="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></router-link>
+                  <a class="oneline" :class="{ 'margin-top': !item.bangumi }" :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
+                  <a class="oneline" v-if="item.bangumi_id" :href="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></a>
                 </div>
               </div>
               <template v-else-if="page === 'user-show'">
                 <div class="detail bangumi clearfix" v-if="item.bangumi_id">
-                  <router-link class="avatar" :to="$alias.bangumi(item.bangumi.id)">
+                  <a class="avatar" :href="$alias.bangumi(item.bangumi.id)">
                     <img :src="$resize(item.bangumi.avatar, { width: 56 })">
-                  </router-link>
+                  </a>
                   <div class="info" :class="{ 'margin-top': !item.role_id }">
-                    <router-link class="oneline" :to="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></router-link>
+                    <a class="oneline" :href="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></a>
                     <div v-if="item.role" class="oneline" v-text="item.role.name"></div>
                   </div>
                 </div>
               </template>
               <div class="detail user clearfix" v-else-if="page === 'bangumi-show'">
-                <router-link class="avatar" :to="$alias.user(item.user.zone)">
+                <a class="avatar" :href="$alias.user(item.user.zone)">
                   <img :src="$resize(item.user.avatar, { width: 56 })">
-                </router-link>
+                </a>
                 <div class="info" :class="{ 'margin-top': !item.role_id }">
-                  <router-link class="oneline" :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
-                  <router-link v-if="item.role_id" :to="$alias.cartoonRole(item.role_id)">
+                  <a class="oneline" :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
+                  <a v-if="item.role_id" :href="$alias.cartoonRole(item.role_id)">
                     <div class="oneline" v-text="item.role.name"></div>
-                  </router-link>
+                  </a>
                 </div>
               </div>
             </div>
@@ -968,12 +968,7 @@
       },
       handleImageClick (image) {
         if (image.image_count) {
-          this.$router.push({
-            name: 'image-album',
-            params: {
-              id: image.id
-            }
-          })
+          window.location = this.$alias.imageAlbum(image.id)
         } else {
           const images = []
           this.list.forEach(item => {

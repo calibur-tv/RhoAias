@@ -287,14 +287,14 @@
           v-for="item in bangumis"
           :key="item.id"
         >
-          <router-link class="clearfix" :to="$alias.bangumi(item.id)">
+          <a class="clearfix" :href="$alias.bangumi(item.id)">
             <v-img
               class="bg"
               :alt="item.name"
               :src="$resize(item.avatar, { width: 160, height: 160 })"
             ></v-img>
             <p class="name" v-text="item.name"></p>
-          </router-link>
+          </a>
         </li>
       </ul>
       <more-btn
@@ -307,10 +307,10 @@
     </template>
     <template v-else-if="sort === 'role'">
       <ul class="container" id="roles-of-mine">
-        <router-link
+        <a
           v-for="item in roles"
           :key="item.id"
-          :to="$alias.cartoonRole(item.id)"
+          :href="$alias.cartoonRole(item.id)"
           tag="li"
         >
           <div class="clearfix">
@@ -338,7 +338,7 @@
               </div>
             </div>
           </div>
-        </router-link>
+        </a>
       </ul>
       <more-btn
         :no-more="noMoreRoles"
@@ -375,8 +375,8 @@
           v-for="item in posts.data"
           :key="item.id"
         >
-          <router-link class="header" :to="$alias.post(item.post.id)" v-text="item.post.title"></router-link>
-          <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.post.id })">
+          <a class="header" :href="$alias.post(item.post.id)" v-text="item.post.title"></a>
+          <a class="origin" :href="$alias.post(item.post.id, { comment: item.post.id })">
             <div class="content" v-html="item.post.content"></div>
             <div class="images clearfix" v-if="item.post.images.length">
               <v-img
@@ -396,8 +396,8 @@
                 ></v-img>
               </div>
             </div>
-          </router-link>
-          <router-link class="reply" :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })">
+          </a>
+          <a class="reply" :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })">
             <div class="content" v-html="item.content"></div>
             <div class="images clearfix" v-if="item.images.length">
               <v-img
@@ -417,12 +417,12 @@
                 ></v-img>
               </div>
             </div>
-          </router-link>
-          <router-link class="footer" :to="$alias.bangumi(item.bangumi.id)">
+          </a>
+          <a class="footer" :href="$alias.bangumi(item.bangumi.id)">
             回复于
             <span v-text="item.bangumi.name"></span>
             <v-time v-model="item.created_at"></v-time>
-          </router-link>
+          </a>
         </li>
       </ul>
       <more-btn

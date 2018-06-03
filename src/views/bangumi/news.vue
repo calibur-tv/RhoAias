@@ -91,9 +91,9 @@
 <template>
   <div id="bangumi-news">
     <div class="tabs">
-      <router-link :to="$alias.bangumiNews" class="active">新番放送</router-link>
-      <router-link :to="$alias.bangumiTimeline">时间轴</router-link>
-      <router-link :to="$alias.bangumiTag()">分类索引</router-link>
+      <a :href="$alias.bangumiNews" class="active">新番放送</a>
+      <a :href="$alias.bangumiTimeline">时间轴</a>
+      <a :href="$alias.bangumiTag()">分类索引</a>
     </div>
     <div id="weekly-btn-group" class="container">
         <button
@@ -112,27 +112,27 @@
       >
         <ul>
           <li v-for="item in list" :key="item.id">
-            <router-link :to="$alias.bangumi(item.id)">
+            <a :href="$alias.bangumi(item.id)">
               <img
                 class="face"
                 :title="item.name"
                 :alt="item.name"
                 :src="$resize(item.avatar, { width: 120 })"
               />
-            </router-link>
+            </a>
             <div class="content">
-              <router-link
-                :to="$alias.bangumi(item.id)"
+              <a
+                :href="$alias.bangumi(item.id)"
                 class="name"
                 v-text="item.name"
-              ></router-link>
+              ></a>
               <div class="body">
-                <router-link v-if="item.released_video_id" :to="$alias.video(item.released_video_id)">
+                <a v-if="item.released_video_id" :href="$alias.video(item.released_video_id)">
                   更新至
                   <span class="part" :class="[item.update ? 'new' : 'old']">
                     {{ item.end ? '已完结' : `${item.released_part}话` }}
                   </span>
-                </router-link>
+                </a>
                 <strong v-else>
                   更新至
                   <span class="part" :class="[item.update ? 'new' : 'old']">

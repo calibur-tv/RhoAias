@@ -136,20 +136,20 @@
         :key="item.id"
       >
         <div class="clearfix">
-          <router-link :to="$alias.cartoonRole(item.id)" class="avatar">
+          <a :href="$alias.cartoonRole(item.id)" class="avatar">
             <v-img :src="item.avatar" width="90" height="90"></v-img>
-          </router-link>
+          </a>
           <div class="summary">
-            <router-link :to="$alias.cartoonRole(item.id)" class="role">
+            <a :href="$alias.cartoonRole(item.id)" class="role">
               <span class="name" v-text="item.name"></span>
               <span class="intro">：{{ item.intro }}</span>
-            </router-link>
+            </a>
             <div class="lover" v-if="item.lover_id">
               <span>守护者：</span>
-              <router-link class="fr" :to="$alias.user(item.lover_zone)">
+              <a class="fr" :href="$alias.user(item.lover_zone)">
                 <span v-text="item.lover_nickname"></span>
                 <v-img :src="item.lover_avatar" width="20" height="20"></v-img>
-              </router-link>
+              </a>
             </div>
             <div class="lover" v-else></div>
           </div>
@@ -166,7 +166,7 @@
               <span>排名:</span>
               <span class="top" :data-index="item.fans_count ? index + 1 : '无'"></span>
             </div>
-            <router-link class="bangumi" :to="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></router-link>
+            <a class="bangumi" :href="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></a>
           </div>
         </div>
       </li>

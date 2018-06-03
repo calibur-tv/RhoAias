@@ -144,9 +144,9 @@
 
 <template>
   <div class="post-reply-item" :id="`post-reply-${post.id}`">
-    <router-link class="avatar" :to="$alias.user(post.from_user_zone)">
+    <a class="avatar" :href="$alias.user(post.from_user_zone)">
       <v-img :src="post.from_user_avatar" :width="80" :height="80"></v-img>
-    </router-link>
+    </a>
     <div class="content">
       <div class="header">
         <v-select
@@ -159,11 +159,11 @@
           <template slot="tail">···</template>
         </v-select>
         <div class="user">
-          <router-link
+          <a
             class="nickname oneline"
-            :to="$alias.user(post.from_user_zone)"
+            :href="$alias.user(post.from_user_zone)"
             v-text="post.from_user_name"
-          ></router-link>
+          ></a>
           <div class="info">
             <span>第{{ post.floor_count }}楼</span>
             <span>·</span>
@@ -196,10 +196,10 @@
               v-for="item in comments"
               @click="handleCommentClick(item)"
             >
-              <router-link class="nickname" :to="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></router-link>
+              <a class="nickname" :href="$alias.user(item.from_user_zone)" v-text="item.from_user_name"></a>
               <template v-if="item.to_user_zone">
                 回复
-                <router-link class="nickname" :to="$alias.user(item.to_user_zone)" v-text="item.to_user_name"></router-link>
+                <a class="nickname" :href="$alias.user(item.to_user_zone)" v-text="item.to_user_name"></a>
               </template>
               :
               <span class="comment-content">{{ item.content }}</span>

@@ -88,7 +88,7 @@
         <button @click="register">注册</button>
       </template>
       <button @click="openFeedbackDrawer = true">反馈</button>
-      <router-link to="/about/hello" tag="button">欢迎</router-link>
+      <a href="/about/hello" tag="button">欢迎</a>
       <button @click="openShareModal">分享</button>
     </div>
     <v-drawer
