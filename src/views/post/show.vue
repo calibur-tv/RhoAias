@@ -647,7 +647,7 @@
           await this.$store.dispatch('post/getPost', {
             id: this.post.id,
             ctx: this,
-            only: this.onlySeeMaster,
+            only: this.onlySeeMaster ? 1 : 0,
             reset
           })
         } catch (e) {
