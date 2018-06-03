@@ -376,21 +376,20 @@
           :key="item.id"
         >
           <router-link class="header" :to="$alias.post(item.post.id)" v-text="item.post.title"></router-link>
-          <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.parent.id })">
-            <span>{{ item.user.nickname }}</span>：
-            <div class="content" v-html="item.parent.content"></div>
-            <div class="images clearfix" v-if="item.parent.images.length">
+          <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.post.id })">
+            <div class="content" v-html="item.post.content"></div>
+            <div class="images clearfix" v-if="item.post.images.length">
               <v-img
                 class="image-full bg"
-                v-if="item.parent.images.length === 1"
-                :src="item.parent.images[0]"
+                v-if="item.post.images.length === 1"
+                :src="item.post.images[0]"
                 height="190"
                 mode="2"
                 tag="div"
               ></v-img>
               <div class="image-list" v-else>
                 <v-img
-                  v-for="(image, index) in imageFilter(item.parent.images)"
+                  v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
                   :src="image"
                   width="110"
@@ -398,13 +397,13 @@
               </div>
             </div>
           </router-link>
-          <router-link class="reply" :to="$alias.post(item.post.id, { comment: item.parent.id, reply: item.id })">
+          <router-link class="reply" :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })">
             <div class="content" v-html="item.content"></div>
             <div class="images clearfix" v-if="item.images.length">
               <v-img
                 class="image-full bg"
                 v-if="item.images.length === 1"
-                :src="item.images[0]"
+                :src="item.images[0].url"
                 height="190"
                 mode="2"
                 tag="div"
@@ -413,7 +412,7 @@
                 <v-img
                   v-for="(image, index) in imageFilter(item.images)"
                   :key="index"
-                  :src="image"
+                  :src="image.url"
                   width="110"
                 ></v-img>
               </div>

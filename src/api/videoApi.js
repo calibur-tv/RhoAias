@@ -6,6 +6,6 @@ export default class extends BaseApi {
   }
 
   playing (id) {
-    return this.http.post(`/video/${id}/playing`)
+    return this.http.post('video/playing', { id })
   }
 }

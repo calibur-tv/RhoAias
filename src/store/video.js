@@ -14,6 +14,9 @@ export default {
       state.info = data.info
       state.bangumi = data.bangumi
       state.season = data.season
+    },
+    followBangumi (state, { result }) {
+      state.bangumi.followed = result
     }
   },
   actions: {
