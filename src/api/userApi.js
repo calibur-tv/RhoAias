@@ -45,9 +45,9 @@ export default class extends BaseApi {
     })
   }
 
-  followPosts ({ type, zone, seenIds, take }) {
+  followPosts ({ type, zone, take, minId }) {
     return this.http.get(`user/${zone}/posts/${type}`, {
-      params: { seenIds, take }
+      params: { take, minId }
     })
   }
 

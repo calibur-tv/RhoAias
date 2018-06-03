@@ -354,7 +354,7 @@
         :post="item"
         :index="index"
         :preview="post.previewImages"
-        @delete="deletePost(item.id)"
+        @delete="deletePostComment(item.id)"
         @reply="handlePostReply"
         @loadcomment="handleCommentLoad"
         @addcomment="handleCommentAdd"
@@ -520,9 +520,6 @@
       list () {
         return this.$utils.orderBy(this.resource.data.list, 'floor_count')
       },
-      total () {
-        return this.resource.data.total
-      },
       noMore () {
         return this.resource.data.noMore
       },
@@ -534,6 +531,9 @@
       },
       master () {
         return this.resource.info.user
+      },
+      total () {
+        return this.post.comment_count + 1
       },
       masterId () {
         return this.master.id
@@ -610,15 +610,28 @@
           only: this.onlySeeMaster ? 0 : 1
         })
       },
-      deletePost (id) {
+      deletePost () {
         this.$confirm('删除后无法找回, 是否继续?').then(async () => {
           await this.$store.dispatch('post/deletePost', {
             ctx: this,
+            id: this.post.id
+          })
+          window.location = this.$alias.bangumi(this.bangumi.id)
+        }).catch((e) => {
+          this.$toast.error(e)
+        })
+      },
+      deletePostComment (id) {
+        this.$confirm('删除后无法找回, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          await this.$store.dispatch('post/deletePostComment', {
+            ctx: this,
             id
           })
-          if (id === this.post.id) {
-            window.location = this.$alias.bangumi(this.bangumi.id)
-          }
+          this.$toast.success('删除成功')
         }).catch((e) => {
           this.$toast.error(e)
         })
@@ -706,7 +719,7 @@
         this.loadingComments = true
         try {
           await this.$store.dispatch('post/getComments', {
-            postId: this.openCommentId
+            id: this.openCommentId
           })
         } catch (e) {
           this.$toast.error(e)
@@ -757,7 +770,7 @@
         if (option === '只看楼主' || option === '取消只看楼主') {
           this.switchOnlyMaster()
         } else if (option === '删除') {
-          this.deletePost(this.post.id)
+          this.deletePost()
         } else if (option === '喜欢' || option === '取消喜欢') {
           this.toggleLike()
         } else if (option === '收藏' || option === '取消收藏') {
@@ -770,13 +783,13 @@
         if (!this.$store.state.login) {
           return
         }
-        this.createComment.postId = this.focusReply.id
+        this.createComment.id = this.focusReply.id
         this.createComment.targetUserId = comment.from_user_id
         this.createComment.to_user_name = comment.from_user_name
         this.createComment.open = true
       },
       handlePostReply (data) {
-        this.createComment.postId = data.postId
+        this.createComment.id = data.postId
         this.createComment.targetUserId = data.targetUserId
         this.createComment.to_user_name = data.to_user_name
         this.createComment.open = true

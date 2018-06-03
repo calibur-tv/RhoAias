@@ -144,8 +144,8 @@
 
 <template>
   <div class="post-reply-item" :id="`post-reply-${post.id}`">
-    <router-link class="avatar" :to="$alias.user(post.user.zone)">
-      <v-img :src="post.user.avatar" :width="80" :height="80"></v-img>
+    <router-link class="avatar" :to="$alias.user(post.from_user_zone)">
+      <v-img :src="post.from_user_avatar" :width="80" :height="80"></v-img>
     </router-link>
     <div class="content">
       <div class="header">
@@ -161,8 +161,8 @@
         <div class="user">
           <router-link
             class="nickname oneline"
-            :to="$alias.user(post.user.zone)"
-            v-text="post.user.nickname"
+            :to="$alias.user(post.from_user_zone)"
+            v-text="post.from_user_name"
           ></router-link>
           <div class="info">
             <span>第{{ post.floor_count }}楼</span>
@@ -177,11 +177,11 @@
           <div
             class="image-package"
             v-for="(img, idx) in post.images"
-            :key="img"
+            :key="idx"
             @click="$previewImages(preview, img)"
           >
             <v-img
-              :src="img"
+              :src="img.url"
               width="150"
               mode="2"
               :aspect="$computeImageAspect(img)"
@@ -262,13 +262,13 @@
         return this.$store.state.login ? this.$store.state.user.id : 0
       },
       isMine () {
-        return this.currentUserId === this.post.user.id
+        return this.currentUserId === this.post.from_user_id
       },
       isMaster () {
         return this.currentUserId === this.$store.state.post.show.info.user.id
       },
       comments () {
-        return this.post.comments
+        return this.$utils.orderBy(this.post.comments, 'id', 'asc')
       },
       options () {
         const result = ['回复']
@@ -297,7 +297,7 @@
         }
         this.loadingToggleLike = true
         try {
-          await this.$store.dispatch('post/toggleLike', {
+          await this.$store.dispatch('post/toggleLikeComment', {
             ctx: this,
             id: this.post.id
           })
