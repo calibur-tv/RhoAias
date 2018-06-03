@@ -229,6 +229,7 @@
         :avatar="bangumi.avatar"
         :name="bangumi.name"
         :followed="bangumi.followed"
+        @follow="handleBangumiFollow"
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
@@ -361,6 +362,11 @@
       }
     },
     methods: {
+      handleBangumiFollow (result) {
+        this.$store.commit('video/followBangumi', {
+          result
+        })
+      },
       computePage () {
         this.videos.forEach((meta) => {
           if (meta.id === this.id) {

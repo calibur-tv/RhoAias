@@ -316,7 +316,7 @@
       handleCommentBtnClick () {
         this.$emit('addcomment', {
           postId: this.post.id,
-          targetUserId: this.isMine ? 0 : this.post.user.id
+          targetUserId: this.isMine ? 0 : this.post.from_user_id
         })
       },
       handleSelectSubmit (option) {

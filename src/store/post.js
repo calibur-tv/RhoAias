@@ -123,7 +123,7 @@ const mutations = {
       state.show.info.post.previewImages = state.show.info.post.previewImages.concat(images)
     }
   },
-  followBangumi (state, result) {
+  followBangumi (state, { result }) {
     state.show.info.bangumi.followed = result
   },
   DELETE_POST_COMMENT (state, { id }) {

@@ -392,14 +392,14 @@
         <template v-if="focusReply">
           <div class="reply">
             <div class="user clearfix">
-              <router-link class="avatar" :to="$alias.user(focusReply.user.zone)">
-                <img :src="$resize(focusReply.user.avatar, { width: 70 })">
+              <router-link class="avatar" :to="$alias.user(focusReply.from_user_zone)">
+                <img :src="$resize(focusReply.from_user_avatar, { width: 70 })">
               </router-link>
               <div class="summary">
                 <router-link
                   class="nickname"
-                  :to="$alias.user(focusReply.user.zone)"
-                  v-text="focusReply.user.nickname"
+                  :to="$alias.user(focusReply.from_user_zone)"
+                  v-text="focusReply.from_user_name"
                 ></router-link>
                 <div class="info">
                   <v-time v-model="post.created_at"></v-time>
@@ -412,10 +412,15 @@
                 <div
                   class="image-package"
                   v-for="(img, idx) in focusReply.images"
-                  :key="img"
+                  :key="idx"
                   @click="$previewImages(focusReply.images, idx)"
                 >
-                  <v-img class="image" :src="img" width="150" mode="2"></v-img>
+                  <v-img
+                    class="image"
+                    :src="img.url"
+                    width="150"
+                    mode="2"
+                  ></v-img>
                 </div>
               </div>
             </div>
@@ -737,7 +742,7 @@
           this.$channel.$emit('sign-in')
           return
         }
-        this.createComment.postId = data.postId
+        this.createComment.id = data.postId
         this.createComment.targetUserId = data.targetUserId
         this.createComment.to_user_name = ''
         this.createComment.open = true
