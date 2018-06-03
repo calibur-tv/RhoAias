@@ -43,30 +43,30 @@
       >
         <!-- 我的主题帖被回复了 -->
         <template v-if="item.type === 1">
-          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          <a :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
           回复了你的帖子
-          <router-link :to="item.data.link" v-text="item.data.title"></router-link>
+          <a :href="item.data.link" v-text="item.data.title"></a>
         </template>
         <!-- 我的楼层贴被评论 / 回复了 -->
         <template v-else-if="item.type === 2">
-          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          <a :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
           评论了你在帖子
-          <router-link :to="item.data.link" v-text="item.data.title"></router-link>
+          <a :href="item.data.link" v-text="item.data.title"></a>
           下的内容
         </template>
         <template v-else-if="item.type === 3">
-          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          <a :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
           喜欢了你的帖子
-          <router-link :to="item.data.link" v-text="item.data.title"></router-link>
+          <a :href="item.data.link" v-text="item.data.title"></a>
         </template>
         <template v-else-if="item.type === 4">
-          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          <a :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
           赞了你在帖子
-          <router-link :to="item.data.link" v-text="item.data.title"></router-link>
+          <a :href="item.data.link" v-text="item.data.title"></a>
           下的回复
         </template>
         <template v-else-if="item.type === 5">
-          <router-link :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
+          <a :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
           喜欢了你上传的图片
         </template>
       </li>

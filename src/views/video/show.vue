@@ -98,7 +98,7 @@
           line-height: 28px;
         }
 
-        .router-link-active {
+        .a-active {
           border-color: $color-blue-light;
           background-color: $color-blue-light;
           color: $color-white;
@@ -200,7 +200,7 @@
               <li v-for="(video, index) in videos.data" :key="video.id">
                 <a
                   class="meta oneline"
-                  :class="{ 'router-link-active' : $route.params.id == video.id }"
+                  :class="{ 'a-active' : $route.params.id == video.id }"
                   :href="$alias.video(video.id)"
                 >
                   第{{ video.part - videos.base }}话
@@ -213,7 +213,7 @@
           <li v-for="video in sortVideos" :key="video.id">
             <a
               class="meta oneline"
-              :class="{ 'router-link-active' : $route.params.id == video.id }"
+              :class="{ 'a-active' : $route.params.id == video.id }"
               :href="$alias.video(video.id)"
             >
               第{{ video.part }}话

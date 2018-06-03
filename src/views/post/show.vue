@@ -272,9 +272,9 @@
       <div class="post">
         <h1 class="title" v-text="post.title"></h1>
         <div class="user">
-          <router-link class="avatar" :to="$alias.user(master.zone)">
+          <a class="avatar" :href="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">
-          </router-link>
+          </a>
           <v-select
             class="selector"
             placeholder=""
@@ -285,11 +285,11 @@
             <template slot="tail">···</template>
           </v-select>
           <div class="summary">
-            <router-link
+            <a
               class="nickname"
-              :to="$alias.user(master.zone)"
+              :href="$alias.user(master.zone)"
               v-text="master.nickname"
-            ></router-link>
+            ></a>
             <div class="info">
               <span>第1楼</span>
               <span>·</span>
@@ -392,15 +392,15 @@
         <template v-if="focusReply">
           <div class="reply">
             <div class="user clearfix">
-              <router-link class="avatar" :to="$alias.user(focusReply.from_user_zone)">
+              <a class="avatar" :href="$alias.user(focusReply.from_user_zone)">
                 <img :src="$resize(focusReply.from_user_avatar, { width: 70 })">
-              </router-link>
+              </a>
               <div class="summary">
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(focusReply.from_user_zone)"
+                  :href="$alias.user(focusReply.from_user_zone)"
                   v-text="focusReply.from_user_name"
-                ></router-link>
+                ></a>
                 <div class="info">
                   <v-time v-model="post.created_at"></v-time>
                 </div>
@@ -434,18 +434,18 @@
             :key="item.id"
           >
             <div class="from-user">
-              <router-link
+              <a
                 class="avatar"
-                :to="$alias.user(item.from_user_zone)"
+                :href="$alias.user(item.from_user_zone)"
               >
                 <img :src="$resize(item.from_user_avatar, { width: 70 })"/>
-              </router-link>
+              </a>
               <div class="summary">
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(item.from_user_zone)"
+                  :href="$alias.user(item.from_user_zone)"
                   v-text="item.from_user_name"
-                ></router-link>
+                ></a>
                 <div class="info">
                   <v-time v-model="item.created_at"></v-time>
                 </div>
@@ -454,11 +454,11 @@
             <div class="content" @click="commentToComment(item)">
               <template v-if="item.to_user_zone">
                 回复
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(item.to_user_zone)"
+                  :href="$alias.user(item.to_user_zone)"
                   v-text="item.to_user_name"
-                ></router-link>
+                ></a>
                 :
               </template>
               <span class="comment-content">{{ item.content }}</span>

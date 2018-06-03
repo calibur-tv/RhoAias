@@ -335,7 +335,7 @@
                 :key="video.id"
                 class="video"
               >
-                <router-link :to="$alias.video(video.id)">
+                <a :href="$alias.video(video.id)">
                   <figure class="clearfix">
                     <v-img
                       class="bg"
@@ -347,7 +347,7 @@
                       <span class="name" v-text="video.name"></span>
                     </figcaption>
                   </figure>
-                </router-link>
+                </a>
               </li>
             </ul>
           </template>
@@ -358,7 +358,7 @@
             :key="video.id"
             class="video"
           >
-            <router-link :to="$alias.video(video.id)">
+            <a :href="$alias.video(video.id)">
               <figure class="clearfix">
                 <v-img
                   class="bg"
@@ -370,7 +370,7 @@
                   <span class="name" v-text="video.name"></span>
                 </figcaption>
               </figure>
-            </router-link>
+            </a>
           </li>
         </ul>
         <more-btn
@@ -414,10 +414,10 @@
               </span>
               <span v-if="item.lover">
                 守护者：
-                <router-link :to="$alias.user(item.lover.zone)">
+                <a :href="$alias.user(item.lover.zone)">
                   {{ item.lover.nickname }}
                   <v-img :src="item.lover.avatar" width="20" height="20"></v-img>
-                </router-link>
+                </a>
               </span>
             </div>
           </li>
@@ -451,10 +451,10 @@
           <div class="lover container" v-if="currentRole.loverId">
             <div class="hr"></div>
             <h3 class="sub-title">守护者：</h3>
-            <router-link class="lover-user" :to="$alias.user(currentRole.lover.zone)">
+            <a class="lover-user" :href="$alias.user(currentRole.lover.zone)">
               <img :src="$resize(currentRole.lover.avatar, { width: 80 })">
               <span v-text="currentRole.lover.nickname"></span>
-            </router-link>
+            </a>
           </div>
           <div class="hr"></div>
           <div class="tabs">
@@ -466,12 +466,12 @@
               v-for="item in currentRoleFans.data"
               :key="item.id"
             >
-              <router-link class="lover-user" :to="$alias.user(item.zone)">
+              <a class="lover-user" :href="$alias.user(item.zone)">
                 <img :src="$resize(item.avatar, { width: 80 })">
                 <span v-text="item.nickname"></span>
                 <v-time class="score" v-if="focusRoleSort === 'new'" v-model="item.score"></v-time>
                 <span class="score" v-else>{{ item.score }}个金币</span>
-              </router-link>
+              </a>
             </li>
           </ul>
           <p v-if="currentRoleFans.data.length >= 100" class="total-limit">最多显示100人</p>

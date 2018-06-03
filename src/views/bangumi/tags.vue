@@ -80,8 +80,8 @@
 <template>
   <div id="bangumi-tags">
     <div class="tabs">
-      <router-link :to="$alias.bangumiNews">新番放送</router-link>
-      <router-link :to="$alias.bangumiTimeline">时间轴</router-link>
+      <a :href="$alias.bangumiNews">新番放送</a>
+      <a :href="$alias.bangumiTimeline">时间轴</a>
       <a :href="$alias.bangumiTag()" class="active">分类索引</a>
     </div>
     <div class="container">
@@ -108,7 +108,7 @@
         <h3 class="sub-title">番剧列表</h3>
         <ul>
           <li v-for="item in bangumis" :key="item.id">
-            <router-link :to="$alias.bangumi(item.id)">
+            <a :href="$alias.bangumi(item.id)">
               <v-img
                 class="face"
                 :title="item.name"
@@ -119,7 +119,7 @@
                 <p class="name" v-text="item.name"></p>
                 <p class="body" v-text="item.summary"></p>
               </div>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>

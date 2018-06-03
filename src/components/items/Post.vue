@@ -125,26 +125,26 @@
   <li class="post-item">
     <div class="header">
       <template v-if="item.user">
-        <router-link class="avatar" :to="$alias.user(item.user.zone)">
+        <a class="avatar" :href="$alias.user(item.user.zone)">
           <v-img width="70" :src="item.user.avatar"></v-img>
-        </router-link>
-        <router-link class="name" :to="$alias.user(item.user.zone)">
+        </a>
+        <a class="name" :href="$alias.user(item.user.zone)">
           <p v-text="item.user.nickname"></p>
           <v-time v-model="item.created_at"></v-time>
-        </router-link>
+        </a>
       </template>
       <template v-else>
-        <router-link class="face" :to="$alias.bangumi(item.bangumi.id)">
+        <a class="face" :href="$alias.bangumi(item.bangumi.id)">
           <v-img width="70" :src="item.bangumi.avatar"></v-img>
-        </router-link>
-        <router-link class="name" :to="$alias.bangumi(item.bangumi.id)">
+        </a>
+        <a class="name" :href="$alias.bangumi(item.bangumi.id)">
           <p v-text="item.bangumi.name"></p>
           <span>发表于&nbsp;·&nbsp;</span>
           <v-time v-model="item.created_at"></v-time>
-        </router-link>
+        </a>
       </template>
     </div>
-    <router-link :to="$alias.post(item.id)" class="body">
+    <a :href="$alias.post(item.id)" class="body">
       <p class="content" v-text="item.desc"></p>
       <div class="images clearfix" v-if="item.images.length">
         <v-img
@@ -164,7 +164,7 @@
           ></v-img>
         </div>
       </div>
-    </router-link>
+    </a>
     <div class="footer">
       <div class="stats">
         <span :class="{ 'done' : item.liked }">
@@ -184,12 +184,12 @@
           {{ $utils.shortenNumber(item.view_count) }}
         </span>
       </div>
-      <router-link
+      <a
         v-if="item.bangumi && item.user"
         class="bangumi oneline"
-        :to="$alias.bangumi(item.bangumi.id)"
+        :href="$alias.bangumi(item.bangumi.id)"
         v-text="item.bangumi.name"
-      ></router-link>
+      ></a>
     </div>
     <div class="hr"></div>
   </li>

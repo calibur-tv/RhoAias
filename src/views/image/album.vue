@@ -51,7 +51,7 @@
           line-height: 28px;
         }
 
-        .router-link-active {
+        .a-active {
           border-color: $color-blue-light;
           background-color: $color-blue-light;
           color: $color-white;
@@ -115,12 +115,12 @@
           [{{ info.is_cartoon ? '漫画' : '相册' }}]
           {{ info.name }}
         </h1>
-        <router-link :to="$alias.user(user.zone)" class="author">
+        <a :href="$alias.user(user.zone)" class="author">
           <img class="avatar" :src="$resize(user.avatar, { width: 60 })">
           {{ user.nickname }}
           ·
           <v-time v-model="info.updated_at"></v-time>
-        </router-link>
+        </a>
       </div>
     </div>
     <div class="body">
@@ -141,11 +141,11 @@
       </div>
       <ul class="cartoon-list" v-if="cartoon.length">
         <li v-for="item in cartoon">
-          <router-link
-            :to="$alias.imageAlbum(item.id)"
+          <a
+            :href="$alias.imageAlbum(item.id)"
             v-text="item.name"
             class="oneline"
-          ></router-link>
+          ></a>
         </li>
       </ul>
       <div class="container">
