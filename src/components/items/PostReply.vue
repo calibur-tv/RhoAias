@@ -245,8 +245,8 @@
       },
       preview: {
         type: Array,
-        default: [],
-        required: true
+        required: true,
+        default: () => []
       }
     },
     data () {

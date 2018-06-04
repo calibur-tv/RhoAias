@@ -169,17 +169,19 @@
         if (this.show) {
           return
         }
-        if (this.from === 'left' || this.from === 'right') {
-          this.pos = window.scrollY
-          document.body.style.overflow = 'hidden'
-          document.body.style.position = 'fixed'
-          document.body.style.top = 0
-          document.body.style.bottom = 0
-          document.body.style.right = 0
-          document.body.style.left = 0
-          document.body.style.height = `${window.innerHeight}px`
-        }
+
+        this.pos = window.scrollY
+
+        document.body.style.overflow = 'hidden'
+        document.body.style.position = 'fixed'
+        document.body.style.top = 0
+        document.body.style.bottom = 0
+        document.body.style.right = 0
+        document.body.style.left = 0
+        document.body.style.height = `${window.innerHeight}px`
+
         this.show = true
+
         if (this.id) {
           this.$channel.$emit(`drawer-open-event-${this.id}`)
         }
@@ -191,23 +193,21 @@
         }
       },
       close () {
-        const needReset = this.from === 'left' || this.from === 'right'
-        if (needReset) {
-          document.body.style.overflow = ''
-          document.body.style.position = ''
-          document.body.style.top = ''
-          document.body.style.bottom = ''
-          document.body.style.right = ''
-          document.body.style.left = ''
-          document.body.style.height = ''
-        }
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.bottom = ''
+        document.body.style.right = ''
+        document.body.style.left = ''
+        document.body.style.height = ''
+
         if (!this.show) {
           return
         }
-        if (needReset) {
-          window.scrollTo(0, this.pos)
-        }
+        window.scrollTo(0, this.pos)
+
         this.show = false
+
         if (this.backdrop) {
           this.$backdrop.hide(this.backdropId)
         }

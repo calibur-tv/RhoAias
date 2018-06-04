@@ -30,6 +30,9 @@ export default {
       if (styleName === 'opacity' && Number(document.documentMode) < 9) {
         element.style.filter = isNaN(value) ? '' : `alpha(opacity=${value * 100})`
       } else {
+        console.log(element)
+        console.log(styleName)
+        console.log(value)
         element.style[styleName] = value
       }
     }

@@ -65,6 +65,7 @@
         .image-full {
           height: 190px;
           width: 100%;
+          background-color: #eee;
         }
 
         .image-list {
@@ -150,7 +151,7 @@
         <v-img
           class="image-full bg"
           v-if="item.images.length === 1"
-          :src="item.images[0]"
+          :src="item.images[0].url"
           height="190"
           mode="2"
           tag="div"
@@ -159,7 +160,7 @@
           <v-img
             v-for="(image, index) in imageFilter(item.images)"
             :key="index"
-            :src="image"
+            :src="image.url"
             width="110"
           ></v-img>
         </div>
