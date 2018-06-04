@@ -135,7 +135,7 @@
             width="400"
             mode="2"
             :src="img.url"
-            :aspect="$computeImageAspect(img.url)"
+            :aspect="$computeImageAspect(img)"
           ></v-img>
         </div>
       </div>
