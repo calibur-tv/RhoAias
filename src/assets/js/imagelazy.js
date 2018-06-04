@@ -104,9 +104,9 @@ export default {
           mode: (this.mode - 0)
         })
       } else {
-        src = this.resource
+        src = this.$resize(this.resource)
       }
-      src = src.split('|http').length > 1 ? `http${src.split('|http').pop()}` : src
+
       if (this.tag.toLowerCase() === 'img') {
         image.setAttribute('src', src)
         if (this.aspect || this.loading) {

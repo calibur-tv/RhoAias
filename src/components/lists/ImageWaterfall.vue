@@ -970,12 +970,7 @@
         if (image.image_count) {
           window.location = this.$alias.imageAlbum(image.id)
         } else {
-          const images = []
-          this.list.forEach(item => {
-            images.push(`${item.width}-${item.height}|${item.url}`)
-          })
-          const result = `${image.width}-${image.height}|${image.url}`
-          this.$previewImages(images, result)
+          this.$previewImages(image, image)
         }
       },
       handleRolePickerBtnClick () {

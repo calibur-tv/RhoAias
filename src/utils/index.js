@@ -56,7 +56,7 @@ Vue.use({
       if (!url) {
         return ''
       }
-      const link = url.match(/^http/) === null ? `${env.cdn.image}${url}` : url
+      const link = /^http/.test(url) ? url : `${env.cdn.image}${url}`
       const canUseWebP = () => {
         if (Vue.prototype.$isServer) {
           return false
@@ -102,20 +102,8 @@ Vue.use({
 Vue.mixin({
   methods: {
     $computeImageAspect (image) {
-      let width
-      let height
-      if (typeof image === 'string') {
-        if (image.split('|http').length === 1) {
-          return 0
-        }
-
-        const attr = image.split('|http').shift().split('-')
-        width = +attr[0]
-        height = +attr[1]
-      } else {
-        width = image.width
-        height = image.height
-      }
+      const width = image.width
+      const height = image.height
 
       if (!width || !height) {
         return 0

@@ -311,11 +311,11 @@
             <div
               class="image-package"
               v-for="(img, idx) in post.images"
-              :key="img"
-              @click="$previewImages(post.images, img)"
+              :key="idx"
+              @click="$previewImages(post.preview_images, img)"
             >
               <v-img
-                :src="img"
+                :src="img.url"
                 width="150"
                 mode="2"
                 :aspect="$computeImageAspect(img)"
@@ -353,7 +353,7 @@
         :key="item.id"
         :post="item"
         :index="index"
-        :preview="post.previewImages"
+        :preview="post.preview_images"
         @delete="deletePostComment(item.id)"
         @reply="handlePostReply"
         @loadcomment="handleCommentLoad"

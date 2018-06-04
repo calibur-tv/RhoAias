@@ -382,7 +382,7 @@
               <v-img
                 class="image-full bg"
                 v-if="item.post.images.length === 1"
-                :src="item.post.images[0]"
+                :src="item.post.images[0].url"
                 height="190"
                 mode="2"
                 tag="div"
@@ -391,7 +391,7 @@
                 <v-img
                   v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
-                  :src="image"
+                  :src="image.url"
                   width="110"
                 ></v-img>
               </div>
