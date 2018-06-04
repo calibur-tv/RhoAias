@@ -307,38 +307,35 @@
     </template>
     <template v-else-if="sort === 'role'">
       <ul class="container" id="roles-of-mine">
-        <a
-          v-for="item in roles"
-          :key="item.id"
-          :href="$alias.cartoonRole(item.id)"
-          tag="li"
-        >
-          <div class="clearfix">
-            <div class="avatar">
-              <v-img :src="item.avatar" width="80" height="80"></v-img>
-            </div>
-            <div class="summary">
-              <div class="role">
-                <span class="name" v-text="item.name"></span>
-                <span class="intro">：{{ item.intro }}</span>
+        <li v-for="item in roles" :key="item.id">
+          <a :href="$alias.cartoonRole(item.id)">
+            <div class="clearfix">
+              <div class="avatar">
+                <v-img :src="item.avatar" width="80" height="80"></v-img>
               </div>
-              <div class="lover">
+              <div class="summary">
+                <div class="role">
+                  <span class="name" v-text="item.name"></span>
+                  <span class="intro">：{{ item.intro }}</span>
+                </div>
+                <div class="lover">
                 <span>
                   粉丝:
                   {{ $utils.shortenNumber(item.fans_count) }}
                 </span>
-                <span>
+                  <span>
                   金币:
                   {{ $utils.shortenNumber(item.star_count) }}
                 </span>
-                <span>
+                  <span>
                   贡献:
                   {{ item.has_star }}
                 </span>
+                </div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </li>
       </ul>
       <more-btn
         :no-more="noMoreRoles"
