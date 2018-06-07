@@ -272,9 +272,9 @@
       <div class="post">
         <h1 class="title" v-text="post.title"></h1>
         <div class="user">
-          <router-link class="avatar" :to="$alias.user(master.zone)">
+          <a class="avatar" :href="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">
-          </router-link>
+          </a>
           <v-select
             class="selector"
             placeholder=""
@@ -285,11 +285,11 @@
             <template slot="tail">···</template>
           </v-select>
           <div class="summary">
-            <router-link
+            <a
               class="nickname"
-              :to="$alias.user(master.zone)"
+              :href="$alias.user(master.zone)"
               v-text="master.nickname"
-            ></router-link>
+            ></a>
             <div class="info">
               <span>第1楼</span>
               <span>·</span>
@@ -311,11 +311,11 @@
             <div
               class="image-package"
               v-for="(img, idx) in post.images"
-              :key="img"
-              @click="$previewImages(post.images, img)"
+              :key="idx"
+              @click="$previewImages(post.preview_images, img)"
             >
               <v-img
-                :src="img"
+                :src="img.url"
                 width="150"
                 mode="2"
                 :aspect="$computeImageAspect(img)"
@@ -353,8 +353,8 @@
         :key="item.id"
         :post="item"
         :index="index"
-        :preview="post.previewImages"
-        @delete="deletePost(item.id)"
+        :preview="post.preview_images"
+        @delete="deletePostComment(item.id)"
         @reply="handlePostReply"
         @loadcomment="handleCommentLoad"
         @addcomment="handleCommentAdd"
@@ -392,15 +392,15 @@
         <template v-if="focusReply">
           <div class="reply">
             <div class="user clearfix">
-              <router-link class="avatar" :to="$alias.user(focusReply.user.zone)">
-                <img :src="$resize(focusReply.user.avatar, { width: 70 })">
-              </router-link>
+              <a class="avatar" :href="$alias.user(focusReply.from_user_zone)">
+                <img :src="$resize(focusReply.from_user_avatar, { width: 70 })">
+              </a>
               <div class="summary">
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(focusReply.user.zone)"
-                  v-text="focusReply.user.nickname"
-                ></router-link>
+                  :href="$alias.user(focusReply.from_user_zone)"
+                  v-text="focusReply.from_user_name"
+                ></a>
                 <div class="info">
                   <v-time v-model="post.created_at"></v-time>
                 </div>
@@ -412,10 +412,15 @@
                 <div
                   class="image-package"
                   v-for="(img, idx) in focusReply.images"
-                  :key="img"
+                  :key="idx"
                   @click="$previewImages(focusReply.images, idx)"
                 >
-                  <v-img class="image" :src="img" width="150" mode="2"></v-img>
+                  <v-img
+                    class="image"
+                    :src="img.url"
+                    width="150"
+                    mode="2"
+                  ></v-img>
                 </div>
               </div>
             </div>
@@ -429,18 +434,18 @@
             :key="item.id"
           >
             <div class="from-user">
-              <router-link
+              <a
                 class="avatar"
-                :to="$alias.user(item.from_user_zone)"
+                :href="$alias.user(item.from_user_zone)"
               >
                 <img :src="$resize(item.from_user_avatar, { width: 70 })"/>
-              </router-link>
+              </a>
               <div class="summary">
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(item.from_user_zone)"
+                  :href="$alias.user(item.from_user_zone)"
                   v-text="item.from_user_name"
-                ></router-link>
+                ></a>
                 <div class="info">
                   <v-time v-model="item.created_at"></v-time>
                 </div>
@@ -449,11 +454,11 @@
             <div class="content" @click="commentToComment(item)">
               <template v-if="item.to_user_zone">
                 回复
-                <router-link
+                <a
                   class="nickname"
-                  :to="$alias.user(item.to_user_zone)"
+                  :href="$alias.user(item.to_user_zone)"
                   v-text="item.to_user_name"
-                ></router-link>
+                ></a>
                 :
               </template>
               <span class="comment-content">{{ item.content }}</span>
@@ -520,9 +525,6 @@
       list () {
         return this.$utils.orderBy(this.resource.data.list, 'floor_count')
       },
-      total () {
-        return this.resource.data.total
-      },
       noMore () {
         return this.resource.data.noMore
       },
@@ -534,6 +536,9 @@
       },
       master () {
         return this.resource.info.user
+      },
+      total () {
+        return this.post.comment_count + 1
       },
       masterId () {
         return this.master.id
@@ -610,15 +615,29 @@
           only: this.onlySeeMaster ? 0 : 1
         })
       },
-      deletePost (id) {
+      deletePost () {
         this.$confirm('删除后无法找回, 是否继续?').then(async () => {
           await this.$store.dispatch('post/deletePost', {
             ctx: this,
-            id
+            id: this.post.id
           })
-          if (id === this.post.id) {
-            window.location = this.$alias.bangumi(this.bangumi.id)
-          }
+          window.location = this.$alias.bangumi(this.bangumi.id)
+        }).catch((e) => {
+          this.$toast.error(e)
+        })
+      },
+      deletePostComment (id) {
+        this.$confirm('删除后无法找回, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async () => {
+          await this.$store.dispatch('post/deletePostComment', {
+            ctx: this,
+            postId: this.post.id,
+            commentId: id
+          })
+          this.$toast.success('删除成功')
         }).catch((e) => {
           this.$toast.error(e)
         })
@@ -629,7 +648,7 @@
           await this.$store.dispatch('post/getPost', {
             id: this.post.id,
             ctx: this,
-            only: this.onlySeeMaster,
+            only: this.onlySeeMaster ? 1 : 0,
             reset
           })
         } catch (e) {
@@ -706,7 +725,7 @@
         this.loadingComments = true
         try {
           await this.$store.dispatch('post/getComments', {
-            postId: this.openCommentId
+            id: this.openCommentId
           })
         } catch (e) {
           this.$toast.error(e)
@@ -724,7 +743,7 @@
           this.$channel.$emit('sign-in')
           return
         }
-        this.createComment.postId = data.postId
+        this.createComment.id = data.postId
         this.createComment.targetUserId = data.targetUserId
         this.createComment.to_user_name = ''
         this.createComment.open = true
@@ -757,7 +776,7 @@
         if (option === '只看楼主' || option === '取消只看楼主') {
           this.switchOnlyMaster()
         } else if (option === '删除') {
-          this.deletePost(this.post.id)
+          this.deletePost()
         } else if (option === '喜欢' || option === '取消喜欢') {
           this.toggleLike()
         } else if (option === '收藏' || option === '取消收藏') {
@@ -770,13 +789,13 @@
         if (!this.$store.state.login) {
           return
         }
-        this.createComment.postId = this.focusReply.id
+        this.createComment.id = this.focusReply.id
         this.createComment.targetUserId = comment.from_user_id
         this.createComment.to_user_name = comment.from_user_name
         this.createComment.open = true
       },
       handlePostReply (data) {
-        this.createComment.postId = data.postId
+        this.createComment.id = data.postId
         this.createComment.targetUserId = data.targetUserId
         this.createComment.to_user_name = data.to_user_name
         this.createComment.open = true

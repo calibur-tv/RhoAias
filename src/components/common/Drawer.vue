@@ -52,7 +52,6 @@
       button {
         position: absolute;
         font-size: 16px;
-        left: 20px;
         top: 14px;
       }
 
@@ -61,6 +60,14 @@
         font-size: 16px;
         color: #333333;
         text-align: center;
+      }
+
+      .close-btn {
+        left: 20px;
+      }
+
+      .submit-btn {
+        right: 20px;
       }
     }
   }
@@ -82,8 +89,9 @@
         :style="position"
       >
         <header class="drawer-header" v-if="headerText">
-          <button @click="close">关闭</button>
+          <button class="close-btn" @click.stop.prevent="close">关闭</button>
           <h3 v-text="headerText"></h3>
+          <button v-if="showSubmit" class="submit-btn" @click.stop.prevent="submit">确认</button>
         </header>
         <slot></slot>
       </div>
@@ -125,6 +133,10 @@
       backdrop: {
         type: Boolean,
         default: true
+      },
+      showSubmit: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -157,17 +169,19 @@
         if (this.show) {
           return
         }
-        if (this.from === 'left' || this.from === 'right') {
-          this.pos = window.scrollY
-          document.body.style.overflow = 'hidden'
-          document.body.style.position = 'fixed'
-          document.body.style.top = 0
-          document.body.style.bottom = 0
-          document.body.style.right = 0
-          document.body.style.left = 0
-          document.body.style.height = `${window.innerHeight}px`
-        }
+
+        this.pos = window.scrollY
+
+        document.body.style.overflow = 'hidden'
+        document.body.style.position = 'fixed'
+        document.body.style.top = 0
+        document.body.style.bottom = 0
+        document.body.style.right = 0
+        document.body.style.left = 0
+        document.body.style.height = `${window.innerHeight}px`
+
         this.show = true
+
         if (this.id) {
           this.$channel.$emit(`drawer-open-event-${this.id}`)
         }
@@ -179,29 +193,33 @@
         }
       },
       close () {
-        const needReset = this.from === 'left' || this.from === 'right'
-        if (needReset) {
-          document.body.style.overflow = ''
-          document.body.style.position = ''
-          document.body.style.top = ''
-          document.body.style.bottom = ''
-          document.body.style.right = ''
-          document.body.style.left = ''
-          document.body.style.height = ''
-        }
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.bottom = ''
+        document.body.style.right = ''
+        document.body.style.left = ''
+        document.body.style.height = ''
+
         if (!this.show) {
           return
         }
-        if (needReset) {
-          window.scrollTo(0, this.pos)
-        }
+        window.scrollTo(0, this.pos)
+
         this.show = false
+
         if (this.backdrop) {
           this.$backdrop.hide(this.backdropId)
         }
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
+      },
+      submit () {
+        this.close()
+        this.$nextTick(() => {
+          this.$emit('submit')
+        })
       }
     },
     beforeDestroy () {

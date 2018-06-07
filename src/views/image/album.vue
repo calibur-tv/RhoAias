@@ -30,6 +30,34 @@
         }
       }
 
+      .cartoon-list {
+        margin-top: 20px;
+
+        li {
+          width: 25%;
+          display: inline-block;
+          text-align: center;
+          margin-bottom: 7px;
+          padding: 0 10px;
+        }
+
+        a {
+          border: 1px solid $color-gray-deep;
+          height: 30px;
+          color: $color-link;
+          border-radius: 4px;
+          display: block;
+          font-size: 12px;
+          line-height: 28px;
+        }
+
+        .a-active {
+          border-color: $color-blue-light;
+          background-color: $color-blue-light;
+          color: $color-white;
+        }
+      }
+
       .reward-panel {
         text-align: center;
         margin-top: 30px;
@@ -87,12 +115,12 @@
           [{{ info.is_cartoon ? '漫画' : '相册' }}]
           {{ info.name }}
         </h1>
-        <router-link :to="$alias.user(user.zone)" class="author">
+        <a :href="$alias.user(user.zone)" class="author">
           <img class="avatar" :src="$resize(user.avatar, { width: 60 })">
           {{ user.nickname }}
           ·
           <v-time v-model="info.updated_at"></v-time>
-        </router-link>
+        </a>
       </div>
     </div>
     <div class="body">
@@ -107,10 +135,19 @@
             width="400"
             mode="2"
             :src="img.url"
-            :aspect="$computeImageAspect(img.url)"
+            :aspect="$computeImageAspect(img)"
           ></v-img>
         </div>
       </div>
+      <ul class="cartoon-list" v-if="cartoon.length">
+        <li v-for="item in cartoon">
+          <a
+            :href="$alias.imageAlbum(item.id)"
+            v-text="item.name"
+            class="oneline"
+          ></a>
+        </li>
+      </ul>
       <div class="container">
         <div class="reward-panel">
           <button
@@ -176,6 +213,9 @@
       },
       images () {
         return this.album.images
+      },
+      cartoon () {
+        return this.album.cartoon
       },
       previewImages () {
         return this.images.map(_ => _.url)

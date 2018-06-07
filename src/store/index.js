@@ -16,9 +16,31 @@ export function createStore () {
     strict: process.env.NODE_ENV !== 'production',
     state: () => ({
       user: null,
-      login: false
+      login: false,
+      ua: {
+        ios: false,
+        android: false,
+        wechat: false,
+        qq: false,
+        alipay: false,
+        weibo: false,
+        pc: false
+      }
     }),
     mutations: {
+      SET_SSR_CTX (state, { ctx }) {
+        const userAgent = ctx.header['user-agent'].toLowerCase()
+        state.ssrContext = ctx
+        state.ua = {
+          ios: userAgent.match(/iphone|ipad|ipod/) !== null,
+          android: userAgent.match(/android/) !== null,
+          wechat: userAgent.match(/micromessenger/) !== null,
+          qq: userAgent.match(/qq\//) !== null,
+          alipay: userAgent.match(/alipayclient/) !== null,
+          weibo: userAgent.match(/weibo/i) !== null,
+          pc: !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent))
+        }
+      },
       SET_USER (state, user) {
         state.user = user
         state.login = true
@@ -35,6 +57,7 @@ export function createStore () {
     actions: {
       async init ({ commit }, ctx) {
         const cookie = ctx.header.cookie
+        commit('SET_SSR_CTX', ctx)
         if (cookie) {
           let token = ''
           cookie.split('; ').forEach(item => {

@@ -287,14 +287,14 @@
           v-for="item in bangumis"
           :key="item.id"
         >
-          <router-link class="clearfix" :to="$alias.bangumi(item.id)">
+          <a class="clearfix" :href="$alias.bangumi(item.id)">
             <v-img
               class="bg"
               :alt="item.name"
               :src="$resize(item.avatar, { width: 160, height: 160 })"
             ></v-img>
             <p class="name" v-text="item.name"></p>
-          </router-link>
+          </a>
         </li>
       </ul>
       <more-btn
@@ -307,38 +307,35 @@
     </template>
     <template v-else-if="sort === 'role'">
       <ul class="container" id="roles-of-mine">
-        <router-link
-          v-for="item in roles"
-          :key="item.id"
-          :to="$alias.cartoonRole(item.id)"
-          tag="li"
-        >
-          <div class="clearfix">
-            <div class="avatar">
-              <v-img :src="item.avatar" width="80" height="80"></v-img>
-            </div>
-            <div class="summary">
-              <div class="role">
-                <span class="name" v-text="item.name"></span>
-                <span class="intro">：{{ item.intro }}</span>
+        <li v-for="item in roles" :key="item.id">
+          <a :href="$alias.cartoonRole(item.id)">
+            <div class="clearfix">
+              <div class="avatar">
+                <v-img :src="item.avatar" width="80" height="80"></v-img>
               </div>
-              <div class="lover">
+              <div class="summary">
+                <div class="role">
+                  <span class="name" v-text="item.name"></span>
+                  <span class="intro">：{{ item.intro }}</span>
+                </div>
+                <div class="lover">
                 <span>
                   粉丝:
                   {{ $utils.shortenNumber(item.fans_count) }}
                 </span>
-                <span>
+                  <span>
                   金币:
                   {{ $utils.shortenNumber(item.star_count) }}
                 </span>
-                <span>
+                  <span>
                   贡献:
                   {{ item.has_star }}
                 </span>
+                </div>
               </div>
             </div>
-          </div>
-        </router-link>
+          </a>
+        </li>
       </ul>
       <more-btn
         :no-more="noMoreRoles"
@@ -375,36 +372,35 @@
           v-for="item in posts.data"
           :key="item.id"
         >
-          <router-link class="header" :to="$alias.post(item.post.id)" v-text="item.post.title"></router-link>
-          <router-link class="origin" :to="$alias.post(item.post.id, { comment: item.parent.id })">
-            <span>{{ item.user.nickname }}</span>：
-            <div class="content" v-html="item.parent.content"></div>
-            <div class="images clearfix" v-if="item.parent.images.length">
+          <a class="header" :href="$alias.post(item.post.id)" v-text="item.post.title"></a>
+          <a class="origin" :href="$alias.post(item.post.id, { comment: item.post.id })">
+            <div class="content" v-html="item.post.content"></div>
+            <div class="images clearfix" v-if="item.post.images.length">
               <v-img
                 class="image-full bg"
-                v-if="item.parent.images.length === 1"
-                :src="item.parent.images[0]"
+                v-if="item.post.images.length === 1"
+                :src="item.post.images[0].url"
                 height="190"
                 mode="2"
                 tag="div"
               ></v-img>
               <div class="image-list" v-else>
                 <v-img
-                  v-for="(image, index) in imageFilter(item.parent.images)"
+                  v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
-                  :src="image"
+                  :src="image.url"
                   width="110"
                 ></v-img>
               </div>
             </div>
-          </router-link>
-          <router-link class="reply" :to="$alias.post(item.post.id, { comment: item.parent.id, reply: item.id })">
+          </a>
+          <a class="reply" :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })">
             <div class="content" v-html="item.content"></div>
             <div class="images clearfix" v-if="item.images.length">
               <v-img
                 class="image-full bg"
                 v-if="item.images.length === 1"
-                :src="item.images[0]"
+                :src="item.images[0].url"
                 height="190"
                 mode="2"
                 tag="div"
@@ -413,17 +409,17 @@
                 <v-img
                   v-for="(image, index) in imageFilter(item.images)"
                   :key="index"
-                  :src="image"
+                  :src="image.url"
                   width="110"
                 ></v-img>
               </div>
             </div>
-          </router-link>
-          <router-link class="footer" :to="$alias.bangumi(item.bangumi.id)">
+          </a>
+          <a class="footer" :href="$alias.bangumi(item.bangumi.id)">
             回复于
             <span v-text="item.bangumi.name"></span>
             <v-time v-model="item.created_at"></v-time>
-          </router-link>
+          </a>
         </li>
       </ul>
       <more-btn
@@ -454,14 +450,15 @@
       await Promise.all(arr)
     },
     head () {
-      if (!this.zone) {
+      const user = this.user
+      if (!user) {
         return
       }
       return {
-        title: `${this.user.nickname} - 用户`,
+        title: `${user.nickname} - 用户`,
         meta: [
-          { hid: 'description', name: 'description', content: this.user.signature },
-          { hid: 'keywords', name: 'keywords', content: `calibur,用户,天下漫友是一家,${this.user.zone},${this.user.nickname}` }
+          { hid: 'description', name: 'description', content: user.signature },
+          { hid: 'keywords', name: 'keywords', content: `calibur,用户,天下漫友是一家,${user.zone},${user.nickname}` }
         ]
       }
     },
@@ -486,16 +483,17 @@
           : this.$store.state.users.list[this.zone]
       },
       bangumis () {
-        return this.$store.state.users.list[this.zone].bangumis
+        const user = this.$store.state.users.list[this.zone]
+        return user ? user.bangumis : []
       },
       posts () {
         return this.sort === 'bangumi' ? {} : this.$store.state.users.posts[this.sort]
       },
       daySigned () {
-        return this.self.daySign
+        return this.self ? this.self.daySign : false
       },
       coinCount () {
-        return this.self.coin
+        return this.self ? this.self.coin : 0
       },
       roles () {
         return this.$store.state.users.roles.data
@@ -527,7 +525,7 @@
           return
         }
         if (tab === 'image') {
-          this.getUserImage(true)
+          this.getUserImages(true)
           return
         }
         this.getUserPosts(true)
@@ -545,7 +543,7 @@
           zone: this.user.zone
         })
       },
-      async getUserImage (isFirstRequest = false) {
+      async getUserImages (isFirstRequest = false) {
         if (isFirstRequest && this.userImageLoaded) {
           return
         }

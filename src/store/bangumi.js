@@ -24,12 +24,14 @@ export default {
     posts: {
       data: [],
       total: 0,
+      type: 'new',
+      take: 10,
       noMore: false
     },
     videos: {
       data: [],
       total: 0,
-      fetched: false
+      noMore: false
     },
     roles: {
       id: 0,
@@ -97,11 +99,9 @@ export default {
     },
     SET_POSTS (state, { data, total, reset }) {
       const posts = reset ? data : state.posts.data.concat(data)
-      state.posts = {
-        data: posts,
-        total: total,
-        noMore: posts.length >= total
-      }
+      state.posts.data = posts
+      state.posts.total = total
+      state.posts.noMore = posts.length >= total
     },
     SET_BANGUMI (state, data) {
       state.info = data
@@ -110,7 +110,7 @@ export default {
       state.videos = {
         data: data.videos,
         total: data.total,
-        fetched: true
+        noMore: true
       }
     },
     SET_ROLES (state, { data, bangumiId }) {

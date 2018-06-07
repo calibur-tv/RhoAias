@@ -103,9 +103,9 @@
 <template>
   <div id="campaign-canvas">
     <div id="campaign-header">
-      <router-link class="home" to="/" id="campaign-header">
+      <a class="home" href="/" id="campaign-header">
         calibur.tv
-      </router-link>
+      </a>
     </div>
     <div id="campaign-body">
       <component :class="{ 'creating': creating }" :is="selectedTheme" :image="result"></component>

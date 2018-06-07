@@ -90,15 +90,6 @@
   font-size: 12px;
 }
 
-.image-lazy-mask {
-  //background-image: url("https://image.calibur.tv/default/user-avatar?imageMogr2/auto-orient/strip");
-  //background-repeat: no-repeat;
-  //background-size: 80px;
-  background-position: center;
-  background-color: #eee;
-  height: 0 !important;
-}
-
 .image-loading {
   width: 30px !important;
   height: 30px !important;
@@ -143,13 +134,12 @@
 }
 
 img.image-lazy-init {
-  filter: blur(4px);
   opacity: 0.3;
-  background-color: #ccc;
+  background-color: #bbb;
 }
 
 img.image-lazy-active {
-  transition: filter, opacity .15s linear;
-  filter: blur(0);
+  transition: background-color, opacity .15s linear;
   opacity: 1;
+  background-color: transparent;
 }

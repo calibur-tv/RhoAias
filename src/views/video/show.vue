@@ -25,7 +25,7 @@
         height: 100%;
       }
 
-      button {
+      .play-btn {
         width: 80px;
         height: 80px;
         border-radius: 50%;
@@ -39,6 +39,22 @@
         background-color: rgba(255, 255, 255, .5);
         text-indent: 6px;
         font-size: 30px;
+      }
+
+      .video-loading {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        color: #fff;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -40px;
+        margin-top: -40px;
+        background-color: transparent;
+        font-size: 30px;
+        line-height: 80px;
+        animation: rolling 1s infinite linear;
       }
     }
 
@@ -80,21 +96,9 @@
           display: block;
           font-size: 12px;
           line-height: 28px;
-
-          span {
-            min-width: 16px;
-            display: inline-block;
-            text-align: right;
-          }
-
-          &:hover {
-            border-color: $color-blue-light;
-            background-color: $color-blue-light;
-            color: $color-white;
-          }
         }
 
-        .router-link-active {
+        .a-active {
           border-color: $color-blue-light;
           background-color: $color-blue-light;
           color: $color-white;
@@ -160,11 +164,13 @@
       <template v-else-if="notSupport">
         <p>该视频格式仅支持在电脑上播放 (눈_눈)</p>
       </template>
+      <!--
       <template v-else-if="isGuest">
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看视频</p>
         <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
       </template>
-      <template v-else>
+      -->
+      <template v-else-if="video">
         <video
           :src="videoSrc"
           :poster="video.poster"
@@ -173,10 +179,12 @@
           controlsList="nodownload"
         ></video>
         <button
-          class="iconfont icon-bofang"
+          class="play-btn iconfont icon-bofang"
           v-if="!playing"
           @click="togglePlaying"
         ></button>
+        <div v-if="loading" class="video-loading iconfont icon-jiazailoading-A">
+        </div>
       </template>
     </div>
     <div class="container">
@@ -190,10 +198,12 @@
             <h6 class="season-title" v-text="season.name[idx]"></h6>
             <ul>
               <li v-for="(video, index) in videos.data" :key="video.id">
-                <a class="meta"
-                   :class="{ 'router-link-active' : $route.params.id == video.id }"
-                   :href="$alias.video(video.id)">
-                  <span>第{{ video.part - videos.base }}话</span>
+                <a
+                  class="meta oneline"
+                  :class="{ 'a-active' : $route.params.id == video.id }"
+                  :href="$alias.video(video.id)"
+                >
+                  第{{ video.part - videos.base }}话
                 </a>
               </li>
             </ul>
@@ -201,10 +211,12 @@
         </template>
         <ul v-else>
           <li v-for="video in sortVideos" :key="video.id">
-            <a class="meta"
-               :class="{ 'router-link-active' : $route.params.id == video.id }"
-               :href="$alias.video(video.id)">
-              <span>第{{ video.part }}话</span>
+            <a
+              class="meta oneline"
+              :class="{ 'a-active' : $route.params.id == video.id }"
+              :href="$alias.video(video.id)"
+            >
+              第{{ video.part }}话
             </a>
           </li>
         </ul>
@@ -212,10 +224,12 @@
       <h3 class="sub-title">番剧简介</h3>
       <v-bangumi-panel
         class="bangumi-panel"
+        v-if="bangumi"
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
         :followed="bangumi.followed"
+        @follow="handleBangumiFollow"
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
@@ -232,15 +246,21 @@
 
 <script>
   import VideoApi from '~/api/videoApi'
+  import env from 'env'
 
   export default {
     name: 'video-show',
     head () {
+      const bangumi = this.bangumi
+      const video = this.video
+      if (!bangumi || !video) {
+        return
+      }
       return {
-        title: `${this.bangumi.name} : 第${this.video.part}话 ${this.video.name} - 视频`,
+        title: `${bangumi.name} : 第${video.part}话 ${video.name} - 视频`,
         meta: [
-          { hid: 'description', name: 'description', content: this.bangumi.summary },
-          { hid: 'keywords', name: 'keywords', content: `${this.bangumi.name}，第${this.video.part}话，${this.video.name}，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站` }
+          { hid: 'description', name: 'description', content: bangumi.summary },
+          { hid: 'keywords', name: 'keywords', content: `${bangumi.name}，第${video.part}话，${video.name}，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站` }
         ]
       }
     },
@@ -264,7 +284,7 @@
         return this.videoPackage.info
       },
       list () {
-        return this.videoPackage.list.videos
+        return this.videoPackage.list ? this.videoPackage.list.videos : []
       },
       bangumi () {
         return this.videoPackage.bangumi
@@ -290,6 +310,9 @@
         return this.showAll ? this.videos : this.videos.slice(begin, begin + this.take)
       },
       useOtherSiteSource () {
+        if (!this.bangumi) {
+          return false
+        }
         if (this.bangumi.others_site_video) {
           return true
         }
@@ -305,6 +328,9 @@
       },
       videoSrc () {
         const video = this.video
+        if (!video) {
+          return ''
+        }
         return this.useOtherSiteSource
           ? video.url
           : video.resource
@@ -318,7 +344,7 @@
       isFlv () {
         return this.useOtherSiteSource
           ? false
-          : this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv'
+          : this.videoSrc ? this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv' : false
       }
     },
     data () {
@@ -331,10 +357,16 @@
         firstPlay: true,
         player: null,
         playing: false,
-        notSupport: false
+        notSupport: false,
+        loading: false
       }
     },
     methods: {
+      handleBangumiFollow (result) {
+        this.$store.commit('video/followBangumi', {
+          result
+        })
+      },
       computePage () {
         this.videos.forEach((meta) => {
           if (meta.id === this.id) {
@@ -345,6 +377,7 @@
       },
       handlePlaying () {
         if (this.firstPlay) {
+          this.loading = true
           this.firstPlay = false
           const api = new VideoApi(this)
           api.playing(this.id)
@@ -375,10 +408,10 @@
           this.$toast.error('第三方资源部支持下载')
           return
         }
-        if (this.isGuest) {
-          this.$channel.$emit('sign-in')
-          return
-        }
+//        if (this.isGuest) {
+//          this.$channel.$emit('sign-in')
+//          return
+//        }
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
           window.open(this.videoSrc)
         })
@@ -393,11 +426,16 @@
       if (this.useOtherSiteSource) {
         return
       }
-      if (this.isGuest) {
-        return
-      }
+//      if (this.isGuest) {
+//        return
+//      }
       this.player = this.$refs.video
       this.player.controls = false
+      if (env !== 'production') {
+        import('~/assets/js/videoDebug').then(module => {
+          new module.default(this.player) // eslint-disable-line
+        })
+      }
       try {
         this.player.load()
       } catch (e) {
@@ -406,6 +444,10 @@
       }
       this.player.addEventListener('pause', () => {
         this.playing = false
+      })
+
+      this.player.addEventListener('timeupdate', () => {
+        this.loading = false
       })
 
       this.player.addEventListener('abort', () => {

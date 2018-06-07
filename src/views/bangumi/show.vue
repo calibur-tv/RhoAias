@@ -104,6 +104,12 @@
       }
     }
 
+    #cartoon {
+      .image-container {
+        padding-top: 10px;
+      }
+    }
+
     #roles {
       #role-list {
         li {
@@ -296,8 +302,9 @@
     <div class="hr"></div>
     <div>
       <div class="tabs">
-        <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }">视频</button>
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
+        <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }" v-if="info.has_video">视频</button>
+        <button @click="switchTab('cartoon')" :class="{ 'active': sort === 'cartoon' }" v-if="info.has_cartoon">漫画</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
         <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
       </div>
@@ -328,7 +335,7 @@
                 :key="video.id"
                 class="video"
               >
-                <router-link :to="$alias.video(video.id)">
+                <a :href="$alias.video(video.id)">
                   <figure class="clearfix">
                     <v-img
                       class="bg"
@@ -340,7 +347,7 @@
                       <span class="name" v-text="video.name"></span>
                     </figcaption>
                   </figure>
-                </router-link>
+                </a>
               </li>
             </ul>
           </template>
@@ -351,7 +358,7 @@
             :key="video.id"
             class="video"
           >
-            <router-link :to="$alias.video(video.id)">
+            <a :href="$alias.video(video.id)">
               <figure class="clearfix">
                 <v-img
                   class="bg"
@@ -363,11 +370,11 @@
                   <span class="name" v-text="video.name"></span>
                 </figcaption>
               </figure>
-            </router-link>
+            </a>
           </li>
         </ul>
         <more-btn
-          :no-more="!videos.data.length && videoState.fetched"
+          :no-more="videos.noMore"
           :auto="true"
           :loading="videoState.loading"
           :length="videos.data.length"
@@ -375,8 +382,14 @@
           <button @click="openFeedbackForResource">求资源</button>
         </more-btn>
       </div>
+      <div id="cartoon" v-else-if="sort === 'cartoon'">
+        <image-waterfall
+          :loading="cartoonState.loading"
+          @fetch="getCartoons(false)"
+        ></image-waterfall>
+      </div>
       <div id="roles" v-else-if="sort === 'role'">
-        <ul id="role-list" class="container" v-if="roleState.fetched">
+        <ul id="role-list" class="container" v-if="roles.data.length">
           <li v-for="item in roles.data">
             <div class="clearfix">
               <div class="avatar" @click="showRoleDetail(item)">
@@ -401,10 +414,10 @@
               </span>
               <span v-if="item.lover">
                 守护者：
-                <router-link :to="$alias.user(item.lover.zone)">
+                <a :href="$alias.user(item.lover.zone)">
                   {{ item.lover.nickname }}
                   <v-img :src="item.lover.avatar" width="20" height="20"></v-img>
-                </router-link>
+                </a>
               </span>
             </div>
           </li>
@@ -438,10 +451,10 @@
           <div class="lover container" v-if="currentRole.loverId">
             <div class="hr"></div>
             <h3 class="sub-title">守护者：</h3>
-            <router-link class="lover-user" :to="$alias.user(currentRole.lover.zone)">
+            <a class="lover-user" :href="$alias.user(currentRole.lover.zone)">
               <img :src="$resize(currentRole.lover.avatar, { width: 80 })">
               <span v-text="currentRole.lover.nickname"></span>
-            </router-link>
+            </a>
           </div>
           <div class="hr"></div>
           <div class="tabs">
@@ -453,12 +466,12 @@
               v-for="item in currentRoleFans.data"
               :key="item.id"
             >
-              <router-link class="lover-user" :to="$alias.user(item.zone)">
+              <a class="lover-user" :href="$alias.user(item.zone)">
                 <img :src="$resize(item.avatar, { width: 80 })">
                 <span v-text="item.nickname"></span>
                 <v-time class="score" v-if="focusRoleSort === 'new'" v-model="item.score"></v-time>
                 <span class="score" v-else>{{ item.score }}个金币</span>
-              </router-link>
+              </a>
             </li>
           </ul>
           <p v-if="currentRoleFans.data.length >= 100" class="total-limit">最多显示100人</p>
@@ -489,7 +502,7 @@
       const id = route.params.id
       await Promise.all([
         store.dispatch('bangumi/getBangumi', { ctx, id }),
-        store.dispatch('bangumi/getVideos', { ctx, id })
+        store.dispatch('bangumi/getPosts', { ctx, id, reset: true })
       ])
     },
     components: {
@@ -541,28 +554,27 @@
     },
     data () {
       return {
-        videoState: {
-          loading: false,
-          init: true,
-          fetched: false
-        },
         postState: {
-          take: 10,
-          type: 'new',
+          loading: false,
+          init: true
+        },
+        cartoonState: {
+          loading: false,
+          init: false
+        },
+        videoState: {
           loading: false,
           init: false
         },
         roleState: {
           loading: false,
-          init: false,
-          fetched: false
+          init: false
         },
         imageState: {
           loading: false,
-          init: false,
-          fetched: false
+          init: false
         },
-        sort: 'video',
+        sort: 'post',
         openRoleDetailDrawer: false,
         currentRole: {},
         focusRoleSort: 'new',
@@ -606,7 +618,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.videoState.fetched = true
           this.videoState.loading = false
         }
       },
@@ -621,8 +632,6 @@
           await this.$store.dispatch('bangumi/getPosts', {
             ctx: this,
             id: this.id,
-            take: this.postState.take,
-            type: this.postState.type,
             reset
           })
         } catch (e) {
@@ -647,8 +656,25 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.roleState.fetched = true
           this.roleState.loading = false
+        }
+      },
+      async getCartoons (force = false) {
+        if (this.cartoonState.loading) {
+          return
+        }
+        this.cartoonState.loading = true
+
+        try {
+          await this.$store.dispatch('image/getCartoons', {
+            ctx: this,
+            id: this.id,
+            force
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.cartoonState.loading = false
         }
       },
       async getImages (force = false) {
@@ -667,7 +693,6 @@
         } catch (e) {
           this.$toast.error(e)
         } finally {
-          this.imageState.fetched = true
           this.imageState.loading = false
         }
       },
@@ -681,14 +706,14 @@
           if (!this.videoState.init) {
             this.getVideos()
           }
+        } else if (tab === 'cartoon') {
+          this.getCartoons(true)
         } else if (tab === 'role') {
           if (!this.roleState.init) {
             this.getRoles(true)
           }
         } else if (tab === 'image') {
-          if (!this.imageState.init) {
-            this.getImages(true)
-          }
+          this.getImages(true)
         }
       },
       async handleStarRole (role) {
@@ -763,6 +788,13 @@
         } else {
           this.$channel.$emit('sign-in')
         }
+      }
+    },
+    mounted () {
+      if (this.info.has_video) {
+        setTimeout(() => {
+          this.switchTab('video')
+        }, 1000)
       }
     }
   }

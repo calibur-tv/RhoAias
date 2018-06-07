@@ -23,6 +23,7 @@
       width: 100%;
       height: 80%;
       margin-top: 15%;
+      position: relative;
 
       .mint-swipe {
         overflow: visible;
@@ -54,6 +55,19 @@
         }
       }
     }
+
+    #download-btn {
+      position: absolute;
+      bottom: 15px;
+      width: 80px;
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.8;
+      padding: 10px 0;
+      left: 50%;
+      margin-left: -40px;
+    }
   }
 </style>
 
@@ -63,7 +77,7 @@
     v-if="open"
     @click="open = false"
   >
-    <div class="index">{{ curPage }} / {{ images.length }}</div>
+    <div class="index">{{ index + 1 }} / {{ images.length }}</div>
     <div class="images-wrapper">
       <mt-swipe
         :auto="0"
@@ -86,22 +100,33 @@
         </mt-swipe-item>
       </mt-swipe>
     </div>
+    <a id="download-btn" target="_blank" :href="imageHref" :download="imageName" @click.stop>下载原图</a>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'ImageReader',
+    name: 'image-reader',
     data () {
       return {
         images: [],
         index: 0,
         open: false,
-        curPage: 1,
         maxWidth: 0,
         maxHeight: 0,
         maxWidthHeightRate: 0,
         maxHeightWidthRate: 0
+      }
+    },
+    computed: {
+      imageHref () {
+        if (!this.images.length) {
+          return ''
+        }
+        return this.images[this.index].url
+      },
+      imageName () {
+        return this.imageHref ? `calibur-tv-${Date.now()}.${this.imageHref.split('.').pop()}` : ''
       }
     },
     mounted () {
@@ -111,14 +136,13 @@
           return
         }
         let index = 0
-        images.forEach((img, idx) => {
-          if (img === image) {
+        this.images = Array.isArray(images) ? images : [images]
+        this.images.forEach((img, idx) => {
+          if (img.url === image.url) {
             index = idx
           }
         })
-        this.images = Array.isArray(images) ? images : [images]
         this.index = index || 0
-        this.curPage = index + 1
         this.open = true
         setTimeout(() => {
           const length = images.length
@@ -141,7 +165,7 @@
     },
     methods: {
       handleChange (index) {
-        this.curPage = index + 1
+        this.index = index
         this.$channel.$emit(`image-load-image-reader-${index + 1}`)
         this.$channel.$emit(`image-load-image-reader-${index - 1}`)
       },
@@ -151,14 +175,13 @@
         this.maxWidthHeightRate = this.maxWidth / this.maxHeight
         this.maxHeightWidthRate = this.maxHeight / this.maxWidth
       },
-      computeImageType (item) {
-        if (item.split('|http').length === 1) {
+      computeImageType (image) {
+        const width = image.width
+        const height = image.height
+
+        if (!width || !height) {
           return 0
         }
-
-        const attr = item.split('|http').shift().split('-')
-        const width = attr[0]
-        const height = attr[1]
 
         // 图片太小了，直接返回
         if (width < this.maxWidth && height < this.maxHeight) {
@@ -185,12 +208,12 @@
 
         return 5
       },
-      computeImageSize (item) {
-        const type = this.computeImageType(item)
+      computeImageSize (image) {
+        const type = this.computeImageType(image)
         if (type === 4) {
-          return this.$resize(item, { width: this.maxWidth, mode: 2 })
+          return this.$resize(image.url, { width: this.maxWidth, mode: 2 })
         }
-        return this.$resize(item, { height: this.maxHeight, mode: 2 })
+        return this.$resize(image.url, { height: this.maxHeight, mode: 2 })
       }
     }
   }

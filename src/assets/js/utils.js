@@ -30,6 +30,9 @@ export default {
       if (styleName === 'opacity' && Number(document.documentMode) < 9) {
         element.style.filter = isNaN(value) ? '' : `alpha(opacity=${value * 100})`
       } else {
+        console.log(element)
+        console.log(styleName)
+        console.log(value)
         element.style[styleName] = value
       }
     }
@@ -42,7 +45,7 @@ export default {
         : time * 1000
       : time.replace(/-/g, '/')
     const date = new Date(formatTime)
-    return `${date.getFullYear()}-${(`0${date.getMonth() + 1}`).substr(-2)}-${(`0${date.getDate()}`).substr(-2)} ${(`0${date.getHours()}`).substr(-2)}:${(`0${date.getMinutes()}`).substr(-2)}`
+    return `${date.getFullYear()}-${(`0${date.getMonth() + 1}`).substr(-2)}-${(`0${date.getDate()}`).substr(-2)} ${(`0${date.getHours()}`).substr(-2)}:${(`0${date.getMinutes()}`).substr(-2)}:${(`0${date.getSeconds()}`).substr(-2)}`
   },
 
   orderBy,

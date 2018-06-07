@@ -66,15 +66,15 @@
 <template>
   <div id="bangumi-timeline">
     <div class="tabs">
-      <router-link :to="$alias.bangumiNews">新番放送</router-link>
-      <router-link :to="$alias.bangumiTimeline" class="active">时间轴</router-link>
-      <router-link :to="$alias.bangumiTag()">分类索引</router-link>
+      <a :href="$alias.bangumiNews">新番放送</a>
+      <a :href="$alias.bangumiTimeline" class="active">时间轴</a>
+      <a :href="$alias.bangumiTag()">分类索引</a>
     </div>
     <ul id="collections" class="container">
       <ul v-for="col in timeline.data" :key="col.date" class="collection">
         <h3 class="time" v-text="col.date"></h3>
         <li class="bangumi" v-for="item in col.list" :key="item.id">
-          <router-link :to="$alias.bangumi(item.id)">
+          <a :href="$alias.bangumi(item.id)">
             <v-img
               class="face"
               :title="item.name"
@@ -85,7 +85,7 @@
               <p class="name" v-text="item.name"></p>
               <p class="body" v-text="item.summary"></p>
             </div>
-          </router-link>
+          </a>
         </li>
       </ul>
     </ul>

@@ -2,7 +2,6 @@
   #image-waterfall {
     margin-right: -5px;
     background-color: #fff;
-    padding-top: $container-padding;
 
     .image-container {
       position: relative;
@@ -239,96 +238,142 @@
     .el-upload-list__item-delete {
       float: none !important;
     }
+
+    .btn-sort {
+      width: 100%;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      padding-top: 15px;
+
+      span {
+        float: left;
+        margin-left: 8px;
+        font-size: 13px;
+      }
+
+      .iconfont {
+        float: right;
+        margin-right: 13px;
+        font-size: 12px;
+      }
+    }
+
+    .sort-image-drawer {
+      border-radius: 5px 5px 0 0;
+    }
   }
 </style>
 
 <template>
   <div id="image-waterfall" v-if="list.length">
     <no-ssr>
-      <waterfall class="image-container" :line-gap="155" :auto-resize="false">
-        <waterfall-slot
-          v-for="(item, index) in list"
-          width="145"
-          :height="computeBoxHeight(item)"
-          :order="index"
-          :key="item.id"
-          class="image-item"
-        >
-          <div class="image">
-            <div
-              class="item-wrap"
-              :class="[ item.image_count ? 'album-wrap' : 'image-wrap' ]"
-              @click="handleImageClick(item)"
-            >
-              <i v-if="item.creator" class="creator iconfont icon-huangguan"></i>
-              <div v-if="computeOptions(item).length" class="menu" @click.stop.prevent>
-                <v-select
-                  placeholder=""
-                  :options="computeOptions(item)"
-                  :abort="true"
-                  @submit="handleMenuSelected($event, item)"
-                >
-                  <i class="iconfont icon-101" slot="tail"></i>
-                </v-select>
-              </div>
-              <img width="145" :height="computeImageHeight(item)" :src="$resize(item.url, { width: 290, mode: 2 })">
-              <div class="album-info" v-if="item.image_count">
-                <i class="el-icon-picture-outline"></i>
-                <span class="image-count" v-text="item.image_count"></span>
-              </div>
-            </div>
-            <div class="desc">
-              <a
-                class="name oneline"
-                href="javascript:;"
-                v-text="item.name"
-                v-if="item.image_count"
-              ></a>
-              <div class="tags" v-else>
-                <button class="el-tag oneline" v-text="item.size.name"></button>
-                <button class="el-tag oneline" v-for="tag in item.tags" v-text="tag.name"></button>
-              </div>
-              <div class="meta">
-                <button class="like" :class="{ 'liked': item.liked }" @click="handleLikeBtnClick($event, item)">
-                  <i class="iconfont icon-msnui-love"></i>
-                  {{ item.like_count || ''  }}
-                </button>
-              </div>
-            </div>
-            <div class="detail user clearfix" v-if="page === 'image-trending'">
-              <router-link class="avatar" :to="$alias.user(item.user.zone)">
-                <img :src="$resize(item.user.avatar, { width: 56 })">
-              </router-link>
-              <div class="info">
-                <router-link class="oneline" :class="{ 'margin-top': !item.bangumi }" :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
-                <router-link class="oneline" v-if="item.bangumi_id" :to="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></router-link>
-              </div>
-            </div>
-            <template v-else-if="page === 'user-show'">
-              <div class="detail bangumi clearfix" v-if="item.bangumi_id">
-                <router-link class="avatar" :to="$alias.bangumi(item.bangumi.id)">
-                  <img :src="$resize(item.bangumi.avatar, { width: 56 })">
-                </router-link>
-                <div class="info" :class="{ 'margin-top': !item.role_id }">
-                  <router-link class="oneline" :to="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></router-link>
-                  <div v-if="item.role" class="oneline" v-text="item.role.name"></div>
+      <div class="image-container">
+        <template v-if="showSortHeader">
+          <button class="btn-sort clearfix" @click="openSortDrawer">
+            <span>筛选</span>
+            <i class="iconfont icon-101"></i>
+          </button>
+          <v-drawer
+            v-model="toggleSortDrawer"
+            header-text="图片筛选"
+            from="bottom"
+            size="250px"
+            class="sort-image-drawer"
+            :show-submit="true"
+            @submit="handleSelectedSort"
+          >
+            <mt-picker
+              :slots="sortSlots"
+              @change="onSortValuesChange"
+              valueKey="name"
+            ></mt-picker>
+          </v-drawer>
+        </template>
+        <waterfall :line-gap="155" :auto-resize="false">
+          <waterfall-slot
+            v-for="(item, index) in list"
+            width="145"
+            :height="computeBoxHeight(item)"
+            :order="index"
+            :key="item.id"
+            class="image-item"
+          >
+            <div class="image">
+              <div
+                class="item-wrap"
+                :class="[ item.image_count ? 'album-wrap' : 'image-wrap' ]"
+                @click="handleImageClick(item)"
+              >
+                <i v-if="item.creator" class="creator iconfont icon-huangguan"></i>
+                <div v-if="computeOptions(item).length" class="menu" @click.stop.prevent>
+                  <v-select
+                    placeholder=""
+                    :options="computeOptions(item)"
+                    :abort="true"
+                    @submit="handleMenuSelected($event, item)"
+                  >
+                    <i class="iconfont icon-101" slot="tail"></i>
+                  </v-select>
+                </div>
+                <img width="145" :height="computeImageHeight(item)" :src="$resize(item.url, { width: 290, mode: 2 })">
+                <div class="album-info" v-if="item.image_count">
+                  <i class="el-icon-picture-outline"></i>
+                  <span class="image-count" v-text="item.image_count"></span>
                 </div>
               </div>
-            </template>
-            <div class="detail user clearfix" v-else-if="page === 'bangumi-show'">
-              <router-link class="avatar" :to="$alias.user(item.user.zone)">
-                <img :src="$resize(item.user.avatar, { width: 56 })">
-              </router-link>
-              <div class="info" :class="{ 'margin-top': !item.role_id }">
-                <router-link class="oneline" :to="$alias.user(item.user.zone)" v-text="item.user.nickname"></router-link>
-                <router-link v-if="item.role_id" :to="$alias.cartoonRole(item.role_id)">
-                  <div class="oneline" v-text="item.role.name"></div>
-                </router-link>
+              <div class="desc">
+                <a
+                  class="name oneline"
+                  href="javascript:;"
+                  v-text="item.name"
+                  v-if="item.image_count"
+                ></a>
+                <div class="tags" v-else>
+                  <button class="el-tag oneline" v-text="item.size.name"></button>
+                  <button class="el-tag oneline" v-for="tag in item.tags" v-text="tag.name"></button>
+                </div>
+                <div class="meta">
+                  <button class="like" :class="{ 'liked': item.liked }" @click="handleLikeBtnClick($event, item)">
+                    <i class="iconfont icon-msnui-love"></i>
+                    {{ item.like_count || ''  }}
+                  </button>
+                </div>
+              </div>
+              <div class="detail user clearfix" v-if="page === 'image-trending'">
+                <a class="avatar" :href="$alias.user(item.user.zone)">
+                  <img :src="$resize(item.user.avatar, { width: 56 })">
+                </a>
+                <div class="info">
+                  <a class="oneline" :class="{ 'margin-top': !item.bangumi }" :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
+                  <a class="oneline" v-if="item.bangumi_id" :href="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></a>
+                </div>
+              </div>
+              <template v-else-if="page === 'user-show'">
+                <div class="detail bangumi clearfix" v-if="item.bangumi_id">
+                  <a class="avatar" :href="$alias.bangumi(item.bangumi.id)">
+                    <img :src="$resize(item.bangumi.avatar, { width: 56 })">
+                  </a>
+                  <div class="info" :class="{ 'margin-top': !item.role_id }">
+                    <a class="oneline" :href="$alias.bangumi(item.bangumi.id)" v-text="item.bangumi.name"></a>
+                    <div v-if="item.role" class="oneline" v-text="item.role.name"></div>
+                  </div>
+                </div>
+              </template>
+              <div class="detail user clearfix" v-else-if="page === 'bangumi-show'">
+                <a class="avatar" :href="$alias.user(item.user.zone)">
+                  <img :src="$resize(item.user.avatar, { width: 56 })">
+                </a>
+                <div class="info" :class="{ 'margin-top': !item.role_id }">
+                  <a class="oneline" :href="$alias.user(item.user.zone)" v-text="item.user.nickname"></a>
+                  <a v-if="item.role_id" :href="$alias.cartoonRole(item.role_id)">
+                    <div class="oneline" v-text="item.role.name"></div>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </waterfall-slot>
-      </waterfall>
+          </waterfall-slot>
+        </waterfall>
+      </div>
     </no-ssr>
     <more-btn
       :no-more="noMore"
@@ -349,13 +394,13 @@
         <template v-if="openEditAlbumModal">
           <div class="field">
             <v-field
-              v-model="albumForm.name"
+              v-model="albumData.name"
               label="名称"
               placeholder="请填写相册名称"
               label-size="48px"
             ></v-field>
           </div>
-          <div class="field">
+          <div class="field" v-if="!albumData.is_cartoon">
             <span>番剧：</span>
             <div
               @click="handleAlbumBangumiPickerBtnClick"
@@ -369,6 +414,7 @@
               list-type="picture-card"
               ref="albumUploader"
               :data="uploadHeaders"
+              :disabled="true"
               :on-error="handleError"
               :before-upload="beforeUpload"
               :on-remove="handleAlbumPosterRemove"
@@ -497,6 +543,9 @@
       page () {
         return this.$route.name
       },
+      showSortHeader () {
+        return !Array.isArray(this.options)
+      },
       waterfall () {
         return this.$store.state.image.waterfall
       },
@@ -538,7 +587,7 @@
         let result = '点击选择番剧'
 
         this.bangumiSlots[0].values.forEach(item => {
-          if (item.id === this.albumForm.bangumiId) {
+          if (item.id === this.albumData.bangumiId) {
             result = item.name
           }
         })
@@ -589,35 +638,21 @@
         },
         openEditModal: false,
         openEditAlbumModal: false,
+        toggleSortDrawer: false,
         bangumiRoles: {},
         loadingUserBangumiFetch: false,
         loadingUploadTypeFetch: false,
         submitting: false,
         selectedTagsId: 0,
         selectedSizeId: 0,
-        selectedBangumiId: -1,
-        selectedRoleId: -1,
         selectedCreatorId: -1,
-        creators: [
-          {
-            id: -1,
-            name: '原创和搬运'
-          },
-          {
-            id: 1,
-            name: '仅原创'
-          },
-          {
-            id: 0,
-            name: '仅搬运'
-          }
-        ],
-        albumForm: {
+        albumData: {
           id: 0,
           name: '',
           bangumiId: '',
           url: '',
-          poster: []
+          poster: [],
+          is_cartoon: false
         },
         originAlbumData: {
           name: '',
@@ -676,12 +711,46 @@
             textAlign: 'center'
           }
         ],
+        sortSlots: [
+          {
+            flex: 1,
+            values: [],
+            defaultIndex: 0,
+            textAlign: 'right'
+          },
+          {
+            flex: 1,
+            values: [],
+            defaultIndex: 0,
+            textAlign: 'center'
+          },
+          {
+            flex: 1,
+            values: [
+              {
+                id: -1,
+                name: '全部'
+              },
+              {
+                id: 1,
+                name: '仅原创'
+              },
+              {
+                id: 0,
+                name: '仅搬运'
+              }
+            ],
+            defaultIndex: 0,
+            textAlign: 'left'
+          }
+        ],
         openPickerDrawer: false,
         openBangumisDrawer: false,
         openImageTagsDrawer: false,
         openImageSizeDrawer: false,
         openImageRoleDrawer: false,
-        openImageAlbumDrawer: false
+        openImageAlbumDrawer: false,
+        saveSortSelect: []
       }
     },
     methods: {
@@ -734,8 +803,8 @@
           this.$store.commit('image/SET_WATERFALL_META', {
             size: this.selectedSizeId,
             tags: this.selectedTagsId,
-            bangumiId: this.selectedBangumiId,
-            roleId: this.selectedRoleId,
+            bangumiId: -1,
+            roleId: -1,
             creator: this.selectedCreatorId
           })
         }
@@ -772,14 +841,15 @@
         this.openEditModal = true
       },
       startEditAlbum (album) {
-        this.albumForm.id = album.id
-        this.albumForm.name = album.name
-        this.albumForm.url = album.url
+        this.albumData.is_cartoon = album.is_cartoon
+        this.albumData.id = album.id
+        this.albumData.name = album.name
+        this.albumData.url = album.url
         this.originAlbumData.name = album.name
         this.originAlbumData.url = album.url
         const bangumiId = album.bangumi_id
         if (bangumiId) {
-          this.albumForm.bangumiId = bangumiId
+          this.albumData.bangumiId = bangumiId
           this.originAlbumData.bangumiId = bangumiId
         }
         this.getUpToken()
@@ -799,6 +869,33 @@
           }
         }).catch(() => {})
       },
+      openSortDrawer () {
+        const defaultSelect = [{
+          id: 0,
+          name: '全部'
+        }]
+        const hasOptions = !Array.isArray(this.options)
+        const tagsOptions = hasOptions ? defaultSelect.concat(this.options.tags) : []
+        const sizeOptions = hasOptions ? defaultSelect.concat(this.options.size) : []
+        this.sortSlots[0].values = tagsOptions
+        this.sortSlots[1].values = sizeOptions
+        tagsOptions.forEach((item, index) => {
+          if (item.id === this.selectedTagsId) {
+            this.sortSlots[0].defaultIndex = index
+          }
+        })
+        sizeOptions.forEach((item, index) => {
+          if (item.id === this.selectedSizeId) {
+            this.sortSlots[1].defaultIndex = index
+          }
+        })
+        this.sortSlots[2].values.forEach((item, index) => {
+          if (item.id === this.selectedCreatorId) {
+            this.sortSlots[2].defaultIndex = index
+          }
+        })
+        this.toggleSortDrawer = true
+      },
       handleMenuSelected (option, image) {
         if (option === '举报') {
           this.reportImage(image)
@@ -817,7 +914,7 @@
           this.tagsSlots[0].values = this.options.tags
           this.sizeSlots[0].values = this.options.size
           if (image.image_count) {
-            this.albumForm = {
+            this.albumData = {
               id: 0,
               name: '',
               bangumiId: '',
@@ -871,15 +968,9 @@
       },
       handleImageClick (image) {
         if (image.image_count) {
-          this.$router.push({
-            name: 'image-album',
-            params: {
-              id: image.id
-            }
-          })
+          window.location = this.$alias.imageAlbum(image.id)
         } else {
-          const result = `${image.width}-${image.height}|${image.url}`
-          this.$previewImages([result], result)
+          this.$previewImages(image, image)
         }
       },
       handleRolePickerBtnClick () {
@@ -906,8 +997,8 @@
           this.$toast.error('还没有关注任何番剧')
           return
         }
-        if (!this.albumForm.bangumiId) {
-          this.albumForm.bangumiId = this.getSelectedMeta('bangumi', 'id')
+        if (!this.albumData.bangumiId) {
+          this.albumData.bangumiId = this.getSelectedMeta('bangumi', 'id')
         }
         this.switchPickerDrawer('openBangumisDrawer')
       },
@@ -1051,15 +1142,15 @@
         }
       },
       async handleAlbumEditDone () {
-        if (!this.albumForm.name) {
+        if (!this.albumData.name) {
           this.$toast.error('请填写专辑名称')
           return
         }
-        if (this.albumForm.name.length > 20) {
+        if (this.albumData.name.length > 20) {
           this.$toast.error('专题名称请缩减至20字以内')
           return
         }
-        if (!this.albumForm.bangumiId) {
+        if (!this.albumData.bangumiId) {
           this.$toast.error('请选择要投稿的番剧')
           return
         }
@@ -1067,9 +1158,9 @@
           return
         }
         if (
-          this.albumForm.bangumiId === this.originAlbumData.bangumiId &&
-          this.albumForm.name === this.originAlbumData.name &&
-          this.albumForm.poster.length === 0
+          this.albumData.bangumiId === this.originAlbumData.bangumiId &&
+          this.albumData.name === this.originAlbumData.name &&
+          this.albumData.poster.length === 0
         ) {
           this.openEditModal = false
           return
@@ -1077,13 +1168,13 @@
         this.submitting = false
         this.$toast.loading('修改中...')
         const api = new Api(this)
-        const id = this.albumForm.id
-        const poster = this.albumForm.poster.length ? this.albumForm.poster[0]['url'] : null
+        const id = this.albumData.id
+        const poster = this.albumData.poster.length ? this.albumData.poster[0]['url'] : null
         try {
           const data = await api.editAlbum(Object.assign({
             id,
-            bangumiId: this.albumForm.bangumiId || 0,
-            name: this.albumForm.name
+            bangumiId: this.albumData.bangumiId || 0,
+            name: this.albumData.name
           }, poster ? {
             url: poster.key,
             width: poster.width,
@@ -1124,10 +1215,10 @@
         this.uploadHeaders.key = `user/${this.$store.state.user.id}/image/${new Date().getTime()}-${Math.random().toString(36).substring(3, 6)}.${file.type.split('/').pop()}`
       },
       handleAlbumPosterRemove () {
-        this.albumForm.poster = []
+        this.albumData.poster = []
       },
       handleAlbumUploadSuccess (res, file) {
-        this.albumForm.poster = [
+        this.albumData.poster = [
           {
             name: file.name,
             url: res.data
@@ -1208,11 +1299,29 @@
           }
         })
         if (this.openEditAlbumModal) {
-          this.albumForm.bangumiId = id
+          this.albumData.bangumiId = id
         } else {
           this.imageData.bangumiId = id
           this.imageData.selectedRole = false
           this.getBangumiRoles(this.getSelectedMeta('bangumi', 'id'))
+        }
+      },
+      onSortValuesChange (picker, values) {
+        this.saveSortSelect = values
+      },
+      handleSelectedSort () {
+        const selectedTagsId = this.saveSortSelect[0].id
+        const selectedSizeId = this.saveSortSelect[1].id
+        const selectedCreatorId = this.saveSortSelect[2].id
+        if (
+          (this.selectedTagsId !== selectedTagsId) ||
+          (this.selectedSizeId !== selectedSizeId) ||
+          (this.selectedCreatorId !== selectedCreatorId)
+        ) {
+          this.selectedTagsId = selectedTagsId
+          this.selectedSizeId = selectedSizeId
+          this.selectedCreatorId = selectedCreatorId
+          this.handleLoadMoreClick(true)
         }
       }
     }

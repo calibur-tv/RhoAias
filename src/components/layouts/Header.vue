@@ -95,7 +95,7 @@
 
             .iconfont {
               float: left;
-              margin: 0 10px;
+              margin: 6px 10px 0 10px;
             }
 
             .clear {
@@ -120,6 +120,7 @@
               input {
                 height: $search-height;
                 background-color: transparent;
+                display: block;
               }
             }
           }
@@ -215,9 +216,9 @@
 
 <template>
   <header id="header" class="container">
-    <router-link class="logo" to="/">
+    <a class="logo" href="/">
       <img :src="$resize(`${$cdn.image}owner/logo`, { height: 56, mode: 2 })" alt="logo">
-    </router-link>
+    </a>
     <div class="header-right">
       <button class="search-btn" @click="openSearchDrawer = true">
         <i class="iconfont icon-sousuo"></i>
@@ -262,12 +263,12 @@
           <div class="user-section">
             <div class="bg" :style="computeUserDrawerBg"></div>
             <div>
-              <router-link :to="$alias.user(user.zone)" class="avatar">
+              <a :href="$alias.user(user.zone)" class="avatar">
                 <img :src="$resize(user.avatar, { width: 50 })" alt="me">
-              </router-link>
+              </a>
               <div class="panel">
                 <div>
-                  <router-link class="oneline" :to="$alias.user(user.zone)" v-text="user.nickname"></router-link>
+                  <a class="oneline" :href="$alias.user(user.zone)" v-text="user.nickname"></a>
                 </div>
                 <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}</button>
               </div>
@@ -277,29 +278,29 @@
           </div>
           <ul class="routes container" @click="switchUserDrawer = false">
             <li>
-              <router-link :to="$alias.user(user.zone)">
+              <a :href="$alias.user(user.zone)">
                 <i class="iconfont icon-zhuye"></i>
                 个人主页
-              </router-link>
+              </a>
             </li>
             <li>
-              <router-link to="/me/setting">
+              <a href="/me/setting">
                 <i class="iconfont icon-shezhi"></i>
                 用户设置
-              </router-link>
+              </a>
             </li>
             <li>
-              <router-link to="/notification/list">
+              <a href="/notification/list">
                 <i class="iconfont icon-nitification"></i>
                 消息通知
                 <span v-if="notificationCount" class="badge-count">{{ notificationCount }}</span>
-              </router-link>
+              </a>
             </li>
             <li>
-              <router-link to="/about/hello">
+              <a href="/about/hello">
                 <i class="iconfont icon-bangzhu"></i>
                 功能简介
-              </router-link>
+              </a>
             </li>
             <li>
               <button @click="logout">
