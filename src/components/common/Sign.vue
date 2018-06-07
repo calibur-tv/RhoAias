@@ -9,7 +9,7 @@
     v-model="openDrawer"
     from="bottom"
     size="100%"
-    :header-text="showSignUp ? '注册' : '登录'"
+    :header-text="showSignUp ? '注册' : showReset ? '找回密码' : '登录'"
     class="sign-drawer"
   >
     <div class="container">
