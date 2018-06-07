@@ -505,7 +505,7 @@
               </a>
               <div class="desc">
                 <button class="like" :class="{ 'liked': item.liked }" @click="handleLikeCartoon($event, item)">
-                  <i class="iconfont icon-guanzhu"></i>
+                  <i class="iconfont icon-msnui-love"></i>
                   {{ item.like_count || ''  }}
                 </button>
                 <a class="oneline" :href="$alias.imageAlbum(item.id)" target="_blank" v-text="item.name"></a>
@@ -520,7 +520,7 @@
             :no-more="cartoonInfo.noMore"
             :length="cartoonInfo.list.length"
             :loading="cartoonState.loading"
-            @fetch="getCartoons"
+            @fetch="getCartoons(false)"
           >
             <button @click="openFeedbackForCartoon">求漫画</button>
           </more-btn>
@@ -633,6 +633,7 @@
 
 <script>
   import ImageWaterfall from '~/components/lists/ImageWaterfall'
+  import ImageApi from '~/api/imageApi'
 
   export default {
     name: 'bangumi-show',
@@ -800,7 +801,10 @@
           this.roleState.loading = false
         }
       },
-      async getCartoons () {
+      async getCartoons (isFirstRequest = false) {
+        if (isFirstRequest && this.cartoonInfo.list.length) {
+          return
+        }
         if (this.cartoonState.loading) {
           return
         }
@@ -847,7 +851,7 @@
             this.getVideos()
           }
         } else if (tab === 'cartoon') {
-          this.getCartoons()
+          this.getCartoons(true)
         } else if (tab === 'role') {
           if (!this.roleState.init) {
             this.getRoles(true)
@@ -935,7 +939,48 @@
           this.$channel.$emit('sign-in')
         }
       },
-      handleLikeCartoon () {
+      handleLikeCartoon (e, image) {
+        if (!this.$store.state.login) {
+          this.$toast.info('继续操作前请先登录')
+          this.$channel.$emit('sign-in')
+          return
+        }
+        if (image.user_id === this.$store.state.user.id) {
+          this.$toast.info('不能为自己的图片点赞')
+          return
+        }
+        const btn = e.currentTarget
+        if (!image.liked) {
+          this.$confirm('原创图片点赞需要金币, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.submitToggleLikeCartoon(btn, image)
+          }).catch(() => {})
+          return
+        }
+        this.submitToggleLikeCartoon(btn, image)
+      },
+      async submitToggleLikeCartoon (btn, image) {
+        btn.setAttribute('disabled', 'disabled')
+        // do like
+        const api = new ImageApi(this)
+        try {
+          const result = await api.toggleLike({ id: image.id })
+          if (image.creator && result) {
+            this.$store.commit('USE_COIN')
+          }
+          this.$toast.success('操作成功')
+          this.$store.commit('bangumi/TOGGLE_LIKE_CARTOON', {
+            id: image.id,
+            result
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          btn.removeAttribute('disabled')
+        }
       }
     },
     mounted () {
