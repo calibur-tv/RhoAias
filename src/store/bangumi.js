@@ -37,6 +37,11 @@ export default {
       id: 0,
       data: [],
       noMore: false
+    },
+    cartoon: {
+      page: 0,
+      list: [],
+      noMore: false
     }
   }),
   mutations: {
@@ -117,6 +122,11 @@ export default {
       state.roles.data = state.roles.data.concat(data)
       state.roles.noMore = true
       state.roles.id = bangumiId
+    },
+    SET_BANGUMI_CARTOON (state, data) {
+      state.cartoon.list = state.cartoon.list.concat(data.list)
+      state.cartoon.noMore = data.noMore
+      state.cartoon.page = state.cartoon.page + 1
     }
   },
   actions: {
@@ -208,6 +218,14 @@ export default {
         await api.star({ bangumiId, roleId })
         commit('ADD_ROLE_STATE', { roleId, hasStar })
       } catch (e) {}
+    },
+    async getCartoons ({ state, commit }, { ctx, bangumiId }) {
+      const api = new Api(ctx)
+      const data = await api.cartoon({
+        bangumiId,
+        page: state.cartoon.page
+      })
+      data && commit('SET_BANGUMI_CARTOON', data)
     }
   },
   getters: {}

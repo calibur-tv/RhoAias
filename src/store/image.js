@@ -125,22 +125,9 @@ export default {
     }
   },
   actions: {
-    async getCartoons ({ state, commit }, { id, ctx, force }) {
-      if (force) {
-        commit('RESET_WATERFALL')
-      }
-      const waterfall = state.waterfall
-      const api = new BangumiApi(ctx)
-      const data = await api.cartoon({
-        id,
-        take: waterfall.take,
-        seenIds: waterfall.data.length ? waterfall.data.map(item => item.id).join(',') : null
-      })
-      commit('SET_WATERFALL', data)
-    },
     async getBangumiImages ({ state, commit }, { id, ctx, force }) {
-      if (force) {
-        commit('RESET_WATERFALL')
+      if (state.waterfall.noMore) {
+        return
       }
       const waterfall = state.waterfall
       const api = new BangumiApi(ctx)
@@ -153,14 +140,11 @@ export default {
         roleId: waterfall.roleId,
         creator: waterfall.creator
       })
-      data && commit('SET_WATERFALL', data)
+      commit('SET_WATERFALL', data)
     },
     async getUserImages ({ state, commit }, { zone, ctx, force }) {
-      if (state.waterfall.noMore && !force) {
+      if (state.waterfall.noMore) {
         return
-      }
-      if (force) {
-        commit('RESET_WATERFALL')
       }
       const waterfall = state.waterfall
       const api = new UserApi(ctx)
@@ -173,14 +157,11 @@ export default {
         bangumiId: waterfall.bangumiId,
         creator: waterfall.creator
       })
-      data && commit('SET_WATERFALL', data)
+      commit('SET_WATERFALL', data)
     },
     async getTrendingImages ({ state, commit }, { sort, ctx, force }) {
-      if (state.waterfall.noMore && !force) {
+      if (state.waterfall.noMore) {
         return
-      }
-      if (force) {
-        commit('RESET_WATERFALL')
       }
       const waterfall = state.waterfall
       const api = new ImageApi(ctx)
@@ -193,14 +174,11 @@ export default {
         creator: waterfall.creator,
         sort
       })
-      data && commit('SET_WATERFALL', data)
+      commit('SET_WATERFALL', data)
     },
     async getRoleImages ({ state, commit }, { ctx, id, force }) {
-      if (state.waterfall.noMore && !force) {
+      if (state.waterfall.noMore) {
         return
-      }
-      if (force) {
-        commit('RESET_WATERFALL')
       }
       const waterfall = state.waterfall
       const api = new CartoonRoleApi(ctx)
@@ -213,20 +191,17 @@ export default {
         tags: waterfall.tags,
         creator: waterfall.creator
       })
-      data && commit('SET_WATERFALL', data)
+      commit('SET_WATERFALL', data)
     },
     async userAlbum ({ commit }, { ctx }) {
       const api = new UserApi(ctx)
       const data = await api.getUserAlbums()
-      if (data) {
-        commit('SET_USER_IMAGE_ALBUMS', data)
-        return data
-      }
+      commit('SET_USER_IMAGE_ALBUMS', data)
     },
     async getAlbumData ({ commit }, { id, ctx }) {
       const api = new ImageApi(ctx)
       const data = await api.getAlbumData({ id })
-      data && commit('SET_ALBUM', data)
+      commit('SET_ALBUM', data)
     },
     async sortAlbumImage ({ state, commit }, { prev, next, ctx, id }) {
       let idsArr = state.albumShow.info.images.split(',')
