@@ -21,10 +21,18 @@ import {
 } from 'mint-ui'
 
 import {
-  Upload
+  Upload,
+  Form,
+  FormItem,
+  Input,
+  Button
 } from 'element-ui'
 
 Vue.use(Upload)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Input)
+Vue.use(Button)
 Vue.component(Field.name, Field)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
