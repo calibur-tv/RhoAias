@@ -187,12 +187,10 @@
         window.location.reload()
       },
       login () {
-        this.$channel.$emit('switch-to-register', false)
-        this.$channel.$emit('sign-in')
+        this.$channel.$emit('sign-in', (false))
       },
       register () {
-        this.$channel.$emit('switch-to-register', true)
-        this.$channel.$emit('sign-in')
+        this.$channel.$emit('sign-up')
       },
       async submitFeedback () {
         if (!this.content.length) {
