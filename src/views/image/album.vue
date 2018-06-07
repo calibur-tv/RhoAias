@@ -34,11 +34,11 @@
         margin-top: 20px;
 
         li {
-          width: 25%;
+          width: 50%;
           display: inline-block;
           text-align: center;
           margin-bottom: 7px;
-          padding: 0 10px;
+          padding: 0 5px;
         }
 
         a {
@@ -49,12 +49,12 @@
           display: block;
           font-size: 12px;
           line-height: 28px;
-        }
 
-        .a-active {
-          border-color: $color-blue-light;
-          background-color: $color-blue-light;
-          color: $color-white;
+          &.active {
+            border-color: $color-blue-light;
+            background-color: $color-blue-light;
+            color: $color-white;
+          }
         }
       }
 
@@ -145,6 +145,7 @@
             :href="$alias.imageAlbum(item.id)"
             v-text="item.name"
             class="oneline"
+            :class="{ 'active': item.id == id }"
           ></a>
         </li>
       </ul>
