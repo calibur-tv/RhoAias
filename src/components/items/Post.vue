@@ -10,7 +10,7 @@
       margin-bottom: 9px;
 
       .avatar {
-        margin-right: 10px;
+        margin-right: 7px;
         display: block;
         float: left;
         position: relative;
@@ -39,14 +39,15 @@
         overflow: hidden;
 
         p {
-          margin-bottom: 3px;
+          margin-bottom: 4px;
           font-size: 14px;
           color: #333;
+          line-height: 15px;
         }
 
         time, span {
           color: #999;
-          font-size: 12px;
+          font-size: 11px;
         }
       }
     }
@@ -129,9 +130,9 @@
         <a class="avatar" :href="$alias.user(item.user.zone)">
           <v-img width="70" :src="item.user.avatar"></v-img>
         </a>
-        <a class="name" :href="$alias.user(item.user.zone)">
-          <p v-text="item.user.nickname"></p>
-          <v-time v-model="item.created_at"></v-time>
+        <a class="name" :href="$alias.post(item.id)">
+          <p class="oneline" v-text="item.title"></p>
+          <span>{{ item.user.nickname }}&nbsp;·&nbsp;<v-time v-model="item.created_at"></v-time></span>
         </a>
       </template>
       <template v-else>
