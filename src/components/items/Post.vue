@@ -39,7 +39,8 @@
         overflow: hidden;
 
         p {
-          margin-bottom: 4px;
+          margin-bottom: 2px;
+          margin-top: 2px;
           font-size: 14px;
           color: #333;
           line-height: 15px;
