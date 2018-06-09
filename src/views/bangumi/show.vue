@@ -433,8 +433,8 @@
         </more-btn>
       </template>
       <div id="videos" v-else-if="sort === 'video'">
-        <div v-if="info.season" class="container">
-          <template v-for="season in videos.data">
+        <div v-if="videos.has_season" class="container">
+          <template v-for="season in videos.list">
             <h3 class="sub-title" v-text="season.name" :key="season.name"></h3>
             <ul :key="season.name">
               <li
@@ -461,7 +461,7 @@
         </div>
         <ul class="container" v-else>
           <li
-            v-for="video in videos.data"
+            v-for="video in videos.list"
             :key="video.id"
             class="video"
           >
@@ -484,7 +484,7 @@
           :no-more="videos.noMore"
           :auto="true"
           :loading="videoState.loading"
-          :length="videos.data.length"
+          :length="videos.list.length"
         >
           <button @click="openFeedbackForResource">求资源</button>
         </more-btn>

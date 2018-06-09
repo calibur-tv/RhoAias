@@ -6,7 +6,7 @@ export default class extends BaseApi {
   }
 
   follow (id) {
-    return this.http.post(`bangumi/${id}/follow`)
+    return this.http.post(`bangumi/${id}/toggleFollow`)
   }
 
   videos (id) {
@@ -19,9 +19,9 @@ export default class extends BaseApi {
     })
   }
 
-  posts ({ id, seenIds, take, type }) {
-    return this.http.get(`bangumi/${id}/posts`, {
-      params: { seenIds, take, type }
+  posts ({ id, maxId, take }) {
+    return this.http.get(`bangumi/${id}/posts/news`, {
+      params: { maxId, take }
     })
   }
 
