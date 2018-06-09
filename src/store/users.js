@@ -31,7 +31,7 @@ export default {
     roles: {
       zone: '',
       data: [],
-      page: 1,
+      page: 0,
       noMore: false
     },
     notifications: {
@@ -55,8 +55,8 @@ export default {
     },
     SET_USER_ROLES (state, { data, zone }) {
       state.roles.zone = zone
-      state.roles.data = state.roles.data.concat(data)
-      state.roles.noMore = data.length < 15
+      state.roles.data = state.roles.data.concat(data.list)
+      state.roles.noMore = data.noMore
       state.roles.page++
     },
     SET_USER_INFO (state, { data, zone }) {
@@ -76,7 +76,7 @@ export default {
     SET_FOLLOW_POST_DATA (state, { data, type, zone }) {
       state.posts.zone = zone
       state.posts[type] = {
-        data: state.posts[type].data.concat(data),
+        data: state.posts[type].data.concat(data.list),
         noMore: data.length < state.posts.take,
         loading: false
       }

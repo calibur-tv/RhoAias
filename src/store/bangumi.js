@@ -9,15 +9,13 @@ export default {
     timeline: {
       data: [],
       year: new Date().getFullYear() + 1,
-      take: 5,
-      min: 0,
       noMore: false
     },
     category: {
       data: [],
       noMore: false,
-      page: 1,
-      take: 15
+      page: 0,
+      take: 10
     },
     tags: [],
     info: null,
@@ -29,8 +27,9 @@ export default {
       noMore: false
     },
     videos: {
-      data: [],
+      list: [],
       total: 0,
+      has_season: false,
       noMore: false
     },
     roles: {
@@ -81,14 +80,9 @@ export default {
     },
     SET_TIMELINE (state, data) {
       const temp = state.timeline
-      const nowYear = temp.year - temp.take
-      state.timeline = {
-        data: temp.data.concat(data.list),
-        min: data.min,
-        take: temp.take,
-        year: nowYear,
-        noMore: nowYear <= data.min
-      }
+      state.timeline.data = temp.data.concat(data.list)
+      state.timeline.year = temp.year - 1
+      state.timeline.noMore = data.noMore
     },
     SET_TAGS (state, { tags, id }) {
       const ids = id ? id.split('-') : undefined
@@ -113,8 +107,9 @@ export default {
     },
     SET_VIDEOS (state, data) {
       state.videos = {
-        data: data.videos,
+        list: data.videos,
         total: data.total,
+        has_season: data.has_season,
         noMore: true
       }
     },
@@ -209,11 +204,13 @@ export default {
       data && commit('SET_CATEGORY', data)
     },
     async getPosts ({ state, commit }, { id, take, type, ctx, reset = false }) {
-      const seenIds = reset ? null : state.posts.data.length
-        ? state.posts.data.map(item => item.id).join(',')
-        : null
       const api = new Api(ctx)
-      const data = await api.posts({ id, take, type, seenIds })
+      const data = await api.posts({
+        id,
+        take,
+        type,
+        maxId: state.posts.data.length ? state.posts.data[state.posts.data.length - 1].id : 0
+      })
       data && commit('SET_POSTS', {
         data: data.list,
         total: data.total,
