@@ -52,4 +52,22 @@ export default class extends BaseApi {
       params: { seenIds, take }
     })
   }
+
+  news ({ minId }) {
+    return this.http.get('post/trending/news', {
+      params: { minId }
+    })
+  }
+
+  hot ({ seenIds }) {
+    return this.http.get('post/trending/hot', {
+      params: { seenIds }
+    })
+  }
+
+  active ({ seenIds }) {
+    return this.http.get('post/trending/active', {
+      params: { seenIds }
+    })
+  }
 }
