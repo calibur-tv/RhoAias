@@ -32,6 +32,11 @@
 
       .cartoon-list {
         margin-top: 20px;
+        position: relative;
+
+        .sub-title {
+          margin-left: 10px;
+        }
 
         li {
           width: 50%;
@@ -55,6 +60,15 @@
             background-color: $color-blue-light;
             color: $color-white;
           }
+        }
+
+        .more {
+          position: absolute;
+          right: 10px;
+          top: 0;
+          text-align: center;
+          font-size: 14px;
+          color: $color-text-normal;
         }
       }
 
@@ -139,16 +153,20 @@
           ></v-img>
         </div>
       </div>
-      <ul class="cartoon-list" v-if="cartoon.length">
-        <li v-for="item in cartoon">
-          <a
-            :href="$alias.imageAlbum(item.id)"
-            v-text="item.name"
-            class="oneline"
-            :class="{ 'active': item.id == id }"
-          ></a>
-        </li>
-      </ul>
+      <div class="cartoon-list" v-if="cartoon.length">
+        <h3 class="sub-title">选集（{{ cartoon.length }}）</h3>
+        <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+        <ul>
+          <li v-for="item in sortCartoons">
+            <a
+              :href="$alias.imageAlbum(item.id)"
+              v-text="item.name"
+              class="oneline"
+              :class="{ 'active': item.id === id }"
+            ></a>
+          </li>
+        </ul>
+      </div>
       <div class="container">
         <div class="reward-panel">
           <button
@@ -204,7 +222,8 @@
     },
     computed: {
       id () {
-        return this.$route.params.id
+        return parseInt(this.$route.params.id, 10
+        )
       },
       album () {
         return this.$store.state.image.albumShow
@@ -238,11 +257,34 @@
         return this.$store.state.login
           ? this.user.id === this.$store.state.user.id
           : false
+      },
+      showMoreBtn () {
+        return this.take < this.cartoon.length
+      },
+      sortCartoons () {
+        const begin = (this.page - 1) * this.take
+        return this.showAll ? this.cartoon : this.cartoon.slice(begin, begin + this.take)
+      }
+    },
+    data () {
+      return {
+        take: 4,
+        page: 0,
+        part: 0,
+        showAll: false
       }
     },
     methods: {
       handleBangumiFollow (result) {
         this.$store.commit('image/FOLLOW_ALBUM_BANGUMI', { result })
+      },
+      computePage () {
+        this.cartoon.forEach((meta, index) => {
+          if (meta.id === this.id) {
+            this.part = index + 1
+          }
+        })
+        this.page = Math.ceil(this.part / this.take)
       },
       toggleLike () {
         if (!this.$store.state.login) {
@@ -283,6 +325,9 @@
           this.loadingFollowAlbum = false
         }
       }
+    },
+    mounted () {
+      this.computePage()
     }
   }
 </script>
