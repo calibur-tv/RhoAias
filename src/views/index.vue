@@ -1,6 +1,5 @@
 <style lang="scss">
   #homepage {
-
     .slogan {
       background-color: #fff;
       padding: 17px 0 17px 20px;
@@ -60,72 +59,74 @@
     </div>
     <div class="hr"></div>
     <div class="tabs">
-      <button @click="switchTab('new')" :class="{ 'active': sort === 'new' }">最新</button>
+      <button @click="switchTab('news')" :class="{ 'active': sort === 'news' }">最新</button>
+      <button @click="switchTab('active')" :class="{ 'active': sort === 'active' }">动态</button>
       <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
     </div>
     <ul>
       <v-post-item
-        v-for="item in list.data"
+        v-for="item in post.list"
         :key="item.id"
         :item="item"
       ></v-post-item>
     </ul>
     <more-btn
-      :no-more="list.noMore"
-      :loading="loading"
-      :length="list.data.length"
+      :no-more="post.noMore"
+      :loading="post.loading"
+      :length="post.list.length"
       @fetch="fetchData(false)"
     ></more-btn>
   </div>
 </template>
 
 <script>
+  import PostApi from '~/api/postApi'
+
   export default {
     name: 'page-index',
     head: {
       title: '天下漫友是一家'
     },
     async asyncData ({ store, ctx }) {
-      await store.dispatch('post/getTrending', {
-        sort: 'new',
-        ctx
+      await store.dispatch('trending/getTrending', {
+        type: 'post',
+        sort: 'active',
+        api: new PostApi(ctx)
       })
     },
     computed: {
-      list () {
-        return this.$store.state.post.trending[this.sort]
+      post () {
+        return this.$store.state.trending[this.sort]
       }
     },
     data () {
       return {
-        sort: 'new',
-        loading: false
+        sort: 'active'
       }
     },
     methods: {
-      async fetchData (reset = true, force = false) {
-        if (this.loading && !force) {
-          return
-        }
-
-        this.loading = true
+      async fetchData (reset) {
         try {
-          await this.$store.dispatch('post/getTrending', {
-            sort: this.sort,
-            ctx: this,
-            reset
-          })
+          if (reset) {
+            await this.$store.dispatch('trending/getTrending', {
+              type: 'post',
+              sort: this.sort,
+              api: new PostApi(this)
+            })
+          } else {
+            await this.$store.dispatch('trending/loadMore', {
+              type: 'post',
+              sort: this.sort,
+              api: new PostApi(this)
+            })
+          }
         } catch (e) {
           this.$toast.error(e)
-        } finally {
-          this.loading = false
         }
       },
       switchTab (tab) {
         this.sort = tab
-        if (!this.$store.state.post.trending[tab].data.length) {
-          this.fetchData(false, true)
-        }
+        this.fetchData(true)
       }
     }
   }
