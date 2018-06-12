@@ -120,7 +120,7 @@ const mutations = {
     state.show.data.total++
     const images = data.images
     if (images.length) {
-      state.show.info.post.previewImages = state.show.info.post.previewImages.concat(images)
+      state.show.info.post.preview_images = state.show.info.post.preview_images.concat(images)
     }
   },
   followBangumi (state, { result }) {
