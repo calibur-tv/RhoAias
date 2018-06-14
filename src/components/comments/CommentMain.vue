@@ -316,6 +316,7 @@
         <create-comment-form
           :id="id"
           :type="type"
+          :with-image="withImage"
           @close="openCreateCommentDrawer = false"
         ></create-comment-form>
       </div>
@@ -339,6 +340,10 @@
         validator: val => ~['post'].indexOf(val)
       },
       onlySeeMaster: {
+        type: Boolean,
+        default: false
+      },
+      withImage: {
         type: Boolean,
         default: false
       }
