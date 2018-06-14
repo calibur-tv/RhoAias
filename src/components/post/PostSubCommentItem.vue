@@ -28,8 +28,6 @@
 </template>
 
 <script>
-  import CommentReplyForm from '~/components/forms/CommentReplyForm'
-
   export default {
     name: 'post-sub-comment-item',
     props: {
@@ -41,9 +39,6 @@
         required: true,
         type: Number
       }
-    },
-    components: {
-      CommentReplyForm
     },
     computed: {
       currentUserId () {

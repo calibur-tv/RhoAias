@@ -941,7 +941,6 @@
       },
       handleLikeCartoon (e, image) {
         if (!this.$store.state.login) {
-          this.$toast.info('继续操作前请先登录')
           this.$channel.$emit('sign-in')
           return
         }

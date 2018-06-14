@@ -101,6 +101,14 @@
         backdropId: 0
       }
     },
+    computed: {
+      isGuest () {
+        return !this.$store.state.login
+      },
+      pageName () {
+        return this.$route.name
+      }
+    },
     methods: {
       handlePaletteOpen () {
         this.backdropId = this.$backdrop.show({
@@ -118,19 +126,23 @@
       },
       handleImageClick () {
         this.close()
-        if (this.$store.state.login) {
-          this.$channel.$emit('open-create-image-drawer')
-        } else {
+        if (this.isGuest) {
           this.$channel.$emit('sign-in')
+          return
         }
+        this.$channel.$emit('open-create-image-drawer')
       },
       handlePostClick () {
         this.close()
-        if (this.$store.state.login) {
-          this.$channel.$emit('drawer-open-write-post')
-        } else {
+        if (this.isGuest) {
           this.$channel.$emit('sign-in')
+          return
         }
+        if (~['post-show'].indexOf(this.pageName)) {
+          this.$channel.$emit('open-create-comment-drawer')
+          return
+        }
+        this.$channel.$emit('drawer-open-write-post')
       },
       handleFeedClick () {
         this.close()

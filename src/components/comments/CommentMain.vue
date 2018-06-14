@@ -305,10 +305,27 @@
         v-model.trim="replyForm.content"
       ></textarea>
     </div>
+    <!-- comment drawer -->
+    <v-drawer
+      v-model="openCreateCommentDrawer"
+      from="right"
+      size="100%"
+      header-text="发表评论"
+    >
+      <div class="container">
+        <create-comment-form
+          :id="id"
+          :type="type"
+          @close="openCreateCommentDrawer = false"
+        ></create-comment-form>
+      </div>
+    </v-drawer>
   </div>
 </template>
 
 <script>
+  import CreateCommentForm from '~/components/forms/CreateCommentForm'
+
   export default {
     name: 'v-comment-main',
     props: {
@@ -326,6 +343,9 @@
         default: false
       }
     },
+    components: {
+      CreateCommentForm
+    },
     computed: {
       store () {
         return this.$store.state.comment
@@ -338,9 +358,6 @@
       },
       total () {
         return this.store.total
-      },
-      submitting () {
-        return this.store.submitting
       },
       focusComment () {
         return this.focusCommentId
@@ -367,7 +384,8 @@
           open: false,
           replying: false,
           liking: false
-        }
+        },
+        openCreateCommentDrawer: false
       }
     },
     methods: {
@@ -387,26 +405,6 @@
           this.$toast.error(e)
         } finally {
           this.loadingMainComment = false
-        }
-      },
-      async reply (data) {
-        if (this.submitting) {
-          return
-        }
-        this.$store.commit('comment/SET_SUBMITTING', { result: true })
-        try {
-          await this.$store.dispatch('comment/createMainComment', {
-            content: data.content,
-            images: data.images,
-            type: 'post',
-            id: this.id,
-            ctx: this
-          })
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.$store.commit('comment/SET_SUBMITTING', { result: false })
-          this.$channel.$emit('main-comment-create-success')
         }
       },
       async loadMoreSubComment () {
@@ -449,6 +447,7 @@
         this.replyForm.targetUserId = targetUserId
         this.replyForm.targetUserName = targetUserName
         this.replyForm.open = true
+        setTimeout(() => { document.body.scrollTop = 0 }, 200)
       },
       async toggleFocusCommentLike () {
         if (this.replyForm.liking) {
@@ -481,6 +480,7 @@
           return
         }
         this.replyForm.replying = true
+        this.$toast.loading()
         try {
           await this.$store.dispatch('comment/createSubComment', {
             ctx: this,
@@ -491,6 +491,7 @@
           })
           this.replyForm.open = false
           this.replyForm.content = ''
+          this.$toast.success('回复成功')
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -514,6 +515,13 @@
             statement: !!this.currentUserId
           })
         })
+      })
+      this.$channel.$on('open-create-comment-drawer', () => {
+        if (!this.currentUserId) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        this.openCreateCommentDrawer = true
       })
     }
   }
