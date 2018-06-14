@@ -17,35 +17,13 @@
           @include avatar(35px)
         }
 
-        .selector {
+        .tool-btn {
           position: absolute;
           right: 5px;
           top: 0;
-          width: 102px;
           line-height: 16px;
           font-size: 12px;
           color: #535353;
-          z-index: 5;
-
-          .v-select-options-wrap {
-            background-color: #fff;
-            border: 1px solid #f0f0f0;
-            box-shadow: 0 2px 3px #ccc;
-            border-radius: 4px;
-            top: 18px;
-          }
-
-          .v-select-options-item {
-            height: 36px;
-            line-height: 35px;
-            color: #535353;
-            font-size: 12px;
-            padding-left: 15px;
-
-            &:not(:last-child) {
-              border-bottom: 1px solid #f0f0f0;
-            }
-          }
         }
 
         .summary {
@@ -275,15 +253,7 @@
           <a class="avatar" :href="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">
           </a>
-          <v-select
-            class="selector"
-            placeholder=""
-            :abort="true"
-            :options="options"
-            @submit="handleSelectSubmit"
-          >
-            <template slot="tail">···</template>
-          </v-select>
+          <button class="tool-btn" @click="showPostActionSheet = true">···</button>
           <div class="summary">
             <a
               class="nickname"
@@ -346,6 +316,10 @@
             回复
           </button>
         </div>
+        <mt-actionsheet
+          :actions="actions"
+          v-model="showPostActionSheet"
+        ></mt-actionsheet>
       </div>
       <div class="hr"></div>
       <comment-main
@@ -355,17 +329,13 @@
       >
         <post-comment-item
           slot="comment-item"
-          slot-scope="{ comment }"
+          slot-scope="{ comment, reply }"
           :post="comment"
           :master-id="master.id"
+          @reply="reply"
         ></post-comment-item>
       </comment-main>
     </div>
-    <more-btn
-      :no-more="noMore"
-      :loading="loadingLoadMore"
-      @fetch="getPosts(false)"
-    ></more-btn>
     <div class="hr"></div>
     <div class="container bangumi-panel">
       <h3 class="sub-title">所属番剧：</h3>
@@ -379,100 +349,6 @@
         <p class="summary" v-text="bangumi.summary"></p>
       </v-bangumi-panel>
     </div>
-    <v-drawer
-      v-model="openCommentsDrawer"
-      from="bottom"
-      size="100%"
-      class="post-comment-drawer"
-      :header-text="`评论列表 - ${focusReply ? focusReply.floor_count : ''}楼`"
-      :backdrop="false"
-    >
-      <div
-        class="container"
-      >
-        <template v-if="focusReply">
-          <div class="reply">
-            <div class="user clearfix">
-              <a class="avatar" :href="$alias.user(focusReply.from_user_zone)">
-                <img :src="$resize(focusReply.from_user_avatar, { width: 70 })">
-              </a>
-              <div class="summary">
-                <a
-                  class="nickname"
-                  :href="$alias.user(focusReply.from_user_zone)"
-                  v-text="focusReply.from_user_name"
-                ></a>
-                <div class="info">
-                  <v-time v-model="post.created_at"></v-time>
-                </div>
-              </div>
-            </div>
-            <div class="content">
-              <div class="text-area" v-html="focusReply.content"></div>
-              <div class="image-area">
-                <div
-                  class="image-package"
-                  v-for="(img, idx) in focusReply.images"
-                  :key="idx"
-                  @click="$previewImages(focusReply.images, idx)"
-                >
-                  <v-img
-                    class="image"
-                    :src="img.url"
-                    width="150"
-                    mode="2"
-                  ></v-img>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="hr"></div>
-          <p class="total">{{ focusReply.comment_count }}条回复</p>
-        </template>
-        <ul class="comments">
-          <li
-            v-for="item in focusComments"
-            :key="item.id"
-          >
-            <div class="from-user">
-              <a
-                class="avatar"
-                :href="$alias.user(item.from_user_zone)"
-              >
-                <img :src="$resize(item.from_user_avatar, { width: 70 })"/>
-              </a>
-              <div class="summary">
-                <a
-                  class="nickname"
-                  :href="$alias.user(item.from_user_zone)"
-                  v-text="item.from_user_name"
-                ></a>
-                <div class="info">
-                  <v-time v-model="item.created_at"></v-time>
-                </div>
-              </div>
-            </div>
-            <div class="content" @click="commentToComment(item)">
-              <template v-if="item.to_user_zone">
-                回复
-                <a
-                  class="nickname"
-                  :href="$alias.user(item.to_user_zone)"
-                  v-text="item.to_user_name"
-                ></a>
-                :
-              </template>
-              <span class="comment-content">{{ item.content }}</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <more-btn
-        :no-more="noMoreComment"
-        :loading="loadingComments"
-        @fetch="loadMoreComment"
-      ></more-btn>
-    </v-drawer>
     <v-drawer
       v-model="createComment.open"
       from="top"
@@ -534,12 +410,6 @@
       resource () {
         return this.$store.state.post.show
       },
-      list () {
-        return this.$utils.orderBy(this.resource.data.list, 'floor_count')
-      },
-      noMore () {
-        return this.resource.data.noMore
-      },
       bangumi () {
         return this.resource.info.bangumi
       },
@@ -550,7 +420,7 @@
         return this.resource.info.user
       },
       total () {
-        return this.post.comment_count + 1
+        return this.$store.state.comment.total + 1
       },
       masterId () {
         return this.master.id
@@ -582,15 +452,30 @@
           ? this.focusComments.length >= this.focusReply.comment_count
           : true
       },
-      options () {
-        const result = ['回复']
+      actions () {
+        const result = [{
+          name: '回复',
+          method: this.handleReplyBtnClick
+        }]
         if (this.isMaster) {
-          result.push('删除')
+          result.push({
+            name: '删除',
+            method: this.deletePost
+          })
         } else {
-          result.push(this.post.liked ? '取消喜欢' : '喜欢')
-          result.push(this.post.marked ? '取消收藏' : '收藏')
+          result.push({
+            name: this.post.liked ? '取消喜欢' : '喜欢',
+            method: this.toggleLike
+          })
+          result.push({
+            name: this.post.marked ? '取消收藏' : '收藏',
+            method: this.toggleMark
+          })
         }
-        result.push(this.onlySeeMaster ? '取消只看楼主' : '只看楼主')
+        result.push({
+          name: this.onlySeeMaster ? '取消只看楼主' : '只看楼主',
+          method: this.switchOnlyMaster
+        })
 
         return result
       }
@@ -612,7 +497,8 @@
           targetUserId: 0,
           loading: false,
           to_user_name: ''
-        }
+        },
+        showPostActionSheet: false
       }
     },
     methods: {

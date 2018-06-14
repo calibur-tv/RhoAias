@@ -93,45 +93,26 @@
       overflow: hidden;
 
       .header {
-
-        .selector {
-          width: 102px;
+        .tools-btn {
           float: right;
           line-height: 16px;
           font-size: 12px;
           color: #535353;
           margin-top: 9px;
-
-          .v-select-options-wrap {
-            background-color: #fff;
-            border: 1px solid #f0f0f0;
-            border-radius: 4px;
-            top: 18px;
-          }
-
-          .v-select-options-item {
-            height: 36px;
-            line-height: 35px;
-            color: #535353;
-            font-size: 12px;
-            padding-left: 15px;
-
-            &:not(:last-child) {
-              border-bottom: 1px solid #f0f0f0;
-            }
-          }
+          margin-left: 4px;
         }
 
         .user {
           .nickname {
             font-size: 14px;
-            line-height: 18px;
+            line-height: 21px;
+            display: block;
             color: #333;
           }
 
           .info {
             color: #999;
-            line-height: 16px;
+            line-height: 14px;
             font-size: 12px;
 
             span {
@@ -159,50 +140,6 @@
       }
 
       .footer {
-        .comments {
-          padding: 7px 0 7.5px;
-          margin-top: 5px;
-          position: relative;
-          background-color: #F5F5F5;
-
-          ul {
-            li {
-              padding: 1.5px 10px 0;
-              font-size: 14px;
-              line-height: 19px;
-
-              .nickname {
-                color: $color-blue-deep
-              }
-
-              .comment-content {
-                margin-right: 6px;
-              }
-            }
-          }
-
-          .load-all-comment {
-            position: relative;
-            margin-top: 6px;
-            font-size: 12px;
-            margin-bottom: 0;
-            padding: 0 10px;
-            color: #999;
-            width: 100%;
-            text-align: left;
-
-            &:after {
-              content: '';
-              position: absolute;
-              top: 50%;
-              border: 3px solid #f5f5f5;
-              border-left-color: #999;
-              transform: translateY(-50%);
-              margin-left: 4px;
-            }
-          }
-        }
-
         .social {
           margin-top: 15px;
           font-size: 12px;
@@ -213,6 +150,7 @@
 
           button {
             color: #666;
+            margin-left: 3px;
           }
         }
       }
@@ -221,66 +159,13 @@
 </style>
 
 <template>
-  <!--
-  <el-row class="post-item" :id="`post-reply-${post.id}`">
-    <div class="user" :span="5">
-      <a :href="$alias.user(post.from_user_zone)" target="_blank">
-        <v-img class="avatar" :src="post.from_user_avatar" :width="80" :height="80"></v-img>
-      </a>
-      <a
-        :href="$alias.user(post.from_user_zone)"
-        class="nickname oneline"
-        target="_blank"
-        v-text="post.from_user_name"
-      ></a>
-    </div>
-    <div class="content">
-      <div class="main">
-        <div
-          class="image-package"
-          v-for="(img, idx) in post.images"
-          :key="idx"
-          @click="$previewImages(post.images, idx)"
-        >
-          <v-img
-            class="image"
-            :src="img.url"
-            width="350"
-            mode="2"
-            :aspect="$computeImageAspect(img)"
-          ></v-img>
-        </div>
-        <div class="text-package" v-html="post.content"></div>
-      </div>
-      <div class="footer">
-        <div class="info-bar">
-          <button class="like-btn" @click="toggleLike">
-            {{ post.liked ? '已赞' : '赞' }}
-            <span v-if="post.like_count">({{ post.like_count }})</span>
-          </button>
-          <button class="delete-btn" v-if="canDelete" @click="deletePost">删除</button>
-          <span class="floor-count">{{ post.floor_count }}楼</span>
-          <v-time v-model="post.created_at"></v-time>
-        </div>
-      </div>
-    </div>
-  </el-row>
-  -->
   <div class="post-reply-item" :id="`post-reply-${post.id}`">
     <a class="avatar" :href="$alias.user(post.from_user_zone)">
       <v-img :src="post.from_user_avatar" :width="80" :height="80"></v-img>
     </a>
     <div class="content">
       <div class="header">
-        <v-select
-          class="selector"
-          placeholder=""
-          :abort="true"
-          :options="options"
-          @submit="handleSelectSubmit"
-        >
-          <template slot="tail">···</template>
-        </v-select>
+        <button class="tools-btn" @click="showControlPanel = true">···</button>
         <div class="user">
           <a
             class="nickname oneline"
@@ -325,11 +210,15 @@
             {{ post.liked ? '已赞' : '赞' }}
             <span v-if="post.like_count">({{ post.like_count }})</span>
           </button>
-          <button class="fr" @click="handleCommentBtnClick">
+          <button ref="replyBtn" class="fr" @click="handleCommentBtnClick">
             回复
           </button>
         </div>
       </div>
+      <mt-actionsheet
+        :actions="actions"
+        v-model="showControlPanel"
+      ></mt-actionsheet>
     </div>
   </div>
 </template>
@@ -364,14 +253,18 @@
       canDelete () {
         return this.isMine || this.currentUserId === this.masterId
       },
-      options () {
-        const result = ['回复']
+      actions () {
+        const result = []
         if (this.canDelete) {
-          result.push('删除')
+          result.push({
+            name: '删除',
+            method: this.deletePost
+          })
         }
-        if (!this.isMine) {
-          result.push(this.post.liked ? '取消赞' : '赞')
-        }
+        result.push({
+          name: this.post.liked ? '取消赞' : '点赞',
+          method: this.toggleLike
+        })
 
         return result
       }
@@ -379,7 +272,8 @@
     data () {
       return {
         deleting: false,
-        liking: false
+        liking: false,
+        showControlPanel: false
       }
     },
     methods: {
@@ -422,18 +316,22 @@
           this.$toast.error(e)
         })
       },
-      handleSelectSubmit (option) {
-        if (option === '删除') {
-          this.$emit('delete')
-        } else if (option === '赞' || option === '取消赞') {
-          this.toggleLike()
-        } else if (option === '回复') {
-          this.handleCommentBtnClick()
-        }
-      },
       handleCommentBtnClick () {
-
+        this.$emit('reply', {
+          id: this.post.id,
+          targetUserId: this.post.from_user_id,
+          targetUserName: this.post.from_user_name
+        })
       }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.$utils.hackFocus({
+          button: this.$refs.replyBtn,
+          input: document.getElementById('reply-comment-textarea'),
+          statement: !!this.currentUserId
+        })
+      })
     }
   }
 </script>

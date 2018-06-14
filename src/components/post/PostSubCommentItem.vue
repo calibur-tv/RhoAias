@@ -1,8 +1,8 @@
 <style lang="scss">
   .post-sub-comment-item {
-    padding: 1.5px 10px 0;
+    padding: 2px 10px;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 18px;
 
     .nickname {
       color: $color-blue-deep
@@ -10,6 +10,7 @@
 
     .comment-content {
       margin-right: 6px;
+      word-break: break-all;
     }
   }
 </style>
@@ -22,7 +23,7 @@
       <a class="nickname" :href="$alias.user(comment.to_user_zone)" v-text="comment.to_user_name"></a>
     </template>
     :
-    <span class="comment-content">{{ comment.content }}</span>
+    <span class="comment-content" @click="deleteComment">{{ comment.content }}</span>
   </div>
 </template>
 
@@ -59,15 +60,14 @@
     },
     data () {
       return {
-        showReplyArea: false,
         deleting: false
       }
     },
     methods: {
-      toggleCommentArea () {
-        this.showReplyArea = !this.showReplyArea
-      },
       deleteComment () {
+        if (!this.canDelete) {
+          return
+        }
         if (this.deleting) {
           return
         }

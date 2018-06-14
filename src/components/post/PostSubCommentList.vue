@@ -36,13 +36,13 @@
   <div class="post-sub-comment-list-wrap">
     <div class="sub-comment-list" v-if="hasComment">
       <post-sub-comment-item
-        v-for="comment in comments.list"
+        v-for="comment in filterComments"
         :key="comment.id"
         :comment="comment"
         :parent-user-id="authorId"
       ></post-sub-comment-item>
       <button
-        v-if="!comments.noMore"
+        v-if="!comments.noMore || comments.list.length > 5"
         class="load-all-comment"
         @click="loadAllComment"
       >
@@ -75,6 +75,18 @@
       },
       hasComment () {
         return !!this.comments.list.length
+      },
+      filterComments () {
+        const data = this.comments
+        const comments = data.list
+        const result = comments.slice(0, 5)
+        if (comments.every(_ => _.id <= data.maxId)) {
+          return result
+        }
+        const ids = result.map(_ => _.id)
+        return result.concat(
+          comments.filter(_ => _.id > data.maxId && ids.indexOf(_.id) === -1)
+        )
       }
     },
     methods: {

@@ -48,6 +48,7 @@
       height: 46px;
       line-height: 46px;
       z-index: 1;
+      border-bottom: 1px solid #f0f0f0;
 
       button {
         position: absolute;
@@ -60,6 +61,7 @@
         font-size: 16px;
         color: #333333;
         text-align: center;
+        padding: 0 60px;
       }
 
       .close-btn {
@@ -90,8 +92,8 @@
       >
         <header class="drawer-header" v-if="headerText">
           <button class="close-btn" @click.stop.prevent="close">关闭</button>
-          <h3 v-text="headerText"></h3>
-          <button v-if="showSubmit" class="submit-btn" @click.stop.prevent="submit">确认</button>
+          <h3 class="oneline" v-text="headerText"></h3>
+          <button v-if="submitText" class="submit-btn" @click.stop.prevent="submit" v-text="submitText"></button>
         </header>
         <slot></slot>
       </div>
@@ -134,9 +136,9 @@
         type: Boolean,
         default: true
       },
-      showSubmit: {
-        type: Boolean,
-        default: false
+      submitText: {
+        type: String,
+        default: ''
       }
     },
     data () {
@@ -214,6 +216,7 @@
         if (this.id) {
           this.$channel.$emit(`drawer-close-event-${this.id}`)
         }
+        this.$emit('cancel')
       },
       submit () {
         this.close()
