@@ -10,7 +10,7 @@
       margin-top: 14px;
 
       a, button {
-        padding: 0 17px;
+        padding: 0 16px;
         color: #666;
         font-size: 12px;
 

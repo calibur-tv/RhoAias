@@ -17,7 +17,8 @@ import {
   Swipe,
   SwipeItem,
   Picker,
-  Switch
+  Switch,
+  Actionsheet
 } from 'mint-ui'
 
 import {
@@ -47,6 +48,7 @@ Vue.component(Post.name, Post)
 Vue.component(Select.name, Select)
 Vue.component(BangumiPanel.name, BangumiPanel)
 Vue.component(Switch.name, Switch)
+Vue.component(Actionsheet.name, Actionsheet)
 
 Vue.use({
   install (Vue, options) {

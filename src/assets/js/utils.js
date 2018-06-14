@@ -50,5 +50,18 @@ export default {
 
   orderBy,
 
-  throttle
+  throttle,
+
+  hackFocus ({ button, input, statement }) {
+    if (!(button instanceof Element) || !(input instanceof Element) || !statement) {
+      return
+    }
+    button.addEventListener('click', function (evt) {
+      if (typeof statement === 'string' && evt.target.className.match(statement) === null) {
+        return
+      }
+      input.style.display = 'block'
+      input.focus()
+    })
+  }
 }

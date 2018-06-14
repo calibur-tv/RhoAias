@@ -9,6 +9,7 @@ import users from './users'
 import cartoonRole from './cartoonRole'
 import image from './image'
 import trending from './trending'
+import comment from './comment'
 
 Vue.use(Vuex)
 
@@ -105,7 +106,8 @@ export function createStore () {
       video,
       cartoonRole,
       image,
-      trending
+      trending,
+      comment
     }
   })
 }

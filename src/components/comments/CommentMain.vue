@@ -1,0 +1,520 @@
+<style lang="scss">
+  #comment-wrap {
+    #comment-list-footer {
+      margin-left: -$container-padding;
+      margin-right: -$container-padding;
+    }
+
+    .focus-comment-drawer {
+      .reply {
+        .user {
+          padding-top: $container-padding;
+
+          .avatar {
+            float: left;
+            margin-right: 9px;
+            @include avatar-2(35px)
+          }
+
+          .summary {
+            overflow: hidden;
+
+            .nickname {
+              font-size: 14px;
+              color: #333;
+            }
+
+            .info {
+              line-height: 16px;
+              font-size: 12px;
+              color: #999;
+
+              span {
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+
+        .content {
+          font-size: 16px;
+          line-height: 24px;
+          padding-top: 16px;
+          margin-bottom: 16px;
+          color: #000;
+
+          .image-area {
+            margin: 16px 0;
+
+            img {
+              width: 100%;
+              height: auto;
+            }
+          }
+        }
+
+        .social {
+          margin-bottom: 15px;
+          font-size: 12px;
+
+          .reply-liked-btn {
+            color: $color-blue-deep;
+          }
+
+          button {
+            color: #666;
+            margin-left: 3px;
+          }
+        }
+      }
+
+      .total {
+        height: 40px;
+        line-height: 40px;
+        color: #000;
+        font-size: 16px;
+      }
+
+      .comments {
+        li {
+          padding: 17px 0 13px;
+          position: relative;
+          @include border-bottom();
+
+          .from-user {
+            .avatar {
+              float: left;
+              display: block;
+              margin-right: 9px;
+              @include avatar-2(35px);
+            }
+
+            .summary {
+              overflow: hidden;
+
+              .users {
+                font-size: 14px;
+                margin-bottom: 6px;
+                margin-top: 2px;
+                line-height: 14px;
+
+                .nickname {
+                  color: $color-blue-deep;
+                }
+              }
+
+              .info {
+                font-size: 12px;
+                line-height: 12px;
+                color: #999;
+              }
+            }
+          }
+
+          .main {
+            margin-left: 45px;
+            padding-top: 10px;
+
+            .content {
+              font-size: 14px;
+              line-height: 21px;
+              word-break: break-all;
+            }
+          }
+        }
+      }
+    }
+
+    .reply-comment-drawer-wrap {
+      #reply-comment-textarea {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        width: 100%;
+        height: 250px;
+        background-color: transparent;
+        font-size: 16px;
+        line-height: 24px;
+        color: #000;
+        font-weight: 400;
+        z-index: 101;
+        padding-left: $container-padding;
+        padding-right: $container-padding;
+        display: none;
+        opacity: 0;
+
+        &.fade-in {
+          opacity: 1;
+          transition-delay: 400ms;
+        }
+      }
+    }
+  }
+</style>
+
+<template>
+  <div id="comment-wrap">
+    <!-- 主列表的头部 -->
+    <slot name="header"></slot>
+    <!-- 主列表的 list -->
+    <div id="comment-list-wrap">
+      <!-- 每条主评论 -->
+      <div
+        v-for="comment in list"
+        :key="comment.id"
+        class="comment-item-wrap"
+      >
+        <!-- 主评论的内容 -->
+        <slot name="comment-item" :comment="comment" :reply="handleSubCommentReply"></slot>
+      </div>
+    </div>
+    <div id="comment-list-footer">
+      <more-btn
+        :no-more="noMore"
+        :loading="loadingMainComment"
+        @fetch="loadMoreMainComment"
+      ></more-btn>
+    </div>
+    <!-- reply detail drawer -->
+    <v-drawer
+      v-model="openFocusCommentDrawer"
+      from="bottom"
+      size="100%"
+      class="focus-comment-drawer"
+      :header-text="`评论列表${focusComment && focusComment.floor_count ? ` - ${focusComment.floor_count} 楼` : ''}`"
+      :backdrop="false"
+    >
+      <template v-if="focusComment">
+        <div class="container">
+          <div class="reply">
+            <div class="user clearfix">
+              <a class="avatar" :href="$alias.user(focusComment.from_user_zone)">
+                <img :src="$resize(focusComment.from_user_avatar, { width: 70 })">
+              </a>
+              <div class="summary">
+                <a
+                  class="nickname"
+                  :href="$alias.user(focusComment.from_user_zone)"
+                  v-text="focusComment.from_user_name"
+                ></a>
+                <div class="info">
+                  <v-time v-model="focusComment.created_at"></v-time>
+                </div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="text-area" v-html="focusComment.content"></div>
+              <div class="image-area">
+                <div
+                  class="image-package"
+                  v-for="(img, idx) in focusComment.images"
+                  :key="idx"
+                  @click="$previewImages(focusComment.images, idx)"
+                >
+                  <v-img
+                    class="image"
+                    :src="img.url"
+                    width="150"
+                    mode="2"
+                  ></v-img>
+                </div>
+              </div>
+            </div>
+            <div class="social">
+              <button
+                :class="[ focusComment.liked ? 'reply-liked-btn' : 'reply-like-btn' ]"
+                @click="toggleFocusCommentLike"
+              >
+                <i class="iconfont icon-icon_good"></i>
+                {{ focusComment.liked ? '已赞' : '赞' }}
+                <span v-if="focusComment.like_count">({{ focusComment.like_count }})</span>
+              </button>
+              <button ref="replyBtn" class="fr" @click="handleCommentBtnClick">
+                回复
+              </button>
+            </div>
+          </div>
+          <div class="hr"></div>
+          <p class="total">{{ focusComment.comments.total }}条回复</p>
+          <ul class="comments" ref="replyList">
+            <li
+              v-for="item in focusComment.comments.list"
+              :key="item.id"
+            >
+              <div class="from-user">
+                <a
+                  class="avatar"
+                  :href="$alias.user(item.from_user_zone)"
+                >
+                  <img :src="$resize(item.from_user_avatar, { width: 70 })"/>
+                </a>
+                <div class="summary">
+                  <div class="users oneline">
+                    <a
+                      class="nickname"
+                      :href="$alias.user(item.from_user_zone)"
+                      v-text="item.from_user_name"
+                    ></a>
+                    <template v-if="item.to_user_zone">
+                      回复
+                      <a
+                        class="nickname"
+                        :href="$alias.user(item.to_user_zone)"
+                        v-text="item.to_user_name"
+                      ></a>
+                    </template>
+                    :
+                  </div>
+                  <div class="info">
+                    <v-time v-model="item.created_at"></v-time>
+                  </div>
+                </div>
+              </div>
+              <div class="main">
+                <div class="content" @click="commentToComment(item)" v-text="item.content"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <more-btn
+          :no-more="focusComment.comments.noMore"
+          :loading="loadingSubComment"
+          @fetch="loadMoreSubComment"
+        ></more-btn>
+      </template>
+    </v-drawer>
+    <!-- reply drawer -->
+    <div class="reply-comment-drawer-wrap">
+      <v-drawer
+        class="reply-comment-drawer"
+        from="right"
+        size="100%"
+        v-model="replyForm.open"
+        :header-text="currentUserId === replyForm.targetUserId ? '回复' : `回复：${replyForm.targetUserName}`"
+        :backdrop="false"
+        submitText="发布"
+        @cancel="handleReplyDrawerClose"
+        @submit="handleReplySubmit"
+      >
+      </v-drawer>
+      <textarea
+        id="reply-comment-textarea"
+        :class="{ 'fade-in': replyForm.open }"
+        placeholder="100字以内任意发挥"
+        maxlength="100"
+        v-model.trim="replyForm.content"
+      ></textarea>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'v-comment-main',
+    props: {
+      id: {
+        required: true,
+        type: [Number, String]
+      },
+      type: {
+        required: true,
+        type: String,
+        validator: val => ~['post'].indexOf(val)
+      },
+      onlySeeMaster: {
+        type: Boolean,
+        default: false
+      }
+    },
+    computed: {
+      store () {
+        return this.$store.state.comment
+      },
+      list () {
+        return this.store.list
+      },
+      noMore () {
+        return this.store.noMore
+      },
+      total () {
+        return this.store.total
+      },
+      submitting () {
+        return this.store.submitting
+      },
+      focusComment () {
+        return this.focusCommentId
+          ? this.list.filter(_ => _.id === this.focusCommentId)[0]
+          : null
+      },
+      currentUserId () {
+        return this.$store.state.login
+          ? this.$store.state.user.id
+          : 0
+      }
+    },
+    data () {
+      return {
+        loadingMainComment: false,
+        focusCommentId: 0,
+        openFocusCommentDrawer: false,
+        loadingSubComment: false,
+        replyForm: {
+          id: '',
+          content: '',
+          targetUserId: 0,
+          targetUserName: '',
+          open: false,
+          replying: false,
+          liking: false
+        }
+      }
+    },
+    methods: {
+      async loadMoreMainComment () {
+        if (this.loadingMainComment) {
+          return
+        }
+        this.loadingMainComment = true
+        try {
+          await this.$store.dispatch('comment/getMainComments', {
+            ctx: this,
+            type: this.type,
+            id: this.id,
+            onlySeeMaster: this.onlySeeMaster ? 1 : 0
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingMainComment = false
+        }
+      },
+      async reply (data) {
+        if (this.submitting) {
+          return
+        }
+        this.$store.commit('comment/SET_SUBMITTING', { result: true })
+        try {
+          await this.$store.dispatch('comment/createMainComment', {
+            content: data.content,
+            images: data.images,
+            type: 'post',
+            id: this.id,
+            ctx: this
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.$store.commit('comment/SET_SUBMITTING', { result: false })
+          this.$channel.$emit('main-comment-create-success')
+        }
+      },
+      async loadMoreSubComment () {
+        if (this.loadingSubComment) {
+          return
+        }
+        this.loadingSubComment = true
+        try {
+          await this.$store.dispatch('comment/getSubComments', {
+            ctx: this,
+            type: this.type,
+            parentId: this.focusCommentId
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.loadingSubComment = false
+        }
+      },
+      commentToComment (data) {
+        this.handleSubCommentReply({
+          id: data.parent_id,
+          targetUserId: data.from_user_id,
+          targetUserName: data.from_user_name
+        })
+      },
+      handleCommentBtnClick () {
+        this.handleSubCommentReply({
+          id: this.focusComment.parent_id,
+          targetUserId: this.focusComment.from_user_id,
+          targetUserName: this.focusComment.from_user_name
+        })
+      },
+      handleSubCommentReply ({ id, targetUserId, targetUserName }) {
+        if (!this.currentUserId) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        this.replyForm.id = id
+        this.replyForm.targetUserId = targetUserId
+        this.replyForm.targetUserName = targetUserName
+        this.replyForm.open = true
+      },
+      async toggleFocusCommentLike () {
+        if (this.replyForm.liking) {
+          return
+        }
+        this.replyForm.liking = true
+        try {
+          await this.$store.dispatch('comment/toggleLikeMainComment', {
+            ctx: this,
+            type: this.type,
+            id: this.focusCommentId
+          })
+        } catch (e) {
+        } finally {
+          this.replyForm.liking = false
+        }
+      },
+      handleReplyDrawerClose () {
+        document.getElementById('reply-comment-textarea').style.display = 'none'
+      },
+      async handleReplySubmit () {
+        if (!this.currentUserId) {
+          this.$channel.$emit('sign-in')
+          return
+        }
+        if (!this.replyForm.content) {
+          return
+        }
+        if (this.replyForm.replying) {
+          return
+        }
+        this.replyForm.replying = true
+        try {
+          await this.$store.dispatch('comment/createSubComment', {
+            ctx: this,
+            id: this.replyForm.id,
+            type: this.type,
+            content: this.replyForm.content,
+            targetUserId: this.replyForm.targetUserId
+          })
+          this.replyForm.open = false
+          this.replyForm.content = ''
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.replyForm.replying = false
+        }
+      }
+    },
+    mounted () {
+      this.$channel.$on('load-all-sub-comment', ({ id }) => {
+        this.focusCommentId = id
+        this.openFocusCommentDrawer = true
+        this.$nextTick(() => {
+          this.$utils.hackFocus({
+            button: this.$refs.replyList,
+            input: document.getElementById('reply-comment-textarea'),
+            statement: this.currentUserId ? 'content' : false
+          })
+          this.$utils.hackFocus({
+            button: this.$refs.replyBtn,
+            input: document.getElementById('reply-comment-textarea'),
+            statement: !!this.currentUserId
+          })
+        })
+      })
+    }
+  }
+</script>
