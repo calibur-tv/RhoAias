@@ -63,5 +63,9 @@ export default {
       input.style.display = 'block'
       input.focus()
     })
+  },
+
+  createFileName ({ userId, type, id, file }) {
+    return `user/${userId}/${type}/${id}/${new Date().getTime()}-${Math.random().toString(36).substring(3, 6)}.${file.type.split('/').pop()}`
   }
 }

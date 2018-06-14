@@ -1,70 +1,72 @@
 <style lang="scss">
-  .create-post-form {
-    .el-upload--picture-card, .el-upload-list__item {
-      width: 72px !important;
-      height: 72px !important;
-      line-height: 80px !important;
+  .create-comment-form {
+    .content {
+      font-size: 16px;
+      line-height: 24px;
+      color: #000;
+      font-weight: 400;
+      height: 250px;
+      padding-top: 10px;
+      margin-bottom: 5px;
     }
 
-    .el-upload-list,
+    .el-upload-list__item,
     .el-upload--picture-card {
-      float: left;
+      width: 15vw;
+      height: 15vw;
+      line-height: 15vw;
+    }
+
+    .el-upload-list__item-delete {
+      float: none !important;
+    }
+
+    .submit-btn {
+      margin-top: 15px;
+      width: 100%;
     }
   }
 </style>
 
 <template>
-  <el-form
-    class="create-post-form"
-    :model="forms"
-    :rules="rules"
-    ref="forms"
-    label-width="50px"
-  >
-    <el-form-item label="图片" v-if="withImage">
-      <el-upload
-        action="https://upload.qiniup.com"
-        multiple
-        list-type="picture-card"
-        ref="uploader"
-        :data="uploadHeaders"
-        :on-error="handleError"
-        :on-remove="handleRemove"
-        :on-success="handleSuccess"
-        :on-exceed="handleExceed"
-        :limit="exceed"
-        :before-upload="beforeUpload"
-      >
-        <i class="el-icon-plus"></i>
-      </el-upload>
-    </el-form-item>
-    <el-form-item label="内容" prop="content">
-      <el-input
-        type="textarea"
-        placeholder="1000字以内"
-        resize="none"
-        :rows="10"
-        v-model.trim="forms.content"
-      ></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submit" :loading="submitting">发布</el-button>
-    </el-form-item>
-  </el-form>
+  <div class="create-comment-form">
+    <textarea
+      class="content"
+      placeholder="来吧，尽情的（在1000字以内）发挥吧"
+      maxlength="1000"
+      v-model.trim="forms.content"
+    ></textarea>
+    <el-upload
+      action="https://upload.qiniup.com"
+      multiple
+      list-type="picture-card"
+      ref="uploader"
+      :disabled="true"
+      :data="uploadHeaders"
+      :on-error="handleError"
+      :on-remove="handleRemove"
+      :on-success="handleSuccess"
+      :on-exceed="handleExceed"
+      :limit="exceed"
+      :before-upload="beforeUpload"
+    >
+      +
+    </el-upload>
+    <el-button class="submit-btn" type="primary" @click="submit" :loading="submitting">发布</el-button>
+  </div>
 </template>
 
 <script>
   export default {
     name: 'create-post-form',
     props: {
-      withImage: {
-        type: Boolean,
-        default: false
-      },
       type: {
-        type: String,
         required: true,
-        validator: val => ~['post'].indexOf(val)
+        type: String
+      },
+      id: {
+        required: true,
+        type: Number
       }
     },
     computed: {
@@ -97,11 +99,6 @@
         forms: {
           content: ''
         },
-        rules: {
-          content: [
-            { required: true, min: 1, max: 1000, message: '内容不能为空，1000字以内', trigger: 'submit' }
-          ]
-        },
         uploadHeaders: {
           token: ''
         },
@@ -110,29 +107,43 @@
       }
     },
     methods: {
-      submit () {
+      async submit () {
         if (this.isGuest) {
-          this.$toast.info('继续操作前请先登录')
           this.$channel.$emit('sign-in')
           return
         }
-        this.$refs.forms.validate((valid) => {
-          if (valid) {
-            this.$emit('submit', {
-              content: this.formatContent,
-              images: this.formatImages
-            })
-            this.$channel.$on('main-comment-create-success', () => {
-              this.$channel.$off('main-comment-create-success')
-              this.forms = {
-                content: ''
-              }
-              this.$refs.uploader.clearFiles()
-            })
-          } else {
-            return false
+        if (!this.formatContent) {
+          this.$emit('close')
+          return
+        }
+        if (this.submitting) {
+          return
+        }
+        this.$store.commit('comment/SET_SUBMITTING', { result: true })
+        try {
+          await this.$store.dispatch('comment/createMainComment', {
+            content: this.formatContent,
+            images: this.formatImages,
+            type: this.type,
+            id: this.id,
+            ctx: this
+          })
+          this.$toast.success('评论成功')
+          this.$emit('close')
+          this.forms = {
+            content: ''
           }
-        })
+          this.$refs.uploader.clearFiles()
+          const list = document.querySelectorAll('.comment-item-wrap')
+          setTimeout(() => {
+            const dom = list[list.length - 1]
+            dom && this.$scrollToY(dom.offsetTop, 600)
+          }, 400)
+        } catch (e) {
+          this.$toast.error(e)
+        } finally {
+          this.$store.commit('comment/SET_SUBMITTING', { result: false })
+        }
       },
       handleError (err, file) {
         console.log(err)
@@ -191,7 +202,7 @@
       }
     },
     mounted () {
-      if (!this.isGuest && this.withImage) {
+      if (!this.isGuest) {
         this.getUpToken()
       }
     }

@@ -632,9 +632,7 @@
         }
       },
       handleReplyBtnClick () {
-        this.$store.state.login
-          ? this.$channel.$emit('drawer-open-write-post')
-          : this.$channel.$emit('sign-in')
+        this.$channel.$emit('open-create-comment-drawer')
       },
       handleCommentAdd (data) {
         if (!this.$store.state.login) {

@@ -246,7 +246,7 @@
         this.showRegister()
       })
       this.$channel.$on('sign-in', (showToast = true) => {
-        showToast && this.$toast.error('继续操作前请先登录')
+        showToast && this.$toast.error('请先登录')
         this.showLogin()
       })
     }
