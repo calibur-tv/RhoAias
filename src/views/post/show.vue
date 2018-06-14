@@ -326,6 +326,7 @@
         type="post"
         :id="post.id"
         :only-see-master="onlySeeMaster"
+        :with-image="true"
       >
         <post-comment-item
           slot="comment-item"
@@ -349,25 +350,6 @@
         <p class="summary" v-text="bangumi.summary"></p>
       </v-bangumi-panel>
     </div>
-    <v-drawer
-      v-model="createComment.open"
-      from="top"
-      size="250px"
-      header-text="发布回复"
-      class="create-post-comment-drawer"
-    >
-      <div class="container">
-        <textarea
-          :placeholder="createComment.to_user_name ? `回复：${createComment.to_user_name}（50字以内任你发挥）` : '50字以内任你发挥'"
-          v-model.trim="createComment.content"
-          maxlength="50"
-        ></textarea>
-        <button
-          class="btn-submit"
-          @click="submitComment"
-        >发布</button>
-      </div>
-    </v-drawer>
   </div>
 </template>
 
@@ -435,23 +417,6 @@
         const currentUserId = this.$store.state.user.id
         return currentUserId === this.masterId
       },
-      focusComments () {
-        if (!this.openCommentId) {
-          return []
-        }
-        return this.list[this.openCommentIndex].comments
-      },
-      focusReply () {
-        if (!this.openCommentId) {
-          return null
-        }
-        return this.list[this.openCommentIndex]
-      },
-      noMoreComment () {
-        return this.openCommentId
-          ? this.focusComments.length >= this.focusReply.comment_count
-          : true
-      },
       actions () {
         const result = [{
           name: '回复',
@@ -490,14 +455,6 @@
         openCommentsDrawer: false,
         loadingComments: false,
         openReplyDrawer: false,
-        createComment: {
-          open: false,
-          content: '',
-          postId: 0,
-          targetUserId: 0,
-          loading: false,
-          to_user_name: ''
-        },
         showPostActionSheet: false
       }
     },
@@ -523,37 +480,6 @@
         }).catch((e) => {
           this.$toast.error(e)
         })
-      },
-      deletePostComment (id) {
-        this.$confirm('删除后无法找回, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async () => {
-          await this.$store.dispatch('post/deletePostComment', {
-            ctx: this,
-            postId: this.post.id,
-            commentId: id
-          })
-          this.$toast.success('删除成功')
-        }).catch((e) => {
-          this.$toast.error(e)
-        })
-      },
-      async getPosts (reset) {
-        this.loadingLoadMore = true
-        try {
-          await this.$store.dispatch('post/getPost', {
-            id: this.post.id,
-            ctx: this,
-            only: this.onlySeeMaster ? 1 : 0,
-            reset
-          })
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loadingLoadMore = false
-        }
       },
       async toggleLike () {
         if (!this.$store.state.login) {
@@ -611,90 +537,8 @@
           this.loadingToggleMark = false
         }
       },
-      handleCommentLoad (data) {
-        this.openCommentIndex = data.index
-        this.openCommentId = data.id
-        this.openCommentsDrawer = true
-      },
-      async loadMoreComment () {
-        if (this.loadingComments) {
-          return
-        }
-        this.loadingComments = true
-        try {
-          await this.$store.dispatch('post/getComments', {
-            id: this.openCommentId
-          })
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loadingComments = false
-        }
-      },
       handleReplyBtnClick () {
         this.$channel.$emit('open-create-comment-drawer')
-      },
-      handleCommentAdd (data) {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        this.createComment.id = data.postId
-        this.createComment.targetUserId = data.targetUserId
-        this.createComment.to_user_name = ''
-        this.createComment.open = true
-      },
-      async submitComment () {
-        if (!this.createComment.content) {
-          this.$toast.error('内容不能为空')
-          return
-        }
-        if (this.createComment.loading) {
-          return
-        }
-        this.createComment.loading = true
-        this.$toast.loading('发布中...')
-        try {
-          await this.$store.dispatch('post/setComment', Object.assign(this.createComment, {
-            ctx: this
-          }))
-          this.$toast.success('回复成功')
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.createComment.open = false
-          this.createComment.content = ''
-          this.createComment.to_user_name = ''
-          this.createComment.loading = false
-        }
-      },
-      handleSelectSubmit (option) {
-        if (option === '只看楼主' || option === '取消只看楼主') {
-          this.switchOnlyMaster()
-        } else if (option === '删除') {
-          this.deletePost()
-        } else if (option === '喜欢' || option === '取消喜欢') {
-          this.toggleLike()
-        } else if (option === '收藏' || option === '取消收藏') {
-          this.toggleMark()
-        } else if (option === '回复') {
-          this.handleReplyBtnClick()
-        }
-      },
-      commentToComment (comment) {
-        if (!this.$store.state.login) {
-          return
-        }
-        this.createComment.id = this.focusReply.id
-        this.createComment.targetUserId = comment.from_user_id
-        this.createComment.to_user_name = comment.from_user_name
-        this.createComment.open = true
-      },
-      handlePostReply (data) {
-        this.createComment.id = data.postId
-        this.createComment.targetUserId = data.targetUserId
-        this.createComment.to_user_name = data.to_user_name
-        this.createComment.open = true
       },
       scrollToReply () {
         const replyId = this.$route.query.reply
@@ -705,9 +549,9 @@
         if (!reply) {
           return
         }
-        this.$nextTick(() => {
-          this.$scrollToY(reply.offsetTop, 400)
-        })
+        setTimeout(() => {
+          this.$scrollToY(reply.offsetTop, 600)
+        }, 400)
       }
     },
     mounted () {

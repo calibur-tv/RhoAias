@@ -49,6 +49,7 @@
       :on-exceed="handleExceed"
       :limit="exceed"
       :before-upload="beforeUpload"
+      v-if="withImage"
     >
       +
     </el-upload>
@@ -67,6 +68,10 @@
       id: {
         required: true,
         type: Number
+      },
+      withImage: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -202,7 +207,7 @@
       }
     },
     mounted () {
-      if (!this.isGuest) {
+      if (!this.isGuest && this.withImage) {
         this.getUpToken()
       }
     }
