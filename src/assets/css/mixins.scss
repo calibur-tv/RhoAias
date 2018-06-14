@@ -10,6 +10,20 @@
   }
 }
 
+@mixin avatar-2($size) {
+  width: $size;
+  height: $size;
+  border-radius: $size / 2;
+  border: 1px solid #e5e9ef;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 @mixin twoline($line-height) {
   line-height: $line-height;
   max-height: $line-height * 2;

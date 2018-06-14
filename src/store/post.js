@@ -32,26 +32,12 @@ const state = () => ({
 
 const mutations = {
   setPost (state, data) {
-    data.list.forEach(item => {
-      if (state.show.seenIds.indexOf(item.id) === -1) {
-        const commentIds = item.comments.map(_ => _.id)
-        state.show.data.list.push(Object.assign(item, {
-          __comment_page: 1,
-          __seen_comment_ids: commentIds
-        }))
-        state.show.seenIds.push(item.id)
-      }
-    })
-    state.show.data.noMore = state.show.init ? (data.list.length < state.show.take - 1) : (data.list.length < state.show.take)
-    if (state.show.init) {
-      state.show.info = {
-        bangumi: data.bangumi,
-        user: data.user,
-        post: data.post
-      }
-      state.show.init = false
+    state.show.info = {
+      bangumi: data.bangumi,
+      user: data.user,
+      post: data.post
     }
-    state.show.page = state.show.page + 1
+    state.show.init = false
   },
   setComment (state, { id, data }) {
     state.show.data.list.forEach((item, index) => {

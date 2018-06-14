@@ -348,17 +348,18 @@
         </div>
       </div>
       <div class="hr"></div>
-      <post-reply
-        v-for="(item, index) in list"
-        :key="item.id"
-        :post="item"
-        :index="index"
-        :preview="post.preview_images"
-        @delete="deletePostComment(item.id)"
-        @reply="handlePostReply"
-        @loadcomment="handleCommentLoad"
-        @addcomment="handleCommentAdd"
-      ></post-reply>
+      <comment-main
+        type="post"
+        :id="post.id"
+        :only-see-master="onlySeeMaster"
+      >
+        <post-comment-item
+          slot="comment-item"
+          slot-scope="{ comment }"
+          :post="comment"
+          :master-id="master.id"
+        ></post-comment-item>
+      </comment-main>
     </div>
     <more-btn
       :no-more="noMore"
@@ -495,23 +496,34 @@
 </template>
 
 <script>
-  import PostReply from '~/components/items/PostReply'
+  import CommentMain from '~/components/comments/CommentMain'
+  import PostCommentItem from '~/components/post/PostCommentItem'
 
   export default {
     name: 'post-show',
     async asyncData ({ route, store, ctx }) {
-      await store.dispatch('post/getPost', {
-        id: route.params.id,
-        ctx,
-        only: route.query.only
-          ? parseInt(route.query.only, 10) ? 1 : 0
-          : 0,
-        reset: true,
-        reply: route.query.reply
-      })
+      const only = route.query.only
+        ? parseInt(route.query.only, 10) ? 1 : 0
+        : 0
+      const id = route.params.id
+      await Promise.all([
+        store.dispatch('post/getPost', {
+          id,
+          ctx,
+          only
+        }),
+        store.dispatch('comment/getMainComments', {
+          ctx,
+          id,
+          type: 'post',
+          onlySeeMaster: only,
+          seeReplyId: route.query.reply
+        })
+      ])
     },
     components: {
-      PostReply
+      CommentMain,
+      PostCommentItem
     },
     head () {
       return {
