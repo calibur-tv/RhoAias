@@ -236,6 +236,10 @@
       masterId: {
         required: true,
         type: Number
+      },
+      preview: {
+        type: Array,
+        required: true
       }
     },
     components: {

@@ -333,6 +333,7 @@
           slot-scope="{ comment, reply }"
           :post="comment"
           :master-id="master.id"
+          :preview="post.preview_images"
           @reply="reply"
         ></post-comment-item>
       </comment-main>
