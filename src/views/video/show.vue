@@ -405,7 +405,7 @@
       },
       downloadVideo () {
         if (this.useOtherSiteSource) {
-          this.$toast.error('第三方资源部支持下载')
+          this.$toast.error('第三方资源不支持下载')
           return
         }
 //        if (this.isGuest) {
