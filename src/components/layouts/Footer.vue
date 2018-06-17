@@ -30,9 +30,9 @@
       }
     }
 
-    .slogan {
+    .beian {
       margin-top: 20px;
-      margin-bottom: 20px;
+      padding-bottom: 8px;
     }
 
     .feedback-drawer {
@@ -135,7 +135,7 @@
         >点击复制</button>
       </div>
     </v-drawer>
-    <p class="slogan">天下漫友是一家 - calibur</p>
+    <p class="beian">© 沪ICP备17050785号-1</p>
   </footer>
 </template>
 

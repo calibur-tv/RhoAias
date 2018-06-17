@@ -22,6 +22,9 @@ import {
 } from 'mint-ui'
 
 import {
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
   Upload,
   Form,
   FormItem,
@@ -29,6 +32,9 @@ import {
   Button
 } from 'element-ui'
 
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
 Vue.use(Upload)
 Vue.use(Form)
 Vue.use(FormItem)

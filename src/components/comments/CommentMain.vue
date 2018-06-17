@@ -314,6 +314,7 @@
     >
       <div class="container">
         <create-comment-form
+          v-if="openCreateCommentDrawer"
           :id="id"
           :type="type"
           :with-image="withImage"
