@@ -143,3 +143,17 @@ img.image-lazy-active {
   opacity: 1;
   background-color: transparent;
 }
+
+.el-popper[x-placement^=bottom] {
+  margin-top: 0 !important;
+}
+
+.el-dropdown-menu__item {
+  padding: 0 !important;
+
+  a {
+    height: 100%;
+    display: block;
+    padding: 0 20px;
+  }
+}

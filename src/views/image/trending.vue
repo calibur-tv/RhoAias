@@ -1,7 +1,3 @@
-<style lang="scss">
-
-</style>
-
 <template>
   <div id="image-trending">
     <div class="tabs">

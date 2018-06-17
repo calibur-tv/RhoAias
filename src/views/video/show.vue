@@ -246,7 +246,6 @@
 
 <script>
   import VideoApi from '~/api/videoApi'
-  import env from 'env'
 
   export default {
     name: 'video-show',
@@ -431,11 +430,6 @@
 //      }
       this.player = this.$refs.video
       this.player.controls = false
-      if (env !== 'production') {
-        import('~/assets/js/videoDebug').then(module => {
-          new module.default(this.player) // eslint-disable-line
-        })
-      }
       try {
         this.player.load()
       } catch (e) {

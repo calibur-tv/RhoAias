@@ -21,7 +21,7 @@
     head: {
       title: '天下漫友是一家',
       titleTemplate: (titleChunk) => {
-        return titleChunk ? `${titleChunk} - calibur` : '天下漫友是一家 - calibur'
+        return titleChunk ? `${titleChunk} - calibur` : '天下漫友是一家'
       },
       htmlAttrs: {
         lang: 'zh-CN'

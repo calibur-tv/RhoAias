@@ -19,14 +19,14 @@ export function createRouter () {
     },
     routes: [
       {
+        path: '',
+        name: 'homepage',
+        component: () => import('~/views/index')
+      },
+      {
         path: '/',
         component: () => import('~/layouts/default'),
         children: [
-          {
-            path: '',
-            name: 'homepage',
-            component: () => import('~/views/index')
-          },
           {
             path: 'bangumi/:id(\\d+)',
             name: 'bangumi-show',
@@ -51,6 +51,11 @@ export function createRouter () {
             path: 'user/:zone',
             name: 'user-show',
             component: () => import('~/views/user/show')
+          },
+          {
+            path: 'post/trending/:sort',
+            name: 'post-trending',
+            component: () => import('~/views/post/trending')
           },
           {
             path: 'post/:id(\\d+)',

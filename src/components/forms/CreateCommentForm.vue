@@ -59,7 +59,7 @@
 
 <script>
   export default {
-    name: 'create-post-form',
+    name: 'create-comment-form',
     props: {
       type: {
         required: true,
