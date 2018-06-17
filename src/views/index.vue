@@ -175,7 +175,7 @@
     </div>
     <main id="main">
       <v-search></v-search>
-      <div class="slogan">天下漫友是一家</div>
+      <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
     </main>
     <v-footer></v-footer>
     <user-drawer></user-drawer>
@@ -226,7 +226,8 @@
           width: 720,
           height: 0,
           mode: 0
-        }
+        },
+        slogan: '···'
       }
     },
     created () {
@@ -234,6 +235,7 @@
     },
     mounted () {
       this.loopBanner()
+      this.computeSlogan()
     },
     methods: {
       loopBanner () {
@@ -247,6 +249,19 @@
             this.toggle = !this.toggle
           }, 5000)
         }, 10000)
+      },
+      computeSlogan () {
+        const slogan = 'calibur.tv：天下漫友是一家'
+        const maxLen = slogan.length
+        const maxTime = 900
+        let index = 0
+        const timer = setInterval(() => {
+          this.slogan = slogan.slice(0, index)
+          index++
+          if (index > maxLen) {
+            clearInterval(timer)
+          }
+        }, maxTime / maxLen)
       },
       openSignDrawer () {
         this.$channel.$emit('sign-in', (false))
