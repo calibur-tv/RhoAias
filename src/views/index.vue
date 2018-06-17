@@ -88,7 +88,6 @@
       min-height: 50vw;
       position: relative;
       margin-top: 10px;
-      margin-bottom: 20px;
 
       div {
         position: absolute;
@@ -112,6 +111,8 @@
     }
 
     #main {
+      margin-top: 20px;
+
       .slogan {
         text-align: center;
         margin-top: 24px;
@@ -169,15 +170,18 @@
         <button class="sign-btn" @click="openSignDrawer" v-else>登录</button>
       </div>
     </header>
-    <div id="banner">
+    <section id="banner" v-show="showBanner">
       <div class="bg" :class="{'show' : toggle}" :style="{ backgroundImage: banner1 ? `url(${$resize(banner1.url, options)})` : '' }"></div>
       <div class="bg" :class="{'show' : !toggle}" :style="{ backgroundImage: banner2 ? `url(${$resize(banner2.url, options)})` : '' }"></div>
-    </div>
+    </section>
     <main id="main">
-      <v-search></v-search>
+      <v-search
+        @input-focus="handleSearchFocus"
+        @input-blur="handleSearchBlur"
+      ></v-search>
       <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
     </main>
-    <v-footer></v-footer>
+    <v-footer v-show="showBanner"></v-footer>
     <user-drawer></user-drawer>
   </div>
 </template>
@@ -227,7 +231,8 @@
           height: 0,
           mode: 0
         },
-        slogan: '···'
+        slogan: '···',
+        showBanner: true
       }
     },
     created () {
@@ -271,6 +276,12 @@
       },
       handleLogoClick () {
         this.$toast.info('calibur.tv')
+      },
+      handleSearchFocus () {
+        this.showBanner = false
+      },
+      handleSearchBlur () {
+        this.showBanner = true
       }
     },
     beforeDestroy () {
