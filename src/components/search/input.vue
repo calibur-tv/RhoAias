@@ -88,7 +88,8 @@
     name: 'search-input',
     data () {
       return {
-        q: ''
+        q: '',
+        searching: false
       }
     },
     methods: {
@@ -108,12 +109,18 @@
         if (!q.length) {
           return
         }
+        if (this.searching) {
+          return
+        }
+        this.searching = true
         this.$toast.loading('搜索中...')
         const api = new SearchApi()
         api.index({ q }).then((data) => {
           window.location = data || '/bangumi/news?from=search'
+          this.searching = false
         }).catch(() => {
           window.location = '/bangumi/news?from=search'
+          this.searching = false
         })
       }
     }
