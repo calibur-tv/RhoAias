@@ -72,9 +72,10 @@
         spellcheck="false"
         v-model.trim="q"
         placeholder="搜索二次元的一切"
-        @blur="handleInputBlur"
         aria-label="搜索"
         @keydown.enter="search"
+        @blur="handleInputBlur"
+        @focus="handleInputFocus"
       >
     </div>
   </form>
@@ -92,6 +93,11 @@
     },
     methods: {
       handleInputBlur () {
+        this.$emit('input-blur')
+        document.body.scrollTop = 0
+      },
+      handleInputFocus () {
+        this.$emit('input-focus')
         document.body.scrollTop = 0
       },
       clear () {
