@@ -92,10 +92,6 @@ const actions = {
     } else if (state.type !== type) {
       commit('RESET_TRENDING_STATE', { type })
     }
-    if (state[sort].loading) {
-      return
-    }
-    commit('SET_TRENDING_LOADING', { sort })
     if (state[sort].list.length) {
       if (useCache) {
         return
@@ -103,6 +99,10 @@ const actions = {
         commit('CLEAR_TRENDING_SORT', { sort })
       }
     }
+    if (state[sort].loading) {
+      return
+    }
+    commit('SET_TRENDING_LOADING', { sort })
     const data = await api[sort]({
       seenIds: '',
       minId: 0
