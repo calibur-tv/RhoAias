@@ -391,16 +391,16 @@
     },
     computed: {
       resource () {
-        return this.$store.state.post.show
+        return this.$store.state.post.info
       },
       bangumi () {
-        return this.resource.info.bangumi
+        return this.resource.bangumi
       },
       post () {
-        return this.resource.info.post
+        return this.resource.post
       },
       master () {
-        return this.resource.info.user
+        return this.resource.user
       },
       total () {
         return this.$store.state.comment.total + 1
@@ -415,8 +415,7 @@
         if (!this.$store.state.login) {
           return false
         }
-        const currentUserId = this.$store.state.user.id
-        return currentUserId === this.masterId
+        return this.$store.state.user.id === this.masterId
       },
       actions () {
         const result = [{
@@ -448,20 +447,14 @@
     },
     data () {
       return {
-        loadingLoadMore: false,
         loadingToggleLike: false,
         loadingToggleMark: false,
-        openCommentIndex: 0,
-        openCommentId: 0,
-        openCommentsDrawer: false,
-        loadingComments: false,
-        openReplyDrawer: false,
         showPostActionSheet: false
       }
     },
     methods: {
       handleBangumiFollow (result) {
-        this.$store.commit('post/followBangumi', {
+        this.$store.commit('post/FOLLOW_BANGUMI', {
           id: this.post.id,
           result
         })
