@@ -36,7 +36,7 @@ export default {
       list: [],
       noMore: false
     },
-    cartoon: {
+    cartoons: {
       page: 0,
       list: [],
       noMore: false
@@ -115,15 +115,15 @@ export default {
       state.roles.id = bangumiId
     },
     SET_BANGUMI_CARTOON (state, data) {
-      state.cartoon.list = state.cartoon.list.concat(data.list)
-      state.cartoon.noMore = data.noMore
-      state.cartoon.page = state.cartoon.page + 1
+      state.cartoons.list = state.cartoons.list.concat(data.list)
+      state.cartoons.page = state.cartoons.page + 1
+      state.cartoons.noMore = data.noMore
     },
     TOGGLE_LIKE_CARTOON (state, { id, result }) {
-      state.cartoon.list.forEach((image, index) => {
+      state.cartoons.list.forEach((image, index) => {
         if (image.id === id) {
-          state.cartoon.list[index].like_count += result ? 1 : -1
-          state.cartoon.list[index].liked = result
+          state.cartoons.list[index].like_count += result ? 1 : -1
+          state.cartoons.list[index].liked = result
         }
       })
     }
@@ -223,7 +223,7 @@ export default {
       const api = new Api(ctx)
       const data = await api.cartoon({
         bangumiId,
-        page: state.cartoon.page
+        page: state.cartoons.page
       })
       data && commit('SET_BANGUMI_CARTOON', data)
     }

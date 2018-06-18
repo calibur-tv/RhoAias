@@ -1,8 +1,11 @@
 <style lang="scss">
   #bangumi-cartoon-flow {
+    background-color: #fff;
+    padding-top: 15px;
+
     ul {
       width: 302px;
-      margin: 15px auto;
+      margin: 0 auto;
     }
 
     li {
@@ -110,10 +113,6 @@
         }
       }
     }
-
-    .loadmore {
-      background-color: transparent;
-    }
   }
 </style>
 
@@ -162,7 +161,7 @@
     name: 'v-bangumi-cartoon-flow',
     computed: {
       cartoons () {
-        return this.$store.state.bangumi.cartoon
+        return this.$store.state.bangumi.cartoons
       },
       info () {
         return this.$store.state.bangumi.info
