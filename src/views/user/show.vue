@@ -75,7 +75,6 @@
     }
 
     #bangumis {
-
       li {
         position: relative;
         height: 62px;
