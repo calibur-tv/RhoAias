@@ -405,9 +405,6 @@
       total () {
         return this.$store.state.comment.total + 1
       },
-      masterId () {
-        return this.master.id
-      },
       onlySeeMaster () {
         return !!parseInt(this.$route.query.only, 10)
       },
@@ -415,7 +412,7 @@
         if (!this.$store.state.login) {
           return false
         }
-        return this.$store.state.user.id === this.masterId
+        return this.$store.state.user.id === this.master.id
       },
       actions () {
         const result = [{
