@@ -1,7 +1,7 @@
 <style lang="scss">
   #bangumi-tags {
     .sub-title {
-      margin-top: $container-padding;
+      margin-top: 10px;
     }
 
     #tags {
@@ -105,7 +105,7 @@
       </div>
       <div id="bangumis" v-if="bangumis.length">
         <div class="hr"></div>
-        <h3 class="sub-title">番剧列表</h3>
+        <h3 class="sub-title">番剧列表({{ total }})</h3>
         <ul>
           <li v-for="item in bangumis" :key="item.id">
             <a :href="$alias.bangumi(item.id)">
@@ -155,11 +155,17 @@
       tags () {
         return this.$store.state.bangumi.tags
       },
+      resource () {
+        return this.$store.state.bangumi.category
+      },
       noMore () {
-        return this.$store.state.bangumi.category.noMore
+        return this.resource.noMore
       },
       bangumis () {
-        return this.$store.state.bangumi.category.data
+        return this.resource.list
+      },
+      total () {
+        return this.resource.total
       }
     },
     data () {

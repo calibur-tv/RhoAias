@@ -192,7 +192,7 @@ const actions = {
     const data = await api.trending({
       sort,
       take: state.trending.take,
-      seenIds: state.trending[sort].data.length ? state.trending[sort].data.map(item => item.id).join(',') : null
+      seenIds: state.trending[sort].data.length ? state.trending[sort].data.map(item => item.id).toString() : null
     })
     commit('setTrending', { sort, data })
   },

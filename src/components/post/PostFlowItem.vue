@@ -200,7 +200,7 @@
 
 <script>
   export default {
-    name: 'v-post-item',
+    name: 'post-flow-item',
     props: {
       item: {
         required: true,

@@ -8,7 +8,6 @@ import Time from '~/assets/js/timeago'
 import MoreBtn from '~/components/common/MoreBtn'
 import Drawer from '~/components/common/Drawer'
 import Radio from '~/components/common/Radio'
-import Post from '~/components/items/Post'
 import Select from '~/components/common/Select'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import Field from '~/components/common/Field'
@@ -50,7 +49,6 @@ Vue.component(Time.name, Time)
 Vue.component(MoreBtn.name, MoreBtn)
 Vue.component(Drawer.name, Drawer)
 Vue.component(Radio.name, Radio)
-Vue.component(Post.name, Post)
 Vue.component(Select.name, Select)
 Vue.component(BangumiPanel.name, BangumiPanel)
 Vue.component(Switch.name, Switch)

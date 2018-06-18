@@ -1,7 +1,7 @@
 <style lang="scss">
   #bangumi-timeline {
     #collections {
-      padding-top: 20px;
+      padding-top: 10px;
       padding-bottom: 5px;
 
       .collection {
@@ -71,7 +71,7 @@
       <a :href="$alias.bangumiTag()">分类索引</a>
     </div>
     <ul id="collections" class="container">
-      <ul v-for="col in timeline.data" :key="col.date" class="collection">
+      <ul v-for="col in timeline.list" :key="col.date" class="collection">
         <h3 class="time" v-text="col.date"></h3>
         <li class="bangumi" v-for="item in col.list" :key="item.id">
           <a :href="$alias.bangumi(item.id)">
