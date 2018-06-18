@@ -4,37 +4,36 @@ import CartoonRoleApi from '~/api/cartoonRoleApi'
 export default {
   namespaced: true,
   state: () => ({
-    follows: Object.create(null),
+    follows: null,
     released: [],
     timeline: {
-      data: [],
-      year: new Date().getFullYear() + 1,
+      list: [],
+      year: new Date().getFullYear(),
       noMore: false
     },
     category: {
-      data: [],
+      list: [],
       noMore: false,
       page: 0,
-      take: 10
+      take: 10,
+      total: 0
     },
     tags: [],
     info: null,
     posts: {
-      data: [],
+      list: [],
       total: 0,
-      type: 'new',
-      take: 10,
-      noMore: false
+      noMore: false,
+      type: 'new'
     },
     videos: {
       list: [],
       total: 0,
-      has_season: false,
-      noMore: false
+      has_season: false
     },
     roles: {
       id: 0,
-      data: [],
+      list: [],
       noMore: false
     },
     cartoon: {
@@ -80,7 +79,7 @@ export default {
     },
     SET_TIMELINE (state, data) {
       const temp = state.timeline
-      state.timeline.data = temp.data.concat(data.list)
+      state.timeline.list = temp.list.concat(data.list)
       state.timeline.year = temp.year - 1
       state.timeline.noMore = data.noMore
     },
@@ -92,29 +91,26 @@ export default {
       state.tags = tags
     },
     SET_CATEGORY (state, data) {
-      state.category.data = state.category.data.concat(data.list)
-      state.category.noMore = data.list.length < state.category.take
+      state.category.list = state.category.list.concat(data.list)
+      state.category.noMore = data.noMore
+      state.category.total = data.total
       state.category.page++
     },
-    SET_POSTS (state, { data, total, reset }) {
-      const posts = reset ? data : state.posts.data.concat(data)
-      state.posts.data = posts
-      state.posts.total = total
-      state.posts.noMore = posts.length >= total
+    SET_POSTS (state, data) {
+      state.posts.list = state.posts.list.concat(data.list)
+      state.posts.total = data.total
+      state.posts.noMore = data.noMore
     },
-    SET_BANGUMI (state, data) {
+    SET_BANGUMI_INFO (state, data) {
       state.info = data
     },
     SET_VIDEOS (state, data) {
-      state.videos = {
-        list: data.videos,
-        total: data.total,
-        has_season: data.has_season,
-        noMore: true
-      }
+      state.videos.list = data.videos
+      state.videos.total = data.total
+      state.videos.has_season = data.has_season
     },
     SET_ROLES (state, { data, bangumiId }) {
-      state.roles.data = state.roles.data.concat(data)
+      state.roles.list = data
       state.roles.noMore = true
       state.roles.id = bangumiId
     },
@@ -144,7 +140,7 @@ export default {
     async getBangumi ({ commit }, { ctx, id }) {
       const api = new Api(ctx)
       const data = await api.show(id)
-      data && commit('SET_BANGUMI', data)
+      data && commit('SET_BANGUMI_INFO', data)
     },
     async getVideos ({ commit }, { id, ctx }) {
       const api = new Api(ctx)
@@ -189,8 +185,7 @@ export default {
       }
       const api = new Api(ctx)
       const data = await api.timeline({
-        year: state.timeline.year,
-        take: state.timeline.take
+        year: state.timeline.year
       })
       data && commit('SET_TIMELINE', data)
     },
@@ -203,19 +198,19 @@ export default {
       })
       data && commit('SET_CATEGORY', data)
     },
-    async getPosts ({ state, commit }, { id, take, type, ctx, reset = false }) {
+    async getPosts ({ state, commit }, { id, take, type, ctx }) {
+      if (state.posts.noMore) {
+        return
+      }
+      const posts = state.posts.list
       const api = new Api(ctx)
       const data = await api.posts({
         id,
         take,
         type,
-        maxId: state.posts.data.length ? state.posts.data[state.posts.data.length - 1].id : 0
+        maxId: posts.length ? posts[posts.length - 1].id : 0
       })
-      data && commit('SET_POSTS', {
-        data: data.list,
-        total: data.total,
-        reset
-      })
+      data && commit('SET_POSTS', data)
     },
     async starRole ({ commit }, { bangumiId, roleId, ctx, hasStar }) {
       const api = new CartoonRoleApi(ctx)

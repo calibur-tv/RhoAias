@@ -279,7 +279,7 @@
             from="bottom"
             size="250px"
             class="sort-image-drawer"
-            :show-submit="true"
+            submit-text="确认"
             @submit="handleSelectedSort"
           >
             <mt-picker

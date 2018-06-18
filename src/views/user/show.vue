@@ -358,11 +358,11 @@
         id="posts-of-mine"
         v-if="sort === 'mine'"
       >
-        <v-post-item
+        <post-flow-item
           v-for="item in posts.data"
           :key="item.id"
           :item="item"
-        ></v-post-item>
+        ></post-flow-item>
       </ul>
       <ul
         id="posts-of-reply"
@@ -434,6 +434,7 @@
 
 <script>
   import ImageWaterfall from '~/components/lists/ImageWaterfall'
+  import PostFlowItem from '~/components/post/PostFlowItem'
 
   export default {
     name: 'page-user',
@@ -463,7 +464,8 @@
       }
     },
     components: {
-      ImageWaterfall
+      ImageWaterfall,
+      PostFlowItem
     },
     computed: {
       zone () {

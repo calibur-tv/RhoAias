@@ -96,13 +96,13 @@
       <a :href="$alias.bangumiTag()">分类索引</a>
     </div>
     <div id="weekly-btn-group" class="container">
-        <button
-          v-for="(btn, index) in showtime"
-          v-text="btn"
-          @click="handleWeeklySwitch(index)"
-          :class="{ 'active': showWeek === `tab-weekly-${index}` }"
-        ></button>
-      </div>
+      <button
+        v-for="(btn, index) in showtime"
+        v-text="btn"
+        @click="handleWeeklySwitch(index)"
+        :class="{ 'active': showWeek === `tab-weekly-${index}` }"
+      ></button>
+    </div>
     <tab-container v-model="showWeek" :swipeable="true">
       <tab-container-item
         v-for="(list, index) in released"
@@ -158,7 +158,6 @@
 
 <script>
   import { TabContainer, TabContainerItem } from 'mint-ui'
-  const weekly = ['最新', '一', '二', '三', '四', '五', '六', '日']
 
   export default {
     name: 'bangumi-news',
@@ -176,7 +175,7 @@
     data () {
       return {
         showWeek: `tab-weekly-${new Date().getDay() || 7}`,
-        showtime: weekly
+        showtime: ['最新', '一', '二', '三', '四', '五', '六', '日']
       }
     },
     methods: {

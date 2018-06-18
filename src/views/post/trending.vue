@@ -6,11 +6,11 @@
       <a href="/post/trending/hot" :class="{ 'active': sort === 'hot' }">热门</a>
     </div>
     <ul>
-      <v-post-item
+      <post-flow-item
         v-for="item in post.list"
         :key="item.id"
         :item="item"
-      ></v-post-item>
+      ></post-flow-item>
     </ul>
     <more-btn
       :no-more="post.noMore"
@@ -23,6 +23,7 @@
 
 <script>
   import PostApi from '~/api/postApi'
+  import PostFlowItem from '~/components/post/PostFlowItem'
 
   export default {
     name: 'v-post-trending',
@@ -32,6 +33,9 @@
         sort: route.params.sort,
         api: new PostApi(ctx)
       })
+    },
+    components: {
+      PostFlowItem
     },
     computed: {
       sort () {

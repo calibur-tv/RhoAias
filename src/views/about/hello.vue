@@ -96,7 +96,7 @@
     name: 'page-hello',
     computed: {
       nickname () {
-        return this.$store.state.login ? this.$store.state.user.nickname : ''
+        return this.$store.state.user ? this.$store.state.user.nickname : ''
       }
     }
   }

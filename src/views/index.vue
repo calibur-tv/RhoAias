@@ -134,7 +134,12 @@
   <div id="homepage">
     <header id="header">
       <div class="nav-left">
-        <img class="logo" @click="handleLogoClick" src="http://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/72/h/72" alt="logo">
+        <img
+          class="logo"
+          @click="handleLogoClick"
+          src="http://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/72/h/72"
+          alt="logo"
+        >
         <a class="active" href="/">首页</a>
         <a href="/bangumi/news">番剧</a>
       </div>
@@ -171,8 +176,16 @@
       </div>
     </header>
     <section id="banner" v-show="showBanner">
-      <div class="bg" :class="{'show' : toggle}" :style="{ backgroundImage: banner1 ? `url(${$resize(banner1.url, options)})` : '' }"></div>
-      <div class="bg" :class="{'show' : !toggle}" :style="{ backgroundImage: banner2 ? `url(${$resize(banner2.url, options)})` : '' }"></div>
+      <div
+        class="bg"
+        :class="{ 'show' : toggle }"
+        :style="{ backgroundImage: banner1 ? `url(${$resize(banner1.url, options)})` : '' }"
+      ></div>
+      <div
+        class="bg"
+        :class="{ 'show' : !toggle }"
+        :style="{ backgroundImage: banner2 ? `url(${$resize(banner2.url, options)})` : '' }"
+      ></div>
     </section>
     <main id="main">
       <v-search
@@ -182,13 +195,11 @@
       <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
     </main>
     <v-footer v-show="showBanner"></v-footer>
-    <user-drawer></user-drawer>
   </div>
 </template>
 
 <script>
   import vFooter from '~/components/layouts/Footer'
-  import UserDrawer from '~/components/layouts/UserDrawer'
   import vSearch from '~/components/search/input'
 
   export default {
@@ -200,7 +211,6 @@
       await store.dispatch('homepage/getBanners', ctx)
     },
     components: {
-      UserDrawer,
       vFooter,
       vSearch
     },

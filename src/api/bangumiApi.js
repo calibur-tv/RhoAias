@@ -29,9 +29,9 @@ export default class extends BaseApi {
     return this.http.get('bangumi/released')
   }
 
-  timeline ({ year, take }) {
+  timeline ({ year }) {
     return this.http.get('bangumi/timeline', {
-      params: { year, take }
+      params: { year }
     })
   }
 

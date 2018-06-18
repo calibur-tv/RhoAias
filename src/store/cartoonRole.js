@@ -9,11 +9,11 @@ export default {
     },
     fans: {
       new: {
-        data: [],
+        list: [],
         noMore: false
       },
       hot: {
-        data: [],
+        list: [],
         noMore: false
       }
     }
@@ -25,7 +25,7 @@ export default {
       } else {
         state.info.data.hasStar = 1
         state.info.data.fans_count++
-        state.fans.new.data.unshift(user)
+        state.fans.new.list.unshift(user)
       }
       state.info.data.star_count++
     },
@@ -49,16 +49,16 @@ export default {
       if (reset) {
         state.fans = {
           new: {
-            data: [],
+            list: [],
             noMore: false
           },
           hot: {
-            data: [],
+            list: [],
             noMore: false
           }
         }
       }
-      state.fans[sort].data = state.fans[sort].data.concat(data)
+      state.fans[sort].list = state.fans[sort].list.concat(data)
       state.fans[sort].noMore = data.length < 15
     }
   },
@@ -74,7 +74,7 @@ export default {
       }
       const api = new Api()
       const data = await api.trending({
-        seenIds: state.trending.data.length ? state.trending.data.map(item => item.id).join(',') : null
+        seenIds: state.trending.data.length ? state.trending.data.map(item => item.id).toString() : null
       })
       data && commit('SET_TRENDING', data)
     },
@@ -83,15 +83,16 @@ export default {
         return
       }
       const api = new Api()
-      const length = state.fans[sort].data.length
+      const list = state.fans[sort].list
+      const length = list.length
       const data = await api.fans(Object.assign({
         sort,
         bangumiId,
         roleId
       }, sort === 'new' ? {
-        minId: reset ? null : length ? state.fans[sort].data[length - 1].id : null
+        minId: reset ? null : length ? list[length - 1].id : null
       } : {
-        seenIds: reset ? null : length ? state.fans[sort].data.map(item => item.id).join(',') : null
+        seenIds: reset ? null : length ? list.map(_ => _.id).toString() : null
       }))
       data && commit('SET_FANS_LIST', { data, reset, sort })
     },
