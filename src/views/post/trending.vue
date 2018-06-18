@@ -1,14 +1,14 @@
 <template>
   <div id="post-trending">
     <div class="tabs">
-      <a href="/post/trending/news" :class="{ 'active': sort === 'news' }">最新</a>
-      <a href="/post/trending/active" :class="{ 'active': sort === 'active' }">动态</a>
-      <a href="/post/trending/hot" :class="{ 'active': sort === 'hot' }">热门</a>
+      <button @click="switchTab('news')" :class="{ 'active': sort === 'news' }">最新</button>
+      <button @click="switchTab('active')" :class="{ 'active': sort === 'active' }">动态</button>
+      <button @click="switchTab('hot')" :class="{ 'active': sort === 'hot' }">热门</button>
     </div>
     <ul>
       <post-flow-item
-        v-for="item in post.list"
-        :key="item.id"
+        v-for="(item, index) in post.list"
+        :key="`${item.id}-${index}`"
         :item="item"
       ></post-flow-item>
     </ul>
@@ -38,11 +38,13 @@
       PostFlowItem
     },
     computed: {
-      sort () {
-        return this.$route.params.sort
-      },
       post () {
         return this.$store.state.trending[this.sort]
+      }
+    },
+    data () {
+      return {
+        sort: this.$route.params.sort
       }
     },
     methods: {
@@ -51,6 +53,18 @@
           await this.$store.dispatch('trending/loadMore', {
             type: 'post',
             sort: this.sort,
+            api: new PostApi(this)
+          })
+        } catch (e) {
+          this.$toast.error(e)
+        }
+      },
+      async switchTab (tab) {
+        this.sort = tab
+        try {
+          await this.$store.dispatch('trending/getTrending', {
+            type: 'post',
+            sort: tab,
             api: new PostApi(this)
           })
         } catch (e) {
