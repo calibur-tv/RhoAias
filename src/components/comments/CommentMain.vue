@@ -542,7 +542,7 @@
           return
         }
         this.replyForm.replying = true
-        this.$toast.loading()
+        this.$toast.loading('提交中...')
         try {
           await this.$store.dispatch('comment/createSubComment', {
             ctx: this,
@@ -558,6 +558,7 @@
           this.$toast.error(e)
         } finally {
           this.replyForm.replying = false
+          this.handleReplyDrawerClose()
         }
       },
       writeComment () {
