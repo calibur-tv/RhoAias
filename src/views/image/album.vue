@@ -39,15 +39,17 @@
 
           .next {
             float: right;
-            margin: 0 10px;
             font-size: 13px;
-            color: #6d757a;
+            margin-right: 10px;
+            margin-left: 15px;
+            color: $color-text-normal;
           }
 
           .more {
             float: right;
             font-size: 13px;
-            margin: 0 10px;
+            margin-right: 10px;
+            margin-left: 15px;
             color: $color-text-normal;
           }
         }

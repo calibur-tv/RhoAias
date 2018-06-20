@@ -188,6 +188,10 @@
     },
     methods: {
       async toggleLike () {
+        if (!this.currentUserId) {
+          this.$channel.$emit('sign-in')
+          return
+        }
         if (this.liking) {
           return
         }

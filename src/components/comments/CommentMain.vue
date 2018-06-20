@@ -508,6 +508,10 @@
         setTimeout(() => { document.body.scrollTop = 0 }, 200)
       },
       async toggleFocusCommentLike () {
+        if (!this.currentUserId) {
+          this.$channel.$emit('sign-in')
+          return
+        }
         if (this.replyForm.liking) {
           return
         }

@@ -67,10 +67,17 @@
         .sub-title {
           margin-top: 15px;
 
+          .next {
+            float: right;
+            font-size: 13px;
+            margin-left: 15px;
+            color: $color-text-normal;
+          }
+
           .more {
             float: right;
             font-size: 13px;
-            font-weight: normal;
+            margin-left: 15px;
             color: $color-text-normal;
           }
         }
@@ -191,6 +198,7 @@
       <div id="metas">
         <h3 class="sub-title">
           选集（{{ videos.length }}）
+          <a class="next" :href="nextPartVideo" v-if="nextPartVideo">下一话</a>
           <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </h3>
         <template v-if="season && showAll">
@@ -355,6 +363,41 @@
         return this.useOtherSiteSource
           ? false
           : this.videoSrc ? this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv' : false
+      },
+      nextPartVideo () {
+        let lastId = 0
+        if (this.season) {
+          let videos = []
+          this.list.forEach(season => {
+            videos = videos.concat(season.data)
+          })
+          lastId = videos[videos.length - 1].id
+        } else {
+          lastId = this.list[this.list.length - 1].id
+        }
+        if (lastId === this.id) {
+          return ''
+        }
+        let nextId = 0
+        if (this.season) {
+          this.list.forEach(season => {
+            season.data.forEach(part => {
+              if (part.id === this.id + 1) {
+                nextId = part.id
+              }
+            })
+          })
+        } else {
+          this.list.forEach(part => {
+            if (part.id === this.id + 1) {
+              nextId = part.id
+            }
+          })
+        }
+        if (!nextId) {
+          return ''
+        }
+        return this.$alias.video(nextId)
       }
     },
     data () {
