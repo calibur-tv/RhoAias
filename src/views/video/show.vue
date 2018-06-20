@@ -365,39 +365,13 @@
           : this.videoSrc ? this.videoSrc.split('?')[0].split('.').pop().toLowerCase() === 'flv' : false
       },
       nextPartVideo () {
-        let lastId = 0
-        if (this.season) {
-          let videos = []
-          this.list.forEach(season => {
-            videos = videos.concat(season.data)
-          })
-          lastId = videos[videos.length - 1].id
-        } else {
-          lastId = this.list[this.list.length - 1].id
-        }
-        if (lastId === this.id) {
-          return ''
-        }
         let nextId = 0
-        if (this.season) {
-          this.list.forEach(season => {
-            season.data.forEach(part => {
-              if (part.id === this.id + 1) {
-                nextId = part.id
-              }
-            })
-          })
-        } else {
-          this.list.forEach(part => {
-            if (part.id === this.id + 1) {
-              nextId = part.id
-            }
-          })
-        }
-        if (!nextId) {
-          return ''
-        }
-        return this.$alias.video(nextId)
+        this.videos.forEach((video, index) => {
+          if (video.id === this.id && index !== this.videos.length - 1) {
+            nextId = this.videos[index + 1].id
+          }
+        })
+        return nextId ? this.$alias.video(nextId) : ''
       }
     },
     data () {
@@ -461,10 +435,11 @@
           this.$toast.error('第三方资源不支持下载')
           return
         }
-//        if (this.isGuest) {
-//          this.$channel.$emit('sign-in')
-//          return
-//        }
+        if (this.isGuest) {
+          this.$toast.error('登录后才能下载')
+          this.$channel.$emit('sign-in')
+          return
+        }
         this.$alert('该视频资源6小时内有效，请在失效前下载至本地').then(() => {
           window.open(this.videoSrc)
         })
