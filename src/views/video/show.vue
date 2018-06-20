@@ -59,12 +59,21 @@
     }
 
     .container {
-      padding-top: 15px;
-
       #metas {
         margin-bottom: 8px;
         overflow: hidden;
         position: relative;
+
+        .sub-title {
+          margin-top: 15px;
+
+          .more {
+            float: right;
+            font-size: 13px;
+            font-weight: normal;
+            color: $color-text-normal;
+          }
+        }
 
         ul {
           margin-bottom: 2px;
@@ -102,15 +111,6 @@
           border-color: $color-blue-light;
           background-color: $color-blue-light;
           color: $color-white;
-        }
-
-        .more {
-          position: absolute;
-          right: 0;
-          top: 0;
-          text-align: center;
-          font-size: 14px;
-          color: $color-text-normal;
         }
       }
 
@@ -189,10 +189,10 @@
     </div>
     <div class="container">
       <div id="metas">
-        <div>
-          <h3 class="sub-title">选集（{{ videos.length }}）</h3>
+        <h3 class="sub-title">
+          选集（{{ videos.length }}）
           <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
-        </div>
+        </h3>
         <template v-if="season && showAll">
           <template v-for="(videos, idx) in list">
             <h6 class="season-title" v-text="season.name[idx]"></h6>
