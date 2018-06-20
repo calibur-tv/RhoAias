@@ -1,5 +1,5 @@
 <style lang="scss">
-  .post-reply-item {
+  .comment-item {
     position: relative;
     margin-top: $container-padding;
     padding-bottom: $container-padding;
@@ -81,9 +81,9 @@
 </style>
 
 <template>
-  <div class="post-reply-item" :id="`comment-${post.id}`">
-    <a class="avatar" :href="$alias.user(post.from_user_zone)">
-      <v-img :src="post.from_user_avatar" :width="80" :height="80"></v-img>
+  <div class="comment-item" :id="`comment-${comment.id}`">
+    <a class="avatar" :href="$alias.user(comment.from_user_zone)">
+      <v-img :src="comment.from_user_avatar" :width="80" :height="80"></v-img>
     </a>
     <div class="content">
       <div class="header">
@@ -91,47 +91,32 @@
         <div class="user">
           <a
             class="nickname oneline"
-            :href="$alias.user(post.from_user_zone)"
-            v-text="post.from_user_name"
+            :href="$alias.user(comment.from_user_zone)"
+            v-text="comment.from_user_name"
           ></a>
           <div class="info">
-            <span>第{{ post.floor_count }}楼</span>
+            <span>第{{ comment.floor_count - 1 }}楼</span>
             <span>·</span>
-            <v-time v-model="post.created_at"></v-time>
+            <v-time v-model="comment.created_at"></v-time>
           </div>
         </div>
       </div>
       <div class="main">
-        <div class="text-area" v-html="post.content"></div>
-        <div class="image-area">
-          <div
-            class="image-package"
-            v-for="(img, idx) in post.images"
-            :key="idx"
-            @click="$previewImages(preview, img)"
-          >
-            <v-img
-              :src="img.url"
-              width="150"
-              mode="2"
-              :aspect="$computeImageAspect(img)"
-            ></v-img>
-          </div>
-        </div>
+        <div class="text-area" v-html="comment.content"></div>
       </div>
       <div class="footer">
         <sub-comment-list
-          :parent-comment="post"
-          type="post"
+          :parent-comment="comment"
+          :type="type"
         ></sub-comment-list>
         <div class="social">
           <button
-            :class="[ post.liked ? 'reply-liked-btn' : 'reply-like-btn' ]"
+            :class="[ comment.liked ? 'reply-liked-btn' : 'reply-like-btn' ]"
             @click="toggleLike"
           >
             <i class="iconfont icon-icon_good"></i>
-            {{ post.liked ? '已赞' : '赞' }}
-            <span v-if="post.like_count">({{ post.like_count }})</span>
+            {{ comment.liked ? '已赞' : '赞' }}
+            <span v-if="comment.like_count">({{ comment.like_count }})</span>
           </button>
           <button ref="replyBtn" class="fr" @click="handleCommentBtnClick">
             回复
@@ -147,12 +132,12 @@
 </template>
 
 <script>
-  import SubCommentList from '~/components/comments/SubCommentList'
+  import SubCommentList from './SubCommentList'
 
   export default {
-    name: 'post-comment-item',
+    name: 'comment-comment-item',
     props: {
-      post: {
+      comment: {
         required: true,
         type: Object
       },
@@ -160,9 +145,9 @@
         required: true,
         type: Number
       },
-      preview: {
-        type: Array,
-        required: true
+      type: {
+        required: true,
+        type: String
       }
     },
     components: {
@@ -175,7 +160,7 @@
           : 0
       },
       isMine () {
-        return this.currentUserId === this.post['from_user_id']
+        return this.currentUserId === this.comment.from_user_id
       },
       canDelete () {
         return this.isMine || this.currentUserId === this.masterId
@@ -185,11 +170,11 @@
         if (this.canDelete) {
           result.push({
             name: '删除',
-            method: this.deletePost
+            method: this.deleteComment
           })
         }
         result.push({
-          name: this.post.liked ? '取消赞' : '点赞',
+          name: this.comment.liked ? '取消赞' : '点赞',
           method: this.toggleLike
         })
 
@@ -212,15 +197,15 @@
         try {
           await this.$store.dispatch('comment/toggleLikeMainComment', {
             ctx: this,
-            type: 'post',
-            id: this.post.id
+            type: this.type,
+            id: this.comment.id
           })
         } catch (e) {
         } finally {
           this.liking = false
         }
       },
-      deletePost () {
+      deleteComment () {
         if (this.deleting) {
           return
         }
@@ -231,9 +216,9 @@
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('comment/deleteMainComment', {
-            type: 'post',
             ctx: this,
-            id: this.post.id
+            type: this.type,
+            id: this.comment.id
           })
         }).catch((e) => {
           this.deleting = false
@@ -245,9 +230,9 @@
       },
       handleCommentBtnClick () {
         this.$emit('reply', {
-          id: this.post.id,
-          targetUserId: this.post.from_user_id,
-          targetUserName: this.post.from_user_name
+          id: this.comment.id,
+          targetUserId: this.comment.from_user_id,
+          targetUserName: this.comment.from_user_name
         })
       }
     },

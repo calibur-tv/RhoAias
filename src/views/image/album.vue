@@ -179,8 +179,9 @@
         </div>
       </div>
     </div>
-    <div class="hr"></div>
     <div class="container">
+      <comment-main :id="id" type="image"></comment-main>
+      <div class="hr"></div>
       <div class="footer">
         <div class="bangumi-panel">
           <h3 class="sub-title">所属番剧：</h3>
@@ -201,14 +202,21 @@
 
 <script>
   import Api from '~/api/imageApi'
+  import CommentMain from '~/components/comments/CommentMain'
 
   export default {
     name: 'image-album',
     async asyncData ({ store, route, ctx }) {
-      await store.dispatch('image/getAlbumData', {
-        ctx,
-        id: route.params.id
-      })
+      const id = route.params.id
+      await Promise.all([
+        store.dispatch('image/getAlbumData', { ctx, id }),
+        store.dispatch('comment/getMainComments', {
+          ctx,
+          id,
+          type: 'image',
+          seeReplyId: route.query.reply
+        })
+      ])
     },
     head () {
       const category = `${this.info.is_cartoon ? '漫画' : '相簿'}`
@@ -219,6 +227,9 @@
           { hid: 'keywords', name: 'keywords', content: `${this.info.name}，${this.bangumi.name}，${category}，${this.user.nickname}` }
         ]
       }
+    },
+    components: {
+      CommentMain
     },
     computed: {
       id () {

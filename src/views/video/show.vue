@@ -240,12 +240,14 @@
         <button class="video-report-btn" @click="downloadVideo">下载视频</button>
         <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
       </div>
+      <comment-main :id="id" type="video"></comment-main>
     </div>
   </div>
 </template>
 
 <script>
   import VideoApi from '~/api/videoApi'
+  import CommentMain from '~/components/comments/CommentMain'
 
   export default {
     name: 'video-show',
@@ -264,10 +266,19 @@
       }
     },
     async asyncData ({ route, store, ctx }) {
-      await store.dispatch('video/getShow', {
-        id: route.params.id,
-        ctx
-      })
+      const id = route.params.id
+      await Promise.all([
+        store.dispatch('video/getShow', { id, ctx }),
+        store.dispatch('comment/getMainComments', {
+          ctx,
+          id,
+          type: 'video',
+          seeReplyId: route.query.reply
+        })
+      ])
+    },
+    components: {
+      CommentMain
     },
     computed: {
       id () {

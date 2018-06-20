@@ -1,5 +1,16 @@
 <style lang="scss">
   #comment-wrap {
+    .sub-title {
+      margin-top: 15px;
+      margin-bottom: 15px;
+
+      .write-btn {
+        float: right;
+        font-weight: bold;
+        font-size: 13px;
+      }
+    }
+
     #comment-list-footer {
       margin-left: -$container-padding;
       margin-right: -$container-padding;
@@ -149,32 +160,56 @@
         }
       }
     }
+
+    .no-content {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 12px;
+      color: #99a2aa;
+    }
   }
 </style>
 
 <template>
   <div id="comment-wrap">
     <!-- 主列表的头部 -->
-    <slot name="header"></slot>
+    <slot name="header">
+      <div class="hr"></div>
+      <h3 class="sub-title">
+        评论{{ total ? `(${total})` : '' }}
+        <button class="write-btn" @click="writeComment">写评论</button>
+      </h3>
+    </slot>
     <!-- 主列表的 list -->
-    <div id="comment-list-wrap">
-      <!-- 每条主评论 -->
-      <div
-        v-for="comment in list"
-        :key="comment.id"
-        class="comment-item-wrap"
-      >
-        <!-- 主评论的内容 -->
-        <slot name="comment-item" :comment="comment" :reply="handleSubCommentReply"></slot>
+    <template v-if="list.length">
+      <div id="comment-list-wrap">
+        <!-- 每条主评论 -->
+        <div
+          v-for="comment in list"
+          :key="comment.id"
+          class="comment-item-wrap"
+        >
+          <!-- 主评论的内容 -->
+          <slot name="comment-item" :comment="comment" :reply="handleSubCommentReply">
+            <comment-item
+              :type="type"
+              :comment="comment"
+              :master-id="0"
+              @reply="handleSubCommentReply"
+            ></comment-item>
+          </slot>
+        </div>
       </div>
-    </div>
-    <div id="comment-list-footer">
-      <more-btn
-        :no-more="noMore"
-        :loading="loadingMainComment"
-        @fetch="loadMoreMainComment"
-      ></more-btn>
-    </div>
+      <div id="comment-list-footer">
+        <more-btn
+          :no-more="noMore"
+          :loading="loadingMainComment"
+          @fetch="loadMoreMainComment"
+        ></more-btn>
+      </div>
+    </template>
+    <p class="no-content" v-else-if="emptyText" v-text="emptyText"></p>
     <!-- reply detail drawer -->
     <v-drawer
       v-model="openFocusCommentDrawer"
@@ -313,20 +348,22 @@
       header-text="发表评论"
     >
       <div class="container">
-        <create-comment-form
-          v-if="openCreateCommentDrawer"
-          :id="id"
-          :type="type"
-          :with-image="withImage"
-          @close="openCreateCommentDrawer = false"
-        ></create-comment-form>
+        <slot name="reply-form" :close="closeCommentDrawer">
+          <comment-create-form
+            v-if="openCreateCommentDrawer"
+            :id="id"
+            :type="type"
+            @close="closeCommentDrawer"
+          ></comment-create-form>
+        </slot>
       </div>
     </v-drawer>
   </div>
 </template>
 
 <script>
-  import CreateCommentForm from '~/components/forms/CreateCommentForm'
+  import CommentCreateForm from './CommentCreateForm'
+  import CommentItem from './CommentItem'
 
   export default {
     name: 'v-comment-main',
@@ -338,19 +375,20 @@
       type: {
         required: true,
         type: String,
-        validator: val => ~['post'].indexOf(val)
+        validator: val => ~['post', 'video', 'image'].indexOf(val)
       },
       onlySeeMaster: {
         type: Boolean,
         default: false
       },
-      withImage: {
-        type: Boolean,
-        default: false
+      emptyText: {
+        type: String,
+        default: '暂无评论，快来抢沙发吧╮(￣▽￣)╭！'
       }
     },
     components: {
-      CreateCommentForm
+      CommentCreateForm,
+      CommentItem
     },
     computed: {
       store () {
@@ -503,6 +541,12 @@
         } finally {
           this.replyForm.replying = false
         }
+      },
+      writeComment () {
+        this.$channel.$emit('open-create-comment-drawer')
+      },
+      closeCommentDrawer () {
+        this.openCreateCommentDrawer = false
       }
     },
     mounted () {

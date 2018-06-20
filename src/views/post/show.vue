@@ -326,8 +326,9 @@
         type="post"
         :id="post.id"
         :only-see-master="onlySeeMaster"
-        :with-image="true"
+        empty-text=""
       >
+        <div slot="header"></div>
         <post-comment-item
           slot="comment-item"
           slot-scope="{ comment, reply }"
@@ -336,6 +337,13 @@
           :preview="post.preview_images"
           @reply="reply"
         ></post-comment-item>
+        <post-comment-form
+          slot="reply-form"
+          slot-scope="{ close }"
+          type="post"
+          :id="post.id"
+          @close="close"
+        ></post-comment-form>
       </comment-main>
     </div>
     <div class="hr"></div>
@@ -357,6 +365,7 @@
 <script>
   import CommentMain from '~/components/comments/CommentMain'
   import PostCommentItem from '~/components/post/PostCommentItem'
+  import PostCommentForm from '~/components/post/PostCommentForm'
 
   export default {
     name: 'post-show',
@@ -382,7 +391,8 @@
     },
     components: {
       CommentMain,
-      PostCommentItem
+      PostCommentItem,
+      PostCommentForm
     },
     head () {
       return {
