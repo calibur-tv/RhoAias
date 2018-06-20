@@ -36,6 +36,20 @@
 
         .sub-title {
           margin-left: 10px;
+
+          .next {
+            float: right;
+            margin: 0 10px;
+            font-size: 13px;
+            color: #6d757a;
+          }
+
+          .more {
+            float: right;
+            font-size: 13px;
+            margin: 0 10px;
+            color: $color-text-normal;
+          }
         }
 
         li {
@@ -44,31 +58,22 @@
           text-align: center;
           margin-bottom: 7px;
           padding: 0 5px;
-        }
 
-        a {
-          border: 1px solid $color-gray-deep;
-          height: 30px;
-          color: $color-link;
-          border-radius: 4px;
-          display: block;
-          font-size: 12px;
-          line-height: 28px;
+          a {
+            border: 1px solid $color-gray-deep;
+            height: 30px;
+            color: $color-link;
+            border-radius: 4px;
+            display: block;
+            font-size: 12px;
+            line-height: 28px;
 
-          &.active {
-            border-color: $color-blue-light;
-            background-color: $color-blue-light;
-            color: $color-white;
+            &.active {
+              border-color: $color-blue-light;
+              background-color: $color-blue-light;
+              color: $color-white;
+            }
           }
-        }
-
-        .more {
-          position: absolute;
-          right: 10px;
-          top: 0;
-          text-align: center;
-          font-size: 14px;
-          color: $color-text-normal;
         }
       }
 
@@ -154,8 +159,11 @@
         </div>
       </div>
       <div class="cartoon-list" v-if="cartoon.length">
-        <h3 class="sub-title">选集（{{ cartoon.length }}）</h3>
-        <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+        <h3 class="sub-title">
+          选集（{{ cartoon.length }}）
+          <a class="next" v-if="nextPartUrl" :href="nextPartUrl">下一话</a>
+          <div class="more" v-if="showMoreBtn" @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+        </h3>
         <ul>
           <li v-for="item in sortCartoons">
             <a
@@ -233,8 +241,7 @@
     },
     computed: {
       id () {
-        return parseInt(this.$route.params.id, 10
-        )
+        return parseInt(this.$route.params.id, 10)
       },
       album () {
         return this.$store.state.image.albumShow
@@ -247,9 +254,6 @@
       },
       cartoon () {
         return this.album.cartoon
-      },
-      previewImages () {
-        return this.images.map(_ => _.url)
       },
       user () {
         return this.album.user
@@ -275,6 +279,21 @@
       sortCartoons () {
         const begin = (this.page - 1) * this.take
         return this.showAll ? this.cartoon : this.cartoon.slice(begin, begin + this.take)
+      },
+      nextPartUrl () {
+        if (!this.cartoon.length) {
+          return ''
+        }
+        let index = 0
+        this.cartoon.forEach((item, idx) => {
+          if (item.id === this.id) {
+            index = idx
+          }
+        })
+        if (index >= this.cartoon.length - 1) {
+          return ''
+        }
+        return this.$alias.imageAlbum(this.cartoon[index + 1].id)
       }
     },
     data () {
