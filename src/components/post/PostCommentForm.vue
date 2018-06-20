@@ -1,5 +1,5 @@
 <style lang="scss">
-  .create-comment-form {
+  .post-comment-form {
     .content {
       font-size: 16px;
       line-height: 24px;
@@ -28,7 +28,7 @@
 </style>
 
 <template>
-  <div class="create-comment-form">
+  <div class="post-comment-form">
     <textarea
       class="content"
       placeholder="来吧，尽情的（在1000字以内）发挥吧"
@@ -48,7 +48,6 @@
       :on-exceed="handleExceed"
       :limit="exceed"
       :before-upload="beforeUpload"
-      v-if="withImage"
     >
       +
     </el-upload>
@@ -58,7 +57,7 @@
 
 <script>
   export default {
-    name: 'create-comment-form',
+    name: 'post-comment-form',
     props: {
       type: {
         required: true,
@@ -67,10 +66,6 @@
       id: {
         required: true,
         type: Number
-      },
-      withImage: {
-        type: Boolean,
-        default: false
       }
     },
     computed: {
@@ -125,23 +120,23 @@
         }
         this.$store.commit('comment/SET_SUBMITTING', { result: true })
         try {
-          await this.$store.dispatch('comment/createMainComment', {
+          const newComment = await this.$store.dispatch('comment/createMainComment', {
             content: this.formatContent,
             images: this.formatImages,
             type: this.type,
             id: this.id,
             ctx: this
           })
-          this.$toast.success('评论成功')
           this.$emit('close')
           this.forms = {
             content: ''
           }
+          this.images = []
           this.$refs.uploader.clearFiles()
-          const list = document.querySelectorAll('.comment-item-wrap')
+          this.$toast.success('评论成功')
           setTimeout(() => {
-            const dom = list[list.length - 1]
-            dom && this.$scrollToY(dom.offsetTop, 600)
+            const dom = document.getElementById(`comment-${newComment.id}`)
+            dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 50, 600)
           }, 400)
         } catch (e) {
           this.$toast.error(e)
@@ -206,7 +201,7 @@
       }
     },
     mounted () {
-      if (!this.isGuest && this.withImage) {
+      if (!this.isGuest) {
         this.getUpToken()
       }
     }

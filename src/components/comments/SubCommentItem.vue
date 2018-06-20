@@ -1,5 +1,5 @@
 <style lang="scss">
-  .post-sub-comment-item {
+  .sub-comment-item {
     padding: 2px 10px;
     font-size: 14px;
     line-height: 18px;
@@ -16,7 +16,7 @@
 </style>
 
 <template>
-  <div class="post-sub-comment-item">
+  <div class="sub-comment-item">
     <a class="nickname" :href="$alias.user(comment.from_user_zone)" v-text="comment.from_user_name"></a>
     <template v-if="comment.to_user_zone">
       回复
@@ -29,7 +29,7 @@
 
 <script>
   export default {
-    name: 'post-sub-comment-item',
+    name: 'sub-comment-item',
     props: {
       comment: {
         required: true,
@@ -38,6 +38,10 @@
       parentUserId: {
         required: true,
         type: Number
+      },
+      type: {
+        required: true,
+        type: String
       }
     },
     computed: {
@@ -73,8 +77,8 @@
           type: 'warning'
         }).then(() => {
           this.$store.dispatch('comment/deleteSubComment', {
-            type: 'post',
             ctx: this,
+            type: this.type,
             id: this.comment.id,
             parentId: this.comment.parent_id
           })

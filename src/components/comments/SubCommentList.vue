@@ -1,5 +1,5 @@
 <style lang="scss">
-  .post-sub-comment-list-wrap {
+  .sub-comment-list-wrap {
     position: relative;
     background-color: #f7f8fa;
     border-radius: 5px;
@@ -33,14 +33,15 @@
 </style>
 
 <template>
-  <div class="post-sub-comment-list-wrap">
+  <div class="sub-comment-list-wrap">
     <div class="sub-comment-list" v-if="hasComment">
-      <post-sub-comment-item
+      <sub-comment-item
         v-for="comment in filterComments"
         :key="comment.id"
         :comment="comment"
         :parent-user-id="authorId"
-      ></post-sub-comment-item>
+        :type="type"
+      ></sub-comment-item>
       <button
         v-if="!comments.noMore || comments.list.length > 5"
         class="load-all-comment"
@@ -53,7 +54,7 @@
 </template>
 
 <script>
-  import PostSubCommentItem from '~/components/post/PostSubCommentItem'
+  import SubCommentItem from './SubCommentItem'
 
   export default {
     name: 'post-sub-comment-list',
@@ -61,10 +62,14 @@
       parentComment: {
         required: true,
         type: Object
+      },
+      type: {
+        required: true,
+        type: String
       }
     },
     components: {
-      PostSubCommentItem
+      SubCommentItem
     },
     computed: {
       comments () {
