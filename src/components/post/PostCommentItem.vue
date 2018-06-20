@@ -244,7 +244,7 @@
         })
       },
       handleCommentBtnClick () {
-        this.$emit('reply', {
+        this.$channel.$emit('reply-comment', {
           id: this.post.id,
           targetUserId: this.post.from_user_id,
           targetUserName: this.post.from_user_name

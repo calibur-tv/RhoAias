@@ -40,6 +40,7 @@
         :key="comment.id"
         :comment="comment"
         :parent-user-id="authorId"
+        :parent-comment-id="parentComment.id"
         :type="type"
       ></sub-comment-item>
       <button
