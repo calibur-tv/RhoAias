@@ -136,7 +136,7 @@
         </template>
         <div class="submit-banner-btn file-input" v-else>
           点击更新背景
-          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png" name="file" ref="bannerInput" @change="selectBanner">
+          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="bannerInput" @change="selectBanner">
         </div>
       </div>
     </div>
@@ -151,7 +151,7 @@
         </template>
         <div class="change-image-btn file-input" v-else>
           点击更新头像
-          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png" name="file" ref="avatarInput" @change="selectAvatar">
+          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="avatarInput" @change="selectAvatar">
         </div>
       </div>
     </div>
@@ -261,8 +261,8 @@
           this.$toast.error('图片选择失败')
           return
         }
-        if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
+        if (['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].indexOf(file.type) === -1) {
+          this.$toast.error('仅支持 jpg / jpeg / png / gif 格式的图片')
           return
         }
         const reader = new FileReader()
@@ -315,8 +315,8 @@
       },
       selectBanner (e) {
         const file = e.target.files[0]
-        if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.type) === -1) {
-          this.$toast.error('仅支持 jpg / jpeg / png 格式的图片')
+        if (['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].indexOf(file.type) === -1) {
+          this.$toast.error('仅支持 jpg / jpeg / png / gif 格式的图片')
           return
         }
         const reader = new FileReader()
