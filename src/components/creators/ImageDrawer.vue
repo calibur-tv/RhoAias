@@ -369,10 +369,16 @@
       },
       handlePosterUploadError (err, file) {
         console.log(err)
+        this.album.poster = []
         this.$toast.error(`图片：${file.name} 上传失败`)
       },
       handleImageUploadError (err, file) {
         console.log(err)
+        this.image.data.forEach((item, index) => {
+          if (item.id === file.uid) {
+            this.image.data.splice(index, 1)
+          }
+        })
         this.pendingUpload = this.pendingUpload - 1
         this.$toast.error(`图片：${file.name} 上传失败`)
       },
@@ -405,7 +411,14 @@
         })
         this.pendingUpload++
 
-        this.uploadHeaders.key = `user/${this.$store.state.user.id}/image/${new Date().getTime()}-${Math.random().toString(36).substring(3, 6)}.${file.type.split('/').pop()}`
+        this.uploadHeaders.key = this.$utils.createFileName({
+          userId: this.$store.state.user.id,
+          type: 'image',
+          id: 0,
+          file
+        })
+
+        return true
       },
       handleRemoveImage (file) {
         this.image.data.forEach((item, index) => {
@@ -431,7 +444,13 @@
           return false
         }
 
-        this.uploadHeaders.key = `user/${this.$store.state.user.id}/album/0/${new Date().getTime()}-${Math.random().toString(36).substring(3, 6)}.${file.type.split('/').pop()}`
+        this.uploadHeaders.key = this.$utils.createFileName({
+          userId: this.$store.state.user.id,
+          type: 'album',
+          id: 0,
+          file
+        })
+
         return true
       },
       switchPickerDrawer (name) {
