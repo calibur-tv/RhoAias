@@ -332,11 +332,10 @@
         <div slot="header"></div>
         <post-comment-item
           slot="comment-item"
-          slot-scope="{ comment, reply }"
+          slot-scope="{ comment }"
           :post="comment"
           :master-id="master.id"
           :preview="post.preview_images"
-          @reply="reply"
         ></post-comment-item>
         <post-comment-form
           slot="reply-form"
@@ -547,12 +546,12 @@
         if (!replyId) {
           return
         }
-        const reply = document.getElementById(`post-reply-${replyId}`)
+        const reply = document.getElementById(`comment-${replyId}`)
         if (!reply) {
           return
         }
         setTimeout(() => {
-          this.$scrollToY(reply.offsetTop, 600)
+          this.$scrollToY(this.$utils.getOffsetTop(reply) - 100, 600)
         }, 400)
       }
     },

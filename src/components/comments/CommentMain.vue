@@ -19,7 +19,7 @@
     .focus-comment-drawer {
       .reply {
         .user {
-          padding-top: $container-padding;
+          padding-top: 5px;
 
           .avatar {
             float: left;
@@ -202,7 +202,6 @@
               :type="type"
               :comment="comment"
               :master-id="0"
-              @reply="handleSubCommentReply"
             ></comment-item>
           </slot>
         </div>
@@ -587,6 +586,9 @@
           return
         }
         this.openCreateCommentDrawer = true
+      })
+      this.$channel.$on('reply-comment', ({ id, targetUserId, targetUserName }) => {
+        this.handleSubCommentReply({ id, targetUserId, targetUserName })
       })
     }
   }

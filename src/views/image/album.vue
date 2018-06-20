@@ -1,6 +1,6 @@
 <style lang="scss">
   #image-album {
-    .header {
+    .album-header {
       margin-top: $container-padding;
       margin-bottom: $container-padding;
 
@@ -21,7 +21,7 @@
       }
     }
 
-    .body {
+    .album-body {
       background-color: #fff;
 
       .images-wrap {
@@ -105,7 +105,7 @@
       }
     }
 
-    .footer {
+    .album-footer {
       .bangumi-panel {
         padding-top: $container-padding;
         padding-bottom: $container-padding;
@@ -123,7 +123,7 @@
 <template>
   <div id="image-album">
     <div class="container">
-      <div class="header">
+      <div class="album-header">
         <h1 class="title oneline">
           {{ info.is_creator ? '[原创]' : '[转载]' }}
           [{{ info.is_cartoon ? '漫画' : '相册' }}]
@@ -137,7 +137,7 @@
         </a>
       </div>
     </div>
-    <div class="body">
+    <div class="album-body">
       <div class="images-wrap">
         <div
           class="image-package"
@@ -182,7 +182,7 @@
     <div class="container">
       <comment-main :id="id" type="image"></comment-main>
       <div class="hr"></div>
-      <div class="footer">
+      <div class="album-footer">
         <div class="bangumi-panel">
           <h3 class="sub-title">所属番剧：</h3>
           <v-bangumi-panel

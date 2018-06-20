@@ -95,7 +95,7 @@
           this.content = ''
           setTimeout(() => {
             const dom = document.getElementById(`comment-${newComment.id}`)
-            dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 50, 600)
+            dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600)
           }, 400)
         } catch (e) {
           console.log(e)
