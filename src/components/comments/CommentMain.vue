@@ -161,6 +161,12 @@
       }
     }
 
+    .append-comment-btn {
+      width: 100%;
+      padding: 15px 0;
+      font-size: 13px;
+    }
+
     .no-content {
       text-align: center;
       margin-top: 30px;
@@ -202,6 +208,11 @@
         </div>
       </div>
       <div id="comment-list-footer">
+        <button
+          v-if="bottomAppendComment"
+          @click="writeComment"
+          class="append-comment-btn"
+        >写评论</button>
         <more-btn
           :no-more="noMore"
           :loading="loadingMainComment"
@@ -384,6 +395,10 @@
       emptyText: {
         type: String,
         default: '暂无评论，快来抢沙发吧╮(￣▽￣)╭！'
+      },
+      bottomAppendComment: {
+        type: Boolean,
+        default: true
       }
     },
     components: {

@@ -326,6 +326,7 @@
         type="post"
         :id="post.id"
         :only-see-master="onlySeeMaster"
+        :bottom-append-comment="false"
         empty-text=""
       >
         <div slot="header"></div>

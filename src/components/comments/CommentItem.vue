@@ -101,9 +101,7 @@
           </div>
         </div>
       </div>
-      <div class="main">
-        <div class="text-area" v-html="comment.content"></div>
-      </div>
+      <div class="main" v-html="comment.content"></div>
       <div class="footer">
         <sub-comment-list
           :parent-comment="comment"
