@@ -172,7 +172,7 @@
     <div class="tab-card">
       <template v-if="sort === 'fans'">
         <ul class="role-fans container">
-          <li v-for="item in fans.data">
+          <li v-for="item in fans.list">
             <a :href="$alias.user(item.zone)">
               <img class="avatar" :src="$resize(item.avatar, { width: 60 })">
               {{ item.nickname }}
@@ -182,7 +182,7 @@
         </ul>
         <more-btn
           :no-more="fans.noMore"
-          :length="fans.data.length"
+          :length="fans.list.length"
           :loading="loadingRoleFans"
           @fetch="fetchRoleFans"
         ></more-btn>
