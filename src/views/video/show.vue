@@ -248,7 +248,11 @@
         <button class="video-report-btn" @click="downloadVideo">下载视频</button>
         <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
       </div>
-      <comment-main :id="id" type="video"></comment-main>
+      <comment-main
+        :id="id"
+        :master-id="video.user_id"
+        type="video"
+      ></comment-main>
     </div>
   </div>
 </template>

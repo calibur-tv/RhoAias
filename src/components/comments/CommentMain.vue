@@ -201,7 +201,7 @@
             <comment-item
               :type="type"
               :comment="comment"
-              :master-id="0"
+              :master-id="masterId"
             ></comment-item>
           </slot>
         </div>
@@ -394,6 +394,10 @@
       emptyText: {
         type: String,
         default: '暂无评论，快来抢沙发吧╮(￣▽￣)╭！'
+      },
+      masterId: {
+        required: true,
+        type: Number
       },
       bottomAppendComment: {
         type: Boolean,
