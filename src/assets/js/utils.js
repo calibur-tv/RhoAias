@@ -74,5 +74,14 @@ export default {
       }
     } while (elem = elem.offsetParent) // eslint-disable-line no-cond-assign
     return offsetTop
+  },
+
+  shuffle (array) {
+    for (let i = array.length; i; i--) {
+      const j = Math.floor(Math.random() * i);
+      [array[i - 1], array[j]] = [array[j], array[i - 1]]
+    }
+
+    return array
   }
 }

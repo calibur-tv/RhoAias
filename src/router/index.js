@@ -53,6 +53,16 @@ export function createRouter () {
             component: () => import('~/views/user/show')
           },
           {
+            path: 'me/setting',
+            name: 'user-setting',
+            component: () => import('~/views/user/setting')
+          },
+          {
+            path: 'me/invite',
+            name: 'user-invite',
+            component: () => import('~/views/user/invite')
+          },
+          {
             path: 'post/trending/:sort',
             name: 'post-trending',
             component: () => import('~/views/post/trending')
@@ -73,9 +83,9 @@ export function createRouter () {
             component: () => import('~/views/about/hello')
           },
           {
-            path: 'me/setting',
-            name: 'user-setting',
-            component: () => import('~/views/user/setting')
+            path: 'about/invite/:id(\\d+)',
+            name: 'invite-user',
+            component: () => import('~/views/about/invite')
           },
           {
             path: 'video/:id(\\d+)',
