@@ -49,7 +49,7 @@ export default {
       state.roles = {
         zone: '',
         data: [],
-        page: 1,
+        page: 0,
         noMore: false
       }
     },
