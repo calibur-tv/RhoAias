@@ -357,7 +357,7 @@
       size="100%"
       header-text="发表评论"
     >
-      <div class="container">
+      <div class="container" v-if="openCreateCommentDrawer">
         <slot name="reply-form" :close="closeCommentDrawer">
           <comment-create-form
             v-if="openCreateCommentDrawer"
