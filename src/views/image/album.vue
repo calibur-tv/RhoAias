@@ -190,7 +190,11 @@
       </div>
     </div>
     <div class="container">
-      <comment-main :id="id" type="image"></comment-main>
+      <comment-main
+        :id="id"
+        :master-id="user.id"
+        type="image"
+      ></comment-main>
       <div class="hr"></div>
       <div class="album-footer">
         <div class="bangumi-panel">
