@@ -76,6 +76,10 @@
         color: #333;
       }
 
+      .mint-badge {
+        line-height: 1.2;
+      }
+
       .badge-count {
         border-radius: 12px;
         font-size: 15px;
@@ -139,6 +143,13 @@
         <a href="/about/hello">
           <i class="iconfont icon-bangzhu"></i>
           功能简介
+        </a>
+      </li>
+      <li>
+        <a href="/me/invite">
+          <i class="iconfont icon-yaoqingma"></i>
+          我的邀请码&nbsp;
+          <mt-badge size="small" type="warning">&nbsp;!&nbsp;</mt-badge>
         </a>
       </li>
       <li>

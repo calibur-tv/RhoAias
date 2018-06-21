@@ -4,10 +4,19 @@ import Backdrop from '~/assets/js/Backdrop'
 import captcha from '~/assets/js/captcha'
 import Cookies from 'js-cookie'
 import Toast from '~/assets/js/Toast'
+import QRCode from '~/assets/js/qrcode'
 import { MessageBox } from 'mint-ui'
 
 Vue.use({
   install (Vue, options) {
+    Vue.prototype.$QRCode = (el, text, options = { width: 170, height: 170 }) => {
+      return new QRCode(el, {
+        text,
+        width: options.width,
+        height: options.height
+      })
+    }
+
     Vue.prototype.$cookie = Cookies
 
     Vue.prototype.$scrollToY = scrollToY
