@@ -18,6 +18,7 @@
         transform-origin: 0 0;
         padding-top: 30px;
         position: relative;
+        background-color: #fff;
 
         .header-slide {
           width: 100%;
