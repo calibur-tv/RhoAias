@@ -303,6 +303,7 @@
         }).then((canvas) => {
           this.result = canvas.toDataURL('image/png')
           this.created = true
+          this.$toast.success('长按图片保存')
         }).catch(() => {})
       }
     },
