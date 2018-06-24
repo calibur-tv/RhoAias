@@ -6,7 +6,7 @@
     .capture-wrap {
       box-shadow: 0 4px 10px #ddd;
       width: 300px;
-      height: 450px;
+      height: 518px;
       margin: 0 auto 20px auto;
       border-radius: 5px;
       overflow: hidden;
@@ -18,7 +18,7 @@
         transform-origin: 0 0;
         padding-top: 30px;
         position: relative;
-        background-color: #fff;
+        background-color: #FD8AB4;
 
         .header-slide {
           width: 100%;
@@ -62,7 +62,7 @@
 
             &:after {
               bottom: 0;
-              background-color: #f48260;
+              background-color: $color-pink-deep;
             }
           }
         }
@@ -75,76 +75,91 @@
           height: 100%;
         }
 
-        .avatar {
-          margin: 0 auto;
-          @include avatar-2(200px);
-        }
-
-        .avatar-decoration {
-          width: 260px;
-          height: 100px;
-          background-image: url(~img/campaign/avatar_decoration.png);
+        .main {
+          background-color: white;
+          margin: 0 30px 30px;
+          border-radius: 20px;
+          padding: 100px 0 50px;
+          background-image: url(~img/campaign/invite-bg.png);
           background-size: contain;
           background-repeat: no-repeat;
-          position: absolute;
-          left: 50%;
-          top: 150px;
-          margin-left: -130px;
-        }
 
-        .nickname {
-          font-size: 28px;
-          margin-top: 30px;
-          margin-left: 30px;
-          margin-right: 30px;
-          text-align: center;
-          color: $color-text-normal;
+          .avatar {
+            margin: 0 auto;
+            @include avatar-2(200px);
+            border: 10px solid white;
+          }
 
-          strong {
-            color: $color-pink-deep;
+          .nickname {
+            font-size: 42px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 30px;
+            margin-right: 30px;
+            text-align: center;
+            color: #333;
+
+            strong {
+              color: $color-pink-deep;
+            }
+          }
+
+          .info {
+            font-size: 28px;
+            margin-top: 20px;
+            text-align: center;
+
+            strong {
+              color: $color-pink-deep;
+            }
+          }
+
+          .tags {
+            margin: 40px 20px;
+            text-align: center;
+            height: 106px;
+            overflow: hidden;
+
+            .mint-badge {
+              border-radius: 20px;
+              font-size: 24px;
+              padding: 8px 20px;
+              margin: 6px;
+              background-color: #FD8AB4;
+            }
+          }
+
+          .logo {
+            margin: 0 auto;
+            width: 180px;
+            height: 100px;
+            background-image: url(~img/campaign/calibur-logo.png);
+            background-size: contain;
+            background-repeat: no-repeat;
           }
         }
 
-        .qrcode {
-          width: 300px;
-          height: 300px;
-          margin: 30px auto 0 auto;
-        }
+        .qrcode-wrap {
+          position: relative;
+          margin: 0 30px 30px;
+          background-color: white;
+          border-radius: 20px;
 
-        .tips {
-          text-align: center;
-          font-size: 26px;
-          margin-left: 40px;
-          margin-right: 40px;
-          margin-top: 24px;
-          line-height: 32px;
-        }
-
-        .tags {
-          margin-top: 10px;
-          margin-left: 20px;
-          margin-right: 20px;
-          text-align: center;
-          height: 106px;
-          overflow: hidden;
-
-          .mint-badge {
-            border-radius: 14px;
-            font-size: 24px;
-            padding: 8px 20px;
-            margin: 4px 14px;
-            background-color: $color-pink-light;
+          .qrcode {
+            margin-left: 20px;
+            width: 200px;
+            height: 200px;
+            padding: 30px;
           }
-        }
 
-        .slogan {
-          position: absolute;
-          left: 0;
-          bottom: 30px;
-          width: 100%;
-          font-size: 24px;
-          text-align: center;
-          color: $color-text-normal;
+          .tips {
+            position: absolute;
+            top: 60px;
+            left: 220px;
+            margin-top: -24px;
+            font-size: 26px;
+            line-height: 42px;
+          }
         }
       }
     }
@@ -169,30 +184,32 @@
     <div class="capture-wrap">
       <img :src="result" v-if="result">
       <div class="capture-area" v-else>
-        <div class="header-slide slide-left"></div>
-        <div class="header-slide slide-right"></div>
-        <canvas id="background" ref="bg"></canvas>
-        <div class="avatar">
-          <img crossorigin="anonymous" :src="$resize(user.avatar, { width: 200 })">
-        </div>
-        <div class="avatar-decoration"></div>
-        <p class="nickname">来自用户「&nbsp;<strong>{{ user.nickname }}</strong>&nbsp;」的邀请函</p>
-        <div class="qrcode" ref="qr"></div>
-        <p class="tips">
-          扫二维码注册后，邀请者就可获得一枚金币<br>
-          1金币 = 1人民币，求扫求转发！
-        </p>
-        <no-ssr>
-          <div class="tags">
-            <mt-badge
-              size="large"
-              v-for="(tag, index) in tags"
-              :key="index"
-              v-text="tag"
-            ></mt-badge>
+        <div class="main">
+          <div class="avatar">
+            <img crossorigin="anonymous" :src="$resize(user.avatar, { width: 200 })">
           </div>
-        </no-ssr>
-        <p class="slogan">- calibur.tv · 天下漫友是一家 -</p>
+          <p class="nickname">我是<strong>{{ user.nickname }}</strong></p>
+          <p class="info">跟我一起在 <strong>calibur.tv</strong> 追番吧</p>
+          <no-ssr>
+            <div class="tags">
+              <mt-badge
+                size="large"
+                v-for="(tag, index) in tags"
+                :key="index"
+                v-text="tag"
+              ></mt-badge>
+            </div>
+          </no-ssr>
+          <div class="logo"></div>
+        </div>
+        <div class="qrcode-wrap">
+          <div class="qrcode" ref="qr"></div>
+          <p class="tips">
+            <strong>扫描二维码注册</strong><br>
+            <strong>邀请者可获得现金奖励</strong><br>
+            求扫求转发！
+          </p>
+        </div>
       </div>
     </div>
     <div class="container">
@@ -248,50 +265,6 @@
       }
     },
     methods: {
-      renderBackground () {
-        // eslint-disable-next-line one-var
-        var c = this.$refs.bg,
-          x = c.getContext('2d'),
-          pr = window.devicePixelRatio || 1,
-          w = window.innerWidth,
-          h = window.innerHeight,
-          f = 90,
-          q,
-          m = Math,
-          r = 0,
-          u = m.PI * 2,
-          v = m.cos,
-          z = m.random
-        c.width = w * pr
-        c.height = h * pr
-        x.scale(pr, pr)
-        x.globalAlpha = 0.6
-        function i () {
-          x.clearRect(0, 0, w, h)
-          q = [{x: 0, y: h * 0.7 + f}, {x: 0, y: h * 0.7 - f}]
-          while (q[1].x < w + f) d(q[0], q[1])
-        }
-        function d (i, j) {
-          x.beginPath()
-          x.moveTo(i.x, i.y)
-          x.lineTo(j.x, j.y)
-          // eslint-disable-next-line one-var
-          var k = j.x + (z() * 2 - 0.25) * f,
-            n = y(j.y)
-          x.lineTo(k, n)
-          x.closePath()
-          r -= u / -50
-          x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 + 128).toString(16)
-          x.fill()
-          q[0] = q[1]
-          q[1] = {x: k, y: n}
-        }
-        function y (p) {
-          const t = p + (z() * 2 - 1.1) * f
-          return (t > h || t < 0) ? y(p) : t
-        }
-        i()
-      },
       generateQrCode () {
         this.$QRCode(this.$refs.qr, this.link, { width: 300, height: 300 })
       },
@@ -313,7 +286,6 @@
         return
       }
       this.$nextTick(() => {
-        this.renderBackground()
         this.generateQrCode()
         setTimeout(() => {
           this.create()
