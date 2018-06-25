@@ -21,7 +21,7 @@
 
 <template>
   <div class="sign-in-form">
-    <img class="logo" src="https://image.calibur.tv/owner/sign-logo.jpeg?imageMogr2/auto-orient/strip" alt="sign-logo">
+    <img class="logo" src="https://image.calibur.tv/owner/m-logo-login.png?imageMogr2/auto-orient/strip" alt="sign-logo">
     <el-form
       :model="form"
       :rules="rule"

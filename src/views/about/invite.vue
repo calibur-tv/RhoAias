@@ -5,7 +5,9 @@
     }
 
     .sub-title {
-      margin-top: $container-padding;
+      margin-top: 30px;
+      margin-bottom: 15px;
+      margin-left: 13px;
     }
 
     .signed {
