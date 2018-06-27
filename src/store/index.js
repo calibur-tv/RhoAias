@@ -11,6 +11,7 @@ import image from './image'
 import trending from './trending'
 import comment from './comment'
 import homepage from './homepage'
+import search from './search'
 
 Vue.use(Vuex)
 
@@ -109,7 +110,8 @@ export function createStore () {
       image,
       trending,
       comment,
-      homepage
+      homepage,
+      search
     }
   })
 }

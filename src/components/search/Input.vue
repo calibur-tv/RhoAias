@@ -48,12 +48,12 @@
 </style>
 
 <template>
-  <form class="search-input-wrap" method="get" action="#" @submit.prevent="search">
+  <form class="search-input-wrap" method="get" action="#" @submit.prevent="submit">
     <button class="search-btn" type="submit">
       <i class="iconfont icon-sousuo"></i>
     </button>
     <button
-      v-if="q"
+      v-if="word"
       class="clear-btn"
       @click="clear"
       type="button"
@@ -70,10 +70,9 @@
         autocorrect="off"
         role="combobox"
         spellcheck="false"
-        v-model.trim="q"
+        v-model.trim="word"
         placeholder="搜索二次元的一切"
         aria-label="搜索"
-        @keydown.enter="search"
         @blur="handleInputBlur"
         @focus="handleInputFocus"
       >
@@ -82,14 +81,22 @@
 </template>
 
 <script>
-  import SearchApi from '~/api/searchApi'
-
   export default {
     name: 'search-input',
+    props: {
+      value: {
+        type: String,
+        default: ''
+      },
+      type: {
+        type: [String, Number],
+        default: 0
+      }
+    },
     data () {
       return {
-        q: '',
-        searching: false
+        word: '',
+        selectedType: this.type
       }
     },
     methods: {
@@ -104,25 +111,34 @@
       clear () {
         this.q = ''
       },
-      async search () {
-        const q = this.q
-        if (!q.length) {
+      submit () {
+        const q = this.word
+        if (!q) {
           return
         }
-        if (this.searching) {
-          return
-        }
-        this.searching = true
-        this.$toast.loading('搜索中...')
-        const api = new SearchApi()
-        api.index({ q }).then((data) => {
-          window.location = data || '/bangumi/news?from=search'
-          this.searching = false
-        }).catch(() => {
-          window.location = '/bangumi/news?from=search'
-          this.searching = false
+        this.$channel.$emit('search-action', {
+          text: q,
+          type: this.selectedType
+        })
+        this.$router.push({
+          name: 'search-index',
+          query: { q, type: this.selectedType }
         })
       }
+    },
+    mounted () {
+      this.$watch('value', (val) => {
+        this.word = val
+      })
+      this.$watch('word', (val) => {
+        this.$emit('input', val)
+      })
+      this.$watch('$route', (val) => {
+        if (val.name === 'search-index') {
+          this.word = val.query.q
+          this.selectedType = val.query.type
+        }
+      })
     }
   }
 </script>

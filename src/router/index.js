@@ -19,9 +19,20 @@ export function createRouter () {
     },
     routes: [
       {
-        path: '',
-        name: 'homepage',
-        component: () => import('~/views/index')
+        path: '/',
+        component: () => import('~/layouts/defNew'),
+        children: [
+          {
+            path: '',
+            name: 'homepage',
+            component: () => import('~/views/index')
+          },
+          {
+            path: 'search',
+            name: 'search-index',
+            component: () => import('~/views/search/index')
+          }
+        ]
       },
       {
         path: '/',

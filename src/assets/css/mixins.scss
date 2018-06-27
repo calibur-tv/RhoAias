@@ -1,3 +1,17 @@
+%clearfix {
+  &:after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+
+  &:before {
+    content: '';
+    clear: both;
+    display: table;
+  }
+}
+
 @mixin avatar($size) {
   width: $size;
   height: $size;
