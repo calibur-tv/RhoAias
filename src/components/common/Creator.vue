@@ -27,8 +27,30 @@
     .mint-main-button {
       background-color: $color-blue-light;
       line-height: 50px;
-      font-size: 20px;
-      vertical-align: middle;
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 40%;
+        height: 2px;
+        transform: translate(-50%, -1px);
+        background-color: #fff;
+        border-radius: 2px;
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 2px;
+        height: 40%;
+        transform: translate(-1px, -50%);
+        background-color: #fff;
+        border-radius: 2px;
+      }
     }
 
     .ic-btn {
@@ -59,7 +81,7 @@
   <div class="creators-container">
     <div id="creator-menu-wrap">
       <palette-button
-        content="+"
+        content=""
         direction="t"
         @expand="handlePaletteOpen"
         @collapse="handlePaletteClose"

@@ -23,7 +23,7 @@
       <a class="nickname" :href="$alias.user(comment.to_user_zone)" v-text="comment.to_user_name"></a>
     </template>
     :
-    <span class="comment-content" @click="handleSubCommentClick" ref="content">{{ comment.content }}</span>
+    <span class="reply-btn comment-content" @click="handleSubCommentClick">{{ comment.content }}</span>
   </div>
 </template>
 
@@ -107,15 +107,6 @@
           this.$toast.error(e)
         })
       }
-    },
-    mounted () {
-      this.$nextTick(() => {
-        this.$utils.hackFocus({
-          button: this.$refs.content,
-          input: document.getElementById('reply-comment-textarea'),
-          statement: !!this.currentUserId
-        })
-      })
     }
   }
 </script>

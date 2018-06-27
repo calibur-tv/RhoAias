@@ -95,8 +95,9 @@
     },
     data () {
       return {
-        word: '',
-        selectedType: this.type
+        word: this.value,
+        selectedType: this.type,
+        cacheKey: 'search-history'
       }
     },
     methods: {
@@ -116,14 +117,34 @@
         if (!q) {
           return
         }
-        this.$channel.$emit('search-action', {
-          text: q,
-          type: this.selectedType
-        })
+        this.setHistory(q)
         this.$router.push({
           name: 'search-index',
           query: { q, type: this.selectedType }
         })
+      },
+      setHistory (q) {
+        setTimeout(() => {
+          const list = this.getHistory()
+          const index = list.indexOf(q)
+          if (index !== -1) {
+            list.splice(index, 1)
+          }
+          list.unshift(q)
+          if (list.length > 10) {
+            list.pop()
+          }
+          try {
+            localStorage.setItem(this.cacheKey, JSON.stringify(list))
+          } catch (e) {}
+        }, 0)
+      },
+      getHistory () {
+        try {
+          return JSON.parse(localStorage.getItem(this.cacheKey)) || []
+        } catch (e) {
+          return []
+        }
       }
     },
     mounted () {
