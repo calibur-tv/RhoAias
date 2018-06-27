@@ -15,7 +15,7 @@
 </style>
 
 <template>
-  <div id="layout-def-new">
+  <div id="layout-def-new" class="_viewport">
     <v-header></v-header>
     <router-view class="main-view"></router-view>
     <v-footer v-show="showFooter"></v-footer>
