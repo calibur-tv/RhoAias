@@ -123,7 +123,7 @@
         v-for="item in cartoons.list"
         :key="item.id"
       >
-        <a class="poster-wrap" :href="$alias.imageAlbum(item.id)" target="_blank">
+        <a class="poster-wrap" :href="$alias.imageAlbum(item.id)">
           <img :src="$resize(item.url, { width: 290, height: 420 })">
           <div class="info">
             <i class="el-icon-picture-outline"></i>
@@ -135,9 +135,9 @@
             <i class="iconfont icon-msnui-love"></i>
             {{ item.like_count || ''  }}
           </button>
-          <a class="oneline" :href="$alias.imageAlbum(item.id)" target="_blank" v-text="item.name"></a>
+          <a class="oneline" :href="$alias.imageAlbum(item.id)" v-text="item.name"></a>
         </div>
-        <a class="user" :href="$alias.user(item.user.zone)" target="_blank">
+        <a class="user" :href="$alias.user(item.user.zone)">
           <img :src="$resize(item.user.avatar, { width: 72 })">
           <div class="oneline" v-text="item.user.nickname"></div>
         </a>
