@@ -23,6 +23,7 @@
       placeholder="来吧，尽情的（在1000字以内）发挥吧"
       maxlength="1000"
       v-model.trim="content"
+      @focus="handleAreaFocus"
     ></textarea>
     <el-button class="submit-btn" type="primary" @click="submit" :loading="submitting">发布</el-button>
   </div>
@@ -103,6 +104,9 @@
         } finally {
           this.$store.commit('comment/SET_SUBMITTING', { result: false })
         }
+      },
+      handleAreaFocus () {
+        document.body.scrollTop = 0
       }
     }
   }

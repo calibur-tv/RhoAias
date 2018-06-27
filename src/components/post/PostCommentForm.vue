@@ -34,6 +34,7 @@
       placeholder="来吧，尽情的（在1000字以内）发挥吧"
       maxlength="1000"
       v-model.trim="forms.content"
+      @focus="handleAreaFocus"
     ></textarea>
     <el-upload
       action="https://upload.qiniup.com"
@@ -198,6 +199,9 @@
         } catch (e) {
           this.$toast.error(e)
         }
+      },
+      handleAreaFocus () {
+        document.body.scrollTop = 0
       }
     },
     mounted () {
