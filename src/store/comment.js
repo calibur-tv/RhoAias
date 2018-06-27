@@ -1,4 +1,7 @@
 import Api from '~/api/commentApi'
+import {
+  orderBy
+} from 'lodash'
 
 const state = () => ({
   type: '',
@@ -56,7 +59,7 @@ const mutations = {
     // 对服务端进行一个校准
     const hasNew = !!resIds.filter(_ => originList.map(_ => _.id).indexOf(_) === -1).length
     state.list = state.list.filter(_ => resIds.indexOf(_.id) === -1)
-    state.list = state.list.concat(formatComments)
+    state.list = orderBy(state.list.concat(formatComments), 'id', state.sort)
     state.noMore = hasNew ? comments.noMore : true
     state.total = hasNew ? comments.total : state.list.length
   },
