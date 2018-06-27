@@ -1,5 +1,10 @@
 <style lang="scss">
   #layout-default {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
     >.main-view {
       margin-top: $nav-height;
     }
@@ -7,7 +12,7 @@
 </style>
 
 <template>
-  <div id="layout-default">
+  <div id="layout-default" class="_viewport">
     <v-header></v-header>
     <router-view class="main-view"></router-view>
     <div class="hr"></div>
