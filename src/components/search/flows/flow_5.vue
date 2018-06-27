@@ -15,7 +15,7 @@
       overflow: hidden;
 
       .head {
-        margin-bottom: 12px;
+        margin-bottom: 5px;
 
         .badge {
           display: inline-block;

@@ -41,6 +41,7 @@
           white-space: nowrap;
           overflow-x: auto;
           -webkit-overflow-scrolling: touch;
+          height: 50px;
 
           button {
             display: inline-block;
