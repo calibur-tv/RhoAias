@@ -1,11 +1,15 @@
 <style lang="scss">
   #layout-default {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 
     >.main-view {
+      flex-grow: 1;
       margin-top: $nav-height;
     }
   }
