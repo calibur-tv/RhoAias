@@ -109,7 +109,7 @@
         document.body.scrollTop = 0
       },
       clear () {
-        this.q = ''
+        this.word = ''
       },
       submit () {
         const q = this.word

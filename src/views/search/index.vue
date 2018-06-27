@@ -155,11 +155,9 @@
       },
       selectedType () {
         return this.$route.query.type
-      }
-    },
-    data () {
-      return {
-        words: this.$route.query.q
+      },
+      words () {
+        return this.$route.query.q
       }
     },
     methods: {

@@ -24,10 +24,10 @@
           border: 1px solid #979797;
           color: #979797;
           text-align: center;
-          line-height: 22px;
+          line-height: 21px;
           border-radius: 100px;
           margin-right: 12px;
-          font-size: 12px;
+          font-size: 11px;
         }
 
         .nickname {
