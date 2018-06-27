@@ -90,9 +90,6 @@
       }
     },
     mounted () {
-      this.$channel.$on('search-action', ({ text, type }) => {
-        this.set(text)
-      })
       this.list = this.get()
     }
   }

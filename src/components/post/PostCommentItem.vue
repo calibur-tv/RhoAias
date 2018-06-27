@@ -133,7 +133,7 @@
             {{ post.liked ? '已赞' : '赞' }}
             <span v-if="post.like_count">({{ post.like_count }})</span>
           </button>
-          <button ref="replyBtn" class="fr" @click="handleCommentBtnClick">
+          <button class="reply-btn fr" @click="handleCommentBtnClick">
             回复
           </button>
         </div>
@@ -254,15 +254,6 @@
           targetUserName: this.post.from_user_name
         })
       }
-    },
-    mounted () {
-      this.$nextTick(() => {
-        this.$utils.hackFocus({
-          button: this.$refs.replyBtn,
-          input: document.getElementById('reply-comment-textarea'),
-          statement: !!this.currentUserId
-        })
-      })
     }
   }
 </script>

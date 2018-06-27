@@ -274,14 +274,14 @@
                 {{ focusComment.liked ? '已赞' : '赞' }}
                 <span v-if="focusComment.like_count">({{ focusComment.like_count }})</span>
               </button>
-              <button ref="replyBtn" class="fr" @click="handleCommentBtnClick">
+              <button class="reply-btn fr" @click="handleCommentBtnClick">
                 回复
               </button>
             </div>
           </div>
           <div class="hr"></div>
           <p class="total">{{ focusComment.comments.total }}条回复</p>
-          <ul class="comments" ref="replyList">
+          <ul class="comments">
             <li
               v-for="item in focusComment.comments.list"
               :key="item.id"
@@ -316,7 +316,7 @@
                 </div>
               </div>
               <div class="main">
-                <div class="content" @click="commentToComment(item)" v-text="item.content"></div>
+                <div class="content reply-btn" @click="commentToComment(item)" v-text="item.content"></div>
               </div>
             </li>
           </ul>
@@ -576,18 +576,6 @@
       this.$channel.$on('load-all-sub-comment', ({ id }) => {
         this.focusCommentId = id
         this.openFocusCommentDrawer = true
-        this.$nextTick(() => {
-          this.$utils.hackFocus({
-            button: this.$refs.replyList,
-            input: document.getElementById('reply-comment-textarea'),
-            statement: this.currentUserId ? 'content' : false
-          })
-          this.$utils.hackFocus({
-            button: this.$refs.replyBtn,
-            input: document.getElementById('reply-comment-textarea'),
-            statement: !!this.currentUserId
-          })
-        })
       })
       this.$channel.$on('open-create-comment-drawer', () => {
         if (!this.currentUserId) {
@@ -598,6 +586,13 @@
       })
       this.$channel.$on('reply-comment', ({ id, targetUserId, targetUserName }) => {
         this.handleSubCommentReply({ id, targetUserId, targetUserName })
+      })
+      document.getElementById('comment-wrap').addEventListener('click', (e) => {
+        if (/reply-btn/.test(e.target.className)) {
+          const area = document.getElementById('reply-comment-textarea')
+          area.style.display = 'block'
+          area.focus()
+        }
       })
     }
   }

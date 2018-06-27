@@ -7,7 +7,7 @@
  */
 export default (targetY, timer, dom, ease) => {
   let currentTime = 0
-  const element = dom ? [dom] : [document.getElementsByTagName('html')[0], document.body]
+  const element = dom ? [dom] : [document.querySelector('._viewport')]
   const scrollY = dom ? dom.scrollTop : window.scrollY
   const scrollTargetY = targetY || 0
   const speed = timer || 2000
