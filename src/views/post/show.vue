@@ -286,8 +286,10 @@
             >
               <v-img
                 :src="img.url"
-                width="150"
+                width="300"
                 mode="2"
+                :full="true"
+                :source="img"
                 :aspect="$computeImageAspect(img)"
               ></v-img>
             </div>
