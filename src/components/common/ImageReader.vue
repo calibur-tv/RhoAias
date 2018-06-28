@@ -37,7 +37,7 @@
         }
       }
 
-      img {
+      .view-image {
         position: relative;
         left: 50%;
         top: 50%;
@@ -92,10 +92,13 @@
           :key="index"
         >
           <v-img
+            class="view-image"
             :class="[ computeImageType(item) === 3 ? 'is-height' : 'is-width' ]"
             :src="computeImageSize(item)"
             :id="`image-reader-${index}`"
             :loading="true"
+            :full="true"
+            :source="item"
           ></v-img>
         </mt-swipe-item>
       </mt-swipe>
