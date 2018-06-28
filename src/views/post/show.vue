@@ -285,9 +285,9 @@
               @click="$previewImages(post.preview_images, img)"
             >
               <v-img
-                :src="img.url"
                 width="300"
                 mode="2"
+                :src="img.url"
                 :full="true"
                 :source="img"
                 :aspect="$computeImageAspect(img)"
