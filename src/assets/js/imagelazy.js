@@ -41,13 +41,44 @@ export default {
       type: Boolean,
       default: false
     },
-    debug: {
+    source: {
+      type: Object,
+      default: null
+    },
+    full: {
       type: Boolean,
       default: false
     }
   },
-  render: function (createElement) {
-    return createElement(this.tag, {
+  render: function (h) {
+    if (!this.canRender) {
+      return h(this.tag, {
+        style: this.aspect ? {
+          paddingBottom: `${this.aspect * 100}%`
+        } : {}
+      })
+    }
+    const containSize = this.full && this.source && this.source.width < window.innerWidth
+    if (containSize) {
+      return h('div',
+        [
+          h(this.tag, {
+            'class': [
+              'image-shim',
+              {
+                'image-lazy-init': this.aspect,
+                'image-loading': this.loading
+              }
+            ],
+            style: {
+              width: `${this.source.width}px`,
+              height: `${this.source.height}px`
+            }
+          })
+        ]
+      )
+    }
+    return h(this.tag, {
       'class': {
         'image-lazy-init': this.aspect,
         'image-loading': this.loading
@@ -60,10 +91,12 @@ export default {
   data () {
     return {
       listeners: {},
-      resource: this.src
+      resource: this.src,
+      canRender: false
     }
   },
   mounted () {
+    this.canRender = true
     this.$nextTick(() => {
       if (this.$checkInView(this.$el, (this.scale - 0))) {
         this.loadResource(this.$el)
@@ -107,22 +140,27 @@ export default {
         src = this.$resize(this.resource)
       }
 
-      if (this.tag.toLowerCase() === 'img') {
-        image.setAttribute('src', src)
-        if (this.aspect || this.loading) {
-          image.addEventListener('load', () => {
-            image.removeAttribute('style')
-            image.classList.remove('image-loading')
-            if (this.aspect) {
-              image.classList.add('image-lazy-active')
+      const isImage = this.tag.toLowerCase() === 'img'
+      const containSize = this.full && this.source && this.source.width < window.innerWidth
+      const imageTag = containSize ? image.querySelector('.image-shim') : image
+      const useFade = this.aspect
+
+      if (isImage) {
+        imageTag.setAttribute('src', src)
+        if (useFade || this.loading) {
+          imageTag.addEventListener('load', () => {
+            imageTag.removeAttribute('style')
+            imageTag.classList.remove('image-loading')
+            if (useFade) {
+              imageTag.classList.add('image-lazy-active')
               setTimeout(() => {
-                image.classList.remove('image-lazy-active', 'image-lazy-init')
+                imageTag.classList.remove('image-lazy-active', 'image-lazy-init')
               }, 300)
             }
           })
         }
       } else {
-        this.$utils.setStyle(image, 'background-image', `url(${src})`)
+        this.$utils.setStyle(imageTag, 'background-image', `url(${src})`)
       }
     }
   }
