@@ -20,23 +20,7 @@
           display: block;
           overflow: hidden;
           height: 100%;
-          padding-left: 90px;
-        }
-
-        .vdatetime {
-          height: 100%;
-
-          .vdatetime-popup__header,
-          .vdatetime-calendar__month__day--selected > span > span,
-          .vdatetime-calendar__month__day--selected:hover > span > span {
-            background: $color-blue-normal;
-          }
-
-          .vdatetime-year-picker__item--selected,
-          .vdatetime-time-picker__item--selected,
-          .vdatetime-popup__actions__button {
-            color: $color-blue-normal;
-          }
+          padding-left: 60px;
         }
       }
 
@@ -46,7 +30,7 @@
         left: 0;
         top: 0;
         height: 100%;
-        width: 80px;
+        width: 60px;
         font-size: 16px;
         line-height: 48px;
       }
@@ -55,7 +39,7 @@
         position: relative;
 
         .mint-radiolist {
-          padding-left: 70px;
+          padding-left: 48px;
         }
 
         .mint-radiolist-title {
@@ -65,13 +49,13 @@
 
       #signature {
         min-height: 120px;
-        padding-left: 80px;
-        line-height: 25px;
+        padding-left: 60px;
+        line-height: 26px;
         padding-top: 12px;
       }
     }
 
-    .banner {
+    .banner-setting {
       width: 100%;
       position: relative;
       overflow: hidden;
@@ -82,26 +66,57 @@
       background-repeat: no-repeat;
       background-position: center;
       text-shadow: 0 1px 10px gray;
+      margin-bottom: -15px;
 
-      button, .file-input {
+      .file-input {
         margin-top: 60px;
         margin-left: 10px;
         margin-right: 10px;
       }
+
+      .cancel-btn {
+        position: absolute;
+        right: 100px;
+        bottom: 10px;
+      }
+
+      .submit-btn {
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+      }
     }
 
-    .avatar {
-      position: relative;
-      vertical-align: middle;
-      display: inline-block;
-      margin-right: 20px;
-      border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      @include border($color-gray-deep, 50%);
+    .avatar-setting {
+
+      .avatar {
+        position: relative;
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 20px;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        @include border($color-gray-deep, 50%);
+      }
+
+      .cancel-btn,
+      .submit-btn {
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+      }
+
+      .cancel-btn {
+        left: 120px;
+      }
+
+      .submit-btn {
+        left: 190px;
+      }
     }
 
     .change-image-btn {
@@ -109,18 +124,13 @@
       @include btn-empty($color-blue-normal);
     }
 
-    .cancel-image-btn {
-      @include btn-empty($color-text-normal);
-      margin-right: 10px;
-    }
-
-    .submit-image-btn {
-      @include btn-empty($color-pink-deep)
-    }
-
     .submit-banner-btn {
       display: inline-block;
       @include btn-empty(#fff)
+    }
+
+    .btn-submit {
+      margin-top: 20px;
     }
   }
 </style>
@@ -129,10 +139,22 @@
   <div id="user-setting">
     <div class="form-item">
       <p class="sub-title">背景：</p>
-      <div class="banner" :style="{ backgroundImage: showBanner }">
+      <div class="banner-setting" :style="{ backgroundImage: `url(${$resize(user.banner, { height: 120, mode: 2 })})` }">
         <template v-if="bannerSelector.data">
-          <button class="submit-banner-btn" @click="cancelBannerSelect">取消</button>
-          <button class="submit-banner-btn" @click="submitBannerChange">确认</button>
+          <image-cropper
+            :init-image="bannerSelector.data"
+            :uploading="bannerSelector.loading"
+            :auto-size="true"
+            @submit="submitBannerChange"
+          ></image-cropper>
+          <el-button
+            class="cancel-btn"
+            size="mini"
+            type="info"
+            :disabled="bannerSelector.loading"
+            round
+            @click="cancelBannerSelect"
+          >取消</el-button>
         </template>
         <div class="submit-banner-btn file-input" v-else>
           点击更新背景
@@ -143,16 +165,32 @@
     <div class="hr"></div>
     <div class="form-item">
       <p class="sub-title">头像：</p>
-      <div class="container">
-        <div class="avatar" :style="{ backgroundImage: showAvatar }"></div>
+      <div class="container avatar-setting">
         <template v-if="avatarSelector.data">
-          <button class="cancel-image-btn" @click="cancelAvatarSelect">取消</button>
-          <button class="submit-image-btn" @click="submitAvatarChange">确认</button>
+          <image-cropper
+            :init-image="avatarSelector.data"
+            :uploading="avatarSelector.loading"
+            :width="80"
+            :height="80"
+            type="avatar"
+            @submit="submitAvatarChange"
+          ></image-cropper>
+          <el-button
+            class="cancel-btn"
+            size="mini"
+            type="info"
+            :disabled="avatarSelector.loading"
+            round
+            @click="cancelAvatarSelect"
+          >取消</el-button>
         </template>
-        <div class="change-image-btn file-input" v-else>
-          点击更新头像
-          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="avatarInput" @change="selectAvatar">
-        </div>
+        <template v-else>
+          <div class="avatar" :style="{ backgroundImage: `url(${$resize(user.avatar, { width: 80 })})` }"></div>
+          <div class="change-image-btn file-input">
+            点击更新头像
+            <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="avatarInput" @change="selectAvatar">
+          </div>
+        </template>
       </div>
     </div>
     <div class="hr"></div>
@@ -166,7 +204,6 @@
             id="nickname"
             type="text"
             class="input"
-            v-validate="'required|nickname:2-14'"
             v-model.trim="settingForm.nickname"
             autocomplete="off"
             placeholder="2-14个字符组成"
@@ -197,22 +234,16 @@
 <script>
   import UserApi from '~/api/userApi'
   import ImageApi from '~/api/imageApi'
+  import ImageCropper from '~/components/common/ImageCropper'
 
   export default {
     name: 'page-user-setting',
+    components: {
+      ImageCropper
+    },
     computed: {
       user () {
         return this.$store.state.user
-      },
-      showAvatar () {
-        return this.avatarSelector.data
-          ? `url(${this.avatarSelector.data})`
-          : `url(${this.$resize(this.user.avatar, { width: 80 })})`
-      },
-      showBanner () {
-        return this.bannerSelector.data
-          ? `url(${this.bannerSelector.data})`
-          : `url(${this.$resize(this.user.banner, { height: 120, mode: 2 })})`
       }
     },
     data () {
@@ -279,7 +310,7 @@
           this.$refs.avatarInput.value = ''
         })
       },
-      async submitAvatarChange () {
+      async submitAvatarChange (formData) {
         if (this.avatarSelector.loading) {
           return
         }
@@ -295,8 +326,6 @@
         const imageApi = new ImageApi()
         try {
           await this.$store.dispatch('getUpToken')
-          const formData = new FormData()
-          formData.append('file', this.avatarSelector.file)
           formData.append('token', this.user.uptoken.upToken)
           formData.append('key', filename)
           const result = await imageApi.uploadToQiniu(formData)
@@ -338,7 +367,7 @@
           this.$refs.bannerInput.value = ''
         })
       },
-      async submitBannerChange () {
+      async submitBannerChange (formData) {
         if (this.bannerSelector.loading) {
           return
         }
@@ -354,8 +383,6 @@
         const imageApi = new ImageApi()
         try {
           await this.$store.dispatch('getUpToken')
-          const formData = new FormData()
-          formData.append('file', this.bannerSelector.file)
           formData.append('token', this.user.uptoken.upToken)
           formData.append('key', filename)
           const result = await imageApi.uploadToQiniu(formData)
@@ -374,10 +401,15 @@
             : this.$toast.error('背景更新失败，请刷新网页重试或选择其他图片')
         } finally {
           this.bannerSelector.loading = false
-          this.cancelAvatarSelect()
+          this.cancelBannerSelect()
         }
       },
       saveSetting () {
+        const nicknameLength = this.settingForm.nickname.replace(/([\u4e00-\u9fa5])/g, 'aa').trim().length
+        if (nicknameLength > 14 || nicknameLength < 1) {
+          this.$toast.error('昵称长度不符合要求')
+          return
+        }
         const api = new UserApi(this)
         const data = {
           nickname: this.settingForm.nickname,
