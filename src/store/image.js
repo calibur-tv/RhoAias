@@ -209,6 +209,7 @@ export default {
       const api = new UserApi(ctx)
       const data = await api.getUserAlbums()
       commit('SET_USER_IMAGE_ALBUMS', data)
+      return data.map(_ => _)
     },
     async getAlbumData ({ commit }, { id, ctx }) {
       const api = new ImageApi(ctx)
