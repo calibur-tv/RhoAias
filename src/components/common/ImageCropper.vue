@@ -29,6 +29,7 @@
       :zoom-speed="type === 'avatar' ? 6 : 2"
       :initial-image="initImage"
       accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif"
+      canvas-color="rgba(0, 0, 0, .05)"
       @init="onInit"
     ></croppa>
     <div class="tools"></div>

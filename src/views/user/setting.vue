@@ -103,19 +103,17 @@
         @include border($color-gray-deep, 50%);
       }
 
-      .cancel-btn,
       .submit-btn {
         position: absolute;
-        top: 50%;
-        margin-top: -14px;
+        top: 380px;
+        left: 50%;
+        width: 200px;
+        margin-left: -100px;
       }
 
-      .cancel-btn {
-        left: 120px;
-      }
-
-      .submit-btn {
-        left: 190px;
+      .image-cropper-wrap {
+        width: 300px;
+        margin: 0 auto;
       }
     }
 
@@ -166,31 +164,28 @@
     <div class="form-item">
       <p class="sub-title">头像：</p>
       <div class="container avatar-setting">
-        <template v-if="avatarSelector.data">
+        <v-drawer
+          v-model="avatarSelector.showDrawer"
+          header-text="头像裁剪"
+          from="bottom"
+          size="450px"
+          @cancel="cancelAvatarSelect"
+        >
           <image-cropper
+            v-if="avatarSelector.showDrawer"
             :init-image="avatarSelector.data"
             :uploading="avatarSelector.loading"
-            :width="80"
-            :height="80"
+            :width="300"
+            :height="300"
             type="avatar"
             @submit="submitAvatarChange"
           ></image-cropper>
-          <el-button
-            class="cancel-btn"
-            size="mini"
-            type="info"
-            :disabled="avatarSelector.loading"
-            round
-            @click="cancelAvatarSelect"
-          >取消</el-button>
-        </template>
-        <template v-else>
-          <div class="avatar" :style="{ backgroundImage: `url(${$resize(user.avatar, { width: 80 })})` }"></div>
-          <div class="change-image-btn file-input">
-            点击更新头像
-            <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="avatarInput" @change="selectAvatar">
-          </div>
-        </template>
+        </v-drawer>
+        <div class="avatar" :style="{ backgroundImage: `url(${$resize(user.avatar, { width: 80 })})` }"></div>
+        <div class="change-image-btn file-input">
+          点击更新头像
+          <input type="file" accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif" name="file" ref="avatarInput" @change="selectAvatar">
+        </div>
       </div>
     </div>
     <div class="hr"></div>
@@ -258,7 +253,8 @@
         avatarSelector: {
           loading: false,
           file: null,
-          data: ''
+          data: '',
+          showDrawer: false
         },
         bannerSelector: {
           loading: false,
@@ -300,10 +296,12 @@
         this.avatarSelector.file = file
         reader.onload = (evt) => {
           this.avatarSelector.data = evt.target.result
+          this.avatarSelector.showDrawer = true
         }
         reader.readAsDataURL(file)
       },
       cancelAvatarSelect () {
+        this.avatarSelector.showDrawer = false
         this.avatarSelector.file = null
         this.avatarSelector.data = ''
         this.$nextTick(() => {
