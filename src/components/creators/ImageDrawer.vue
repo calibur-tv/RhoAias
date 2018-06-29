@@ -687,6 +687,7 @@
           this.$store.commit('image/CREATE_ALBUM', data)
           this.sort = 'image'
           this.image.albumId = data.id
+          this.image.selectedAlbum = true
           this.album = {
             name: '',
             bangumiId: '',
