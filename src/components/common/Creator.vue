@@ -27,7 +27,8 @@
     .mint-main-button {
       background-color: $color-blue-light;
       line-height: 50px;
-
+      box-shadow: 0 2px 5px rgba(26,26,26,.25);
+      
       &:after {
         content: '';
         position: absolute;
