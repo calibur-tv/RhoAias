@@ -152,15 +152,10 @@
 </template>
 
 <script>
-  import { TabContainer, TabContainerItem } from 'mint-ui'
-
   export default {
     name: 'bangumi-news',
     async asyncData ({ store, ctx }) {
       await store.dispatch('bangumi/getReleased', ctx)
-    },
-    components: {
-      TabContainer, TabContainerItem
     },
     computed: {
       released () {
