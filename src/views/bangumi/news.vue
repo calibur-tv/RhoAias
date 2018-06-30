@@ -2,11 +2,12 @@
   #bangumi-news {
     .van-tabs--line .van-tabs__wrap {
       height: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     .van-tabs__line {
       height: 1px;
-      background-color: $color-blue-normal;
 
       &:after {
         content: '';
@@ -16,7 +17,7 @@
         bottom: 1px;
         width: 0;
         height: 0;
-        border: 3px solid $color-blue-normal;
+        border: 3px solid #f44;
         border-top-width: 0;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -36,7 +37,11 @@
         cursor: default;
 
         &.van-tab--active {
-          color: $color-blue-normal;
+          color: #f44;
+        }
+
+        &:active {
+          background-color: transparent !important;
         }
       }
     }
