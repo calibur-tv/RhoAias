@@ -100,59 +100,54 @@
         v-for="(btn, index) in showtime"
         v-text="btn"
         @click="handleWeeklySwitch(index)"
-        :class="{ 'active': showWeek === `tab-weekly-${index}` }"
+        :class="{ 'active': showWeek === index }"
       ></button>
     </div>
-    <tab-container v-model="showWeek" :swipeable="true">
-      <tab-container-item
-        v-for="(list, index) in released"
-        :id="`tab-weekly-${index}`"
-        :key="index"
-        class="container"
-      >
-        <ul>
-          <li v-for="item in list" :key="item.id">
-            <a :href="$alias.bangumi(item.id)">
-              <img
-                class="face"
-                :title="item.name"
-                :alt="item.name"
-                :src="$resize(item.avatar, { width: 120 })"
-              />
+    <ul
+      class="container"
+      v-for="(list, index) in released"
+      v-if="showWeek === index"
+    >
+      <li v-for="item in list" :key="item.id">
+        <a :href="$alias.bangumi(item.id)">
+          <img
+            class="face"
+            :title="item.name"
+            :alt="item.name"
+            :src="$resize(item.avatar, { width: 120 })"
+          />
+        </a>
+        <div class="content">
+          <a
+            :href="$alias.bangumi(item.id)"
+            class="name"
+            v-text="item.name"
+          ></a>
+          <div class="body">
+            <a v-if="item.released_video_id" :href="$alias.video(item.released_video_id)">
+              更新至
+              <span class="part" :class="[item.update ? 'new' : 'old']">
+                    {{ item.end ? '已完结' : `${item.released_part}话` }}
+                  </span>
             </a>
-            <div class="content">
-              <a
-                :href="$alias.bangumi(item.id)"
-                class="name"
-                v-text="item.name"
-              ></a>
-              <div class="body">
-                <a v-if="item.released_video_id" :href="$alias.video(item.released_video_id)">
-                  更新至
-                  <span class="part" :class="[item.update ? 'new' : 'old']">
+            <strong v-else>
+              更新至
+              <span class="part" :class="[item.update ? 'new' : 'old']">
                     {{ item.end ? '已完结' : `${item.released_part}话` }}
                   </span>
-                </a>
-                <strong v-else>
-                  更新至
-                  <span class="part" :class="[item.update ? 'new' : 'old']">
-                    {{ item.end ? '已完结' : `${item.released_part}话` }}
-                  </span>
-                </strong>
-              </div>
-            </div>
-          </li>
-          <more-btn
-            :no-more="true"
-            :loading="false"
-            :length="0"
-            v-if="!list.length"
-          >
-            <button @click="openFeedbackForResource">求资源</button>
-          </more-btn>
-        </ul>
-      </tab-container-item>
-    </tab-container>
+            </strong>
+          </div>
+        </div>
+      </li>
+      <more-btn
+        :no-more="true"
+        :loading="false"
+        :length="0"
+        v-if="!list.length"
+      >
+        <button @click="openFeedbackForResource">求资源</button>
+      </more-btn>
+    </ul>
   </div>
 </template>
 
@@ -174,13 +169,13 @@
     },
     data () {
       return {
-        showWeek: `tab-weekly-${new Date().getDay() || 7}`,
+        showWeek: new Date().getDay() || 7,
         showtime: ['最新', '一', '二', '三', '四', '五', '六', '日']
       }
     },
     methods: {
       handleWeeklySwitch (index) {
-        this.showWeek = `tab-weekly-${index}`
+        this.showWeek = index
       },
       openFeedbackForResource () {
         this.$channel.$emit('open-feedback', {
