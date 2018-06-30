@@ -56,7 +56,6 @@ const config = merge(base, {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new webpack.optimize.AggressiveSplittingPlugin()
       ])
     }
 

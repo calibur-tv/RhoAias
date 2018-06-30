@@ -1,23 +1,48 @@
 <style lang="scss">
   #bangumi-news {
-    #weekly-btn-group {
-      font-size: 0;
-      position: relative;
-      padding-bottom: 5px;
-      @include border-bottom();
+    .van-tabs--line .van-tabs__wrap {
+      height: 40px;
+    }
 
-      button {
-        display: inline-block;
+    .van-tabs__line {
+      height: 1px;
+      background-color: $color-blue-normal;
+
+      &:after {
+        content: '';
+        position: absolute;
+        margin-left: -3px;
+        left: 50%;
+        bottom: 1px;
+        width: 0;
+        height: 0;
+        border: 3px solid $color-blue-normal;
+        border-top-width: 0;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+    }
+
+    .van-tabs__wrap--scrollable .van-tabs__nav {
+      width: 100%;
+      height: 40px;
+      display: block;
+
+      .van-tab {
         width: 12.5%;
-        font-size: 13px;
-        text-align: center;
+        float: left;
         height: 40px;
         line-height: 40px;
+        cursor: default;
 
-        &.active {
+        &.van-tab--active {
           color: $color-blue-normal;
         }
       }
+    }
+
+    .van-tabs--line {
+      padding-top: 50px;
     }
 
     ul {
@@ -51,6 +76,7 @@
           font-size: 14px;
           font-weight: bold;
           margin-bottom: 8px;
+          height: 32px;
           @include twoline(16px)
         }
 
@@ -95,83 +121,84 @@
       <a :href="$alias.bangumiTimeline">时间轴</a>
       <a :href="$alias.bangumiTag()">分类索引</a>
     </div>
-    <div id="weekly-btn-group" class="container">
-      <button
-        v-for="(btn, index) in showtime"
-        v-text="btn"
-        @click="handleWeeklySwitch(index)"
-        :class="{ 'active': showWeek === index }"
-      ></button>
-    </div>
-    <ul
-      class="container"
-      v-for="(list, index) in released"
-      v-if="showWeek === index"
-    >
-      <li v-for="item in list" :key="item.id">
-        <a :href="$alias.bangumi(item.id)">
-          <img
-            class="face"
-            :title="item.name"
-            :alt="item.name"
-            :src="$resize(item.avatar, { width: 120 })"
-          />
-        </a>
-        <div class="content">
-          <a
-            :href="$alias.bangumi(item.id)"
-            class="name"
-            v-text="item.name"
-          ></a>
-          <div class="body">
-            <a v-if="item.released_video_id" :href="$alias.video(item.released_video_id)">
-              更新至
-              <span class="part" :class="[item.update ? 'new' : 'old']">
-                    {{ item.end ? '已完结' : `${item.released_part}话` }}
-                  </span>
-            </a>
-            <strong v-else>
-              更新至
-              <span class="part" :class="[item.update ? 'new' : 'old']">
-                    {{ item.end ? '已完结' : `${item.released_part}话` }}
-                  </span>
-            </strong>
-          </div>
-        </div>
-      </li>
-      <more-btn
-        :no-more="true"
-        :loading="false"
-        :length="0"
-        v-if="!list.length"
+    <van-tabs v-model="active" swipeable>
+      <van-tab
+        v-for="(item, index) in showtime"
+        :key="index"
+        :title="item"
       >
-        <button @click="openFeedbackForResource">求资源</button>
-      </more-btn>
-    </ul>
+        <ul class="container">
+          <li v-for="item in list" :key="item.id">
+            <a :href="$alias.bangumi(item.id)">
+              <img
+                class="face"
+                :title="item.name"
+                :alt="item.name"
+                :src="$resize(item.avatar, { width: 120 })"
+              />
+            </a>
+            <div class="content">
+              <a
+                :href="$alias.bangumi(item.id)"
+                class="name"
+                v-text="item.name"
+              ></a>
+              <div class="body">
+                <a v-if="item.released_video_id" :href="$alias.video(item.released_video_id)">
+                  更新至
+                  <span class="part" :class="[item.update ? 'new' : 'old']">
+                    {{ item.end ? '已完结' : `${item.released_part}话` }}
+                  </span>
+                </a>
+                <strong v-else>
+                  更新至
+                  <span class="part" :class="[item.update ? 'new' : 'old']">
+                    {{ item.end ? '已完结' : `${item.released_part}话` }}
+                  </span>
+                </strong>
+              </div>
+            </div>
+          </li>
+          <more-btn
+            :no-more="true"
+            :loading="false"
+            :length="0"
+            v-if="!list.length"
+          >
+            <button @click="openFeedbackForResource">求资源</button>
+          </more-btn>
+        </ul>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
+  import Tab from 'vant/lib/tab'
+  import Tabs from 'vant/lib/tabs'
+  import 'vant/lib/vant-css/tab.css'
+
   export default {
     name: 'bangumi-news',
     async asyncData ({ store, ctx }) {
       await store.dispatch('bangumi/getReleased', ctx)
     },
+    components: {
+      vanTabs: Tabs,
+      vanTab: Tab
+    },
     computed: {
-      released () {
-        return this.$store.state.bangumi.released
+      list () {
+        return this.$store.state.bangumi.released[this.active]
       }
     },
     data () {
       return {
-        showWeek: new Date().getDay() || 7,
-        showtime: ['最新', '一', '二', '三', '四', '五', '六', '日']
+        showtime: ['最新', '一', '二', '三', '四', '五', '六', '日'],
+        active: new Date().getDay() || 7
       }
     },
     methods: {
-      handleWeeklySwitch (index) {
-        this.showWeek = index
-      },
       openFeedbackForResource () {
         this.$channel.$emit('open-feedback', {
           type: 5,
