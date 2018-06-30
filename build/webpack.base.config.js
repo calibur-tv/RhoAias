@@ -160,7 +160,7 @@ module.exports = {
           sourceMap: false,
           uglifyOptions: {
             ecma: 8,
-            safari10: true,
+            // safari10: true,
             mangle: { safari10: true }
           }
         }),

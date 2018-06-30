@@ -3,7 +3,7 @@
     background-color: #fff;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -16,7 +16,7 @@
 </style>
 
 <template>
-  <div id="layout-default" class="_viewport">
+  <div id="layout-default">
     <v-header></v-header>
     <router-view class="main-view"></router-view>
     <div class="hr"></div>
