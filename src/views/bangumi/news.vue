@@ -4,6 +4,7 @@
       height: 40px;
       padding-left: 10px;
       padding-right: 10px;
+      z-index: 1;
     }
 
     .van-tabs__line {
