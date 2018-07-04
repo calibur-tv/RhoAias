@@ -1,15 +1,14 @@
 import axios from 'axios'
-import { env, host, timeout } from 'env'
 
 class Http {
   constructor (ctx) {
     this.instance = axios.create({
-      baseURL: (env === 'development' ? host[env] : 'http://localhost/'),
+      baseURL: process.env.API_HOST,
       headers: {
         Accept: 'application/x.api.latest+json',
         Authorization: `Bearer ${this.getAuthToken(ctx)}`
       },
-      timeout: timeout.server
+      timeout: 10000
     })
   }
 
