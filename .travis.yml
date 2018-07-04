@@ -27,6 +27,7 @@ deploy:
   - provider: script
     skip_cleanup: true
     script:
+      ssh -p $PORT $USER@$STAGING_SERVER 'cd /var/www/m && npm run remove' &&
       ssh -p $PORT $USER@$STAGING_SERVER 'cd /var/www/m && git pull' &&
       ssh -p $PORT $USER@$STAGING_SERVER 'cd /var/www/m && yarn' &&
       ssh -p $PORT $USER@$STAGING_SERVER 'cd /var/www/m && npm run staging' &&
@@ -37,8 +38,6 @@ deploy:
     skip_cleanup: true
     script:
       ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && git pull' &&
-      ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && yarn' &&
-      ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && npm run production' &&
       ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && pm2 startOrRestart pm2.config.js --env=production'
     on:
       branch: deploy

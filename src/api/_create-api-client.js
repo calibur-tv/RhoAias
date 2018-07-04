@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { env, host, timeout } from 'env'
 
 const pendingQueue = {}
+const timeout = 15000
 
 const createRequestKey = (method, args) => {
   let url = args[0]
@@ -21,9 +21,9 @@ const createRequestKey = (method, args) => {
 
 export default (ctx) => {
   const http = axios.create({
-    baseURL: host[env],
+    baseURL: process.env.API_HOST,
     headers: { Accept: 'application/x.api.latest+json' },
-    timeout: timeout.client
+    timeout: timeout
   })
 
   http.interceptors.request.use(config => {
@@ -37,7 +37,7 @@ export default (ctx) => {
   })
 
   http.interceptors.response.use(res => res.data.data, err => {
-    if (err.message === `timeout of ${timeout.client}ms exceeded`) {
+    if (err.message === `timeout of ${timeout}ms exceeded`) {
       return Promise.reject('网路请求超时，请稍候再试！') // eslint-disable-line prefer-promise-reject-errors
     }
     try {
