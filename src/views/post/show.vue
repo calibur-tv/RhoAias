@@ -7,6 +7,21 @@
         font-weight: 700;
         line-height: 28px;
         margin: 8px 0 15px;
+
+        .nice_badge {
+          float: left;
+          height: 22px;
+          line-height: 20px;
+          color: #fff;
+          cursor: default;
+          font-size: 12px;
+          font-weight: bold;
+          text-align: center;
+          padding: 1px 6px;
+          border-radius: 4px;
+          margin: 4px 5px 0 0;
+          background-color: $color-pink-deep;
+        }
       }
 
       .user {
@@ -248,7 +263,13 @@
   <div id="post-show">
     <div class="container">
       <div class="post">
-        <h1 class="title" v-text="post.title"></h1>
+        <h1 class="title">
+          <div
+            v-if="post.is_nice"
+            class="nice_badge"
+          >精</div>
+          {{ post.title }}
+        </h1>
         <div class="user">
           <a class="avatar" :href="$alias.user(master.zone)">
             <img :src="$resize(master.avatar, { width: 70 })">

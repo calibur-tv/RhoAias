@@ -38,17 +38,42 @@
         display: block;
         overflow: hidden;
 
-        p {
-          margin-bottom: 2px;
-          margin-top: 2px;
-          font-size: 14px;
-          color: #333;
-          line-height: 15px;
-        }
-
         time, span {
           color: #999;
           font-size: 11px;
+        }
+
+        .title {
+          .top_badge, .nice_badge {
+            float: left;
+            height: 15px;
+            line-height: 15px;
+            color: #fff;
+            cursor: default;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 4px;
+            padding: 0 4px;
+            margin-right: 5px;
+          }
+
+          .top_badge {
+            background-color: $color-blue-normal;
+          }
+
+          .nice_badge {
+            background-color: $color-pink-deep;
+          }
+
+          p {
+            margin-bottom: 2px;
+            margin-top: 2px;
+            font-size: 14px;
+            line-height: 15px;
+            overflow: hidden;
+            color: #333;
+          }
         }
       }
     }
@@ -127,25 +152,27 @@
 <template>
   <li class="post-item">
     <div class="header">
-      <template v-if="item.user">
-        <a class="avatar" :href="$alias.user(item.user.zone)">
-          <v-img width="70" :src="item.user.avatar"></v-img>
-        </a>
-        <a class="name" :href="$alias.post(item.id)">
+      <a class="avatar" :href="$alias.user(item.user.zone)" v-if="item.user">
+        <v-img width="70" :src="item.user.avatar"></v-img>
+      </a>
+      <a class="face" :href="$alias.bangumi(item.bangumi.id)" v-else>
+        <v-img width="70" :src="item.bangumi.avatar"></v-img>
+      </a>
+      <a class="name" :href="$alias.post(item.id)">
+        <div class="title">
+          <div
+            v-if="item.top_at"
+            class="top_badge"
+          >置顶</div>
+          <div
+            v-if="item.is_nice"
+            class="nice_badge"
+          >精</div>
           <p class="oneline" v-text="item.title"></p>
-          <span>{{ item.user.nickname }}&nbsp;·&nbsp;<v-time v-model="item.created_at"></v-time></span>
-        </a>
-      </template>
-      <template v-else>
-        <a class="face" :href="$alias.bangumi(item.bangumi.id)">
-          <v-img width="70" :src="item.bangumi.avatar"></v-img>
-        </a>
-        <a class="name" :href="$alias.bangumi(item.bangumi.id)">
-          <p v-text="item.bangumi.name"></p>
-          <span>发表于&nbsp;·&nbsp;</span>
-          <v-time v-model="item.created_at"></v-time>
-        </a>
-      </template>
+        </div>
+        <span>{{ item.user ? 'item.user.nickname' : '发表于' }}&nbsp;·&nbsp;</span>
+        <v-time v-model="item.created_at"></v-time>
+      </a>
     </div>
     <a :href="$alias.post(item.id)" class="body">
       <p class="content" v-text="item.desc"></p>
