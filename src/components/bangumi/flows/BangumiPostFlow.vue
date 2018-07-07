@@ -2,7 +2,7 @@
   <div id="bangumi-post-flow">
     <ul>
       <post-flow-item
-        v-for="item in posts.list"
+        v-for="item in postList"
         :key="item.id"
         :item="item"
       ></post-flow-item>
@@ -10,7 +10,7 @@
     <more-btn
       :no-more="posts.noMore"
       :loading="loading"
-      :length="posts.list.length"
+      :length="postList.length"
       @fetch="getPost"
     >
       <button @click="openCreatePostModal">发表《{{ info.name }}》的第一个帖子</button>
@@ -32,6 +32,12 @@
       },
       posts () {
         return this.$store.state.bangumi.posts
+      },
+      topPosts () {
+        return this.$store.state.bangumi.topPosts
+      },
+      postList () {
+        return this.topPosts.concat(this.posts.list)
       }
     },
     data () {

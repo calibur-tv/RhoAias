@@ -40,7 +40,8 @@ export default {
       page: 0,
       list: [],
       noMore: false
-    }
+    },
+    topPosts: []
   }),
   mutations: {
     selectTag (state, index) {
@@ -100,6 +101,9 @@ export default {
       state.posts.list = state.posts.list.concat(data.list)
       state.posts.total = data.total
       state.posts.noMore = data.noMore
+    },
+    SET_TOP_POST (state, data) {
+      state.topPosts = data
     },
     SET_BANGUMI_INFO (state, data) {
       state.info = data
@@ -226,6 +230,11 @@ export default {
         page: state.cartoons.page
       })
       data && commit('SET_BANGUMI_CARTOON', data)
+    },
+    async getTopPosts ({ commit }, { ctx, id }) {
+      const api = new Api(ctx)
+      const data = await api.getTopPosts({ id })
+      commit('SET_TOP_POST', data)
     }
   },
   getters: {}
