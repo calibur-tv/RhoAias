@@ -968,7 +968,7 @@
       },
       handleImageClick (image) {
         if (image.image_count) {
-          window.location = this.$alias.imageAlbum(image.id)
+          window.location = this.$alias.image(image.id)
         } else {
           this.$previewImages(image, image)
         }

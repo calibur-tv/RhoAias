@@ -4,7 +4,7 @@
       height: 40px;
       padding-left: 10px;
       padding-right: 10px;
-      z-index: 1;
+      z-index: 0;
     }
 
     .van-tabs__line {
@@ -101,6 +101,7 @@
             min-width: 36px;
             margin-left: 5px;
             font-size: 12px;
+            display: inline-block;
 
             &.new {
               background-color: $color-pink-normal;

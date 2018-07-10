@@ -7,7 +7,6 @@
       font-size: 16px;
       color: #000;
       line-height: 20px;
-      padding-top: 20px;
     }
 
     .bangumi {

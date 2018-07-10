@@ -1,52 +1,66 @@
+<style lang="scss">
+  #bangumi-image-flow {
+  }
+</style>
+
 <template>
   <div id="bangumi-image-flow">
-    <image-waterfall
-      :loading="loading"
-      @fetch="getImages"
-    ></image-waterfall>
+    <image-waterfall-flow
+      v-if="images"
+      :list="images.list"
+      :no-more="images.noMore"
+      :loading="images.loading"
+      @load="loadMore"
+    ></image-waterfall-flow>
   </div>
 </template>
 
 <script>
-  import ImageWaterfall from '~/components/lists/ImageWaterfall'
+  import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
 
   export default {
-    name: 'v-bangumi-image-flow',
+    name: 'BangumiImageFlow',
     components: {
-      ImageWaterfall
+      ImageWaterfallFlow
     },
     computed: {
       info () {
         return this.$store.state.bangumi.info
+      },
+      images () {
+        return this.$store.state.trending.type === 'image'
+          ? this.$store.state.trending.active
+          : null
       }
     },
-    data () {
-      return {
-        loading: false
-      }
-    },
-    created () {
-      if (!this.$store.state.image.waterfall.data.length) {
-        this.getImages()
+    mounted () {
+      if (!this.images) {
+        this.getData()
       }
     },
     methods: {
-      async getImages () {
-        if (this.loading) {
-          return
-        }
-        this.loading = true
-
+      async getData () {
         try {
-          await this.$store.dispatch('image/getBangumiImages', {
+          await this.$store.dispatch('trending/getTrending', {
+            type: 'image',
+            sort: 'active',
             ctx: this,
-            id: this.info.id,
-            force: false
+            bangumiId: this.info.id
           })
         } catch (e) {
           this.$toast.error(e)
-        } finally {
-          this.loading = false
+        }
+      },
+      async loadMore () {
+        try {
+          await this.$store.dispatch('trending/loadMore', {
+            type: 'image',
+            sort: 'active',
+            ctx: this,
+            bangumiId: this.info.id
+          })
+        } catch (e) {
+          this.$toast.error(e)
         }
       }
     }

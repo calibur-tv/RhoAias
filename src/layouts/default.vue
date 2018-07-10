@@ -1,6 +1,5 @@
 <style lang="scss">
   #layout-default {
-    background-color: #fff;
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -10,7 +9,6 @@
 
     >.main-view {
       flex-grow: 1;
-      margin-top: $nav-height;
     }
   }
 </style>

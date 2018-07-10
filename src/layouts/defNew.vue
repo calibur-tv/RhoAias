@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import vHeader from '~/components/layouts/NewHeader'
+  import vHeader from '~/components/layouts/Header'
   import vFooter from '~/components/layouts/Footer'
 
   export default {
