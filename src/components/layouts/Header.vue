@@ -100,19 +100,25 @@
 </style>
 
 <template>
-  <header id="header" :class="{ 'border-header': !homepage }">
+  <header id="header" :class="{ 'border-header': !homePage }">
     <div class="nav-left">
       <img
+        v-if="homePage"
         class="logo"
         @click="handleLogoClick"
         src="http://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/72/h/72"
         alt="logo"
       >
-      <a class="active" href="/">首页</a>
-      <a href="/bangumi/news">番剧</a>
+      <a :class="{ 'active': homePage }" href="/">首页</a>
+      <a :class="{ 'active': bangumiPage }" href="/bangumi/news">番剧</a>
+      <template v-if="!homePage">
+        <a :class="{ 'active': postPage }" href="/post/trending/active">帖子</a>
+        <a :class="{ 'active': imagePage }" href="/pins/trending/active">相册</a>
+        <a :class="{ 'active': rolePage }" href="/role/trending">偶像</a>
+      </template>
     </div>
     <div class="nav-right">
-      <el-dropdown trigger="click" v-if="homepage">
+      <el-dropdown trigger="click" v-if="homePage">
           <span class="el-dropdown-link">
             <i class="iconfont icon-apps"></i>
           </span>
@@ -155,7 +161,7 @@
   import SearchDrawer from '~/components/drawers/SearchDrawer'
 
   export default {
-    name: 'new-header',
+    name: 'v-header',
     components: {
       SearchDrawer
     },
@@ -175,8 +181,23 @@
         const result = this.currentUser.notification - this.$store.state.users.notifications.checked
         return result < 0 ? 0 : result
       },
-      homepage () {
-        return this.$route.name === 'homepage'
+      path () {
+        return this.$route.path
+      },
+      homePage () {
+        return this.path === '/'
+      },
+      bangumiPage () {
+        return /^\/bangumi/.test(this.path)
+      },
+      postPage () {
+        return /^\/post/.test(this.path)
+      },
+      imagePage () {
+        return /^\/pins/.test(this.path)
+      },
+      rolePage () {
+        return /^\/role/.test(this.path)
       }
     },
     methods: {
