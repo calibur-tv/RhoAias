@@ -139,7 +139,7 @@
       }
 
       .video-report-btn {
-        width: 48%;
+        width: 100%;
         height: 30px;
         line-height: 28px;
         font-size: 13px;
@@ -148,14 +148,6 @@
         border-radius: 15px;
         margin-bottom: 15px;
         margin-top: 3px;
-
-        &:first-child {
-          margin-right: 2%;
-        }
-
-        &:last-child {
-          margin-left: 2%;
-        }
       }
     }
   }
@@ -239,11 +231,10 @@
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
       </v-bangumi-panel>
-      <h3 class="sub-title">下载与反馈</h3>
-      <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
+      <h3 class="sub-title">视频反馈</h3>
+      <p class="tip">1：大家可以加入QQ群 <strong>806818950</strong> 获得最新的资源更新提醒</p>
       <p class="tip">2：安卓用户建议大家使用最新版 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
       <div>
-        <button class="video-report-btn" @click="downloadVideo">下载视频</button>
         <button class="video-report-btn" @click="handleVideoReportClick">视频报错</button>
       </div>
       <comment-main
