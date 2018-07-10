@@ -167,7 +167,6 @@
     </div>
     <div class="tabs">
       <button @click="switchTab('fans')" :class="{ 'active': sort === 'fans' }">应援团</button>
-      <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
     </div>
     <div class="tab-card">
       <template v-if="sort === 'fans'">
