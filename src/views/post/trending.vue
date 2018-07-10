@@ -22,16 +22,21 @@
 </template>
 
 <script>
-  import PostApi from '~/api/postApi'
   import PostFlowItem from '~/components/post/PostFlowItem'
 
   export default {
     name: 'v-post-trending',
     async asyncData ({ store, route, ctx }) {
+      const sort = route.params.sort
+      if (['news', 'active', 'hot'].indexOf(sort) === -1) {
+        const error = new Error()
+        error.code = 404
+        throw error
+      }
       await store.dispatch('trending/getTrending', {
         type: 'post',
-        sort: route.params.sort,
-        api: new PostApi(ctx)
+        sort,
+        ctx
       })
     },
     components: {
@@ -39,7 +44,9 @@
     },
     computed: {
       post () {
-        return this.$store.state.trending[this.sort]
+        return this.$store.state.trending.type === 'post'
+          ? this.$store.state.trending[this.sort]
+          : []
       }
     },
     data () {
@@ -53,7 +60,7 @@
           await this.$store.dispatch('trending/loadMore', {
             type: 'post',
             sort: this.sort,
-            api: new PostApi(this)
+            ctx: this
           })
         } catch (e) {
           this.$toast.error(e)
@@ -65,7 +72,7 @@
           await this.$store.dispatch('trending/getTrending', {
             type: 'post',
             sort: tab,
-            api: new PostApi(this)
+            ctx: this
           })
         } catch (e) {
           this.$toast.error(e)

@@ -15,8 +15,8 @@
     .mint-palette-button {
       pointer-events: auto;
       position: absolute;
-      left: 50%;
-      bottom: 20px;
+      right: $container-padding;
+      bottom: $container-padding;
       margin-left: -25px;
       width: 50px;
       height: 50px;
@@ -83,7 +83,7 @@
     <div id="creator-menu-wrap">
       <palette-button
         content=""
-        direction="t"
+        direction="lt"
         @expand="handlePaletteOpen"
         @collapse="handlePaletteClose"
         ref="palette"

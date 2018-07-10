@@ -28,6 +28,10 @@ export default {
     return `/video/${id}`
   },
 
+  image (id) {
+    return `/pins/${id}`
+  },
+
   post (id, query) {
     return this.__query(`/post/${id}`, query)
   },
@@ -42,10 +46,6 @@ export default {
 
   postTrending (sort) {
     return `/post/trending/${sort}`
-  },
-
-  imageAlbum (id) {
-    return `/image/album/${id}`
   },
 
   cartoonRole (id) {

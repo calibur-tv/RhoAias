@@ -6,7 +6,7 @@
 
       .title {
         font-size: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
 
       .author {
@@ -28,6 +28,14 @@
         .image-package {
           position: relative;
         }
+      }
+
+      .no-image {
+        text-align: center;
+        padding-top: 30px;
+        padding-bottom: 20px;
+        color: $color-text-normal;
+        font-size: 13px;
       }
 
       .cartoon-list {
@@ -140,12 +148,12 @@
           <img class="avatar" :src="$resize(user.avatar, { width: 60 })">
           {{ user.nickname }}
           ·
-          <v-time v-model="info.updated_at"></v-time>
+          <v-time v-model="info.created_at"></v-time>
         </a>
       </div>
     </div>
     <div class="album-body">
-      <div class="images-wrap">
+      <div class="images-wrap" v-if="info.is_album">
         <div
           class="image-package"
           v-for="(img, idx) in images"
@@ -159,8 +167,26 @@
             :aspect="$computeImageAspect(img)"
           ></v-img>
         </div>
+        <p
+          v-if="!info.image_count"
+          class="no-image"
+        >
+          还没有上传图片
+        </p>
       </div>
-      <div class="cartoon-list" v-if="cartoon.length">
+      <div
+        class="image-package"
+        v-else
+      >
+        <v-img
+          class="image"
+          width="400"
+          mode="2"
+          :src="source.url"
+          :aspect="$computeImageAspect(source)"
+        ></v-img>
+      </div>
+      <div class="cartoon-list" v-if="info.is_cartoon">
         <h3 class="sub-title">
           选集（{{ cartoon.length }}）
           <a class="next" v-if="nextPartUrl" :href="nextPartUrl">下一话</a>
@@ -169,7 +195,7 @@
         <ul>
           <li v-for="item in sortCartoons">
             <a
-              :href="$alias.imageAlbum(item.id)"
+              :href="$alias.image(item.id)"
               v-text="item.name"
               class="oneline"
               :class="{ 'active': item.id === id }"
@@ -223,7 +249,7 @@
     async asyncData ({ store, route, ctx }) {
       const id = route.params.id
       await Promise.all([
-        store.dispatch('image/getAlbumData', { ctx, id }),
+        store.dispatch('image/show', { ctx, id }),
         store.dispatch('comment/getMainComments', {
           ctx,
           id,
@@ -233,13 +259,8 @@
       ])
     },
     head () {
-      const category = `${this.info.is_cartoon ? '漫画' : '相簿'}`
       return {
-        title: `${this.info.name} - ${category}`,
-        meta: [
-          { hid: 'description', name: 'description', content: this.bangumi.summary },
-          { hid: 'keywords', name: 'keywords', content: `${this.info.name}，${this.bangumi.name}，${category}，${this.user.nickname}` }
-        ]
+        title: this.info.name
       }
     },
     components: {
@@ -247,25 +268,25 @@
     },
     computed: {
       id () {
-        return parseInt(this.$route.params.id, 10)
-      },
-      album () {
-        return this.$store.state.image.albumShow
+        return +this.$route.params.id
       },
       info () {
-        return this.album.info
+        return this.$store.state.image.show
+      },
+      source () {
+        return this.info.source
       },
       images () {
-        return this.album.images
+        return this.info.images
       },
       cartoon () {
-        return this.album.cartoon
+        return this.info.parts
       },
       user () {
-        return this.album.user
+        return this.info.user
       },
       bangumi () {
-        return this.album.bangumi
+        return this.info.bangumi
       },
       likeAlbumBtnText () {
         const text = this.info.is_creator
@@ -287,7 +308,7 @@
         return this.showAll ? this.cartoon : this.cartoon.slice(begin, begin + this.take)
       },
       nextPartUrl () {
-        if (!this.cartoon.length) {
+        if (!this.info.is_cartoon || !this.cartoon.length) {
           return ''
         }
         let index = 0
@@ -299,7 +320,7 @@
         if (index >= this.cartoon.length - 1) {
           return ''
         }
-        return this.$alias.imageAlbum(this.cartoon[index + 1].id)
+        return this.$alias.image(this.cartoon[index + 1].id)
       }
     },
     data () {
@@ -315,6 +336,9 @@
         this.$store.commit('image/FOLLOW_ALBUM_BANGUMI', { result })
       },
       computePage () {
+        if (!this.info.is_cartoon) {
+          return
+        }
         this.cartoon.forEach((meta, index) => {
           if (meta.id === this.id) {
             this.part = index + 1
@@ -328,7 +352,7 @@
           return
         }
         if (this.isMine) {
-          this.$toast.error('不能为自己的相簿点赞')
+          this.$toast.error('不能为自己的相册点赞')
           return
         }
         if (this.loadingFollowAlbum) {
@@ -336,7 +360,7 @@
         }
         this.loadingFollowAlbum = true
         if (this.info.is_creator && !this.info.liked) {
-          this.$confirm('原创相簿点赞需要金币, 是否继续?', '提示', {
+          this.$confirm('原创相册点赞需要金币, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'

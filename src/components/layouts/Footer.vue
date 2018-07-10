@@ -39,8 +39,6 @@
       text-align: left;
 
       .desc {
-        margin-top: 20px;
-
         p {
           margin: 8px 0;
         }
@@ -99,15 +97,15 @@
       header-text="反馈"
     >
       <div class="container">
+        <div class="desc">
+          <p>详细信息</p>
+          <textarea v-model.trim="content" placeholder="请填写详细信息"></textarea>
+        </div>
         <v-radio
           title="反馈类型"
           v-model="selectedType"
           :options="options">
         </v-radio>
-        <div class="desc">
-          <p>详细信息</p>
-          <textarea v-model.trim="content" placeholder="请填写详细信息"></textarea>
-        </div>
         <button @click="submitFeedback" class="btn-submit">提交</button>
       </div>
     </v-drawer>

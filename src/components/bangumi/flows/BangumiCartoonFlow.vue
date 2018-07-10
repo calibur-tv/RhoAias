@@ -3,14 +3,25 @@
     background-color: #fff;
     padding-top: 15px;
 
-    ul {
+    .sub-title {
+      margin-left: $container-padding;
+      margin-right: $container-padding;
+
+      button {
+        float: right;
+        font-size: 12px;
+        color: $color-text-normal;
+      }
+    }
+
+    .cartoon-list {
       width: 302px;
       margin: 0 auto;
     }
 
-    li {
+    .cartoon {
       width: 145px;
-      height: 282px;
+      height: 316px;
       float: left;
       box-shadow: 0 1px 3px rgba(0,0,0,.2);
       margin: 3px 3px 10px;
@@ -59,57 +70,53 @@
         }
       }
 
-      .desc {
-        padding: 5px 8px;
+      .intro {
+        height: 55px;
+        padding: 5px 15px;
         background-color: #fff;
 
-        button {
-          float: right;
-          width: 40px;
+        .name, .social {
           height: 20px;
-          line-height: 20px;
-          text-align: right;
-          color: $color-gray-deep;
           font-size: 12px;
-          margin-right: 1px;
-
-          &.liked {
-            color: $color-pink-normal;
-          }
+          line-height: 20px;
         }
 
-        a {
-          display: block;
-          overflow: hidden;
-          font-size: 12px;
-          line-height: 20px;
+        .name {
+          margin-top: 3px;
+        }
+
+        .social {
+          color: $color-text-light;
+          margin-top: 2px;
+
+          span {
+            margin-right: 10px;
+          }
+
+          .done {
+            color: $color-pink-deep;
+          }
         }
       }
 
-      .user {
-        display: block;
-        padding: 8px;
-        border-top: 1px solid #f2f2f2;
-        background-color: #fafafa;
-        font-size: 12px;
-        line-height: 14px;
-        color: #999;
-        height: 42px;
+      .about {
+        height: 51px;
+        padding: 10px 15px;
+        border-top: 1px solid #F2F2F2;
 
-        img {
-          border: 1px solid #f0f0f0;
-          vertical-align: middle;
-          margin-right: 8px;
+        .user-avatar {
+          display: block;
+          margin-right: 10px;
+          overflow: hidden;
           float: left;
-          border-radius: 50%;
-          @include avatar(26px)
+          @include avatar-2(30px);
         }
 
-        div {
-          overflow: hidden;
+        .main-name {
+          line-height: 30px;
           font-size: 12px;
-          margin-top: 6px;
-          color: #999;
+          word-wrap: break-word;
+          color: $color-text-normal;
         }
       }
     }
@@ -118,31 +125,71 @@
 
 <template>
   <div id="bangumi-cartoon-flow">
-    <ul class="clearfix" v-if="cartoons.list.length">
-      <li
-        v-for="item in cartoons.list"
-        :key="item.id"
-      >
-        <a class="poster-wrap" :href="$alias.imageAlbum(item.id)">
-          <img :src="$resize(item.url, { width: 290, height: 420 })">
-          <div class="info">
-            <i class="el-icon-picture-outline"></i>
-            <span class="image-count" v-text="item.image_count"></span>
+    <template v-if="cartoons.list.length">
+      <h3 class="sub-title">
+        <span>共 {{ cartoons.total }} 集</span>
+        <button @click="openSortModal = true">{{ sort === 'desc' ? '有大到小' : '由小到大' }}</button>
+      </h3>
+      <mt-actionsheet
+        :actions="sortActions"
+        v-model="openSortModal">
+      </mt-actionsheet>
+      <ul class="cartoon-list clearfix">
+        <li
+          v-for="item in cartoons.list"
+          :key="item.id"
+          class="cartoon"
+        >
+          <a :href="$alias.image(item.id)">
+            <div class="poster-wrap">
+              <img :src="$resize(item.source.url, { width: 290, height: 420 })">
+              <div class="info">
+                <i class="el-icon-picture-outline"></i>
+                <span class="image-count" v-text="item.image_count"></span>
+              </div>
+            </div>
+            <div class="intro">
+              <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
+              <div class="social">
+                <span
+                  v-if="item.like_count"
+                  :class="{ 'done': item.liked }"
+                >
+                  <i class="iconfont icon-guanzhu"/>
+                  {{ item.like_count }}
+                </span>
+                <span
+                  v-if="item.comment_count"
+                  :class="{ 'done': item.commented }"
+                >
+                  <i class="iconfont icon-pinglun1"/>
+                  {{ item.comment_count }}
+                </span>
+                <span v-if="item.view_count">
+                  <i class="iconfont icon-ai-eye"/>
+                  {{ item.view_count }}
+                </span>
+              </div>
+            </div>
+          </a>
+          <div class="about">
+            <a
+              :href="$alias.user(item.user.zone)"
+              target="_blank"
+              class="user-avatar"
+            >
+              <img :src="$resize(item.user.avatar, { width: 60 })">
+            </a>
+            <a
+              :href="$alias.user(item.user.zone)"
+              target="_blank"
+              class="main-name"
+              v-text="item.user.nickname"
+            ></a>
           </div>
-        </a>
-        <div class="desc">
-          <button class="like" :class="{ 'liked': item.liked }" @click="handleLikeCartoon($event, item)">
-            <i class="iconfont icon-msnui-love"></i>
-            {{ item.like_count || ''  }}
-          </button>
-          <a class="oneline" :href="$alias.imageAlbum(item.id)" v-text="item.name"></a>
-        </div>
-        <a class="user" :href="$alias.user(item.user.zone)">
-          <img :src="$resize(item.user.avatar, { width: 72 })">
-          <div class="oneline" v-text="item.user.nickname"></div>
-        </a>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </template>
     <more-btn
       :no-more="cartoons.noMore"
       :length="cartoons.list.length"
@@ -155,21 +202,47 @@
 </template>
 
 <script>
-  import ImageApi from '~/api/imageApi'
-
   export default {
     name: 'v-bangumi-cartoon-flow',
     computed: {
       cartoons () {
-        return this.$store.state.bangumi.cartoons
+        return this.$store.state.bangumi.cartoon
       },
       info () {
         return this.$store.state.bangumi.info
+      },
+      sort () {
+        return this.cartoons.sort
+      },
+      sortActions () {
+        return [
+          {
+            name: '由大到序排序',
+            method: () => {
+              this.$store.dispatch('bangumi/changeCartoonSort', {
+                sort: 'desc',
+                ctx: this,
+                bangumiId: this.info.id
+              })
+            }
+          },
+          {
+            name: '由小到大排序',
+            method: () => {
+              this.$store.dispatch('bangumi/changeCartoonSort', {
+                sort: 'asc',
+                ctx: this,
+                bangumiId: this.info.id
+              })
+            }
+          }
+        ]
       }
     },
     data () {
       return {
-        loading: false
+        loading: false,
+        openSortModal: false
       }
     },
     created () {
@@ -200,47 +273,6 @@
           type: 7,
           desc: `我想看《${this.info.name}》的漫画第 ? 话`
         })
-      },
-      handleLikeCartoon (e, image) {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        if (image.user_id === this.$store.state.user.id) {
-          this.$toast.info('不能为自己的图片点赞')
-          return
-        }
-        const btn = e.currentTarget
-        if (!image.liked) {
-          this.$confirm('原创图片点赞需要金币, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.submitToggleLikeCartoon(btn, image)
-          }).catch(() => {})
-          return
-        }
-        this.submitToggleLikeCartoon(btn, image)
-      },
-      async submitToggleLikeCartoon (btn, image) {
-        btn.setAttribute('disabled', 'disabled')
-        const api = new ImageApi(this)
-        try {
-          const result = await api.toggleLike({ id: image.id })
-          if (image.creator && result) {
-            this.$store.commit('USE_COIN')
-          }
-          this.$toast.success('操作成功')
-          this.$store.commit('bangumi/TOGGLE_LIKE_CARTOON', {
-            id: image.id,
-            result
-          })
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          btn.removeAttribute('disabled')
-        }
       }
     }
   }

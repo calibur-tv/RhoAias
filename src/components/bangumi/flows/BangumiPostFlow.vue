@@ -8,10 +8,11 @@
       ></post-flow-item>
     </ul>
     <more-btn
+      v-if="posts"
       :no-more="posts.noMore"
-      :loading="loading"
+      :loading="posts.loading"
       :length="postList.length"
-      @fetch="getPost"
+      @fetch="loadMore"
     >
       <button @click="openCreatePostModal">发表《{{ info.name }}》的第一个帖子</button>
     </more-btn>
@@ -31,36 +32,42 @@
         return this.$store.state.bangumi.info
       },
       posts () {
-        return this.$store.state.bangumi.posts
+        return this.$store.state.trending.type === 'post'
+          ? this.$store.state.trending.active
+          : null
       },
       topPosts () {
         return this.$store.state.bangumi.topPosts
       },
       postList () {
-        return this.topPosts.concat(this.posts.list)
-      }
-    },
-    data () {
-      return {
-        loading: false
+        return this.posts
+          ? this.topPosts.concat(this.posts.list)
+          : this.topPosts
       }
     },
     methods: {
-      async getPost () {
-        if (this.loading) {
-          return
-        }
-        this.loading = true
-
+      async getData () {
         try {
-          await this.$store.dispatch('bangumi/getPosts', {
+          await this.$store.dispatch('trending/getTrending', {
+            type: 'post',
+            sort: 'active',
             ctx: this,
-            id: this.info.id
+            bangumiId: this.info.id
           })
         } catch (e) {
           this.$toast.error(e)
-        } finally {
-          this.loading = false
+        }
+      },
+      async loadMore () {
+        try {
+          await this.$store.dispatch('trending/loadMore', {
+            type: 'post',
+            sort: 'active',
+            ctx: this,
+            bangumiId: this.info.id
+          })
+        } catch (e) {
+          this.$toast.error(e)
         }
       },
       openCreatePostModal () {

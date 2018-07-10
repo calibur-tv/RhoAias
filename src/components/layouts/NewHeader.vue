@@ -104,7 +104,7 @@
             </a>
           </el-dropdown-item>
           <el-dropdown-item>
-            <a href="/image/trending/new">
+            <a href="/pins/trending/active">
               相册
             </a>
           </el-dropdown-item>

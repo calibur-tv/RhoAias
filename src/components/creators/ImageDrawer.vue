@@ -66,24 +66,6 @@
           valueKey="name"
         ></mt-picker>
         <mt-picker
-          v-else-if="openImageTagsDrawer"
-          :slots="tagsSlots"
-          @change="onTagsValuesChange"
-          valueKey="name"
-        ></mt-picker>
-        <mt-picker
-          v-else-if="openImageSizeDrawer"
-          :slots="sizeSlots"
-          @change="onSizeValuesChange"
-          valueKey="name"
-        ></mt-picker>
-        <mt-picker
-          v-else-if="openImageRoleDrawer"
-          :slots="roleSlots"
-          @change="onRoleValuesChange"
-          valueKey="name"
-        ></mt-picker>
-        <mt-picker
           v-else-if="openImageAlbumDrawer"
           :slots="albumSlots"
           @change="onAlbumValuesChange"
@@ -92,62 +74,73 @@
       </v-drawer>
       <template v-if="sort === 'image'">
         <div class="field">
-          <span>类型：</span>
-          <div
-            @click="handleImageTagsPickerBtnClick"
-            v-text="imageTagsPlaceholder"
-          ></div>
+          <span>单张模式：</span>
+          <mt-switch v-model="isSingleModel"></mt-switch>
         </div>
-        <div class="field">
-          <span>尺寸：</span>
-          <div
-            @click="handleImageSizePickerBtnClick"
-            v-text="imageSizePlaceholder"
-          ></div>
-        </div>
-        <div class="field">
-          <span>番剧：</span>
-          <div
-            @click="handleImageBangumiPickerBtnClick"
-            v-text="imageBangumiPlaceholder"
-          ></div>
-        </div>
-        <div class="field">
-          <span>角色：</span>
-          <div
-            @click="handleRolePickerBtnClick"
-            v-text="imageRolePlaceholder"
-          ></div>
-        </div>
-        <div class="field">
-          <span>相册：</span>
-          <div
-            @click="handleAlbumPickerBtnClick"
-            v-text="imageAlbumPlaceholder"
-          ></div>
-        </div>
-        <div class="field">
-          <span>原创：</span>
-          <mt-switch v-model="image.creator"></mt-switch>
-        </div>
-        <div class="field">
-          <span>图片：</span>
-          <el-upload
-            action="https://upload.qiniup.com"
-            ref="imageUploader"
-            list-type="picture-card"
-            :data="uploadHeaders"
-            :disabled="true"
-            :on-error="handleImageUploadError"
-            :on-remove="handleRemoveImage"
-            :on-success="handleImageUploadSuccess"
-            :before-upload="beforeImageUpload"
-            :file-list="image.data"
-            :on-exceed="handleExceed"
-            multiple
-            :limit="exceed"
-          >+</el-upload>
-        </div>
+        <template v-if="isSingleModel">
+          <v-field
+            v-model="image.name"
+            label="名字"
+            placeholder="请给图片起个名字"
+            label-size="48px"
+          ></v-field>
+          <div class="field">
+            <span>番剧：</span>
+            <div
+              @click="handleImageBangumiPickerBtnClick"
+              v-text="imageBangumiPlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>原创：</span>
+            <mt-switch v-model="image.creator"></mt-switch>
+          </div>
+          <div class="field">
+            <span>图片：</span>
+            <el-upload
+              ref="imageUploader"
+              :action="imageUploadAction"
+              :accept="imageUploadAccept"
+              :data="uploadHeaders"
+              :disabled="true"
+              :on-error="handleImageUploadError"
+              :on-remove="handleRemoveImage"
+              :on-success="handleImageUploadSuccess"
+              :on-exceed="handleExceed"
+              :before-upload="beforeImageUpload"
+              :file-list="image.data"
+              list-type="picture-card"
+            >+</el-upload>
+          </div>
+        </template>
+        <template v-else>
+          <div class="field">
+            <span>相册：</span>
+            <div
+              @click="handleAlbumPickerBtnClick"
+              v-text="imageAlbumPlaceholder"
+            ></div>
+          </div>
+          <div class="field">
+            <span>图片：</span>
+            <el-upload
+              ref="imageUploader"
+              :action="imageUploadAction"
+              :accept="imageUploadAccept"
+              :data="uploadHeaders"
+              :disabled="true"
+              :on-error="handleImageUploadError"
+              :on-remove="handleRemoveImage"
+              :on-success="handleImageUploadSuccess"
+              :on-exceed="handleExceed"
+              :before-upload="beforeImageUpload"
+              :file-list="image.data"
+              :limit="exceed"
+              multiple
+              list-type="picture-card"
+            >+</el-upload>
+          </div>
+        </template>
         <button
           class="btn-submit"
           @click="createImage"
@@ -156,8 +149,8 @@
       <template v-else-if="sort === 'album'">
         <v-field
           v-model="album.name"
-          label="名称"
-          placeholder="请填写相册名称"
+          label="名字"
+          placeholder="请填写相册名字"
           label-size="48px"
         ></v-field>
         <div class="field">
@@ -171,14 +164,11 @@
           <span>原创：</span>
           <mt-switch v-model="album.creator"></mt-switch>
         </div>
-        <div class="field" v-if="user.faker">
-          <span>漫画：</span>
-          <mt-switch v-model="album.cartoon"></mt-switch>
-        </div>
         <div class="field">
           <span>封面：</span>
           <el-upload
-            action="https://upload.qiniup.com"
+            :action="imageUploadAction"
+            :accept="imageUploadAccept"
             list-type="picture-card"
             ref="albumUploader"
             :data="uploadHeaders"
@@ -201,13 +191,20 @@
 
 <script>
   import ImageApi from '~/api/imageApi'
+  import uploadMixin from '~/mixins/upload'
 
   export default {
     name: 'create-image-drawer',
+    mixins: [
+      uploadMixin
+    ],
     computed: {
       albumBangumiPlaceholder () {
         if (this.loadingBangumi) {
           return '加载中...'
+        }
+        if (!this.bangumiSlots[0].values.length) {
+          return '请先关注番剧'
         }
         if (!this.album.selectedBangumi) {
           return '点击选择番剧'
@@ -218,44 +215,23 @@
         if (this.loadingBangumi) {
           return '加载中...'
         }
+        if (!this.bangumiSlots[0].values.length) {
+          return '请先关注番剧'
+        }
         if (!this.image.selectedBangumi) {
           return '点击选择番剧'
         }
         return this.getSelectedMeta('bangumi', 'name')
       },
-      imageTagsPlaceholder () {
-        if (this.loadingUploadType) {
-          return '加载中...'
-        }
-        if (!this.image.selectedTags) {
-          return '点击选择类型'
-        }
-        return this.getSelectedMeta('tags', 'name')
-      },
-      imageSizePlaceholder () {
-        if (this.loadingUploadType) {
-          return '加载中...'
-        }
-        if (!this.image.selectedSize) {
-          return '点击选择尺寸'
-        }
-        return this.getSelectedMeta('size', 'name')
-      },
-      imageRolePlaceholder () {
-        if (this.loadingBangumiRole) {
-          return '加载中...'
-        }
-        if (!this.image.selectedRole) {
-          return '点击选择角色（可选）'
-        }
-        return this.getSelectedMeta('role', 'name')
-      },
       imageAlbumPlaceholder () {
         if (this.loadingUserAlbum) {
           return '加载中...'
         }
+        if (!this.albumSlots[0].values.length) {
+          return '请先创建相册'
+        }
         if (!this.image.selectedAlbum) {
-          return '点击选择相册（可选）'
+          return '点击选择相册'
         }
         return this.getSelectedMeta('album', 'name')
       },
@@ -265,12 +241,6 @@
       pickerDrawerHeaderText () {
         if (this.openBangumisDrawer) {
           return '番剧'
-        } else if (this.openImageTagsDrawer) {
-          return '类型'
-        } else if (this.openImageSizeDrawer) {
-          return '尺寸'
-        } else if (this.openImageRoleDrawer) {
-          return '角色'
         } else if (this.openImageAlbumDrawer) {
           return '相册'
         }
@@ -284,48 +254,14 @@
       return {
         show: false,
         sort: 'image',
-        bangumiRoles: {},
-        loadedUploadType: false,
         loadedUserAlbum: false,
         loadingBangumi: false,
-        loadingUploadType: false,
         loadingUserAlbum: false,
-        loadingBangumiRole: false,
         openPickerDrawer: false,
         openBangumisDrawer: false,
-        openImageTagsDrawer: false,
-        openImageSizeDrawer: false,
-        openImageRoleDrawer: false,
         openImageAlbumDrawer: false,
         submitting: false,
-        uploadHeaders: {
-          token: ''
-        },
         bangumiSlots: [
-          {
-            flex: 1,
-            defaultIndex: 0,
-            values: [],
-            textAlign: 'center'
-          }
-        ],
-        tagsSlots: [
-          {
-            flex: 1,
-            defaultIndex: 0,
-            values: [],
-            textAlign: 'center'
-          }
-        ],
-        sizeSlots: [
-          {
-            flex: 1,
-            defaultIndex: 0,
-            values: [],
-            textAlign: 'center'
-          }
-        ],
-        roleSlots: [
           {
             flex: 1,
             defaultIndex: 0,
@@ -350,17 +286,15 @@
           poster: []
         },
         image: {
+          name: '',
           creator: false,
           selectedBangumi: false,
-          selectedTags: false,
-          selectedSize: false,
-          selectedRole: false,
           selectedAlbum: false,
           data: []
         },
-        options: [],
         pendingUpload: 0,
-        exceed: 7
+        exceed: 7,
+        isSingleModel: true
       }
     },
     methods: {
@@ -455,9 +389,6 @@
       },
       switchPickerDrawer (name) {
         this.openBangumisDrawer = false
-        this.openImageTagsDrawer = false
-        this.openImageSizeDrawer = false
-        this.openImageRoleDrawer = false
         this.openImageAlbumDrawer = false
         this[name] = true
         this.openPickerDrawer = true
@@ -478,22 +409,6 @@
         this.album.selectedBangumi = true
         this.switchPickerDrawer('openBangumisDrawer')
       },
-      handleRolePickerBtnClick () {
-        if (!this.image.selectedBangumi) {
-          this.$toast.error('请先选择番剧')
-          return
-        }
-        if (this.loadingBangumiRole) {
-          this.$toast.error('数据加载中')
-          return
-        }
-        if (!this.roleSlots[0].values.length) {
-          this.$toast.error('该番剧下没用可选角色')
-          return
-        }
-        this.image.selectedRole = true
-        this.switchPickerDrawer('openImageRoleDrawer')
-      },
       handleAlbumPickerBtnClick () {
         if (this.loadingUserAlbum) {
           this.$toast.error('数据加载中')
@@ -506,14 +421,6 @@
         this.image.selectedAlbum = true
         this.switchPickerDrawer('openImageAlbumDrawer')
       },
-      handleImageTagsPickerBtnClick () {
-        this.image.selectedTags = true
-        this.switchPickerDrawer('openImageTagsDrawer')
-      },
-      handleImageSizePickerBtnClick () {
-        this.image.selectedSize = true
-        this.switchPickerDrawer('openImageSizeDrawer')
-      },
       onBangumiValuesChange (picker, values) {
         if (!values[0]) {
           return
@@ -522,64 +429,6 @@
         this.bangumiSlots[0].values.forEach((item, index) => {
           if (item.id === id) {
             this.bangumiSlots[0].defaultIndex = index
-          }
-        })
-        if (this.sort === 'image') {
-          this.getBangumiRoles(this.getSelectedMeta('bangumi', 'id'))
-        }
-      },
-      async getBangumiRoles (bangumiId) {
-        if (this.bangumiRoles[bangumiId]) {
-          this.roleSlots[0].values = this.bangumiRoles[bangumiId]
-          return
-        }
-        this.loadingBangumiRole = true
-        try {
-          const data = await this.$store.dispatch('bangumi/getRoles', {
-            ctx: this,
-            bangumiId: bangumiId
-          })
-          this.bangumiRoles[bangumiId] = data
-          this.roleSlots[0].values = data
-          this.roleSlots[0].defaultIndex = 0
-          this.image.selectedRole = false
-          this.image.roleId = ''
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loadingBangumiRole = false
-        }
-      },
-      onTagsValuesChange (picker, values) {
-        if (!values[0]) {
-          return
-        }
-        const id = values[0].id
-        this.tagsSlots[0].values.forEach((item, index) => {
-          if (item.id === id) {
-            this.tagsSlots[0].defaultIndex = index
-          }
-        })
-      },
-      onSizeValuesChange (picker, values) {
-        if (!values[0]) {
-          return
-        }
-        const id = values[0].id
-        this.sizeSlots[0].values.forEach((item, index) => {
-          if (item.id === id) {
-            this.sizeSlots[0].defaultIndex = index
-          }
-        })
-      },
-      onRoleValuesChange (picker, values) {
-        if (!values[0]) {
-          return
-        }
-        const id = values[0].id
-        this.roleSlots[0].values.forEach((item, index) => {
-          if (item.id === id) {
-            this.roleSlots[0].defaultIndex = index
           }
         })
       },
@@ -593,14 +442,6 @@
             this.albumSlots[0].defaultIndex = index
           }
         })
-      },
-      async getUpToken () {
-        try {
-          await this.$store.dispatch('getUpToken')
-          this.uploadHeaders.token = this.$store.state.user.uptoken.upToken
-        } catch (e) {
-          this.$toast.error(e)
-        }
       },
       async getUserFollowedBangumis () {
         if (this.followBangumis.length) {
@@ -649,11 +490,11 @@
       },
       async createAlbum () {
         if (!this.album.name) {
-          this.$toast.error('请填写相册名称')
+          this.$toast.error('请填写相册名字')
           return
         }
-        if (this.album.name.length > 20) {
-          this.$toast.error('专题名称请缩减至20字以内')
+        if (this.album.name.length > 30) {
+          this.$toast.error('相册名字请缩减至 30 字以内')
           return
         }
         if (!this.album.selectedBangumi) {
@@ -673,18 +514,20 @@
         const api = new ImageApi(this)
         try {
           const data = await api.createAlbum({
-            bangumiId: this.getSelectedMeta('bangumi', 'id'),
-            isCartoon: this.album.cartoon,
+            bangumi_id: this.getSelectedMeta('bangumi', 'id'),
+            is_cartoon: false,
             name: this.album.name,
-            url: poster ? poster.key : '',
-            width: poster ? poster.width : 0,
-            height: poster ? poster.height : 0,
-            creator: this.album.creator
+            url: poster.key,
+            width: poster.width,
+            height: poster.height,
+            type: poster.type,
+            size: poster.size,
+            is_creator: this.album.creator,
+            part: 0
           })
           this.albumSlots[0].values.unshift(data)
           this.albumSlots[0].defaultIndex = 0
           this.$toast.success('相册创建成功！')
-          this.$store.commit('image/CREATE_ALBUM', data)
           this.sort = 'image'
           this.image.albumId = data.id
           this.image.selectedAlbum = true
@@ -703,21 +546,6 @@
           this.submitting = false
         }
       },
-      async getUploadType () {
-        if (this.loadingUploadType || this.loadedUploadType) {
-          return
-        }
-        this.loadingUploadType = true
-        const api = new ImageApi(this)
-        try {
-          const data = await api.getUploadType()
-          this.tagsSlots[0].values = data.tags
-          this.sizeSlots[0].values = data.size
-          this.loadedUploadType = true
-        } finally {
-          this.loadingUploadType = false
-        }
-      },
       async getUserAlbum () {
         if (this.loadingUserAlbum || this.loadedUserAlbum) {
           return
@@ -733,55 +561,71 @@
         }
       },
       async createImage () {
-        if (!this.image.selectedSize) {
-          this.$toast.error('请先选择尺寸')
-          return
-        }
-        if (!this.image.selectedTags) {
-          this.$toast.error('请先选择类型')
-          return
-        }
         if (!this.image.data.length) {
           this.$toast.error('请先上传图片')
-          return
-        }
-        if (!this.image.selectedBangumi) {
-          this.$toast.error('请选择要投稿的番剧')
           return
         }
         if (this.pendingUpload) {
           this.$toast.error('等待图片上传完成')
           return
         }
+        if (this.isSingleModel) {
+          if (!this.image.selectedBangumi) {
+            this.$toast.error('请选择要投稿的番剧')
+            return
+          }
+          if (this.image.name.length > 30) {
+            this.$toast.error('图片名字请缩减至 30 字以内')
+            return
+          }
+        } else {
+          if (!this.image.selectedAlbum) {
+            this.$toast.error('请选择要上传的相册')
+            return
+          }
+        }
         if (this.submitting) {
           return
         }
         this.submitting = true
         this.$toast.loading('上传中...')
+        let newId
         const api = new ImageApi(this)
         try {
-          const data = await api.uploadImage({
-            creator: this.image.creator,
-            bangumiId: this.getSelectedMeta('bangumi', 'id'),
-            tags: this.getSelectedMeta('tags', 'id'),
-            size: this.getSelectedMeta('size', 'id'),
-            roleId: this.image.selectedRole ? this.getSelectedMeta('role', 'id') : 0,
-            albumId: this.image.selectedAlbum ? this.getSelectedMeta('album', 'id') : 0,
-            images: this.image.data.map(_ => _.data)
-          })
-          this.$toast.success('图片上传成功！')
-          this.image = {
-            creator: false,
-            selectedBangumi: false,
-            selectedTags: false,
-            selectedSize: false,
-            selectedRole: false,
-            selectedAlbum: false,
-            data: []
+          if (this.isSingleModel) {
+            const image = this.image.data[0].data
+            newId = await api.uploadSingleImage({
+              is_creator: this.image.creator,
+              bangumi_id: this.getSelectedMeta('bangumi', 'id'),
+              name: this.image.name,
+              url: image.key,
+              width: image.width,
+              height: image.height,
+              type: image.type,
+              size: image.size
+            })
+          } else {
+            newId = this.getSelectedMeta('album', 'id')
+            await api.uploadManyImage({
+              album_id: newId,
+              images: this.image.data.map(_ => {
+                const image = _.data
+                return {
+                  url: image.key,
+                  width: image.width,
+                  height: image.height,
+                  type: image.type,
+                  size: image.size
+                }
+              })
+            })
           }
           this.$refs.imageUploader.clearFiles()
-          this.$store.commit('image/CREATE_WATERFALL', data)
+          this.$toast.success('上传成功')
           this.show = false
+          setTimeout(() => {
+            window.location = this.$alias.image(newId)
+          }, 400)
         } catch (e) {
           this.$toast.error(e)
         } finally {
@@ -798,10 +642,9 @@
     },
     mounted () {
       this.$channel.$on('open-create-image-drawer', () => {
-        this.getUpToken()
         this.getUserFollowedBangumis()
-        this.getUploadType()
         this.getUserAlbum()
+        this.getUpToken()
         this.show = true
       })
     }

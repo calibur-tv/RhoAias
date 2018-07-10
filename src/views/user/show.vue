@@ -344,6 +344,7 @@
       ></more-btn>
     </template>
     <template v-else-if="sort === 'image'">
+      <!--
       <image-waterfall
         :loading="loadingUserImageFetch"
         :bangumi="bangumis"
@@ -351,6 +352,13 @@
       >
         <button v-if="isMe">上传图片</button>
       </image-waterfall>
+      -->
+      <image-waterfall-flow
+        :list="images.list"
+        :no-more="images.noMore"
+        :loading="images.loading"
+        @load="getUserImages(false)"
+      ></image-waterfall-flow>
     </template>
     <template v-else>
       <ul
@@ -432,7 +440,7 @@
 </template>
 
 <script>
-  import ImageWaterfall from '~/components/lists/ImageWaterfall'
+  import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
   import PostFlowItem from '~/components/post/PostFlowItem'
 
   export default {
@@ -463,7 +471,7 @@
       }
     },
     components: {
-      ImageWaterfall,
+      ImageWaterfallFlow,
       PostFlowItem
     },
     computed: {
@@ -503,7 +511,7 @@
         return this.$store.state.users.roles.noMore
       },
       images () {
-        return this.$store.state.image.waterfall
+        return this.$store.state.image.users
       }
     },
     data () {
@@ -545,7 +553,7 @@
         })
       },
       async getUserImages (isFirstRequest = false) {
-        if (isFirstRequest && this.userImageLoaded) {
+        if (isFirstRequest && this.images.list.length) {
           return
         }
         if (this.loadingUserImageFetch) {
@@ -553,12 +561,11 @@
         }
         this.loadingUserImageFetch = true
         try {
-          await this.$store.dispatch('image/getUserImages', {
+          await this.$store.dispatch('image/users', {
             zone: this.user.zone,
             ctx: this,
             force: isFirstRequest
           })
-          this.userImageLoaded = true
         } catch (e) {
           this.$toast.error(e)
         } finally {

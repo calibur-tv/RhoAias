@@ -1,6 +1,5 @@
 <style lang="scss">
   #layout-default {
-    background-color: #fff;
     display: flex;
     flex-direction: column;
     min-height: 100%;
