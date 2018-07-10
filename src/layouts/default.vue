@@ -9,7 +9,6 @@
 
     >.main-view {
       flex-grow: 1;
-      margin-top: $nav-height;
     }
   }
 </style>

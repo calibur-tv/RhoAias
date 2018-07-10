@@ -1,5 +1,7 @@
 <style lang="scss">
   .search-drawer {
+    text-align: left;
+
     .search-input-wrap {
       margin-bottom: 10px;
     }

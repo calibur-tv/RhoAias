@@ -101,6 +101,7 @@
             min-width: 36px;
             margin-left: 5px;
             font-size: 12px;
+            display: inline-block;
 
             &.new {
               background-color: $color-pink-normal;
