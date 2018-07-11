@@ -1,7 +1,6 @@
 <template>
   <div id="bangumi-show">
     <bangumi-header></bangumi-header>
-    <div class="hr"></div>
     <div>
       <div class="tabs">
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
