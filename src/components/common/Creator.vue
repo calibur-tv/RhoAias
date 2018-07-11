@@ -18,8 +18,8 @@
       right: $container-padding;
       bottom: $container-padding;
       margin-left: -25px;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       color: #fff;
       z-index: 100;
     }
