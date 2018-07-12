@@ -54,6 +54,9 @@ export function createStore () {
           state.user[key] = data[key]
         })
       },
+      UPDATE_USER_INFO (state, { key, value }) {
+        state.user[key] = value
+      },
       USE_COIN (state) {
         state.user.coin && state.user.coin--
       }

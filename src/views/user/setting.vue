@@ -192,35 +192,7 @@
     <div class="form-item">
       <p class="sub-title">其它：</p>
       <div class="container">
-        <div class="input-item">
-          <label class="label" for="nickname">昵称：</label>
-          <input
-            name="nickname"
-            id="nickname"
-            type="text"
-            class="input"
-            v-model.trim="settingForm.nickname"
-            autocomplete="off"
-            placeholder="2-14个字符组成"
-          >
-        </div>
-        <div class="other-form-wrap">
-          <label class="label">性别：</label>
-          <v-radio
-            v-model="settingForm.sex"
-            :options="sexOptions">
-          </v-radio>
-        </div>
-        <div class="other-form-wrap">
-          <label for="signature" class="label">签名：</label>
-          <textarea
-            id="signature"
-            v-model.trim="settingForm.signature"
-            placeholder="用简单的言语，表达深刻的心"
-            maxlength="150"
-          ></textarea>
-        </div>
-        <button @click="saveSetting" class="btn-submit">保存</button>
+        <user-setting-form></user-setting-form>
       </div>
     </div>
   </div>
@@ -230,11 +202,13 @@
   import UserApi from '~/api/userApi'
   import ImageApi from '~/api/imageApi'
   import ImageCropper from '~/components/common/ImageCropper'
+  import UserSettingForm from '~/components/user/forms/UserSettingForm'
 
   export default {
     name: 'page-user-setting',
     components: {
-      ImageCropper
+      ImageCropper,
+      UserSettingForm
     },
     computed: {
       user () {
@@ -243,13 +217,6 @@
     },
     data () {
       return {
-        settingForm: {
-          nickname: '',
-          signature: '',
-          sex: 0,
-          sexSecret: false,
-          birthday: ''
-        },
         avatarSelector: {
           loading: false,
           file: null,
@@ -260,25 +227,7 @@
           loading: false,
           file: null,
           data: ''
-        },
-        sexOptions: [
-          {
-            label: '男 - 公开',
-            value: 1
-          },
-          {
-            label: '女 - 公开',
-            value: 2
-          },
-          {
-            label: '男 - 私密',
-            value: 3
-          },
-          {
-            label: '女 - 私密',
-            value: 4
-          }
-        ]
+        }
       }
     },
     methods: {
@@ -401,38 +350,11 @@
           this.bannerSelector.loading = false
           this.cancelBannerSelect()
         }
-      },
-      saveSetting () {
-        const nicknameLength = this.settingForm.nickname.replace(/([\u4e00-\u9fa5])/g, 'aa').trim().length
-        if (nicknameLength > 14 || nicknameLength < 1) {
-          this.$toast.error('昵称长度不符合要求')
-          return
-        }
-        const api = new UserApi(this)
-        const data = {
-          nickname: this.settingForm.nickname,
-          signature: this.settingForm.signature,
-          sex: parseInt(this.settingForm.sex, 10) + (this.settingForm.sexSecret ? 2 : 0),
-          birthday: 0
-        }
-        api.settingProfile(data).then(() => {
-          this.$toast.success('设置成功')
-          this.$store.commit('SET_USER_INFO', Object.assign({}, this.user, data))
-        }).catch((err) => {
-          this.$toast.error(err)
-        })
       }
     },
     mounted () {
       if (!this.$store.state.login) {
         window.location.href = '/'
-      }
-      this.settingForm = {
-        nickname: this.user.nickname,
-        signature: this.user.signature,
-        sex: this.user.sex > 2 ? this.user.sex - 2 : this.user.sex,
-        sexSecret: this.user.sex > 2,
-        birthday: this.user.birthday ? this.$utils.timeLong(this.user.birthday * 1000).split(' ').shift() : ''
       }
     }
   }

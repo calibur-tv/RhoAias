@@ -186,19 +186,11 @@
           @fetch="fetchRoleFans"
         ></more-btn>
       </template>
-      <template v-else-if="sort === 'image'">
-        <image-waterfall
-          :loading="loadingRoleImage"
-          @fetch="getRoleImages"
-        ></image-waterfall>
-      </template>
     </div>
   </div>
 </template>
 
 <script>
-  import ImageWaterfall from '~/components/lists/ImageWaterfall'
-
   export default {
     name: 'role-show',
     async asyncData ({ store, route, ctx }) {
@@ -213,9 +205,6 @@
           reset: false
         })
       ])
-    },
-    components: {
-      ImageWaterfall
     },
     computed: {
       id () {
