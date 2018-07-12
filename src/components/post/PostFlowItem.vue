@@ -98,6 +98,7 @@
         .image-list {
           img {
             width: 32%;
+            max-height: 93px;
             height: auto;
 
             &:not(:last-child) {

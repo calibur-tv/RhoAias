@@ -344,15 +344,6 @@
       ></more-btn>
     </template>
     <template v-else-if="sort === 'image'">
-      <!--
-      <image-waterfall
-        :loading="loadingUserImageFetch"
-        :bangumi="bangumis"
-        @fetch="getUserImages(false)"
-      >
-        <button v-if="isMe">上传图片</button>
-      </image-waterfall>
-      -->
       <image-waterfall-flow
         :list="images.list"
         :no-more="images.noMore"

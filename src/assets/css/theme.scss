@@ -1,0 +1,75 @@
+#calibur-tv {
+  .el-message {
+    min-width: unset !important;
+    padding: 5px 15px !important;
+    background-color: pink !important;
+    border-color: pink !important;
+
+    .el-message__icon {
+      display: none !important;
+    }
+
+    .el-message__content {
+      color: #fff !important;
+    }
+  }
+
+  .mint-indicator {
+    z-index: 5000;
+    position: relative;
+  }
+
+  .mint-msgbox {
+    .mint-msgbox-message {
+      line-height: 24px;
+
+      span {
+        display: block;
+        text-align: left;
+        font-size: 14px;
+        text-indent: 2em;
+        word-break: break-all;
+      }
+
+      p {
+        line-height: 36px;
+      }
+    }
+
+    .mint-msgbox-confirm {
+      color: $color-blue-normal !important;
+    }
+  }
+
+  .el-upload {
+    position: relative;
+
+    .el-upload__input {
+      display: block !important;
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .mint-datetime-action {
+    color: $color-pink-normal;
+  }
+
+  .el-button,
+  .mint-radio .mint-radio-input:checked + .mint-radio-core,
+  .mint-switch-input:checked + .mint-switch-core {
+    background-color: $color-pink-normal;
+    border-color: $color-pink-normal;
+  }
+
+  .el-input__inner,
+  .el-textarea__inner {
+    &:focus {
+      border-color: $color-pink-normal;
+    }
+  }
+}
