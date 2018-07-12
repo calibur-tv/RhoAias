@@ -59,7 +59,7 @@
       width: 100%;
       position: relative;
       overflow: hidden;
-      z-index: 1;
+      z-index: 0;
       height: $banner-height;
       text-align: center;
       background-size: cover;
