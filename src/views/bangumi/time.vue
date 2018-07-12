@@ -7,26 +7,6 @@
       .collection {
         display: block;
 
-        .time {
-          position: relative;
-          font-weight: 400;
-          color: $color-text-light;
-          font-size: 16px;
-          margin-bottom: 15px;
-          padding-left: 12px;
-
-          &:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 2px;
-            height: 14px;
-            width: 3px;
-            background-color: $color-blue-normal;
-            border-radius: 3px;
-          }
-        }
-
         $bangumi-height: 60px;
         .bangumi {
           margin-bottom: 10px;
@@ -72,7 +52,7 @@
     </div>
     <ul id="collections" class="container">
       <ul v-for="col in timeline.list" :key="col.date" class="collection">
-        <h3 class="time" v-text="col.date"></h3>
+        <h3 class="sub-title" v-text="col.date"></h3>
         <li class="bangumi" v-for="item in col.list" :key="item.id">
           <a :href="$alias.bangumi(item.id)">
             <v-img

@@ -6,7 +6,7 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      z-index: 1;
+      z-index: 0;
       height: $banner-height;
 
       .img {
@@ -22,7 +22,7 @@
 
     .user-panel {
       position: relative;
-      z-index: 2;
+      z-index: 0;
 
       .avatar {
         position: absolute;
