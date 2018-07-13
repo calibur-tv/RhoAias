@@ -171,7 +171,7 @@
           >精</div>
           <p class="oneline" v-text="item.title"></p>
         </div>
-        <span>{{ item.user ? 'item.user.nickname' : '发表于' }}&nbsp;·&nbsp;</span>
+        <span>{{ item.user ? item.user.nickname : '发表于' }}&nbsp;·&nbsp;</span>
         <v-time v-model="item.created_at"></v-time>
       </a>
     </div>

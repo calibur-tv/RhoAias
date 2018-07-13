@@ -70,14 +70,6 @@
 
         img {
           display: block;
-          transition: .3s;
-          transform-origin: center;
-        }
-
-        &:hover {
-          img {
-            transform: scale(1.1);
-          }
         }
       }
 
