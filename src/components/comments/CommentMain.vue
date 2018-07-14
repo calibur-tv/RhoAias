@@ -385,7 +385,7 @@
       type: {
         required: true,
         type: String,
-        validator: val => ~['post', 'video', 'image'].indexOf(val)
+        validator: val => ~['post', 'video', 'image', 'score'].indexOf(val)
       },
       onlySeeMaster: {
         type: Boolean,

@@ -12,6 +12,7 @@
       background-color: #fff;
       border-bottom: 1px solid rgba(0,0,0,.08);
       font-size: 12px;
+      z-index: 10;
 
       .logo {
         width: 24px;
@@ -40,6 +41,11 @@
         @include avatar-2(24px);
       }
     }
+    
+    .calibur {
+      float: left;
+      margin-left: 2px;
+    }
 
     .main-view {
       height: 100%;
@@ -57,14 +63,16 @@
 <template>
   <div id="layout-write">
     <header>
-      <img
-        :src="$resize('https://image.calibur.tv/owner/logo-new/logo.png', { width: 50 })"
-        class="logo"
-        alt="logo"
-      >
-      <span class="slogan">calibur.tv</span>
+      <button class="calibur" @click="goIndex">
+        <img
+          :src="$resize('https://image.calibur.tv/owner/logo-new/logo.png', { width: 50 })"
+          class="logo"
+          alt="logo"
+        >
+        <span class="slogan">calibur.tv</span>
+      </button>
       <template v-if="user">
-        <button class="avatar">
+        <button class="avatar" @click="goHome">
           <img :src="$resize(user.avatar, { width: 50 })">
         </button>
         <button
@@ -166,6 +174,16 @@
       },
       emitDestroy () {
         this.$channel.$emit('write-destroy')
+      },
+      goHome () {
+        this.$confirm('要离开写作界面吗?').then(async () => {
+          window.location = this.$alias.user(this.user.zone)
+        }).catch(() => {})
+      },
+      goIndex () {
+        this.$confirm('要离开写作界面吗?').then(async () => {
+          window.location = '/'
+        }).catch(() => {})
       }
     }
   }

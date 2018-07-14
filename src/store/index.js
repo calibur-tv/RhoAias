@@ -13,6 +13,7 @@ import comment from './comment'
 import homepage from './homepage'
 import search from './search'
 import editor from './editor'
+import score from './score'
 
 Vue.use(Vuex)
 
@@ -116,7 +117,8 @@ export function createStore () {
       comment,
       homepage,
       search,
-      editor
+      editor,
+      score
     }
   })
 }

@@ -120,6 +120,11 @@ export function createRouter () {
             path: 'pins/:id(\\d+)',
             name: 'image-show',
             component: () => import('~/views/image/show')
+          },
+          {
+            path: 'review/:id(\\d+)',
+            name: 'score-show',
+            component: () => import('~/views/score/show')
           }
         ]
       },

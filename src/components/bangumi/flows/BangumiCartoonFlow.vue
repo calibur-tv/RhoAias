@@ -128,7 +128,7 @@
     <template v-if="cartoons.list.length">
       <h3 class="sub-title">
         <span>共 {{ cartoons.total }} 集</span>
-        <button @click="openSortModal = true">{{ sort === 'desc' ? '有大到小' : '由小到大' }}</button>
+        <button @click="openSortModal = true">{{ sort === 'desc' ? '由大到小' : '由小到大' }}</button>
       </h3>
       <mt-actionsheet
         :actions="sortActions"

@@ -7,7 +7,7 @@
       min-width: 20%;
       max-width: 80%;
       min-height: 22px;
-      padding: 10px;
+      padding: 10px 10px 6px;
       border-bottom: 1px solid #d9d9d9;
       font-size: 14px;
       color: #969696;
@@ -26,7 +26,7 @@
       :source="item"
       :full="true"
       :aspect="$computeImageAspect(item)"
-      width="550"
+      width="350"
       mode="2"
     />
     <p

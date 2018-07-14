@@ -1,13 +1,54 @@
+<style lang="scss">
+  #bangumi-show {
+    .bangumi-tabs {
+      background-color: #ffffff;
+      position: relative;
+      height: 40px;
+      padding-left: $container-padding;
+      padding-right: $container-padding;
+      width: 100%;
+      font-size: 0;
+      @include border-bottom();
+
+      button {
+        height: 40px;
+        line-height: 40px;
+        color: #000;
+        font-size: 14px;
+        display: inline-block;
+        text-align: center;
+        width: 16%;
+
+        &.active {
+          position: relative;
+
+          &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 1px;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            border-radius: 3px;
+          }
+        }
+      }
+    }
+  }
+</style>
+
 <template>
   <div id="bangumi-show">
     <bangumi-header></bangumi-header>
     <div>
-      <div class="tabs">
+      <div class="bangumi-tabs">
         <button @click="switchTab('post')" :class="{ 'active': sort === 'post' }">帖子</button>
         <button @click="switchTab('video')" :class="{ 'active': sort === 'video' }" v-if="info.has_video">视频</button>
         <button @click="switchTab('cartoon')" :class="{ 'active': sort === 'cartoon' }" v-if="info.has_cartoon">漫画</button>
         <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
         <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
+        <button @click="switchTab('score')" :class="{ 'active': sort === 'score' }">漫评</button>
       </div>
       <bangumi-post-flow
         v-if="sort === 'post'"
@@ -24,6 +65,9 @@
       <bangumi-image-flow
         v-else-if="sort === 'image'"
       ></bangumi-image-flow>
+      <bangumi-score-flow
+        v-else-if="sort === 'score'"
+      ></bangumi-score-flow>
     </div>
   </div>
 </template>
@@ -35,6 +79,7 @@
   import BangumiCartoonFlow from '~/components/bangumi/flows/BangumiCartoonFlow'
   import BangumiRoleFlow from '~/components/bangumi/flows/BangumiRoleFlow'
   import BangumiImageFlow from '~/components/bangumi/flows/BangumiImageFlow'
+  import BangumiScoreFlow from '~/components/bangumi/flows/BangumiScoreFlow'
 
   export default {
     name: 'bangumi-show',
@@ -57,7 +102,8 @@
       BangumiVideoFlow,
       BangumiCartoonFlow,
       BangumiRoleFlow,
-      BangumiImageFlow
+      BangumiImageFlow,
+      BangumiScoreFlow
     },
     head () {
       if (!this.id) {

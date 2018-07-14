@@ -1,3 +1,9 @@
+<style lang="scss">
+  .json-editor-main {
+    margin-bottom: 30px;
+  }
+</style>
+
 <template>
   <div class="json-editor-main">
     <div class="editor-tabs">
