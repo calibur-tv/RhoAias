@@ -67,8 +67,14 @@
         background-color: red;
       }
 
-      &.icon-pinglun {
+      &.score-btn {
         background-color: #9266f9;
+
+        a {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
       }
 
       &.icon-pinglun1 {
@@ -92,13 +98,14 @@
           class="ic-btn iconfont icon-tupian"
           @click="handleImageClick"
         ></button>
-        <button
-          class="ic-btn iconfont icon-pinglun"
-          @click="handlePostClick"
-        ></button>
+        <button class="ic-btn score-btn">
+          <a :href="$alias.createScore">
+            <i class="iconfont icon-pinglun"/>
+          </a>
+        </button>
         <button
           class="ic-btn iconfont icon-pinglun1"
-          @click="handleFeedClick"
+          @click="handlePostClick"
         ></button>
       </palette-button>
     </div>

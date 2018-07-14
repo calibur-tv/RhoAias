@@ -11,6 +11,8 @@ import Radio from '~/components/common/Radio'
 import Select from '~/components/common/Select'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import Field from '~/components/common/Field'
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+import VCharts from 'v-charts'
 
 import {
   Swipe,
@@ -29,9 +31,11 @@ import {
   Form,
   FormItem,
   Input,
-  Button
+  Button,
+  Rate
 } from 'element-ui'
 
+Vue.use(VCharts)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
@@ -40,6 +44,8 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Input)
 Vue.use(Button)
+Vue.use(Rate)
+Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.component(Field.name, Field)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)

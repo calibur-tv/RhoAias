@@ -120,6 +120,28 @@ export function createRouter () {
             path: 'pins/:id(\\d+)',
             name: 'image-show',
             component: () => import('~/views/image/show')
+          },
+          {
+            path: 'review/:id(\\d+)',
+            name: 'score-show',
+            component: () => import('~/views/score/show')
+          }
+        ]
+      },
+      {
+        path: '/review',
+        component: () => import('~/layouts/write'),
+        meta: { useAuth: true },
+        children: [
+          {
+            path: 'create',
+            name: 'score-create',
+            component: () => import('~/views/score/create')
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            name: 'score-edit',
+            component: () => import('~/views/score/create')
           }
         ]
       },

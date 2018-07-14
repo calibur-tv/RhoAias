@@ -32,6 +32,10 @@ export default {
     return `/pins/${id}`
   },
 
+  score (id) {
+    return `/review/${id}`
+  },
+
   post (id, query) {
     return this.__query(`/post/${id}`, query)
   },
@@ -47,6 +51,12 @@ export default {
   postTrending (sort) {
     return `/post/trending/${sort}`
   },
+
+  editScore (id) {
+    return `/review/edit/${id}`
+  },
+
+  createScore: '/review/create',
 
   cartoonRole (id) {
     return `/role/${id}`

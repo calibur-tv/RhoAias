@@ -74,6 +74,42 @@
       }
     }
 
+    .user-tabs {
+      background-color: #ffffff;
+      position: relative;
+      height: 40px;
+      padding-left: $container-padding;
+      padding-right: $container-padding;
+      width: 100%;
+      font-size: 0;
+      @include border-bottom();
+
+      button {
+        height: 40px;
+        line-height: 40px;
+        color: #000;
+        font-size: 14px;
+        display: inline-block;
+        text-align: center;
+        width: 16%;
+
+        &.active {
+          position: relative;
+
+          &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 1px;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            border-radius: 3px;
+          }
+        }
+      }
+    }
+
     #bangumis {
       li {
         position: relative;
@@ -273,12 +309,13 @@
         <p>当然，你也有权要求我们删除所有你的内容</p>
       </div>
     </div>
-    <div class="tabs">
+    <div class="user-tabs">
       <button @click="switchTab('bangumi')" :class="{ 'active': sort === 'bangumi' }">番剧</button>
       <button @click="switchTab('mine')" :class="{ 'active': sort === 'mine' }">发帖</button>
       <button @click="switchTab('reply')" :class="{ 'active': sort === 'reply' }">回复</button>
       <button @click="switchTab('role')" :class="{ 'active': sort === 'role' }">偶像</button>
       <button @click="switchTab('image')" :class="{ 'active': sort === 'image' }">相册</button>
+      <button @click="switchTab('score')" :class="{ 'active': sort === 'score' }">漫评</button>
     </div>
     <template v-if="sort === 'bangumi'">
       <ul id="bangumis" class="container" v-if="bangumis.length">
@@ -350,6 +387,9 @@
         :loading="images.loading"
         @load="getUserImages(false)"
       ></image-waterfall-flow>
+    </template>
+    <template v-else-if="sort === 'score'">
+      <user-score-flow :user-id="user.id"/>
     </template>
     <template v-else>
       <ul
@@ -432,6 +472,7 @@
 
 <script>
   import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
+  import UserScoreFlow from '~/components/user/flows/UserScoreFlow'
   import PostFlowItem from '~/components/post/PostFlowItem'
 
   export default {
@@ -463,7 +504,8 @@
     },
     components: {
       ImageWaterfallFlow,
-      PostFlowItem
+      PostFlowItem,
+      UserScoreFlow
     },
     computed: {
       zone () {
@@ -522,6 +564,9 @@
         }
         if (tab === 'role') {
           this.getUserRoles(true)
+          return
+        }
+        if (tab === 'score') {
           return
         }
         if (tab === 'image') {
