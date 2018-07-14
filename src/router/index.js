@@ -124,6 +124,23 @@ export function createRouter () {
         ]
       },
       {
+        path: '/review',
+        component: () => import('~/layouts/write'),
+        meta: { useAuth: true },
+        children: [
+          {
+            path: 'create',
+            name: 'score-create',
+            component: () => import('~/views/score/create')
+          },
+          {
+            path: 'edit/:id(\\d+)',
+            name: 'score-edit',
+            component: () => import('~/views/score/create')
+          }
+        ]
+      },
+      {
         path: '/campaign',
         component: () => import('~/layouts/empty'),
         children: [

@@ -12,6 +12,11 @@
   }
 }
 
+%breakWord {
+  word-break: break-word !important;
+  word-break: break-all;
+}
+
 @mixin avatar($size) {
   width: $size;
   height: $size;
