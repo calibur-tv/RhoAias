@@ -167,9 +167,15 @@
       </div>
       <div class="content">
         <div
+          v-if="item.text"
           class="text"
           v-html="item.text"
         />
+        <div
+          class="text"
+        >
+          {{ item.type === 'txt' ? '点击添加文字' : '点击上传图片' }}
+        </div>
       </div>
     </div>
     <div class="append-area">

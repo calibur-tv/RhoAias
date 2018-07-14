@@ -16,7 +16,10 @@ const templates = {
 const state = () => ({
   resource: null,
   selectedIndex: -1,
-  sections: [templates.txt]
+  sections: [
+    templates.txt,
+    templates.img
+  ]
 })
 
 const mutations = {
