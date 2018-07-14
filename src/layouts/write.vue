@@ -121,7 +121,7 @@
         round
         @click="$channel.$emit('sign-in')"
       >
-        继续操作前请先登录，(๑•̀ㅂ•́)و✧！
+        点击登录
       </button>
     </div>
   </div>

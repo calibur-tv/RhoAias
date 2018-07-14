@@ -38,6 +38,7 @@ deploy:
     skip_cleanup: true
     script:
       ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && git pull' &&
+      ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && yarn' &&
       ssh -p $PORT $USER@$PRODUCTION_SERVER 'cd /var/www/m && pm2 startOrRestart pm2.config.js --env=production'
     on:
       branch: deploy
