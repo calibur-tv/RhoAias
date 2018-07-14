@@ -131,7 +131,6 @@ export function createRouter () {
       {
         path: '/review',
         component: () => import('~/layouts/write'),
-        meta: { useAuth: true },
         children: [
           {
             path: 'create',
