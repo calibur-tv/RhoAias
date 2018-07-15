@@ -2,6 +2,7 @@
   .json-item {
     position: relative;
     height: 110px;
+    width: 100%;
 
     &.selected {
       .show-area {
