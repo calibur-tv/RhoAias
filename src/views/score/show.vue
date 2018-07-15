@@ -137,7 +137,7 @@
         >
           <div
             class="label"
-            v-text="`${labelMap[item]}：${info[item]}分`"
+            v-text="`${labelMap[item]}：${info[item] * 2}分`"
           />
           <el-rate
             v-model="info[item]"

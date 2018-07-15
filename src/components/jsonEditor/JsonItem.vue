@@ -199,6 +199,7 @@
           v-html="item.text"
         />
         <div
+          v-else
           class="text"
         >
           {{ item.type === 'txt' ? '点击添加文字' : '点击上传图片' }}
