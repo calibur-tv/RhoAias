@@ -21,8 +21,21 @@
     }
 
     .star-title {
+      span {
+        float: left;
+      }
+
       .collapsed-icon {
         float: right;
+        height: 24px;
+        padding: 0 5px;
+        margin-top: -4px;
+        margin-right: -5px;
+      }
+
+      .tips-btn {
+        overflow: hidden;
+        padding: 0 5px;
       }
 
       i {
@@ -69,16 +82,13 @@
       class="field"
     />
     <h3 class="sub-title star-title">
-      各项分值
-      <i
-        class="el-icon-question"
-        @click="openTips = !openTips"
-      />
-      <i
-        class="collapsed-icon"
-        :class="[ collapsed ? 'el-icon-arrow-left' : 'el-icon-arrow-down' ]"
-        @click="collapsed = !collapsed"
-      />
+      <span>各项分值</span>
+      <button class="tips-btn" @click="openTips = !openTips">
+        <i class="el-icon-question"/>
+      </button>
+      <button class="collapsed-icon" @click="collapsed = !collapsed">
+        <i :class="[ collapsed ? 'el-icon-arrow-left' : 'el-icon-arrow-down' ]"/>
+      </button>
     </h3>
     <div
       v-if="openTips"

@@ -111,6 +111,7 @@
       },
       handleItemAppend ({ index, type }) {
         this.$store.commit('editor/APPEND_SECTION', { index, type })
+        this.$toast.info('添加成功')
       },
       handleItemDelete ({ index }) {
         this.$store.commit('editor/DELETE_SECTION', { index })
