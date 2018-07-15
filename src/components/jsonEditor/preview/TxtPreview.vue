@@ -54,6 +54,7 @@
       <textarea
         v-model="text"
         placeholder="添加文字内容"
+        @focus="textAreaFocus"
       />
     </div>
   </v-drawer>
@@ -97,6 +98,11 @@
       })
     },
     methods: {
+      textAreaFocus () {
+        if (this.text.length < 100) {
+          document.body.scrollTop = 0
+        }
+      },
       emitSave () {
         if (!this.text.replace(/\n/g, '')) {
           return
