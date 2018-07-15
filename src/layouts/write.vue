@@ -56,6 +56,11 @@
       text-align: center;
       margin-top: 30vh;
       font-size: 14px;
+
+      button {
+        margin-top: 15px;
+        @include btn-empty(#333);
+      }
     }
   }
 </style>
@@ -116,10 +121,10 @@
       v-else
       class="main-view not-login"
     >
+      <p>继续操作前请先登录，(๑•̀ㅂ•́)و✧！</p>
       <button
-        type="primary"
         round
-        @click="$channel.$emit('sign-in')"
+        @click="$channel.$emit('sign-in', false)"
       >
         点击登录
       </button>

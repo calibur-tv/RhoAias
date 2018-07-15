@@ -1,7 +1,7 @@
 <style lang="scss">
   .json-item {
     position: relative;
-    height: 115px;
+    height: 110px;
 
     &.selected {
       .show-area {
@@ -12,37 +12,52 @@
 
     .delete-btn {
       position: absolute;
-      left: 66px;
-      top: 28px;
-      width: 20px;
-      height: 20px;
+      left: 56px;
+      top: 18px;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
       text-align: center;
-      background-color: #f56c6c;
       color: #fff;
       font-size: 11px;
-      border-radius: 50%;
       line-height: 20px;
-      opacity: .8;
+
+      span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: #f56c6c;
+        border-radius: 50%;
+        opacity: .8;
+      }
     }
 
     .up-btn {
       position: absolute;
-      width: 20px;
-      height: 20px;
-      right: -8px;
-      top: -8px;
-      background-color: $color-gray-light;
-      color: #333;
-      font-size: 11px;
-      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+      right: -18px;
+      top: -18px;
       line-height: 20px;
+
+      span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: $color-gray-light;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px $color-gray-normal;
+        font-weight: bold;
+        color: #333;
+        font-size: 11px;
+      }
     }
 
     .show-area {
       background-color: $color-gray-normal;
       border: 1px solid transparent;
       transition-duration: .3s;
-      margin-bottom: 7px;
       border-radius: 5px;
       overflow: hidden;
       cursor: pointer;
@@ -104,14 +119,21 @@
       text-align: center;
 
       button {
-        width: 40px;
-        height: 20px;
+        width: 50px;
+        height: 30px;
         line-height: 20px;
-        margin: 0 8px;
-        color: #fff;
-        background-color: $color-gray-deep;
-        border-radius: 10px;
-        font-size: 12px;
+        padding: 5px;
+        margin: 0 3px;
+
+        span {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background-color: $color-gray-deep;
+          color: #fff;
+          font-size: 12px;
+          border-radius: 10px;
+        }
 
         i {
           font-weight: bold;
@@ -131,14 +153,18 @@
       class="delete-btn"
       @click="emitDelete"
     >
-      <i class="el-icon-delete"/>
+      <span>
+        <i class="el-icon-delete"/>
+      </span>
     </button>
     <button
       v-if="index"
       class="up-btn"
       @click="emitSort"
     >
-      <i class="el-icon-arrow-up"/>
+      <span>
+        <i class="el-icon-arrow-up"/>
+      </span>
     </button>
     <div
       class="show-area"
@@ -167,17 +193,23 @@
       </div>
       <div class="content">
         <div
+          v-if="item.text"
           class="text"
           v-html="item.text"
         />
+        <div
+          class="text"
+        >
+          {{ item.type === 'txt' ? '点击添加文字' : '点击上传图片' }}
+        </div>
       </div>
     </div>
     <div class="append-area">
       <button @click="emitCreate('txt')">
-        <i class="el-icon-edit"/>
+        <span><i class="el-icon-edit"/></span>
       </button>
       <button @click="emitCreate('img')">
-        <i class="el-icon-picture"/>
+        <span><i class="el-icon-picture"/></span>
       </button>
     </div>
   </div>

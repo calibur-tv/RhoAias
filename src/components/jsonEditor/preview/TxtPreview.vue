@@ -44,8 +44,7 @@
     from="right"
     size="100%"
     header-text="编辑文本段落"
-    submit-text="保存"
-    @submit="emitSave"
+    submit-text="确定"
   >
     <div v-if="show" class="text-preview">
       <pre

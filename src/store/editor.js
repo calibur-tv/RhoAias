@@ -16,7 +16,10 @@ const templates = {
 const state = () => ({
   resource: null,
   selectedIndex: -1,
-  sections: [templates.txt]
+  sections: [
+    templates.txt,
+    templates.img
+  ]
 })
 
 const mutations = {
@@ -31,6 +34,7 @@ const mutations = {
     })
     const targetIndex = index + 1
     state.sections.splice(targetIndex, 0, template)
+    state.selectedIndex = targetIndex
   },
   UPDATE_SECTION_TEXT (state, { value }) {
     state.sections[state.selectedIndex].text = value
