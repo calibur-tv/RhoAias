@@ -1,15 +1,37 @@
 <style lang="scss">
   .json-editor-main {
     margin-bottom: 30px;
+
+    .editor-tabs {
+      position: relative;
+    }
+
+    .list-complete-item {
+      transition: all .5s;
+    }
+
+    .list-complete-enter,
+    .list-complete-leave-to {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .list-complete-leave-active {
+      position: absolute;
+    }
   }
 </style>
 
 <template>
   <div class="json-editor-main">
-    <div class="editor-tabs">
+    <transition-group
+      name="list-complete"
+      tag="div"
+      class="editor-tabs"
+    >
       <json-item
         v-for="(item, index) in sections"
-        :key="index"
+        :key="item.id"
         :item="item"
         :index="index"
         :selected="index === selectedIndex"
@@ -17,8 +39,9 @@
         @create="handleItemAppend"
         @delete="handleItemDelete"
         @sort="handleItemSort"
+        class="list-complete-item"
       />
-    </div>
+    </transition-group>
     <img-preview :item="curPreview"/>
     <txt-preview :item="curPreview"/>
   </div>
@@ -111,7 +134,6 @@
       },
       handleItemAppend ({ index, type }) {
         this.$store.commit('editor/APPEND_SECTION', { index, type })
-        this.$toast.info('添加成功')
       },
       handleItemDelete ({ index }) {
         this.$store.commit('editor/DELETE_SECTION', { index })
