@@ -1,7 +1,9 @@
 <style lang="scss">
   #layout-write {
     height: 100%;
-
+    width: 100%;
+    overflow-x: hidden;
+    
     >header {
       position: fixed;
       left: 0;
