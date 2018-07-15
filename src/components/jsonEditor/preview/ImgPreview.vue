@@ -3,7 +3,6 @@
     .body {
       .el-input {
         margin-top: 20px;
-        margin-bottom: 20px;
         padding: 0 30px;
       }
 
@@ -15,7 +14,7 @@
       }
 
       .uploader {
-        margin: 50px 0;
+        margin-top: 30vh;
         text-align: center;
 
         .el-upload__text {
@@ -49,6 +48,7 @@
         <div
           v-if="item.url"
           class="wrapper"
+          :style="imageWrapperHeight"
         >
           <img :src="$resize(item.url)">
           <el-input
@@ -119,6 +119,11 @@
         set (value) {
           this.$store.commit('editor/UPDATE_SECTION_TEXT', { value })
         }
+      },
+      imageWrapperHeight () {
+        return {
+          height: `${(this.item.height * window.innerWidth / this.item.width) + 60}px`
+        }
       }
     },
     mounted () {
@@ -148,6 +153,9 @@
         this.uploadConfig.max = 5
         this.uploadConfig.pathPrefix = `user/${this.$store.state.user.id}/create`
         return this.beforeImageUpload(file)
+      },
+      handleImageLoaded () {
+
       },
       emitSave () {
         if (!this.item.url) {
