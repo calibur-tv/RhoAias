@@ -24,16 +24,17 @@
         .bangumi-avatar {
           display: inline-block;
           vertical-align: middle;
-          margin-right: 13px;
+          margin-right: 10px;
+          line-height: 30px;
         }
 
         .user-avatar {
-          @include avatar-2(30px);
+          @include avatar-2(25px);
         }
 
         .bangumi-avatar {
-          width: 30px;
-          height: 30px;
+          width: 25px;
+          height: 25px;
 
           img {
             display: block;
@@ -49,13 +50,14 @@
           font-size: 12px;
           display: inline-block;
           vertical-align: middle;
-          margin-right: 20px;
+          margin-right: 10px;
         }
       }
 
       .el-rate {
         display: inline-block;
         vertical-align: middle;
+        height: 23px;
       }
     }
 
@@ -95,7 +97,7 @@
           :href="$alias.user(item.user.zone)"
         >
           <div class="user-avatar">
-            <img :src="$resize(item.user.avatar, { width: 60 })">
+            <img :src="$resize(item.user.avatar, { width: 50 })">
           </div>
           <span
             class="name"
@@ -107,7 +109,7 @@
           :href="$alias.bangumi(item.bangumi.id)"
         >
           <div class="bangumi-avatar">
-            <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+            <img :src="$resize(item.bangumi.avatar, { width: 50 })">
           </div>
           <span
             class="name"

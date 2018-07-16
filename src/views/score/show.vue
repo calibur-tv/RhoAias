@@ -104,7 +104,7 @@
 <template>
   <div id="score-show">
     <div class="score-header container">
-      <h1 class="title">写给《{{ bangumi.name }}》的漫评</h1>
+      <h1 class="title" v-text="info.title"/>
       <div class="author-info">
         <div class="total">{{ info.total }}分</div>
         <div class="author">
