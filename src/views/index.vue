@@ -64,11 +64,13 @@
       ></v-search>
       <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
     </main>
+    <v-footer v-show="showFooter"/>
   </div>
 </template>
 
 <script>
   import vSearch from '~/components/search/Input'
+  import vFooter from '~/components/layouts/Footer'
 
   export default {
     name: 'page-index',
@@ -79,7 +81,8 @@
       await store.dispatch('homepage/getBanners', ctx)
     },
     components: {
-      vSearch
+      vSearch,
+      vFooter
     },
     computed: {
       banners () {
@@ -93,6 +96,7 @@
         timer: null,
         toggle: true,
         index: 0,
+        showFooter: true,
         options: {
           width: 720,
           height: 0,
@@ -137,11 +141,11 @@
       },
       handleSearchFocus () {
         this.showBanner = false
-        this.$channel.$emit('display-layout-footer', false)
+        this.showFooter = false
       },
       handleSearchBlur () {
         this.showBanner = true
-        this.$channel.$emit('display-layout-footer', true)
+        this.showFooter = true
       }
     },
     beforeDestroy () {

@@ -4,7 +4,6 @@
 
     .nomore {
       padding: 15px 0;
-      background-color: $color-background;
       font-size: 12px;
       color: #999;
     }
@@ -26,7 +25,6 @@
     }
 
     .loadmore {
-      background-color: #ffffff;
       width: 100%;
       height: 44px;
       line-height: 24px;

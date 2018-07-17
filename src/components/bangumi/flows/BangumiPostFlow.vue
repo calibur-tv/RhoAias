@@ -45,6 +45,11 @@
           : this.topPosts
       }
     },
+    mounted () {
+      if (!this.posts) {
+        this.getData()
+      }
+    },
     methods: {
       async getData () {
         try {

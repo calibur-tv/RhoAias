@@ -93,18 +93,6 @@
         class="about"
       >
         <a
-          v-if="pageName !== 'user-show'"
-          :href="$alias.user(item.user.zone)"
-        >
-          <div class="user-avatar">
-            <img :src="$resize(item.user.avatar, { width: 50 })">
-          </div>
-          <span
-            class="name"
-            v-text="item.user.nickname"
-          />
-        </a>
-        <a
           v-if="pageName !== 'bangumi-show'"
           :href="$alias.bangumi(item.bangumi.id)"
         >
@@ -116,8 +104,26 @@
             v-text="item.bangumi.name"
           />
         </a>
+        <a
+          v-else
+          :href="$alias.user(item.user.zone)"
+        >
+          <div class="user-avatar">
+            <img :src="$resize(item.user.avatar, { width: 50 })">
+          </div>
+          <span
+            class="name"
+            v-text="item.user.nickname"
+          />
+        </a>
         <el-rate
+          v-if="starCount"
           v-model="starCount"
+          disabled
+        />
+        <el-rate
+          v-else
+          v-model="zero"
           disabled
         />
       </div>
@@ -147,6 +153,11 @@
       item: {
         required: true,
         type: Object
+      }
+    },
+    data () {
+      return {
+        zero: 0
       }
     },
     computed: {
