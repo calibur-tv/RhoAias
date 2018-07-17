@@ -165,7 +165,7 @@
       </template>
       <template v-else-if="isGuest">
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看番</p>
-        <a @click="$channel.$emit('drawer-open-sign')">立即登录</a>
+        <a @click="$channel.$emit('sign-in', false)">立即登录</a>
       </template>
       <template v-else-if="video">
         <video

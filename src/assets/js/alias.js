@@ -52,9 +52,15 @@ export default {
     return `/post/trending/${sort}`
   },
 
+  world (type) {
+    return `/world/${type}`
+  },
+
   editScore (id) {
     return `/review/edit/${id}`
   },
+
+  roleTrending: '/role/trending',
 
   createScore: '/review/create',
 

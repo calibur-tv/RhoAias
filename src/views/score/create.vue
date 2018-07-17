@@ -20,6 +20,17 @@
       }
     }
 
+    .title-input {
+      margin-bottom: 15px;
+      margin-top: -5px;
+
+      input {
+        border-left: none;
+        border-right: none;
+        border-top: none;
+      }
+    }
+
     .star-title {
       span {
         float: left;
@@ -81,8 +92,15 @@
       v-model="bangumiId"
       class="field"
     />
+    <h3 class="sub-title">标题</h3>
+    <el-input
+      v-model.trim="title"
+      maxlength="30"
+      class="title-input"
+      placeholder="给你的文章起个好名字！"
+    />
     <h3 class="sub-title star-title">
-      <span>各项分值</span>
+      <span>评分</span>
       <button class="tips-btn" @click="openTips = !openTips">
         <i class="el-icon-question"/>
       </button>
@@ -136,7 +154,7 @@
         </div>
       </div>
     </el-collapse-transition>
-    <h3 class="sub-title">写下心得</h3>
+    <h3 class="sub-title">正文</h3>
     <json-editor @submit="beforeSubmit"/>
   </div>
 </template>
@@ -184,6 +202,7 @@
         labelMap,
         columns: Object.keys(labelMap),
         bangumiId: bid ? +bid : '',
+        title: '',
         form: {
           lol: 0,
           cry: 0,
@@ -233,6 +252,10 @@
           this.$toast.error('请先选择要评价的番剧')
           return
         }
+        if (!this.title) {
+          this.$toast.error('标题为必填的')
+          return
+        }
         const scores = {}
         let total = 0
         Object.keys(this.form).forEach(key => {
@@ -266,6 +289,7 @@
         const api = new Api(this)
         try {
           const form = Object.assign({}, scores, {
+            title: this.title,
             bangumi_id: this.bangumiId,
             content: richContent.content,
             intro: richContent.desc.substring(0, 120),
@@ -332,6 +356,7 @@
           return
         }
         this.bangumiId = +this.resource.bangumi_id
+        this.title = this.resource.title
         this.columns.forEach(key => {
           this.form[key] = this.resource[key] * 2
         })

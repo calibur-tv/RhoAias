@@ -20,7 +20,7 @@ export function createRouter () {
     routes: [
       {
         path: '/',
-        component: () => import('~/layouts/defNew'),
+        component: () => import('~/layouts/default'),
         children: [
           {
             path: '',
@@ -28,16 +28,35 @@ export function createRouter () {
             component: () => import('~/views/index')
           },
           {
+            path: 'world',
+            component: () => import('~/views/world/index'),
+            children: [
+              {
+                path: '',
+                redirect: 'post'
+              },
+              {
+                path: 'post',
+                name: 'world-post',
+                component: () => import('~/views/world/post')
+              },
+              {
+                path: 'image',
+                name: 'world-image',
+                component: () => import('~/views/world/image')
+              },
+              {
+                path: 'review',
+                name: 'world-score',
+                component: () => import('~/views/world/score')
+              }
+            ]
+          },
+          {
             path: 'search',
             name: 'search-index',
             component: () => import('~/views/search/index')
-          }
-        ]
-      },
-      {
-        path: '/',
-        component: () => import('~/layouts/default'),
-        children: [
+          },
           {
             path: 'bangumi/:id(\\d+)',
             name: 'bangumi-show',
@@ -74,11 +93,6 @@ export function createRouter () {
             component: () => import('~/views/user/invite')
           },
           {
-            path: 'post/trending/:sort',
-            name: 'post-trending',
-            component: () => import('~/views/post/trending')
-          },
-          {
             path: 'post/:id(\\d+)',
             name: 'post-show',
             component: () => import('~/views/post/show')
@@ -110,11 +124,6 @@ export function createRouter () {
             path: 'role/:id(\\d+)',
             name: 'role-show',
             component: () => import('~/views/role/show')
-          },
-          {
-            path: 'pins/trending/:sort',
-            name: 'image-trending',
-            component: () => import('~/views/image/trending')
           },
           {
             path: 'pins/:id(\\d+)',

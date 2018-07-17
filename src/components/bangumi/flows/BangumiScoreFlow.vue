@@ -147,14 +147,12 @@
         :key="item.id"
         :item="item"
       />
-      <el-button
-        v-if="!scores.noMore"
+      <more-btn
+        :no-more="scores.noMore"
         :loading="scores.loading"
-        class="load-more-btn"
-        type="info"
-        plain
-        @click="loadMore"
-      >{{ scores.loading ? '加载中' : '加载更多' }}</el-button>
+        :length="scores.list.length"
+        @fetch="loadMore"
+      ></more-btn>
     </div>
   </div>
 </template>

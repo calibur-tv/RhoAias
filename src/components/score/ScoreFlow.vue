@@ -24,16 +24,17 @@
         .bangumi-avatar {
           display: inline-block;
           vertical-align: middle;
-          margin-right: 13px;
+          margin-right: 10px;
+          line-height: 30px;
         }
 
         .user-avatar {
-          @include avatar-2(30px);
+          @include avatar-2(25px);
         }
 
         .bangumi-avatar {
-          width: 30px;
-          height: 30px;
+          width: 25px;
+          height: 25px;
 
           img {
             display: block;
@@ -49,13 +50,14 @@
           font-size: 12px;
           display: inline-block;
           vertical-align: middle;
-          margin-right: 20px;
+          margin-right: 10px;
         }
       }
 
       .el-rate {
         display: inline-block;
         vertical-align: middle;
+        height: 23px;
       }
     }
 
@@ -91,31 +93,37 @@
         class="about"
       >
         <a
-          v-if="pageName !== 'user-show'"
-          :href="$alias.user(item.user.zone)"
-        >
-          <div class="user-avatar">
-            <img :src="$resize(item.user.avatar, { width: 60 })">
-          </div>
-          <span
-            class="name"
-            v-text="item.user.nickname"
-          />
-        </a>
-        <a
           v-if="pageName !== 'bangumi-show'"
           :href="$alias.bangumi(item.bangumi.id)"
         >
           <div class="bangumi-avatar">
-            <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+            <img :src="$resize(item.bangumi.avatar, { width: 50 })">
           </div>
           <span
             class="name"
             v-text="item.bangumi.name"
           />
         </a>
+        <a
+          v-else
+          :href="$alias.user(item.user.zone)"
+        >
+          <div class="user-avatar">
+            <img :src="$resize(item.user.avatar, { width: 50 })">
+          </div>
+          <span
+            class="name"
+            v-text="item.user.nickname"
+          />
+        </a>
         <el-rate
+          v-if="starCount"
           v-model="starCount"
+          disabled
+        />
+        <el-rate
+          v-else
+          v-model="zero"
           disabled
         />
       </div>
@@ -145,6 +153,11 @@
       item: {
         required: true,
         type: Object
+      }
+    },
+    data () {
+      return {
+        zero: 0
       }
     },
     computed: {

@@ -15,8 +15,7 @@ const config = merge(base, {
       'vuex',
       'vue-router',
       'vue-meta',
-      'axios',
-      'lodash'
+      'axios'
     ]
   },
   resolve: {
@@ -54,6 +53,7 @@ const config = merge(base, {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
+        new webpack.optimize.AggressiveSplittingPlugin()
       ])
     }
 

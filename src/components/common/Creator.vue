@@ -64,11 +64,11 @@
       pointer-events: auto;
 
       &.icon-tupian {
-        background-color: red;
+        background-color: #ec414d;
       }
 
       &.score-btn {
-        background-color: #9266f9;
+        background-color: #30a080;
 
         a {
           width: 100%;
@@ -78,14 +78,17 @@
       }
 
       &.icon-pinglun1 {
-        background-color: #16c2c2;
+        background-color: RGB(60,134,247);
       }
     }
   }
 </style>
 
 <template>
-  <div class="creators-container">
+  <div
+    v-if="pageName !== 'homepage'"
+    class="creators-container"
+  >
     <div id="creator-menu-wrap">
       <palette-button
         content=""
@@ -173,10 +176,6 @@
           return
         }
         this.$channel.$emit('drawer-open-write-post')
-      },
-      handleFeedClick () {
-        this.close()
-        this.$channel.$emit('open-feedback')
       }
     }
   }

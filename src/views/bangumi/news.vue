@@ -1,54 +1,7 @@
 <style lang="scss">
   #bangumi-news {
-    .van-tabs--line .van-tabs__wrap {
-      height: 40px;
-      padding-left: 10px;
-      padding-right: 10px;
-      z-index: 0;
-    }
-
-    .van-tabs__line {
-      height: 1px;
-
-      &:after {
-        content: '';
-        position: absolute;
-        margin-left: -3px;
-        left: 50%;
-        bottom: 1px;
-        width: 0;
-        height: 0;
-        border: 3px solid #f44;
-        border-top-width: 0;
-        border-left-color: transparent;
-        border-right-color: transparent;
-      }
-    }
-
-    .van-tabs__wrap--scrollable .van-tabs__nav {
-      width: 100%;
-      height: 40px;
-      display: block;
-
-      .van-tab {
-        width: 12.5%;
-        float: left;
-        height: 40px;
-        line-height: 40px;
-        cursor: default;
-
-        &.van-tab--active {
-          color: #f44;
-        }
-
-        &:active {
-          background-color: transparent !important;
-        }
-      }
-    }
-
-    .van-tabs--line {
-      padding-top: 50px;
+    .van-tab {
+      width: 12.5%;
     }
 
     ul {
@@ -183,7 +136,6 @@
 <script>
   import Tab from 'vant/lib/tab'
   import Tabs from 'vant/lib/tabs'
-  import 'vant/lib/vant-css/tab.css'
 
   export default {
     name: 'bangumi-news',

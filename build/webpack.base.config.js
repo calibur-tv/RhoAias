@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const resolve = file => path.resolve(__dirname, file)
@@ -158,13 +158,8 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new UglifyJsPlugin({
-          sourceMap: false,
-          uglifyOptions: {
-            ecma: 8,
-            // safari10: true,
-            mangle: { safari10: true }
-          }
+        new MinifyPlugin({}, {
+          sourceMap: false
         }),
         new CopyWebpackPlugin([
           { from: resolve('../static') }
