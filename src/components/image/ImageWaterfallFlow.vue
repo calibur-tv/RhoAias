@@ -148,19 +148,11 @@
         }
       }
     }
-
-    .loadmore {
-      padding-top: 0;
-    }
-
-    .nomore {
-      background-color: #fff;
-    }
   }
 </style>
 
 <template>
-  <div id="image-waterfall-flow" v-if="list.length">
+  <div id="image-waterfall-flow">
     <no-ssr>
       <waterfall
         :line-gap="155"
@@ -280,20 +272,15 @@
       </waterfall>
     </no-ssr>
     <more-btn
+      v-if="!noMore"
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
       @fetch="loadMore"
-    ></more-btn>
+    >
+      <button @click="openCreateImageModal">上传图片</button>
+    </more-btn>
   </div>
-  <more-btn
-    v-else
-    :no-more="noMore"
-    :length="0"
-    :loading="false"
-  >
-    <button @click="openCreateImageModal">上传图片</button>
-  </more-btn>
 </template>
 
 <script>
