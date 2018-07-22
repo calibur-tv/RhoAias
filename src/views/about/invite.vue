@@ -10,6 +10,26 @@
       margin-left: 13px;
     }
 
+    .tips {
+      background-color: #f4f4f5;
+      color: #909399;
+      padding: 12px 16px 8px 16px;
+      margin: 0 5px 20px;
+      border-radius: 4px;
+
+      p {
+        color: $color-text-normal;
+        margin-bottom: 5px;
+        font-size: 13px;
+        line-height: 18px;
+      }
+
+      a {
+        color: $color-blue-normal;
+        font-size: 13px;
+      }
+    }
+
     .signed {
       height: 75vh;
       text-align: center;
@@ -29,7 +49,12 @@
   <div id="invite-user">
     <div class="container">
       <template v-if="isGuest">
-        <h3 class="sub-title">欢迎注册 calibur.tv</h3>
+        <h3 class="sub-title">欢迎来到 calibur.tv，是谁邀请你的呢？</h3>
+        <div class="tips">
+          <p>注册之后，邀请者会收到短信提示，并且获得 1 枚金币；</p>
+          <p>由于站内视频流量过大，为了降低宽带费用，先需要注册后才能看番，影响到了大家的体验，非常抱歉；</p>
+          <p>另外<a href="/bangumi/34" target="_blank">《进击的巨人》</a>资源每周同步更新，大家不要错过。</p>
+        </div>
         <sign-up-form
           :invite-code="inviteUserId"
         ></sign-up-form>
