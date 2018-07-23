@@ -1,5 +1,13 @@
 <style lang="scss">
   #invite-user {
+    height: 100vh;
+    background-image: url("https://image.calibur.tv/owner/mobile.jpeg?imageMogr2/auto-orient/strip|imageView2/0/w/800");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: -48px;
+    padding-top: 48px;
+
     .container {
       padding-bottom: $container-padding;
     }
@@ -30,13 +38,29 @@
       }
     }
 
+    .sign-up-form .tip {
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .sign-wrap {
+      background-color: rgba(255, 255, 255, .6);
+      padding: 10px 20px 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
     .signed {
-      height: 75vh;
+      height: 112px;
       text-align: center;
       font-size: 14px;
-      color: $color-text-normal;
-      padding-top: 100px;
+      margin-top: 110px;
       line-height: 30px;
+      background-color: rgba(255, 255, 255, .9);
+      padding: 10px 20px 20px;
+      border-radius: 10px;
+      color: $color-text-normal;
 
       a {
         color: $color-blue-normal;
@@ -48,7 +72,10 @@
 <template>
   <div id="invite-user">
     <div class="container">
-      <template v-if="isGuest">
+      <div
+        v-if="isGuest"
+        class="sign-wrap"
+      >
         <h3 class="sub-title">欢迎来到 calibur.tv，是谁邀请你的呢？</h3>
         <div class="tips">
           <p>注册之后，邀请者会收到短信提示，并且获得 1 枚金币；</p>
@@ -58,7 +85,7 @@
         <sign-up-form
           :invite-code="inviteUserId"
         ></sign-up-form>
-      </template>
+      </div>
       <p class="signed" v-else>
         你已经是注册用户了 (￣3￣)
         <br>
