@@ -1,131 +1,131 @@
 <style lang="scss">
-  #trending-role {
-    li {
+#trending-role {
+  li {
+    position: relative;
+    margin-top: 15px;
+
+    &:not(:last-child) {
+      @include border-bottom();
+    }
+
+    .clearfix {
+      overflow: hidden;
+    }
+
+    .top {
       position: relative;
-      margin-top: 15px;
+      display: block;
+      float: right;
 
-      &:not(:last-child) {
-        @include border-bottom();
+      &:before {
+        content: attr(data-index);
+        line-height: 48px;
       }
+    }
 
-      .clearfix {
-        overflow: hidden;
+    &:first-of-type {
+      .top:before {
+        color: goldenrod;
+        font-size: 28px;
+        line-height: 44px;
       }
+    }
 
-      .top {
-        position: relative;
+    &:nth-of-type(2) {
+      .top:before {
+        color: indianred;
+        font-size: 22px;
+        line-height: 44px;
+      }
+    }
+
+    &:nth-of-type(3) {
+      .top:before {
+        color: silver;
+        font-size: 16px;
+        line-height: 44px;
+      }
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      display: block;
+      float: left;
+      overflow: hidden;
+      border-radius: 5px;
+      margin-right: 10px;
+      border: 1px solid $color-gray-normal;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    .summary {
+      overflow: hidden;
+
+      .role {
         display: block;
-        float: right;
-
-        &:before {
-          content: attr(data-index);
-          line-height: 48px;
-        }
-      }
-
-      &:first-of-type {
-        .top:before {
-          color: goldenrod;
-          font-size: 28px;
-          line-height: 44px;
-        }
-      }
-
-      &:nth-of-type(2) {
-        .top:before {
-          color: indianred;
-          font-size: 22px;
-          line-height: 44px;
-        }
-      }
-
-      &:nth-of-type(3) {
-        .top:before {
-          color: silver;
-          font-size: 16px;
-          line-height: 44px;
-        }
-      }
-
-      .avatar {
-        width: 100px;
-        height: 100px;
-        display: block;
-        float: left;
+        font-size: 14px;
+        line-height: 20px;
+        height: 60px;
         overflow: hidden;
-        border-radius: 5px;
-        margin-right: 10px;
-        border: 1px solid $color-gray-normal;
+
+        .name {
+          font-weight: bold;
+        }
+
+        .intro {
+          color: #000;
+        }
+      }
+
+      .lover {
+        height: 40px;
+        padding: 10px 0;
+        line-height: 20px;
+        vertical-align: middle;
+        font-size: 13px;
+        color: $color-text-normal;
 
         img {
-          width: 100%;
-          height: auto;
-        }
-      }
-
-      .summary {
-        overflow: hidden;
-
-        .role {
-          display: block;
-          font-size: 14px;
-          line-height: 20px;
-          height: 60px;
-          overflow: hidden;
-
-          .name {
-            font-weight: bold;
-          }
-
-          .intro {
-            color: #000;
-          }
-        }
-
-        .lover {
-          height: 40px;
-          padding: 10px 0;
-          line-height: 20px;
+          width: 20px;
+          height: 20px;
+          border-radius: 15px;
           vertical-align: middle;
-          font-size: 13px;
-          color: $color-text-normal;
-
-          img {
-            width: 20px;
-            height: 20px;
-            border-radius: 15px;
-            vertical-align: middle;
-            border: 1px solid $color-gray-normal;
-            margin-left: 10px;
-          }
+          border: 1px solid $color-gray-normal;
+          margin-left: 10px;
         }
       }
+    }
 
-      .footer {
-        height: 44px;
-        line-height: 44px;
+    .footer {
+      height: 44px;
+      line-height: 44px;
 
-        .bangumi {
-          color: #999;
+      .bangumi {
+        color: #999;
+        font-size: 12px;
+        overflow: hidden;
+        margin-right: 8px;
+      }
+
+      .stats {
+        text-align: right;
+        color: #666;
+        float: right;
+
+        span {
+          margin-left: 10px;
           font-size: 12px;
-          overflow: hidden;
-          margin-right: 8px;
-        }
-
-        .stats {
-          text-align: right;
-          color: #666;
-          float: right;
-
-          span {
-            margin-left: 10px;
-            font-size: 12px;
-            margin-right: 2px;
-          }
+          margin-right: 2px;
         }
       }
     }
   }
+}
 </style>
 
 <template>
@@ -136,22 +136,40 @@
         :key="item.id"
       >
         <div class="clearfix">
-          <a :href="$alias.cartoonRole(item.id)" class="avatar">
-            <v-img :src="item.avatar" width="90" height="90"></v-img>
+          <a 
+            :href="$alias.cartoonRole(item.id)" 
+            class="avatar">
+            <v-img 
+              :src="item.avatar" 
+              width="90" 
+              height="90"/>
           </a>
           <div class="summary">
-            <a :href="$alias.cartoonRole(item.id)" class="role">
-              <span class="name" v-text="item.name"></span>
+            <a 
+              :href="$alias.cartoonRole(item.id)" 
+              class="role">
+              <span 
+                class="name" 
+                v-text="item.name"/>
               <span class="intro">：{{ item.intro }}</span>
             </a>
-            <div class="lover" v-if="item.lover_id">
+            <div 
+              v-if="item.lover_id" 
+              class="lover">
               <span>守护者：</span>
-              <a class="fr" :href="$alias.user(item.lover_zone)">
-                <span v-text="item.lover_nickname"></span>
-                <v-img :src="item.lover_avatar" width="20" height="20"></v-img>
+              <a 
+                :href="$alias.user(item.lover_zone)" 
+                class="fr">
+                <span v-text="item.lover_nickname"/>
+                <v-img 
+                  :src="item.lover_avatar" 
+                  width="20" 
+                  height="20"/>
               </a>
             </div>
-            <div class="lover" v-else></div>
+            <div 
+              v-else 
+              class="lover"/>
           </div>
           <div class="footer">
             <div class="stats">
@@ -164,9 +182,14 @@
                 {{ $utils.shortenNumber(item.star_count) }}
               </span>
               <span>排名:</span>
-              <span class="top" :data-index="item.fans_count ? index + 1 : '无'"></span>
+              <span 
+                :data-index="item.fans_count ? index + 1 : '无'" 
+                class="top"/>
             </div>
-            <a class="bangumi" :href="$alias.bangumi(item.bangumi_id)" v-text="item.bangumi_name"></a>
+            <a 
+              :href="$alias.bangumi(item.bangumi_id)" 
+              class="bangumi" 
+              v-text="item.bangumi_name"/>
           </div>
         </div>
       </li>
@@ -176,43 +199,47 @@
       :loading="loading"
       :length="list.length"
       @fetch="loadMore"
-    ></more-btn>
+    />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'TrendingRole',
-    async asyncData ({ store }) {
-      await store.dispatch('cartoonRole/getTrending')
+export default {
+  name: "TrendingRole",
+  async asyncData({ store }) {
+    await store.dispatch("cartoonRole/getTrending");
+  },
+  data() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    list() {
+      return this.$utils.orderBy(
+        this.$store.state.cartoonRole.trending.data,
+        "star_count",
+        "desc"
+      );
     },
-    computed: {
-      list () {
-        return this.$utils.orderBy(this.$store.state.cartoonRole.trending.data, 'star_count', 'desc')
-      },
-      noMore () {
-        return this.$store.state.cartoonRole.trending.noMore
+    noMore() {
+      return this.$store.state.cartoonRole.trending.noMore;
+    }
+  },
+  methods: {
+    async loadMore() {
+      if (this.loading) {
+        return;
       }
-    },
-    data () {
-      return {
-        loading: false
-      }
-    },
-    methods: {
-      async loadMore () {
-        if (this.loading) {
-          return
-        }
-        this.loading = true
-        try {
-          await this.$store.dispatch('cartoonRole/getTrending')
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loading = false
-        }
+      this.loading = true;
+      try {
+        await this.$store.dispatch("cartoonRole/getTrending");
+      } catch (e) {
+        this.$toast.error(e);
+      } finally {
+        this.loading = false;
       }
     }
   }
+};
 </script>

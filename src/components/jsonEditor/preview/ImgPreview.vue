@@ -1,35 +1,35 @@
 <style lang="scss">
-  .image-preview {
-    .body {
-      .el-input {
-        margin-top: 20px;
-        padding: 0 30px;
-      }
-
-      .el-input__inner {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        text-align: center;
-      }
-
-      .uploader {
-        margin-top: 30vh;
-        text-align: center;
-
-        .el-upload__text {
-          margin-top: 5px;
-        }
-      }
+.image-preview {
+  .body {
+    .el-input {
+      margin-top: 20px;
+      padding: 0 30px;
     }
 
-    .footer {
+    .el-input__inner {
+      border-top: none;
+      border-left: none;
+      border-right: none;
       text-align: center;
-      line-height: 15px;
-      height: 15px;
-      margin-bottom: 40px;
+    }
+
+    .uploader {
+      margin-top: 30vh;
+      text-align: center;
+
+      .el-upload__text {
+        margin-top: 5px;
+      }
     }
   }
+
+  .footer {
+    text-align: center;
+    line-height: 15px;
+    height: 15px;
+    margin-bottom: 40px;
+  }
+}
 </style>
 
 <template>
@@ -47,8 +47,8 @@
       <div class="body">
         <div
           v-if="item.url"
-          class="wrapper"
           :style="imageWrapperHeight"
+          class="wrapper"
         >
           <img :src="$resize(item.url)">
           <el-input
@@ -94,76 +94,75 @@
 </template>
 
 <script>
-  import uploadMixin from '~/mixins/upload'
+import uploadMixin from "~/mixins/upload";
 
-  export default {
-    name: 'ImgPreview',
-    mixins: [uploadMixin],
-    props: {
-      item: {
-        required: true,
-        type: Object
+export default {
+  name: "ImgPreview",
+  mixins: [uploadMixin],
+  props: {
+    item: {
+      required: true,
+      type: Object
+    }
+  },
+  data() {
+    return {
+      show: false,
+      saving: false
+    };
+  },
+  computed: {
+    desc: {
+      get() {
+        return this.item.text;
+      },
+      set(value) {
+        this.$store.commit("editor/UPDATE_SECTION_TEXT", { value });
       }
     },
-    data () {
+    imageWrapperHeight() {
       return {
-        show: false,
-        saving: false
+        height: `${(this.item.height * window.innerWidth) / this.item.width +
+          60}px`
+      };
+    }
+  },
+  mounted() {
+    this.$channel.$on("write-save-done", () => {
+      this.saving = false;
+    });
+    this.$channel.$on("write-open-drawer", ({ type }) => {
+      if (type === "img") {
+        this.show = true;
       }
+    });
+    this.getUpToken();
+  },
+  methods: {
+    handleImageUploadSuccess(res) {
+      this.$store.commit("editor/UPDATE_SECTION_IMAGE", {
+        url: res.data.key,
+        width: res.data.width,
+        height: res.data.height,
+        size: res.data.size,
+        mime: res.data.type
+      });
+      this.$toast.success("上传成功");
     },
-    computed: {
-      desc: {
-        get () {
-          return this.item.text
-        },
-        set (value) {
-          this.$store.commit('editor/UPDATE_SECTION_TEXT', { value })
-        }
-      },
-      imageWrapperHeight () {
-        return {
-          height: `${(this.item.height * window.innerWidth / this.item.width) + 60}px`
-        }
+    beforeUpload(file) {
+      this.getUpToken();
+      this.uploadConfig.max = 5;
+      this.uploadConfig.pathPrefix = `user/${this.$store.state.user.id}/create`;
+      return this.beforeImageUpload(file);
+    },
+    handleImageLoaded() {},
+    emitSave() {
+      if (!this.item.url) {
+        return;
       }
-    },
-    mounted () {
-      this.$channel.$on('write-save-done', () => {
-        this.saving = false
-      })
-      this.$channel.$on('write-open-drawer', ({ type }) => {
-        if (type === 'img') {
-          this.show = true
-        }
-      })
-      this.getUpToken()
-    },
-    methods: {
-      handleImageUploadSuccess (res) {
-        this.$store.commit('editor/UPDATE_SECTION_IMAGE', {
-          url: res.data.key,
-          width: res.data.width,
-          height: res.data.height,
-          size: res.data.size,
-          mime: res.data.type
-        })
-        this.$toast.success('上传成功')
-      },
-      beforeUpload (file) {
-        this.getUpToken()
-        this.uploadConfig.max = 5
-        this.uploadConfig.pathPrefix = `user/${this.$store.state.user.id}/create`
-        return this.beforeImageUpload(file)
-      },
-      handleImageLoaded () {
-
-      },
-      emitSave () {
-        if (!this.item.url) {
-          return
-        }
-        this.$channel.$emit('write-save')
-        this.saving = true
-      }
+      this.$channel.$emit("write-save");
+      this.saving = true;
     }
   }
+};
 </script>

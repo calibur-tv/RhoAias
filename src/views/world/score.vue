@@ -1,9 +1,9 @@
 <style lang="scss">
-  #score-flow-list {
-    .img {
-      background-color: #30A080;
-    }
+#score-flow-list {
+  .img {
+    background-color: #30a080;
   }
+}
 </style>
 
 <template>
@@ -51,27 +51,27 @@
 </template>
 
 <script>
-  export default {
-    name: 'ScoreFlowList',
-    async asyncData ({ store, ctx }) {
-      await Promise.all([
-        store.dispatch('trending/getTrending', {
-          type: 'score',
-          sort: 'active',
-          ctx
-        }),
-        store.dispatch('trending/getMeta', { type: 'score' })
-      ])
-    },
-    data () {
-      return {
-        showTips: false
-      }
-    },
-    computed: {
-      meta () {
-        return this.$store.state.trending.meta
-      }
+export default {
+  name: "ScoreFlowList",
+  async asyncData({ store, ctx }) {
+    await Promise.all([
+      store.dispatch("world/getData", {
+        type: "score",
+        sort: "active",
+        ctx
+      }),
+      store.dispatch("world/getMeta", { type: "score" })
+    ]);
+  },
+  data() {
+    return {
+      showTips: false
+    };
+  },
+  computed: {
+    meta() {
+      return this.$store.state.world.score.meta;
     }
   }
+};
 </script>

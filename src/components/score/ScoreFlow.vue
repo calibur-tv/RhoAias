@@ -1,85 +1,85 @@
 <style lang="scss">
-  .score-flow {
-    padding-bottom: 10px;
-    padding-top: $container-padding;
+.score-flow {
+  padding-bottom: 10px;
+  padding-top: $container-padding;
 
-    &:not(:last-child) {
-      border-bottom: 1px solid #f4f5f7;
+  &:not(:last-child) {
+    border-bottom: 1px solid #f4f5f7;
+  }
+
+  .header {
+    margin-bottom: 10px;
+
+    .created-at {
+      float: right;
+      color: #99a2aa;
+      font-size: 12px;
+      line-height: 30px;
     }
 
-    .header {
-      margin-bottom: 10px;
+    .about {
+      overflow: hidden;
 
-      .created-at {
-        float: right;
-        color: #99a2aa;
-        font-size: 12px;
+      .user-avatar,
+      .bangumi-avatar {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
         line-height: 30px;
       }
 
-      .about {
-        overflow: hidden;
+      .user-avatar {
+        @include avatar-2(25px);
+      }
 
-        .user-avatar,
-        .bangumi-avatar {
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 10px;
-          line-height: 30px;
-        }
+      .bangumi-avatar {
+        width: 25px;
+        height: 25px;
 
-        .user-avatar {
-          @include avatar-2(25px);
-        }
-
-        .bangumi-avatar {
-          width: 25px;
-          height: 25px;
-
-          img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border-radius: 3px;
-            border: 1px solid #e5e9ef;
-          }
-        }
-
-        .name {
-          line-height: 30px;
-          font-size: 12px;
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 10px;
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          border-radius: 3px;
+          border: 1px solid #e5e9ef;
         }
       }
 
-      .el-rate {
+      .name {
+        line-height: 30px;
+        font-size: 12px;
         display: inline-block;
         vertical-align: middle;
-        height: 23px;
+        margin-right: 10px;
       }
     }
 
-    .intro {
-      display: block;
-      font-size: 14px;
-      @include twoline(22px);
-    }
-
-    .footer {
-      margin-top: 10px;
-      line-height: 16px;
-      font-size: 13px;
-      color: #99a2aa;
-      text-align: right;
-
-      span {
-        width: 40px;
-        display: inline-block;
-      }
+    .el-rate {
+      display: inline-block;
+      vertical-align: middle;
+      height: 23px;
     }
   }
+
+  .intro {
+    display: block;
+    font-size: 14px;
+    @include twoline(22px);
+  }
+
+  .footer {
+    margin-top: 10px;
+    line-height: 16px;
+    font-size: 13px;
+    color: #99a2aa;
+    text-align: right;
+
+    span {
+      width: 40px;
+      display: inline-block;
+    }
+  }
+}
 </style>
 
 <template>
@@ -147,26 +147,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'ScoreFlow',
-    props: {
-      item: {
-        required: true,
-        type: Object
-      }
+export default {
+  name: "ScoreFlow",
+  props: {
+    item: {
+      required: true,
+      type: Object
+    }
+  },
+  data() {
+    return {
+      zero: 0
+    };
+  },
+  computed: {
+    pageName() {
+      return this.$route.name;
     },
-    data () {
-      return {
-        zero: 0
-      }
-    },
-    computed: {
-      pageName () {
-        return this.$route.name
-      },
-      starCount () {
-        return this.item.total / 2
-      }
+    starCount() {
+      return this.item.total / 2;
     }
   }
+};
 </script>

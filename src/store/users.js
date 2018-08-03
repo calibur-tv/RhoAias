@@ -1,11 +1,11 @@
-import Api from '~/api/userApi'
+import Api from "~/api/userApi";
 
 export default {
   namespaced: true,
   state: () => ({
     list: {},
     posts: {
-      zone: '',
+      zone: "",
       take: 10,
       mine: {
         data: [],
@@ -29,7 +29,7 @@ export default {
       }
     },
     roles: {
-      zone: '',
+      zone: "",
       data: [],
       page: 0,
       noMore: false
@@ -45,71 +45,71 @@ export default {
     }
   }),
   mutations: {
-    RESET_USER_ROLES (state) {
+    RESET_USER_ROLES(state) {
       state.roles = {
-        zone: '',
+        zone: "",
         data: [],
         page: 0,
         noMore: false
-      }
+      };
     },
-    SET_USER_ROLES (state, { data, zone }) {
-      state.roles.zone = zone
-      state.roles.data = state.roles.data.concat(data.list)
-      state.roles.noMore = data.noMore
-      state.roles.page++
+    SET_USER_ROLES(state, { data, zone }) {
+      state.roles.zone = zone;
+      state.roles.data = state.roles.data.concat(data.list);
+      state.roles.noMore = data.noMore;
+      state.roles.page++;
     },
-    SET_USER_INFO (state, { data, zone }) {
+    SET_USER_INFO(state, { data, zone }) {
       state.list[zone] = state.list[zone]
         ? Object.assign(state.list[zone], data)
-        : data
+        : data;
     },
-    SET_SELF_INFO (state, { key, value }) {
+    SET_SELF_INFO(state, { key, value }) {
       if (Array.isArray(state.self[key])) {
-        state.self[key] = state.self[key].concat(value)
-      } else if (typeof state.self[key] === 'object') {
-        state.self[key] = Object.assign(state.self[key], value)
+        state.self[key] = state.self[key].concat(value);
+      } else if (typeof state.self[key] === "object") {
+        state.self[key] = Object.assign(state.self[key], value);
       } else {
-        state.self[key] = value
+        state.self[key] = value;
       }
     },
-    SET_FOLLOW_POST_DATA (state, { data, type, zone }) {
-      state.posts.zone = zone
+    SET_FOLLOW_POST_DATA(state, { data, type, zone }) {
+      state.posts.zone = zone;
       state.posts[type] = {
         data: state.posts[type].data.concat(data.list),
         noMore: data.noMore,
         loading: false
-      }
+      };
     },
-    SET_FOLLOW_POST_STATE (state, { type }) {
-      state.posts[type].loading = true
+    SET_FOLLOW_POST_STATE(state, { type }) {
+      state.posts[type].loading = true;
     },
-    SET_NOTIFICATIONS (state, data) {
-      const temp = state.notifications
+    SET_NOTIFICATIONS(state, data) {
+      const temp = state.notifications;
       state.notifications = {
         checked: temp.checked,
         take: temp.take,
         noMore: temp.take > data.length,
         data: temp.data.concat(data)
-      }
+      };
     },
-    READ_NOTIFICATION (state, id) {
+    READ_NOTIFICATION(state, id) {
       state.notifications.data.forEach((message, index) => {
         if (message.id === id && !message.checked) {
-          state.notifications.data[index].checked = true
-          state.notifications.checked++
+          state.notifications.data[index].checked = true;
+          state.notifications.checked++;
         }
-      })
+      });
     },
-    READ_ALL_NOTIFICATION (state) {
+    READ_ALL_NOTIFICATION(state) {
       state.notifications.data.forEach((message, index) => {
-        state.notifications.data[index].checked = true
-      })
-      state.notifications.checked = 88888888
+        state.notifications.data[index].checked = true;
+      });
+      state.notifications.checked = 88888888;
     },
-    CLEAR_FOLLOW_POST (state) {
+    CLEAR_FOLLOW_POST(state) {
       state.posts = {
-        zone: '',
+        zone: "",
         take: 10,
         mine: {
           data: [],
@@ -131,123 +131,119 @@ export default {
           noMore: false,
           loading: false
         }
-      }
+      };
     },
-    CLEAR_NOTIFICATIONS (state) {
+    CLEAR_NOTIFICATIONS(state) {
       state.notifications = {
         checked: 0,
         take: 10,
         noMore: false,
         data: []
-      }
+      };
     }
   },
   actions: {
-    async getUser ({ commit }, { ctx, zone }) {
-      const api = new Api(ctx)
-      const data = await api.getUserInfo({ zone })
-      data && commit('SET_USER_INFO', { data, zone })
+    async getUser({ commit }, { ctx, zone }) {
+      const api = new Api(ctx);
+      const data = await api.getUserInfo({ zone });
+      data && commit("SET_USER_INFO", { data, zone });
     },
-    async getFollowBangumis ({ commit }, { ctx, zone, self }) {
-      const api = new Api(ctx)
-      const data = await api.followBangumis(zone)
+    async getFollowBangumis({ commit }, { ctx, zone, self }) {
+      const api = new Api(ctx);
+      const data = await api.followBangumis(zone);
       if (data) {
         if (self) {
-          commit('SET_SELF_INFO', {
-            key: 'followBangumi',
+          commit("SET_SELF_INFO", {
+            key: "followBangumi",
             value: data
-          })
+          });
         } else {
-          commit('SET_USER_INFO', {
+          commit("SET_USER_INFO", {
             data: {
               bangumis: data
             },
             zone
-          })
+          });
         }
-        return data
+        return data;
       }
     },
-    async getFollowPosts ({ state, commit }, { type, zone }) {
+    async getFollowPosts({ state, commit }, { type, zone }) {
       if (state.posts.zone !== zone) {
-        commit('CLEAR_FOLLOW_POST')
+        commit("CLEAR_FOLLOW_POST");
       }
       if (state.posts[type].noMore || state.posts[type].loading) {
-        return
+        return;
       }
-      commit('SET_FOLLOW_POST_STATE', { type })
-      const list = state.posts[type].data
-      const length = list.length
-      const api = new Api()
+      commit("SET_FOLLOW_POST_STATE", { type });
+      const list = state.posts[type].data;
+      const length = list.length;
+      const api = new Api();
       const data = await api.followPosts({
         type,
         zone,
         take: state.posts.take,
         minId: length ? list[length - 1].id : 0
-      })
-      data && commit('SET_FOLLOW_POST_DATA', { type, data, zone })
+      });
+      data && commit("SET_FOLLOW_POST_DATA", { type, data, zone });
     },
-    async daySign ({ rootState }, { ctx }) {
+    async daySign({ rootState }, { ctx }) {
       if (rootState.user.signed) {
-        return
+        return;
       }
-      const api = new Api(ctx)
-      await api.daySign()
+      const api = new Api(ctx);
+      await api.daySign();
     },
-    async getNotifications ({ state, commit }, { ctx, reset }) {
+    async getNotifications({ state, commit }, { ctx, reset }) {
       if (reset) {
-        commit('CLEAR_NOTIFICATIONS')
+        commit("CLEAR_NOTIFICATIONS");
       }
-      const length = state.notifications.data.length
+      const length = state.notifications.data.length;
       if (state.notifications.noMore) {
-        return
+        return;
       }
-      const api = new Api(ctx)
+      const api = new Api(ctx);
       const data = await api.getNotifications({
         minId: length ? state.notifications.data[length - 1].id : null,
         take: state.notifications.take
-      })
-      data && commit('SET_NOTIFICATIONS', data)
+      });
+      data && commit("SET_NOTIFICATIONS", data);
     },
-    async readMessage ({ state, commit }, { ctx, id }) {
-      let msg = null
+    async readMessage({ state, commit }, { ctx, id }) {
+      let msg = null;
       state.notifications.data.forEach(message => {
         if (message.id === id && !message.checked) {
-          msg = message
+          msg = message;
         }
-      })
+      });
       if (msg) {
-        const api = new Api(ctx)
-        await api.readMessage(id)
-        commit('READ_NOTIFICATION', id)
+        const api = new Api(ctx);
+        await api.readMessage(id);
+        commit("READ_NOTIFICATION", id);
       }
     },
-    async readAllMessage ({ commit }, ctx) {
-      const api = new Api(ctx)
-      await api.readAllMessage()
-      commit('READ_ALL_NOTIFICATION')
+    async readAllMessage({ commit }, ctx) {
+      const api = new Api(ctx);
+      await api.readAllMessage();
+      commit("READ_ALL_NOTIFICATION");
     },
-    async getFollowRoles ({ state, commit }, { ctx, zone, reset }) {
-      if (
-        reset &&
-        state.roles.data.length &&
-        state.roles.zone === zone
-      ) {
-        return
+    async getFollowRoles({ state, commit }, { ctx, zone, reset }) {
+      if (reset && state.roles.data.length && state.roles.zone === zone) {
+        return;
       }
       if (reset) {
-        commit('RESET_USER_ROLES')
+        commit("RESET_USER_ROLES");
       }
       if (state.roles.noMore) {
-        return
+        return;
       }
-      const api = new Api(ctx)
+      const api = new Api(ctx);
       const data = await api.followRoles({
         zone,
         page: state.roles.page
-      })
-      data && commit('SET_USER_ROLES', { data, zone })
+      });
+      data && commit("SET_USER_ROLES", { data, zone });
     }
   },
   getters: {}
-}
+};

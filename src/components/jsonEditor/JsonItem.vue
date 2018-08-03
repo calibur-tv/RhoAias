@@ -1,147 +1,147 @@
 <style lang="scss">
-  .json-item {
-    position: relative;
-    height: 110px;
-    width: 100%;
+.json-item {
+  position: relative;
+  height: 110px;
+  width: 100%;
 
-    &.selected {
-      .show-area {
-        border-color: $color-pink-normal;
-        box-shadow: 0 0 0 2px rgba($color-pink-normal, .2);
-      }
-    }
-
-    .delete-btn {
-      position: absolute;
-      left: 56px;
-      top: 18px;
-      width: 40px;
-      height: 40px;
-      padding: 10px;
-      text-align: center;
-      color: #fff;
-      font-size: 11px;
-      line-height: 20px;
-
-      span {
-        display: block;
-        width: 100%;
-        height: 100%;
-        background-color: #f56c6c;
-        border-radius: 50%;
-        opacity: .8;
-      }
-    }
-
-    .up-btn {
-      position: absolute;
-      width: 40px;
-      height: 40px;
-      padding: 10px;
-      right: -18px;
-      top: -18px;
-      line-height: 20px;
-
-      span {
-        display: block;
-        width: 100%;
-        height: 100%;
-        background-color: $color-gray-light;
-        border-radius: 50%;
-        box-shadow: 0 0 0 1px $color-gray-normal;
-        font-weight: bold;
-        color: #333;
-        font-size: 11px;
-      }
-    }
-
+  &.selected {
     .show-area {
-      background-color: $color-gray-normal;
-      border: 1px solid transparent;
-      transition-duration: .3s;
-      border-radius: 5px;
-      overflow: hidden;
-      cursor: pointer;
+      border-color: $color-pink-normal;
+      box-shadow: 0 0 0 2px rgba($color-pink-normal, 0.2);
+    }
+  }
 
-      .capture {
-        float: left;
-        width: 76px;
-        height: 76px;
-        margin-right: 10px;
+  .delete-btn {
+    position: absolute;
+    left: 56px;
+    top: 18px;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 11px;
+    line-height: 20px;
 
-        .poster {
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
-          width: 100%;
-          height: 100%;
-        }
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: #f56c6c;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+  }
 
-        .default {
-          width: 100%;
-          height: 100%;
-          text-align: center;
-          line-height: 76px;
-          font-size: 30px;
-          color: #fff;
+  .up-btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    right: -18px;
+    top: -18px;
+    line-height: 20px;
 
-          &.yellow {
-            background-color: gold;
-          }
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: $color-gray-light;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px $color-gray-normal;
+      font-weight: bold;
+      color: #333;
+      font-size: 11px;
+    }
+  }
 
-          &.green {
-            background-color: #67c23a;
-          }
-        }
+  .show-area {
+    background-color: $color-gray-normal;
+    border: 1px solid transparent;
+    transition-duration: 0.3s;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+
+    .capture {
+      float: left;
+      width: 76px;
+      height: 76px;
+      margin-right: 10px;
+
+      .poster {
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100%;
+        height: 100%;
       }
 
-      .content {
-        overflow: hidden;
-        height: 76px;
-        padding-top: 6px;
-        padding-bottom: 6px;
-        padding-right: 6px;
+      .default {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        line-height: 76px;
+        font-size: 30px;
+        color: #fff;
 
-        .text {
-          font-size: 13px;
-          line-height: 16px;
-          -webkit-line-clamp: 4;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          color: $color-text-normal;
-          @extend %breakWord;
+        &.yellow {
+          background-color: gold;
+        }
+
+        &.green {
+          background-color: #67c23a;
         }
       }
     }
 
-    .append-area {
-      text-align: center;
+    .content {
+      overflow: hidden;
+      height: 76px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      padding-right: 6px;
 
-      button {
-        width: 50px;
-        height: 30px;
-        line-height: 20px;
-        padding: 5px;
-        margin: 0 3px;
-
-        span {
-          display: block;
-          width: 100%;
-          height: 100%;
-          background-color: $color-gray-deep;
-          color: #fff;
-          font-size: 12px;
-          border-radius: 10px;
-        }
-
-        i {
-          font-weight: bold;
-        }
+      .text {
+        font-size: 13px;
+        line-height: 16px;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        color: $color-text-normal;
+        @extend %breakWord;
       }
     }
   }
+
+  .append-area {
+    text-align: center;
+
+    button {
+      width: 50px;
+      height: 30px;
+      line-height: 20px;
+      padding: 5px;
+      margin: 0 3px;
+
+      span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background-color: $color-gray-deep;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 10px;
+      }
+
+      i {
+        font-weight: bold;
+      }
+    }
+  }
+}
 </style>
 
 <template>
@@ -218,41 +218,41 @@
 </template>
 
 <script>
-  export default {
-    name: 'JsonItem',
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      selected: {
-        type: Boolean,
-        required: true,
-        default: false
-      },
-      index: {
-        type: Number,
-        required: true
-      }
+export default {
+  name: "JsonItem",
+  props: {
+    item: {
+      type: Object,
+      required: true
     },
-    computed: {
-      sectionCount () {
-        return this.$store.state.editor.sections.length
-      }
+    selected: {
+      type: Boolean,
+      required: true,
+      default: false
     },
-    methods: {
-      emitPreview (type) {
-        this.$emit('preview', { index: this.index, type })
-      },
-      emitCreate (type) {
-        this.$emit('create', { index: this.index, type })
-      },
-      emitDelete () {
-        this.$emit('delete', { index: this.index })
-      },
-      emitSort () {
-        this.$emit('sort', { index: this.index })
-      }
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+  computed: {
+    sectionCount() {
+      return this.$store.state.editor.sections.length;
+    }
+  },
+  methods: {
+    emitPreview(type) {
+      this.$emit("preview", { index: this.index, type });
+    },
+    emitCreate(type) {
+      this.$emit("create", { index: this.index, type });
+    },
+    emitDelete() {
+      this.$emit("delete", { index: this.index });
+    },
+    emitSort() {
+      this.$emit("sort", { index: this.index });
     }
   }
+};
 </script>
