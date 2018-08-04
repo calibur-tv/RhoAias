@@ -141,10 +141,11 @@ export default {
     };
   },
   computed: {
+    currentUserId() {
+      return this.$store.state.login ? this.$store.state.user.id : 0;
+    },
     isMine() {
-      return this.$store.state.login
-        ? this.$store.state.user.id === this.userId
-        : false;
+      return this.userId === this.currentUserId;
     },
     displayUsers() {
       return this.users.slice(0, this.displayCount);
@@ -152,6 +153,10 @@ export default {
   },
   methods: {
     toggleReward() {
+      if (!this.currentUserId) {
+        this.$channel.$emit("sign-in");
+        return;
+      }
       if (this.isMine) {
         this.$toast.info("不能给自己打赏");
         return;
@@ -195,6 +200,10 @@ export default {
         .catch(() => {});
     },
     async toggleLike() {
+      if (!this.currentUserId) {
+        this.$channel.$emit("sign-in");
+        return;
+      }
       if (this.isMine) {
         this.$toast.info("不能喜欢自己的内容");
         return;
@@ -224,6 +233,10 @@ export default {
       }
     },
     async toggleMark() {
+      if (!this.currentUserId) {
+        this.$channel.$emit("sign-in");
+        return;
+      }
       if (this.isMine) {
         this.$toast.info("不能收藏自己的内容");
         return;

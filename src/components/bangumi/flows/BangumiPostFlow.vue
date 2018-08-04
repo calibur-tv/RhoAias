@@ -42,14 +42,24 @@ export default {
     }
   },
   mounted() {
-    if (!this.posts) {
-      this.getData();
-    }
+    this.initData();
   },
   methods: {
+    async initData() {
+      try {
+        await this.$store.dispatch("flow/initData", {
+          type: "post",
+          sort: "active",
+          ctx: this,
+          bangumiId: this.info.id
+        });
+      } catch (e) {
+        this.$toast.error(e);
+      }
+    },
     async getData() {
       try {
-        await this.$store.dispatch("flow/getMeta", {
+        await this.$store.dispatch("flow/getData", {
           type: "post",
           sort: "active",
           ctx: this,

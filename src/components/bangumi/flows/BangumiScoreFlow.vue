@@ -173,7 +173,6 @@ export default {
   data() {
     return {
       loading: false,
-      fetched: false,
       bangumiScore: null
     };
   },
@@ -192,22 +191,30 @@ export default {
     }
   },
   mounted() {
-    this.getData();
+    this.initData();
     this.getScore();
   },
   methods: {
-    async getData() {
-      if (this.fetched) {
-        return;
-      }
+    async initData() {
       try {
-        await this.$store.dispatch("flow/getMeta", {
+        await this.$store.dispatch("flow/initData", {
           type: "score",
           sort: "active",
           ctx: this,
           bangumiId: this.info.id
         });
-        this.fetched = true;
+      } catch (e) {
+        this.$toast.error(e);
+      }
+    },
+    async getData() {
+      try {
+        await this.$store.dispatch("flow/getData", {
+          type: "score",
+          sort: "active",
+          ctx: this,
+          bangumiId: this.info.id
+        });
       } catch (e) {
         this.$toast.error(e);
       }

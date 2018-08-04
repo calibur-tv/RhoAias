@@ -112,8 +112,8 @@
       }
 
       .a-active {
-        border-color: $color-blue-light;
-        background-color: $color-blue-light;
+        border-color: $color-pink-normal;
+        background-color: $color-pink-normal;
         color: $color-white;
       }
     }

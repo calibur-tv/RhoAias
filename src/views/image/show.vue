@@ -224,7 +224,7 @@
         <social-panel
           :id="info.id"
           :is-creator="info.is_creator"
-          :user-id="info.user_id"
+          :user-id="user.id"
           :liked="info.liked"
           :marked="info.marked"
           :rewarded="info.rewarded"

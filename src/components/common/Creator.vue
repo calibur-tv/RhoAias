@@ -16,7 +16,7 @@
     pointer-events: auto;
     position: absolute;
     right: $container-padding;
-    bottom: $container-padding;
+    bottom: 45px;
     margin-left: -25px;
     width: 48px;
     height: 48px;

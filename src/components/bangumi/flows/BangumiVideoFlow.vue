@@ -6,33 +6,39 @@
 
   .video {
     margin-bottom: 15px;
-    width: 100%;
-    display: block;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 80px;
+      border-radius: 5px;
+      overflow: hidden;
+      @extend %clearfix;
+    }
 
     &:first-child {
       margin-top: $container-padding;
     }
 
-    img {
+    .poster {
       width: 128px;
       height: 80px;
-      border-radius: 5px;
       margin-right: 10px;
       float: left;
     }
 
-    figcaption {
+    .intro {
       overflow: hidden;
+
+      .part {
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
 
       .name {
         @include twoline(18px);
       }
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 20px;
-      margin-bottom: 5px;
     }
   }
 }
@@ -55,19 +61,17 @@
             class="video"
           >
             <a :href="$alias.video(video.id)">
-              <figure class="clearfix">
-                <v-img
-                  :alt="video.name"
-                  :src="$resize(video.poster, { width: 128, height: 80 })"
-                  class="bg"
-                />
-                <figcaption>
-                  <p class="part oneline">第{{ video.part - season.base }}话</p>
-                  <span 
-                    class="name" 
-                    v-text="video.name"/>
-                </figcaption>
-              </figure>
+              <v-img
+                :alt="video.name"
+                :src="$resize(video.poster, { width: 128, height: 80 })"
+                class="poster"
+              />
+              <div class="intro">
+                <p class="part oneline">第{{ video.part - season.base }}话</p>
+                <span
+                  class="name"
+                  v-text="video.name"/>
+              </div>
             </a>
           </li>
         </ul>
@@ -82,19 +86,17 @@
         class="video"
       >
         <a :href="$alias.video(video.id)">
-          <figure class="clearfix">
-            <v-img
-              :alt="video.name"
-              :src="$resize(video.poster, { width: 128, height: 80 })"
-              class="bg"
-            />
-            <figcaption>
-              <p class="part oneline">第{{ video.part }}话</p>
-              <span 
-                class="name" 
-                v-text="video.name"/>
-            </figcaption>
-          </figure>
+          <v-img
+            :alt="video.name"
+            :src="$resize(video.poster, { width: 128, height: 80 })"
+            class="poster"
+          />
+          <div class="intro">
+            <p class="part oneline">第{{ video.part }}话</p>
+            <span
+              class="name"
+              v-text="video.name"/>
+          </div>
         </a>
       </li>
     </ul>

@@ -32,10 +32,6 @@ $panel-height: 92px;
         @include btn-empty(#333);
         margin-right: 10px;
       }
-
-      .follow {
-        @include btn-empty($color-blue-deep);
-      }
     }
   }
 }
@@ -61,19 +57,25 @@ $panel-height: 92px;
         <button 
           :class="$style.create" 
           @click="handleCreate">发帖</button>
-        <button 
-          :class="$style.follow" 
-          @click="actionFollow">{{ followed ? '已关注' : '关注' }}</button>
+        <follow-button
+          :id="id"
+          :followed="followed"
+          type="bangumi"
+          @submit="actionFollow"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Api from "~/api/bangumiApi";
+import FollowButton from "~/components/common/FollowButton";
 
 export default {
   name: "VBangumiPanel",
+  components: {
+    FollowButton
+  },
   props: {
     id: {
       required: true,
@@ -109,24 +111,8 @@ export default {
         avatar: this.avatar
       });
     },
-    async actionFollow() {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      if (this.loadingFollow) {
-        return;
-      }
-      this.loadingFollow = true;
-      const api = new Api(this);
-      try {
-        const result = await api.follow(this.id);
-        this.$emit("follow", result);
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingFollow = false;
-      }
+    actionFollow(result) {
+      this.$emit("follow", result);
     }
   }
 };
