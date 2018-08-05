@@ -56,7 +56,7 @@
       <el-button
         :class="{ 'is-plain': marked }"
         :loading="loadingMark"
-        type="primary"
+        type="success"
         size="mini"
         round
         @click="toggleMark"

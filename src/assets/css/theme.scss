@@ -71,10 +71,10 @@
       border-color: $color-pink-normal;
     }
   }
-}
 
-.el-button {
-  background-color: $color-pink-normal;
-  border-color: $color-pink-normal;
-  color: #fff;
+  .el-button.el-button--primary {
+    background-color: $color-pink-normal;
+    border-color: $color-pink-normal;
+    color: #fff;
+  }
 }

@@ -329,13 +329,11 @@ export default {
           }
           this.submitting = true;
           const api = new Api(this);
-          const birth = this.birthday;
           try {
             await api.settingProfile({
               nickname: this.nickname,
               signature: this.signature,
-              birthday: `${birth.getFullYear()}-${birth.getMonth() +
-                1}-${birth.getDate()}`,
+              birthday: new Date(this.birthday).getTime() / 1000,
               birth_secret: this.birthSecret,
               sex_secret: this.sexSecret,
               sex: this.sex
