@@ -312,7 +312,8 @@ export default {
           content: richContent.content,
           intro: richContent.desc.substring(0, 120),
           do_publish: richContent.publish,
-          geetest
+          geetest,
+          is_creator: this.is_creator
         });
         let newId = richContent.id;
         if (newId) {
@@ -380,6 +381,7 @@ export default {
         return;
       }
       this.bangumiId = +this.resource.bangumi_id;
+      this.is_creator = this.resource.is_creator;
       this.title = this.resource.title;
       this.columns.forEach(key => {
         this.form[key] = this.resource[key] * 2;

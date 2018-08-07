@@ -61,7 +61,7 @@ export default {
   name: "PostFlowList",
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/getData", {
+      store.dispatch("world/initData", {
         type: "post",
         sort: "active",
         ctx

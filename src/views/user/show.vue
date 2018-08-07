@@ -78,8 +78,7 @@
     background-color: #ffffff;
     position: relative;
     height: 40px;
-    padding-left: $container-padding;
-    padding-right: $container-padding;
+    padding-right: 10px;
     width: 100%;
     font-size: 0;
     @include border-bottom();
@@ -91,7 +90,8 @@
       font-size: 14px;
       display: inline-block;
       text-align: center;
-      width: 16%;
+      padding-left: $container-padding;
+      padding-right: $container-padding;
 
       &.active {
         position: relative;
@@ -99,9 +99,9 @@
         &:before {
           content: "";
           position: absolute;
-          left: 0;
+          left: $container-padding;
+          right: $container-padding;
           bottom: 1px;
-          width: 100%;
           height: 2px;
           background: #333;
           border-radius: 3px;
@@ -427,7 +427,7 @@
       />
     </template>
     <template v-else-if="sort === 'score'">
-      <user-score-flow :user-id="user.id"/>
+      <user-score-flow :zone="zone"/>
     </template>
     <template v-else>
       <ul
@@ -535,7 +535,7 @@ import UserScoreFlow from "~/components/user/flows/UserScoreFlow";
 import PostFlowItem from "~/components/post/PostFlowItem";
 
 export default {
-  name: "PageUser",
+  name: "UserShow",
   async asyncData({ route, store, ctx }) {
     const zone = route.params.zone;
     const arr = [

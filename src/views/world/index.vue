@@ -107,45 +107,43 @@
           :to="{ name: item.value }"
           v-text="item.label"
         />
-        <template v-if="resource">
-          <template v-if="active === 0">
-            <ul>
-              <post-flow-item
-                v-for="(item, index) in resource.list"
-                :key="`${item.id}-${index}`"
-                :item="item"
-              />
-            </ul>
-            <more-btn
-              :no-more="resource.noMore"
-              :loading="resource.loading"
-              :length="resource.list.length"
-              @fetch="loadMore"
+        <template v-if="active === 0">
+          <ul>
+            <post-flow-item
+              v-for="(item, index) in posts.list"
+              :key="`${item.id}-${index}`"
+              :item="item"
             />
-          </template>
-          <template v-else-if="active === 1">
-            <image-waterfall-flow
-              :list="resource.list"
-              :no-more="resource.noMore"
-              :loading="resource.loading"
-              @load="loadMore"
+          </ul>
+          <more-btn
+            :no-more="posts.noMore"
+            :loading="posts.loading"
+            :length="posts.list.length"
+            @fetch="loadMore"
+          />
+        </template>
+        <template v-else-if="active === 1">
+          <image-waterfall-flow
+            :list="images.list"
+            :no-more="images.noMore"
+            :loading="images.loading"
+            @load="loadMore"
+          />
+        </template>
+        <template v-else-if="active === 2">
+          <ul>
+            <score-flow-item
+              v-for="item in scores.list"
+              :key="item.id"
+              :item="item"
             />
-          </template>
-          <template v-else-if="active === 2">
-            <div class="container">
-              <score-flow
-                v-for="item in resource.list"
-                :key="item.id"
-                :item="item"
-              />
-            </div>
-            <more-btn
-              :no-more="resource.noMore"
-              :loading="resource.loading"
-              :length="resource.list.length"
-              @fetch="loadMore"
-            />
-          </template>
+          </ul>
+          <more-btn
+            :no-more="scores.noMore"
+            :loading="scores.loading"
+            :length="scores.list.length"
+            @fetch="loadMore"
+          />
         </template>
       </van-tab>
     </van-tabs>
@@ -157,7 +155,7 @@ import Tab from "vant/lib/tab";
 import Tabs from "vant/lib/tabs";
 import PostFlowItem from "~/components/post/PostFlowItem";
 import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
-import ScoreFlow from "~/components/score/ScoreFlow";
+import ScoreFlowItem from "~/components/score/ScoreFlowItem";
 
 export default {
   name: "TheWorld",
@@ -166,7 +164,7 @@ export default {
     vanTab: Tab,
     PostFlowItem,
     ImageWaterfallFlow,
-    ScoreFlow
+    ScoreFlowItem
   },
   data() {
     const options = [
@@ -193,18 +191,21 @@ export default {
     };
   },
   computed: {
-    resource() {
-      return this.$store.state.world[this.type].active;
+    images() {
+      return this.$store.state.world.image.active;
     },
-    type() {
-      return this.$route.name.replace("world-", "");
+    scores() {
+      return this.$store.state.world.score.active;
+    },
+    posts() {
+      return this.$store.state.world.post.active;
     }
   },
   methods: {
     async loadMore() {
       try {
         await this.$store.dispatch("world/getData", {
-          type: this.type,
+          type: this.$route.name.replace("world-", ""),
           sort: "active",
           ctx: this
         });

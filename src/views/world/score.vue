@@ -55,7 +55,7 @@ export default {
   name: "ScoreFlowList",
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/getData", {
+      store.dispatch("world/initData", {
         type: "score",
         sort: "active",
         ctx

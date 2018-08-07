@@ -76,79 +76,81 @@
 </style>
 
 <template>
-  <div 
-    id="bangumi-score-flow" 
-    class="container">
-    <div
-      v-if="bangumiScore"
-      id="bangumi-score-panel"
-    >
-      <div class="bangumi-score-total">
-        <div class="intro">
-          <div
-            class="total"
-            v-text="totalScore"
-          />
-          <div class="rate">
-            <el-rate
-              v-model="totalRate"
-              disabled
-            />
-            <span class="count">{{ bangumiScore.count }}人评价</span>
-          </div>
-        </div>
-        <div class="ladder">
-          <div
-            v-for="(star, index) in bangumiScore.ladder"
-            :key="index"
-            class="star"
-          >
-            <span class="label">{{ star.key }}星</span>
+  <div id="bangumi-score-flow">
+    <div class="container">
+      <div
+        v-if="bangumiScore"
+        id="bangumi-score-panel"
+      >
+        <div class="bangumi-score-total">
+          <div class="intro">
             <div
-              :style="{ width: `${130 * star.val / bangumiScore.count}px` }"
-              class="score"
+              class="total"
+              v-text="totalScore"
             />
-            <span
-              class="percent"
-              v-text="`${star.val / bangumiScore.count * 100}%`"
-            />
+            <div class="rate">
+              <el-rate
+                v-model="totalRate"
+                disabled
+              />
+              <span class="count">{{ bangumiScore.count }}人评价</span>
+            </div>
+          </div>
+          <div class="ladder">
+            <div
+              v-for="(star, index) in bangumiScore.ladder"
+              :key="index"
+              class="star"
+            >
+              <span class="label">{{ star.key }}星</span>
+              <div
+                :style="{ width: `${90 * star.val / bangumiScore.count}px` }"
+                class="score"
+              />
+              <span
+                class="percent"
+                v-text="`${star.val / bangumiScore.count * 100}%`"
+              />
+            </div>
           </div>
         </div>
+        <div class="bangumi-score-wrap">
+          <bangumi-score-chart
+            :source="bangumiScore.radar"
+            :loading="loading"
+            size="280px"
+          />
+        </div>
       </div>
-      <div class="bangumi-score-wrap">
-        <bangumi-score-chart
-          :source="bangumiScore.radar"
-          :loading="loading"
-          size="280px"
-        />
-      </div>
+      <more-btn
+        v-else-if="!loading"
+        :no-more="true"
+        :loading="false"
+        :length="0"
+        class="first-write"
+      >
+        <a :href="`${$alias.createScore}?bid=${info.id}`">
+          写下《{{ info.name }}》的第一篇漫评
+        </a>
+      </more-btn>
     </div>
-    <more-btn
-      v-else-if="!loading"
-      :no-more="true"
-      :loading="false"
-      :length="0"
-      class="first-write"
-    >
-      <a :href="`${$alias.createScore}?bid=${info.id}`">
-        写下《{{ info.name }}》的第一篇漫评
-      </a>
-    </more-btn>
     <div
       v-if="scores && scores.total"
       id="score-list"
     >
-      <h3 class="sub-title">
+      <h3 class="sub-title container">
         共 {{ scores.total }} 条漫评
         <a :href="`${$alias.createScore}?bid=${info.id}`">
           写漫评
         </a>
       </h3>
-      <score-flow
-        v-for="item in scores.list"
-        :key="item.id"
-        :item="item"
-      />
+      <ul>
+        <score-flow-item
+          v-for="item in scores.list"
+          :key="item.id"
+          :item="item"
+        />
+      </ul>
       <more-btn
         :no-more="scores.noMore"
         :loading="scores.loading"
@@ -162,13 +164,13 @@
 <script>
 import ScoreApi from "~/api/scoreApi";
 import BangumiScoreChart from "~/components/bangumi/charts/BangumiScoreChart";
-import ScoreFlow from "~/components/score/ScoreFlow";
+import ScoreFlowItem from "~/components/score/ScoreFlowItem";
 
 export default {
   name: "BangumiScoreFlow",
   components: {
     BangumiScoreChart,
-    ScoreFlow
+    ScoreFlowItem
   },
   data() {
     return {

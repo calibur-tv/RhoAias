@@ -61,9 +61,10 @@
         round
         @click="toggleMark"
       >
-        <i class="iconfont icon-buoumaotubiao44"/>
+        <i class="iconfont icon-shoucang"/>
         {{ marked ? '已收藏' : '收藏' }}{{ markCount ? `&nbsp;&nbsp;|&nbsp;&nbsp;${markCount}` : '' }}
       </el-button>
+      <slot/>
     </div>
     <div class="users">
       <ul>

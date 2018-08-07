@@ -65,12 +65,10 @@
 </style>
 
 <template>
-  <div 
-    id="user-score-list" 
-    class="container">
+  <div id="user-score-list">
     <div 
       v-if="isMine" 
-      class="control">
+      class="container control">
       <div class="published">已发布</div>
       <div class="draft">草稿箱</div>
       <mt-switch
@@ -78,7 +76,10 @@
         @change="handleSwitchChange"
       />
     </div>
-    <template v-if="showDraft">
+    <div
+      v-if="showDraft"
+      class="container"
+    >
       <more-btn
         v-if="fetchedDraft && !drafts.length"
         :no-more="true"
@@ -115,13 +116,15 @@
           </a>
         </div>
       </template>
-    </template>
+    </div>
     <template v-else>
-      <score-flow
-        v-for="item in list"
-        :key="item.id"
-        :item="item"
-      />
+      <ul>
+        <score-flow-item
+          v-for="item in list"
+          :key="item.id"
+          :item="item"
+        />
+      </ul>
       <more-btn
         :no-more="noMore"
         :loading="state.loading"
@@ -134,16 +137,16 @@
 
 <script>
 import Api from "~/api/scoreApi";
-import ScoreFlow from "~/components/score/ScoreFlow";
+import ScoreFlowItem from "~/components/score/ScoreFlowItem";
 
 export default {
   name: "UserScoreList",
   components: {
-    ScoreFlow
+    ScoreFlowItem
   },
   props: {
-    userId: {
-      type: Number,
+    zone: {
+      type: String,
       required: true
     }
   },
@@ -167,7 +170,7 @@ export default {
   computed: {
     isMine() {
       return this.$store.state.login
-        ? this.$store.state.user.id === this.userId
+        ? this.$store.state.user.zone === this.zone
         : false;
     }
   },
@@ -190,7 +193,7 @@ export default {
       const api = new Api(this);
       try {
         const data = await api.getUsersScore({
-          user_id: this.userId,
+          zone: this.zone,
           page: this.page,
           take: this.take
         });

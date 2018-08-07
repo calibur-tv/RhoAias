@@ -337,7 +337,18 @@
             :mark-count="post.mark_count"
             :users="post.is_creator ? post.reward_users : post.like_users"
             type="post"
-          />
+          >
+            <el-button
+              type="primary"
+              class="el-button-primary"
+              size="mini"
+              round
+              @click="handleReplyBtnClick"
+            >
+              <i class="iconfont icon-pinglun1"/>
+              回复
+            </el-button>
+          </social-panel>
         </div>
         <mt-actionsheet
           :actions="actions"
@@ -518,62 +529,6 @@ export default {
         .catch(e => {
           this.$toast.error(e);
         });
-    },
-    async toggleLike() {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      if (this.isMaster) {
-        this.$toast.error("不能赞赏自己的帖子");
-        return;
-      }
-      const notLike = !this.post.liked;
-      if (notLike && !this.$store.state.user.coin) {
-        this.$toast.error("金币不足");
-        return;
-      }
-      if (this.loadingToggleLike) {
-        return;
-      }
-      this.loadingToggleLike = true;
-      try {
-        await this.$store.dispatch("post/toggleLike", {
-          ctx: this,
-          id: this.post.id
-        });
-        if (notLike) {
-          this.$store.commit("USE_COIN");
-        }
-      } catch (err) {
-        this.$toast.error(err);
-      } finally {
-        this.loadingToggleLike = false;
-      }
-    },
-    async toggleMark() {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      if (this.isMaster) {
-        this.$toast.error("不能收藏自己的帖子");
-        return;
-      }
-      if (this.loadingToggleMark) {
-        return;
-      }
-      this.loadingToggleMark = true;
-      try {
-        await this.$store.dispatch("post/toggleMark", {
-          ctx: this,
-          id: this.post.id
-        });
-      } catch (err) {
-        this.$toast.error(err);
-      } finally {
-        this.loadingToggleMark = false;
-      }
     },
     handleReplyBtnClick() {
       this.$channel.$emit("open-create-comment-drawer");
