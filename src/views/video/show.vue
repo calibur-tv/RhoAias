@@ -172,6 +172,7 @@
           :src="videoSrc"
           :poster="video.poster"
           preload="none"
+          controls="controls"
           controlsList="nodownload"
         />
         <button
