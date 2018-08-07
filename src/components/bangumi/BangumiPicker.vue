@@ -12,124 +12,127 @@
     >
       <mt-picker
         :slots="list"
+        value-key="name"
         @change="onSlideSelect"
-        valueKey="name"
-      ></mt-picker>
+      />
     </v-drawer>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'BangumiPicker',
-    props: {
-      value: {
-        required: true,
-        type: [Number, String]
-      }
-    },
-    data () {
-      return {
-        show: false,
-        loading: false,
-        fetched: false,
-        selected: false,
-        isFirst: true,
-        list: [
-          {
-            flex: 1,
-            defaultIndex: -1,
-            values: [],
-            textAlign: 'center'
-          }
-        ]
-      }
-    },
-    computed: {
-      notInit () {
-        return !this.list[0].values.length
-      },
-      placeholder () {
-        if (this.loading) {
-          return '加载中...'
+export default {
+  name: "BangumiPicker",
+  props: {
+    value: {
+      required: true,
+      type: [Number, String]
+    }
+  },
+  data() {
+    return {
+      show: false,
+      loading: false,
+      fetched: false,
+      selected: false,
+      isFirst: true,
+      list: [
+        {
+          flex: 1,
+          defaultIndex: -1,
+          values: [],
+          textAlign: "center"
         }
-        if (this.notInit) {
-          return '请先关注番剧'
-        }
-        if (!this.selected) {
-          return '点击选择番剧'
-        }
-        return this.list[0].values[this.list[0].defaultIndex]['name']
-      },
-      user () {
-        return this.$store.state.user
-      }
+      ]
+    };
+  },
+  computed: {
+    notInit() {
+      return !this.list[0].values.length;
     },
-    mounted () {
-      this.$watch('value', (val) => {
-        this.autoSelect(val)
-      })
+    placeholder() {
+      if (this.loading) {
+        return "加载中...";
+      }
       if (this.notInit) {
-        this.getData()
+        return "请先关注番剧";
+      }
+      if (!this.selected) {
+        return "点击选择番剧";
+      }
+      return this.list[0].values[this.list[0].defaultIndex]["name"];
+    },
+    user() {
+      return this.$store.state.user;
+    }
+  },
+  mounted() {
+    this.$watch("value", val => {
+      this.autoSelect(val);
+    });
+    if (this.notInit) {
+      this.getData();
+    }
+  },
+  methods: {
+    onClickSelect() {
+      this.selected = true;
+      this.$emit("input", this.list[0].values[this.list[0].defaultIndex]["id"]);
+    },
+    onSlideSelect(picker, values) {
+      if (!values[0]) {
+        return;
+      }
+      const id = values[0].id;
+      this.list[0].values.forEach((item, index) => {
+        if (item.id === id) {
+          this.list[0].defaultIndex = index;
+          if (!this.isFirst) {
+            this.selected = true;
+            this.$emit("input", item.id);
+          } else {
+            this.isFirst = false;
+          }
+        }
+      });
+    },
+    openPicker() {
+      if (!this.fetched) {
+        this.getData();
+      } else if (this.notInit) {
+        this.$toast.error("请先关注番剧");
+      } else {
+        this.show = true;
       }
     },
-    methods: {
-      onClickSelect () {
-        this.selected = true
-        this.$emit('input', this.list[0].values[this.list[0].defaultIndex]['id'])
-      },
-      onSlideSelect (picker, values) {
-        if (!values[0]) {
-          return
-        }
-        const id = values[0].id
-        this.list[0].values.forEach((item, index) => {
-          if (item.id === id) {
-            this.list[0].defaultIndex = index
-            if (!this.isFirst) {
-              this.selected = true
-              this.$emit('input', item.id)
-            } else {
-              this.isFirst = false
-            }
-          }
-        })
-      },
-      openPicker () {
-        if (!this.fetched) {
-          this.getData()
-        } else if (this.notInit) {
-          this.$toast.error('请先关注番剧')
-        } else {
-          this.show = true
-        }
-      },
-      async getData () {
-        if (this.loading) {
-          return
-        }
-        this.loading = true
-        try {
-          this.list[0].values = await this.$store.dispatch('users/getFollowBangumis', {
+    async getData() {
+      if (this.loading) {
+        return;
+      }
+      this.loading = true;
+      try {
+        this.list[0].values = await this.$store.dispatch(
+          "users/getFollowBangumis",
+          {
             zone: this.user.zone,
             self: true
-          })
-          this.autoSelect(this.value)
-          this.fetched = true
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loading = false
-        }
-      },
-      autoSelect (id) {
-        this.list[0].values.forEach((item, index) => {
-          if (!(item.id - id)) {
-            this.selected = true
-            this.list[0].defaultIndex = index
           }
-        })
+        );
+        this.autoSelect(this.value);
+        this.fetched = true;
+      } catch (e) {
+        this.$toast.error(e);
+      } finally {
+        this.loading = false;
       }
+    },
+    autoSelect(id) {
+      this.list[0].values.forEach((item, index) => {
+        if (!(item.id - id)) {
+          this.selected = true;
+          this.list[0].defaultIndex = index;
+        }
+      });
     }
   }
+};
 </script>

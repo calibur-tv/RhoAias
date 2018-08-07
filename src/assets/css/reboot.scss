@@ -53,18 +53,18 @@ a {
   color: inherit;
 }
 
-input, textarea, div[contenteditable=true] {
+input, textarea, div[contenteditable="true"] {
   border: none;
   line-height: normal;
   width: 100%;
 }
 
-input[type=text],
-input[type=number],
-input[type=password],
-input[type=file],
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="file"],
 textarea,
-div[contenteditable=true] {
+div[contenteditable="true"] {
   appearance: none;
 
   &:focus {
@@ -86,33 +86,4 @@ input {
     box-shadow: 0 0 0 100px #fff inset !important;
     background-color: #fff !important;
   }
-}
-
-*::-webkit-media-controls-panel {
-  display: none!important;
-  -webkit-appearance: none;
-}
-
-/* Old shadow dom for play button */
-
-*::-webkit-media-controls-play-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
-
-/* New shadow dom for play button */
-
-/* This one works! */
-
-*::-webkit-media-controls-start-playback-button {
-  display: none!important;
-  -webkit-appearance: none;
-}
-
-video::-webkit-media-controls {
-  display:none !important;
-}
-
-video::-webkit-media-controls-start-playback-button {
-  display: none !important;
 }

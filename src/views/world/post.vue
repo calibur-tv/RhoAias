@@ -1,9 +1,9 @@
 <style lang="scss">
-  #post-flow-list {
-    .img {
-      background-color: RGB(60, 134, 247);
-    }
+#post-flow-list {
+  .img {
+    background-color: RGB(60, 134, 247);
   }
+}
 </style>
 
 <template>
@@ -57,36 +57,36 @@
 </template>
 
 <script>
-  export default {
-    name: 'PostFlowList',
-    async asyncData ({ store, ctx }) {
-      await Promise.all([
-        store.dispatch('trending/getTrending', {
-          type: 'post',
-          sort: 'active',
-          ctx
-        }),
-        store.dispatch('trending/getMeta', { type: 'post' })
-      ])
-    },
-    data () {
-      return {
-        showTips: false
+export default {
+  name: "PostFlowList",
+  async asyncData({ store, ctx }) {
+    await Promise.all([
+      store.dispatch("world/initData", {
+        type: "post",
+        sort: "active",
+        ctx
+      }),
+      store.dispatch("world/getMeta", { type: "post" })
+    ]);
+  },
+  data() {
+    return {
+      showTips: false
+    };
+  },
+  computed: {
+    meta() {
+      return this.$store.state.world.post.meta;
+    }
+  },
+  methods: {
+    openCreatePost() {
+      if (!this.$store.state.login) {
+        this.$channel.$emit("sign-in");
+        return;
       }
-    },
-    computed: {
-      meta () {
-        return this.$store.state.trending.meta
-      }
-    },
-    methods: {
-      openCreatePost () {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        this.$channel.$emit('drawer-open-write-post')
-      }
+      this.$channel.$emit("drawer-open-write-post");
     }
   }
+};
 </script>

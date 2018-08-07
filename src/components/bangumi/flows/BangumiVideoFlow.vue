@@ -1,89 +1,102 @@
 <style lang="scss">
-  #bangumi-video-flow {
-    .sub-title {
+#bangumi-video-flow {
+  .sub-title {
+    margin-top: $container-padding;
+  }
+
+  .video {
+    margin-bottom: 15px;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 80px;
+      border-radius: 5px;
+      overflow: hidden;
+      @extend %clearfix;
+    }
+
+    &:first-child {
       margin-top: $container-padding;
     }
 
-    .video {
-      margin-bottom: 15px;
-      width: 100%;
-      display: block;
+    .poster {
+      width: 128px;
+      height: 80px;
+      margin-right: 10px;
+      float: left;
+    }
 
-      &:first-child {
-        margin-top: $container-padding;
-      }
+    .intro {
+      overflow: hidden;
 
-      img {
-        width: 128px;
-        height: 80px;
-        border-radius: 5px;
-        margin-right: 10px;
-        float: left;
-      }
-
-      figcaption {
-        overflow: hidden;
-
-        .name {
-          @include twoline(18px)
-        }
-      }
-
-      p {
+      .part {
         font-size: 16px;
         line-height: 20px;
         margin-bottom: 5px;
       }
+
+      .name {
+        @include twoline(18px);
+      }
     }
   }
+}
 </style>
 
 <template>
   <div id="bangumi-video-flow">
-    <div v-if="videos.has_season" class="container">
+    <div 
+      v-if="videos.has_season" 
+      class="container">
       <template v-for="season in videos.list">
-        <h3 class="sub-title" v-text="season.name" :key="season.name"></h3>
+        <h3 
+          :key="season.name" 
+          class="sub-title" 
+          v-text="season.name"/>
         <ul :key="season.name">
           <li
-            v-for="(video, index) in season.data"
+            v-for="video in season.data"
             :key="video.id"
             class="video"
           >
             <a :href="$alias.video(video.id)">
-              <figure class="clearfix">
-                <v-img
-                  class="bg"
-                  :alt="video.name"
-                  :src="$resize(video.poster, { width: 128, height: 80 })"
-                ></v-img>
-                <figcaption>
-                  <p class="part oneline">第{{ video.part - season.base }}话</p>
-                  <span class="name" v-text="video.name"></span>
-                </figcaption>
-              </figure>
+              <v-img
+                :alt="video.name"
+                :src="$resize(video.poster, { width: 128, height: 80 })"
+                class="poster"
+              />
+              <div class="intro">
+                <p class="part oneline">第{{ video.part - season.base }}话</p>
+                <span
+                  class="name"
+                  v-text="video.name"/>
+              </div>
             </a>
           </li>
         </ul>
       </template>
     </div>
-    <ul class="container" v-else>
+    <ul 
+      v-else 
+      class="container">
       <li
         v-for="video in videos.list"
         :key="video.id"
         class="video"
       >
         <a :href="$alias.video(video.id)">
-          <figure class="clearfix">
-            <v-img
-              class="bg"
-              :alt="video.name"
-              :src="$resize(video.poster, { width: 128, height: 80 })"
-            ></v-img>
-            <figcaption>
-              <p class="part oneline">第{{ video.part }}话</p>
-              <span class="name" v-text="video.name"></span>
-            </figcaption>
-          </figure>
+          <v-img
+            :alt="video.name"
+            :src="$resize(video.poster, { width: 128, height: 80 })"
+            class="poster"
+          />
+          <div class="intro">
+            <p class="part oneline">第{{ video.part }}话</p>
+            <span
+              class="name"
+              v-text="video.name"/>
+          </div>
         </a>
       </li>
     </ul>
@@ -99,50 +112,50 @@
 </template>
 
 <script>
-  export default {
-    name: 'bangumi-video-flow',
-    computed: {
-      videos () {
-        return this.$store.state.bangumi.videos
-      },
-      info () {
-        return this.$store.state.bangumi.info
-      }
+export default {
+  name: "BangumiVideoFlow",
+  data() {
+    return {
+      loading: false
+    };
+  },
+  computed: {
+    videos() {
+      return this.$store.state.bangumi.videos;
     },
-    data () {
-      return {
-        loading: false
-      }
+    info() {
+      return this.$store.state.bangumi.info;
+    }
+  },
+  created() {
+    if (!this.videos.list.length) {
+      this.getVideos();
+    }
+  },
+  methods: {
+    openFeedbackForResource() {
+      this.$channel.$emit("open-feedback", {
+        type: 5,
+        desc: `我想看《${this.info.name}》的视频第 ? 集`
+      });
     },
-    created () {
-      if (!this.videos.list.length) {
-        this.getVideos()
+    async getVideos() {
+      if (this.loading) {
+        return;
       }
-    },
-    methods: {
-      openFeedbackForResource () {
-        this.$channel.$emit('open-feedback', {
-          type: 5,
-          desc: `我想看《${this.info.name}》的视频第 ? 集`
-        })
-      },
-      async getVideos () {
-        if (this.loading) {
-          return
-        }
-        this.loading = true
+      this.loading = true;
 
-        try {
-          await this.$store.dispatch('bangumi/getVideos', {
-            ctx: this,
-            id: this.info.id
-          })
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loading = false
-        }
+      try {
+        await this.$store.dispatch("bangumi/getVideos", {
+          ctx: this,
+          id: this.info.id
+        });
+      } catch (e) {
+        this.$toast.error(e);
+      } finally {
+        this.loading = false;
       }
     }
   }
+};
 </script>

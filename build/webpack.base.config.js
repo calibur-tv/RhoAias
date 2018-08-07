@@ -11,7 +11,8 @@ const cdn = require('../.env').cdn
 const staticFilePrefix = require('../qiniu.json').key_prefix
 // const SentryPlugin = require('./webpack.sentry.plugin.js')
 // const SentryConfig = require('./sentry.config.js')
-const now = new Date().getTime()
+const now = new Date().getTime();
+const StyleLintPlugin = require("stylelint-webpack-plugin");
 
 module.exports = {
   cache: true,
@@ -150,6 +151,9 @@ module.exports = {
           RELEASE: JSON.stringify(now || 'dev'),
           API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.calibur.tv/')
         }
+      }),
+      new StyleLintPlugin({
+        files: ["**/*.vue"]
       })
     ]
 

@@ -97,15 +97,15 @@
 
 @mixin keyframes($name) {
   @keyframes #{$name} {
-    @content
+    @content;
   }
 
   @-webkit-keyframes #{$name} {
-    @content
+    @content;
   }
 
   @-moz-keyframes #{$name} {
-    @content
+    @content;
   }
 }
 

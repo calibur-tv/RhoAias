@@ -1,166 +1,166 @@
 <style lang="scss">
-  #image-waterfall-flow {
-    margin-right: -5px;
-    padding-top: 10px;
-    background-color: #fff;
+#image-waterfall-flow {
+  margin-right: -5px;
+  padding-top: 10px;
+  background-color: #fff;
 
-    .vue-waterfall {
-      width: 310px;
-      margin: 0 auto;
-    }
+  .vue-waterfall {
+    width: 310px;
+    margin: 0 auto;
+  }
 
-    .vue-waterfall-slot {
-      padding-right: 10px;
-      padding-bottom: 10px;
-      margin-left: 3px;
-      margin-top: 3px;
-    }
+  .vue-waterfall-slot {
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin-left: 3px;
+    margin-top: 3px;
+  }
 
-    .image {
-      width: 100%;
+  .image {
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    background-color: #fafafa;
+
+    .image-box {
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0,0,0,.2);
-      background-color: #FAFAFA;
+      display: block;
 
-      .image-box {
-        position: relative;
-        overflow: hidden;
-        display: block;
+      &.album-box:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        opacity: 0.3;
+        background-color: transparent;
+        background-image: linear-gradient(
+          transparent,
+          rgba(0, 0, 0, 0.1) 20%,
+          rgba(0, 0, 0, 0.2) 35%,
+          rgba(0, 0, 0, 0.6) 65%,
+          rgba(0, 0, 0, 0.9)
+        );
+      }
 
-        &.album-box:after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 50px;
-          opacity: .3;
-          background-color: transparent;
-          background-image: linear-gradient(transparent,rgba(0,0,0,.1) 20%,rgba(0,0,0,.2) 35%,rgba(0,0,0,.6) 65%,rgba(0,0,0,.9));
-        }
+      .is-creator {
+        font-size: 20px;
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        z-index: 1;
+        color: #ffcf00;
+      }
 
-        .is-creator {
+      .is-album {
+        position: absolute;
+        left: 7px;
+        bottom: 4px;
+        z-index: 1;
+        color: #fff;
+        line-height: 20px;
+
+        i {
           font-size: 20px;
-          position: absolute;
-          left: 5px;
-          top: 2px;
-          z-index: 1;
-          color: #ffcf00;
+          vertical-align: middle;
         }
 
-        .is-album {
-          position: absolute;
-          left: 7px;
-          bottom: 4px;
-          z-index: 1;
-          color: #fff;
-          line-height: 20px;
-
-          i {
-            font-size: 20px;
-            vertical-align: middle;
-          }
-
-          .image-count {
-            margin-left: 5px;
-            font-size: 14px;
-            vertical-align: middle;
-          }
-        }
-
-        img {
-          display: block;
+        .image-count {
+          margin-left: 5px;
+          font-size: 14px;
+          vertical-align: middle;
         }
       }
 
-      .intro {
-        height: 55px;
-        padding: 5px 15px;
-        background-color: #fff;
+      img {
+        display: block;
+      }
+    }
 
-        .name, .social {
-          height: 20px;
-          font-size: 12px;
-          line-height: 20px;
+    .intro {
+      height: 55px;
+      padding: 5px 15px;
+      background-color: #fff;
+
+      .name,
+      .social {
+        height: 20px;
+        font-size: 12px;
+        line-height: 20px;
+      }
+
+      .social {
+        color: $color-text-light;
+        margin-top: 5px;
+
+        span {
+          margin-right: 10px;
         }
 
-        .social {
-          color: $color-text-light;
-          margin-top: 5px;
+        .done {
+          color: $color-pink-deep;
+        }
+      }
+    }
+
+    .about {
+      height: 51px;
+      padding: 10px 15px;
+      border-top: 1px solid #f2f2f2;
+
+      .user-avatar {
+        @include avatar-2(30px);
+      }
+
+      .bangumi-avatar {
+        width: 30px;
+        height: 30px;
+      }
+
+      .user-avatar,
+      .bangumi-avatar {
+        display: block;
+        margin-right: 10px;
+        overflow: hidden;
+        float: left;
+      }
+
+      .main-name {
+        line-height: 30px;
+        font-size: 12px;
+        word-wrap: break-word;
+        color: $color-text-normal;
+      }
+
+      .info {
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 15px;
+
+        .main-info {
+          margin-bottom: 2px;
 
           span {
-            margin-right: 10px;
-          }
-
-          .done {
-            color: $color-pink-deep;
+            color: $color-text-light;
+            float: left;
           }
         }
-      }
 
-      .about {
-        height: 51px;
-        padding: 10px 15px;
-        border-top: 1px solid #F2F2F2;
-
-        .user-avatar {
-          @include avatar-2(30px);
-        }
-
-        .bangumi-avatar {
-          width: 30px;
-          height: 30px;
-        }
-
-        .user-avatar, .bangumi-avatar {
-          display: block;
-          margin-right: 10px;
-          overflow: hidden;
-          float: left;
-        }
-
-        .main-name {
-          line-height: 30px;
-          font-size: 12px;
-          word-wrap: break-word;
+        a {
           color: $color-text-normal;
-        }
-
-        .info {
-          overflow: hidden;
           font-size: 12px;
-          line-height: 15px;
-
-          .main-info {
-            margin-bottom: 2px;
-
-            span {
-              color: $color-text-light;
-              float: left;
-            }
-          }
-
-          a {
-            color: $color-text-normal;
-            font-size: 12px;
-            display: block;
-          }
+          display: block;
         }
       }
-    }
-
-    .loadmore {
-      padding-top: 0;
-    }
-
-    .nomore {
-      background-color: #fff;
     }
   }
+}
 </style>
 
 <template>
-  <div id="image-waterfall-flow" v-if="list.length">
+  <div id="image-waterfall-flow">
     <no-ssr>
       <waterfall
         :line-gap="155"
@@ -179,7 +179,9 @@
               :class="{ 'album-box': item.is_album }"
               class="image-box"
             >
-              <i v-if="item.is_creator" class="is-creator iconfont icon-huangguan"></i>
+              <i 
+                v-if="item.is_creator" 
+                class="is-creator iconfont icon-huangguan"/>
               <img
                 :height="computeImageHeight(item.source)"
                 :src="$resize(item.source.url, { width: 400, mode: 2 })"
@@ -189,35 +191,35 @@
                 v-if="item.is_album"
                 class="is-album"
               >
-                <i class="el-icon-picture-outline"></i>
+                <i class="el-icon-picture-outline"/>
                 <span
                   class="image-count"
                   v-text="item.image_count"
-                ></span>
+                />
               </div>
             </a>
             <div class="intro">
               <p
                 class="name oneline"
                 v-text="item.name"
-              ></p>
+              />
               <div class="social">
                 <span
                   v-if="item.like_count"
                   :class="{ 'done': item.liked }"
                 >
-                  <i class="iconfont icon-guanzhu"></i>
+                  <i class="iconfont icon-guanzhu"/>
                   {{ item.like_count }}
                 </span>
                 <span
                   v-if="item.comment_count"
                   :class="{ 'done': item.commented }"
                 >
-                  <i class="iconfont icon-pinglun1"></i>
+                  <i class="iconfont icon-pinglun1"/>
                   {{ item.comment_count }}
                 </span>
                 <span v-if="item.view_count">
-                  <i class="iconfont icon-yuedu"></i>
+                  <i class="iconfont icon-yuedu"/>
                   {{ item.view_count }}
                 </span>
               </div>
@@ -235,7 +237,7 @@
                     :href="$alias.bangumi(item.bangumi.id)"
                     class="main-name oneline"
                     v-text="item.bangumi.name"
-                  ></a>
+                  />
                 </div>
               </template>
               <template v-else-if="page === 'bangumi-show'">
@@ -249,7 +251,7 @@
                   :href="$alias.user(item.user.zone)"
                   class="main-name"
                   v-text="item.user.nickname"
-                ></a>
+                />
               </template>
               <template v-else>
                 <a
@@ -265,13 +267,13 @@
                       :href="$alias.user(item.user.zone)"
                       class="oneline"
                       v-text="item.user.nickname"
-                    ></a>
+                    />
                   </p>
                   <a
                     :href="$alias.bangumi(item.bangumi.id)"
                     class="oneline"
                     v-text="item.bangumi.name"
-                  ></a>
+                  />
                 </div>
               </template>
             </div>
@@ -280,76 +282,71 @@
       </waterfall>
     </no-ssr>
     <more-btn
+      v-if="!noMore"
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
       @fetch="loadMore"
-    ></more-btn>
+    >
+      <button @click="openCreateImageModal">上传图片</button>
+    </more-btn>
   </div>
-  <more-btn
-    v-else
-    :no-more="noMore"
-    :length="0"
-    :loading="false"
-  >
-    <button @click="openCreateImageModal">上传图片</button>
-  </more-btn>
 </template>
 
 <script>
-  export default {
-    name: 'ImageWaterfallFlow',
-    components: {
-      'waterfall': () => {
-        if (typeof window === 'undefined') {
-          return import('~/assets/js/empty')
-        }
-        return import('vue-waterfall/lib/waterfall')
-      },
-      'waterfall-slot': () => {
-        if (typeof window === 'undefined') {
-          return import('~/assets/js/empty')
-        }
-        return import('vue-waterfall/lib/waterfall-slot')
+export default {
+  name: "ImageWaterfallFlow",
+  components: {
+    waterfall: () => {
+      if (typeof window === "undefined") {
+        return import("~/assets/js/empty");
       }
+      return import("vue-waterfall/lib/waterfall");
     },
-    props: {
-      list: {
-        required: true,
-        type: Array,
-        default: () => []
-      },
-      noMore: {
-        type: Boolean,
-        default: false
-      },
-      loading: {
-        type: Boolean,
-        default: false
+    "waterfall-slot": () => {
+      if (typeof window === "undefined") {
+        return import("~/assets/js/empty");
       }
+      return import("vue-waterfall/lib/waterfall-slot");
+    }
+  },
+  props: {
+    list: {
+      required: true,
+      type: Array,
+      default: () => []
     },
-    computed: {
-      page () {
-        return this.$route.name
-      }
+    noMore: {
+      type: Boolean,
+      default: false
     },
-    methods: {
-      computeBoxHeight (image) {
-        return this.computeImageHeight(image) + 106
-      },
-      computeImageHeight (image) {
-        return parseInt(image.height / image.width * 145, 10)
-      },
-      loadMore () {
-        this.$emit('load')
-      },
-      openCreateImageModal () {
-        if (this.$store.state.login) {
-          this.$channel.$emit('open-create-image-drawer')
-        } else {
-          this.$channel.$emit('sign-in')
-        }
+    loading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    page() {
+      return this.$route.name;
+    }
+  },
+  methods: {
+    computeBoxHeight(image) {
+      return this.computeImageHeight(image) + 106;
+    },
+    computeImageHeight(image) {
+      return parseInt((image.height / image.width) * 145, 10);
+    },
+    loadMore() {
+      this.$emit("load");
+    },
+    openCreateImageModal() {
+      if (this.$store.state.login) {
+        this.$channel.$emit("open-create-image-drawer");
+      } else {
+        this.$channel.$emit("sign-in");
       }
     }
   }
+};
 </script>

@@ -1,63 +1,63 @@
-import BaseApi from './_baseApi'
+import BaseApi from "./_baseApi";
 
 export default class extends BaseApi {
-  show (id) {
-    return this.http.get(`bangumi/${id}/show`)
+  show(id) {
+    return this.http.get(`bangumi/${id}/show`);
   }
 
-  follow (id) {
-    return this.http.post(`bangumi/${id}/toggleFollow`)
+  follow(id) {
+    return this.http.post(`bangumi/${id}/toggleFollow`);
   }
 
-  videos (id) {
-    return this.http.get(`bangumi/${id}/videos`)
+  videos(id) {
+    return this.http.get(`bangumi/${id}/videos`);
   }
 
-  roles ({ bangumiId, seenIds }) {
+  roles({ bangumiId, seenIds }) {
     return this.http.get(`bangumi/${bangumiId}/roles`, {
       params: { seenIds }
-    })
+    });
   }
 
-  posts ({ id, maxId, take }) {
+  posts({ id, maxId, take }) {
     return this.http.get(`bangumi/${id}/posts/news`, {
       params: { maxId, take }
-    })
+    });
   }
 
-  released () {
-    return this.http.get('bangumi/released')
+  released() {
+    return this.http.get("bangumi/released");
   }
 
-  timeline ({ year }) {
-    return this.http.get('bangumi/timeline', {
+  timeline({ year }) {
+    return this.http.get("bangumi/timeline", {
       params: { year }
-    })
+    });
   }
 
-  tags () {
-    return this.http.get('bangumi/tags')
+  tags() {
+    return this.http.get("bangumi/tags");
   }
 
-  category ({ id, page, take }) {
-    return this.http.get('bangumi/category', {
+  category({ id, page, take }) {
+    return this.http.get("bangumi/category", {
       params: { id, page, take }
-    })
+    });
   }
 
-  images ({ id, seenIds, take, size, tags, roleId, creator }) {
+  images({ id, seenIds, take, size, tags, roleId, creator }) {
     return this.http.get(`bangumi/${id}/images`, {
       params: { seenIds, take, size, tags, roleId, creator }
-    })
+    });
   }
 
-  cartoon ({ bangumiId, page }) {
+  cartoon({ bangumiId, page }) {
     return this.http.get(`bangumi/${bangumiId}/cartoon`, {
       params: { page }
-    })
+    });
   }
 
-  getTopPosts ({ id }) {
-    return this.http.get(`bangumi/${id}/posts/top`)
+  getTopPosts({ id }) {
+    return this.http.get(`bangumi/${id}/posts/top`);
   }
 }

@@ -1,41 +1,43 @@
 <style lang="scss">
-  #about-hello {
-    padding-bottom: 15px;
+#about-hello {
+  padding-bottom: 15px;
 
-    h1 {
-      margin-bottom: 16px;
-      margin-top: 16px;
-      color: #333;
-      font-size: 16px;
-    }
+  h1 {
+    margin-bottom: 16px;
+    margin-top: 16px;
+    color: #333;
+    font-size: 16px;
+  }
 
-    .sub-title {
-      margin-top: 15px;
-    }
+  .sub-title {
+    margin-top: 15px;
+  }
 
-    p {
-      color: #333;
+  p {
+    color: #333;
+    font-size: 12px;
+    text-indent: 2em;
+    margin-top: 5px;
+    line-height: 15px;
+  }
+
+  ul {
+    margin: 5px 0 5px 25px;
+
+    li {
+      list-style-type: disc;
       font-size: 12px;
-      text-indent: 2em;
-      margin-top: 5px;
-      line-height: 15px;
-    }
-
-    ul {
-      margin: 5px 0 5px 25px;
-
-      li {
-        list-style-type: disc;
-        font-size: 12px;
-        color: #666;
-        line-height: 20px;
-      }
+      color: #666;
+      line-height: 20px;
     }
   }
+}
 </style>
 
 <template>
-  <div id="about-hello" class="container">
+  <div 
+    id="about-hello" 
+    class="container">
     <h1>欢迎来到 calibur.tv{{ nickname ? ',' : '！' }} {{ nickname }}</h1>
     <p>在开始之前，你应该了解一下这个网站的规则，这有助于让你得到更好使用的体验，让我们开始吧！</p>
     <h3 class="sub-title">金币系统：</h3>
@@ -77,10 +79,16 @@
       <li>网站图片必须与动漫相关，cosplay、手绘、原画等都可以</li>
       <li>目前用户无法上传漫画类别的相册，如果需要开通漫画权限，请联系网站管理员</li>
     </ul>
+    <h3 class="sub-title">漫评系统：</h3>
+    <p>calibur.tv 有可以说最全面的番剧评分系统，可以方便大家对评价自己喜欢的番剧</p>
+    <ul>
+      <li>漫评是从多个维度出发，既给了大家表达的方向，也给了漫评一个基本的框架</li>
+      <li>不同的番剧在各自的维度发挥优势，有利于在未来根据大家对番剧的评价来推荐你喜欢的内容</li>
+    </ul>
     <h3 class="sub-title">交流反馈：</h3>
     <p>由于个人能力有限，网站可能会有很多不足之处，希望大家可以帮助完善</p>
     <ul>
-      <li>交流与反馈QQ群：<br><strong>106402736（已满）</strong>、<strong>806818950</strong></li>
+      <li>交流与反馈QQ群：<br><strong>106402736</strong></li>
       <li>提现QQ群：<strong>718529809</strong>，进群请填写自己的邀请码，审核通过后方可提现</li>
       <li>其它官方交流与合作请加QQ：<strong>414927352</strong></li>
     </ul>
@@ -92,12 +100,12 @@
 </template>
 
 <script>
-  export default {
-    name: 'page-hello',
-    computed: {
-      nickname () {
-        return this.$store.state.user ? this.$store.state.user.nickname : ''
-      }
+export default {
+  name: "PageHello",
+  computed: {
+    nickname() {
+      return this.$store.state.user ? this.$store.state.user.nickname : "";
     }
   }
+};
 </script>

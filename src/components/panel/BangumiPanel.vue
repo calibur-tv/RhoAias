@@ -1,128 +1,119 @@
 <style lang="scss" module>
-  $panel-height: 92px;
+$panel-height: 92px;
 
-  .bangumi-panel {
-    .avatar {
+.bangumi-panel {
+  .avatar {
+    display: block;
+    float: left;
+    width: 80px;
+    height: $panel-height;
+    border-radius: 5px;
+    margin-right: 10px;
+    overflow: hidden;
+  }
+
+  .content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: $panel-height;
+
+    .name {
+      font-size: 16px;
+      font-weight: bold;
       display: block;
-      float: left;
-      width: 80px;
-      height: $panel-height;
-      border-radius: 5px;
-      margin-right: 10px;
-      overflow: hidden;
     }
 
-    .content {
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: $panel-height;
+    .controls {
+      text-align: right;
 
-      .name {
-        font-size: 16px;
-        font-weight: bold;
-        display: block;
-      }
-
-      .summary {
-      }
-
-      .controls {
-        text-align: right;
-
-        .create {
-          @include btn-empty(#333);
-          margin-right: 10px;
-        }
-
-        .follow {
-          @include btn-empty($color-blue-deep);
-        }
+      .create {
+        @include btn-empty(#333);
+        margin-right: 10px;
       }
     }
   }
+}
 </style>
 
 <template>
   <div :class="$style.bangumiPanel">
-    <a :class="$style.avatar" :href="$alias.bangumi(id)">
-      <v-img :src="$resize(avatar, { width: 80, height: 92 })"></v-img>
+    <a 
+      :class="$style.avatar" 
+      :href="$alias.bangumi(id)">
+      <v-img :src="$resize(avatar, { width: 80, height: 92 })"/>
     </a>
     <div :class="$style.content">
       <a :href="$alias.bangumi(id)">
-        <h5 :class="$style.name" v-text="name"></h5>
+        <h5 
+          :class="$style.name" 
+          v-text="name"/>
       </a>
       <div :class="$style.summary">
-        <slot></slot>
+        <slot/>
       </div>
       <div :class="$style.controls">
-        <button :class="$style.create" @click="handleCreate">发帖</button>
-        <button :class="$style.follow" @click="actionFollow">{{ followed ? '已关注' : '关注' }}</button>
+        <button 
+          :class="$style.create" 
+          @click="handleCreate">发帖</button>
+        <follow-button
+          :id="id"
+          :followed="followed"
+          type="bangumi"
+          @submit="actionFollow"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import Api from '~/api/bangumiApi'
+import FollowButton from "~/components/common/FollowButton";
 
-  export default {
-    name: 'v-bangumi-panel',
-    props: {
-      id: {
-        required: true,
-        type: Number
-      },
-      avatar: {
-        required: true,
-        type: String
-      },
-      name: {
-        required: true,
-        type: String
-      },
-      followed: {
-        required: true,
-        type: Boolean
-      }
+export default {
+  name: "VBangumiPanel",
+  components: {
+    FollowButton
+  },
+  props: {
+    id: {
+      required: true,
+      type: Number
     },
-    data () {
-      return {
-        loadingFollow: false
-      }
+    avatar: {
+      required: true,
+      type: String
     },
-    methods: {
-      handleCreate () {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        this.$channel.$emit('open-create-post-drawer', {
-          id: this.id,
-          name: this.name,
-          avatar: this.avatar
-        })
-      },
-      async actionFollow () {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        if (this.loadingFollow) {
-          return
-        }
-        this.loadingFollow = true
-        const api = new Api(this)
-        try {
-          const result = await api.follow(this.id)
-          this.$emit('follow', result)
-        } catch (e) {
-          this.$toast.error(e)
-        } finally {
-          this.loadingFollow = false
-        }
+    name: {
+      required: true,
+      type: String
+    },
+    followed: {
+      required: true,
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      loadingFollow: false
+    };
+  },
+  methods: {
+    handleCreate() {
+      if (!this.$store.state.login) {
+        this.$channel.$emit("sign-in");
+        return;
       }
+      this.$channel.$emit("open-create-post-drawer", {
+        id: this.id,
+        name: this.name,
+        avatar: this.avatar
+      });
+    },
+    actionFollow(result) {
+      this.$emit("follow", result);
     }
   }
+};
 </script>

@@ -1,9 +1,9 @@
 <style lang="scss">
-  #image-flow-list {
-    .img {
-      background-color: #ec414d;
-    }
+#image-flow-list {
+  .img {
+    background-color: #ec414d;
   }
+}
 </style>
 
 <template>
@@ -59,39 +59,39 @@
 </template>
 
 <script>
-  export default {
-    name: 'ImageFlowList',
-    async asyncData ({ store, ctx }) {
-      await Promise.all([
-        store.dispatch('trending/getTrending', {
-          type: 'image',
-          sort: 'active',
-          ctx
-        }),
-        store.dispatch('trending/getMeta', { type: 'image' })
-      ])
-    },
-    data () {
-      return {
-        showTips: false
+export default {
+  name: "ImageFlowList",
+  async asyncData({ store, ctx }) {
+    await Promise.all([
+      store.dispatch("world/initData", {
+        type: "image",
+        sort: "active",
+        ctx
+      }),
+      store.dispatch("world/getMeta", { type: "image" })
+    ]);
+  },
+  data() {
+    return {
+      showTips: false
+    };
+  },
+  computed: {
+    meta() {
+      return this.$store.state.world.image.meta;
+    }
+  },
+  methods: {
+    openCreateImage() {
+      if (!this.$store.state.login) {
+        this.$channel.$emit("sign-in");
+        return;
       }
+      this.$channel.$emit("open-create-image-drawer");
     },
-    computed: {
-      meta () {
-        return this.$store.state.trending.meta
-      }
-    },
-    methods: {
-      openCreateImage () {
-        if (!this.$store.state.login) {
-          this.$channel.$emit('sign-in')
-          return
-        }
-        this.$channel.$emit('open-create-image-drawer')
-      },
-      openFeedback () {
-        this.$channel.$emit('open-feedback', { type: 3 })
-      }
+    openFeedback() {
+      this.$channel.$emit("open-feedback", { type: 3 });
     }
   }
+};
 </script>

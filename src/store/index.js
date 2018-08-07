@@ -1,25 +1,26 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import UserApi from '~/api/userApi'
-import ImageApi from '~/api/imageApi'
-import bangumi from './bangumi'
-import post from './post'
-import video from './video'
-import users from './users'
-import cartoonRole from './cartoonRole'
-import image from './image'
-import trending from './trending'
-import comment from './comment'
-import homepage from './homepage'
-import search from './search'
-import editor from './editor'
-import score from './score'
+import Vue from "vue";
+import Vuex from "vuex";
+import UserApi from "~/api/userApi";
+import ImageApi from "~/api/imageApi";
+import bangumi from "./bangumi";
+import post from "./post";
+import video from "./video";
+import users from "./users";
+import cartoonRole from "./cartoonRole";
+import image from "./image";
+import comment from "./comment";
+import homepage from "./homepage";
+import search from "./search";
+import editor from "./editor";
+import score from "./score";
+import flow from "./flow";
+import world from "./flow";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export function createStore () {
+export function createStore() {
   return new Vuex.Store({
-    strict: process.env.NODE_ENV !== 'production',
+    strict: process.env.NODE_ENV !== "production",
     state: () => ({
       user: null,
       login: false,
@@ -34,9 +35,9 @@ export function createStore () {
       }
     }),
     mutations: {
-      SET_SSR_CTX (state, { ctx }) {
-        const userAgent = ctx.header['user-agent'].toLowerCase()
-        state.ssrContext = ctx
+      SET_SSR_CTX(state, { ctx }) {
+        const userAgent = ctx.header["user-agent"].toLowerCase();
+        state.ssrContext = ctx;
         state.ua = {
           ios: userAgent.match(/iphone|ipad|ipod/) !== null,
           android: userAgent.match(/android/) !== null,
@@ -44,43 +45,45 @@ export function createStore () {
           qq: userAgent.match(/qq\//) !== null,
           alipay: userAgent.match(/alipayclient/) !== null,
           weibo: userAgent.match(/weibo/i) !== null,
-          pc: !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent))
-        }
+          pc: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            userAgent
+          )
+        };
       },
-      SET_USER (state, user) {
-        state.user = user
-        state.login = true
+      SET_USER(state, user) {
+        state.user = user;
+        state.login = true;
       },
-      SET_USER_INFO (state, data) {
+      SET_USER_INFO(state, data) {
         Object.keys(data).forEach(key => {
-          state.user[key] = data[key]
-        })
+          state.user[key] = data[key];
+        });
       },
-      UPDATE_USER_INFO (state, { key, value }) {
-        state.user[key] = value
+      UPDATE_USER_INFO(state, { key, value }) {
+        state.user[key] = value;
       },
-      USE_COIN (state) {
-        state.user.coin && state.user.coin--
+      USE_COIN(state) {
+        state.user.coin && state.user.coin--;
       }
     },
     actions: {
-      async init ({ commit }, ctx) {
-        const cookie = ctx.header.cookie
-        commit('SET_SSR_CTX', ctx)
+      async init({ commit }, ctx) {
+        const cookie = ctx.header.cookie;
+        commit("SET_SSR_CTX", ctx);
         if (cookie) {
-          let token = ''
-          cookie.split('; ').forEach(item => {
-            const temp = item.split('=')
-            if (temp[0] === 'JWT-TOKEN') {
-              token = temp[1]
+          let token = "";
+          cookie.split("; ").forEach(item => {
+            const temp = item.split("=");
+            if (temp[0] === "JWT-TOKEN") {
+              token = temp[1];
             }
-          })
+          });
           if (token) {
-            const api = new UserApi(ctx)
+            const api = new UserApi(ctx);
             try {
-              const user = await api.getLoginUser()
+              const user = await api.getLoginUser();
               if (user) {
-                commit('SET_USER', user)
+                commit("SET_USER", user);
               }
             } catch (e) {
               // do nothing
@@ -88,21 +91,23 @@ export function createStore () {
           }
         }
       },
-      async getUpToken ({ state, commit }) {
+      async getUpToken({ state, commit }) {
         if (state.user.uptoken.expiredAt <= parseInt(Date.now() / 1000, 10)) {
-          const api = new ImageApi()
-          const data = await api.getUpToken()
-          data && commit('SET_USER_INFO', {
-            uptoken: data
-          })
+          const api = new ImageApi();
+          const data = await api.getUpToken();
+          data &&
+            commit("SET_USER_INFO", {
+              uptoken: data
+            });
         }
       },
-      async getNotification ({ commit }, ctx) {
-        const api = new UserApi(ctx)
-        const data = await api.getNotificationCount()
-        data && commit('SET_USER_INFO', {
-          notification: data
-        })
+      async getNotification({ commit }, ctx) {
+        const api = new UserApi(ctx);
+        const data = await api.getNotificationCount();
+        data &&
+          commit("SET_USER_INFO", {
+            notification: data
+          });
       }
     },
     getters: {},
@@ -113,12 +118,13 @@ export function createStore () {
       video,
       cartoonRole,
       image,
-      trending,
       comment,
       homepage,
       search,
       editor,
-      score
+      score,
+      flow,
+      world
     }
-  })
+  });
 }
