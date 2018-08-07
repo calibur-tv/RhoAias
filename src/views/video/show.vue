@@ -155,8 +155,8 @@
     <div class="video">
       <template v-if="useOtherSiteSource">
         <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
-        <a 
-          :href="videoSrc" 
+        <a
+          :href="videoSrc"
           target="_blank">播放链接</a>
       </template>
       <template v-else-if="notSupport">
@@ -172,6 +172,7 @@
           :src="videoSrc"
           :poster="video.poster"
           preload="none"
+          controls="controls"
           controlsList="nodownload"
         />
         <button
@@ -179,8 +180,8 @@
           class="play-btn iconfont icon-bofang"
           @click="togglePlaying"
         />
-        <div 
-          v-if="loading" 
+        <div
+          v-if="loading"
           class="video-loading iconfont icon-jiazailoading-A"/>
       </template>
     </div>
@@ -188,13 +189,13 @@
       <div id="metas">
         <h3 class="sub-title">
           选集（{{ videos.length }}）
-          <a 
-            v-if="nextPartVideo" 
-            :href="nextPartVideo" 
+          <a
+            v-if="nextPartVideo"
+            :href="nextPartVideo"
             class="next">下一话</a>
-          <div 
-            v-if="showMoreBtn" 
-            class="more" 
+          <div
+            v-if="showMoreBtn"
+            class="more"
             @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </h3>
         <template v-if="season && showAll">
@@ -202,11 +203,11 @@
             v-for="(videos, idx) in list"
             :key="idx"
           >
-            <h6 
-              class="season-title" 
+            <h6
+              class="season-title"
               v-text="season.name[idx]"/>
             <ul>
-              <li 
+              <li
                 v-for="video in videos.data"
                 :key="video.id">
                 <a
@@ -221,8 +222,8 @@
           </div>
         </template>
         <ul v-else>
-          <li 
-            v-for="video in sortVideos" 
+          <li
+            v-for="video in sortVideos"
             :key="video.id">
             <a
               :class="{ 'a-active' : $route.params.id == video.id }"
@@ -250,8 +251,8 @@
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
       <p class="tip">2：安卓用户建议大家使用最新版 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
       <div>
-        <button 
-          class="video-report-btn" 
+        <button
+          class="video-report-btn"
           @click="handleVideoReportClick">视频报错</button>
       </div>
       <comment-main
@@ -422,7 +423,7 @@ export default {
       return;
     }
     this.player = this.$refs.video;
-    this.player.controls = false;
+    this.player.controls = /ipad/i.test(navigator.userAgent);
     try {
       this.player.load();
     } catch (e) {
