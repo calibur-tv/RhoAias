@@ -8,18 +8,21 @@ const state = () => ({
   list: [],
   total: 0,
   noMore: false,
-  submitting: false
+  submitting: false,
+  id: 0
 });
 
 const mutations = {
   RESET_STATE(state, { type }) {
     state = {
       type,
-      fetchId: "",
+      sort: "desc",
+      fetchId: 0,
       list: [],
       total: 0,
       noMore: false,
-      submitting: false
+      submitting: false,
+      id: 0
     };
   },
   INIT_FETCH_TYPE(state, { type }) {
@@ -28,7 +31,8 @@ const mutations = {
       state.sort = "asc";
     }
   },
-  SET_MAIN_COMMENTS(state, { comments, seeReplyId }) {
+  SET_MAIN_COMMENTS(state, { comments, seeReplyId, id }) {
+    state.id = id;
     if (!comments.list.length) {
       state.noMore = comments.noMore;
       state.total = comments.total;
@@ -173,7 +177,9 @@ const actions = {
   ) {
     if (state.type) {
       if (state.type === type) {
-        if (state.noMore) {
+        if (state.id !== id) {
+          commit("RESET_STATE", { type });
+        } else if (state.noMore) {
           return;
         }
       } else {
@@ -190,7 +196,7 @@ const actions = {
       seeReplyId,
       fetchId: state.fetchId
     });
-    comments && commit("SET_MAIN_COMMENTS", { comments, seeReplyId });
+    comments && commit("SET_MAIN_COMMENTS", { comments, seeReplyId, id });
   },
   async getSubComments({ state, commit }, { ctx, type, parentId }) {
     const store = state.list.filter(_ => _.id === parentId)[0].comments;
