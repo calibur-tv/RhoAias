@@ -15,7 +15,7 @@ const state = () => ({
 const mutations = {
   RESET_STATE(state, { type }) {
     state.type = type;
-    state.sort = "desc";
+    state.sort = type === "post" ? "asc" : "desc";
     state.fetchId = 0;
     state.list = [];
     state.total = 0;
