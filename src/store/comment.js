@@ -14,16 +14,14 @@ const state = () => ({
 
 const mutations = {
   RESET_STATE(state, { type }) {
-    state = {
-      type,
-      sort: "desc",
-      fetchId: 0,
-      list: [],
-      total: 0,
-      noMore: false,
-      submitting: false,
-      id: 0
-    };
+    state.type = type;
+    state.sort = "desc";
+    state.fetchId = 0;
+    state.list = [];
+    state.total = 0;
+    state.noMore = false;
+    state.submitting = false;
+    state.id = 0;
   },
   INIT_FETCH_TYPE(state, { type }) {
     state.type = type;
