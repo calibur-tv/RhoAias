@@ -4,6 +4,11 @@
 
   .buttons {
     text-align: center;
+
+    button {
+      padding: 3px 7px;
+      font-size: 11px !important;
+    }
   }
 
   .users {

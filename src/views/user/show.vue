@@ -91,7 +91,6 @@
       display: inline-block;
       text-align: center;
       padding-left: $container-padding;
-      padding-right: $container-padding;
 
       &.active {
         position: relative;
@@ -100,7 +99,7 @@
           content: "";
           position: absolute;
           left: $container-padding;
-          right: $container-padding;
+          right: 0;
           bottom: 1px;
           height: 2px;
           background: #333;

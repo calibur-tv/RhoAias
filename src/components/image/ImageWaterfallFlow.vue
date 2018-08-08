@@ -204,23 +204,21 @@
                 v-text="item.name"
               />
               <div class="social">
-                <span
-                  v-if="item.like_count"
-                  :class="{ 'done': item.liked }"
-                >
+                <span v-if="item.is_creator">
                   <i class="iconfont icon-guanzhu"/>
+                  {{ item.reward_count }}
+                </span>
+                <span v-else>
+                  <i class="iconfont icon-icon_good"/>
                   {{ item.like_count }}
                 </span>
-                <span
-                  v-if="item.comment_count"
-                  :class="{ 'done': item.commented }"
-                >
+                <span>
                   <i class="iconfont icon-pinglun1"/>
                   {{ item.comment_count }}
                 </span>
-                <span v-if="item.view_count">
-                  <i class="iconfont icon-yuedu"/>
-                  {{ item.view_count }}
+                <span>
+                  <i class="iconfont icon-pinglun"/>
+                  {{ item.mark_count }}
                 </span>
               </div>
             </div>
