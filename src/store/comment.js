@@ -70,11 +70,11 @@ const mutations = {
     state.noMore = hasNew ? comments.noMore : true;
     state.total = hasNew ? comments.total : state.list.length;
   },
-  SET_SUB_COMMENTS(state, { comments, parentId }) {
+  SET_SUB_COMMENTS(state, { comments, id }) {
     let parentComment = null;
     let parentIndex = 0;
     state.list.forEach((item, index) => {
-      if (item.id === parentId) {
+      if (item.id === id) {
         parentComment = item;
         parentIndex = index;
       }
@@ -196,18 +196,18 @@ const actions = {
     });
     comments && commit("SET_MAIN_COMMENTS", { comments, seeReplyId, id });
   },
-  async getSubComments({ state, commit }, { ctx, type, parentId }) {
-    const store = state.list.filter(_ => _.id === parentId)[0].comments;
+  async getSubComments({ state, commit }, { ctx, type, id }) {
+    const store = state.list.filter(_ => _.id === id)[0].comments;
     if (store.noMore) {
       return;
     }
     const api = new Api(ctx);
     const comments = await api.getSubCommentList({
       type,
-      parentId,
+      id,
       maxId: store.maxId
     });
-    commit("SET_SUB_COMMENTS", { comments, parentId });
+    commit("SET_SUB_COMMENTS", { comments, id });
   },
   async createMainComment({ commit }, { ctx, images, content, type, id }) {
     const api = new Api(ctx);

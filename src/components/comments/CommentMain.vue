@@ -522,7 +522,7 @@ export default {
         await this.$store.dispatch("comment/getSubComments", {
           ctx: this,
           type: this.type,
-          parentId: this.focusCommentId
+          id: this.focusCommentId
         });
       } catch (e) {
         this.$toast.error(e);
@@ -592,7 +592,6 @@ export default {
         return;
       }
       this.replyForm.replying = true;
-      this.$toast.loading("提交中...");
       try {
         await this.$store.dispatch("comment/createSubComment", {
           ctx: this,
@@ -603,7 +602,6 @@ export default {
         });
         this.replyForm.open = false;
         this.replyForm.content = "";
-        this.$toast.success("回复成功");
       } catch (e) {
         this.$toast.error(e);
       } finally {
