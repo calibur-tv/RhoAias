@@ -45,122 +45,33 @@
           }
         }
 
-        .star {
-          float: right;
-          margin-top: 14px;
-          @include btn-empty(#000);
-        }
-      }
-
-      .footer {
-        margin-top: 10px;
-        height: 30px;
-        line-height: 30px;
-        vertical-align: middle;
-        color: $color-text-normal;
-        text-align: right;
-
-        img {
-          width: 20px;
-          height: 20px;
-          border-radius: 15px;
+        .footer {
+          margin-top: 10px;
+          height: 30px;
+          line-height: 30px;
           vertical-align: middle;
-          border: 1px solid $color-gray-normal;
-          margin-left: 5px;
-          margin-top: -3px;
-        }
-
-        a {
-          font-size: 12px;
           color: $color-text-normal;
-        }
 
-        span {
-          margin-left: 10px;
-          font-size: 12px;
-          margin-right: 2px;
-        }
-      }
-    }
-  }
+          img {
+            width: 20px;
+            height: 20px;
+            border-radius: 15px;
+            vertical-align: middle;
+            border: 1px solid $color-gray-normal;
+            margin-left: 5px;
+            margin-top: -3px;
+          }
 
-  .role-detail-drawer {
-    .info {
-      margin-bottom: 20px;
-      text-align: center;
+          a {
+            font-size: 12px;
+            color: $color-text-normal;
+          }
 
-      .avatar {
-        position: relative;
-        margin: 0 auto 15px;
-        @include avatar(80px);
-        @include border($color-gray-normal, 50%);
-      }
-
-      .intro {
-        padding: 0 50px;
-        font-size: 13px;
-      }
-
-      .star {
-        margin-top: 10px;
-        @include btn-empty(#000);
-      }
-
-      .stats {
-        font-size: 13px;
-        color: $color-text-light;
-        margin-top: 10px;
-
-        span {
-          margin: 0 5px;
+          span {
+            font-size: 12px;
+          }
         }
       }
-    }
-
-    .lover {
-      .sub-title {
-        margin-top: 10px;
-      }
-
-      .lover-user {
-        margin-bottom: 10px;
-      }
-    }
-
-    .lover-user {
-      display: block;
-
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid $color-gray-normal;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-    }
-
-    #role-fans-list {
-      .lover-user {
-        padding: 10px 0;
-        position: relative;
-        @include border-bottom();
-
-        .score {
-          float: right;
-          font-size: 13px;
-          color: $color-text-light;
-          margin-top: 13px;
-        }
-      }
-    }
-
-    .total-limit {
-      background-color: #f5f5f5;
-      text-align: center;
-      font-size: 12px;
-      color: #999;
-      padding-top: 15px;
     }
   }
 }
@@ -168,252 +79,115 @@
 
 <template>
   <div id="bangumi-role-flow">
-    <ul 
-      v-if="roles.list.length" 
+    <ul
+      v-if="roles.length"
       class="roles container">
       <li
-        v-for="(item, index) in roles.list"
+        v-for="(item, index) in roles"
         :key="index"
       >
-        <div class="clearfix">
-          <div 
-            class="avatar" 
-            @click="showRoleDetail(item)">
-            <v-img 
-              :src="item.avatar" 
-              width="90" 
-              height="90"/>
-          </div>
-          <div class="summary">
-            <div 
-              class="role" 
-              @click="showRoleDetail(item)">
-              <span 
-                class="name" 
-                v-text="item.name"/>
-              <span class="intro">：{{ item.intro }}</span>
+        <router-link :to="$alias.cartoonRole(item.id)">
+          <div class="clearfix">
+            <div class="avatar">
+              <v-img
+                :src="item.avatar"
+                width="90"
+                height="90"/>
             </div>
-            <button 
-              class="star" 
-              @click="handleStarRole(item)">为TA应援</button>
+            <div class="summary">
+              <div class="role">
+                <span
+                  class="name"
+                  v-text="item.name"/>
+                <span class="intro">：{{ item.intro }}</span>
+              </div>
+              <div
+                v-if="item.fans_count"
+                class="footer">
+                <span>
+                  粉丝:
+                  {{ $utils.shortenNumber(item.fans_count) }}
+                </span>
+                ·
+                <span>
+                  金币:
+                  {{ $utils.shortenNumber(item.star_count) }}
+                </span>
+                ·
+                <span v-if="item.lover">
+                  守护者:
+                  <a :href="$alias.user(item.lover.zone)">
+                    {{ item.lover.nickname }}
+                    <v-img
+                      :src="item.lover.avatar"
+                      width="20"
+                      height="20"/>
+                  </a>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div 
-          v-if="item.fans_count" 
-          class="footer">
-          <span>
-            粉丝:
-            {{ $utils.shortenNumber(item.fans_count) }}
-          </span>
-          <span>
-            金币:
-            {{ $utils.shortenNumber(item.star_count) }}
-          </span>
-          <span v-if="item.lover">
-            守护者：
-            <a :href="$alias.user(item.lover.zone)">
-              {{ item.lover.nickname }}
-              <v-img 
-                :src="item.lover.avatar" 
-                width="20" 
-                height="20"/>
-            </a>
-          </span>
-        </div>
+        </router-link>
       </li>
     </ul>
     <more-btn
-      :no-more="roles.noMore"
-      :length="roles.list.length"
-      :loading="loading"
-      @fetch="getRoles"
+      :no-more="resource.noMore"
+      :loading="resource.loading"
+      :length="roles.length"
+      @fetch="getData"
     >
       <button @click="openFeedbackForRole">求偶像</button>
     </more-btn>
-    <v-drawer
-      v-if="currentRole"
-      v-model="openRoleDetailDrawer"
-      :header-text="currentRole.name"
-      from="bottom"
-      size="100%"
-      class="role-detail-drawer"
-    >
-      <div class="info">
-        <div class="avatar">
-          <img :src="$resize(currentRole.avatar, { width: 160 })">
-        </div>
-        <p 
-          class="intro" 
-          v-text="currentRole.intro"/>
-        <button 
-          class="star" 
-          @click="handleStarRole(currentRole)">为TA应援</button>
-        <div class="stats">
-          <span>粉丝数：{{ currentRole.fans_count }}</span>
-          <span>金币数：{{ currentRole.star_count }}</span>
-        </div>
-      </div>
-      <div 
-        v-if="currentRole.loverId" 
-        class="lover container">
-        <div class="hr"/>
-        <h3 class="sub-title">守护者：</h3>
-        <a 
-          :href="$alias.user(currentRole.lover.zone)" 
-          class="lover-user">
-          <img :src="$resize(currentRole.lover.avatar, { width: 80 })">
-          <span v-text="currentRole.lover.nickname"/>
-        </a>
-      </div>
-      <div class="hr"/>
-      <div class="tabs">
-        <button 
-          :class="{ 'active': focusRoleSort === 'new' }" 
-          @click="switchFocusRoleTab('new')">最近</button>
-        <button 
-          :class="{ 'active': focusRoleSort === 'hot' }" 
-          @click="switchFocusRoleTab('hot')">最多</button>
-      </div>
-      <ul 
-        id="role-fans-list" 
-        class="container">
-        <li
-          v-for="item in currentRoleFans.list"
-          :key="item.id"
-        >
-          <a 
-            :href="$alias.user(item.zone)" 
-            class="lover-user">
-            <img :src="$resize(item.avatar, { width: 80 })">
-            <span v-text="item.nickname"/>
-            <v-time 
-              v-if="focusRoleSort === 'new'" 
-              v-model="item.score" 
-              class="score"/>
-            <span 
-              v-else 
-              class="score">{{ item.score }}个金币</span>
-          </a>
-        </li>
-      </ul>
-      <p 
-        v-if="currentRoleFans.list.length >= 100" 
-        class="total-limit">最多显示100人</p>
-      <more-btn
-        :no-more="currentRoleFans.noMore"
-        :length="currentRoleFans.list.length"
-        :loading="loadingRoleFans"
-        @fetch="fetchCurrentRoleFans"
-      />
-    </v-drawer>
   </div>
 </template>
 
 <script>
 export default {
   name: "VBangumiRoleFlow",
-  data() {
-    return {
-      loading: false,
-      currentRole: null,
-      openRoleDetailDrawer: false,
-      loadingRoleFans: false,
-      focusRoleSort: "new"
-    };
-  },
   computed: {
-    roles() {
-      return this.$store.state.bangumi.roles;
-    },
     info() {
       return this.$store.state.bangumi.info;
     },
-    currentRoleFans() {
-      return this.$store.state.cartoonRole.fans[this.focusRoleSort];
+    resource() {
+      return this.$store.state.flow.role.hot;
+    },
+    roles() {
+      return this.$utils.orderBy(this.resource.list, "star_count", "desc");
     }
   },
   created() {
-    if (!this.roles.list.length) {
-      this.getRoles();
-    }
+    this.initData();
   },
   methods: {
-    openFeedbackForRole() {
-      this.$channel.$emit("open-feedback", {
-        type: 6,
-        desc: `我想要为《${this.info.name}》的 ? 应援`
-      });
-    },
-    showRoleDetail(role) {
-      this.currentRole = role;
-      this.focusRoleSort = "new";
-      this.openRoleDetailDrawer = true;
-      this.fetchCurrentRoleFans(true);
-    },
-    switchFocusRoleTab(tab) {
-      this.focusRoleSort = tab;
-      if (this.$store.state.cartoonRole.fans[tab].list.length) {
-        return;
-      }
-      this.fetchCurrentRoleFans();
-    },
-    async getRoles() {
-      if (this.loadint) {
-        return;
-      }
-      this.loadint = true;
-
+    async initData() {
       try {
-        await this.$store.dispatch("bangumi/getRoles", {
+        await this.$store.dispatch("flow/initData", {
+          type: "role",
+          sort: "hot",
           ctx: this,
           bangumiId: this.info.id
         });
       } catch (e) {
         this.$toast.error(e);
-      } finally {
-        this.loadint = false;
       }
     },
-    async handleStarRole(role) {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      if (!this.$store.state.user.coin) {
-        this.$toast.error("金币不足");
-        return;
-      }
+    async getData() {
       try {
-        await this.$store.dispatch("bangumi/starRole", {
-          bangumiId: this.info.id,
-          roleId: role.id,
+        await this.$store.dispatch("flow/getData", {
+          type: "role",
+          sort: "hot",
           ctx: this,
-          hasStar: role.has_star
+          bangumiId: this.info.id
         });
-        this.$store.commit("USE_COIN");
-        this.$toast.info(`+${role.has_star}s`);
       } catch (e) {
         this.$toast.error(e);
       }
     },
-    async fetchCurrentRoleFans(reset = false) {
-      if (this.loadingRoleFans) {
-        return;
-      }
-      this.loadingRoleFans = true;
-      try {
-        await this.$store.dispatch("cartoonRole/getFansList", {
-          ctx: this,
-          bangumiId: this.info.id,
-          roleId: this.currentRole.id,
-          sort: this.focusRoleSort,
-          reset
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingRoleFans = false;
-      }
+    openFeedbackForRole() {
+      this.$channel.$emit("open-feedback", {
+        type: 6,
+        desc: `我想要为《${this.info.name}》的 ? 应援`
+      });
     }
   }
 };
