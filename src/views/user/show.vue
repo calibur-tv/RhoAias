@@ -418,6 +418,7 @@
         :list="images.list"
         :no-more="images.noMore"
         :loading="images.loading"
+        :show-tips="isMe"
         @load="getUserImages(false)"
       />
     </template>

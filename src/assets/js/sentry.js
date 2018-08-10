@@ -38,7 +38,8 @@ export default ({ url, version }) => {
         /(ture|mbrowser|local_kingkr_obj|Java object)/,
         "Maximum call stack size exceeded",
         /(readonly|redefine) property/,
-        "Failed to execute 'appendChild' on 'Node'"
+        "Failed to execute 'appendChild' on 'Node'",
+        "value.hasOwnProperty is not a function"
       ]
     })
       .addPlugin(RavenVue, Vue)

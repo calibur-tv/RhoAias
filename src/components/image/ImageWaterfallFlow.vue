@@ -157,7 +157,7 @@
 
 <template>
   <div id="image-waterfall-flow">
-    <no-ssr>
+    <no-ssr v-if="list.length">
       <waterfall
         :line-gap="155"
         :auto-resize="false"
@@ -286,13 +286,16 @@
       </waterfall>
     </no-ssr>
     <more-btn
-      v-if="!noMore"
+      v-else
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
       @fetch="loadMore"
     >
-      <button @click="openCreateImageModal">上传图片</button>
+      <button
+        v-if="showTips"
+        @click="openCreateImageModal"
+      >上传图片</button>
     </more-btn>
   </div>
 </template>
@@ -327,6 +330,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    showTips: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
