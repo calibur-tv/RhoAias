@@ -73,10 +73,6 @@
           vertical-align: middle;
         }
       }
-
-      img {
-        display: block;
-      }
     }
 
     .intro {
@@ -111,7 +107,7 @@
       border-top: 1px solid #f2f2f2;
 
       .user-avatar {
-        @include avatar-2(30px);
+        @extend %avatar;
       }
 
       .bangumi-avatar {
@@ -182,11 +178,12 @@
               <i 
                 v-if="item.is_creator" 
                 class="is-creator iconfont icon-huangguan"/>
-              <img
+              <v-img
+                :src="item.source.url"
+                :width="145"
+                :lazy="false"
                 :height="computeImageHeight(item.source)"
-                :src="$resize(item.source.url, { width: 400, mode: 2 })"
-                width="200"
-              >
+              />
               <div
                 v-if="item.is_album"
                 class="is-album"
@@ -228,7 +225,10 @@
                   :href="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.bangumi.avatar"
+                    size="60"
+                  />
                 </a>
                 <div class="info">
                   <a
@@ -243,7 +243,10 @@
                   :href="$alias.user(item.user.zone)"
                   class="user-avatar"
                 >
-                  <img :src="$resize(item.user.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.user.avatar"
+                    size="30"
+                  />
                 </a>
                 <a
                   :href="$alias.user(item.user.zone)"
@@ -256,7 +259,10 @@
                   :href="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.bangumi.avatar"
+                    size="30"
+                  />
                 </a>
                 <div class="info">
                   <p class="main-info">

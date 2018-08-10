@@ -10,11 +10,9 @@
 
     .user-avatar {
       margin-right: 7px;
-      display: block;
       float: left;
       position: relative;
-      @include avatar(35px);
-      @include border($color-gray-normal, 50%);
+      @extend %avatar;
     }
 
     .bangumi-avatar {
@@ -115,20 +113,10 @@
       margin-bottom: 8px;
       z-index: -2;
 
-      .image-full {
-        height: 190px;
-        width: 100%;
-        background-color: #eee;
-      }
-
       .image-list {
         @extend %clearfix;
 
-        img {
-          width: 32%;
-          max-height: 93px;
-          height: auto;
-          display: block;
+        .image {
           float: left;
 
           &:not(:last-child) {
@@ -173,7 +161,7 @@
         >
           <v-img
             :src="item.user.avatar"
-            width="70"
+            size="35"
           />
         </a>
         <a
@@ -184,7 +172,7 @@
         >
           <v-img
             :src="item.bangumi.avatar"
-            width="70"
+            size="35"
           />
         </a>
         <div class="name">
@@ -249,10 +237,8 @@
           <v-img
             v-if="item.images.length === 1"
             :src="item.images[0].url"
-            class="image-full bg"
+            width="100%"
             height="190"
-            mode="2"
-            tag="div"
           />
           <div
             v-else
@@ -262,7 +248,9 @@
               v-for="(image, index) in imageFilter(item.images)"
               :key="index"
               :src="image.url"
-              width="110"
+              class="image"
+              width="32%"
+              height="93"
             />
           </div>
         </div>

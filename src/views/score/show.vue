@@ -31,7 +31,7 @@
           margin-right: 10px;
           display: inline-block;
           vertical-align: middle;
-          @include avatar-2(25px);
+          @extend %avatar;
         }
       }
     }
@@ -117,7 +117,10 @@
             target="_blank"
           >
             <div class="avatar">
-              <img :src="$resize(user.avatar, { width: 50 })">
+              <v-img
+                :src="user.avatar"
+                size="25"
+              />
             </div>
             <span
               class="name"

@@ -23,11 +23,9 @@
   <div class="json-content-img-parser">
     <v-img
       :src="item.url"
-      :source="item"
+      :width="item.width"
+      :height="item.height"
       :full="true"
-      :aspect="$computeImageAspect(item)"
-      width="350"
-      mode="2"
     />
     <p
       v-if="item.text"

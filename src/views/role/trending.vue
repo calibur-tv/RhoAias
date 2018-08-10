@@ -90,13 +90,12 @@
         font-size: 13px;
         color: $color-text-normal;
 
-        img {
-          width: 20px;
-          height: 20px;
+        .image {
           border-radius: 15px;
           vertical-align: middle;
           border: 1px solid $color-gray-normal;
           margin-left: 10px;
+          display: inline-block;
         }
       }
     }
@@ -139,10 +138,10 @@
           <a 
             :href="$alias.cartoonRole(item.id)" 
             class="avatar">
-            <v-img 
-              :src="item.avatar" 
-              width="90" 
-              height="90"/>
+            <v-img
+              :src="item.avatar"
+              size="90"
+            />
           </a>
           <div class="summary">
             <a 
@@ -161,10 +160,11 @@
                 :href="$alias.user(item.lover.zone)"
                 class="fr">
                 <span v-text="item.lover.nickname"/>
-                <v-img 
+                <v-img
                   :src="item.lover.avatar"
-                  width="20" 
-                  height="20"/>
+                  size="20"
+                  class="image"
+                />
               </a>
             </div>
             <div 

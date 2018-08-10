@@ -29,10 +29,9 @@
       .avatar {
         position: relative;
         display: block;
-        @include avatar(50px);
-        @include border(#fff, 50%);
         float: left;
         margin-right: 10px;
+        @extend %avatar;
       }
 
       .panel {
@@ -112,9 +111,11 @@
         <a 
           :href="$alias.user(user.zone)" 
           class="avatar">
-          <img 
-            :src="$resize(user.avatar, { width: 50 })" 
-            alt="me">
+          <v-img
+            :src="user.avatar"
+            :lazy="false"
+            size="50"
+          />
         </a>
         <div class="panel">
           <div>

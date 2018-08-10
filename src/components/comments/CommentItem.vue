@@ -8,7 +8,7 @@
   .avatar {
     float: left;
     margin-right: 9px;
-    @include avatar-2(35px);
+    @extend %avatar;
   }
 
   .content {
@@ -87,10 +87,10 @@
     <a 
       :href="$alias.user(comment.from_user_zone)" 
       class="avatar">
-      <v-img 
-        :src="comment.from_user_avatar" 
-        :width="80" 
-        :height="80"/>
+      <v-img
+        :src="comment.from_user_avatar"
+        size="35"
+      />
     </a>
     <div class="content">
       <div class="header">

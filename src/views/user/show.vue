@@ -28,8 +28,7 @@
       position: absolute;
       left: $container-padding;
       top: -40px;
-      @include avatar(80px);
-      @include border(#fff, 50%);
+      @extend %avatar;
     }
 
     .info {
@@ -120,9 +119,7 @@
         display: block;
       }
 
-      img {
-        width: 46px;
-        height: 46px;
+      .avatar {
         margin-right: 12px;
         float: left;
       }
@@ -195,9 +192,8 @@
         }
 
         .image-list {
-          img {
-            width: 32%;
-            height: auto;
+          .image {
+            float: left;
 
             &:not(:last-child) {
               margin-right: 2%;
@@ -292,11 +288,11 @@
         class="img bg"/>
     </div>
     <div class="user-panel container">
-      <div class="avatar">
-        <img 
-          :src="$resize(user.avatar, { width: 92 })" 
-          alt="avatar">
-      </div>
+      <v-img
+        :src="user.avatar"
+        size="80"
+        class="avatar"
+      />
       <div class="info">
         <button 
           v-if="isMe" 
@@ -351,12 +347,12 @@
             :href="$alias.bangumi(item.id)" 
             class="clearfix">
             <v-img
-              :alt="item.name"
-              :src="$resize(item.avatar, { width: 160, height: 160 })"
-              class="bg"
+              :src="item.avatar"
+              class="avatar"
+              size="40"
             />
-            <p 
-              class="name" 
+            <p
+              class="name"
               v-text="item.name"/>
           </a>
         </li>
@@ -379,10 +375,10 @@
           <a :href="$alias.cartoonRole(item.id)">
             <div class="clearfix">
               <div class="avatar">
-                <v-img 
-                  :src="item.avatar" 
-                  width="80" 
-                  height="80"/>
+                <v-img
+                  :src="item.avatar"
+                  size="80"
+                />
               </div>
               <div class="summary">
                 <div class="role">
@@ -463,10 +459,8 @@
               <v-img
                 v-if="item.post.images.length === 1"
                 :src="item.post.images[0].url"
-                class="image-full bg"
+                width="100%"
                 height="190"
-                mode="2"
-                tag="div"
               />
               <div 
                 v-else 
@@ -475,7 +469,9 @@
                   v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
                   :src="image.url"
-                  width="110"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
               </div>
             </div>
@@ -492,10 +488,8 @@
               <v-img
                 v-if="item.images.length === 1"
                 :src="item.images[0].url"
-                class="image-full bg"
+                width="100%"
                 height="190"
-                mode="2"
-                tag="div"
               />
               <div 
                 v-else 
@@ -504,7 +498,9 @@
                   v-for="(image, index) in imageFilter(item.images)"
                   :key="index"
                   :src="image.url"
-                  width="110"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
               </div>
             </div>

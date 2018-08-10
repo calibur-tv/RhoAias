@@ -4,11 +4,15 @@ $placeholder-color: #ddd;
 
 .lazy-flow-image,
 .lazy-full-image {
+  position: relative;
   background-color: transparent;
   transition: $transition;
   overflow: hidden;
+  display: block;
 
   img {
+    width: 100%;
+    height: 100%;
     display: block;
   }
 }
@@ -19,7 +23,7 @@ $placeholder-color: #ddd;
   position: relative;
   cursor: pointer;
 
-  .lazy-image-shim {
+  img {
     display: none;
   }
 
@@ -35,13 +39,21 @@ $placeholder-color: #ddd;
 .lazy-full-image {
   width: 100%;
 
+  .lazy-image-padding {
+    width: 100%;
+    height: 0;
+  }
+
   .lazy-image-shim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
     height: 100%;
-    margin: 0 auto;
+    background-color: transparent;
 
     img {
-      width: 100%;
-      height: 100%;
+      margin: 0 auto;
     }
   }
 }
@@ -49,6 +61,10 @@ $placeholder-color: #ddd;
 .lazy-image-fade {
   background-color: $placeholder-color;
   opacity: 0.3;
+
+  img {
+    display: none;
+  }
 }
 </style>
 
@@ -56,17 +72,21 @@ $placeholder-color: #ddd;
   <div
     v-if="full"
     :class="{ 'lazy-image-fade': !loaded, 'lazy-image-retry': error }"
-    :style="{ height: `${computeContainerHeight}px` }"
+    :style="{ height: computeContainerHeight ? `${computeContainerHeight}px` : 'auto' }"
     class="lazy-full-image"
   >
     <div
+      :style="fullImagePaddingShim"
+      class="lazy-image-padding"
+    />
+    <div
       ref="shim"
-      :style="{ width: computeShimWidth }"
       class="lazy-image-shim"
     >
       <img
         ref="img"
         :src="$isServer ? '' : loaded ? fullImageSrc : placeholderImage"
+        :style="{ width: computeShimWidth }"
         @error="handleImageLoadError"
         @load="handleImageLoadSuccess"
       >
@@ -81,7 +101,7 @@ $placeholder-color: #ddd;
       />
     </div>
   </div>
-  <div
+  <span
     v-else
     :class="{ 'lazy-image-fade': !loaded }"
     :style="normalImageStyle"
@@ -92,7 +112,7 @@ $placeholder-color: #ddd;
       :src="error ? errorPlaceholder : $isServer ? '' : loaded ? flowImageSrc : placeholderImage"
       @error="handleImageLoadError"
     >
-  </div>
+  </span>
 </template>
 
 <script>
@@ -130,6 +150,10 @@ export default {
     mime: {
       type: String,
       default: ""
+    },
+    lazy: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -153,6 +177,11 @@ export default {
         return 0;
       }
       return parseInt((this.height / this.width) * this.containerWidth, 10);
+    },
+    fullImagePaddingShim() {
+      return {
+        paddingTop: `${(this.height / this.width) * 100}%`
+      };
     },
     computeShimWidth() {
       return this.width >= this.containerWidth ? "100%" : `${this.width}px`;
@@ -227,7 +256,7 @@ export default {
   },
   mounted() {
     this.containerWidth = this.$el.parentNode.offsetWidth;
-    if (utils.checkInView(this.$el)) {
+    if (!this.lazy || utils.checkInView(this.$el)) {
       this.loadImageResource();
     } else {
       this.bindLazyEvent();

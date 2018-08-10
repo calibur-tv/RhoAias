@@ -40,7 +40,7 @@
     }
 
     .avatar {
-      @include avatar-2(24px);
+      @extend %avatar;
     }
   }
 
@@ -84,7 +84,10 @@
         <button 
           class="avatar" 
           @click="goHome">
-          <img :src="$resize(user.avatar, { width: 50 })">
+          <v-img
+            :src="user.avatar"
+            size="24"
+          />
         </button>
         <button
           class="primary"

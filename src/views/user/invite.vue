@@ -87,8 +87,10 @@
 
         .avatar {
           margin: 0 auto;
-          @include avatar-2(200px);
           border: 10px solid white;
+          width: 200px;
+          height: 200px;
+          @extend %avatar;
         }
 
         .nickname {

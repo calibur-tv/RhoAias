@@ -112,22 +112,22 @@
         />
       </palette-button>
     </div>
-    <v-post/>
-    <v-image/>
+    <post-drawer/>
+    <image-drawer/>
   </div>
 </template>
 
 <script>
 import { PaletteButton } from "mint-ui";
-import vPost from "~/components/creators/PostDrawer";
-import vImage from "~/components/creators/ImageDrawer";
+import PostDrawer from "~/components/creators/PostDrawer";
+import ImageDrawer from "~/components/creators/ImageDrawer";
 
 export default {
   name: "VCreatorMenu",
   components: {
     PaletteButton,
-    vPost,
-    vImage
+    PostDrawer,
+    ImageDrawer
   },
   data() {
     return {

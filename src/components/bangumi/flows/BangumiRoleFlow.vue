@@ -52,14 +52,13 @@
           vertical-align: middle;
           color: $color-text-normal;
 
-          img {
-            width: 20px;
-            height: 20px;
+          .image {
             border-radius: 15px;
             vertical-align: middle;
             border: 1px solid $color-gray-normal;
             margin-left: 5px;
             margin-top: -3px;
+            display: inline-block;
           }
 
           a {
@@ -91,8 +90,8 @@
             <div class="avatar">
               <v-img
                 :src="item.avatar"
-                width="90"
-                height="90"/>
+                size="90"
+              />
             </div>
             <div class="summary">
               <div class="role">
@@ -120,8 +119,9 @@
                     {{ item.lover.nickname }}
                     <v-img
                       :src="item.lover.avatar"
-                      width="20"
-                      height="20"/>
+                      size="20"
+                      class="image"
+                    />
                   </a>
                 </span>
               </div>

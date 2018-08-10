@@ -18,10 +18,9 @@
 
   .trending-header {
     .user-avatar {
-      display: block;
       margin-right: 5px;
       float: left;
-      @include avatar(35px);
+      @extend %avatar;
     }
 
     .header-content {
@@ -58,10 +57,9 @@
       overflow: hidden;
 
       .user-avatar {
-        display: block;
         margin-right: 5px;
         float: left;
-        @include avatar(23px);
+        @extend %avatar;
       }
 
       .nickname {
@@ -81,18 +79,9 @@
       overflow: hidden;
 
       .bangumi-avatar {
-        display: block;
         margin-right: 5px;
         float: left;
-        width: 23px;
-        height: 23px;
-        overflow: hidden;
         border-radius: 4px;
-
-        img {
-          width: 100%;
-          height: 100%;
-        }
       }
 
       .nickname {
@@ -196,7 +185,10 @@
           class="user"
         >
           <div class="user-avatar">
-            <img :src="$resize(item.user.avatar, { width: 50 })">
+            <v-img
+              :src="item.user.avatar"
+              size="35"
+            />
           </div>
           <div
             class="nickname oneline"
@@ -223,7 +215,10 @@
           class="bangumi"
         >
           <div class="bangumi-avatar">
-            <img :src="$resize(item.bangumi.avatar, { width: 50 })">
+            <v-img
+              :src="item.bangumi.avatar"
+              size="23"
+            />
           </div>
           <div
             class="nickname oneline"
@@ -239,7 +234,10 @@
           :href="$alias.user(item.user.zone)"
           class="user-avatar"
         >
-          <img :src="$resize(item.user.avatar, { width: 70 })">
+          <v-img
+            :src="item.user.avatar"
+            size="35"
+          />
         </a>
         <div class="header-content">
           <div class="about">

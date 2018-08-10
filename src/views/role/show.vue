@@ -5,8 +5,6 @@
     min-height: 80px;
 
     .avatar {
-      width: 80px;
-      height: 80px;
       float: left;
       margin-right: 10px;
       margin-bottom: $container-padding;
@@ -25,11 +23,10 @@
         height: 26px;
         margin-bottom: 5px;
 
-        img {
+        .image {
           vertical-align: middle;
-          border: 1px solid $color-gray-normal;
-          border-radius: 50%;
-          @include avatar(26px);
+          display: inline-block;
+          @extend %avatar;
         }
       }
 
@@ -93,11 +90,10 @@
       }
 
       .avatar {
+        display: inline-block;
         vertical-align: middle;
-        border: 1px solid $color-gray-normal;
-        border-radius: 50%;
         margin-right: 3px;
-        @include avatar(30px);
+        @extend %avatar;
       }
 
       time {
@@ -118,9 +114,11 @@
         <h3 class="sub-title">角色信息</h3>
         <div>
           <div class="clearfix">
-            <img 
-              :src="$resize(role.avatar, { width: 80 })" 
-              class="avatar">
+            <v-img
+              :src="role.avatar"
+              size="80"
+              class="avatar"
+            />
             <div class="info">
               <h1 
                 class="name" 
@@ -129,7 +127,11 @@
                 <template v-if="role.lover">
                   <a :href="$alias.user(role.lover.zone)">
                     守护者：
-                    <img :src="$resize(role.lover.avatar, { width: 52 })">
+                    <v-img
+                      :src="role.lover.avatar"
+                      size="26"
+                      class="image"
+                    />
                     {{ role.lover.nickname }}
                   </a>
                 </template>
@@ -188,9 +190,11 @@
             :key="index"
           >
             <a :href="$alias.user(item.zone)">
-              <img 
-                :src="$resize(item.avatar, { width: 60 })" 
-                class="avatar">
+              <v-img
+                :src="item.avatar"
+                size="30"
+                class="avatar"
+              />
               {{ item.nickname }}
               <v-time v-model="item.score"/>
             </a>

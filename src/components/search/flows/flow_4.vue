@@ -38,16 +38,9 @@
   }
 
   .images {
-    .image-full {
-      height: 190px;
-      width: 100%;
-      background-color: #eee;
-    }
-
     .image-list {
-      img {
-        width: 32%;
-        height: auto;
+      .image {
+        float: left;
 
         &:not(:last-child) {
           margin-right: 2%;
@@ -79,19 +72,20 @@
         <v-img
           v-if="item.images.length === 1"
           :src="item.images[0].url"
-          class="image-full bg"
+          width="100%"
           height="190"
-          mode="2"
-          tag="div"
         />
-        <div 
-          v-else 
-          class="image-list">
+        <div
+          v-else
+          class="image-list"
+        >
           <v-img
             v-for="(image, index) in imageFilter(item.images)"
             :key="index"
             :src="image.url"
-            width="110"
+            class="image"
+            width="32%"
+            height="93"
           />
         </div>
       </div>

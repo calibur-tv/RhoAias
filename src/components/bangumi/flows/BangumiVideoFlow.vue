@@ -11,8 +11,6 @@
       display: block;
       width: 100%;
       height: 80px;
-      border-radius: 5px;
-      overflow: hidden;
       @extend %clearfix;
     }
 
@@ -21,9 +19,8 @@
     }
 
     .poster {
-      width: 128px;
-      height: 80px;
       margin-right: 10px;
+      border-radius: 5px;
       float: left;
     }
 
@@ -62,8 +59,9 @@
           >
             <a :href="$alias.video(video.id)">
               <v-img
-                :alt="video.name"
-                :src="$resize(video.poster, { width: 128, height: 80 })"
+                :src="video.poster"
+                width="128"
+                height="80"
                 class="poster"
               />
               <div class="intro">
@@ -87,8 +85,9 @@
       >
         <a :href="$alias.video(video.id)">
           <v-img
-            :alt="video.name"
-            :src="$resize(video.poster, { width: 128, height: 80 })"
+            :src="video.poster"
+            width="128"
+            height="80"
             class="poster"
           />
           <div class="intro">

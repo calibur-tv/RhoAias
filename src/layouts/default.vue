@@ -14,7 +14,6 @@
     <no-ssr>
       <creator-menu/>
     </no-ssr>
-    <image-reader/>
     <feedback-drawer/>
     <share-drawer/>
   </div>
@@ -22,7 +21,6 @@
 
 <script>
 import vHeader from "~/components/layouts/Header";
-import ImageReader from "~/components/common/ImageReader";
 import CreatorMenu from "~/components/common/Creator";
 import FeedbackDrawer from "~/components/drawers/FeedbackDrawer";
 import ShareDrawer from "~/components/drawers/ShareDrawer";
@@ -30,7 +28,6 @@ import ShareDrawer from "~/components/drawers/ShareDrawer";
 export default {
   components: {
     vHeader,
-    ImageReader,
     CreatorMenu,
     FeedbackDrawer,
     ShareDrawer

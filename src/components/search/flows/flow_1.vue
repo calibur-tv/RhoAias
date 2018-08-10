@@ -8,7 +8,7 @@
   .avatar {
     float: left;
     margin-right: 12px;
-    @include avatar-2(60px);
+    @extend %avatar;
   }
 
   .intro {
@@ -53,9 +53,10 @@
     <a 
       :href="$alias.user(item.zone)" 
       class="avatar">
-      <img 
-        :src="$resize(item.avatar, { width: 120 })" 
-        :alt="item.nickname">
+      <v-img
+        :src="item.avatar"
+        size="60"
+      />
     </a>
     <div class="intro">
       <div class="head">
