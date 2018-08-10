@@ -21,9 +21,9 @@
 
 <template>
   <div class="sign-in-form">
-    <img 
-      class="logo" 
-      src="https://image.calibur.tv/owner/m-logo-login.png?imageMogr2/auto-orient/strip" 
+    <img
+      class="logo"
+      src="https://image.calibur.tv/owner/m-logo-login.png?imageMogr2/auto-orient/strip"
       alt="sign-logo">
     <el-form
       ref="form"
@@ -84,9 +84,6 @@ export default {
       }
       if (value.length > 16) {
         return callback(new Error("密码不能大于16位"));
-      }
-      if (!/^[a-z0-9]+$/i.test(value)) {
-        return callback(new Error("密码只能是英文和数字"));
       }
       callback();
     };

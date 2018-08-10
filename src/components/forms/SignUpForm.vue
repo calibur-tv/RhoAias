@@ -82,8 +82,8 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <div 
-      v-if="!inviteCode" 
+    <div
+      v-if="!inviteCode"
       class="others">
       <a @click="showOAuth">社交账号注册</a>
       <a @click="showLogin">已有账号»</a>
@@ -143,9 +143,6 @@ export default {
       }
       if (value.length > 16) {
         return callback(new Error("密码不能大于16位"));
-      }
-      if (!/^[a-z0-9]+$/i.test(value)) {
-        return callback(new Error("密码只能是英文和数字"));
       }
       callback();
     };
