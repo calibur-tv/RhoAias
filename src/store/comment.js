@@ -30,7 +30,7 @@ const mutations = {
     }
   },
   SET_MAIN_COMMENTS(state, { comments, seeReplyId, id }) {
-    state.id = id;
+    state.id = +id;
     if (!comments.list.length) {
       state.noMore = comments.noMore;
       state.total = comments.total;
