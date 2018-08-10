@@ -135,28 +135,28 @@
         :key="item.id"
       >
         <div class="clearfix">
-          <a 
-            :href="$alias.cartoonRole(item.id)" 
+          <a
+            :href="$alias.cartoonRole(item.id)"
             class="avatar">
             <v-img
               :src="item.avatar"
-              size="90"
+              size="100"
             />
           </a>
           <div class="summary">
-            <a 
-              :href="$alias.cartoonRole(item.id)" 
+            <a
+              :href="$alias.cartoonRole(item.id)"
               class="role">
-              <span 
-                class="name" 
+              <span
+                class="name"
                 v-text="item.name"/>
               <span class="intro">：{{ item.intro }}</span>
             </a>
-            <div 
+            <div
               v-if="item.lover"
               class="lover">
               <span>守护者：</span>
-              <a 
+              <a
                 :href="$alias.user(item.lover.zone)"
                 class="fr">
                 <span v-text="item.lover.nickname"/>
@@ -167,8 +167,8 @@
                 />
               </a>
             </div>
-            <div 
-              v-else 
+            <div
+              v-else
               class="lover"/>
           </div>
           <div class="footer">
@@ -182,13 +182,13 @@
                 {{ $utils.shortenNumber(item.star_count) }}
               </span>
               <span>排名:</span>
-              <span 
-                :data-index="item.fans_count ? index + 1 : '无'" 
+              <span
+                :data-index="item.fans_count ? index + 1 : '无'"
                 class="top"/>
             </div>
-            <a 
+            <a
               :href="$alias.bangumi(item.bangumi.id)"
-              class="bangumi" 
+              class="bangumi"
               v-text="item.bangumi.name"/>
           </div>
         </div>
