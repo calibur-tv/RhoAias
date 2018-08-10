@@ -111,7 +111,16 @@
     .images {
       position: relative;
       margin-bottom: 8px;
-      z-index: -2;
+
+      .poster-image {
+        img {
+          height: auto;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
 
       .image-list {
         @extend %clearfix;
@@ -239,6 +248,7 @@
             :src="item.images[0].url"
             width="100%"
             height="190"
+            class="poster-image"
           />
           <div
             v-else

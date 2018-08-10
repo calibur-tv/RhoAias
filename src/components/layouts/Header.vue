@@ -99,6 +99,7 @@ $header-hgt: 48px;
           height: 10px;
           border-radius: 50%;
           background-color: red;
+          pointer-events: none;
           @include border(#fff, 50%);
         }
       }
