@@ -176,11 +176,19 @@ export default {
       if (this.$isServer) {
         return 0;
       }
-      return parseInt((this.height / this.width) * this.containerWidth, 10);
+      if (this.width >= this.containerWidth) {
+        return parseInt((this.height / this.width) * this.containerWidth, 10);
+      }
+      return this.height;
     },
     fullImagePaddingShim() {
+      if (this.width >= this.containerWidth) {
+        return {
+          paddingTop: `${(this.height / this.width) * 100}%`
+        };
+      }
       return {
-        paddingTop: `${(this.height / this.width) * 100}%`
+        paddingTop: `${(this.height / this.containerWidth) * 100}%`
       };
     },
     computeShimWidth() {

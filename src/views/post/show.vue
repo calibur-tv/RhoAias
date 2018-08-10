@@ -175,9 +175,6 @@
           </div>
         </div>
         <div class="content">
-          <div 
-            class="text-area" 
-            v-html="post.content"/>
           <div class="image-area">
             <div
               v-for="(img, idx) in post.images"
@@ -192,6 +189,9 @@
               />
             </div>
           </div>
+          <div
+            class="text-area"
+            v-html="post.content"/>
         </div>
         <div class="footer">
           <social-panel
