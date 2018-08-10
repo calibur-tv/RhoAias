@@ -175,7 +175,7 @@ const actions = {
   ) {
     if (state.type) {
       if (state.type === type) {
-        if (state.id !== id) {
+        if (state.id !== +id) {
           commit("RESET_STATE", { type });
         } else if (state.noMore) {
           return;
