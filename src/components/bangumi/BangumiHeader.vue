@@ -87,7 +87,7 @@ $banner-height: 140px;
         :followed="info.followed"
         :class="info.followed ? 'is-followed' : 'not-follow'"
         type="bangumi"
-        @click="actionFollow"
+        @submit="actionFollow"
       />
       <div class="summary">
         <p 
