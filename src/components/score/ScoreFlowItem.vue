@@ -167,67 +167,7 @@
   <li class="score-flow-item">
     <div @click="linkStart">
       <div
-        v-if="!item.bangumi"
-        class="header bangumi-header"
-      >
-        <el-rate
-          v-if="starCount"
-          v-model="starCount"
-          disabled
-        />
-        <el-rate
-          v-else
-          v-model="zero"
-          disabled
-        />
-        <a
-          :href="$alias.user(item.user.zone)"
-          class="user"
-        >
-          <div class="user-avatar">
-            <v-img
-              :src="item.user.avatar"
-              size="35"
-            />
-          </div>
-          <div
-            class="nickname oneline"
-            v-text="item.user.nickname"
-          />
-        </a>
-      </div>
-      <div
-        v-if="!item.user"
-        class="header user-header"
-      >
-        <el-rate
-          v-if="starCount"
-          v-model="starCount"
-          disabled
-        />
-        <el-rate
-          v-else
-          v-model="zero"
-          disabled
-        />
-        <a
-          :href="$alias.bangumi(item.bangumi.id)"
-          class="bangumi"
-        >
-          <div class="bangumi-avatar">
-            <v-img
-              :src="item.bangumi.avatar"
-              size="23"
-            />
-          </div>
-          <div
-            class="nickname oneline"
-            v-text="item.bangumi.name"
-          />
-        </a>
-      </div>
-      <div
-        v-else
+        v-if="item.bangumi && item.user"
         class="header trending-header"
       >
         <a
@@ -270,6 +210,66 @@
             />
           </div>
         </div>
+      </div>
+      <div
+        v-else-if="!item.bangumi"
+        class="header bangumi-header"
+      >
+        <el-rate
+          v-if="starCount"
+          v-model="starCount"
+          disabled
+        />
+        <el-rate
+          v-else
+          v-model="zero"
+          disabled
+        />
+        <a
+          :href="$alias.user(item.user.zone)"
+          class="user"
+        >
+          <div class="user-avatar">
+            <v-img
+              :src="item.user.avatar"
+              size="35"
+            />
+          </div>
+          <div
+            class="nickname oneline"
+            v-text="item.user.nickname"
+          />
+        </a>
+      </div>
+      <div
+        v-else-if="!item.user"
+        class="header user-header"
+      >
+        <el-rate
+          v-if="starCount"
+          v-model="starCount"
+          disabled
+        />
+        <el-rate
+          v-else
+          v-model="zero"
+          disabled
+        />
+        <a
+          :href="$alias.bangumi(item.bangumi.id)"
+          class="bangumi"
+        >
+          <div class="bangumi-avatar">
+            <v-img
+              :src="item.bangumi.avatar"
+              size="23"
+            />
+          </div>
+          <div
+            class="nickname oneline"
+            v-text="item.bangumi.name"
+          />
+        </a>
       </div>
       <div class="body">
         <div class="title">
