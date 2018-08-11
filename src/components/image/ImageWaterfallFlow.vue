@@ -157,7 +157,7 @@
 
 <template>
   <div id="image-waterfall-flow">
-    <no-ssr v-if="list.length">
+    <no-ssr>
       <waterfall
         :line-gap="155"
         :auto-resize="false"
@@ -286,7 +286,6 @@
       </waterfall>
     </no-ssr>
     <more-btn
-      v-else
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
