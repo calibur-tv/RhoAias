@@ -186,9 +186,17 @@
       .images {
         margin-bottom: 5px;
 
-        .image-full {
-          height: 190px;
-          width: 100%;
+        .poster-image {
+          border-radius: 5px;
+          overflow: hidden;
+
+          img {
+            height: auto;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
 
         .image-list {
@@ -462,6 +470,7 @@
                 :src="item.post.images[0].url"
                 width="100%"
                 height="190"
+                class="poster-image"
               />
               <div 
                 v-else 
@@ -491,6 +500,7 @@
                 :src="item.images[0].url"
                 width="100%"
                 height="190"
+                class="poster-image"
               />
               <div 
                 v-else 
