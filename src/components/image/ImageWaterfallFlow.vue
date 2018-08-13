@@ -1,12 +1,12 @@
 <style lang="scss">
 #image-waterfall-flow {
   margin-right: -5px;
-  padding-top: 10px;
   background-color: #fff;
 
   .vue-waterfall {
     width: 310px;
     margin: 0 auto;
+    padding-top: 10px;
   }
 
   .vue-waterfall-slot {
@@ -159,6 +159,7 @@
   <div id="image-waterfall-flow">
     <no-ssr>
       <waterfall
+        v-if="list.length"
         :line-gap="155"
         :auto-resize="false"
       >

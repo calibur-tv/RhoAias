@@ -43,63 +43,66 @@
 
 <template>
   <div id="bangumi-video-flow">
-    <div 
-      v-if="videos.has_season" 
-      class="container">
-      <template v-for="season in videos.list">
-        <h3 
-          :key="season.name" 
-          class="sub-title" 
-          v-text="season.name"/>
-        <ul :key="season.name">
-          <li
-            v-for="video in season.data"
-            :key="video.id"
-            class="video"
-          >
-            <a :href="$alias.video(video.id)">
-              <v-img
-                :src="video.poster"
-                width="128"
-                height="80"
-                class="poster"
-              />
-              <div class="intro">
-                <p class="part oneline">第{{ video.part - season.base }}话</p>
-                <span
-                  class="name"
-                  v-text="video.name"/>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </template>
-    </div>
-    <ul 
-      v-else 
-      class="container">
-      <li
-        v-for="video in videos.list"
-        :key="video.id"
-        class="video"
-      >
-        <a :href="$alias.video(video.id)">
-          <v-img
-            :src="video.poster"
-            width="128"
-            height="80"
-            class="poster"
-          />
-          <div class="intro">
-            <p class="part oneline">第{{ video.part }}话</p>
-            <span
-              class="name"
-              v-text="video.name"/>
-          </div>
-        </a>
-      </li>
-    </ul>
+    <section v-if="videos.list.length">
+      <div
+        v-if="videos.has_season"
+        class="container">
+        <template v-for="season in videos.list">
+          <h3
+            :key="season.name"
+            class="sub-title"
+            v-text="season.name"/>
+          <ul :key="season.name">
+            <li
+              v-for="video in season.data"
+              :key="video.id"
+              class="video"
+            >
+              <a :href="$alias.video(video.id)">
+                <v-img
+                  :src="video.poster"
+                  width="128"
+                  height="80"
+                  class="poster"
+                />
+                <div class="intro">
+                  <p class="part oneline">第{{ video.part - season.base }}话</p>
+                  <span
+                    class="name"
+                    v-text="video.name"/>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </template>
+      </div>
+      <ul
+        v-else
+        class="container">
+        <li
+          v-for="video in videos.list[0].data"
+          :key="video.id"
+          class="video"
+        >
+          <a :href="$alias.video(video.id)">
+            <v-img
+              :src="video.poster"
+              width="128"
+              height="80"
+              class="poster"
+            />
+            <div class="intro">
+              <p class="part oneline">第{{ video.part }}话</p>
+              <span
+                class="name"
+                v-text="video.name"/>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </section>
     <more-btn
+      v-else
       :no-more="true"
       :auto="true"
       :loading="loading"

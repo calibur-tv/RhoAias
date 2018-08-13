@@ -153,13 +153,6 @@ export default {
       return this.info.tags;
     }
   },
-  mounted() {
-    if (this.info.has_video) {
-      setTimeout(() => {
-        this.switchTab("video");
-      }, 1000);
-    }
-  },
   methods: {
     switchTab(tab) {
       this.sort = tab;
