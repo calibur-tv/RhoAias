@@ -5,8 +5,7 @@
 
   .vue-waterfall {
     width: 310px;
-    margin: 0 auto;
-    padding-top: 10px;
+    margin: 10px auto 0;
   }
 
   .vue-waterfall-slot {

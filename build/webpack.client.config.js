@@ -3,11 +3,13 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const MinifyPlugin = require('babel-minify-webpack-plugin')
 const resolve = file => path.resolve(__dirname, file)
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
 
 const config = merge(base, {
+  devtool: false,
   entry: {
     app: resolve('../src/entry/entry-client.js'),
     vendor: [
@@ -53,7 +55,10 @@ const config = merge(base, {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new webpack.optimize.AggressiveSplittingPlugin()
+        new webpack.optimize.AggressiveSplittingPlugin(),
+        new MinifyPlugin({}, {
+          sourceMap: false
+        })
       ])
     }
 
