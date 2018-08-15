@@ -182,6 +182,7 @@ export default {
           }
           this.loadingReward = true;
           const api = new Api(this);
+          const user = this.$store.state.user;
           try {
             const result = await api.reward({
               id: this.id,
@@ -192,7 +193,13 @@ export default {
             }
             this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
               key: "reward",
-              value: result
+              value: result,
+              user: {
+                id: user.id,
+                zone: user.zone,
+                nickname: user.nickname,
+                avatar: user.avatar
+              }
             });
             this.$toast.success("操作成功");
           } catch (e) {
@@ -217,6 +224,7 @@ export default {
       }
       this.loadingLike = true;
       const api = new Api(this);
+      const user = this.$store.state.user;
       try {
         const result = await api.like({
           id: this.id,
@@ -224,7 +232,13 @@ export default {
         });
         this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
           key: "like",
-          value: result
+          value: result,
+          user: {
+            id: user.id,
+            zone: user.zone,
+            nickname: user.nickname,
+            avatar: user.avatar
+          }
         });
         this.$toast.success("操作成功");
       } catch (e) {
@@ -247,6 +261,7 @@ export default {
       }
       this.loadingMark = true;
       const api = new Api(this);
+      const user = this.$store.state.user;
       try {
         const result = await api.mark({
           id: this.id,
@@ -254,7 +269,13 @@ export default {
         });
         this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
           key: "mark",
-          value: result
+          value: result,
+          user: {
+            id: user.id,
+            zone: user.zone,
+            nickname: user.nickname,
+            avatar: user.avatar
+          }
         });
         this.$toast.success("操作成功");
       } catch (e) {
