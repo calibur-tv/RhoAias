@@ -221,70 +221,6 @@
       }
     }
   }
-
-  #roles-of-mine {
-    li {
-      position: relative;
-      margin-top: 15px;
-      padding-bottom: 15px;
-
-      &:not(:last-child) {
-        @include border-bottom();
-      }
-
-      .avatar {
-        width: 80px;
-        height: 80px;
-        display: block;
-        float: left;
-        overflow: hidden;
-        border-radius: 5px;
-        margin-right: 10px;
-        border: 1px solid $color-gray-normal;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-
-      .summary {
-        overflow: hidden;
-
-        .role {
-          display: block;
-          font-size: 14px;
-          line-height: 20px;
-          height: 60px;
-          overflow: hidden;
-
-          .name {
-            font-weight: bold;
-          }
-
-          .intro {
-            color: #000;
-          }
-        }
-
-        .lover {
-          height: 20px;
-          line-height: 20px;
-          vertical-align: middle;
-          font-size: 13px;
-          color: $color-text-normal;
-          overflow: hidden;
-          text-align: right;
-
-          span {
-            margin-left: 10px;
-            font-size: 12px;
-            margin-right: 2px;
-          }
-        }
-      }
-    }
-  }
 }
 </style>
 
@@ -373,6 +309,96 @@
         :loading="false"
       />
     </template>
+    <post-flow-list
+      v-else-if="sort === 'mine'"
+      :user-zone="zone"
+    />
+    <template v-else-if="sort === 'reply'">
+      <ul id="posts-of-reply">
+        <li
+          v-for="item in posts.data"
+          :key="item.id"
+        >
+          <a
+            :href="$alias.post(item.post.id)"
+            class="header"
+            v-text="item.post.title"/>
+          <a
+            :href="$alias.post(item.post.id, { comment: item.post.id })"
+            class="origin">
+            <div
+              class="content"
+              v-html="item.post.content"/>
+            <div
+              v-if="item.post.images.length"
+              class="images clearfix">
+              <v-img
+                v-if="item.post.images.length === 1"
+                :src="item.post.images[0].url"
+                width="100%"
+                height="190"
+                class="poster-image"
+              />
+              <div
+                v-else
+                class="image-list">
+                <v-img
+                  v-for="(image, index) in imageFilter(item.post.images)"
+                  :key="index"
+                  :src="image.url"
+                  class="image"
+                  width="32%"
+                  height="93"
+                />
+              </div>
+            </div>
+          </a>
+          <a
+            :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
+            class="reply">
+            <div
+              class="content"
+              v-html="item.content"/>
+            <div
+              v-if="item.images.length"
+              class="images clearfix">
+              <v-img
+                v-if="item.images.length === 1"
+                :src="item.images[0].url"
+                width="100%"
+                height="190"
+                class="poster-image"
+              />
+              <div
+                v-else
+                class="image-list">
+                <v-img
+                  v-for="(image, index) in imageFilter(item.images)"
+                  :key="index"
+                  :src="image.url"
+                  class="image"
+                  width="32%"
+                  height="93"
+                />
+              </div>
+            </div>
+          </a>
+          <a
+            :href="$alias.bangumi(item.bangumi.id)"
+            class="footer">
+            回复于
+            <span v-text="item.bangumi.name"/>
+            <v-time v-model="item.created_at"/>
+          </a>
+        </li>
+      </ul>
+      <more-btn
+        :no-more="posts.noMore"
+        :loading="posts.loading"
+        :length="posts.data.length"
+        @fetch="getUserPosts"
+      />
+    </template>
     <template v-else-if="sort === 'role'">
       <ul 
         id="roles-of-mine" 
@@ -433,112 +459,13 @@
     <template v-else-if="sort === 'score'">
       <user-score-flow :zone="zone"/>
     </template>
-    <template v-else>
-      <ul
-        v-if="sort === 'mine'"
-        id="posts-of-mine"
-      >
-        <post-flow-item
-          v-for="item in posts.data"
-          :key="item.id"
-          :item="item"
-        />
-      </ul>
-      <ul
-        v-else-if="sort === 'reply'"
-        id="posts-of-reply"
-      >
-        <li
-          v-for="item in posts.data"
-          :key="item.id"
-        >
-          <a 
-            :href="$alias.post(item.post.id)" 
-            class="header" 
-            v-text="item.post.title"/>
-          <a 
-            :href="$alias.post(item.post.id, { comment: item.post.id })" 
-            class="origin">
-            <div 
-              class="content" 
-              v-html="item.post.content"/>
-            <div 
-              v-if="item.post.images.length" 
-              class="images clearfix">
-              <v-img
-                v-if="item.post.images.length === 1"
-                :src="item.post.images[0].url"
-                width="100%"
-                height="190"
-                class="poster-image"
-              />
-              <div 
-                v-else 
-                class="image-list">
-                <v-img
-                  v-for="(image, index) in imageFilter(item.post.images)"
-                  :key="index"
-                  :src="image.url"
-                  class="image"
-                  width="32%"
-                  height="93"
-                />
-              </div>
-            </div>
-          </a>
-          <a 
-            :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })" 
-            class="reply">
-            <div 
-              class="content" 
-              v-html="item.content"/>
-            <div 
-              v-if="item.images.length" 
-              class="images clearfix">
-              <v-img
-                v-if="item.images.length === 1"
-                :src="item.images[0].url"
-                width="100%"
-                height="190"
-                class="poster-image"
-              />
-              <div 
-                v-else 
-                class="image-list">
-                <v-img
-                  v-for="(image, index) in imageFilter(item.images)"
-                  :key="index"
-                  :src="image.url"
-                  class="image"
-                  width="32%"
-                  height="93"
-                />
-              </div>
-            </div>
-          </a>
-          <a 
-            :href="$alias.bangumi(item.bangumi.id)" 
-            class="footer">
-            回复于
-            <span v-text="item.bangumi.name"/>
-            <v-time v-model="item.created_at"/>
-          </a>
-        </li>
-      </ul>
-      <more-btn
-        :no-more="posts.noMore"
-        :loading="posts.loading"
-        :length="posts.data.length"
-        @fetch="getUserPosts"
-      />
-    </template>
   </div>
 </template>
 
 <script>
 import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
 import UserScoreFlow from "~/components/user/flows/UserScoreFlow";
-import PostFlowItem from "~/components/post/PostFlowItem";
+import PostFlowList from "~/components/flow/list/PostFlowList";
 
 export default {
   name: "UserShow",
@@ -575,7 +502,7 @@ export default {
   },
   components: {
     ImageWaterfallFlow,
-    PostFlowItem,
+    PostFlowList,
     UserScoreFlow
   },
   data() {
@@ -640,6 +567,12 @@ export default {
       }
       if (tab === "image") {
         this.getUserImages(true);
+        return;
+      }
+      if (tab === "mine") {
+        this.$nextTick(() => {
+          this.$channel.$emit("user-tab-switch-post");
+        });
         return;
       }
       this.getUserPosts(true);
