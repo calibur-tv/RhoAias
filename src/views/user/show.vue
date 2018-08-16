@@ -263,8 +263,8 @@
         :class="{ 'active': sort === 'bangumi' }" 
         @click="switchTab('bangumi')">番剧</button>
       <button 
-        :class="{ 'active': sort === 'mine' }" 
-        @click="switchTab('mine')">发帖</button>
+        :class="{ 'active': sort === 'post' }"
+        @click="switchTab('post')">发帖</button>
       <button 
         :class="{ 'active': sort === 'reply' }" 
         @click="switchTab('reply')">回复</button>
@@ -310,7 +310,7 @@
       />
     </template>
     <post-flow-list
-      v-else-if="sort === 'mine'"
+      v-else-if="sort === 'post'"
       :user-zone="zone"
     />
     <template v-else-if="sort === 'reply'">
@@ -399,73 +399,26 @@
         @fetch="getUserPosts"
       />
     </template>
-    <template v-else-if="sort === 'role'">
-      <ul 
-        id="roles-of-mine" 
-        class="container">
-        <li 
-          v-for="item in roles" 
-          :key="item.id">
-          <a :href="$alias.cartoonRole(item.id)">
-            <div class="clearfix">
-              <div class="avatar">
-                <v-img
-                  :src="item.avatar"
-                  size="80"
-                />
-              </div>
-              <div class="summary">
-                <div class="role">
-                  <span 
-                    class="name" 
-                    v-text="item.name"/>
-                  <span class="intro">：{{ item.intro }}</span>
-                </div>
-                <div class="lover">
-                  <span>
-                    粉丝:
-                    {{ $utils.shortenNumber(item.fans_count) }}
-                  </span>
-                  <span>
-                    金币:
-                    {{ $utils.shortenNumber(item.star_count) }}
-                  </span>
-                  <span>
-                    贡献:
-                    {{ item.has_star }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <more-btn
-        :no-more="noMoreRoles"
-        :loading="loadingRoles"
-        :length="roles.length"
-        @fetch="getUserRoles"
-      />
-    </template>
-    <template v-else-if="sort === 'image'">
-      <image-waterfall-flow
-        :list="images.list"
-        :no-more="images.noMore"
-        :loading="images.loading"
-        :show-tips="isMe"
-        @load="getUserImages(false)"
-      />
-    </template>
-    <template v-else-if="sort === 'score'">
-      <user-score-flow :zone="zone"/>
-    </template>
+    <cartoon-role-flow-list
+      v-else-if="sort === 'role'"
+      :user-zone="zone"
+    />
+    <image-flow-list
+      v-else-if="sort === 'image'"
+      :user-zone="zone"
+    />
+    <user-score-flow
+      v-else-if="sort === 'score'"
+      :zone="zone"
+    />
   </div>
 </template>
 
 <script>
-import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
 import UserScoreFlow from "~/components/user/flows/UserScoreFlow";
 import PostFlowList from "~/components/flow/list/PostFlowList";
+import ImageFlowList from "~/components/flow/list/ImageFlowList";
+import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
 
 export default {
   name: "UserShow",
@@ -501,9 +454,10 @@ export default {
     };
   },
   components: {
-    ImageWaterfallFlow,
     PostFlowList,
-    UserScoreFlow
+    UserScoreFlow,
+    ImageFlowList,
+    CartoonRoleFlowList
   },
   data() {
     return {
@@ -541,41 +495,33 @@ export default {
     },
     coinCount() {
       return this.self ? this.self.coin : 0;
-    },
-    roles() {
-      return this.$store.state.users.roles.data;
-    },
-    noMoreRoles() {
-      return this.$store.state.users.roles.noMore;
-    },
-    images() {
-      return this.$store.state.image.users;
     }
   },
   methods: {
     switchTab(tab) {
       this.sort = tab;
-      if (tab === "bangumi") {
-        return;
-      }
-      if (tab === "role") {
-        this.getUserRoles(true);
-        return;
-      }
-      if (tab === "score") {
-        return;
-      }
-      if (tab === "image") {
-        this.getUserImages(true);
-        return;
-      }
-      if (tab === "mine") {
-        this.$nextTick(() => {
-          this.$channel.$emit("user-tab-switch-post");
-        });
-        return;
-      }
-      this.getUserPosts(true);
+      this.$nextTick(() => {
+        switch (tab) {
+          case "bangumi":
+            this.$channel.$emit("user-tab-switch-bangumi");
+            break;
+          case "post":
+            this.$channel.$emit("user-tab-switch-post");
+            break;
+          case "reply":
+            this.getUserPosts();
+            break;
+          case "role":
+            this.$channel.$emit("user-tab-switch-role");
+            break;
+          case "image":
+            this.$channel.$emit("user-tab-switch-image");
+            break;
+          case "score":
+            this.$channel.$emit("user-tab-switch-score");
+            break;
+        }
+      });
     },
     getUserPosts(isFirstRequest = false) {
       if (
@@ -589,43 +535,6 @@ export default {
         type: this.sort,
         zone: this.user.zone
       });
-    },
-    async getUserImages(isFirstRequest = false) {
-      if (isFirstRequest && this.images.list.length) {
-        return;
-      }
-      if (this.loadingUserImageFetch) {
-        return;
-      }
-      this.loadingUserImageFetch = true;
-      try {
-        await this.$store.dispatch("image/users", {
-          zone: this.user.zone,
-          ctx: this,
-          force: isFirstRequest
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingUserImageFetch = false;
-      }
-    },
-    async getUserRoles(isFirstRequest = false) {
-      if (this.loadingRoles) {
-        return;
-      }
-      this.loadingRoles = true;
-      try {
-        await this.$store.dispatch("users/getFollowRoles", {
-          ctx: this,
-          zone: this.user.zone,
-          reset: isFirstRequest
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingRoles = false;
-      }
     },
     async handleDaySign() {
       if (this.daySigned || this.signDayLoading) {

@@ -4,19 +4,11 @@
     margin-top: 10px;
 
     .published {
-      float: left;
       margin-right: 10px;
-    }
-
-    .draft {
-      float: right;
-    }
-
-    .published,
-    .draft {
       line-height: 32px;
       font-size: 14px;
       color: $color-text-normal;
+      float: left;
     }
   }
 
@@ -57,10 +49,6 @@
       }
     }
   }
-
-  .nomore {
-    background-color: #fff;
-  }
 }
 </style>
 
@@ -69,8 +57,7 @@
     <div 
       v-if="isMine" 
       class="container control">
-      <div class="published">已发布</div>
-      <div class="draft">草稿箱</div>
+      <div class="published">{{ showDraft ? '草稿箱' : '已发布' }}</div>
       <mt-switch
         v-model="showDraft"
         @change="handleSwitchChange"
@@ -117,32 +104,21 @@
         </div>
       </template>
     </div>
-    <template v-else>
-      <ul>
-        <score-flow-item
-          v-for="item in list"
-          :key="item.id"
-          :item="item"
-        />
-      </ul>
-      <more-btn
-        :no-more="noMore"
-        :loading="state.loading"
-        :length="list.length"
-        @fetch="getData"
-      />
-    </template>
+    <score-flow-list
+      v-else
+      :user-zone="zone"
+    />
   </div>
 </template>
 
 <script>
 import Api from "~/api/scoreApi";
-import ScoreFlowItem from "~/components/score/ScoreFlowItem";
+import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
 
 export default {
   name: "UserScoreList",
   components: {
-    ScoreFlowItem
+    ScoreFlowList
   },
   props: {
     zone: {
@@ -152,17 +128,8 @@ export default {
   },
   data() {
     return {
-      state: {
-        loading: false,
-        fetched: false
-      },
-      list: [],
-      noMore: false,
-      total: 0,
-      page: 0,
-      take: 10,
-      showDraft: false,
       drafts: [],
+      showDraft: false,
       loadingDraft: false,
       fetchedDraft: false
     };
@@ -174,38 +141,10 @@ export default {
         : false;
     }
   },
-  mounted() {
-    if (!this.state.fetched) {
-      this.getData();
-    }
-  },
   methods: {
     handleSwitchChange(result) {
       if (!result) {
         this.getDraft();
-      }
-    },
-    async getData() {
-      if (this.state.loading) {
-        return;
-      }
-      this.state.loading = true;
-      const api = new Api(this);
-      try {
-        const data = await api.getUsersScore({
-          zone: this.zone,
-          page: this.page,
-          take: this.take
-        });
-        this.list = this.list.concat(data.list);
-        this.total = data.total;
-        this.noMore = data.noMore;
-        this.page++;
-        this.state.fetched = true;
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.state.loading = false;
       }
     },
     async getDraft() {

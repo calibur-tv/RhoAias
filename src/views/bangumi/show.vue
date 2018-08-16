@@ -64,8 +64,10 @@
           :class="{ 'active': sort === 'score' }" 
           @click="switchTab('score')">漫评</button>
       </div>
-      <bangumi-post-flow
+      <post-flow-list
         v-if="sort === 'post'"
+        :bangumi-id="id"
+        :bangumi-name="info.name"
       />
       <bangumi-video-flow
         v-else-if="sort === 'video'"
@@ -73,11 +75,15 @@
       <bangumi-cartoon-flow
         v-else-if="sort === 'cartoon'"
       />
-      <bangumi-role-flow
+      <cartoon-role-flow-list
         v-else-if="sort === 'role'"
+        :bangumi-id="id"
+        :bangumi-name="info.name"
       />
-      <bangumi-image-flow
+      <image-flow-list
         v-else-if="sort === 'image'"
+        :bangumi-id="id"
+        :bangumi-name="info.name"
       />
       <bangumi-score-flow
         v-else-if="sort === 'score'"
@@ -88,11 +94,11 @@
 
 <script>
 import BangumiHeader from "~/components/bangumi/BangumiHeader";
-import BangumiPostFlow from "~/components/bangumi/flows/BangumiPostFlow";
+import PostFlowList from "~/components/flow/list/PostFlowList";
 import BangumiVideoFlow from "~/components/bangumi/flows/BangumiVideoFlow";
 import BangumiCartoonFlow from "~/components/bangumi/flows/BangumiCartoonFlow";
-import BangumiRoleFlow from "~/components/bangumi/flows/BangumiRoleFlow";
-import BangumiImageFlow from "~/components/bangumi/flows/BangumiImageFlow";
+import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
+import ImageFlowList from "~/components/flow/list/ImageFlowList";
 import BangumiScoreFlow from "~/components/bangumi/flows/BangumiScoreFlow";
 
 export default {
@@ -112,11 +118,11 @@ export default {
   },
   components: {
     BangumiHeader,
-    BangumiPostFlow,
+    PostFlowList,
     BangumiVideoFlow,
     BangumiCartoonFlow,
-    BangumiRoleFlow,
-    BangumiImageFlow,
+    CartoonRoleFlowList,
+    ImageFlowList,
     BangumiScoreFlow
   },
   head() {
@@ -144,7 +150,7 @@ export default {
   },
   computed: {
     id() {
-      return this.$route.params.id;
+      return +this.$route.params.id;
     },
     info() {
       return this.$store.state.bangumi.info;
@@ -156,6 +162,31 @@ export default {
   methods: {
     switchTab(tab) {
       this.sort = tab;
+      this.$nextTick(() => {
+        switch (tab) {
+          case "post":
+            this.$channel.$emit("bangumi-tab-switch-post");
+            break;
+          case "video":
+            this.$channel.$emit("bangumi-tab-switch-video");
+            break;
+          case "cartoon":
+            this.$channel.$emit("bangumi-tab-switch-cartoon");
+            break;
+          case "role":
+            this.$channel.$emit("bangumi-tab-switch-role");
+            break;
+          case "image":
+            this.$channel.$emit("bangumi-tab-switch-image");
+            break;
+          case "score":
+            this.$channel.$emit("bangumi-tab-switch-score");
+            break;
+          case "setting":
+            this.$channel.$emit("bangumi-tab-switch-setting");
+            break;
+        }
+      });
     }
   }
 };

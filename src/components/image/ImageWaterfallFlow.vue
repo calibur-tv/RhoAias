@@ -159,15 +159,15 @@
     <no-ssr>
       <waterfall
         v-if="list.length"
-        :line-gap="155"
+        :line-gap="width + 10"
         :auto-resize="false"
       >
         <waterfall-slot
           v-for="(item, index) in list"
-          :height="computeBoxHeight(item.source)"
-          :order="index"
           :key="item.id"
-          width="145"
+          :order="index"
+          :width="width"
+          :height="computeBoxHeight(item.source)"
         >
           <div class="image">
             <a
@@ -180,8 +180,8 @@
                 class="is-creator iconfont icon-huangguan"/>
               <v-img
                 :src="item.source.url"
-                :width="145"
                 :lazy="false"
+                :width="width"
                 :height="computeImageHeight(item.source)"
               />
               <div
@@ -220,7 +220,7 @@
               </div>
             </div>
             <div class="about">
-              <template v-if="page === 'user-show'">
+              <template v-if="userZone">
                 <a
                   :href="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
@@ -238,7 +238,7 @@
                   />
                 </div>
               </template>
-              <template v-else-if="page === 'bangumi-show'">
+              <template v-else-if="bangumiId">
                 <a
                   :href="$alias.user(item.user.zone)"
                   class="user-avatar"
@@ -285,17 +285,6 @@
         </waterfall-slot>
       </waterfall>
     </no-ssr>
-    <more-btn
-      :no-more="noMore"
-      :loading="loading"
-      :length="list.length"
-      @fetch="loadMore"
-    >
-      <button
-        v-if="showTips"
-        @click="openCreateImageModal"
-      >上传图片</button>
-    </more-btn>
   </div>
 </template>
 
@@ -322,22 +311,17 @@ export default {
       type: Array,
       default: () => []
     },
-    noMore: {
-      type: Boolean,
-      default: false
+    bangumiId: {
+      type: Number,
+      default: 0
     },
-    loading: {
-      type: Boolean,
-      default: false
+    userZone: {
+      type: String,
+      default: ""
     },
-    showTips: {
-      type: Boolean,
-      default: true
-    }
-  },
-  computed: {
-    page() {
-      return this.$route.name;
+    width: {
+      type: Number,
+      default: 145
     }
   },
   methods: {
@@ -345,17 +329,7 @@ export default {
       return this.computeImageHeight(image) + 106;
     },
     computeImageHeight(image) {
-      return parseInt((image.height / image.width) * 145, 10);
-    },
-    loadMore() {
-      this.$emit("load");
-    },
-    openCreateImageModal() {
-      if (this.$store.state.login) {
-        this.$channel.$emit("open-create-image-drawer");
-      } else {
-        this.$channel.$emit("sign-in");
-      }
+      return parseInt((image.height / image.width) * this.width, 10);
     }
   }
 };
