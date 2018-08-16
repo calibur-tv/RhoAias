@@ -24,7 +24,7 @@
         .avatar {
           float: left;
           margin-right: 9px;
-          @include avatar-2(35px);
+          @extend %avatar;
         }
 
         .summary {
@@ -97,7 +97,7 @@
             float: left;
             display: block;
             margin-right: 9px;
-            @include avatar-2(35px);
+            @extend %avatar;
           }
 
           .summary {
@@ -244,7 +244,10 @@
               <a 
                 :href="$alias.user(focusComment.from_user_zone)" 
                 class="avatar">
-                <img :src="$resize(focusComment.from_user_avatar, { width: 70 })">
+                <v-img
+                  :src="focusComment.from_user_avatar"
+                  size="35"
+                />
               </a>
               <div class="summary">
                 <a
@@ -266,13 +269,12 @@
                   v-for="(img, idx) in focusComment.images"
                   :key="idx"
                   class="image-package"
-                  @click="$previewImages(focusComment.images, idx)"
                 >
                   <v-img
                     :src="img.url"
-                    class="image"
-                    width="150"
-                    mode="2"
+                    :width="img.width"
+                    :height="img.height"
+                    :full="true"
                   />
                 </div>
               </div>
@@ -305,7 +307,10 @@
                   :href="$alias.user(item.from_user_zone)"
                   class="avatar"
                 >
-                  <img :src="$resize(item.from_user_avatar, { width: 70 })">
+                  <v-img
+                    :src="item.from_user_avatar"
+                    size="35"
+                  />
                 </a>
                 <div class="summary">
                   <div class="users oneline">
@@ -522,7 +527,7 @@ export default {
         await this.$store.dispatch("comment/getSubComments", {
           ctx: this,
           type: this.type,
-          parentId: this.focusCommentId
+          id: this.focusCommentId
         });
       } catch (e) {
         this.$toast.error(e);
@@ -592,7 +597,6 @@ export default {
         return;
       }
       this.replyForm.replying = true;
-      this.$toast.loading("提交中...");
       try {
         await this.$store.dispatch("comment/createSubComment", {
           ctx: this,
@@ -603,7 +607,6 @@ export default {
         });
         this.replyForm.open = false;
         this.replyForm.content = "";
-        this.$toast.success("回复成功");
       } catch (e) {
         this.$toast.error(e);
       } finally {

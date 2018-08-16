@@ -19,26 +19,27 @@ export default ({ url, version }) => {
         return shouldSend;
       },
       ignoreErrors: [
-        "TuiaMedia is not defined",
-        "Can't find variable: $UCBrowser",
-        /MyAppGet.*AtPoint/,
-        /UCArticleFinderJS/,
-        "JSON Parse error",
-        "playBackgroundMusic is not defined",
-        "Cannot read property 'style' of",
-        "Unexpected end of input",
-        "object is not defined",
-        "Unexpected end of JSON input",
-        "Cannot call method 'querySelectorAll' of undefined",
-        "value.hasOwnProperty is not a function",
-        "Unexpected token o",
-        "Cannot read property 'script' of null",
-        "The index is not in the allowed range.",
-        "undefined is not an object (evaluating",
-        "null is not an object (evaluating 'conDoc.getElementsByTagName')",
-        "null is not an object (evaluating 'v.src')",
-        "null is not an object (evaluating 'window.mttLongPressVar.tagName')",
-        "canvasList.forEach is not a function. (In 'canvasList.forEach', 'canvasList.forEach' is undefined)"
+        "Failed to execute 'getComputedStyle' on 'Window': parameter 1 is not of type 'Element'.",
+        "Failed to read the 'localStorage' property from 'Window': Access is denied for this document.",
+        "Unexpected token", // https://stackoverflow.com/questions/29763557/syntaxerror-unexpected-token-o-at-object-parse-native-angularjs
+        "Blocked a frame",
+        "uv'",
+        "网络错误",
+        "网络请求超时",
+        "is not an object (evaluating", // https://github.com/facebook/react-native/issues/17348
+        "Unexpected end of input", // https://stackoverflow.com/questions/29259395/syntaxerror-unexpected-end-of-input-at-object-parse-native-npm-request
+        "Java exception was raised during method invocation",
+        /Loading chunk (\d+) failed./, // https://github.com/webpack/webpack/issues/5964
+        "Can't find variable: ",
+        "NS_ERROR_UNKNOWN_PROTOCOL",
+        /(Unknown|No) error/, // Chrome Mobile 37.0.0
+        /Cannot read property '(\w|\W)+' of (undefined|null)/, // https://github.com/vuejs/vue/issues/8399
+        /is not a function(\w|\W)+/,
+        /(ture|mbrowser|local_kingkr_obj|Java object)/,
+        "Maximum call stack size exceeded",
+        /(readonly|redefine) property/,
+        "Failed to execute 'appendChild' on 'Node'",
+        "value.hasOwnProperty is not a function"
       ]
     })
       .addPlugin(RavenVue, Vue)

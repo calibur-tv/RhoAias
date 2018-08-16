@@ -1,12 +1,11 @@
 <style lang="scss">
 #image-waterfall-flow {
   margin-right: -5px;
-  padding-top: 10px;
   background-color: #fff;
 
   .vue-waterfall {
     width: 310px;
-    margin: 0 auto;
+    margin: 10px auto 0;
   }
 
   .vue-waterfall-slot {
@@ -73,10 +72,6 @@
           vertical-align: middle;
         }
       }
-
-      img {
-        display: block;
-      }
     }
 
     .intro {
@@ -111,7 +106,7 @@
       border-top: 1px solid #f2f2f2;
 
       .user-avatar {
-        @include avatar-2(30px);
+        @extend %avatar;
       }
 
       .bangumi-avatar {
@@ -163,15 +158,16 @@
   <div id="image-waterfall-flow">
     <no-ssr>
       <waterfall
-        :line-gap="155"
+        v-if="list.length"
+        :line-gap="width + 10"
         :auto-resize="false"
       >
         <waterfall-slot
           v-for="(item, index) in list"
-          :height="computeBoxHeight(item.source)"
-          :order="index"
           :key="item.id"
-          width="145"
+          :order="index"
+          :width="width"
+          :height="computeBoxHeight(item.source)"
         >
           <div class="image">
             <a
@@ -182,11 +178,12 @@
               <i 
                 v-if="item.is_creator" 
                 class="is-creator iconfont icon-huangguan"/>
-              <img
+              <v-img
+                :src="item.source.url"
+                :lazy="false"
+                :width="width"
                 :height="computeImageHeight(item.source)"
-                :src="$resize(item.source.url, { width: 400, mode: 2 })"
-                width="200"
-              >
+              />
               <div
                 v-if="item.is_album"
                 class="is-album"
@@ -204,33 +201,34 @@
                 v-text="item.name"
               />
               <div class="social">
-                <span
-                  v-if="item.like_count"
-                  :class="{ 'done': item.liked }"
-                >
+                <span v-if="item.is_creator">
                   <i class="iconfont icon-guanzhu"/>
+                  {{ item.reward_count }}
+                </span>
+                <span v-else>
+                  <i class="iconfont icon-icon_good"/>
                   {{ item.like_count }}
                 </span>
-                <span
-                  v-if="item.comment_count"
-                  :class="{ 'done': item.commented }"
-                >
+                <span>
                   <i class="iconfont icon-pinglun1"/>
                   {{ item.comment_count }}
                 </span>
-                <span v-if="item.view_count">
-                  <i class="iconfont icon-yuedu"/>
-                  {{ item.view_count }}
+                <span>
+                  <i class="iconfont icon-pinglun"/>
+                  {{ item.mark_count }}
                 </span>
               </div>
             </div>
             <div class="about">
-              <template v-if="page === 'user-show'">
+              <template v-if="userZone">
                 <a
                   :href="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.bangumi.avatar"
+                    size="60"
+                  />
                 </a>
                 <div class="info">
                   <a
@@ -240,12 +238,15 @@
                   />
                 </div>
               </template>
-              <template v-else-if="page === 'bangumi-show'">
+              <template v-else-if="bangumiId">
                 <a
                   :href="$alias.user(item.user.zone)"
                   class="user-avatar"
                 >
-                  <img :src="$resize(item.user.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.user.avatar"
+                    size="30"
+                  />
                 </a>
                 <a
                   :href="$alias.user(item.user.zone)"
@@ -258,7 +259,10 @@
                   :href="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                  <v-img
+                    :src="item.bangumi.avatar"
+                    size="30"
+                  />
                 </a>
                 <div class="info">
                   <p class="main-info">
@@ -281,15 +285,6 @@
         </waterfall-slot>
       </waterfall>
     </no-ssr>
-    <more-btn
-      v-if="!noMore"
-      :no-more="noMore"
-      :loading="loading"
-      :length="list.length"
-      @fetch="loadMore"
-    >
-      <button @click="openCreateImageModal">上传图片</button>
-    </more-btn>
   </div>
 </template>
 
@@ -316,18 +311,17 @@ export default {
       type: Array,
       default: () => []
     },
-    noMore: {
-      type: Boolean,
-      default: false
+    bangumiId: {
+      type: Number,
+      default: 0
     },
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    page() {
-      return this.$route.name;
+    userZone: {
+      type: String,
+      default: ""
+    },
+    width: {
+      type: Number,
+      default: 145
     }
   },
   methods: {
@@ -335,17 +329,7 @@ export default {
       return this.computeImageHeight(image) + 106;
     },
     computeImageHeight(image) {
-      return parseInt((image.height / image.width) * 145, 10);
-    },
-    loadMore() {
-      this.$emit("load");
-    },
-    openCreateImageModal() {
-      if (this.$store.state.login) {
-        this.$channel.$emit("open-create-image-drawer");
-      } else {
-        this.$channel.$emit("sign-in");
-      }
+      return parseInt((image.height / image.width) * this.width, 10);
     }
   }
 };

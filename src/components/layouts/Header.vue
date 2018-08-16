@@ -87,8 +87,7 @@ $header-hgt: 48px;
         float: right;
 
         .avatar {
-          display: block;
-          @include avatar-2(26px);
+          @extend %avatar;
         }
 
         .badge {
@@ -100,6 +99,7 @@ $header-hgt: 48px;
           height: 10px;
           border-radius: 50%;
           background-color: red;
+          pointer-events: none;
           @include border(#fff, 50%);
         }
       }
@@ -152,9 +152,10 @@ $header-hgt: 48px;
           <button 
             class="avatar" 
             @click="openUserDrawer">
-            <img 
-              :src="$resize(currentUser.avatar, { width: 48 })" 
-              alt="avatar">
+            <v-img
+              :src="currentUser.avatar"
+              size="24"
+            />
           </button>
           <span 
             v-if="notificationCount" 

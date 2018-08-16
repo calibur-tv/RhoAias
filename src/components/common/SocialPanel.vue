@@ -4,6 +4,11 @@
 
   .buttons {
     text-align: center;
+
+    button {
+      padding: 5px 7px;
+      font-size: 11px !important;
+    }
   }
 
   .users {
@@ -39,7 +44,7 @@
         @click="toggleReward"
       >
         <i class="iconfont icon-guanzhu"/>
-        {{ rewarded ? '已投食' : '投食' }}{{ rewardCount ? `&nbsp;&nbsp;|&nbsp;&nbsp;${rewardCount}` : '' }}
+        {{ rewarded ? '已投食' : '投食' }}{{ rewardUsers.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${rewardUsers.total}` : '' }}
       </el-button>
       <el-button
         v-else
@@ -51,7 +56,7 @@
         @click="toggleLike"
       >
         <i class="iconfont icon-guanzhu"/>
-        {{ liked ? '已喜欢' : '喜欢' }}{{ likeCount ? `&nbsp;&nbsp;|&nbsp;&nbsp;${likeCount}` : '' }}
+        {{ liked ? '已喜欢' : '喜欢' }}{{ likeUsers.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${likeUsers.total}` : '' }}
       </el-button>
       <el-button
         :class="{ 'is-plain': marked }"
@@ -62,7 +67,7 @@
         @click="toggleMark"
       >
         <i class="iconfont icon-shoucang"/>
-        {{ marked ? '已收藏' : '收藏' }}{{ markCount ? `&nbsp;&nbsp;|&nbsp;&nbsp;${markCount}` : '' }}
+        {{ marked ? '已收藏' : '收藏' }}{{ markUsers.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${markUsers.total}` : '' }}
       </el-button>
       <slot/>
     </div>
@@ -86,6 +91,15 @@ import Api from "~/api/toggleApi";
 export default {
   name: "SocialPanel",
   props: {
+    id: {
+      required: true,
+      type: Number
+    },
+    type: {
+      required: true,
+      type: String,
+      validator: val => ~["post", "video", "image", "score"].indexOf(val)
+    },
     isCreator: {
       required: true,
       type: Boolean
@@ -106,31 +120,17 @@ export default {
       type: Boolean,
       default: false
     },
-    id: {
+    likeUsers: {
       required: true,
-      type: Number
+      type: Object
     },
-    type: {
+    rewardUsers: {
       required: true,
-      type: String,
-      validator: val => ~["post", "video", "image", "score"].indexOf(val)
+      type: Object
     },
-    users: {
+    markUsers: {
       required: true,
-      type: Array,
-      default: () => []
-    },
-    likeCount: {
-      type: Number,
-      default: 0
-    },
-    markCount: {
-      type: Number,
-      default: 0
-    },
-    rewardCount: {
-      type: Number,
-      default: 0
+      type: Object
     }
   },
   data() {
@@ -149,7 +149,10 @@ export default {
       return this.userId === this.currentUserId;
     },
     displayUsers() {
-      return this.users.slice(0, this.displayCount);
+      const users = this.isCreator
+        ? this.rewardUsers.list
+        : this.likeUsers.list;
+      return users.slice(0, this.displayCount);
     }
   },
   methods: {
@@ -179,6 +182,7 @@ export default {
           }
           this.loadingReward = true;
           const api = new Api(this);
+          const user = this.$store.state.user;
           try {
             const result = await api.reward({
               id: this.id,
@@ -189,7 +193,13 @@ export default {
             }
             this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
               key: "reward",
-              value: result
+              value: result,
+              user: {
+                id: user.id,
+                zone: user.zone,
+                nickname: user.nickname,
+                avatar: user.avatar
+              }
             });
             this.$toast.success("操作成功");
           } catch (e) {
@@ -214,17 +224,21 @@ export default {
       }
       this.loadingLike = true;
       const api = new Api(this);
+      const user = this.$store.state.user;
       try {
         const result = await api.like({
           id: this.id,
           type: this.type
         });
-        if (result) {
-          this.$store.commit("USE_COIN");
-        }
         this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
           key: "like",
-          value: result
+          value: result,
+          user: {
+            id: user.id,
+            zone: user.zone,
+            nickname: user.nickname,
+            avatar: user.avatar
+          }
         });
         this.$toast.success("操作成功");
       } catch (e) {
@@ -247,17 +261,21 @@ export default {
       }
       this.loadingMark = true;
       const api = new Api(this);
+      const user = this.$store.state.user;
       try {
         const result = await api.mark({
           id: this.id,
           type: this.type
         });
-        if (result) {
-          this.$store.commit("USE_COIN");
-        }
         this.$store.commit(`${this.type}/SOCIAL_TOGGLE`, {
           key: "mark",
-          value: result
+          value: result,
+          user: {
+            id: user.id,
+            zone: user.zone,
+            nickname: user.nickname,
+            avatar: user.avatar
+          }
         });
         this.$toast.success("操作成功");
       } catch (e) {

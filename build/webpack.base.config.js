@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const MinifyPlugin = require('babel-minify-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const resolve = file => path.resolve(__dirname, file)
@@ -16,7 +15,6 @@ const StyleLintPlugin = require("stylelint-webpack-plugin");
 
 module.exports = {
   cache: true,
-  devtool: isProd ? false : 'sourcemap',
   output: {
     path: resolve('../dist'),
     publicPath: isProd ? `${cdn.static}${staticFilePrefix}` : '/dist/',
@@ -162,9 +160,6 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new MinifyPlugin({}, {
-          sourceMap: false
-        }),
         new CopyWebpackPlugin([
           { from: resolve('../static') }
         ]),

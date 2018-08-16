@@ -42,7 +42,11 @@ $panel-height: 92px;
     <a 
       :class="$style.avatar" 
       :href="$alias.bangumi(id)">
-      <v-img :src="$resize(avatar, { width: 80, height: 92 })"/>
+      <v-img
+        :src="avatar"
+        width="80"
+        height="92"
+      />
     </a>
     <div :class="$style.content">
       <a :href="$alias.bangumi(id)">

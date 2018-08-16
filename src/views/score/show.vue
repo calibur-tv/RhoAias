@@ -31,7 +31,7 @@
           margin-right: 10px;
           display: inline-block;
           vertical-align: middle;
-          @include avatar-2(25px);
+          @extend %avatar;
         }
       }
     }
@@ -60,8 +60,6 @@
     font-size: 16px;
     color: #222;
     line-height: 30px;
-    font-family: Microsoft Yahei, Tahoma, Helvetica, Arial, \\5b8b\4f53,
-      sans-serif;
     @extend %breakWord;
   }
 
@@ -117,7 +115,10 @@
             target="_blank"
           >
             <div class="avatar">
-              <img :src="$resize(user.avatar, { width: 50 })">
+              <v-img
+                :src="user.avatar"
+                size="25"
+              />
             </div>
             <span
               class="name"
@@ -162,10 +163,9 @@
         :liked="info.liked"
         :marked="info.marked"
         :rewarded="info.rewarded"
-        :reward-count="info.reward_count"
-        :like-count="info.like_count"
-        :mark-count="info.mark_count"
-        :users="info.is_creator ? info.reward_users : info.like_users"
+        :reward-users="info.reward_users"
+        :mark-users="info.mark_users"
+        :like-users="info.like_users"
         type="score"
       />
     </div>
@@ -251,7 +251,12 @@ export default {
   },
   computed: {
     info() {
-      return this.$store.state.score.show;
+      const result = {};
+      Object.keys(this.$store.state.score.show).forEach(key => {
+        const value = this.$store.state.score.show[key];
+        result[key] = this.columns.indexOf(key) !== -1 ? +value : value;
+      });
+      return result;
     },
     bangumi() {
       return this.info.bangumi;

@@ -8,7 +8,7 @@
   .avatar {
     float: left;
     margin-right: 9px;
-    @include avatar-2(35px);
+    @extend %avatar;
   }
 
   .content {
@@ -87,10 +87,10 @@
     <a 
       :href="$alias.user(post.from_user_zone)" 
       class="avatar">
-      <v-img 
-        :src="post.from_user_avatar" 
-        :width="80" 
-        :height="80"/>
+      <v-img
+        :src="post.from_user_avatar"
+        size="35"
+      />
     </a>
     <div class="content">
       <div class="header">
@@ -119,15 +119,12 @@
             v-for="(img, idx) in post.images"
             :key="idx"
             class="image-package"
-            @click="$previewImages(preview, img)"
           >
             <v-img
               :src="img.url"
+              :width="img.width"
+              :height="img.height"
               :full="true"
-              :source="img"
-              :aspect="$computeImageAspect(img)"
-              width="150"
-              mode="2"
             />
           </div>
         </div>

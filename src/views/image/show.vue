@@ -14,9 +14,9 @@
 
       .avatar {
         vertical-align: middle;
+        display: inline-block;
         border: 1px solid $color-gray-normal;
-        border-radius: 50%;
-        @include avatar(30px);
+        @extend %avatar;
       }
     }
   }
@@ -147,9 +147,11 @@
         <a 
           :href="$alias.user(user.zone)" 
           class="author">
-          <img 
-            :src="$resize(user.avatar, { width: 60 })" 
-            class="avatar">
+          <v-img
+            :src="user.avatar"
+            size="30"
+            class="avatar"
+          />
           {{ user.nickname }}
           ·
           <v-time v-model="info.created_at"/>
@@ -167,10 +169,10 @@
         >
           <v-img
             :src="img.url"
-            :aspect="$computeImageAspect(img)"
+            :full="true"
+            :width="img.width"
+            :height="img.height"
             class="image"
-            width="400"
-            mode="2"
           />
         </div>
         <p
@@ -186,10 +188,10 @@
       >
         <v-img
           :src="source.url"
-          :aspect="$computeImageAspect(source)"
+          :width="source.width"
+          :height="source.height"
+          :full="true"
           class="image"
-          width="400"
-          mode="2"
         />
       </div>
       <div 
@@ -228,10 +230,9 @@
           :liked="info.liked"
           :marked="info.marked"
           :rewarded="info.rewarded"
-          :reward-count="info.reward_count"
-          :like-count="info.like_count"
-          :mark-count="info.mark_count"
-          :users="info.is_creator ? info.reward_users : info.like_users"
+          :like-users="info.like_users"
+          :reward-users="info.reward_users"
+          :mark-users="info.mark_users"
           type="image"
         />
       </div>

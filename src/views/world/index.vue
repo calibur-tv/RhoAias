@@ -107,45 +107,10 @@
           :to="{ name: item.value }"
           v-text="item.label"
         />
-        <template v-if="active === 0">
-          <ul>
-            <post-flow-item
-              v-for="(item, index) in posts.list"
-              :key="`${item.id}-${index}`"
-              :item="item"
-            />
-          </ul>
-          <more-btn
-            :no-more="posts.noMore"
-            :loading="posts.loading"
-            :length="posts.list.length"
-            @fetch="loadMore"
-          />
-        </template>
-        <template v-else-if="active === 1">
-          <image-waterfall-flow
-            :list="images.list"
-            :no-more="images.noMore"
-            :loading="images.loading"
-            @load="loadMore"
-          />
-        </template>
-        <template v-else-if="active === 2">
-          <ul>
-            <score-flow-item
-              v-for="item in scores.list"
-              :key="item.id"
-              :item="item"
-            />
-          </ul>
-          <more-btn
-            :no-more="scores.noMore"
-            :loading="scores.loading"
-            :length="scores.list.length"
-            @fetch="loadMore"
-          />
-        </template>
       </van-tab>
+      <post-flow-list v-if="active === 0"/>
+      <image-flow-list v-else-if="active === 1"/>
+      <score-flow-list v-else-if="active === 2"/>
     </van-tabs>
   </div>
 </template>
@@ -153,18 +118,18 @@
 <script>
 import Tab from "vant/lib/tab";
 import Tabs from "vant/lib/tabs";
-import PostFlowItem from "~/components/post/PostFlowItem";
-import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
-import ScoreFlowItem from "~/components/score/ScoreFlowItem";
+import PostFlowList from "~/components/flow/list/PostFlowList";
+import ImageFlowList from "~/components/flow/list/ImageFlowList";
+import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
 
 export default {
   name: "TheWorld",
   components: {
     vanTabs: Tabs,
     vanTab: Tab,
-    PostFlowItem,
-    ImageWaterfallFlow,
-    ScoreFlowItem
+    PostFlowList,
+    ImageFlowList,
+    ScoreFlowList
   },
   data() {
     const options = [

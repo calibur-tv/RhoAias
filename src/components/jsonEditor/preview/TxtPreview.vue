@@ -8,7 +8,6 @@
     width: 100%;
     display: block;
     font-weight: 400;
-    font-family: inherit;
     font-size: 14px;
     line-height: 25px;
     letter-spacing: 0;

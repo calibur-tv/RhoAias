@@ -76,6 +76,10 @@ export default {
     handleSubCommentClick() {
       if (this.isMine) {
         this.deleteComment();
+        this.$nextTick(() => {
+          document.getElementById("reply-comment-textarea").style.display =
+            "none";
+        });
         return;
       }
       if (this.currentUserId) {

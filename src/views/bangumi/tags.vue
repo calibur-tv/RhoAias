@@ -48,11 +48,8 @@
       height: $bangumi-height;
 
       .face {
-        width: $bangumi-height;
-        height: $bangumi-height;
         flex-shrink: 0;
         margin-right: 15px;
-        display: block;
         border-radius: 5px;
         float: left;
       }
@@ -119,10 +116,10 @@
             :key="item.id">
             <a :href="$alias.bangumi(item.id)">
               <v-img
-                :title="item.name"
-                :alt="item.name"
-                :src="$resize(item.avatar, { width: 120 })"
-                class="face"/>
+                :src="item.avatar"
+                size="60"
+                class="face"
+              />
               <div class="content">
                 <p 
                   class="name" 

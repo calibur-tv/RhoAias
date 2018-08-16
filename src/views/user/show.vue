@@ -28,8 +28,7 @@
       position: absolute;
       left: $container-padding;
       top: -40px;
-      @include avatar(80px);
-      @include border(#fff, 50%);
+      @extend %avatar;
     }
 
     .info {
@@ -91,7 +90,6 @@
       display: inline-block;
       text-align: center;
       padding-left: $container-padding;
-      padding-right: $container-padding;
 
       &.active {
         position: relative;
@@ -100,7 +98,7 @@
           content: "";
           position: absolute;
           left: $container-padding;
-          right: $container-padding;
+          right: 0;
           bottom: 1px;
           height: 2px;
           background: #333;
@@ -121,9 +119,7 @@
         display: block;
       }
 
-      img {
-        width: 46px;
-        height: 46px;
+      .avatar {
         margin-right: 12px;
         float: left;
       }
@@ -190,15 +186,22 @@
       .images {
         margin-bottom: 5px;
 
-        .image-full {
-          height: 190px;
-          width: 100%;
+        .poster-image {
+          border-radius: 5px;
+          overflow: hidden;
+
+          img {
+            height: auto;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+          }
         }
 
         .image-list {
-          img {
-            width: 32%;
-            height: auto;
+          .image {
+            float: left;
 
             &:not(:last-child) {
               margin-right: 2%;
@@ -218,70 +221,6 @@
       }
     }
   }
-
-  #roles-of-mine {
-    li {
-      position: relative;
-      margin-top: 15px;
-      padding-bottom: 15px;
-
-      &:not(:last-child) {
-        @include border-bottom();
-      }
-
-      .avatar {
-        width: 80px;
-        height: 80px;
-        display: block;
-        float: left;
-        overflow: hidden;
-        border-radius: 5px;
-        margin-right: 10px;
-        border: 1px solid $color-gray-normal;
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-      }
-
-      .summary {
-        overflow: hidden;
-
-        .role {
-          display: block;
-          font-size: 14px;
-          line-height: 20px;
-          height: 60px;
-          overflow: hidden;
-
-          .name {
-            font-weight: bold;
-          }
-
-          .intro {
-            color: #000;
-          }
-        }
-
-        .lover {
-          height: 20px;
-          line-height: 20px;
-          vertical-align: middle;
-          font-size: 13px;
-          color: $color-text-normal;
-          overflow: hidden;
-          text-align: right;
-
-          span {
-            margin-left: 10px;
-            font-size: 12px;
-            margin-right: 2px;
-          }
-        }
-      }
-    }
-  }
 }
 </style>
 
@@ -293,11 +232,11 @@
         class="img bg"/>
     </div>
     <div class="user-panel container">
-      <div class="avatar">
-        <img 
-          :src="$resize(user.avatar, { width: 92 })" 
-          alt="avatar">
-      </div>
+      <v-img
+        :src="user.avatar"
+        size="80"
+        class="avatar"
+      />
       <div class="info">
         <button 
           v-if="isMe" 
@@ -324,8 +263,8 @@
         :class="{ 'active': sort === 'bangumi' }" 
         @click="switchTab('bangumi')">番剧</button>
       <button 
-        :class="{ 'active': sort === 'mine' }" 
-        @click="switchTab('mine')">发帖</button>
+        :class="{ 'active': sort === 'post' }"
+        @click="switchTab('post')">发帖</button>
       <button 
         :class="{ 'active': sort === 'reply' }" 
         @click="switchTab('reply')">回复</button>
@@ -352,12 +291,12 @@
             :href="$alias.bangumi(item.id)" 
             class="clearfix">
             <v-img
-              :alt="item.name"
-              :src="$resize(item.avatar, { width: 160, height: 160 })"
-              class="bg"
+              :src="item.avatar"
+              class="avatar"
+              size="40"
             />
-            <p 
-              class="name" 
+            <p
+              class="name"
               v-text="item.name"/>
           </a>
         </li>
@@ -370,148 +309,82 @@
         :loading="false"
       />
     </template>
-    <template v-else-if="sort === 'role'">
-      <ul 
-        id="roles-of-mine" 
-        class="container">
-        <li 
-          v-for="item in roles" 
-          :key="item.id">
-          <a :href="$alias.cartoonRole(item.id)">
-            <div class="clearfix">
-              <div class="avatar">
-                <v-img 
-                  :src="item.avatar" 
-                  width="80" 
-                  height="80"/>
-              </div>
-              <div class="summary">
-                <div class="role">
-                  <span 
-                    class="name" 
-                    v-text="item.name"/>
-                  <span class="intro">：{{ item.intro }}</span>
-                </div>
-                <div class="lover">
-                  <span>
-                    粉丝:
-                    {{ $utils.shortenNumber(item.fans_count) }}
-                  </span>
-                  <span>
-                    金币:
-                    {{ $utils.shortenNumber(item.star_count) }}
-                  </span>
-                  <span>
-                    贡献:
-                    {{ item.has_star }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <more-btn
-        :no-more="noMoreRoles"
-        :loading="loadingRoles"
-        :length="roles.length"
-        @fetch="getUserRoles"
-      />
-    </template>
-    <template v-else-if="sort === 'image'">
-      <image-waterfall-flow
-        :list="images.list"
-        :no-more="images.noMore"
-        :loading="images.loading"
-        @load="getUserImages(false)"
-      />
-    </template>
-    <template v-else-if="sort === 'score'">
-      <user-score-flow :zone="zone"/>
-    </template>
-    <template v-else>
-      <ul
-        v-if="sort === 'mine'"
-        id="posts-of-mine"
-      >
-        <post-flow-item
-          v-for="item in posts.data"
-          :key="item.id"
-          :item="item"
-        />
-      </ul>
-      <ul
-        v-else-if="sort === 'reply'"
-        id="posts-of-reply"
-      >
+    <post-flow-list
+      v-else-if="sort === 'post'"
+      :user-zone="zone"
+    />
+    <template v-else-if="sort === 'reply'">
+      <ul id="posts-of-reply">
         <li
           v-for="item in posts.data"
           :key="item.id"
         >
-          <a 
-            :href="$alias.post(item.post.id)" 
-            class="header" 
+          <a
+            :href="$alias.post(item.post.id)"
+            class="header"
             v-text="item.post.title"/>
-          <a 
-            :href="$alias.post(item.post.id, { comment: item.post.id })" 
+          <a
+            :href="$alias.post(item.post.id, { comment: item.post.id })"
             class="origin">
-            <div 
-              class="content" 
+            <div
+              class="content"
               v-html="item.post.content"/>
-            <div 
-              v-if="item.post.images.length" 
+            <div
+              v-if="item.post.images.length"
               class="images clearfix">
               <v-img
                 v-if="item.post.images.length === 1"
                 :src="item.post.images[0].url"
-                class="image-full bg"
+                width="100%"
                 height="190"
-                mode="2"
-                tag="div"
+                class="poster-image"
               />
-              <div 
-                v-else 
+              <div
+                v-else
                 class="image-list">
                 <v-img
                   v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
                   :src="image.url"
-                  width="110"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
               </div>
             </div>
           </a>
-          <a 
-            :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })" 
+          <a
+            :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
             class="reply">
-            <div 
-              class="content" 
+            <div
+              class="content"
               v-html="item.content"/>
-            <div 
-              v-if="item.images.length" 
+            <div
+              v-if="item.images.length"
               class="images clearfix">
               <v-img
                 v-if="item.images.length === 1"
                 :src="item.images[0].url"
-                class="image-full bg"
+                width="100%"
                 height="190"
-                mode="2"
-                tag="div"
+                class="poster-image"
               />
-              <div 
-                v-else 
+              <div
+                v-else
                 class="image-list">
                 <v-img
                   v-for="(image, index) in imageFilter(item.images)"
                   :key="index"
                   :src="image.url"
-                  width="110"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
               </div>
             </div>
           </a>
-          <a 
-            :href="$alias.bangumi(item.bangumi.id)" 
+          <a
+            :href="$alias.bangumi(item.bangumi.id)"
             class="footer">
             回复于
             <span v-text="item.bangumi.name"/>
@@ -526,13 +399,26 @@
         @fetch="getUserPosts"
       />
     </template>
+    <cartoon-role-flow-list
+      v-else-if="sort === 'role'"
+      :user-zone="zone"
+    />
+    <image-flow-list
+      v-else-if="sort === 'image'"
+      :user-zone="zone"
+    />
+    <user-score-flow
+      v-else-if="sort === 'score'"
+      :zone="zone"
+    />
   </div>
 </template>
 
 <script>
-import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
 import UserScoreFlow from "~/components/user/flows/UserScoreFlow";
-import PostFlowItem from "~/components/post/PostFlowItem";
+import PostFlowList from "~/components/flow/list/PostFlowList";
+import ImageFlowList from "~/components/flow/list/ImageFlowList";
+import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
 
 export default {
   name: "UserShow",
@@ -568,9 +454,10 @@ export default {
     };
   },
   components: {
-    ImageWaterfallFlow,
-    PostFlowItem,
-    UserScoreFlow
+    PostFlowList,
+    UserScoreFlow,
+    ImageFlowList,
+    CartoonRoleFlowList
   },
   data() {
     return {
@@ -608,35 +495,33 @@ export default {
     },
     coinCount() {
       return this.self ? this.self.coin : 0;
-    },
-    roles() {
-      return this.$store.state.users.roles.data;
-    },
-    noMoreRoles() {
-      return this.$store.state.users.roles.noMore;
-    },
-    images() {
-      return this.$store.state.image.users;
     }
   },
   methods: {
     switchTab(tab) {
       this.sort = tab;
-      if (tab === "bangumi") {
-        return;
-      }
-      if (tab === "role") {
-        this.getUserRoles(true);
-        return;
-      }
-      if (tab === "score") {
-        return;
-      }
-      if (tab === "image") {
-        this.getUserImages(true);
-        return;
-      }
-      this.getUserPosts(true);
+      this.$nextTick(() => {
+        switch (tab) {
+          case "bangumi":
+            this.$channel.$emit("user-tab-switch-bangumi");
+            break;
+          case "post":
+            this.$channel.$emit("user-tab-switch-post");
+            break;
+          case "reply":
+            this.getUserPosts();
+            break;
+          case "role":
+            this.$channel.$emit("user-tab-switch-role");
+            break;
+          case "image":
+            this.$channel.$emit("user-tab-switch-image");
+            break;
+          case "score":
+            this.$channel.$emit("user-tab-switch-score");
+            break;
+        }
+      });
     },
     getUserPosts(isFirstRequest = false) {
       if (
@@ -650,43 +535,6 @@ export default {
         type: this.sort,
         zone: this.user.zone
       });
-    },
-    async getUserImages(isFirstRequest = false) {
-      if (isFirstRequest && this.images.list.length) {
-        return;
-      }
-      if (this.loadingUserImageFetch) {
-        return;
-      }
-      this.loadingUserImageFetch = true;
-      try {
-        await this.$store.dispatch("image/users", {
-          zone: this.user.zone,
-          ctx: this,
-          force: isFirstRequest
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingUserImageFetch = false;
-      }
-    },
-    async getUserRoles(isFirstRequest = false) {
-      if (this.loadingRoles) {
-        return;
-      }
-      this.loadingRoles = true;
-      try {
-        await this.$store.dispatch("users/getFollowRoles", {
-          ctx: this,
-          zone: this.user.zone,
-          reset: isFirstRequest
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingRoles = false;
-      }
     },
     async handleDaySign() {
       if (this.daySigned || this.signDayLoading) {

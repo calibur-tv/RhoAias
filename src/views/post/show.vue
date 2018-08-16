@@ -29,7 +29,7 @@
       .avatar {
         float: left;
         margin-right: 9px;
-        @include avatar(35px);
+        @extend %avatar;
       }
 
       .tool-btn {
@@ -115,137 +115,6 @@
     }
   }
 
-  .post-comment-drawer {
-    .reply {
-      .user {
-        padding-top: $container-padding;
-
-        .avatar {
-          float: left;
-          margin-right: 9px;
-          @include avatar(35px);
-        }
-
-        .summary {
-          overflow: hidden;
-
-          .nickname {
-            font-size: 14px;
-            color: #333;
-          }
-
-          .info {
-            line-height: 16px;
-            font-size: 12px;
-            color: #999;
-
-            span {
-              margin-right: 5px;
-            }
-          }
-        }
-      }
-
-      .content {
-        font-size: 16px;
-        line-height: 24px;
-        padding-top: 16px;
-        padding-bottom: 16px;
-        color: #000;
-
-        .image-area {
-          margin: 16px 0;
-
-          img {
-            width: 100%;
-            height: auto;
-          }
-        }
-      }
-    }
-
-    .total {
-      height: 40px;
-      line-height: 40px;
-      color: #000;
-      font-size: 16px;
-    }
-
-    .comments {
-      li {
-        padding: 17px 0 13px;
-        position: relative;
-        @include border-bottom();
-
-        .from-user {
-          .avatar {
-            float: left;
-            display: block;
-            margin-right: 9px;
-            @include avatar(35px);
-          }
-
-          .summary {
-            overflow: hidden;
-
-            .nickname {
-              display: inline-block;
-              font-size: 14px;
-              line-height: 14px;
-              margin-bottom: 6px;
-              margin-top: 2px;
-              color: $color-blue-deep;
-            }
-
-            .info {
-              font-size: 12px;
-              line-height: 12px;
-              color: #999;
-            }
-          }
-        }
-
-        .content {
-          padding-top: 11px;
-          font-size: 16px;
-          line-height: 24px;
-          margin-left: 45px;
-
-          a {
-            font-size: 16px;
-          }
-        }
-      }
-    }
-  }
-
-  .create-post-comment-drawer {
-    border-radius: 0 0 5px 5px;
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      margin-top: -46px;
-      padding-top: 46px;
-      z-index: -1;
-    }
-
-    textarea {
-      font-size: 16px;
-      line-height: 24px;
-      color: #000;
-      font-weight: 400;
-      padding-top: 10px;
-      flex-grow: 1;
-    }
-
-    .btn-submit {
-      margin-top: $container-padding;
-      margin-bottom: $container-padding;
-    }
-  }
-
   .bangumi-panel {
     padding-top: $container-padding;
     padding-bottom: $container-padding;
@@ -274,7 +143,10 @@
           <a 
             :href="$alias.user(master.zone)" 
             class="avatar">
-            <img :src="$resize(master.avatar, { width: 70 })">
+            <v-img
+              :src="master.avatar"
+              size="35"
+            />
           </a>
           <button 
             class="tool-btn" 
@@ -303,26 +175,23 @@
           </div>
         </div>
         <div class="content">
-          <div 
-            class="text-area" 
-            v-html="post.content"/>
           <div class="image-area">
             <div
               v-for="(img, idx) in post.images"
               :key="idx"
               class="image-package"
-              @click="$previewImages(post.preview_images, img)"
             >
               <v-img
                 :src="img.url"
                 :full="true"
-                :source="img"
-                :aspect="$computeImageAspect(img)"
-                width="300"
-                mode="2"
+                :width="img.width"
+                :height="img.height"
               />
             </div>
           </div>
+          <div
+            class="text-area"
+            v-html="post.content"/>
         </div>
         <div class="footer">
           <social-panel
@@ -332,10 +201,9 @@
             :liked="post.liked"
             :marked="post.marked"
             :rewarded="post.rewarded"
-            :reward-count="post.reward_count"
-            :like-count="post.like_count"
-            :mark-count="post.mark_count"
-            :users="post.is_creator ? post.reward_users : post.like_users"
+            :reward-users="post.reward_users"
+            :like-users="post.like_users"
+            :mark-users="post.mark_users"
             type="post"
           >
             <el-button

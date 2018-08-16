@@ -9,11 +9,19 @@ const state = () => ({
 });
 
 const mutations = {
-  SOCIAL_TOGGLE(state, { key, value }) {
+  SOCIAL_TOGGLE(state, { key, value, user }) {
     state.info.post[`${key}ed`.replace("ee", "e")] = value;
-    state.info.post[`${key}_count`] = value
-      ? state.info.post[`${key}_count`] + 1
-      : state.info.post[`${key}_count`] - 1;
+    if (value) {
+      state.info.post[`${key}_users`].total++;
+      state.info.post[`${key}_users`].list.push(user);
+    } else {
+      state.info.post[`${key}_users`].total--;
+      state.info.post[`${key}_users`].list.forEach((item, index) => {
+        if (item.id === user.id) {
+          state.info.post[`${key}_users`].list.splice(index, 1);
+        }
+      });
+    }
   },
   SET_POST_INFO(state, data) {
     state.info.bangumi = data.bangumi;

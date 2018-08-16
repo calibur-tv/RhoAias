@@ -10,10 +10,12 @@ export default {
     fans: {
       new: {
         list: [],
+        total: 0,
         noMore: false
       },
       hot: {
         list: [],
+        total: 0,
         noMore: false
       }
     }
@@ -58,8 +60,9 @@ export default {
           }
         };
       }
-      state.fans[sort].list = state.fans[sort].list.concat(data);
-      state.fans[sort].noMore = data.length < 15;
+      state.fans[sort].list = state.fans[sort].list.concat(data["list"]);
+      state.fans[sort].noMore = data["noMore"];
+      state.fans[sort].total = data["total"];
     }
   },
   actions: {
@@ -96,14 +99,14 @@ export default {
           },
           sort === "new"
             ? {
-                minId: reset ? null : length ? list[length - 1].id : null
+                minId: reset ? 0 : length ? list[length - 1].id : 0
               }
             : {
                 seenIds: reset
-                  ? null
+                  ? ""
                   : length
                     ? list.map(_ => _.id).toString()
-                    : null
+                    : ""
               }
         )
       );

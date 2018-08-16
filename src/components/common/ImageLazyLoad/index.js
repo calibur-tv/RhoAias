@@ -1,4 +1,4 @@
-import comp from "./comp.vue";
+import comp from "./ImageLazyLoad.vue";
 
 comp.install = function(Vue, opts = {}) {
   Vue.component(comp.name, {
