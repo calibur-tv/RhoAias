@@ -39,7 +39,8 @@ export default ({ url, version }) => {
         "Maximum call stack size exceeded",
         /(readonly|redefine) property/,
         "Failed to execute 'appendChild' on 'Node'",
-        "value.hasOwnProperty is not a function"
+        "value.hasOwnProperty is not a function",
+        /([native code]|<anonymous>)/
       ]
     })
       .addPlugin(RavenVue, Vue)
