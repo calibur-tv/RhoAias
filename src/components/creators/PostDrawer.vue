@@ -102,13 +102,14 @@
         ref="uploader"
         :disabled="true"
         :data="uploadHeaders"
+        :action="imageUploadAction"
+        :accept="imageUploadAccept"
         :on-error="handleError"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
         :on-exceed="handleExceed"
         :limit="exceed"
         :before-upload="beforeUpload"
-        action="https://upload.qiniup.com"
         multiple
         list-type="picture-card"
       >
@@ -123,14 +124,14 @@
 </template>
 
 <script>
+import uploadMixin from "~/mixins/upload";
+
 export default {
   name: "CreatePostDrawer",
+  mixins: [uploadMixin],
   data() {
     return {
       open: false,
-      uploadHeaders: {
-        token: ""
-      },
       images: [],
       exceed: 4,
       content: "",
@@ -250,37 +251,15 @@ export default {
         this.$channel.$emit("sign-in");
         return;
       }
-      const isFormat =
-        ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
-          file.type
-        ) !== -1;
-      const isLt2M = file.size / 1024 / 1024 < 3;
 
-      if (!isFormat) {
-        this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
-        return false;
-      }
-      if (!isLt2M) {
-        this.$toast.error("图片大小不能超过 3MB!");
-        return false;
-      }
-
-      this.uploadHeaders.key = this.$utils.createFileName({
+      this.uploadConfig.max = 5;
+      this.uploadConfig.params = {
         userId: this.$store.state.user.id,
-        type: "post",
         id: this.postId || 0,
-        file
-      });
+        type: "post"
+      };
 
-      return true;
-    },
-    async getUpToken() {
-      try {
-        await this.$store.dispatch("getUpToken");
-        this.uploadHeaders.token = this.$store.state.user.uptoken.upToken;
-      } catch (e) {
-        this.$toast.error(e);
-      }
+      return this.beforeImageUpload(file);
     },
     submit() {
       if (this.submitting) {

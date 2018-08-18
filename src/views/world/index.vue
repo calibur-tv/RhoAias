@@ -154,34 +154,6 @@ export default {
       active,
       options
     };
-  },
-  computed: {
-    images() {
-      return this.$store.state.world.image.active;
-    },
-    scores() {
-      return this.$store.state.world.score.active;
-    },
-    posts() {
-      return this.$store.state.world.post.active;
-    }
-  },
-  methods: {
-    async loadMore() {
-      try {
-        await this.$store.dispatch("world/getData", {
-          type: this.$route.name.replace("world-", ""),
-          sort: "active",
-          ctx: this
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      }
-    }
-  },
-  errorCaptured(error) {
-    console.log(error);
-    return false;
   }
 };
 </script>
