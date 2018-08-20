@@ -91,11 +91,10 @@ export default {
       state.posts[type].loading = true;
     },
     SET_NOTIFICATIONS(state, data) {
-      const list = state.notifications.list.concat(data.list);
       state.notifications.list = state.notifications.list.concat(data.list);
       state.notifications.total = data.total;
       state.notifications.noMore = data.noMore;
-      state.notifications.checked = list.filter(_ => _.checked).length;
+      state.notifications.checked = 0;
     },
     READ_NOTIFICATION(state, id) {
       state.notifications.list.forEach((message, index) => {
