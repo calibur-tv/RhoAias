@@ -249,7 +249,7 @@
       </v-bangumi-panel>
       <h3 class="sub-title">视频反馈</h3>
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong> 获得最新的资源更新提醒</p>
-      <p class="tip">2：安卓用户建议大家使用最新版 QQ 或 UC 浏览器在线播放，不要使用系统自带的浏览器</p>
+      <p class="tip">2：安卓用户建议大家使用最新版 QQ 浏览器或在 QQ App 内直接打开该网页，在线播放，不要使用系统自带的浏览器</p>
       <div>
         <button
           class="video-report-btn"
