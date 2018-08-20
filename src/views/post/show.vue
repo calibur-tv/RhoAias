@@ -293,7 +293,7 @@ export default {
         id,
         type: "post",
         onlySeeMaster: only,
-        seeReplyId: route.query.reply
+        seeReplyId: route.query["comment-id"]
       })
     ]);
   },
@@ -402,7 +402,7 @@ export default {
       this.$channel.$emit("open-create-comment-drawer");
     },
     scrollToReply() {
-      const replyId = this.$route.query.reply;
+      const replyId = this.$route.query["comment-id"];
       if (!replyId) {
         return;
       }

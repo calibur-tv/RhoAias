@@ -41,8 +41,9 @@ export default {
     notifications: {
       checked: 0,
       take: 10,
-      noMore: false,
-      data: []
+      list: [],
+      total: 0,
+      noMore: false
     },
     self: {
       followBangumi: []
@@ -90,25 +91,23 @@ export default {
       state.posts[type].loading = true;
     },
     SET_NOTIFICATIONS(state, data) {
-      const temp = state.notifications;
-      state.notifications = {
-        checked: temp.checked,
-        take: temp.take,
-        noMore: temp.take > data.length,
-        data: temp.data.concat(data)
-      };
+      const list = state.notifications.list.concat(data.list);
+      state.notifications.list = state.notifications.list.concat(data.list);
+      state.notifications.total = data.total;
+      state.notifications.noMore = data.noMore;
+      state.notifications.checked = list.filter(_ => _.checked).length;
     },
     READ_NOTIFICATION(state, id) {
-      state.notifications.data.forEach((message, index) => {
+      state.notifications.list.forEach((message, index) => {
         if (message.id === id && !message.checked) {
-          state.notifications.data[index].checked = true;
+          state.notifications.list[index].checked = true;
           state.notifications.checked++;
         }
       });
     },
     READ_ALL_NOTIFICATION(state) {
-      state.notifications.data.forEach((message, index) => {
-        state.notifications.data[index].checked = true;
+      state.notifications.list.forEach((message, index) => {
+        state.notifications.list[index].checked = true;
       });
       state.notifications.checked = 88888888;
     },
@@ -147,7 +146,8 @@ export default {
         checked: 0,
         take: 10,
         noMore: false,
-        data: []
+        total: 0,
+        list: []
       };
     }
   },
@@ -205,20 +205,20 @@ export default {
       if (reset) {
         commit("CLEAR_NOTIFICATIONS");
       }
-      const length = state.notifications.data.length;
+      const length = state.notifications.list.length;
       if (state.notifications.noMore) {
         return;
       }
       const api = new Api(ctx);
       const data = await api.getNotifications({
-        minId: length ? state.notifications.data[length - 1].id : null,
+        minId: length ? state.notifications.list[length - 1].id : null,
         take: state.notifications.take
       });
       data && commit("SET_NOTIFICATIONS", data);
     },
     async readMessage({ state, commit }, { ctx, id }) {
       let msg = null;
-      state.notifications.data.forEach(message => {
+      state.notifications.list.forEach(message => {
         if (message.id === id && !message.checked) {
           msg = message;
         }
