@@ -1,3 +1,17 @@
+<style lang="scss">
+#cartoon-role-flow-list {
+  .request-cartoon-role-btn {
+    text-align: center;
+
+    button {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      @include btn-empty(#333);
+    }
+  }
+}
+</style>
+
 <template>
   <div id="cartoon-role-flow-list">
     <ul class="container">
@@ -10,23 +24,16 @@
         :user-zone="userZone"
       />
     </ul>
-    <more-btn
+    <div
       v-if="source.noMore && !source.loading && roles.length"
-      :no-more="true"
-      :loading="false"
-      :length="1"
+      class="request-cartoon-role-btn"
     >
-      <a
-        v-if="isMe"
-        :href="$alias.roleTrending"
-      >
-        <button>查看角色列表</button>
-      </a>
       <button
         v-if="bangumiId"
+        class="request-cartoon-role-btn"
         @click="openFeedbackForRole"
       >求偶像</button>
-    </more-btn>
+    </div>
     <more-btn
       v-else
       :no-more="source.noMore"
