@@ -11,6 +11,24 @@
       />
     </ul>
     <more-btn
+      v-if="source.noMore && !source.loading && roles.length"
+      :no-more="true"
+      :loading="false"
+      :length="1"
+    >
+      <a
+        v-if="isMe"
+        :href="$alias.roleTrending"
+      >
+        <button>查看角色列表</button>
+      </a>
+      <button
+        v-if="bangumiId"
+        @click="openFeedbackForRole"
+      >求偶像</button>
+    </more-btn>
+    <more-btn
+      v-else
       :no-more="source.noMore"
       :loading="source.loading"
       :length="roles.length"
