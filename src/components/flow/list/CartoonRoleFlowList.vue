@@ -4,8 +4,8 @@
     text-align: center;
 
     button {
-      margin-top: 15px;
-      margin-bottom: 15px;
+      margin-top: 35px;
+      margin-bottom: 50px;
       @include btn-empty(#333);
     }
   }
@@ -32,7 +32,7 @@
         v-if="bangumiId"
         class="request-cartoon-role-btn"
         @click="openFeedbackForRole"
-      >求偶像</button>
+      >没有你喜欢的角色？</button>
     </div>
     <more-btn
       v-else
@@ -50,7 +50,7 @@
       <button
         v-if="bangumiId"
         @click="openFeedbackForRole"
-      >求偶像</button>
+      >没有你喜欢的角色？</button>
     </more-btn>
   </div>
 </template>
