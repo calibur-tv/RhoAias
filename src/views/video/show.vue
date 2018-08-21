@@ -277,8 +277,32 @@ export default {
     if (!bangumi || !video) {
       return;
     }
+    let resultPart = video.part;
+    let season = "";
+    let title = "";
+    if (this.season) {
+      this.list.forEach((videos, index) => {
+        videos.data.forEach(video => {
+          if (video.id === this.video.id) {
+            resultPart = video.part - videos.base;
+            season = this.season.name[index];
+          }
+        });
+      });
+    }
+    if (season) {
+      if (season === video.name) {
+        title = `${bangumi.name} : ${season} - 视频`;
+      } else {
+        title = `${bangumi.name} : ${season} : 第${resultPart}话 ${
+          video.name
+        } - 视频`;
+      }
+    } else {
+      title = `${bangumi.name} : 第${resultPart}话 ${video.name} - 视频`;
+    }
     return {
-      title: `${bangumi.name} : 第${video.part}话 ${video.name} - 视频`,
+      title,
       meta: [
         { hid: "description", name: "description", content: bangumi.summary },
         {
