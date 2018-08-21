@@ -386,6 +386,12 @@ export default {
         }
       });
       return nextId ? this.$alias.video(nextId) : "";
+    },
+    errorTips() {
+      if (/(ipad|iphone|ios)/i.test(navigator.userAgent)) {
+        return "视频加载失败，建议使用 Safari 打开网页播放！";
+      }
+      return "视频加载失败，建议使用QQ浏览器播放！";
     }
   },
   mounted() {
@@ -405,7 +411,7 @@ export default {
     try {
       this.player.load();
     } catch (e) {
-      this.$alert("视频加载失败，建议使用QQ浏览器播放！");
+      this.$alert(this.errorTips);
       return;
     }
     this.player.addEventListener("pause", () => {
@@ -417,11 +423,11 @@ export default {
     });
 
     this.player.addEventListener("abort", () => {
-      this.$alert("视频加载失败，建议使用QQ浏览器播放！");
+      this.$alert(this.errorTips);
     });
 
     this.player.addEventListener("error", () => {
-      this.$alert("视频加载失败，建议使用QQ浏览器播放！");
+      this.$alert(this.errorTips);
     });
   },
   methods: {
@@ -457,11 +463,7 @@ export default {
           this.playing = true;
         }
       } catch (e) {
-        if (/(ipad|iphone|ios)/i.test(navigator.userAgent)) {
-          this.$alert("视频加载失败，建议使用 Safari 打开网页播放！");
-        } else {
-          this.$alert("视频加载失败，建议使用QQ浏览器播放！");
-        }
+        this.$alert(this.errorTips);
       }
     },
     handleVideoReportClick() {
