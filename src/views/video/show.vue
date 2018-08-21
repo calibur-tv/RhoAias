@@ -349,7 +349,7 @@ export default {
       return parseInt(this.$route.params.id, 10);
     },
     isGuest() {
-      return !this.$store.state.login;
+      return this.bangumi.id !== 34 && !this.$store.state.login;
     },
     videoPackage() {
       return this.$store.state.video;
