@@ -69,6 +69,12 @@
   .nomore {
     background-color: #fff;
   }
+
+  .post-flow-item,
+  .score-flow-item {
+    margin-left: -$container-padding;
+    margin-right: -$container-padding;
+  }
 }
 </style>
 
@@ -101,7 +107,7 @@
       <component
         v-for="item in list"
         :key="`${item.type}-${item.id}`"
-        :is="`Flow${item.type}`"
+        :is="`${item.type}-item`"
         :item="item"
         :in-common="item.type != selectedType"
       />
@@ -117,11 +123,12 @@
 
 <script>
 import vSearch from "~/components/search/Input";
-import Flow1 from "~/components/search/flows/flow_1";
-import Flow2 from "~/components/search/flows/flow_2";
-import Flow3 from "~/components/search/flows/flow_3";
-import Flow4 from "~/components/search/flows/flow_4";
-import Flow5 from "~/components/search/flows/flow_5";
+import UserItem from "~/components/search/flows/UserItem";
+import BangumiItem from "~/components/search/flows/BangumiItem";
+import VideoItem from "~/components/search/flows/VideoItem";
+import PostItem from "~/components/flow/item/PostFlowItem";
+import RoleItem from "~/components/flow/item/CartoonRoleFlowItem";
+import ScoreItem from "~/components/flow/item/ScoreFlowItem";
 
 export default {
   name: "SearchIndex",
@@ -135,11 +142,12 @@ export default {
   },
   components: {
     vSearch,
-    Flow1,
-    Flow2,
-    Flow3,
-    Flow4,
-    Flow5
+    UserItem,
+    BangumiItem,
+    VideoItem,
+    PostItem,
+    RoleItem,
+    ScoreItem
   },
   computed: {
     resource() {

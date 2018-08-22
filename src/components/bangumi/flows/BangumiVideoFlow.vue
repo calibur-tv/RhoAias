@@ -43,7 +43,7 @@
 
 <template>
   <div id="bangumi-video-flow">
-    <section v-if="videos.list.length">
+    <section v-if="videos.total">
       <div
         v-if="videos.has_season"
         class="container">
@@ -106,7 +106,7 @@
       :no-more="true"
       :auto="true"
       :loading="loading"
-      :length="videos.list.length"
+      :length="videos.total"
     >
       <button @click="openFeedbackForResource">求资源</button>
     </more-btn>

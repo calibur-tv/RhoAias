@@ -338,7 +338,7 @@ export default {
         ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
           file.type
         ) !== -1;
-      const isLt5M = file.size / 1024 / 1024 < 5;
+      const isLt5M = file.size / 1024 / 1024 < 10;
 
       if (!isFormat) {
         this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
@@ -383,7 +383,7 @@ export default {
         ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
           file.type
         ) !== -1;
-      const isLt2M = file.size / 1024 / 1024 < 5;
+      const isLt2M = file.size / 1024 / 1024 < 10;
 
       if (!isFormat) {
         this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
