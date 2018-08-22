@@ -69,6 +69,12 @@
   .nomore {
     background-color: #fff;
   }
+
+  .post-flow-item,
+  .score-flow-item {
+    margin-left: -$container-padding;
+    margin-right: -$container-padding;
+  }
 }
 </style>
 
