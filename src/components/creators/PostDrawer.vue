@@ -53,86 +53,65 @@
   <v-drawer
     id="write-post"
     v-model="open"
-    :header-text="postId && isReply ? '发表回复' : '发帖'"
+    header-text="发帖"
     class="post-write-drawer"
     from="right"
     size="100%"
   >
     <div class="container">
-      <template v-if="!postId || !isReply">
-        <input
-          v-model.trim="title"
-          class="title"
-          type="text"
-          maxlength="40"
-          placeholder="加个标题哟~"
-        >
-        <div class="bangumi">
-          <span>发布到：</span>
-          <div
-            @click="handleBangumiPickerBtnClick"
-            v-text="bangumiPlaceholder"
-          />
-        </div>
-        <div class="bangumi">
-          <span>原创：</span>
-          <mt-switch v-model="is_creator"/>
-        </div>
-        <v-drawer
-          v-model="openBangumisDrawer"
-          class="bangumis-drawer"
-          from="bottom"
-          size="250px"
-          header-text="选择番剧"
-        >
-          <mt-picker
-            :slots="slots"
-            value-key="name"
-            @change="onValuesChange"
-          />
-        </v-drawer>
-      </template>
+      <input
+        v-model.trim="title"
+        class="title"
+        type="text"
+        maxlength="40"
+        placeholder="加个标题哟~"
+      >
+      <div class="bangumi">
+        <span>发布到：</span>
+        <div
+          @click="handleBangumiPickerBtnClick"
+          v-text="bangumiPlaceholder"
+        />
+      </div>
+      <div class="bangumi">
+        <span>原创：</span>
+        <mt-switch v-model="is_creator"/>
+      </div>
+      <v-drawer
+        v-model="openBangumisDrawer"
+        class="bangumis-drawer"
+        from="bottom"
+        size="250px"
+        header-text="选择番剧"
+      >
+        <mt-picker
+          :slots="slots"
+          value-key="name"
+          @change="onValuesChange"
+        />
+      </v-drawer>
       <textarea
-        :placeholder="postId ? '也来说两句（1000字以内）' : '来吧，尽情的（在1000字以内）发挥吧'"
         v-model.trim="content"
+        placeholder="来吧，尽情的（在1000字以内）发挥吧"
         class="content"
         maxlength="1000"
       />
-      <el-upload
-        ref="uploader"
-        :disabled="true"
-        :data="uploadHeaders"
-        :action="imageUploadAction"
-        :accept="imageUploadAccept"
-        :on-error="handleError"
-        :on-remove="handleRemove"
-        :on-success="handleSuccess"
-        :on-exceed="handleExceed"
+      <image-uploader
+        :loading="submitting"
         :limit="exceed"
-        :before-upload="beforeUpload"
-        multiple
-        list-type="picture-card"
-      >
-        +
-      </el-upload>
-      <button
-        class="btn-submit"
-        @click="submit"
-      >发布</button>
+        :required="false"
+        @submit="submit"
+      />
     </div>
   </v-drawer>
 </template>
 
 <script>
-import uploadMixin from "~/mixins/upload";
-
 export default {
   name: "CreatePostDrawer",
-  mixins: [uploadMixin],
   data() {
     return {
       open: false,
-      images: [],
       exceed: 4,
       content: "",
       title: "",
@@ -148,16 +127,10 @@ export default {
       openBangumisDrawer: false,
       loading: false,
       is_creator: false,
-      submitting: false,
-      isReply: true
+      submitting: false
     };
   },
   computed: {
-    postId() {
-      return this.$route.name === "post-show"
-        ? parseInt(this.$route.params.id, 10)
-        : 0;
-    },
     bangumiId() {
       return this.$route.name === "bangumi-show"
         ? parseInt(this.$route.params.id, 10)
@@ -180,9 +153,6 @@ export default {
 
       return res.join("");
     },
-    formatImages() {
-      return this.images.map(item => item.img);
-    },
     bangumiPlaceholder() {
       if (this.loading) {
         return "加载中...";
@@ -198,15 +168,9 @@ export default {
   },
   watch: {
     open(val) {
-      if (val) {
-        if (this.$store.state.login) {
-          this.getUpToken();
-        }
-        if (!this.postId || !this.isReply) {
-          this.getUserFollowedBangumis();
-        }
-      } else {
-        this.isReply = true;
+      if (val && this.$store.state.login) {
+        this.getUpToken();
+        this.getUserFollowedBangumis();
       }
     }
   },
@@ -216,52 +180,11 @@ export default {
         this.slots[0].values.push(data);
       }
       this.saveSelectedBangumi(data.id);
-      this.isReply = false;
       this.open = true;
     });
   },
   methods: {
-    handleError(err, file) {
-      console.log(err);
-      this.images.forEach((item, index) => {
-        if (item.id === file.uid) {
-          this.images.splice(index, 1);
-        }
-      });
-      this.$toast.error(`图片：${file.name} 上传失败`);
-    },
-    handleRemove(file) {
-      this.images.forEach((item, index) => {
-        if (item.id === file.uid) {
-          this.images.splice(index, 1);
-        }
-      });
-    },
-    handleSuccess(res, file) {
-      this.images.push({
-        id: file.uid,
-        img: res.data
-      });
-    },
-    handleExceed() {
-      this.$toast.error(`最多可上传 ${this.exceed} 张图片!`);
-    },
-    beforeUpload(file) {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-
-      this.uploadConfig.max = 5;
-      this.uploadConfig.params = {
-        userId: this.$store.state.user.id,
-        id: this.postId || 0,
-        type: "post"
-      };
-
-      return this.beforeImageUpload(file);
-    },
-    submit() {
+    submit(images) {
       if (this.submitting) {
         return;
       }
@@ -273,64 +196,35 @@ export default {
         this.$toast.error("番剧加载中");
         return;
       }
-      if (!this.postId) {
-        if (!this.title) {
-          this.$toast.error("标题不能为空！");
-          return;
-        }
+      if (!this.title) {
+        this.$toast.error("标题不能为空！");
+        return;
       }
       this.submitting = true;
       this.$toast.loading("加载中");
       this.$captcha({
         success: async ({ data }) => {
-          if (this.postId && this.isReply) {
-            try {
-              await this.$store.dispatch("post/reply", {
-                postId: this.postId,
-                content: this.formatContent,
-                images: this.formatImages,
-                geetest: data,
-                ctx: this
-              });
-              this.images = [];
-              this.content = "";
-              this.$refs.uploader.clearFiles();
-              this.$toast.success("回复成功！");
-              this.open = false;
-              const list = document.querySelectorAll(".post-reply-item");
-              setTimeout(() => {
-                const dom = list[list.length - 1];
-                dom && this.$scrollToY(dom.offsetTop, 400);
-              }, 1000);
-            } catch (err) {
-              this.$toast.error(err);
-            } finally {
-              this.submitting = false;
-            }
-          } else {
-            try {
-              const id = await this.$store.dispatch("post/create", {
-                title: this.title,
-                bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
-                desc: this.content.substring(0, 120),
-                content: this.formatContent,
-                images: this.formatImages,
-                geetest: data,
-                ctx: this,
-                is_creator: this.is_creator
-              });
-              this.images = [];
-              this.title = "";
-              this.content = "";
-              this.$refs.uploader.clearFiles();
-              this.$toast.success("发布成功！");
-              this.open = false;
-              window.location = this.$alias.post(id);
-            } catch (err) {
-              this.$toast.error(err);
-            } finally {
-              this.submitting = false;
-            }
+          try {
+            const id = await this.$store.dispatch("post/create", {
+              title: this.title,
+              bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
+              desc: this.content.substring(0, 120),
+              content: this.formatContent,
+              geetest: data,
+              is_creator: this.is_creator,
+              ctx: this,
+              images
+            });
+            this.title = "";
+            this.content = "";
+            this.$toast.success("发布成功！");
+            this.$channel.$emit("image-upload-done");
+            this.open = false;
+            window.location = this.$alias.post(id);
+          } catch (err) {
+            this.$toast.error(err);
+          } finally {
+            this.submitting = false;
           }
         },
         ready: () => {

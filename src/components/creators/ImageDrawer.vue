@@ -21,21 +21,6 @@
       }
     }
   }
-
-  .el-upload-list__item,
-  .el-upload--picture-card {
-    width: 15vw;
-    height: 15vw;
-    line-height: 15vw;
-  }
-
-  .el-upload-list__item-delete {
-    float: none !important;
-  }
-
-  .btn-submit {
-    margin-top: 15px;
-  }
 }
 </style>
 
@@ -101,20 +86,7 @@
           </div>
           <div class="field">
             <span>图片：</span>
-            <el-upload
-              ref="imageUploader"
-              :action="imageUploadAction"
-              :accept="imageUploadAccept"
-              :data="uploadHeaders"
-              :disabled="true"
-              :on-error="handleImageUploadError"
-              :on-remove="handleRemoveImage"
-              :on-success="handleImageUploadSuccess"
-              :on-exceed="handleExceed"
-              :before-upload="beforeImageUpload"
-              :file-list="image.data"
-              list-type="picture-card"
-            >+</el-upload>
+            <image-uploader @submit="createImage"/>
           </div>
         </template>
         <template v-else>
@@ -127,28 +99,12 @@
           </div>
           <div class="field">
             <span>图片：</span>
-            <el-upload
-              ref="imageUploader"
-              :action="imageUploadAction"
-              :accept="imageUploadAccept"
-              :data="uploadHeaders"
-              :disabled="true"
-              :on-error="handleImageUploadError"
-              :on-remove="handleRemoveImage"
-              :on-success="handleImageUploadSuccess"
-              :on-exceed="handleExceed"
-              :before-upload="beforeImageUpload"
-              :file-list="image.data"
-              :limit="exceed"
-              multiple
-              list-type="picture-card"
-            >+</el-upload>
+            <image-uploader
+              :limit="7"
+              @submit="createImage"
+            />
           </div>
         </template>
-        <button
-          class="btn-submit"
-          @click="createImage"
-        >确认上传</button>
       </template>
       <template v-else-if="sort === 'album'">
         <v-field
@@ -170,24 +126,8 @@
         </div>
         <div class="field">
           <span>封面：</span>
-          <el-upload
-            ref="albumUploader"
-            :action="imageUploadAction"
-            :accept="imageUploadAccept"
-            :data="uploadHeaders"
-            :disabled="true"
-            :on-error="handlePosterUploadError"
-            :on-success="handleAlbumUploadSuccess"
-            :before-upload="beforeUpload"
-            :on-remove="handleAlbumPosterRemove"
-            :file-list="album.poster"
-            list-type="picture-card"
-          >+</el-upload>
+          <image-uploader @submit="createAlbum"/>
         </div>
-        <button
-          class="btn-submit"
-          @click="createAlbum"
-        >确认</button>
       </template>
     </div>
   </v-drawer>
@@ -195,11 +135,9 @@
 
 <script>
 import ImageApi from "~/api/imageApi";
-import uploadMixin from "~/mixins/upload";
 
 export default {
   name: "CreateImageDrawer",
-  mixins: [uploadMixin],
   data() {
     return {
       show: false,
@@ -232,18 +170,14 @@ export default {
         bangumiId: "",
         selectedBangumi: false,
         creator: false,
-        cartoon: false,
-        poster: []
+        cartoon: false
       },
       image: {
         name: "",
         creator: false,
         selectedBangumi: false,
-        selectedAlbum: false,
-        data: []
+        selectedAlbum: false
       },
-      pendingUpload: 0,
-      exceed: 7,
       isSingleModel: true
     };
   },
@@ -310,98 +244,6 @@ export default {
   methods: {
     switchTab(tab) {
       this.sort = tab;
-    },
-    handlePosterUploadError(err, file) {
-      console.log(err);
-      this.album.poster = [];
-      this.$toast.error(`图片：${file.name} 上传失败`);
-    },
-    handleImageUploadError(err, file) {
-      console.log(err);
-      this.image.data.forEach((item, index) => {
-        if (item.id === file.uid) {
-          this.image.data.splice(index, 1);
-        }
-      });
-      this.pendingUpload = this.pendingUpload - 1;
-      this.$toast.error(`图片：${file.name} 上传失败`);
-    },
-    handleExceed() {
-      this.$toast.error(`最多可上传 ${this.exceed} 张图片!`);
-    },
-    beforeImageUpload(file) {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      const isFormat =
-        ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
-          file.type
-        ) !== -1;
-      const isLt5M = file.size / 1024 / 1024 < 10;
-
-      if (!isFormat) {
-        this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
-        return false;
-      }
-      if (!isLt5M) {
-        this.$toast.error("图片大小不能超过 5MB!");
-        return false;
-      }
-      this.image.data.push({
-        name: file.name,
-        percentage: 0,
-        raw: file,
-        size: file.size,
-        status: "uploading",
-        uid: file.uid
-      });
-      this.pendingUpload++;
-
-      this.uploadHeaders.key = this.$utils.createFileName({
-        userId: this.$store.state.user.id,
-        type: "image",
-        id: 0,
-        file
-      });
-
-      return true;
-    },
-    handleRemoveImage(file) {
-      this.image.data.forEach((item, index) => {
-        if (item.id === file.uid) {
-          this.image.data.splice(index, 1);
-        }
-      });
-    },
-    beforeUpload(file) {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      const isFormat =
-        ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
-          file.type
-        ) !== -1;
-      const isLt2M = file.size / 1024 / 1024 < 10;
-
-      if (!isFormat) {
-        this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
-        return false;
-      }
-      if (!isLt2M) {
-        this.$toast.error("图片大小不能超过 5MB!");
-        return false;
-      }
-
-      this.uploadHeaders.key = this.$utils.createFileName({
-        userId: this.$store.state.user.id,
-        type: "album",
-        id: 0,
-        file
-      });
-
-      return true;
     },
     switchPickerDrawer(name) {
       this.openBangumisDrawer = false;
@@ -484,31 +326,8 @@ export default {
         this.loadingBangumi = false;
       }
     },
-    handleAlbumUploadSuccess(res, file) {
-      this.album.poster = [
-        {
-          name: file.name,
-          data: res.data,
-          url: this.$resize(res.data.key, { width: 100 })
-        }
-      ];
-    },
-    handleAlbumPosterRemove() {
-      this.$refs.albumUploader.clearFiles();
-    },
-    handleImageUploadSuccess(res, file) {
-      this.image.data.forEach((item, index) => {
-        if (item.uid === file.uid) {
-          this.image.data[index] = Object.assign(item, {
-            data: res.data,
-            status: "success",
-            url: this.$resize(res.data.key, { width: 100 })
-          });
-        }
-      });
-      this.pendingUpload--;
-    },
-    async createAlbum() {
+    async createAlbum(poster) {
+      console.log(poster);
       if (!this.album.name) {
         this.$toast.error("请填写相册名字");
         return;
@@ -521,13 +340,6 @@ export default {
         this.$toast.error("请选择要投稿的番剧");
         return;
       }
-      const poster = this.album.poster.length
-        ? this.album.poster[0]["data"]
-        : null;
-      if (!poster) {
-        this.$toast.error("请先上传封面");
-        return;
-      }
       if (this.submitting) {
         return;
       }
@@ -535,33 +347,30 @@ export default {
       this.$toast.loading("创建中");
       const api = new ImageApi(this);
       try {
-        const data = await api.createAlbum({
-          bangumi_id: this.getSelectedMeta("bangumi", "id"),
-          is_cartoon: false,
-          name: this.album.name,
-          url: poster.key,
-          width: poster.width,
-          height: poster.height,
-          type: poster.type,
-          size: poster.size,
-          is_creator: this.album.creator,
-          part: 0
-        });
+        const data = await api.createAlbum(
+          Object.assign({}, poster, {
+            bangumi_id: this.getSelectedMeta("bangumi", "id"),
+            is_cartoon: false,
+            name: this.album.name,
+            is_creator: this.album.creator,
+            part: 0
+          })
+        );
         this.albumSlots[0].values.unshift(data);
         this.albumSlots[0].defaultIndex = 0;
         this.$toast.success("相册创建成功！");
         this.sort = "image";
         this.image.albumId = data.id;
         this.image.selectedAlbum = true;
+        this.isSingleModel = false;
         this.album = {
           name: "",
           bangumiId: "",
           selectedBangumi: false,
           creator: false,
-          cartoon: false,
-          poster: []
+          cartoon: false
         };
-        this.$refs.albumUploader.clearFiles();
+        this.$channel.$emit("image-upload-done");
       } catch (e) {
         this.$toast.error(e);
       } finally {
@@ -585,15 +394,7 @@ export default {
         this.loadingUserAlbum = false;
       }
     },
-    async createImage() {
-      if (!this.image.data.length) {
-        this.$toast.error("请先上传图片");
-        return;
-      }
-      if (this.pendingUpload) {
-        this.$toast.error("等待图片上传完成");
-        return;
-      }
+    async createImage(images) {
       if (this.isSingleModel) {
         if (!this.image.selectedBangumi) {
           this.$toast.error("请选择要投稿的番剧");
@@ -618,39 +419,26 @@ export default {
       const api = new ImageApi(this);
       try {
         if (this.isSingleModel) {
-          const image = this.image.data[0].data;
-          newId = await api.uploadSingleImage({
-            is_creator: this.image.creator,
-            bangumi_id: this.getSelectedMeta("bangumi", "id"),
-            name: this.image.name,
-            url: image.key,
-            width: image.width,
-            height: image.height,
-            type: image.type,
-            size: image.size
-          });
+          newId = await api.uploadSingleImage(
+            Object.assign({}, images, {
+              is_creator: this.image.creator,
+              bangumi_id: this.getSelectedMeta("bangumi", "id"),
+              name: this.image.name
+            })
+          );
         } else {
           newId = this.getSelectedMeta("album", "id");
           await api.uploadManyImage({
             album_id: newId,
-            images: this.image.data.map(_ => {
-              const image = _.data;
-              return {
-                url: image.key,
-                width: image.width,
-                height: image.height,
-                type: image.type,
-                size: image.size
-              };
-            })
+            images
           });
         }
-        this.$refs.imageUploader.clearFiles();
         this.$toast.success("上传成功");
         this.show = false;
         setTimeout(() => {
           window.location = this.$alias.image(newId);
         }, 400);
+        this.$channel.$emit("image-upload-done");
       } catch (e) {
         this.$toast.error(e);
       } finally {

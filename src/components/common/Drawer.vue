@@ -216,6 +216,7 @@ export default {
       document.body.style.height = `${window.innerHeight}px`;
 
       this.show = true;
+      window.__closeImageLazy__ = true;
 
       if (this.id) {
         this.$channel.$emit(`drawer-open-event-${this.id}`);
@@ -242,6 +243,7 @@ export default {
       window.scrollTo(0, this.pos);
 
       this.show = false;
+      window.__closeImageLazy__ = false;
 
       if (this.backdrop) {
         this.$backdrop.hide(this.backdropId);
