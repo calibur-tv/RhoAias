@@ -255,16 +255,25 @@ export default {
           ? {
               width: +this.size * 2
             }
-          : {
-              width: this.convertImageReallyWidth,
-              height: +this.height * 2
-            }
+          : this.width === "auto"
+            ? {
+                height: +this.height * 2,
+                mode: 2
+              }
+            : {
+                width: this.convertImageReallyWidth,
+                height: +this.height * 2
+              }
       );
     }
   },
   mounted() {
     this.containerWidth = this.$el.parentNode.offsetWidth;
-    if (!this.lazy || utils.checkInView(this.$el)) {
+    if (
+      !this.lazy ||
+      window.__closeImageLazy__ ||
+      utils.checkInView(this.$el)
+    ) {
       this.loadImageResource();
     } else {
       this.bindLazyEvent();

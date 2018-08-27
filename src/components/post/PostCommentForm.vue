@@ -8,22 +8,6 @@
     height: 250px;
     margin-bottom: 5px;
   }
-
-  .el-upload-list__item,
-  .el-upload--picture-card {
-    width: 15vw;
-    height: 15vw;
-    line-height: 15vw;
-  }
-
-  .el-upload-list__item-delete {
-    float: none !important;
-  }
-
-  .submit-btn {
-    margin-top: 15px;
-    width: 100%;
-  }
 }
 </style>
 
@@ -36,37 +20,18 @@
       maxlength="1000"
       @focus="handleAreaFocus"
     />
-    <el-upload
-      ref="uploader"
-      :disabled="true"
-      :data="uploadHeaders"
-      :action="imageUploadAction"
-      :accept="imageUploadAccept"
-      :on-error="handleImageUploadError"
-      :on-remove="handleRemove"
-      :on-success="handleSuccess"
-      :on-exceed="handleExceed"
+    <image-uploader
+      :loading="submitting"
       :limit="exceed"
-      :before-upload="beforeUpload"
-      multiple
-      list-type="picture-card"
-    >
-      +
-    </el-upload>
-    <el-button 
-      :loading="submitting" 
-      class="submit-btn" 
-      type="primary" 
-      @click="submit">发布</el-button>
+      :required="false"
+      @submit="submit"
+    />
   </div>
 </template>
 
 <script>
-import uploadMixin from "~/mixins/upload";
-
 export default {
   name: "PostCommentForm",
-  mixins: [uploadMixin],
   props: {
     type: {
       required: true,
@@ -82,7 +47,6 @@ export default {
       forms: {
         content: ""
       },
-      images: [],
       exceed: 5
     };
   },
@@ -104,9 +68,6 @@ export default {
 
       return res.join("");
     },
-    formatImages() {
-      return this.images.map(item => item.img);
-    },
     submitting() {
       return this.$store.state.comment.submitting;
     }
@@ -117,7 +78,7 @@ export default {
     }
   },
   methods: {
-    async submit() {
+    async submit(images) {
       if (this.isGuest) {
         this.$channel.$emit("sign-in");
         return;
@@ -135,7 +96,7 @@ export default {
           "comment/createMainComment",
           {
             content: this.formatContent,
-            images: this.formatImages,
+            images: images,
             type: this.type,
             id: this.id,
             ctx: this
@@ -145,13 +106,12 @@ export default {
         this.forms = {
           content: ""
         };
-        this.images = [];
-        this.$refs.uploader.clearFiles();
         this.$toast.success("评论成功");
         setTimeout(() => {
           const dom = document.getElementById(`comment-${newComment.id}`);
           dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
         }, 400);
+        this.$channel.$emit("image-upload-done");
       } catch (e) {
         this.$toast.error(e);
       } finally {
@@ -187,7 +147,7 @@ export default {
         type: "post"
       };
 
-      return this.beforeImageUpload(file);
+      return this.handleImageUploadBefore(file);
     },
     handleAreaFocus() {
       document.body.scrollTop = 0;

@@ -50,7 +50,12 @@
           :style="imageWrapperHeight"
           class="wrapper"
         >
-          <img :src="$resize(item.url)">
+          <v-img
+            :src="$resize(item.url)"
+            :width="item.width"
+            :height="item.height"
+            :full="true"
+          />
           <el-input
             v-model="desc"
             maxlength="45"
@@ -62,8 +67,9 @@
           :data="uploadHeaders"
           :action="imageUploadAction"
           :accept="imageUploadAccept"
-          :before-upload="beforeUpload"
-          :on-success="handleImageUploadSuccess"
+          :before-upload="handleImageUploadBefore"
+          :on-error="handleImageUploadError"
+          :on-success="imageUploadSuccess"
           :disabled="true"
           class="uploader"
         >
@@ -77,8 +83,9 @@
           :action="imageUploadAction"
           :accept="imageUploadAccept"
           :show-file-list="false"
-          :before-upload="beforeUpload"
-          :on-success="handleImageUploadSuccess"
+          :before-upload="handleImageUploadBefore"
+          :on-error="handleImageUploadError"
+          :on-success="imageUploadSuccess"
           :disabled="true"
         >
           <el-button
@@ -94,11 +101,11 @@
 </template>
 
 <script>
-import uploadMixin from "~/mixins/upload";
+import UploadMixin from "~/mixins/upload";
 
 export default {
   name: "ImgPreview",
-  mixins: [uploadMixin],
+  mixins: [UploadMixin],
   props: {
     item: {
       required: true,
@@ -139,7 +146,8 @@ export default {
     this.getUpToken();
   },
   methods: {
-    handleImageUploadSuccess(res) {
+    imageUploadSuccess(res, file) {
+      this.handleImageUploadSuccess(res, file);
       this.$store.commit("editor/UPDATE_SECTION_IMAGE", {
         url: res.data.key,
         width: res.data.width,
@@ -149,13 +157,6 @@ export default {
       });
       this.$toast.success("上传成功");
     },
-    beforeUpload(file) {
-      this.getUpToken();
-      this.uploadConfig.max = 5;
-      this.uploadConfig.pathPrefix = `user/${this.$store.state.user.id}/create`;
-      return this.beforeImageUpload(file);
-    },
-    handleImageLoaded() {},
     emitSave() {
       if (!this.item.url) {
         return;
