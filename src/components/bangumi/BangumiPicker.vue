@@ -109,7 +109,7 @@ export default {
       }
     },
     async getData() {
-      if (this.loading) {
+      if (this.loading || !this.user) {
         return;
       }
       this.loading = true;
