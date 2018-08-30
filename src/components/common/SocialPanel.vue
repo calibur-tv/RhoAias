@@ -98,7 +98,8 @@ export default {
     type: {
       required: true,
       type: String,
-      validator: val => ~["post", "video", "image", "score"].indexOf(val)
+      validator: val =>
+        ~["post", "video", "image", "score", "answer"].indexOf(val)
     },
     isCreator: {
       required: true,

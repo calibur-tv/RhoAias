@@ -103,6 +103,15 @@
         color: $color-text-normal;
       }
     }
+
+    .role-comment-wrap {
+      padding-left: $container-padding;
+      padding-right: $container-padding;
+
+      .hr {
+        display: none;
+      }
+    }
   }
 }
 </style>
@@ -178,6 +187,9 @@
       </div>
     </div>
     <div class="tabs">
+      <button
+        :class="{ 'active': sort === 'comment' }"
+        @click="switchTab('comment')">留言板</button>
       <button 
         :class="{ 'active': sort === 'fans' }" 
         @click="switchTab('fans')">应援团</button>
@@ -204,40 +216,55 @@
           :no-more="fans.noMore"
           :length="fans.list.length"
           :loading="loadingRoleFans"
-          @fetch="fetchRoleFans"
+          @fetch="fetchRoleFans(false)"
         />
       </template>
+      <div
+        v-else-if="sort === 'comment'"
+        class="role-comment-wrap"
+      >
+        <comment-main
+          :id="id"
+          :master-id="1"
+          type="role"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import CommentMain from "~/components/comments/CommentMain";
+
 export default {
   name: "RoleShow",
   async asyncData({ store, route, ctx }) {
     const id = route.params.id;
     await Promise.all([
       store.dispatch("cartoonRole/getRoleInfo", { ctx, id }),
-      store.dispatch("cartoonRole/getFansList", {
+      store.dispatch("comment/getMainComments", {
         ctx,
-        bangumiId: 0,
-        roleId: id,
-        sort: "new",
-        reset: false
+        id,
+        type: "role",
+        seeReplyId: route.query["comment-id"]
       })
     ]);
   },
+  components: {
+    CommentMain
+  },
   data() {
     return {
-      sort: "fans",
+      sort: "comment",
       loadingRoleFans: false,
       loadingRoleImage: false,
-      roleImageLoaded: false
+      roleImageLoaded: false,
+      roleFansLoaded: false
     };
   },
   computed: {
     id() {
-      return this.$route.params.id;
+      return +this.$route.params.id;
     },
     info() {
       return this.$store.state.cartoonRole.info;
@@ -261,8 +288,10 @@ export default {
   methods: {
     switchTab(tab) {
       this.sort = tab;
-      if (tab === "image" && !this.roleImageLoaded) {
+      if (tab === "image") {
         this.getRoleImages(true);
+      } else if (tab === "fans") {
+        this.fetchRoleFans(true);
       }
     },
     handleBangumiFollow(result) {
@@ -290,7 +319,10 @@ export default {
         this.$toast.error(e);
       }
     },
-    async fetchRoleFans() {
+    async fetchRoleFans(init = false) {
+      if (init && this.roleFansLoaded) {
+        return;
+      }
       if (this.loadingRoleFans) {
         return;
       }
@@ -302,13 +334,17 @@ export default {
           roleId: this.id,
           sort: "new"
         });
+        this.roleFansLoaded = true;
       } catch (e) {
         this.$toast.error(e);
       } finally {
         this.loadingRoleFans = false;
       }
     },
-    async getRoleImages(reset = false) {
+    async getRoleImages(init = false) {
+      if (init && this.roleImageLoaded) {
+        return;
+      }
       if (this.loadingRoleImage) {
         return;
       }
@@ -317,7 +353,7 @@ export default {
         await this.$store.dispatch("image/getRoleImages", {
           ctx: this,
           id: this.id,
-          force: reset
+          force: init
         });
         this.roleImageLoaded = true;
       } catch (e) {

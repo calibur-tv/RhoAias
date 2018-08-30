@@ -60,6 +60,14 @@ export default {
     return `/review/edit/${id}`;
   },
 
+  question(id) {
+    return `/qaq/${id}`;
+  },
+
+  answer(id) {
+    return `/soga/${id}`;
+  },
+
   roleTrending: "/role/trending",
 
   createScore: "/review/create",

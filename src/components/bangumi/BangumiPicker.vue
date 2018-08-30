@@ -1,6 +1,6 @@
 <template>
   <div class="bangumi-picker">
-    <span>番剧：</span>
+    <span v-if="label">番剧：</span>
     <div @click="openPicker">{{ placeholder }}</div>
     <v-drawer
       v-model="show"
@@ -26,6 +26,10 @@ export default {
     value: {
       required: true,
       type: [Number, String]
+    },
+    label: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

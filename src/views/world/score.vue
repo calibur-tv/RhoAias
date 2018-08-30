@@ -1,5 +1,5 @@
 <style lang="scss">
-#score-flow-list {
+#score-world {
   .img {
     background-color: #30a080;
   }
@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div id="score-flow-list">
+  <div id="score-world">
     <div class="intro">
       <div class="img">评</div>
       <div class="summary">

@@ -63,7 +63,7 @@
     text-align: center;
     pointer-events: auto;
 
-    &.icon-tupian {
+    &.el-icon-picture {
       background-color: #ec414d;
     }
 
@@ -75,10 +75,20 @@
         height: 100%;
         display: block;
       }
+
+      i {
+        font-weight: bold;
+      }
     }
 
     &.icon-pinglun1 {
       background-color: RGB(60, 134, 247);
+      font-weight: bold;
+    }
+
+    &.el-icon-question {
+      background-color: #0084ff;
+      color: #fff;
     }
   }
 }
@@ -98,36 +108,43 @@
         @collapse="handlePaletteClose"
       >
         <button
-          class="ic-btn iconfont icon-tupian"
+          class="ic-btn el-icon-picture"
           @click="handleImageClick"
         />
         <button class="ic-btn score-btn">
           <a :href="$alias.createScore">
-            <i class="iconfont icon-pinglun"/>
+            <i class="el-icon-edit"/>
           </a>
         </button>
         <button
           class="ic-btn iconfont icon-pinglun1"
           @click="handlePostClick"
         />
+        <button
+          class="ic-btn el-icon-question"
+          @click="handleQuestionClick"
+        />
       </palette-button>
     </div>
-    <post-drawer/>
-    <image-drawer/>
+    <create-post-drawer/>
+    <create-image-drawer/>
+    <create-question-drawer/>
   </div>
 </template>
 
 <script>
 import { PaletteButton } from "mint-ui";
-import PostDrawer from "~/components/creators/PostDrawer";
-import ImageDrawer from "~/components/creators/ImageDrawer";
+import CreatePostDrawer from "~/components/creators/CreatePostDrawer";
+import CreateImageDrawer from "~/components/creators/CreateImageDrawer";
+import CreateQuestionDrawer from "~/components/creators/CreateQuestionDrawer";
 
 export default {
   name: "VCreatorMenu",
   components: {
     PaletteButton,
-    PostDrawer,
-    ImageDrawer
+    CreatePostDrawer,
+    CreateImageDrawer,
+    CreateQuestionDrawer
   },
   data() {
     return {
@@ -176,6 +193,14 @@ export default {
         return;
       }
       this.$channel.$emit("drawer-open-write-post");
+    },
+    handleQuestionClick() {
+      this.close();
+      if (this.isGuest) {
+        this.$channel.$emit("sign-in");
+        return;
+      }
+      this.$channel.$emit("drawer-open-write-question");
     }
   }
 };

@@ -1,5 +1,5 @@
 <style lang="scss">
-#image-flow-list {
+#image-world {
   .img {
     background-color: #ec414d;
   }
@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div id="image-flow-list">
+  <div id="image-world">
     <div class="intro">
       <div class="img">图</div>
       <div class="summary">
