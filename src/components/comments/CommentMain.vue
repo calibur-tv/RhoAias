@@ -414,7 +414,16 @@ export default {
     type: {
       required: true,
       type: String,
-      validator: val => ~["post", "video", "image", "score"].indexOf(val)
+      validator: val =>
+        ~[
+          "post",
+          "video",
+          "image",
+          "score",
+          "question",
+          "answer",
+          "role"
+        ].indexOf(val)
     },
     onlySeeMaster: {
       type: Boolean,

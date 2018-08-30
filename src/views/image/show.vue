@@ -279,7 +279,7 @@ export default {
         ctx,
         id,
         type: "image",
-        seeReplyId: route.query.reply
+        seeReplyId: route.query["comment-id"]
       })
     ]);
   },
