@@ -181,9 +181,13 @@
   <div id="comment-wrap">
     <!-- 主列表的头部 -->
     <slot name="header">
-      <div class="hr"/>
+      <div
+        v-if="!auto"
+        class="hr"
+      />
       <h3 class="sub-title">
         评论{{ total ? `(${total})` : '' }}
+        <slot name="header-btn"/>
         <button 
           class="write-btn" 
           @click="writeComment">写评论</button>
@@ -220,7 +224,7 @@
         <more-btn
           :no-more="noMore"
           :loading="loadingMainComment"
-          @fetch="loadMoreMainComment"
+          @fetch="loadMoreMainComment(false)"
         />
       </div>
     </template>
@@ -440,6 +444,10 @@ export default {
     bottomAppendComment: {
       type: Boolean,
       default: true
+    },
+    auto: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -483,6 +491,11 @@ export default {
     }
   },
   mounted() {
+    if (this.auto) {
+      this.$channel.$on(`fire-load-comment-${this.type}-${this.id}`, () => {
+        this.loadMoreMainComment(true);
+      });
+    }
     this.$channel.$on("load-all-sub-comment", ({ id }) => {
       this.focusCommentId = id;
       this.openFocusCommentDrawer = true;
@@ -509,7 +522,7 @@ export default {
     });
   },
   methods: {
-    async loadMoreMainComment() {
+    async loadMoreMainComment(firstRequest = false) {
       if (this.loadingMainComment) {
         return;
       }
@@ -519,7 +532,8 @@ export default {
           ctx: this,
           type: this.type,
           id: this.id,
-          onlySeeMaster: this.onlySeeMaster ? 1 : 0
+          onlySeeMaster: this.onlySeeMaster ? 1 : 0,
+          firstRequest
         });
       } catch (e) {
         this.$toast.error(e);

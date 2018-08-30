@@ -100,5 +100,19 @@ export default {
     }
 
     return array;
+  },
+
+  convertPureTextToRich(content) {
+    while (content.match("\n\n\n") !== null) {
+      content = content.replace(/\n\n\n/g, "\n\n");
+    }
+    content = content.split("\n");
+
+    const res = [];
+    content.forEach(item => {
+      res.push(item ? `<p>${item}</p>` : "<p><br/></p>");
+    });
+
+    return res.join("");
   }
 };

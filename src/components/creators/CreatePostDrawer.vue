@@ -139,20 +139,6 @@ export default {
     currentBangumi() {
       return this.bangumiId ? this.$store.state.bangumi.info : null;
     },
-    formatContent() {
-      let content = this.content;
-      while (content.match("\n\n\n") !== null) {
-        content = content.replace(/\n\n\n/g, "\n\n");
-      }
-      content = content.split("\n");
-
-      const res = [];
-      content.forEach(item => {
-        res.push(item.trim() ? `<p>${item}</p>` : "<p><br/></p>");
-      });
-
-      return res.join("");
-    },
     bangumiPlaceholder() {
       if (this.loading) {
         return "加载中...";
@@ -209,7 +195,7 @@ export default {
               title: this.title,
               bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
               desc: this.content.substring(0, 120),
-              content: this.formatContent,
+              content: this.$utils.convertPureTextToRich(this.content),
               geetest: data,
               is_creator: this.is_creator,
               ctx: this,

@@ -247,7 +247,7 @@
             v-if="item.images.length === 1"
             :src="item.images[0].url"
             width="100%"
-            height="190"
+            height="160"
             class="poster-image"
           />
           <div

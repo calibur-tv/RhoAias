@@ -1,5 +1,5 @@
 <style lang="scss">
-#post-flow-list {
+#post-world {
   .img {
     background-color: RGB(60, 134, 247);
   }
@@ -7,7 +7,7 @@
 </style>
 
 <template>
-  <div id="post-flow-list">
+  <div id="post-world">
     <div class="intro">
       <div class="img">帖</div>
       <div class="summary">

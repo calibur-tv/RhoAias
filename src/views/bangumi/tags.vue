@@ -95,7 +95,6 @@
             <a
               :href="$alias.bangumiTag(tag.id)"
               :class="{ 'selected': tag.selected }" 
-              class="el-tag"
               @click.prevent
               v-text="tag.name"
             />

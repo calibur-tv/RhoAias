@@ -111,6 +111,7 @@
       <post-flow-list v-if="active === 0"/>
       <image-flow-list v-else-if="active === 1"/>
       <score-flow-list v-else-if="active === 2"/>
+      <question-flow-list v-else-if="active === 3"/>
     </van-tabs>
   </div>
 </template>
@@ -121,6 +122,7 @@ import Tabs from "vant/lib/tabs";
 import PostFlowList from "~/components/flow/list/PostFlowList";
 import ImageFlowList from "~/components/flow/list/ImageFlowList";
 import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
+import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
 
 export default {
   name: "TheWorld",
@@ -129,7 +131,8 @@ export default {
     vanTab: Tab,
     PostFlowList,
     ImageFlowList,
-    ScoreFlowList
+    ScoreFlowList,
+    QuestionFlowList
   },
   data() {
     const options = [
@@ -147,6 +150,11 @@ export default {
         index: 2,
         label: "评分",
         value: "world-score"
+      },
+      {
+        index: 3,
+        label: "问答",
+        value: "world-question"
       }
     ];
     const active = options.filter(_ => _.value === this.$route.name)[0].index;
