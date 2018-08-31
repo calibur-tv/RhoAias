@@ -4,34 +4,6 @@ export default {
   namespaced: true,
   state: () => ({
     show: null,
-    posts: {
-      zone: "",
-      take: 10,
-      mine: {
-        data: [],
-        page: 0,
-        noMore: false,
-        loading: false
-      },
-      reply: {
-        data: [],
-        page: 0,
-        noMore: false,
-        loading: false
-      },
-      like: {
-        data: [],
-        page: 0,
-        noMore: false,
-        loading: false
-      },
-      mark: {
-        data: [],
-        page: 0,
-        noMore: false,
-        loading: false
-      }
-    },
     bangumis: [],
     notifications: {
       checked: 0,
@@ -47,18 +19,6 @@ export default {
     },
     SET_USER_FOLLOW_BANGUMI(state, bangumis) {
       state.bangumis = bangumis;
-    },
-    SET_FOLLOW_POST_DATA(state, { data, type, zone }) {
-      state.posts.zone = zone;
-      state.posts[type] = {
-        data: state.posts[type].data.concat(data.list),
-        noMore: data.noMore,
-        loading: false,
-        page: state.posts[type].page + 1
-      };
-    },
-    SET_FOLLOW_POST_STATE(state, { type }) {
-      state.posts[type].loading = true;
     },
     SET_NOTIFICATIONS(state, data) {
       state.notifications.list = state.notifications.list.concat(data.list);
@@ -79,36 +39,6 @@ export default {
         state.notifications.list[index].checked = true;
       });
       state.notifications.checked = 88888888;
-    },
-    CLEAR_FOLLOW_POST(state) {
-      state.posts = {
-        zone: "",
-        take: 10,
-        mine: {
-          data: [],
-          page: 0,
-          noMore: false,
-          loading: false
-        },
-        reply: {
-          data: [],
-          page: 0,
-          noMore: false,
-          loading: false
-        },
-        like: {
-          data: [],
-          page: 0,
-          noMore: false,
-          loading: false
-        },
-        mark: {
-          data: [],
-          page: 0,
-          noMore: false,
-          loading: false
-        }
-      };
     },
     CLEAR_NOTIFICATIONS(state) {
       state.notifications = {
@@ -131,23 +61,6 @@ export default {
       const data = await api.followBangumis(zone);
       commit("SET_USER_FOLLOW_BANGUMI", data);
       return data;
-    },
-    async getFollowPosts({ state, commit }, { type, zone }) {
-      if (state.posts.zone !== zone) {
-        commit("CLEAR_FOLLOW_POST");
-      }
-      if (state.posts[type].noMore || state.posts[type].loading) {
-        return;
-      }
-      commit("SET_FOLLOW_POST_STATE", { type });
-      const api = new Api();
-      const data = await api.followPosts({
-        type,
-        zone,
-        take: state.posts.take,
-        page: state.posts[type].page
-      });
-      data && commit("SET_FOLLOW_POST_DATA", { type, data, zone });
     },
     async daySign({ rootState }, { ctx }) {
       if (rootState.user.signed) {
