@@ -310,7 +310,6 @@ export default {
   mounted() {
     this.$channel.$on("open-write-answer-dialog", (isEdit = false) => {
       if (!this.$store.state.login) {
-        this.$toast.info("继续操作前请先登录");
         this.$channel.$emit("sign-in");
         return;
       }
@@ -365,7 +364,6 @@ export default {
     },
     beginWriteAnswer() {
       if (!this.$store.state.login) {
-        this.$toast.info("继续操作前请先登录");
         this.$channel.$emit("sign-in");
         return;
       }

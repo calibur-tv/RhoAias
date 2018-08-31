@@ -111,7 +111,10 @@
 </style>
 
 <template>
-  <div id="user-show">
+  <div
+    v-if="user"
+    id="user-show"
+  >
     <div class="user-banner">
       <div 
         :style="{ backgroundImage: `url(${$resize(user.banner, { height: 240, mode: 2 })})` }" 

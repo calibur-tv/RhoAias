@@ -15,7 +15,7 @@ export default {
   }),
   mutations: {
     SET_USER_INFO(state, data) {
-      state.user = data;
+      state.show = data;
     },
     SET_USER_FOLLOW_BANGUMI(state, bangumis) {
       state.bangumis = bangumis;
