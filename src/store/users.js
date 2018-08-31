@@ -3,7 +3,7 @@ import Api from "~/api/userApi";
 export default {
   namespaced: true,
   state: () => ({
-    list: {},
+    show: null,
     posts: {
       zone: "",
       take: 10,
@@ -32,51 +32,21 @@ export default {
         loading: false
       }
     },
-    roles: {
-      zone: "",
-      data: [],
-      page: 0,
-      noMore: false
-    },
+    bangumis: [],
     notifications: {
       checked: 0,
       take: 10,
       list: [],
       total: 0,
       noMore: false
-    },
-    self: {
-      followBangumi: []
     }
   }),
   mutations: {
-    RESET_USER_ROLES(state) {
-      state.roles = {
-        zone: "",
-        data: [],
-        page: 0,
-        noMore: false
-      };
+    SET_USER_INFO(state, data) {
+      state.user = data;
     },
-    SET_USER_ROLES(state, { data, zone }) {
-      state.roles.zone = zone;
-      state.roles.data = state.roles.data.concat(data.list);
-      state.roles.noMore = data.noMore;
-      state.roles.page++;
-    },
-    SET_USER_INFO(state, { data, zone }) {
-      state.list[zone] = state.list[zone]
-        ? Object.assign(state.list[zone], data)
-        : data;
-    },
-    SET_SELF_INFO(state, { key, value }) {
-      if (Array.isArray(state.self[key])) {
-        state.self[key] = state.self[key].concat(value);
-      } else if (typeof state.self[key] === "object") {
-        state.self[key] = Object.assign(state.self[key], value);
-      } else {
-        state.self[key] = value;
-      }
+    SET_USER_FOLLOW_BANGUMI(state, bangumis) {
+      state.bangumis = bangumis;
     },
     SET_FOLLOW_POST_DATA(state, { data, type, zone }) {
       state.posts.zone = zone;
@@ -154,27 +124,13 @@ export default {
     async getUser({ commit }, { ctx, zone }) {
       const api = new Api(ctx);
       const data = await api.getUserInfo({ zone });
-      data && commit("SET_USER_INFO", { data, zone });
+      commit("SET_USER_INFO", data);
     },
-    async getFollowBangumis({ commit }, { ctx, zone, self }) {
+    async getFollowBangumis({ commit }, { ctx, zone }) {
       const api = new Api(ctx);
       const data = await api.followBangumis(zone);
-      if (data) {
-        if (self) {
-          commit("SET_SELF_INFO", {
-            key: "followBangumi",
-            value: data
-          });
-        } else {
-          commit("SET_USER_INFO", {
-            data: {
-              bangumis: data
-            },
-            zone
-          });
-        }
-        return data;
-      }
+      commit("SET_USER_FOLLOW_BANGUMI", data);
+      return data;
     },
     async getFollowPosts({ state, commit }, { type, zone }) {
       if (state.posts.zone !== zone) {
@@ -232,23 +188,6 @@ export default {
       const api = new Api(ctx);
       await api.readAllMessage();
       commit("READ_ALL_NOTIFICATION");
-    },
-    async getFollowRoles({ state, commit }, { ctx, zone, reset }) {
-      if (reset && state.roles.data.length && state.roles.zone === zone) {
-        return;
-      }
-      if (reset) {
-        commit("RESET_USER_ROLES");
-      }
-      if (state.roles.noMore) {
-        return;
-      }
-      const api = new Api(ctx);
-      const data = await api.followRoles({
-        zone,
-        page: state.roles.page
-      });
-      data && commit("SET_USER_ROLES", { data, zone });
     }
   },
   getters: {}

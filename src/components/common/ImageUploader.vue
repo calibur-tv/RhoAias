@@ -1,8 +1,11 @@
 <style lang="scss">
 .el-upload-list__item,
 .el-upload--picture-card {
-  width: 15vw;
-  height: 15vw;
+  width: 15vw !important;
+  height: 15vw !important;
+}
+
+.el-upload--picture-card {
   line-height: 15vw;
 }
 

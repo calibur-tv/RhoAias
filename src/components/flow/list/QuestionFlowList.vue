@@ -52,7 +52,11 @@ export default {
   },
   methods: {
     openCreateQAQModal() {
-      console.log("openCreateQAQModal");
+      if (!this.$store.state.login) {
+        this.$channel.$emit("sign-in");
+        return;
+      }
+      this.$channel.$emit("drawer-open-write-question");
     }
   }
 };

@@ -117,8 +117,7 @@ export default {
         this.list[0].values = await this.$store.dispatch(
           "users/getFollowBangumis",
           {
-            zone: this.user.zone,
-            self: true
+            zone: this.user.zone
           }
         );
         this.autoSelect(this.value);

@@ -149,7 +149,7 @@ export default {
       return this.slots[0].values[this.slots[0].defaultIndex].name;
     },
     followBangumis() {
-      return this.$store.state.users.self.followBangumi;
+      return this.$store.state.users.bangumis;
     }
   },
   watch: {
@@ -266,8 +266,7 @@ export default {
       this.loading = true;
       try {
         const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.$store.state.user.zone,
-          self: true
+          zone: this.$store.state.user.zone
         });
         this.slots[0].values = this.slots[0].values.concat(bangumis);
         this.$nextTick(() => {

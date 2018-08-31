@@ -107,120 +107,6 @@
       }
     }
   }
-
-  #bangumis {
-    li {
-      position: relative;
-      height: 62px;
-      padding: 8px 0;
-      @include border-bottom();
-
-      a {
-        display: block;
-      }
-
-      .avatar {
-        margin-right: 12px;
-        float: left;
-      }
-
-      p {
-        color: $color-text-deep;
-        font-size: 12px;
-        margin-top: 6px;
-        margin-bottom: 5px;
-        @include twoline(14px);
-      }
-    }
-  }
-
-  #posts-of-reply {
-    background-color: #ffffff;
-
-    li {
-      float: none;
-      padding: 10px;
-      position: relative;
-      @include border-bottom();
-
-      .header {
-        position: relative;
-        height: 32px;
-        line-height: 32px;
-
-        .time {
-          float: right;
-          display: block;
-          color: #999;
-          font-size: 12px;
-          position: relative;
-          z-index: 1;
-          margin-right: 12px;
-        }
-      }
-
-      .origin {
-        display: block;
-        background-color: $color-gray-normal;
-        padding: 10px 20px;
-        margin: 10px 0;
-        border-radius: 5px;
-      }
-
-      .reply {
-        display: block;
-        border-left: 5px solid $color-gray-normal;
-        margin: 10px 0;
-        padding-left: 10px;
-      }
-
-      .content {
-        margin-top: 3px;
-        color: #666;
-        font-size: 12px;
-        line-height: 22px;
-        max-height: 44px;
-        overflow: hidden;
-      }
-
-      .images {
-        margin-bottom: 5px;
-
-        .poster-image {
-          border-radius: 5px;
-          overflow: hidden;
-
-          img {
-            height: auto;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-          }
-        }
-
-        .image-list {
-          .image {
-            float: left;
-
-            &:not(:last-child) {
-              margin-right: 2%;
-            }
-          }
-        }
-      }
-
-      .footer {
-        color: #a3a8ad;
-        font-size: 12px;
-        line-height: 24px;
-
-        span {
-          margin: 0 5px;
-        }
-      }
-    }
-  }
 }
 </style>
 
@@ -264,161 +150,62 @@
         @click="switchTab('bangumi')">番剧</button>
       <button 
         :class="{ 'active': sort === 'post' }"
-        @click="switchTab('post')">发帖</button>
-      <button 
-        :class="{ 'active': sort === 'reply' }" 
-        @click="switchTab('reply')">回复</button>
-      <button 
-        :class="{ 'active': sort === 'role' }" 
-        @click="switchTab('role')">偶像</button>
-      <button 
+        @click="switchTab('post')">帖子</button>
+      <button
         :class="{ 'active': sort === 'image' }" 
         @click="switchTab('image')">相册</button>
+      <button
+        :class="{ 'active': sort === 'question' }"
+        @click="switchTab('question')">问答</button>
       <button 
         :class="{ 'active': sort === 'score' }" 
         @click="switchTab('score')">漫评</button>
+      <button
+        :class="{ 'active': sort === 'role' }"
+        @click="switchTab('role')">偶像</button>
+      <button
+        v-if="isMe"
+        :class="{ 'active': sort === 'draft' }"
+        @click="switchTab('draft')">草稿</button>
     </div>
-    <template v-if="sort === 'bangumi'">
-      <ul 
-        v-if="bangumis.length" 
-        id="bangumis" 
-        class="container">
-        <li
-          v-for="item in bangumis"
-          :key="item.id"
-        >
-          <a 
-            :href="$alias.bangumi(item.id)" 
-            class="clearfix">
-            <v-img
-              :src="item.avatar"
-              class="avatar"
-              size="40"
-            />
-            <p
-              class="name"
-              v-text="item.name"/>
-          </a>
-        </li>
-      </ul>
-      <more-btn
-        v-else
-        :no-more="true"
-        :auto="true"
-        :length="0"
-        :loading="false"
-      />
-    </template>
-    <post-flow-list
-      v-else-if="sort === 'post'"
-      :user-zone="zone"
+    <user-bangumi-flow
+      v-if="sort === 'bangumi'"
     />
-    <template v-else-if="sort === 'reply'">
-      <ul id="posts-of-reply">
-        <li
-          v-for="item in posts.data"
-          :key="item.id"
-        >
-          <a
-            :href="$alias.post(item.post.id)"
-            class="header"
-            v-text="item.post.title"/>
-          <a
-            :href="$alias.post(item.post.id, { comment: item.post.id })"
-            class="origin">
-            <div
-              class="content"
-              v-html="item.post.content"/>
-            <div
-              v-if="item.post.images.length"
-              class="images clearfix">
-              <v-img
-                v-if="item.post.images.length === 1"
-                :src="item.post.images[0].url"
-                width="100%"
-                height="190"
-                class="poster-image"
-              />
-              <div
-                v-else
-                class="image-list">
-                <v-img
-                  v-for="(image, index) in imageFilter(item.post.images)"
-                  :key="index"
-                  :src="image.url"
-                  class="image"
-                  width="32%"
-                  height="93"
-                />
-              </div>
-            </div>
-          </a>
-          <a
-            :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
-            class="reply">
-            <div
-              class="content"
-              v-html="item.content"/>
-            <div
-              v-if="item.images.length"
-              class="images clearfix">
-              <v-img
-                v-if="item.images.length === 1"
-                :src="item.images[0].url"
-                width="100%"
-                height="190"
-                class="poster-image"
-              />
-              <div
-                v-else
-                class="image-list">
-                <v-img
-                  v-for="(image, index) in imageFilter(item.images)"
-                  :key="index"
-                  :src="image.url"
-                  class="image"
-                  width="32%"
-                  height="93"
-                />
-              </div>
-            </div>
-          </a>
-          <a
-            :href="$alias.bangumi(item.bangumi.id)"
-            class="footer">
-            回复于
-            <span v-text="item.bangumi.name"/>
-            <v-time v-model="item.created_at"/>
-          </a>
-        </li>
-      </ul>
-      <more-btn
-        :no-more="posts.noMore"
-        :loading="posts.loading"
-        :length="posts.data.length"
-        @fetch="getUserPosts"
-      />
-    </template>
-    <cartoon-role-flow-list
-      v-else-if="sort === 'role'"
-      :user-zone="zone"
+    <user-post-flow
+      v-else-if="sort === 'post'"
+      :zone="zone"
     />
     <image-flow-list
       v-else-if="sort === 'image'"
       :user-zone="zone"
     />
-    <user-score-flow
+    <user-qa-flow-list
+      v-else-if="sort === 'question'"
+      :user-zone="zone"
+    />
+    <score-flow-list
       v-else-if="sort === 'score'"
-      :zone="zone"
+      :user-zone="zone"
+    />
+    <cartoon-role-flow-list
+      v-else-if="sort === 'role'"
+      :user-zone="zone"
+    />
+    <user-draft-list
+      v-else-if="sort === 'draft'"
+      :user-zone="zone"
     />
   </div>
 </template>
 
 <script>
-import UserScoreFlow from "~/components/user/flows/UserScoreFlow";
-import PostFlowList from "~/components/flow/list/PostFlowList";
+import UserBangumiFlow from "~/components/user/flows/UserBangumiFlow";
+import UserPostFlow from "~/components/user/flows/UserPostFlow";
 import ImageFlowList from "~/components/flow/list/ImageFlowList";
+import UserQaFlowList from "~/components/user/flows/UserQaFlowList";
+import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
 import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
+import UserDraftList from "~/components/user/flows/UserDraftList";
 
 export default {
   name: "UserShow",
@@ -454,10 +241,13 @@ export default {
     };
   },
   components: {
-    PostFlowList,
-    UserScoreFlow,
+    UserBangumiFlow,
+    UserPostFlow,
     ImageFlowList,
-    CartoonRoleFlowList
+    UserQaFlowList,
+    ScoreFlowList,
+    CartoonRoleFlowList,
+    UserDraftList
   },
   data() {
     return {
@@ -479,16 +269,10 @@ export default {
       return this.$store.state.user;
     },
     user() {
-      return this.isMe ? this.self : this.$store.state.users.list[this.zone];
+      return this.isMe ? this.self : this.$store.state.users.show;
     },
     bangumis() {
-      const user = this.$store.state.users.list[this.zone];
-      return user ? user.bangumis : [];
-    },
-    posts() {
-      return this.sort === "bangumi"
-        ? {}
-        : this.$store.state.users.posts[this.sort];
+      return this.$store.state.users.bangumis;
     },
     daySigned() {
       return this.self ? this.self.daySign : false;
@@ -501,39 +285,7 @@ export default {
     switchTab(tab) {
       this.sort = tab;
       this.$nextTick(() => {
-        switch (tab) {
-          case "bangumi":
-            this.$channel.$emit("user-tab-switch-bangumi");
-            break;
-          case "post":
-            this.$channel.$emit("user-tab-switch-post");
-            break;
-          case "reply":
-            this.getUserPosts();
-            break;
-          case "role":
-            this.$channel.$emit("user-tab-switch-role");
-            break;
-          case "image":
-            this.$channel.$emit("user-tab-switch-image");
-            break;
-          case "score":
-            this.$channel.$emit("user-tab-switch-score");
-            break;
-        }
-      });
-    },
-    getUserPosts(isFirstRequest = false) {
-      if (
-        isFirstRequest &&
-        this.$store.state.users.posts[this.sort].data.length &&
-        this.$store.state.users.posts.zone === this.user.zone
-      ) {
-        return;
-      }
-      this.$store.dispatch("users/getFollowPosts", {
-        type: this.sort,
-        zone: this.user.zone
+        this.$channel.$emit(`user-tab-switch-${tab}`);
       });
     },
     async handleDaySign() {
@@ -555,9 +307,6 @@ export default {
       } finally {
         this.signDayLoading = false;
       }
-    },
-    imageFilter(images) {
-      return images.slice(0, 3);
     }
   }
 };
