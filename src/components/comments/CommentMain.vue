@@ -567,7 +567,7 @@ export default {
     },
     handleCommentBtnClick() {
       this.handleSubCommentReply({
-        id: this.focusComment.parent_id,
+        id: this.focusComment.id,
         targetUserId: this.focusComment.from_user_id,
         targetUserName: this.focusComment.from_user_name
       });
