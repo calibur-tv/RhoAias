@@ -69,7 +69,7 @@
 
     .panel {
       .footer-btn {
-        margin-left: 4px;
+        margin-left: 7px;
         @include btn-empty($color-text-normal);
       }
 

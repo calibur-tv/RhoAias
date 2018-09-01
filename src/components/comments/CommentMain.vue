@@ -211,6 +211,7 @@
               :type="type"
               :comment="comment"
               :master-id="masterId"
+              @delete="deleteCommentCallback"
             />
           </slot>
         </div>
@@ -393,6 +394,7 @@
             :id="id"
             :type="type"
             @close="closeCommentDrawer"
+            @submit="submitCommentCallback"
           />
         </slot>
       </div>
@@ -642,6 +644,13 @@ export default {
     },
     closeCommentDrawer() {
       this.openCreateCommentDrawer = false;
+    },
+    submitCommentCallback() {
+      this.openCreateCommentDrawer = false;
+      this.$emit("create-main-comment");
+    },
+    deleteCommentCallback() {
+      this.$emit("delete-main-comment");
     }
   }
 };

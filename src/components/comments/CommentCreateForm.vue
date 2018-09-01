@@ -99,14 +99,13 @@ export default {
           }
         );
         this.$toast.success("评论成功");
-        this.$emit("close");
+        this.$emit("submit");
         this.content = "";
         setTimeout(() => {
           const dom = document.getElementById(`comment-${newComment.id}`);
           dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
         }, 400);
       } catch (e) {
-        console.log(e);
         this.$toast.error(e);
       } finally {
         this.$store.commit("comment/SET_SUBMITTING", { result: false });

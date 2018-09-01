@@ -20,19 +20,18 @@
     }
 
     .nickname {
-      font-weight: 600;
-      font-size: 15px;
+      font-size: 13px;
       line-height: 24px;
       color: #1a1a1a;
     }
   }
 
   .title {
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 500;
     color: #1a1a1a;
     margin-bottom: 6px;
-    @include twoline(28px);
+    @include twoline(20px);
   }
 
   .content {
@@ -46,9 +45,9 @@
     }
 
     .text {
-      font-size: 17px;
+      font-size: 14px;
       color: #1a1a1a;
-      @include twoline(25px);
+      @include twoline(19px);
     }
   }
 

@@ -15,14 +15,6 @@
       font-size: 15px;
     }
   }
-
-  .no-answer {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    text-align: center;
-    background-color: #f6f6f6;
-    font-size: 14px;
-  }
 }
 </style>
 
@@ -42,12 +34,14 @@
         :bangumi-id="id"
       />
     </div>
-    <div
+    <more-btn
       v-else
-      class="no-answer"
+      :no-more="true"
+      :loading="false"
+      :length="0"
     >
       <button @click="$channel.$emit('open-write-answer-dialog')">开始写第一个回答</button>
-    </div>
+    </more-btn>
   </div>
 </template>
 
