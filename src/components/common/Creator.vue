@@ -126,9 +126,11 @@
         />
       </palette-button>
     </div>
-    <create-post-drawer/>
-    <create-image-drawer/>
-    <create-question-drawer/>
+    <template v-if="!isGuest">
+      <create-post-drawer/>
+      <create-image-drawer/>
+      <create-question-drawer/>
+    </template>
   </div>
 </template>
 

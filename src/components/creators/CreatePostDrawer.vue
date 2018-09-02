@@ -51,7 +51,6 @@
 
 <template>
   <v-drawer
-    id="write-post"
     v-model="open"
     header-text="发帖"
     class="post-write-drawer"
@@ -152,21 +151,17 @@ export default {
       return this.$store.state.users.bangumis;
     }
   },
-  watch: {
-    open(val) {
-      if (val && this.$store.state.login) {
-        this.getUpToken();
-        this.getUserFollowedBangumis();
-      }
-    }
-  },
   mounted() {
-    this.$channel.$on("open-create-post-drawer", data => {
-      if (this.slots[0].values.every(_ => _.id !== data.id)) {
-        this.slots[0].values.push(data);
-      }
-      this.saveSelectedBangumi(data.id);
+    this.$channel.$on("drawer-open-write-post", async data => {
       this.open = true;
+      this.getUpToken();
+      await this.getUserFollowedBangumis();
+      if (data) {
+        this.saveSelectedBangumi(data.id);
+        if (this.slots[0].values.every(_ => _.id !== data.id)) {
+          this.slots[0].values.push(data);
+        }
+      }
     });
   },
   methods: {

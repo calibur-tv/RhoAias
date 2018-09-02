@@ -119,6 +119,7 @@
           left: 0;
           top: 50%;
           transform: translateY(-50%);
+          border-radius: 4px;
         }
       }
 
@@ -127,6 +128,7 @@
 
         .image {
           float: left;
+          border-radius: 4px;
 
           &:not(:last-child) {
             margin-right: 2%;
