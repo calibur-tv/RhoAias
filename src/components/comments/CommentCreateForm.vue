@@ -55,20 +55,6 @@ export default {
     isGuest() {
       return !this.$store.state.login;
     },
-    formatContent() {
-      let content = this.content;
-      while (content.match("\n\n\n") !== null) {
-        content = content.replace(/\n\n\n/g, "\n\n");
-      }
-      content = content.split("\n");
-
-      const res = [];
-      content.forEach(item => {
-        res.push(item ? `<p>${item}</p>` : "<p><br/></p>");
-      });
-
-      return res.join("");
-    },
     submitting() {
       return this.$store.state.comment.submitting;
     }
@@ -79,7 +65,7 @@ export default {
         this.$channel.$emit("sign-in");
         return;
       }
-      if (!this.formatContent) {
+      if (!this.content) {
         this.$emit("close");
         return;
       }
@@ -91,7 +77,7 @@ export default {
         const newComment = await this.$store.dispatch(
           "comment/createMainComment",
           {
-            content: this.formatContent,
+            content: this.content,
             images: [],
             type: this.type,
             id: this.id,

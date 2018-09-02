@@ -137,7 +137,7 @@ export default {
                   title: this.form.title,
                   tags: [this.form.bangumiId],
                   intro: this.form.content.substring(0, 120),
-                  content: this.$utils.convertPureTextToRich(this.form.content),
+                  content: this.form.content,
                   images,
                   geetest: data
                 });

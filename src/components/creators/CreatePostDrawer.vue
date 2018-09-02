@@ -190,7 +190,7 @@ export default {
               title: this.title,
               bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
               desc: this.content.substring(0, 120),
-              content: this.$utils.convertPureTextToRich(this.content),
+              content: this.content,
               geetest: data,
               is_creator: this.is_creator,
               ctx: this,
