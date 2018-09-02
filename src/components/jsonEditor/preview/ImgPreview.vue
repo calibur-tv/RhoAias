@@ -149,7 +149,7 @@ export default {
     imageUploadSuccess(res, file) {
       this.handleImageUploadSuccess(res, file);
       this.$store.commit("editor/UPDATE_SECTION_IMAGE", {
-        url: res.data.key,
+        url: res.data.url,
         width: res.data.width,
         height: res.data.height,
         size: res.data.size,

@@ -94,12 +94,7 @@ export default {
         this.$toast.error("请先选择图片");
         return;
       }
-      const result = this.uploadImageList.map(_ => {
-        const temp = _.data;
-        return Object.assign(temp, {
-          url: temp.key
-        });
-      });
+      const result = this.uploadImageList.map(_ => _.data);
       this.$emit("submit", this.limit === 1 ? result[0] : result);
     }
   }
