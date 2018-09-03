@@ -1,8 +1,11 @@
 <style lang="scss">
 .el-upload-list__item,
 .el-upload--picture-card {
-  width: 15vw;
-  height: 15vw;
+  width: 15vw !important;
+  height: 15vw !important;
+}
+
+.el-upload--picture-card {
   line-height: 15vw;
 }
 
@@ -91,12 +94,7 @@ export default {
         this.$toast.error("请先选择图片");
         return;
       }
-      const result = this.uploadImageList.map(_ => {
-        const temp = _.data;
-        return Object.assign(temp, {
-          url: temp.key
-        });
-      });
+      const result = this.uploadImageList.map(_ => _.data);
       this.$emit("submit", this.limit === 1 ? result[0] : result);
     }
   }

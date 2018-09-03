@@ -211,6 +211,7 @@
               :type="type"
               :comment="comment"
               :master-id="masterId"
+              @delete="deleteCommentCallback"
             />
           </slot>
         </div>
@@ -393,6 +394,7 @@
             :id="id"
             :type="type"
             @close="closeCommentDrawer"
+            @submit="submitCommentCallback"
           />
         </slot>
       </div>
@@ -567,7 +569,7 @@ export default {
     },
     handleCommentBtnClick() {
       this.handleSubCommentReply({
-        id: this.focusComment.parent_id,
+        id: this.focusComment.id,
         targetUserId: this.focusComment.from_user_id,
         targetUserName: this.focusComment.from_user_name
       });
@@ -642,6 +644,13 @@ export default {
     },
     closeCommentDrawer() {
       this.openCreateCommentDrawer = false;
+    },
+    submitCommentCallback() {
+      this.openCreateCommentDrawer = false;
+      this.$emit("create-main-comment");
+    },
+    deleteCommentCallback() {
+      this.$emit("delete-main-comment");
     }
   }
 };

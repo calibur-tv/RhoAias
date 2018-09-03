@@ -51,7 +51,6 @@
 
 <template>
   <v-drawer
-    id="write-post"
     v-model="open"
     header-text="发帖"
     class="post-write-drawer"
@@ -149,24 +148,20 @@ export default {
       return this.slots[0].values[this.slots[0].defaultIndex].name;
     },
     followBangumis() {
-      return this.$store.state.users.self.followBangumi;
-    }
-  },
-  watch: {
-    open(val) {
-      if (val && this.$store.state.login) {
-        this.getUpToken();
-        this.getUserFollowedBangumis();
-      }
+      return this.$store.state.users.bangumis;
     }
   },
   mounted() {
-    this.$channel.$on("open-create-post-drawer", data => {
-      if (this.slots[0].values.every(_ => _.id !== data.id)) {
-        this.slots[0].values.push(data);
-      }
-      this.saveSelectedBangumi(data.id);
+    this.$channel.$on("drawer-open-write-post", async data => {
       this.open = true;
+      this.getUpToken();
+      await this.getUserFollowedBangumis();
+      if (data) {
+        this.saveSelectedBangumi(data.id);
+        if (this.slots[0].values.every(_ => _.id !== data.id)) {
+          this.slots[0].values.push(data);
+        }
+      }
     });
   },
   methods: {
@@ -195,7 +190,7 @@ export default {
               title: this.title,
               bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
               desc: this.content.substring(0, 120),
-              content: this.$utils.convertPureTextToRich(this.content),
+              content: this.content,
               geetest: data,
               is_creator: this.is_creator,
               ctx: this,
@@ -266,8 +261,7 @@ export default {
       this.loading = true;
       try {
         const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.$store.state.user.zone,
-          self: true
+          zone: this.$store.state.user.zone
         });
         this.slots[0].values = this.slots[0].values.concat(bangumis);
         this.$nextTick(() => {

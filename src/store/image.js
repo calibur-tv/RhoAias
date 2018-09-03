@@ -4,12 +4,6 @@ export default {
   namespaced: true,
   state: () => ({
     show: null,
-    users: {
-      list: [],
-      page: 0,
-      total: 0,
-      noMore: false
-    },
     albums: []
   }),
   mutations: {
@@ -27,20 +21,8 @@ export default {
         });
       }
     },
-    SET_USER_IMAGES(state, data) {
-      state.users.list = state.users.list.concat(data.list);
-      state.users.noMore = data.noMore;
-      state.users.total = data.total;
-      state.users.page = state.users.page + 1;
-    },
     SET_IMAGE_INFO(state, data) {
       state.show = data;
-    },
-    SHOW_TOGGLE_LIKE(state, { result }) {
-      state.show.liked = result;
-    },
-    SHOW_FOLLOW_BANGUMI(state, { result }) {
-      state.show.bangumi.followed = result;
     },
     DELETE_ALBUM_IMAGE(state, { index }) {
       state.show.images.splice(index, 1);
@@ -58,14 +40,6 @@ export default {
       const api = new Api(ctx);
       const data = await api.show({ id });
       commit("SET_IMAGE_INFO", data);
-    },
-    async users({ state, commit }, { zone, ctx }) {
-      const api = new Api(ctx);
-      const data = await api.users({
-        zone,
-        page: state.users.page
-      });
-      commit("SET_USER_IMAGES", data);
     },
     async userAlbum({ state, commit }, { ctx }) {
       if (state.albums.length) {

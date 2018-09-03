@@ -14,7 +14,6 @@
 
 <template>
   <v-drawer
-    id="write-question"
     v-model="show"
     from="bottom"
     size="100%"
@@ -44,6 +43,7 @@
           prop="tags"
         >
           <bangumi-picker
+            v-if="show"
             v-model="form.bangumiId"
             :label="false"
           />
@@ -116,7 +116,10 @@ export default {
     };
   },
   mounted() {
-    this.getUpToken();
+    this.$channel.$on("drawer-open-write-question", () => {
+      this.show = true;
+      this.getUpToken();
+    });
   },
   methods: {
     submit(images) {
@@ -134,7 +137,7 @@ export default {
                   title: this.form.title,
                   tags: [this.form.bangumiId],
                   intro: this.form.content.substring(0, 120),
-                  content: this.$utils.convertPureTextToRich(this.form.content),
+                  content: this.form.content,
                   images,
                   geetest: data
                 });

@@ -109,7 +109,7 @@ export default {
         this.$channel.$emit("sign-in");
         return;
       }
-      this.$channel.$emit("open-create-post-drawer", {
+      this.$channel.$emit("drawer-open-write-post", {
         id: this.id,
         name: this.name,
         avatar: this.avatar

@@ -1,0 +1,120 @@
+<style lang="scss">
+#user-qa-flow-list {
+  .label {
+    font-size: 0;
+
+    button {
+      display: inline-block;
+      width: 50%;
+      height: 40px;
+      font-size: 13px;
+      background-color: $color-gray-light;
+      color: $color-text-normal;
+    }
+
+    .active {
+      background-color: $color-gray-normal;
+    }
+  }
+}
+</style>
+
+<template>
+  <div id="user-qa-flow-list">
+    <div class="label">
+      <button
+        :class="{ active: active === 0 }"
+        @click="switchTab(0)"
+      >发帖</button>
+      <button
+        :class="{ active: active === 1 }"
+        @click="switchTab(1)"
+      >回帖</button>
+    </div>
+    <question-flow-list
+      v-if="active === 0"
+      :user-zone="userZone"
+    />
+    <div v-else>
+      <question-flow-item
+        v-for="item in answerList"
+        :key="item.id"
+        :item="item"
+      />
+      <more-btn
+        :no-more="noMoreAnswer"
+        :loading="loadingAnswer"
+        :length="answerList.length"
+        @fetch="getUserAnswers(false)"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
+import QuestionFlowItem from "~/components/flow/item/QuestionFlowItem";
+import Api from "~/api/flowApi";
+
+export default {
+  name: "UserQaFlowList",
+  components: {
+    QuestionFlowList,
+    QuestionFlowItem
+  },
+  props: {
+    userZone: {
+      required: true,
+      type: String
+    }
+  },
+  data() {
+    return {
+      active: 0,
+      answerList: [],
+      loadingAnswer: false,
+      fetchedAnswer: false,
+      noMoreAnswer: false,
+      page: 0
+    };
+  },
+  methods: {
+    switchTab(value) {
+      this.active = value;
+      if (value === 1) {
+        this.getUserAnswers(true);
+      }
+    },
+    async getUserAnswers(init = false) {
+      if (init && this.fetchedAnswer) {
+        return;
+      }
+      if (this.loadingAnswer) {
+        return;
+      }
+      this.loadingAnswer = true;
+      const api = new Api(this);
+      try {
+        const data = await api.fetch({
+          sort: "news",
+          type: "answer",
+          take: 10,
+          page: this.page,
+          minId: 0,
+          seenIds: "",
+          bangumiId: 0,
+          userZone: this.userZone
+        });
+        this.fetchedAnswer = true;
+        this.answerList = this.answerList.concat(data.list);
+        this.noMoreAnswer = data.noMore;
+        this.page++;
+      } catch (e) {
+        this.$toast.error(e);
+      } finally {
+        this.loadingAnswer = false;
+      }
+    }
+  }
+};
+</script>

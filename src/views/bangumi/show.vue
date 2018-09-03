@@ -17,7 +17,7 @@
       font-size: 14px;
       display: inline-block;
       text-align: center;
-      width: 16%;
+      width: 14%;
 
       &.active {
         position: relative;
@@ -60,6 +60,9 @@
         <button 
           :class="{ 'active': sort === 'image' }" 
           @click="switchTab('image')">相册</button>
+        <button
+          :class="{ 'active': sort === 'question' }"
+          @click="switchTab('question')">问答</button>
         <button 
           :class="{ 'active': sort === 'score' }" 
           @click="switchTab('score')">漫评</button>
@@ -85,6 +88,11 @@
         :bangumi-id="id"
         :bangumi-name="info.name"
       />
+      <question-flow-list
+        v-else-if="sort === 'question'"
+        :bangumi-id="id"
+        :bangumi-name="info.name"
+      />
       <bangumi-score-flow
         v-else-if="sort === 'score'"
       />
@@ -100,6 +108,7 @@ import BangumiCartoonFlow from "~/components/bangumi/flows/BangumiCartoonFlow";
 import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
 import ImageFlowList from "~/components/flow/list/ImageFlowList";
 import BangumiScoreFlow from "~/components/bangumi/flows/BangumiScoreFlow";
+import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
 
 export default {
   name: "BangumiShow",
@@ -123,7 +132,8 @@ export default {
     BangumiCartoonFlow,
     CartoonRoleFlowList,
     ImageFlowList,
-    BangumiScoreFlow
+    BangumiScoreFlow,
+    QuestionFlowList
   },
   head() {
     if (!this.id) {
@@ -179,11 +189,11 @@ export default {
           case "image":
             this.$channel.$emit("bangumi-tab-switch-image");
             break;
+          case "question":
+            this.$channel.$emit("bangumi-tab-switch-question");
+            break;
           case "score":
             this.$channel.$emit("bangumi-tab-switch-score");
-            break;
-          case "setting":
-            this.$channel.$emit("bangumi-tab-switch-setting");
             break;
         }
       });

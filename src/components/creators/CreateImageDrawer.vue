@@ -219,7 +219,7 @@ export default {
       return this.getSelectedMeta("album", "name");
     },
     followBangumis() {
-      return this.$store.state.users.self.followBangumi;
+      return this.$store.state.users.bangumis;
     },
     pickerDrawerHeaderText() {
       if (this.openBangumisDrawer) {
@@ -314,8 +314,7 @@ export default {
       this.loadingBangumi = true;
       try {
         const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.user.zone,
-          self: true
+          zone: this.user.zone
         });
         this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(
           bangumis

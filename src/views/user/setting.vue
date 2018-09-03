@@ -303,10 +303,10 @@ export default {
         const userApi = new UserApi(this);
         await userApi.settingImage({
           type: "avatar",
-          url: result.key
+          url: result.url
         });
         this.$store.commit("SET_USER_INFO", {
-          avatar: `${this.$cdn.image}${result.key}`
+          avatar: `${this.$cdn.image}${result.url}`
         });
         this.$toast.success("头像更新成功");
       } catch (e) {
@@ -364,10 +364,10 @@ export default {
         const userApi = new UserApi(this);
         await userApi.settingImage({
           type: "banner",
-          url: result.key
+          url: result.url
         });
         this.$store.commit("SET_USER_INFO", {
-          banner: `${this.$cdn.image}${result.key}`
+          banner: `${this.$cdn.image}${result.url}`
         });
         this.$toast.success("背景更新成功");
       } catch (e) {
