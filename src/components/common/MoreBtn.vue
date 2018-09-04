@@ -1,11 +1,13 @@
 <style lang="scss">
 .nomore-wraper {
+  height: 44px;
+  overflow: hidden;
   text-align: center;
+  font-size: 12px;
+  color: #999;
 
   .nomore {
     padding: 15px 0;
-    font-size: 12px;
-    color: #999;
   }
 
   .nothing {
@@ -28,7 +30,6 @@
     width: 100%;
     height: 44px;
     line-height: 24px;
-    font-size: 14px;
     padding: 10px 0;
     text-align: center;
   }
@@ -68,11 +69,15 @@
     <template v-else>
       <template v-if="auto">
         <div
-          v-show="loading" 
+          v-if="loading"
           class="loadmore"
         >
           <div class="rolling"/>
         </div>
+        <span
+          v-else
+          @click="handleFetch"
+        >点击加载更多</span>
       </template>
       <template v-else>
         <button
@@ -132,7 +137,7 @@ export default {
   },
   methods: {
     handleFetch() {
-      if (this.loading) {
+      if (this.loading || this.noMore) {
         return;
       }
       this.$emit("fetch");

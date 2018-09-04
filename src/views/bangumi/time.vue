@@ -84,6 +84,7 @@
     <more-btn
       :no-more="timeline.noMore"
       :loading="loading"
+      :auto="true"
       @fetch="loadMore"
     />
   </div>
