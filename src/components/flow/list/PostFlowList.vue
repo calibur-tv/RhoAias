@@ -3,11 +3,7 @@
     v-if="source"
     id="post-flow-list"
   >
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="notFetch"
-      infinite-scroll-distance="50"
-    >
+    <ul>
       <post-flow-item
         v-for="item in postList"
         :key="item.id"
@@ -21,6 +17,7 @@
       :loading="source.loading"
       :length="postList.length"
       :auto="true"
+      @fetch="loadMore"
     >
       <button
         v-if="showNoContentTips"

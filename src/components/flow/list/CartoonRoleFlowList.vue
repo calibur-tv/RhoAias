@@ -14,12 +14,7 @@
 
 <template>
   <div id="cartoon-role-flow-list">
-    <ul
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="notFetch"
-      infinite-scroll-distance="50"
-      class="container"
-    >
+    <ul class="container">
       <cartoon-role-flow-item
         v-for="(item, index) in roles"
         :index="index"
@@ -44,6 +39,7 @@
       :loading="source.loading"
       :length="roles.length"
       :auto="true"
+      @fetch="loadMore"
     >
       <a
         v-if="isMe"

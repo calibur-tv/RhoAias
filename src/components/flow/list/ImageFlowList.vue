@@ -3,11 +3,7 @@
     v-if="source"
     id="image-flow-list"
   >
-    <div
-      v-infinite-scroll="loadMore"
-      infinite-scroll-disabled="notFetch"
-      infinite-scroll-distance="50"
-    >
+    <div>
       <image-waterfall-flow
         :list="source.list"
         :user-zone="userZone"
@@ -19,6 +15,7 @@
       :loading="source.loading"
       :length="source.list.length"
       :auto="true"
+      @fetch="loadMore"
     >
       <button
         v-if="showNoContentTips"

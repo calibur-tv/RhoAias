@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import utils from "~/components/common/ImageLazyLoad/utils";
+
 export default {
   name: "MoreBtn",
   props: {
@@ -109,6 +111,23 @@ export default {
     length: {
       type: Number,
       default: 1
+    }
+  },
+  mounted() {
+    if (this.auto && !this.noMore) {
+      const eventId = utils.on(
+        document,
+        "scroll",
+        utils.throttle(() => {
+          if (utils.checkInView(this.$el)) {
+            this.$emit("fetch");
+          }
+          if (this.noMore) {
+            utils.off(eventId);
+          }
+        }, 200),
+        false
+      );
     }
   },
   methods: {

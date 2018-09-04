@@ -1,9 +1,9 @@
 <style lang="scss">
 #layout-default {
-  height: 100%;
+  min-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: auto;
 }
 </style>
 
