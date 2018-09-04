@@ -205,6 +205,7 @@
       :no-more="cartoons.noMore"
       :length="cartoons.list.length"
       :loading="loading"
+      :auto="true"
       @fetch="getCartoons"
     >
       <button @click="openFeedbackForCartoon">求漫画</button>
