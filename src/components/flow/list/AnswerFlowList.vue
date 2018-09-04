@@ -15,7 +15,11 @@
     v-if="source"
     id="answer-flow-list"
   >
-    <ul>
+    <ul
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="notFetch"
+      infinite-scroll-distance="50"
+    >
       <answer-flow-item
         v-for="item in source.list"
         :key="item.id"
@@ -28,7 +32,7 @@
       :no-more="source.noMore"
       :length="source.list.length"
       :loading="loading"
-      @fetch="loadMore"
+      :auto="true"
     />
   </div>
 </template>

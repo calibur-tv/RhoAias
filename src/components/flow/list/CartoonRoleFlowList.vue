@@ -14,7 +14,12 @@
 
 <template>
   <div id="cartoon-role-flow-list">
-    <ul class="container">
+    <ul
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="notFetch"
+      infinite-scroll-distance="50"
+      class="container"
+    >
       <cartoon-role-flow-item
         v-for="(item, index) in roles"
         :index="index"
@@ -25,11 +30,10 @@
       />
     </ul>
     <div
-      v-if="source.noMore && !source.loading && roles.length"
+      v-if="source.noMore && !source.loading && roles.length && bangumiId"
       class="request-cartoon-role-btn"
     >
       <button
-        v-if="bangumiId"
         class="request-cartoon-role-btn"
         @click="openFeedbackForRole"
       >没有你喜欢的角色？</button>
@@ -39,7 +43,7 @@
       :no-more="source.noMore"
       :loading="source.loading"
       :length="roles.length"
-      @fetch="loadMore"
+      :auto="true"
     >
       <a
         v-if="isMe"

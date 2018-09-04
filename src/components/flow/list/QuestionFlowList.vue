@@ -3,7 +3,11 @@
     v-if="source"
     id="score-flow-list"
   >
-    <ul>
+    <ul
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="notFetch"
+      infinite-scroll-distance="50"
+    >
       <question-flow-item
         v-for="item in source.list"
         :key="item.id"
@@ -16,7 +20,7 @@
       :no-more="source.noMore"
       :loading="source.loading"
       :length="source.list.length"
-      @fetch="loadMore"
+      :auto="true"
     >
       <template v-if="showNoContentTips">
         <button

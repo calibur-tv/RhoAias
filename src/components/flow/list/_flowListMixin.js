@@ -60,6 +60,9 @@ export default {
       return this.$store.state.login
         ? this.$store.state.user.zone === this.userZone
         : false;
+    },
+    notFetch() {
+      return this.source.noMore || this.source.loading;
     }
   },
   methods: {

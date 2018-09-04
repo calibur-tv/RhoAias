@@ -30,6 +30,19 @@
     line-height: 24px;
     font-size: 14px;
     padding: 10px 0;
+    text-align: center;
+  }
+
+  .rolling {
+    display: inline-block;
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid $color-gray-deep;
+    border-bottom-color: transparent;
+    vertical-align: middle;
+    animation: rolling 0.8s infinite linear;
   }
 }
 </style>
@@ -54,15 +67,24 @@
     </div>
     <template v-else>
       <template v-if="auto">
-        <button 
+        <div
           v-show="loading" 
-          class="loadmore">加载中...</button>
+          class="loadmore"
+        >
+          <div class="rolling"/>
+        </div>
       </template>
       <template v-else>
         <button
           class="loadmore"
           @click="handleFetch"
-        >{{ loading ? '加载中...' : '点击加载更多' }}</button>
+        >
+          <div
+            v-if="loading"
+            class="rolling"
+          />
+          <span v-else>点击加载更多</span>
+        </button>
       </template>
     </template>
   </div>

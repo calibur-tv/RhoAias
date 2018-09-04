@@ -15,7 +15,15 @@ import ImageLazyLoad from "~/components/common/ImageLazyLoad";
 import ImageUploader from "~/components/common/ImageUploader";
 import UploadTokenMixin from "~/mixins/uptoken";
 
-import { Swipe, SwipeItem, Picker, Switch, Actionsheet, Badge } from "mint-ui";
+import {
+  Swipe,
+  SwipeItem,
+  Picker,
+  Switch,
+  Actionsheet,
+  Badge,
+  InfiniteScroll
+} from "mint-ui";
 
 import {
   Dropdown,
@@ -41,6 +49,7 @@ Vue.use(Input);
 Vue.use(Button);
 Vue.use(Rate);
 Vue.use(ImageLazyLoad, {});
+Vue.use(InfiniteScroll);
 Vue.component(ImageUploader.name, ImageUploader);
 Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.component(Field.name, Field);

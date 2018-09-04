@@ -290,8 +290,9 @@ export default {
   },
   methods: {
     bindLazyEvent() {
+      const wrap = document.getElementById("layout-default");
       const eventId = utils.on(
-        document,
+        wrap,
         "scroll",
         utils.throttle(() => {
           if (utils.checkInView(this.$el)) {
