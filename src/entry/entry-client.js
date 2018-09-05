@@ -6,6 +6,9 @@ import "~/utils/client";
 import Sentry from "~/assets/js/sentry";
 import { sentry, env } from "env";
 import FastClick from "fastclick";
+import Wechat from "~/assets/js/SDK/wechat";
+import QQ from "~/assets/js/SDK/qq";
+import resizeImage from "~/assets/js/resizeImage";
 
 const bar = new Vue(ProgressBar).$mount();
 
@@ -15,6 +18,7 @@ const dev = env === "development";
 document.body.appendChild(bar.$el);
 
 const { app, router, store } = createApp();
+const ua = store.state.ua;
 
 Vue.mixin({
   beforeRouteUpdate(to, from, next) {
@@ -58,6 +62,54 @@ if (!dev && typeof console !== "undefined") {
 }
 
 window.M = window.M || Object.create(null);
+
+M.shareData = {
+  get: () => {
+    let ret;
+    try {
+      ret = JSON.parse(
+        document.querySelector("script[data-hid=share-data]").text
+      );
+    } catch (e) {
+      ret = {
+        title: document.title,
+        description:
+          document
+            .querySelector("[name=description]")
+            .getAttribute("content") || "calibur - 天下漫友是一家",
+        imageUrl:
+          "http://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/120/h/120"
+      };
+    }
+    return Object.assign(
+      {
+        link: window.location.href
+      },
+      ret,
+      {
+        imageUrl: resizeImage(
+          /^https:/.test(ret.imageUrl)
+            ? ret.imageUrl.replace("https:", "http:")
+            : /^http:/.test(ret.imageUrl)
+              ? ret.imageUrl
+              : `http://m.calibur.tv${ret.imageUrl}`,
+          {
+            width: 120,
+            share: true
+          }
+        )
+      }
+    );
+  }
+};
+
+if (ua.wechat) {
+  const wechat = new Wechat();
+  wechat.init();
+} else if (ua.qq) {
+  const qq = new QQ();
+  qq.init();
+}
 
 router.onReady(() => {
   FastClick.attach(document.body);

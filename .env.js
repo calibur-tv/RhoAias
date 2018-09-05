@@ -17,9 +17,12 @@ const sentry = {
   url: "https://020e2dceeccc49b4b97174d60e57a5ca@sentry.io/1243413"
 };
 
+const iPhoneXViewport = `(function(){var iOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var ratio=window.devicePixelRatio||1;var screen={width:window.screen.width*ratio,height:window.screen.height*ratio};if(iOS&&screen.width===1125&&screen.height===2436){document.querySelector('meta[name=viewport]').content=document.querySelector('meta[name=viewport]').content+',viewport-fit=cover'}}());`;
+
 module.exports = {
   env,
   script,
   cdn,
-  sentry
+  sentry,
+  iPhoneXViewport
 };
