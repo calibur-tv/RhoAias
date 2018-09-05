@@ -88,7 +88,7 @@ M.shareData = {
       ret,
       {
         imageUrl: resizeImage(ret.imageUrl.replace("https:", "http:"), {
-          width: 120,
+          width: 200,
           share: true
         })
       }
