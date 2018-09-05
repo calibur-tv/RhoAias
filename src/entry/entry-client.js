@@ -87,17 +87,10 @@ M.shareData = {
       },
       ret,
       {
-        imageUrl: resizeImage(
-          /^https:/.test(ret.imageUrl)
-            ? ret.imageUrl.replace("https:", "http:")
-            : /^http:/.test(ret.imageUrl)
-              ? ret.imageUrl
-              : `http://m.calibur.tv${ret.imageUrl}`,
-          {
-            width: 120,
-            share: true
-          }
-        )
+        imageUrl: resizeImage(ret.imageUrl.replace("https:", "http:"), {
+          width: 120,
+          share: true
+        })
       }
     );
   }
