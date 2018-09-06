@@ -117,7 +117,7 @@ $header-hgt: 48px;
         <router-link to="/">
           <img
             class="logo"
-            src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200"
+            src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200/format/jpg"
             alt="logo"
           >
         </router-link>

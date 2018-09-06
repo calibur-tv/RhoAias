@@ -18,7 +18,7 @@ const microCache = LRU({
   maxAge: isDev ? 0 : 1000 * 60 * 15
 });
 const cacheHTML = status => {
-  const code = [200, 404, 423, 429, 500, 503].indexOf(status) !== -1 ? status : 500;
+  const code = [200, 404, 423, 429, 500, 503, "dev"].indexOf(status) !== -1 ? status : 500;
   const hit = microCache.get(`render-html-${code}`);
   let html;
   if (hit && !isDev) {
@@ -36,7 +36,7 @@ const cacheHTML = status => {
 const createBundleRenderer = require("vue-server-renderer")
   .createBundleRenderer;
 const templatePath = resolve("./src/templates/200.template.html");
-const template = cacheHTML(200);
+const template = cacheHTML(isDev ? "dev" : 200);
 
 let renderer;
 

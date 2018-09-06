@@ -1,6 +1,6 @@
 <style lang="scss">
 .nomore-wraper {
-  height: 44px;
+  min-height: 44px;
   overflow: hidden;
   text-align: center;
   font-size: 12px;
