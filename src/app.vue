@@ -57,13 +57,6 @@ export default {
       script: [
         env !== "development"
           ? {
-              innerHTML: script.ARMS,
-              type: "text/javascript",
-              async: true
-            }
-          : "",
-        env !== "development"
-          ? {
               innerHTML: script.baiduStat,
               type: "text/javascript",
               async: true
