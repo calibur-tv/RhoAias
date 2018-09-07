@@ -244,6 +244,7 @@ export default {
   methods: {
     switchTab(tab) {
       this.sort = tab;
+      this.$channel.$emit("image-upload-done");
     },
     switchPickerDrawer(name) {
       this.openBangumisDrawer = false;
@@ -358,10 +359,10 @@ export default {
         this.albumSlots[0].values.unshift(data);
         this.albumSlots[0].defaultIndex = 0;
         this.$toast.success("相册创建成功！");
-        this.sort = "image";
         this.image.albumId = data.id;
         this.image.selectedAlbum = true;
         this.isSingleModel = false;
+        this.switchTab("image");
         this.album = {
           name: "",
           bangumiId: "",
