@@ -140,11 +140,52 @@ export function createRouter() {
           },
           {
             path: "user/:zone",
-            name: "user-show",
-            component: () => import("~/views/user/show")
+            component: () => import("~/views/user/show/layout"),
+            children: [
+              {
+                path: "",
+                name: "user-show",
+                redirect: "bangumi"
+              },
+              {
+                path: "bangumi",
+                name: "user-bangumi",
+                component: () => import("~/views/user/show/bangumi")
+              },
+              {
+                path: "post",
+                name: "user-post",
+                component: () => import("~/views/user/show/post")
+              },
+              {
+                path: "pins",
+                name: "user-image",
+                component: () => import("~/views/user/show/image")
+              },
+              {
+                path: "review",
+                name: "user-score",
+                component: () => import("~/views/user/show/score")
+              },
+              {
+                path: "qaq",
+                name: "user-question",
+                component: () => import("~/views/user/show/question")
+              },
+              {
+                path: "role",
+                name: "user-role",
+                component: () => import("~/views/user/show/role")
+              },
+              {
+                path: "draft",
+                name: "user-draft",
+                component: () => import("~/views/user/show/draft")
+              }
+            ]
           },
           {
-            path: "me/setting",
+            path: "user/:zone/setting",
             name: "user-setting",
             component: () => import("~/views/user/setting")
           },

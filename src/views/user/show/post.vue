@@ -1,5 +1,5 @@
 <style lang="scss">
-#user-post-flow {
+#user-post {
   .label {
     font-size: 0;
 
@@ -108,7 +108,7 @@
 </style>
 
 <template>
-  <div id="user-post-flow">
+  <div id="user-post">
     <div class="label">
       <button
         :class="{ active: active === 0 }"
@@ -218,15 +218,17 @@ import PostFlowList from "~/components/flow/list/PostFlowList";
 import Api from "~/api/userApi";
 
 export default {
-  name: "UserPostFlow",
+  name: "UserPost",
+  async asyncData({ store, route, ctx }) {
+    await store.dispatch("flow/initData", {
+      type: "post",
+      sort: "news",
+      userZone: route.params.zone,
+      ctx
+    });
+  },
   components: {
     PostFlowList
-  },
-  props: {
-    zone: {
-      required: true,
-      type: String
-    }
   },
   data() {
     return {
@@ -237,6 +239,11 @@ export default {
       noMore: false,
       page: 0
     };
+  },
+  computed: {
+    zone() {
+      return this.$route.params.zone;
+    }
   },
   methods: {
     switchTab(value) {
