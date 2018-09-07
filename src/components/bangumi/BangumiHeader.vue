@@ -79,7 +79,7 @@ $banner-height: 140px;
     />
     <div class="info">
       <img 
-        :src="$resize(info.avatar, { width: 108 })" 
+        :src="$resize(info.avatar, { width: 200 })"
         class="avatar" 
         alt="avatar">
       <follow-button

@@ -25,26 +25,29 @@
       <button
         :class="{ active: active === 0 }"
         @click="switchTab(0)"
-      >发帖</button>
+      >提问</button>
       <button
         :class="{ active: active === 1 }"
         @click="switchTab(1)"
-      >回帖</button>
+      >回答</button>
     </div>
     <question-flow-list
       v-if="active === 0"
       :user-zone="userZone"
     />
     <div v-else>
-      <question-flow-item
-        v-for="item in answerList"
-        :key="item.id"
-        :item="item"
-      />
+      <ul>
+        <question-flow-item
+          v-for="item in answerList"
+          :key="item.id"
+          :item="item"
+        />
+      </ul>
       <more-btn
         :no-more="noMoreAnswer"
         :loading="loadingAnswer"
         :length="answerList.length"
+        :auto="true"
         @fetch="getUserAnswers(false)"
       />
     </div>

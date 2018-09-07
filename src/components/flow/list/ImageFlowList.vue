@@ -3,15 +3,18 @@
     v-if="source"
     id="image-flow-list"
   >
-    <image-waterfall-flow
-      :list="source.list"
-      :user-zone="userZone"
-      :bangumi-id="bangumiId"
-    />
+    <div>
+      <image-waterfall-flow
+        :list="source.list"
+        :user-zone="userZone"
+        :bangumi-id="bangumiId"
+      />
+    </div>
     <more-btn
       :no-more="source.noMore"
       :loading="source.loading"
       :length="source.list.length"
+      :auto="true"
       @fetch="loadMore"
     >
       <button

@@ -1,11 +1,13 @@
 <style lang="scss">
 .nomore-wraper {
+  min-height: 44px;
+  overflow: hidden;
   text-align: center;
+  font-size: 12px;
+  color: #999;
 
   .nomore {
     padding: 15px 0;
-    font-size: 12px;
-    color: #999;
   }
 
   .nothing {
@@ -28,8 +30,20 @@
     width: 100%;
     height: 44px;
     line-height: 24px;
-    font-size: 14px;
     padding: 10px 0;
+    text-align: center;
+  }
+
+  .rolling {
+    display: inline-block;
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid $color-gray-deep;
+    border-bottom-color: transparent;
+    vertical-align: middle;
+    animation: rolling 0.8s infinite linear;
   }
 }
 </style>
@@ -54,21 +68,36 @@
     </div>
     <template v-else>
       <template v-if="auto">
-        <button 
-          v-show="loading" 
-          class="loadmore">加载中...</button>
+        <div
+          v-if="loading"
+          class="loadmore"
+        >
+          <div class="rolling"/>
+        </div>
+        <span
+          v-else
+          @click="handleFetch"
+        >点击加载更多</span>
       </template>
       <template v-else>
         <button
           class="loadmore"
           @click="handleFetch"
-        >{{ loading ? '加载中...' : '点击加载更多' }}</button>
+        >
+          <div
+            v-if="loading"
+            class="rolling"
+          />
+          <span v-else>点击加载更多</span>
+        </button>
       </template>
     </template>
   </div>
 </template>
 
 <script>
+import utils from "~/components/common/ImageLazyLoad/utils";
+
 export default {
   name: "MoreBtn",
   props: {
@@ -89,9 +118,26 @@ export default {
       default: 1
     }
   },
+  mounted() {
+    if (this.auto && !this.noMore) {
+      const eventId = utils.on(
+        document,
+        "scroll",
+        utils.throttle(() => {
+          if (utils.checkInView(this.$el)) {
+            this.$emit("fetch");
+          }
+          if (this.noMore) {
+            utils.off(eventId);
+          }
+        }, 200),
+        false
+      );
+    }
+  },
   methods: {
     handleFetch() {
-      if (this.loading) {
+      if (this.loading || this.noMore) {
         return;
       }
       this.$emit("fetch");

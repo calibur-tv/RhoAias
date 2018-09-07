@@ -16,6 +16,7 @@
       :no-more="source.noMore"
       :loading="source.loading"
       :length="postList.length"
+      :auto="true"
       @fetch="loadMore"
     >
       <button

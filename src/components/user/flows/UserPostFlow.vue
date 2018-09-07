@@ -206,6 +206,7 @@
         :no-more="noMore"
         :loading="loading"
         :length="list.length"
+        :auto="true"
         @fetch="getUserPosts(false)"
       />
     </div>

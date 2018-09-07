@@ -28,6 +28,7 @@
       :no-more="source.noMore"
       :length="source.list.length"
       :loading="loading"
+      :auto="true"
       @fetch="loadMore"
     />
   </div>

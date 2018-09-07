@@ -133,10 +133,11 @@
       </div>
     </div>
     <more-btn
-      v-if="bangumis.length"
+      v-if="id"
       :no-more="noMore"
       :loading="loading"
       :length="bangumis.length"
+      :auto="true"
       @fetch="loadMore"
     />
   </div>
@@ -169,6 +170,9 @@ export default {
     };
   },
   computed: {
+    id() {
+      return this.$route.query.id;
+    },
     tags() {
       return this.$store.state.bangumi.tags;
     },

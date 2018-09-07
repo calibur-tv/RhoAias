@@ -25,11 +25,10 @@
       />
     </ul>
     <div
-      v-if="source.noMore && !source.loading && roles.length"
+      v-if="source.noMore && !source.loading && roles.length && bangumiId"
       class="request-cartoon-role-btn"
     >
       <button
-        v-if="bangumiId"
         class="request-cartoon-role-btn"
         @click="openFeedbackForRole"
       >没有你喜欢的角色？</button>
@@ -39,6 +38,7 @@
       :no-more="source.noMore"
       :loading="source.loading"
       :length="roles.length"
+      :auto="true"
       @fetch="loadMore"
     >
       <a

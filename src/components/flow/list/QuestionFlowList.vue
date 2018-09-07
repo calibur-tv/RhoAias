@@ -16,6 +16,7 @@
       :no-more="source.noMore"
       :loading="source.loading"
       :length="source.list.length"
+      :auto="true"
       @fetch="loadMore"
     >
       <template v-if="showNoContentTips">
