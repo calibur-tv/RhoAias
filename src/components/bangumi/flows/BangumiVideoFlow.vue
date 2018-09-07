@@ -105,7 +105,7 @@
       v-else
       :no-more="true"
       :auto="true"
-      :loading="loading"
+      :loading="false"
       :length="videos.total"
     >
       <button @click="openFeedbackForResource">求资源</button>
@@ -116,11 +116,6 @@
 <script>
 export default {
   name: "BangumiVideoFlow",
-  data() {
-    return {
-      loading: false
-    };
-  },
   computed: {
     videos() {
       return this.$store.state.bangumi.videos;
@@ -129,34 +124,12 @@ export default {
       return this.$store.state.bangumi.info;
     }
   },
-  created() {
-    if (!this.videos.list.length) {
-      this.getVideos();
-    }
-  },
   methods: {
     openFeedbackForResource() {
       this.$channel.$emit("open-feedback", {
         type: 5,
         desc: `我想看《${this.info.name}》的视频第 ? 集`
       });
-    },
-    async getVideos() {
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-
-      try {
-        await this.$store.dispatch("bangumi/getVideos", {
-          ctx: this,
-          id: this.info.id
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loading = false;
-      }
     }
   }
 };

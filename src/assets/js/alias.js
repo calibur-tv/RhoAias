@@ -20,8 +20,8 @@ export default {
     return `/user/${zone}`;
   },
 
-  bangumi(id) {
-    return `/bangumi/${id}`;
+  bangumi(id, page = "") {
+    return `/bangumi/${id}/${page}`;
   },
 
   video(id) {
