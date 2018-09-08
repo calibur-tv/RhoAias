@@ -47,7 +47,9 @@ export default {
     },
     SET_FOLLOW(state, { result }) {
       state.info.followed = result;
-      result ? state.info.count_like++ : state.info.count_like--;
+      result
+        ? state.info.follow_users.total++
+        : state.info.follow_users.total--;
     },
     SET_RELEASED(state, data) {
       state.released = data;
