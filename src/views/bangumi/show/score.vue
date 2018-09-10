@@ -1,5 +1,5 @@
 <style lang="scss">
-#bangumi-score-flow {
+#bangumi-score {
   .bangumi-score-wrap {
     .ve-radar {
       margin: 0 auto;
@@ -74,7 +74,7 @@
 </style>
 
 <template>
-  <div id="bangumi-score-flow">
+  <div id="bangumi-score">
     <div
       v-if="bangumiScore"
       class="container"
@@ -114,7 +114,6 @@
       <div class="bangumi-score-wrap">
         <bangumi-score-chart
           :source="bangumiScore.radar"
-          :loading="loading"
           size="280px"
         />
       </div>
@@ -131,6 +130,7 @@
       </h3>
     </div>
     <score-flow-list
+      v-if="info"
       :bangumi-id="info.id"
       :bangumi-name="info.name"
     />
@@ -138,55 +138,42 @@
 </template>
 
 <script>
-import ScoreApi from "~/api/scoreApi";
 import BangumiScoreChart from "~/components/bangumi/charts/BangumiScoreChart";
 import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
 
 export default {
-  name: "BangumiScoreFlow",
+  name: "BangumiScore",
+  async asyncData({ store, route, ctx }) {
+    const id = route.params.id;
+    await Promise.all([
+      store.dispatch("bangumi/getBangumiScore", { ctx, id }),
+      store.dispatch("flow/initData", {
+        type: "score",
+        sort: "active",
+        bangumiId: id,
+        ctx
+      })
+    ]);
+  },
   components: {
     BangumiScoreChart,
     ScoreFlowList
   },
-  data() {
-    return {
-      loading: false,
-      bangumiScore: null
-    };
-  },
   computed: {
+    info() {
+      return this.$store.state.bangumi.info;
+    },
+    bangumiScore() {
+      return this.$store.state.bangumi.score;
+    },
     totalRate() {
       return this.bangumiScore ? this.bangumiScore.total / 20 : 0;
     },
     totalScore() {
       return this.bangumiScore ? this.bangumiScore.total / 10 : 0;
     },
-    info() {
-      return this.$store.state.bangumi.info;
-    },
     scores() {
       return this.$store.state.flow.score.active;
-    }
-  },
-  mounted() {
-    this.$channel.$on("bangumi-tab-switch-score", () => {
-      this.getScore();
-    });
-  },
-  methods: {
-    async getScore() {
-      if (this.loading || this.bangumiScore) {
-        return;
-      }
-      this.loading = true;
-      const api = new ScoreApi(this);
-      try {
-        this.bangumiScore = await api.bangumiScore(this.info.id);
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loading = false;
-      }
     }
   }
 };

@@ -15,10 +15,17 @@ export function createRouter() {
     mode: "history",
     base: "/",
     scrollBehavior(to, from, savedPosition) {
+      // savedPosition 只有在 popstate 导航（如按浏览器的返回按钮）时可以获取。
       if (savedPosition) {
         return savedPosition;
       } else {
-        let position = { x: 0, y: 0 };
+        let position = {};
+        // 目标页面子组件少于两个
+        if (to.matched.length < 2) {
+          // 滚动至页面顶部
+          position = { x: 0, y: 0 };
+        }
+        // 如果目标页面的url有锚点,  则滚动至锚点所在的位置
         if (to.hash) {
           position = { selector: to.hash };
         }
@@ -49,7 +56,7 @@ export function createRouter() {
                 component: () => import("~/views/world/post")
               },
               {
-                path: "image",
+                path: "pins",
                 name: "world-image",
                 component: () => import("~/views/world/image")
               },
@@ -72,8 +79,49 @@ export function createRouter() {
           },
           {
             path: "bangumi/:id(\\d+)",
-            name: "bangumi-show",
-            component: () => import("~/views/bangumi/show")
+            component: () => import("~/views/bangumi/show/layout"),
+            children: [
+              {
+                path: "",
+                name: "bangumi-show",
+                redirect: "post"
+              },
+              {
+                path: "post",
+                name: "bangumi-post",
+                component: () => import("~/views/bangumi/show/post")
+              },
+              {
+                path: "video",
+                name: "bangumi-video",
+                component: () => import("~/views/bangumi/show/video")
+              },
+              {
+                path: "cartoon",
+                name: "bangumi-cartoon",
+                component: () => import("~/views/bangumi/show/cartoon")
+              },
+              {
+                path: "role",
+                name: "bangumi-role",
+                component: () => import("~/views/bangumi/show/role")
+              },
+              {
+                path: "pins",
+                name: "bangumi-image",
+                component: () => import("~/views/bangumi/show/image")
+              },
+              {
+                path: "review",
+                name: "bangumi-score",
+                component: () => import("~/views/bangumi/show/score")
+              },
+              {
+                path: "qaq",
+                name: "bangumi-question",
+                component: () => import("~/views/bangumi/show/question")
+              }
+            ]
           },
           {
             path: "bangumi/timeline",
@@ -92,11 +140,52 @@ export function createRouter() {
           },
           {
             path: "user/:zone",
-            name: "user-show",
-            component: () => import("~/views/user/show")
+            component: () => import("~/views/user/show/layout"),
+            children: [
+              {
+                path: "",
+                name: "user-show",
+                redirect: "bangumi"
+              },
+              {
+                path: "bangumi",
+                name: "user-bangumi",
+                component: () => import("~/views/user/show/bangumi")
+              },
+              {
+                path: "post",
+                name: "user-post",
+                component: () => import("~/views/user/show/post")
+              },
+              {
+                path: "pins",
+                name: "user-image",
+                component: () => import("~/views/user/show/image")
+              },
+              {
+                path: "review",
+                name: "user-score",
+                component: () => import("~/views/user/show/score")
+              },
+              {
+                path: "qaq",
+                name: "user-question",
+                component: () => import("~/views/user/show/question")
+              },
+              {
+                path: "role",
+                name: "user-role",
+                component: () => import("~/views/user/show/role")
+              },
+              {
+                path: "draft",
+                name: "user-draft",
+                component: () => import("~/views/user/show/draft")
+              }
+            ]
           },
           {
-            path: "me/setting",
+            path: "user/:zone/setting",
             name: "user-setting",
             component: () => import("~/views/user/setting")
           },

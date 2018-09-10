@@ -1,5 +1,5 @@
 <style lang="scss">
-#user-bangumi-flow {
+#user-bangumi {
   li {
     position: relative;
     height: 62px;
@@ -27,7 +27,7 @@
 </style>
 
 <template>
-  <div id="user-bangumi-flow">
+  <div id="user-bangumi">
     <ul
       v-if="bangumis.length"
       id="bangumis"
@@ -61,20 +61,17 @@
 
 <script>
 export default {
-  name: "UserBangumiFlow",
-  components: {},
-  props: {},
-  data() {
-    return {};
+  name: "UserBangumi",
+  async asyncData({ route, store, ctx }) {
+    await store.dispatch("users/getFollowBangumis", {
+      ctx,
+      zone: route.params.zone
+    });
   },
   computed: {
     bangumis() {
       return this.$store.state.users.bangumis;
     }
-  },
-  watch: {},
-  created() {},
-  mounted() {},
-  methods: {}
+  }
 };
 </script>

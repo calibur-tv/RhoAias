@@ -82,7 +82,7 @@
     font-size: 0;
     @include border-bottom();
 
-    button {
+    a {
       height: 40px;
       line-height: 40px;
       color: #000;
@@ -91,7 +91,7 @@
       text-align: center;
       padding-left: $container-padding;
 
-      &.active {
+      &.router-link-active {
         position: relative;
 
         &:before {
@@ -116,8 +116,8 @@
     id="user-show"
   >
     <div class="user-banner">
-      <div 
-        :style="{ backgroundImage: `url(${$resize(user.banner, { height: 240, mode: 2 })})` }" 
+      <div
+        :style="{ backgroundImage: `url(${$resize(user.banner, { height: 240, mode: 2 })})` }"
         class="img bg"/>
     </div>
     <div class="user-panel container">
@@ -127,19 +127,19 @@
         class="avatar"
       />
       <div class="info">
-        <button 
-          v-if="isMe" 
+        <button
+          v-if="isMe"
           @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}{{ coinCount ? ` (${coinCount})` : '' }}</button>
-        <p 
-          class="nickname oneline" 
+        <p
+          class="nickname oneline"
           v-text="user.nickname"/>
       </div>
       <p class="signature">
         <strong>签名：</strong>
         {{ user.signature || '这个人还很神秘...' }}
       </p>
-      <div 
-        v-if="user.faker" 
+      <div
+        v-if="user.faker"
         class="faker-tips">
         <span>重要提醒</span>
         <p>这是一个运营号，并非本人，该账号下所有信息都是搬运而来</p>
@@ -148,83 +148,29 @@
       </div>
     </div>
     <div class="user-tabs">
-      <button 
-        :class="{ 'active': sort === 'bangumi' }" 
-        @click="switchTab('bangumi')">番剧</button>
-      <button 
-        :class="{ 'active': sort === 'post' }"
-        @click="switchTab('post')">帖子</button>
-      <button
-        :class="{ 'active': sort === 'image' }" 
-        @click="switchTab('image')">相册</button>
-      <button
-        :class="{ 'active': sort === 'question' }"
-        @click="switchTab('question')">问答</button>
-      <button 
-        :class="{ 'active': sort === 'score' }" 
-        @click="switchTab('score')">漫评</button>
-      <button
-        :class="{ 'active': sort === 'role' }"
-        @click="switchTab('role')">偶像</button>
-      <button
+      <router-link :to="$alias.user(zone, 'bangumi')">番剧</router-link>
+      <router-link :to="$alias.user(zone, 'post')">帖子</router-link>
+      <router-link :to="$alias.user(zone, 'pins')">相册</router-link>
+      <router-link :to="$alias.user(zone, 'qaq')">问答</router-link>
+      <router-link :to="$alias.user(zone, 'review')">漫评</router-link>
+      <router-link :to="$alias.user(zone, 'role')">偶像</router-link>
+      <router-link
         v-if="isMe"
-        :class="{ 'active': sort === 'draft' }"
-        @click="switchTab('draft')">草稿</button>
+        :to="$alias.user(zone, 'draft')"
+      >草稿</router-link>
     </div>
-    <user-bangumi-flow
-      v-if="sort === 'bangumi'"
-    />
-    <user-post-flow
-      v-else-if="sort === 'post'"
-      :zone="zone"
-    />
-    <image-flow-list
-      v-else-if="sort === 'image'"
-      :user-zone="zone"
-    />
-    <user-qa-flow-list
-      v-else-if="sort === 'question'"
-      :user-zone="zone"
-    />
-    <score-flow-list
-      v-else-if="sort === 'score'"
-      :user-zone="zone"
-    />
-    <cartoon-role-flow-list
-      v-else-if="sort === 'role'"
-      :user-zone="zone"
-    />
-    <user-draft-list
-      v-else-if="sort === 'draft'"
-      :user-zone="zone"
-    />
+    <router-view/>
   </div>
 </template>
 
 <script>
-import UserBangumiFlow from "~/components/user/flows/UserBangumiFlow";
-import UserPostFlow from "~/components/user/flows/UserPostFlow";
-import ImageFlowList from "~/components/flow/list/ImageFlowList";
-import UserQaFlowList from "~/components/user/flows/UserQaFlowList";
-import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
-import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
-import UserDraftList from "~/components/user/flows/UserDraftList";
-
 export default {
   name: "UserShow",
   async asyncData({ route, store, ctx }) {
-    const zone = route.params.zone;
-    const arr = [
-      store.dispatch("users/getUser", {
-        ctx,
-        zone
-      }),
-      store.dispatch("users/getFollowBangumis", {
-        ctx,
-        zone
-      })
-    ];
-    await Promise.all(arr);
+    await store.dispatch("users/getUser", {
+      ctx,
+      zone: route.params.zone
+    });
   },
   head() {
     const user = this.user;
@@ -243,22 +189,9 @@ export default {
       ]
     };
   },
-  components: {
-    UserBangumiFlow,
-    UserPostFlow,
-    ImageFlowList,
-    UserQaFlowList,
-    ScoreFlowList,
-    CartoonRoleFlowList,
-    UserDraftList
-  },
   data() {
     return {
-      sort: "bangumi",
-      signDayLoading: false,
-      loadingRoles: false,
-      loadingUserImageFetch: false,
-      userImageLoaded: false
+      signDayLoading: false
     };
   },
   computed: {
@@ -285,12 +218,6 @@ export default {
     }
   },
   methods: {
-    switchTab(tab) {
-      this.sort = tab;
-      this.$nextTick(() => {
-        this.$channel.$emit(`user-tab-switch-${tab}`);
-      });
-    },
     async handleDaySign() {
       if (this.daySigned || this.signDayLoading) {
         return;

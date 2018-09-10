@@ -133,7 +133,10 @@
 </style>
 
 <template>
-  <div id="user-setting">
+  <div
+    v-if="isMe"
+    id="user-setting"
+  >
     <div class="form-item">
       <p class="sub-title">背景：</p>
       <div 
@@ -217,10 +220,10 @@
 import UserApi from "~/api/userApi";
 import ImageApi from "~/api/imageApi";
 import ImageCropper from "~/components/common/ImageCropper";
-import UserSettingForm from "~/components/user/forms/UserSettingForm";
+import UserSettingForm from "~/components/user/UserSettingForm";
 
 export default {
-  name: "PageUserSetting",
+  name: "UserSetting",
   components: {
     ImageCropper,
     UserSettingForm
@@ -243,11 +246,16 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    isMe() {
+      return this.$store.state.login
+        ? this.$route.params.zone === this.user.zone
+        : false;
     }
   },
   mounted() {
-    if (!this.$store.state.login) {
-      window.location.href = "/";
+    if (!this.isMe) {
+      window.location.href = this.$alias.user(this.user.zone, "setting");
     }
   },
   methods: {

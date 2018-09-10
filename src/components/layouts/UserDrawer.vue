@@ -140,7 +140,7 @@
         </a>
       </li>
       <li>
-        <a href="/me/setting">
+        <a :href="`/user/${user.zone}/setting`">
           <i class="iconfont icon-shezhi"/>
           用户设置
         </a>

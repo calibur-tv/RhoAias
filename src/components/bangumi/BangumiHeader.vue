@@ -93,10 +93,7 @@ $banner-height: 140px;
         <p 
           class="title oneline" 
           v-text="info.name"/>
-        <span>关注 {{ $utils.shortenNumber(info.count_like) }}</span>
-        <!--
-        <span>帖子 {{ $utils.shortenNumber(postTotal) }}</span>
-        -->
+        <span>关注 {{ $utils.shortenNumber(info.follow_users.total) }}</span>
       </div>
     </div>
   </section>
@@ -113,9 +110,6 @@ export default {
   computed: {
     info() {
       return this.$store.state.bangumi.info;
-    },
-    postTotal() {
-      return this.$store.state.bangumi.posts.total;
     }
   },
   methods: {

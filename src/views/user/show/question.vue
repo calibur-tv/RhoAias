@@ -1,5 +1,5 @@
 <style lang="scss">
-#user-qa-flow-list {
+#user-question {
   .label {
     font-size: 0;
 
@@ -20,7 +20,7 @@
 </style>
 
 <template>
-  <div id="user-qa-flow-list">
+  <div id="user-question">
     <div class="label">
       <button
         :class="{ active: active === 0 }"
@@ -33,7 +33,7 @@
     </div>
     <question-flow-list
       v-if="active === 0"
-      :user-zone="userZone"
+      :user-zone="zone"
     />
     <div v-else>
       <ul>
@@ -60,16 +60,18 @@ import QuestionFlowItem from "~/components/flow/item/QuestionFlowItem";
 import Api from "~/api/flowApi";
 
 export default {
-  name: "UserQaFlowList",
+  name: "UserQuestion",
+  async asyncData({ store, route, ctx }) {
+    await store.dispatch("flow/initData", {
+      type: "question",
+      sort: "news",
+      userZone: route.params.zone,
+      ctx
+    });
+  },
   components: {
     QuestionFlowList,
     QuestionFlowItem
-  },
-  props: {
-    userZone: {
-      required: true,
-      type: String
-    }
   },
   data() {
     return {
@@ -80,6 +82,11 @@ export default {
       noMoreAnswer: false,
       page: 0
     };
+  },
+  computed: {
+    zone() {
+      return this.$route.params.zone;
+    }
   },
   methods: {
     switchTab(value) {
@@ -106,7 +113,7 @@ export default {
           minId: 0,
           seenIds: "",
           bangumiId: 0,
-          userZone: this.userZone
+          userZone: this.zone
         });
         this.fetchedAnswer = true;
         this.answerList = this.answerList.concat(data.list);

@@ -1,5 +1,5 @@
 <style lang="scss">
-#user-draft-list {
+#user-draft {
   .label {
     font-size: 0;
 
@@ -88,21 +88,21 @@
 </style>
 
 <template>
-  <div id="user-draft-list">
+  <div id="user-draft">
     <div class="label">
       <button
         :class="{ active: active === '漫评' }"
         @click="switchTab('漫评')"
-      >发帖</button>
+      >漫评</button>
       <button
         :class="{ active: active === '回答' }"
         @click="switchTab('回答')"
-      >回帖</button>
+      >回答</button>
     </div>
     <div class="container">
       <template v-if="active === '漫评'">
         <div
-          v-for="item in scoreList"
+          v-for="item in scores.list"
           :key="item.id"
           class="score-draft"
         >
@@ -127,7 +127,7 @@
         </div>
         <more-btn
           :no-more="true"
-          :loading="loadingScore"
+          :loading="scores.loading"
           :length="1"
         >
           <a :href="$alias.createScore">
@@ -137,7 +137,7 @@
       </template>
       <template v-else-if="active === '回答'">
         <div
-          v-for="item in answerList"
+          v-for="item in answers.list"
           :key="item.id"
           class="answer-draft"
         >
@@ -153,83 +153,67 @@
             v-text="item.intro"
           />
         </div>
+        <more-btn
+          :no-more="true"
+          :loading="answers.loading"
+          :length="1"
+        />
       </template>
     </div>
   </div>
 </template>
 
 <script>
-import ScoreApi from "~/api/scoreApi";
-import QuestionApi from "~/api/questionApi";
-
 export default {
-  name: "UserDraftList",
-  props: {
-    userZone: {
-      required: true,
-      type: String
-    }
+  name: "UserDraft",
+  async asyncData({ store, ctx }) {
+    await store.dispatch("users/getUserDrafts", {
+      type: "score",
+      ctx
+    });
   },
   data() {
     return {
-      active: "漫评",
-      scoreList: [],
-      loadingScore: false,
-      fetchedScore: false,
-      answerList: [],
-      loadingAnswer: false,
-      fetchedAnswer: false
+      active: "漫评"
     };
   },
+  computed: {
+    zone() {
+      return this.$route.params.zone;
+    },
+    isMe() {
+      return this.$store.state.login
+        ? this.zone === this.$store.state.user.zone
+        : false;
+    },
+    scores() {
+      return this.$store.state.users.drafts.score;
+    },
+    answers() {
+      return this.$store.state.users.drafts.answer;
+    }
+  },
   mounted() {
-    this.$channel.$on("user-tab-switch-draft", () => {
-      this.getUserScoreDraft(true);
-    });
+    if (!this.isMe) {
+      this.$router.replace({
+        name: "user-bangumi"
+      });
+    }
   },
   methods: {
     switchTab(value) {
       this.active = value;
       if (value === "漫评") {
-        this.getUserScoreDraft(true);
+        this.getUserDrafts("score");
       } else if (value === "回答") {
-        this.getUserAnswerDraft(true);
+        this.getUserDrafts("answer");
       }
     },
-    async getUserScoreDraft(init = false) {
-      if (init && this.fetchedScore) {
-        return;
-      }
-      if (this.loadingScore) {
-        return;
-      }
-      this.loadingScore = true;
-      const api = new ScoreApi(this);
-      try {
-        this.scoreList = await api.drafts();
-        this.fetchedScore = true;
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingScore = false;
-      }
-    },
-    async getUserAnswerDraft(init = false) {
-      if (init && this.fetchedAnswer) {
-        return;
-      }
-      if (this.loadingAnswer) {
-        return;
-      }
-      this.loadingAnswer = true;
-      const api = new QuestionApi(this);
-      try {
-        this.answerList = await api.answerDraft();
-        this.fetchedAnswer = true;
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingAnswer = false;
-      }
+    async getUserDrafts(type) {
+      await this.$store.dispatch("users/getUserDrafts", {
+        type,
+        ctx: this
+      });
     }
   }
 };
