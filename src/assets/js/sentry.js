@@ -47,7 +47,8 @@ export default class {
           /(readonly|redefine) property/,
           "Failed to execute 'appendChild' on 'Node'",
           "value.hasOwnProperty is not a function",
-          /([native code]|<anonymous>)/
+          "anonymous",
+          "native code"
         ]
       })
         .addPlugin(RavenVue, Vue)
