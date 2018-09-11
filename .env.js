@@ -13,7 +13,7 @@ const script = {
 
 const sentry = {
   token: "5b02ddc4b7894347952d08e1f5563b9c2a845347bb234acf9fedd73210cbbd8b",
-  url: "https://020e2dceeccc49b4b97174d60e57a5ca@sentry.io/1243413"
+  url: "https://63fb1028c6e24cb5be33e8ed64d798e8@sentry.io/1278322"
 };
 
 const iPhoneXViewport = `(function(){var iOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var ratio=window.devicePixelRatio||1;var screen={width:window.screen.width*ratio,height:window.screen.height*ratio};if(iOS&&screen.width===1125&&screen.height===2436){document.querySelector('meta[name=viewport]').content=document.querySelector('meta[name=viewport]').content+',viewport-fit=cover'}}());`;
