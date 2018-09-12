@@ -12,21 +12,26 @@
     pointer-events: auto;
   }
 
-  .mint-palette-button {
+  .palette-button {
     pointer-events: auto;
     position: absolute;
-    right: $container-padding;
-    bottom: 45px;
-    margin-left: -25px;
+    bottom: 20px;
+    left: 50%;
     width: 48px;
     height: 48px;
-    color: #fff;
+    margin-left: -24px;
     z-index: 100;
+    color: #fff;
+    transform: translateY(100px);
+
+    &.isScrollTop {
+      transform: translateY(0);
+    }
   }
 
   .mint-main-button {
     background-color: $color-pink-normal;
-    line-height: 50px;
+    line-height: 48px;
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.25);
 
     &:after {
@@ -102,8 +107,10 @@
     <div id="creator-menu-wrap">
       <palette-button
         ref="palette"
+        :class="{ isScrollTop }"
         content=""
-        direction="lt"
+        direction="t"
+        class="palette-button"
         @expand="handlePaletteOpen"
         @collapse="handlePaletteClose"
       >
@@ -150,7 +157,9 @@ export default {
   },
   data() {
     return {
-      backdropId: 0
+      backdropId: 0,
+      lastScroll: 0,
+      isScrollTop: true
     };
   },
   computed: {
@@ -160,6 +169,17 @@ export default {
     pageName() {
       return this.$route.name;
     }
+  },
+  mounted() {
+    window.addEventListener(
+      "scroll",
+      this.$utils.throttle(() => {
+        const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop;
+        this.isScrollTop = this.lastScroll > scrollTop;
+        this.lastScroll = scrollTop;
+      }, 200)
+    );
   },
   methods: {
     handlePaletteOpen() {
