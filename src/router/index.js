@@ -228,7 +228,7 @@ export function createRouter() {
             component: () => import("~/views/role/show")
           },
           {
-            path: "pins/:id(\\d+)",
+            path: "pin/:id(\\d+)",
             name: "image-show",
             component: () => import("~/views/image/show")
           },
