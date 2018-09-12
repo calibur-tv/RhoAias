@@ -237,7 +237,6 @@ export default {
     this.$channel.$on("open-create-image-drawer", () => {
       this.getUserFollowedBangumis();
       this.getUserAlbum();
-      this.getUpToken();
       this.show = true;
     });
   },
