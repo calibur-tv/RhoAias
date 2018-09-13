@@ -162,39 +162,39 @@
 
 <template>
   <li class="post-flow-item">
-    <div @click="linkStart">
+    <router-link
+      :to="$alias.post(item.id)"
+      tag="div"
+    >
       <div class="header">
-        <a
+        <router-link
           v-if="item.user"
-          :href="$alias.user(item.user.zone)"
+          :to="$alias.user(item.user.zone)"
           class="user-avatar"
-          @click.stop
         >
           <v-img
             :src="item.user.avatar"
             size="35"
           />
-        </a>
-        <a
+        </router-link>
+        <router-link
           v-else
-          :href="$alias.bangumi(item.bangumi.id)"
+          :to="$alias.bangumi(item.bangumi.id)"
           class="bangumi-avatar"
-          @click.stop
         >
           <v-img
             :src="item.bangumi.avatar"
             size="35"
           />
-        </a>
+        </router-link>
         <div class="name">
           <div
             v-if="item.user"
             class="clearfix"
           >
-            <a
-              :href="$alias.user(item.user.zone)"
+            <router-link
+              :to="$alias.user(item.user.zone)"
               class="nickname"
-              @click.stop
               v-text="item.user.nickname"
             />
           </div>
@@ -205,9 +205,8 @@
             <span class="nickname">发表在</span>
           </div>
           <template v-if="item.bangumi">
-            <a
-              :href="$alias.bangumi(item.bangumi.id)"
-              @click.stop
+            <router-link
+              :to="$alias.bangumi(item.bangumi.id)"
               v-text="item.bangumi.name"
             />
             <span>&nbsp;·&nbsp;</span>
@@ -285,7 +284,7 @@
           {{ $utils.shortenNumber(item.comment_count) }}
         </span>
       </div>
-    </div>
+    </router-link>
     <div class="hr"/>
   </li>
 </template>
@@ -302,9 +301,6 @@ export default {
   methods: {
     imageFilter(images) {
       return images.slice(0, 3);
-    },
-    linkStart() {
-      this.$router.push(this.$alias.post(this.item.id));
     }
   }
 };
