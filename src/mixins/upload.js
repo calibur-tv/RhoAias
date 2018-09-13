@@ -32,11 +32,6 @@ export default {
       return this.$route.path;
     }
   },
-  mounted() {
-    this.$channel.$on("update-upload-token", () => {
-      this.uploadHeaders.token = this.$store.state.user.uptoken.upToken;
-    });
-  },
   methods: {
     async getUpToken() {
       try {
