@@ -22,7 +22,7 @@
     margin-left: -24px;
     z-index: 100;
     color: #fff;
-    transform: translateY(100px);
+    transform: translateY(200px);
 
     &.isScrollTop {
       transform: translateY(0);
