@@ -29,7 +29,7 @@ export default {
   },
 
   image(id) {
-    return `/pins/${id}`;
+    return `/pin/${id}`;
   },
 
   score(id) {

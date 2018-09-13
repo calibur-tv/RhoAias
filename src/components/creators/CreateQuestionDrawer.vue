@@ -74,7 +74,6 @@
 </template>
 
 <script>
-import uploadMixin from "~/mixins/upload";
 import Api from "~/api/questionApi";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
 
@@ -83,7 +82,6 @@ export default {
   components: {
     BangumiPicker
   },
-  mixins: [uploadMixin],
   data() {
     const validateTitle = (rule, value, callback) => {
       if (!value) {
@@ -118,7 +116,6 @@ export default {
   mounted() {
     this.$channel.$on("drawer-open-write-question", () => {
       this.show = true;
-      this.getUpToken();
     });
   },
   methods: {

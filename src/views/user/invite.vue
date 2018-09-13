@@ -180,7 +180,10 @@
 </style>
 
 <template>
-  <div id="user-invite">
+  <div
+    v-if="user"
+    id="user-invite"
+  >
     <div class="container">
       <h3 class="sub-title">邀请码{{ created ? '（长按图片可保存到手机相册）' : '' }}</h3>
     </div>
@@ -277,7 +280,9 @@ export default {
   },
   mounted() {
     if (!this.user) {
-      this.$toast.error("请先登录");
+      this.$toast.error("请先登录").then(() => {
+        window.location.href = "/";
+      });
       return;
     }
     this.$nextTick(() => {

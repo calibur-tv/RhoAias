@@ -32,12 +32,15 @@ export default {
       return this.$route.path;
     }
   },
-  mounted() {
-    this.$channel.$on("update-upload-token", () => {
-      this.uploadHeaders.token = this.$store.state.user.uptoken.upToken;
-    });
-  },
   methods: {
+    async getUpToken() {
+      try {
+        await this.$store.dispatch("getUpToken", this);
+        this.uploadHeaders.token = this.$store.state.user.uptoken.upToken;
+      } catch (e) {
+        this.$toast.error(e);
+      }
+    },
     handleImageUploadError(err, file) {
       console.log(err);
       this.uploadPending--;
@@ -70,11 +73,12 @@ export default {
       this.uploadImageTotal++;
       this.uploadPending--;
     },
-    handleImageUploadBefore(file) {
+    async handleImageUploadBefore(file) {
       if (!this.currentUserId) {
         this.$channel.$emit("sign-in");
         return false;
       }
+      await this.getUpToken();
 
       const isFormat =
         this.imageUploadAccept.split(",").indexOf(file.type) !== -1;

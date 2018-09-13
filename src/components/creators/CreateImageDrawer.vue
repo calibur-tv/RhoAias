@@ -237,7 +237,6 @@ export default {
     this.$channel.$on("open-create-image-drawer", () => {
       this.getUserFollowedBangumis();
       this.getUserAlbum();
-      this.getUpToken();
       this.show = true;
     });
   },
@@ -419,26 +418,44 @@ export default {
       const api = new ImageApi(this);
       try {
         if (this.isSingleModel) {
-          newId = await api.uploadSingleImage(
-            Object.assign({}, images, {
-              is_creator: this.image.creator,
-              bangumi_id: this.getSelectedMeta("bangumi", "id"),
-              name: this.image.name
-            })
-          );
+          this.$captcha({
+            success: async ({ data }) => {
+              newId = await api.uploadSingleImage(
+                Object.assign({}, images, {
+                  is_creator: this.image.creator,
+                  bangumi_id: this.getSelectedMeta("bangumi", "id"),
+                  name: this.image.name,
+                  geetest: data
+                })
+              );
+              this.$toast.success("上传成功");
+              this.show = false;
+              setTimeout(() => {
+                window.location = this.$alias.image(newId);
+              }, 400);
+              this.$channel.$emit("image-upload-done");
+            },
+            close: () => {
+              this.submitting = false;
+            },
+            error: err => {
+              this.submitting = false;
+              this.$toast.error(err);
+            }
+          });
         } else {
           newId = this.getSelectedMeta("album", "id");
           await api.uploadManyImage({
             album_id: newId,
             images
           });
+          this.$toast.success("上传成功");
+          this.show = false;
+          setTimeout(() => {
+            window.location = this.$alias.image(newId);
+          }, 400);
+          this.$channel.$emit("image-upload-done");
         }
-        this.$toast.success("上传成功");
-        this.show = false;
-        setTimeout(() => {
-          window.location = this.$alias.image(newId);
-        }, 400);
-        this.$channel.$emit("image-upload-done");
       } catch (e) {
         this.$toast.error(e);
       } finally {

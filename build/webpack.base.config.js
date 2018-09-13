@@ -141,8 +141,7 @@ module.exports = {
   },
   plugins: (function () {
     let pluginArr = [
-      new webpack.ProvidePlugin({
-      }),
+      new webpack.ProvidePlugin({}),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),

@@ -10,10 +10,8 @@ import Radio from "~/components/common/Radio";
 import BangumiPanel from "~/components/panel/BangumiPanel";
 import Field from "~/components/common/Field";
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
-import VCharts from "v-charts";
 import ImageLazyLoad from "~/components/common/ImageLazyLoad";
 import ImageUploader from "~/components/common/ImageUploader";
-import UploadTokenMixin from "~/mixins/uptoken";
 import resizeImage from "~/assets/js/resizeImage";
 
 import { Swipe, SwipeItem, Picker, Switch, Actionsheet, Badge } from "mint-ui";
@@ -30,8 +28,6 @@ import {
   Rate
 } from "element-ui";
 
-Vue.mixin(UploadTokenMixin);
-Vue.use(VCharts);
 Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);

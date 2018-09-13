@@ -154,7 +154,6 @@ export default {
   mounted() {
     this.$channel.$on("drawer-open-write-post", async data => {
       this.open = true;
-      this.getUpToken();
       await this.getUserFollowedBangumis();
       if (data) {
         this.saveSelectedBangumi(data.id);
