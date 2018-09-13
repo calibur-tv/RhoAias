@@ -33,22 +33,23 @@ export default class {
           "uv'",
           "网络错误",
           "网络请求超时",
+          /(Unknown|No) error/, // Chrome Mobile 37.0.0
+          /Cannot read property '(\w|\W)+' of (undefined|null)/, // https://github.com/vuejs/vue/issues/8399
+          "Maximum call stack size exceeded",
+          /(readonly|redefine) property/,
           "is not an object (evaluating", // https://github.com/facebook/react-native/issues/17348
           "Unexpected end of input", // https://stackoverflow.com/questions/29259395/syntaxerror-unexpected-end-of-input-at-object-parse-native-npm-request
           "Java exception was raised during method invocation",
           /Loading chunk (\d+) failed./, // https://github.com/webpack/webpack/issues/5964
           "Can't find variable: ",
           "NS_ERROR_UNKNOWN_PROTOCOL",
-          /(Unknown|No) error/, // Chrome Mobile 37.0.0
-          /Cannot read property '(\w|\W)+' of (undefined|null)/, // https://github.com/vuejs/vue/issues/8399
+          "value.hasOwnProperty is not a function",
           /is not a function(\w|\W)+/,
           /(ture|mbrowser|local_kingkr_obj|Java object)/,
-          "Maximum call stack size exceeded",
-          /(readonly|redefine) property/,
           "Failed to execute 'appendChild' on 'Node'",
-          "value.hasOwnProperty is not a function",
-          "anonymous",
-          "native code"
+          "An attempt was made to reference a Node in a context where it does not exist.", // almost Chrome Mobile 30.0.0
+          "native code",
+          "Geetest"
         ]
       })
         .addPlugin(RavenVue, Vue)
