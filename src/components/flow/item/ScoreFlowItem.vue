@@ -284,17 +284,21 @@
         />
       </div>
       <div class="footer">
-        <span>
-          喜欢
-          {{ item.like_count }}
+        <span v-if="item.is_creator">
+          投食
+          {{ $utils.shortenNumber(item.reward_count) }}
         </span>
-        <span>
-          评论
-          {{ item.comment_count }}
+        <span v-else>
+          喜欢
+          {{ $utils.shortenNumber(item.like_count) }}
         </span>
         <span>
           收藏
-          0
+          {{ $utils.shortenNumber(item.mark_count) }}
+        </span>
+        <span>
+          评论
+          {{ $utils.shortenNumber(item.comment_count) }}
         </span>
       </div>
     </div>
