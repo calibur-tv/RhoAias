@@ -313,6 +313,9 @@ export default {
     },
     selectedBirthLabel() {
       const date = this.birthday;
+      if (/1970 08:00:00 GMT\+0800/.test(date)) {
+        return "未设置";
+      }
       return `${date.getFullYear()}年${date.getMonth() +
         1}月${date.getDate()}日`;
     }
