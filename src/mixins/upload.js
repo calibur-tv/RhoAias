@@ -4,8 +4,7 @@ export default {
   data() {
     return {
       uploadHeaders: {
-        token: "",
-        key: ""
+        token: ""
       },
       uploadConfig: {
         max: 5,
@@ -45,7 +44,7 @@ export default {
       console.log(err);
       this.uploadPending--;
       this.uploadImageList.forEach((item, index) => {
-        if (item.id === file.uid) {
+        if (item.uid === file.uid) {
           this.uploadImageList.splice(index, 1);
         }
       });
@@ -53,7 +52,7 @@ export default {
     },
     handleImageUploadRemove(file) {
       this.uploadImageList.forEach((item, index) => {
-        if (item.id === file.uid) {
+        if (item.uid === file.uid) {
           this.uploadImageList.splice(index, 1);
         }
       });
@@ -93,10 +92,10 @@ export default {
         return false;
       }
 
-      this.uploadHeaders.key = `user/${this.currentUserId}${this.uploadConfig
-        .pathPrefix || this.currentPath}/${new Date().getTime()}-${Math.random()
-        .toString(36)
-        .substring(3, 6)}.${file.type.split("/").pop()}`;
+      // this.uploadHeaders.key = `user/${this.currentUserId}${this.uploadConfig
+      //   .pathPrefix || this.currentPath}/${new Date().getTime()}-${Math.random()
+      //   .toString(36)
+      //   .substring(3, 6)}.${file.type.split("/").pop()}`;
 
       this.uploadImageList.push({
         name: file.name,

@@ -2,7 +2,7 @@ import BaseApi from "./_baseApi";
 
 export default class extends BaseApi {
   getLoginUser() {
-    return this.http.post("door/user");
+    return this.http.post("door/refresh");
   }
 
   sendMessage({ phone_number, type, geetest }) {

@@ -24,6 +24,14 @@
     font-size: 13px;
     color: $color-text-normal;
   }
+
+  .watch-pwd {
+    position: absolute;
+    right: 36px;
+    top: 11px;
+    font-size: 18px;
+    color: $color-gray-deep;
+  }
 }
 </style>
 
@@ -54,10 +62,16 @@
       <el-form-item prop="secret">
         <el-input
           v-model="form.secret"
-          type="password"
+          :type="watchPwd ? 'text' : 'password'"
           placeholder="密码（6-16个字符组成，区分大小写）"
           auto-complete="off"
         />
+        <button
+          v-if="form.secret.length > 5"
+          class="watch-pwd"
+          type="button"
+          @click="watchPwd = !watchPwd"
+        ><i class="iconfont icon-yuedu"/></button>
       </el-form-item>
       <el-form-item v-if="!inviteCode">
         <el-input
@@ -147,6 +161,7 @@ export default {
       callback();
     };
     return {
+      watchPwd: false,
       form: {
         access: "",
         secret: "",

@@ -134,10 +134,19 @@
           class="nickname oneline"
           v-text="user.nickname"/>
       </div>
-      <p class="signature">
-        <strong>签名：</strong>
-        {{ user.signature || '这个人还很神秘...' }}
-      </p>
+      <div class="signature">
+        <p
+          v-if="isMe"
+          style="margin-bottom: 10px"
+        >
+          <strong>金币可提现额度（排除签到所得的金币）:</strong>
+          {{ user.coin - user.coin_from_sign }}
+        </p>
+        <p>
+          <strong>签名：</strong>
+          {{ user.signature || '这个人还很神秘...' }}
+        </p>
+      </div>
       <div
         v-if="user.faker"
         class="faker-tips">
