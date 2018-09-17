@@ -175,6 +175,7 @@
           controls="controls"
           controlsList="nodownload"
         />
+        <!--
         <button
           v-if="!playing"
           class="play-btn iconfont icon-bofang"
@@ -183,6 +184,7 @@
         <div
           v-if="loading"
           class="video-loading iconfont icon-jiazailoading-A"/>
+        -->
       </template>
     </div>
     <div class="container">
@@ -432,7 +434,7 @@ export default {
       return;
     }
     this.player = this.$refs.video;
-    this.player.controls = /ipad/i.test(navigator.userAgent);
+    // this.player.controls = /ipad/i.test(navigator.userAgent);
     try {
       this.player.load();
     } catch (e) {
@@ -441,6 +443,15 @@ export default {
     }
     this.player.addEventListener("pause", () => {
       this.playing = false;
+    });
+
+    this.player.addEventListener("waiting", () => {
+      this.loading = true;
+    });
+
+    this.player.addEventListener("playing", () => {
+      this.playing = true;
+      this.handlePlaying();
     });
 
     this.player.addEventListener("timeupdate", () => {
