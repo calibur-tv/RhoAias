@@ -1,7 +1,7 @@
 <style lang="scss">
 #create-question-form {
   .el-form-item {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 
     input {
       border-top: none;
@@ -40,7 +40,7 @@
         </el-form-item>
         <el-form-item
           label="番剧"
-          prop="tags"
+          prop="bangumiId"
         >
           <bangumi-picker
             v-if="show"
@@ -98,6 +98,12 @@ export default {
       }
       callback();
     };
+    const validateContent = (rule, value, callback) => {
+      if (!value) {
+        callback(new Error("问题不能为空"));
+      }
+      callback();
+    };
     return {
       form: {
         title: "",
@@ -106,7 +112,8 @@ export default {
       },
       rules: {
         title: [{ validator: validateTitle, trigger: "change" }],
-        bangumiId: [{ validator: validateBangumi, trigger: "submit" }]
+        bangumiId: [{ validator: validateBangumi, trigger: "submit" }],
+        content: [{ validator: validateContent, trigger: "submit" }]
       },
       exceed: 7,
       submitting: false,

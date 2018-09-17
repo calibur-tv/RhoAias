@@ -65,7 +65,11 @@ export default {
         return;
       }
       if (!this.forms.content) {
-        this.$emit("close");
+        if (!images.length) {
+          this.$toast.error("内容不能为空");
+        } else {
+          this.$emit("close");
+        }
         return;
       }
       if (this.submitting) {
