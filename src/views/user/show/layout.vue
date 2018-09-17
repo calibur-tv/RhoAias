@@ -140,7 +140,7 @@
           style="margin-bottom: 10px"
         >
           <strong>金币可提现额度（排除签到所得的金币）:</strong>
-          {{ user.coin - user.coin_from_sign }}
+          {{ withdrawCoinCount }}
         </p>
         <p>
           <strong>签名：</strong>
@@ -224,6 +224,10 @@ export default {
     },
     coinCount() {
       return this.self ? this.self.coin : 0;
+    },
+    withdrawCoinCount() {
+      const result = this.user.coin - this.user.coin_from_sign;
+      return result < 0 ? 0 : result;
     }
   },
   methods: {
