@@ -148,9 +148,9 @@
               size="35"
             />
           </a>
-          <button 
-            class="tool-btn" 
-            @click="showPostActionSheet = true">···</button>
+          <v-popover :actions="actions">
+            <button class="tool-btn">···</button>
+          </v-popover>
           <div class="summary">
             <a
               :href="$alias.user(master.zone)"
@@ -218,10 +218,6 @@
             </el-button>
           </social-panel>
         </div>
-        <mt-actionsheet
-          :actions="actions"
-          v-model="showPostActionSheet"
-        />
       </div>
       <div class="hr"/>
       <comment-main
@@ -311,8 +307,7 @@ export default {
   data() {
     return {
       loadingToggleLike: false,
-      loadingToggleMark: false,
-      showPostActionSheet: false
+      loadingToggleMark: false
     };
   },
   computed: {
@@ -395,7 +390,9 @@ export default {
           window.location = this.$alias.bangumi(this.bangumi.id);
         })
         .catch(e => {
-          this.$toast.error(e);
+          if (e !== "cancel") {
+            this.$toast.error(e);
+          }
         });
     },
     handleReplyBtnClick() {

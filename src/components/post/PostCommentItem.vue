@@ -94,9 +94,9 @@
     </a>
     <div class="content">
       <div class="header">
-        <button 
-          class="tools-btn" 
-          @click="showControlPanel = true">···</button>
+        <v-popover :actions="actions">
+          <button class="tools-btn">···</button>
+        </v-popover>
         <div class="user">
           <a
             :href="$alias.user(post.from_user_zone)"
@@ -150,10 +150,6 @@
           </button>
         </div>
       </div>
-      <mt-actionsheet
-        :actions="actions"
-        v-model="showControlPanel"
-      />
     </div>
   </div>
 </template>
@@ -183,8 +179,7 @@ export default {
   data() {
     return {
       deleting: false,
-      liking: false,
-      showControlPanel: false
+      liking: false
     };
   },
   computed: {
