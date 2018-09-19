@@ -20,7 +20,7 @@
     "style": "stylelint src/**/*.{vue,scss,css} -- --fix"
   },
   "engines": {
-    "node": ">=8.11.4"
+    "node": ">=8.9.0"
   },
   "dependencies": {
     "axios": "^0.16.1",
