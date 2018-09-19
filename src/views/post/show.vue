@@ -352,15 +352,6 @@ export default {
           name: "删除",
           method: this.deletePost
         });
-      } else {
-        result.push({
-          name: this.post.liked ? "取消喜欢" : "喜欢",
-          method: this.toggleLike
-        });
-        result.push({
-          name: this.post.marked ? "取消收藏" : "收藏",
-          method: this.toggleMark
-        });
       }
       result.push({
         name: this.onlySeeMaster ? "取消只看楼主" : "只看楼主",
