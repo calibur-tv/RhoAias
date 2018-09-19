@@ -94,7 +94,11 @@
     </a>
     <div class="content">
       <div class="header">
-        <v-popover :actions="actions">
+        <v-popover
+          :actions="actions"
+          :report-id="comment.id"
+          :report-type="type + '_comment'"
+        >
           <button class="tools-btn">···</button>
         </v-popover>
         <div class="user">

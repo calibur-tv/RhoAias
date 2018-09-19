@@ -148,7 +148,12 @@
               size="35"
             />
           </a>
-          <v-popover :actions="actions">
+          <v-popover
+            :actions="actions"
+            :report-id="post.id"
+            :is-creator="post.is_creator"
+            report-type="post"
+          >
             <button class="tool-btn">···</button>
           </v-popover>
           <div class="summary">

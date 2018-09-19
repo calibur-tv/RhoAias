@@ -60,7 +60,7 @@
     >
       <ul @click="handleClick">
         <li
-          v-for="(item, index) in actions"
+          v-for="(item, index) in actionList"
           :key="index"
           @click="item.method"
         >
@@ -92,12 +92,46 @@ export default {
     actions: {
       type: Array,
       default: () => []
+    },
+    reportType: {
+      type: String,
+      default: ""
+    },
+    reportId: {
+      type: Number,
+      default: 0
+    },
+    reportText: {
+      type: String,
+      default: "举报"
+    },
+    isCreator: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       show: false
     };
+  },
+  computed: {
+    actionList() {
+      const result = this.actions;
+      if (this.reportId) {
+        result.push({
+          name: this.reportText,
+          method: () =>
+            this.$channel.$emit("open-report-drawer", {
+              id: this.reportId,
+              model: this.reportType,
+              title: this.reportText,
+              isCreator: this.isCreator
+            })
+        });
+      }
+      return result;
+    }
   },
   methods: {
     handleShow() {

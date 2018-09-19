@@ -204,14 +204,24 @@
           <i class="iconfont icon-pinglun1"/>
           {{ qaq.comment_count ? qaq.comment_count + '条评论' : '添加评论' }}
         </button>
-        <button
-          v-if="!collapsed"
-          class="collapse-btn"
-          @click="collapsedQAQ"
-        >
-          <i class="el-icon-arrow-up"/>
-          收起
-        </button>
+        <div v-if="!collapsed">
+          <button
+            class="collapse-btn"
+            @click="collapsedQAQ"
+          >
+            <i class="el-icon-arrow-up"/>
+            收起
+          </button>
+          <v-popover
+            :report-id="qaq.id"
+            report-type="question"
+          >
+            <button class="collapse-btn">
+              <i class="el-icon-phone"/>
+              举报
+            </button>
+          </v-popover>
+        </div>
       </div>
     </div>
     <create-answer-form

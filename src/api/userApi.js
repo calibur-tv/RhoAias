@@ -108,4 +108,13 @@ export default class extends BaseApi {
       params: { page }
     });
   }
+
+  report({ id, type, model, message }) {
+    return this.http.post("report/send", {
+      id,
+      type,
+      model,
+      message
+    });
+  }
 }
