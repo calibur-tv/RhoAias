@@ -64,7 +64,7 @@
           :key="index"
           @click="item.method"
         >
-          <i class="iconfont el-icon-arrow-right"/>
+          <i class="el-icon-arrow-right"/>
           <span
             class="oneline"
             v-text="item.name"
