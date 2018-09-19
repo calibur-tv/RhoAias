@@ -148,9 +148,14 @@
               size="35"
             />
           </a>
-          <button 
-            class="tool-btn" 
-            @click="showPostActionSheet = true">···</button>
+          <v-popover
+            :actions="actions"
+            :report-id="post.id"
+            :is-creator="post.is_creator"
+            report-type="post"
+          >
+            <button class="tool-btn">···</button>
+          </v-popover>
           <div class="summary">
             <a
               :href="$alias.user(master.zone)"
@@ -218,10 +223,6 @@
             </el-button>
           </social-panel>
         </div>
-        <mt-actionsheet
-          :actions="actions"
-          v-model="showPostActionSheet"
-        />
       </div>
       <div class="hr"/>
       <comment-main
@@ -311,8 +312,7 @@ export default {
   data() {
     return {
       loadingToggleLike: false,
-      loadingToggleMark: false,
-      showPostActionSheet: false
+      loadingToggleMark: false
     };
   },
   computed: {
@@ -352,15 +352,6 @@ export default {
           name: "删除",
           method: this.deletePost
         });
-      } else {
-        result.push({
-          name: this.post.liked ? "取消喜欢" : "喜欢",
-          method: this.toggleLike
-        });
-        result.push({
-          name: this.post.marked ? "取消收藏" : "收藏",
-          method: this.toggleMark
-        });
       }
       result.push({
         name: this.onlySeeMaster ? "取消只看楼主" : "只看楼主",
@@ -395,7 +386,9 @@ export default {
           window.location = this.$alias.bangumi(this.bangumi.id);
         })
         .catch(e => {
-          this.$toast.error(e);
+          if (e !== "cancel") {
+            this.$toast.error(e);
+          }
         });
     },
     handleReplyBtnClick() {

@@ -110,21 +110,17 @@
       </div>
     </el-form-item>
     <el-form-item label="性别">
-      <mt-actionsheet
-        v-model="showSexSelection"
-        :actions="sexActions"
-        cancel-text=""
-      />
       <div class="state-wrap">
         <div class="state-label">状态：{{ sexSecret ? '私密' : '公开' }}</div>
         <mt-switch v-model="sexSecret"/>
       </div>
       <div class="select-btn">
-        <button
-          type="button"
-          @click="showSexSelection = true"
-          v-text="selectedSexLabel"
-        />
+        <v-popover :actions="sexActions">
+          <button
+            type="button"
+            v-text="selectedSexLabel"
+          />
+        </v-popover>
       </div>
     </el-form-item>
     <el-form-item
@@ -188,7 +184,6 @@ export default {
       beginTime: new Date(new Date().getFullYear() - 40, 0, 1),
       endTime: new Date(new Date().getFullYear() - 10, 11, 31),
       submitting: false,
-      showSexSelection: false,
       sexMap: ["点击选择", "男", "女", "伪娘", "药娘", "扶她"],
       rule: {
         nickname: [{ validator: validateNickname, trigger: "submit" }],

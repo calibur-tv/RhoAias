@@ -24,6 +24,7 @@
 <template>
   <v-drawer
     v-model="show"
+    :backdrop="false"
     class="feedback-drawer"
     from="bottom"
     size="100%"

@@ -44,12 +44,17 @@ export default class {
           "Can't find variable: ",
           "NS_ERROR_UNKNOWN_PROTOCOL",
           "value.hasOwnProperty is not a function",
-          /is not a function(\w|\W)+/,
+          /is not a function(\w|\W)*/,
           /(ture|mbrowser|local_kingkr_obj|Java object)/,
           "Failed to execute 'appendChild' on 'Node'",
           "An attempt was made to reference a Node in a context where it does not exist.", // almost Chrome Mobile 30.0.0
           "native code",
-          "Geetest"
+          "Geetest",
+          "allowed range",
+          "JSON",
+          "The operation is not supported",
+          "object is not defined",
+          "Argument 1 ('options') to RTCPeerConnection.createOffer must be a dictionary"
         ]
       })
         .addPlugin(RavenVue, Vue)

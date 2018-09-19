@@ -16,6 +16,7 @@
     </no-ssr>
     <feedback-drawer/>
     <share-drawer/>
+    <report-drawer/>
   </div>
 </template>
 
@@ -24,13 +25,15 @@ import vHeader from "~/components/layouts/Header";
 import CreatorMenu from "~/components/common/Creator";
 import FeedbackDrawer from "~/components/drawers/FeedbackDrawer";
 import ShareDrawer from "~/components/drawers/ShareDrawer";
+import ReportDrawer from "~/components/drawers/ReportDrawer";
 
 export default {
   components: {
     vHeader,
     CreatorMenu,
     FeedbackDrawer,
-    ShareDrawer
+    ShareDrawer,
+    ReportDrawer
   }
 };
 </script>

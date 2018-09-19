@@ -76,9 +76,9 @@ export default {
   },
   mounted() {
     this.$channel.$on("image-upload-done", () => {
-      this.$refs.upload.clearFiles();
       this.uploadImageList = [];
       this.uploadImageTotal = 0;
+      this.$refs.upload && this.$refs.upload.clearFiles();
     });
   },
   methods: {

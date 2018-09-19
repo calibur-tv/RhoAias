@@ -171,6 +171,20 @@
           删除
         </el-button>
       </template>
+      <v-popover
+        v-else
+        :report-id="item.id"
+        :is-creator="!item.source_url"
+        report-type="answer"
+      >
+        <el-button
+          type="text"
+          size="medium"
+        >
+          <i class="el-icon-phone"/>
+          举报
+        </el-button>
+      </v-popover>
     </footer>
     <v-drawer
       v-model="showCommentModal"

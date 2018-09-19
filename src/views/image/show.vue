@@ -9,14 +9,21 @@
       margin-bottom: 15px;
     }
 
-    .author {
+    .user {
       font-size: 13px;
 
-      .avatar {
-        vertical-align: middle;
-        display: inline-block;
-        border: 1px solid $color-gray-normal;
-        @extend %avatar;
+      .author {
+        .avatar {
+          vertical-align: middle;
+          display: inline-block;
+          border: 1px solid $color-gray-normal;
+          @extend %avatar;
+        }
+      }
+
+      .tool-btn {
+        float: right;
+        line-height: 30px;
       }
     }
   }
@@ -140,22 +147,31 @@
     <div class="container">
       <div class="album-header">
         <h1 class="title oneline">
-          {{ info.is_creator ? '[原创]' : '[转载]' }}
+          [{{ info.is_creator ? '原创' : '转载' }}]
           [{{ info.is_cartoon ? '漫画' : '相册' }}]
           {{ info.name }}
         </h1>
-        <a 
-          :href="$alias.user(user.zone)" 
-          class="author">
-          <v-img
-            :src="user.avatar"
-            size="30"
-            class="avatar"
-          />
-          {{ user.nickname }}
+        <div class="user">
+          <a
+            :href="$alias.user(user.zone)"
+            class="author">
+            <v-img
+              :src="user.avatar"
+              size="30"
+              class="avatar"
+            />
+            {{ user.nickname }}
+          </a>
           ·
           <v-time v-model="info.created_at"/>
-        </a>
+          <v-popover
+            :report-id="info.id"
+            :is-creator="info.is_creator"
+            report-type="image"
+          >
+            <button class="tool-btn">···</button>
+          </v-popover>
+        </div>
       </div>
     </div>
     <div class="album-body">

@@ -135,11 +135,13 @@
     <template v-if="cartoons.list.length">
       <h3 class="sub-title">
         <span>共 {{ cartoons.total }} 集</span>
-        <button @click="openSortModal = true">{{ sort === 'desc' ? '由大到小' : '由小到大' }}</button>
+        <v-popover :actions="sortActions">
+          <button>
+            <i class="iconfont el-icon-d-caret"/>
+            排序
+          </button>
+        </v-popover>
       </h3>
-      <mt-actionsheet
-        :actions="sortActions"
-        v-model="openSortModal"/>
       <ul class="cartoon-list clearfix">
         <li
           v-for="item in cartoons.list"
@@ -218,8 +220,7 @@ export default {
   name: "VBangumiCartoonFlow",
   data() {
     return {
-      loading: false,
-      openSortModal: false
+      loading: false
     };
   },
   computed: {

@@ -13,24 +13,10 @@ import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
 import ImageLazyLoad from "~/components/common/ImageLazyLoad";
 import ImageUploader from "~/components/common/ImageUploader";
 import resizeImage from "~/assets/js/resizeImage";
+import VPopover from "~/components/common/Popover";
+import { Swipe, SwipeItem, Picker, Switch, Badge } from "mint-ui";
+import { Upload, Form, FormItem, Input, Button, Rate } from "element-ui";
 
-import { Swipe, SwipeItem, Picker, Switch, Actionsheet, Badge } from "mint-ui";
-
-import {
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
-  Upload,
-  Form,
-  FormItem,
-  Input,
-  Button,
-  Rate
-} from "element-ui";
-
-Vue.use(Dropdown);
-Vue.use(DropdownMenu);
-Vue.use(DropdownItem);
 Vue.use(Upload);
 Vue.use(Form);
 Vue.use(FormItem);
@@ -38,6 +24,7 @@ Vue.use(Input);
 Vue.use(Button);
 Vue.use(Rate);
 Vue.use(ImageLazyLoad, {});
+Vue.component(VPopover.name, VPopover);
 Vue.component(ImageUploader.name, ImageUploader);
 Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.component(Field.name, Field);
@@ -51,7 +38,6 @@ Vue.component(Drawer.name, Drawer);
 Vue.component(Radio.name, Radio);
 Vue.component(BangumiPanel.name, BangumiPanel);
 Vue.component(Switch.name, Switch);
-Vue.component(Actionsheet.name, Actionsheet);
 Vue.component(Badge.name, Badge);
 
 Vue.use({

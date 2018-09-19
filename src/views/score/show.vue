@@ -7,6 +7,7 @@
       font-size: 24px;
       line-height: 32px;
       margin-bottom: 10px;
+      margin-top: 0;
       font-weight: normal;
       @extend %breakWord;
     }
@@ -126,12 +127,17 @@
             />
           </a>
           ·
-          <template v-if="info.published_at === info.updated_at">
+          <template>
             发表于：<v-time v-model="info.published_at"/>
           </template>
-          <template v-else>
-            编辑于：<v-time v-model="info.updated_at"/>
-          </template>
+          ·
+          <v-popover
+            :report-id="info.id"
+            :is-creator="info.is_creator"
+            report-type="score"
+          >
+            <button class="tool-btn">举报</button>
+          </v-popover>
         </div>
       </div>
       <div class="star-row">
