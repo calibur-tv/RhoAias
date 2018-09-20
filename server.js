@@ -100,8 +100,10 @@ router.get("*", async ctx => {
   try {
     ctx.body = await renderer.renderToString(context);
   } catch (e) {
+    console.log(`我走到错误里面了`);
     const code = e.code || 500;
     ctx.status = code;
+    console.log(code);
     console.error(e);
     ctx.body = cacheHTML(code);
   }
