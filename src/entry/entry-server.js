@@ -12,17 +12,38 @@ export default ssrContext => {
         // eslint-disable-next-line prefer-promise-reject-errors
         reject({ code: 404 });
       }
+      const ctx = ssrContext.ctx;
+      const routerMatched = router.currentRoute.matched;
+      const useAuth = routerMatched.some(record => record.meta.useAuth);
+      const mustAuth = routerMatched.some(record => record.meta.mustAuth);
+      const mustAdmin = routerMatched.some(record => record.meta.mustAdmin);
+      console.log(mustAdmin);
       try {
+        if (mustAuth || mustAdmin) {
+          await store.dispatch(`init`, {
+            ctx,
+            must: true,
+            admin: mustAdmin
+          });
+        }
         const matched = matchedComponents.map(
           ({ asyncData }) =>
             asyncData &&
             asyncData({
-              ctx: ssrContext.ctx,
+              ctx,
               store,
               route: router.currentRoute
             })
         );
-        matched.unshift(store.dispatch("init", ssrContext.ctx));
+        if (useAuth) {
+          matched.unshift(
+            store.dispatch(`init`, {
+              ctx,
+              must: false,
+              admin: false
+            })
+          );
+        }
         await Promise.all(matched);
       } catch (e) {
         reject(e);

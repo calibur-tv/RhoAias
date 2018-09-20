@@ -4,7 +4,7 @@
   "author": "calibur.tv",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development API_HOST=https://api.calibur.tv/ node server",
+    "dev": "yarn cross-env NODE_ENV=development API_HOST=https://api.calibur.tv/ node server",
     "analyzer": "cross-env NODE_ENV=staging webpack --config build/webpack.analyzer.config.js --progress --hide-modules",
     "remove": "rimraf dist",
     "staging": "npm run remove && npm run staging:client && npm run staging:server",
@@ -51,7 +51,7 @@
     "vue": "2.5.9",
     "vue-croppa": "^1.3.6",
     "vue-datetime": "^1.0.0-beta.3",
-    "vue-meta": "^1.3.1",
+    "vue-meta": "^1.5.3",
     "vue-router": "^3.0.1",
     "vue-server-renderer": "2.5.9",
     "vue-template-compiler": "2.5.9",
