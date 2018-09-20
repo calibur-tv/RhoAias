@@ -284,7 +284,8 @@ export default {
     openFeedbackForCartoon() {
       this.$channel.$emit("open-feedback", {
         type: 7,
-        desc: `我想看《${this.info.name}》的漫画第 ? 话`
+        desc: `我想看《${this.info.name}》的漫画第 {?} 话`,
+        placeholder: "请填写你要看的集数"
       });
     }
   }

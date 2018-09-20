@@ -35,7 +35,7 @@
         <p>详细信息</p>
         <textarea 
           v-model.trim="content" 
-          placeholder="请填写详细信息"/>
+          :placeholder="placeholder"/>
       </div>
       <v-radio
         v-model="selectedType"
@@ -83,13 +83,16 @@ export default {
         }
       ],
       selectedType: 1,
-      content: ""
+      content: "",
+      preContent: ""
     };
   },
   mounted() {
-    this.$channel.$on("open-feedback", ({ type, desc } = {}) => {
+    this.$channel.$on("open-feedback", ({ type, desc, placeholder } = {}) => {
       this.selectedType = type || 1;
-      this.content = desc || "";
+      this.preContent = desc || "{?}";
+      this.placeholder =
+        placeholder || "非常感谢您的反馈，请填写详细信息方便我们解决";
       this.show = true;
     });
   },
@@ -102,10 +105,11 @@ export default {
       const api = new UserApi(this);
       await api.feedback({
         type: this.selectedType,
-        desc: this.content,
-        ua: navigator.userAgent + navigator.appVersion + navigator.vendor
+        desc: this.preContent.replace("{?}", this.content),
+        ua: navigator.userAgent
       });
       this.$toast.success("反馈成功，感谢您的反馈！");
+      this.content = "";
       this.show = false;
     }
   }
