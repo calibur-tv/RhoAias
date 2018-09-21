@@ -83,6 +83,7 @@ export default {
         }
       ],
       selectedType: 1,
+      placeholder: "",
       content: "",
       preContent: ""
     };
