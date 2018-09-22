@@ -2,6 +2,20 @@
 #bangumi-tags {
   .sub-title {
     margin-top: 10px;
+
+    .tag-change {
+      float: right;
+      color: $color-text-light;
+      font-size: 13px;
+      line-height: 16px;
+
+      i {
+        display: inline-block;
+        line-height: 1;
+        transition: 0.5s ease;
+        margin-right: 3px;
+      }
+    }
   }
 
   #tags {
@@ -85,7 +99,18 @@
     </div>
     <div class="container">
       <div id="tags">
-        <h3 class="sub-title">标签列表</h3>
+        <h3 class="sub-title">
+          标签列表
+          <span
+            class="tag-change"
+            @click="choiceTags"
+          >
+            <i
+              :style="{ transform: `rotate(${counter * 360}deg)` }"
+              class="el-icon-refresh"
+            />换一换
+          </span>
+        </h3>
         <ul>
           <li
             v-for="(tag, index) in tags"
@@ -166,7 +191,8 @@ export default {
   },
   data() {
     return {
-      loading: false
+      loading: false,
+      counter: 0
     };
   },
   computed: {
@@ -174,7 +200,9 @@ export default {
       return this.$route.query.id;
     },
     tags() {
-      return this.$store.state.bangumi.tags;
+      const begin = this.counter * 8;
+      const end = begin + 8;
+      return this.$store.state.bangumi.tags.slice(begin, end);
     },
     resource() {
       return this.$store.state.bangumi.category;
@@ -190,6 +218,13 @@ export default {
     }
   },
   methods: {
+    choiceTags() {
+      if ((this.counter + 1) * 8 >= this.$store.state.bangumi.tags.length) {
+        this.counter = 0;
+      } else {
+        this.counter++;
+      }
+    },
     refresh() {
       const selected = [];
       this.tags.forEach(tag => {
