@@ -113,9 +113,9 @@
         </h3>
         <ul>
           <li
-            v-for="(tag, index) in tags"
+            v-for="tag in tags"
             :key="tag.id"
-            @click="$store.commit('bangumi/selectTag', index)"
+            @click="$store.commit('bangumi/selectTag', tag.id)"
           >
             <a
               :href="$alias.bangumiTag(tag.id)"
@@ -227,7 +227,7 @@ export default {
     },
     refresh() {
       const selected = [];
-      this.tags.forEach(tag => {
+      this.$store.state.bangumi.tags.forEach(tag => {
         if (tag.selected) {
           selected.push(tag.id);
         }
