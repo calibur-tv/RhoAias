@@ -14,7 +14,7 @@ module.exports = (compiler, opts) => {
         ctx.body = content
       },
       setHeader: (name, value) => {
-        ctx.headers[name] = value
+        ctx.set(name, value);
       }
     }, nextFn)
     if (nextFlag) {
