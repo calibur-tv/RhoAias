@@ -296,6 +296,14 @@ export default {
     item: {
       required: true,
       type: Object
+    },
+    bangumiId: {
+      required: true,
+      type: Number
+    },
+    userZone: {
+      required: true,
+      type: String
     }
   },
   methods: {
