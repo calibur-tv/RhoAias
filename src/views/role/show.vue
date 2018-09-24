@@ -74,6 +74,12 @@
     }
   }
 
+  .fans-sort-btn {
+    float: right;
+    font-size: 13px;
+    line-height: 40px;
+  }
+
   .tab-card {
     .role-fans {
       padding-top: $container-padding;
@@ -96,7 +102,7 @@
         @extend %avatar;
       }
 
-      time {
+      .score {
         float: right;
         margin-top: 9px;
         font-size: 12px;
@@ -193,6 +199,16 @@
       <button 
         :class="{ 'active': sort === 'fans' }" 
         @click="switchTab('fans')">应援团</button>
+      <v-popover
+        v-if="sort === 'fans'"
+        :actions="fansSortActions"
+        class-name="fans-sort-btn"
+      >
+        <span>
+          <i class="iconfont el-icon-d-caret"/>
+          排序
+        </span>
+      </v-popover>
     </div>
     <div class="tab-card">
       <template v-if="sort === 'fans'">
@@ -208,7 +224,15 @@
                 class="avatar"
               />
               {{ item.nickname }}
-              <v-time v-model="item.score"/>
+              <v-time
+                v-if="fetchFansSort === 'new'"
+                v-model="item.score"
+                class="score"
+              />
+              <span
+                v-else
+                class="score"
+              >{{ item.score }}个金币</span>
             </a>
           </li>
         </ul>
@@ -259,7 +283,23 @@ export default {
       loadingRoleFans: false,
       loadingRoleImage: false,
       roleImageLoaded: false,
-      roleFansLoaded: false
+      fetchFansSort: "new",
+      fansSortActions: [
+        {
+          name: "最多应援",
+          method: () => {
+            this.fetchFansSort = "hot";
+            this.fetchRoleFans(true);
+          }
+        },
+        {
+          name: "最新应援",
+          method: () => {
+            this.fetchFansSort = "new";
+            this.fetchRoleFans(true);
+          }
+        }
+      ]
     };
   },
   computed: {
@@ -279,7 +319,7 @@ export default {
       return this.info.images;
     },
     fans() {
-      return this.$store.state.cartoonRole.fans.new;
+      return this.$store.state.cartoonRole.fans[this.fetchFansSort];
     },
     computeRoleAlias() {
       return this.role.alias.split(",");
@@ -320,7 +360,7 @@ export default {
       }
     },
     async fetchRoleFans(init = false) {
-      if (init && this.roleFansLoaded) {
+      if (init && this.fans.length) {
         return;
       }
       if (this.loadingRoleFans) {
@@ -332,9 +372,8 @@ export default {
           ctx: this,
           bangumiId: this.bangumi.id,
           roleId: this.id,
-          sort: "new"
+          sort: this.fetchFansSort
         });
-        this.roleFansLoaded = true;
       } catch (e) {
         this.$toast.error(e);
       } finally {

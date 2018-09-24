@@ -49,7 +49,7 @@
 </style>
 
 <template>
-  <span>
+  <span :class="className">
     <el-popover
       v-model="show"
       :width="width"
@@ -108,6 +108,10 @@ export default {
     isCreator: {
       type: Boolean,
       default: false
+    },
+    className: {
+      type: String,
+      default: ""
     }
   },
   data() {
