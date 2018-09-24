@@ -73,6 +73,7 @@ $header-hgt: 48px;
         vertical-align: middle;
         height: 100%;
         margin-right: 12px;
+        float: right;
 
         i {
           font-size: 24px;
@@ -138,15 +139,7 @@ $header-hgt: 48px;
         >偶像</router-link>
       </div>
       <div class="nav-right">
-        <template v-if="!homePage">
-          <button 
-            class="open-search-btn" 
-            @click="openSearchDrawer = true">
-            <i class="iconfont icon-sousuo"/>
-          </button>
-          <search-drawer v-model="openSearchDrawer"/>
-        </template>
-        <div 
+        <div
           v-if="currentUser" 
           class="nav-avatar">
           <button 
@@ -165,6 +158,14 @@ $header-hgt: 48px;
           v-else 
           class="sign-btn" 
           @click="openSignDrawer">登录</button>
+        <template v-if="!homePage">
+          <button
+            class="open-search-btn"
+            @click="openSearchDrawer = true">
+            <i class="iconfont icon-sousuo"/>
+          </button>
+          <search-drawer v-model="openSearchDrawer"/>
+        </template>
       </div>
     </div>
   </header>

@@ -10,12 +10,17 @@
   }
 
   .others {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    @extend %clearfix;
+
+    .fl {
+      float: left;
+    }
+
+    .fr {
+      float: right;
+    }
   }
 
   .tip {
@@ -98,9 +103,16 @@
     </el-form>
     <div
       v-if="!inviteCode"
-      class="others">
-      <a @click="showOAuth">社交账号注册</a>
-      <a @click="showLogin">已有账号»</a>
+      class="others"
+    >
+      <a
+        class="fl"
+        @click="showOAuth"
+      >社交账号注册</a>
+      <a
+        class="fr"
+        @click="showLogin"
+      >已有账号»</a>
     </div>
     <div class="tip">
       提示：由于注册时要根据初始昵称为每个用户分配独立域名，因此注册时的昵称不支持日文和特殊符号和标点符号，可在注册完成后在个人设置页面修改昵称

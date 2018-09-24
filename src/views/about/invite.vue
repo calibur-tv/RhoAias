@@ -1,29 +1,20 @@
 <style lang="scss">
 #invite-user {
-  height: 100vh;
-  background-image: url("https://image.calibur.tv/owner/mobile.jpeg?imageMogr2/auto-orient/strip|imageView2/0/w/800");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-top: -48px;
-  padding-top: 48px;
-
   .container {
     padding-bottom: $container-padding;
   }
 
   .sub-title {
-    margin-top: 30px;
+    margin-top: 20px;
     margin-bottom: 15px;
-    margin-left: 13px;
   }
 
   .tips {
     background-color: #f4f4f5;
     color: #909399;
     padding: 12px 16px 8px 16px;
-    margin: 0 5px 20px;
     border-radius: 4px;
+    margin-bottom: 20px;
 
     p {
       color: $color-text-normal;
@@ -38,16 +29,7 @@
     }
   }
 
-  .sign-up-form .tip {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-  }
-
   .sign-wrap {
-    background-color: rgba(255, 255, 255, 0.6);
-    padding: 10px 20px 20px;
-    border-radius: 10px;
     margin-top: 20px;
   }
 

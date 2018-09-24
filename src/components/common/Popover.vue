@@ -49,7 +49,7 @@
 </style>
 
 <template>
-  <span>
+  <span :class="className">
     <el-popover
       v-model="show"
       :width="width"
@@ -64,7 +64,7 @@
           :key="index"
           @click="item.method"
         >
-          <i class="iconfont el-icon-arrow-right"/>
+          <i class="el-icon-arrow-right"/>
           <span
             class="oneline"
             v-text="item.name"
@@ -108,6 +108,10 @@ export default {
     isCreator: {
       type: Boolean,
       default: false
+    },
+    className: {
+      type: String,
+      default: ""
     }
   },
   data() {

@@ -507,7 +507,8 @@ export default {
         type: 4,
         desc: `【H5】-《${this.bangumi.name}》第${
           this.part
-        }话 视频有错误，错误详情为：`
+        }话 视频有错误，错误详情为：{?}`,
+        placeholder: "请填写错误详情"
       });
     },
     downloadVideo() {

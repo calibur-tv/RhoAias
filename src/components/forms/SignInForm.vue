@@ -10,11 +10,16 @@
   }
 
   .others {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 15px;
+    @extend %clearfix;
+
+    .fl {
+      float: left;
+    }
+
+    .fr {
+      float: right;
+    }
   }
 
   .watch-pwd {
@@ -68,8 +73,14 @@
       </el-form-item>
     </el-form>
     <div class="others">
-      <a @click="showReset">忘记密码?></a>
-      <a @click="showRegister">点击注册»</a>
+      <a
+        class="fl"
+        @click="showReset"
+      >忘记密码?></a>
+      <a
+        class="fr"
+        @click="showRegister"
+      >点击注册»</a>
     </div>
   </div>
 </template>

@@ -137,7 +137,7 @@
         <span>共 {{ cartoons.total }} 集</span>
         <v-popover :actions="sortActions">
           <button>
-            <i class="iconfont el-icon-d-caret"/>
+            <i class="el-icon-d-caret"/>
             排序
           </button>
         </v-popover>
@@ -284,7 +284,8 @@ export default {
     openFeedbackForCartoon() {
       this.$channel.$emit("open-feedback", {
         type: 7,
-        desc: `我想看《${this.info.name}》的漫画第 ? 话`
+        desc: `我想看《${this.info.name}》的漫画第 {?} 话`,
+        placeholder: "请填写你要看的集数"
       });
     }
   }

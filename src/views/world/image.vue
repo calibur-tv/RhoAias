@@ -90,7 +90,11 @@ export default {
       this.$channel.$emit("open-create-image-drawer");
     },
     openFeedback() {
-      this.$channel.$emit("open-feedback", { type: 3 });
+      this.$channel.$emit("open-feedback", {
+        type: 3,
+        desc: "",
+        placeholder: ""
+      });
     }
   }
 };

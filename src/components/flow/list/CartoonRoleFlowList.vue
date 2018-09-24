@@ -82,7 +82,8 @@ export default {
     openFeedbackForRole() {
       this.$channel.$emit("open-feedback", {
         type: 6,
-        desc: `我想要为《${this.bangumiName}》的 ? 应援`
+        desc: `我想要为《${this.bangumiName}》的 {?} 应援`,
+        placeholder: "请填写你想要的角色"
       });
     }
   }

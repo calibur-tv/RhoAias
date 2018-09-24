@@ -40,10 +40,12 @@ export default {
     scoreFetchId: 0
   }),
   mutations: {
-    selectTag(state, index) {
-      const tag = state.tags[index];
-      tag.selected = !tag.selected;
-      state.tags[index] = tag;
+    selectTag(state, id) {
+      state.tags.forEach((tag, index) => {
+        if (tag.id === id) {
+          state.tags[index].selected = !state.tags[index].selected;
+        }
+      });
     },
     SET_FOLLOW(state, { result }) {
       state.info.followed = result;

@@ -173,7 +173,8 @@ export default {
     openFeedbackForResource() {
       this.$channel.$emit("open-feedback", {
         type: 5,
-        desc: "我想看新番："
+        desc: "我想看新番：{?}",
+        placeholder: "请填写番剧名称"
       });
     }
   }
