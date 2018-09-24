@@ -205,7 +205,7 @@
         class-name="fans-sort-btn"
       >
         <span>
-          <i class="iconfont el-icon-d-caret"/>
+          <i class="el-icon-d-caret"/>
           排序
         </span>
       </v-popover>

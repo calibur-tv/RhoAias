@@ -137,7 +137,7 @@
         <span>共 {{ cartoons.total }} 集</span>
         <v-popover :actions="sortActions">
           <button>
-            <i class="iconfont el-icon-d-caret"/>
+            <i class="el-icon-d-caret"/>
             排序
           </button>
         </v-popover>
