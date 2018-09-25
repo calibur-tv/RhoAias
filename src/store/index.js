@@ -77,7 +77,6 @@ export function createStore() {
         };
         commit("SET_SSR_CTX", ctx);
         if (cookie) {
-          console.log(`我有cookie`);
           let token = "";
           cookie.split("; ").forEach(item => {
             const temp = item.split("=");
@@ -86,7 +85,6 @@ export function createStore() {
             }
           });
           if (token) {
-            console.log(`我有token`);
             const api = new UserApi(ctx);
             try {
               const user = await api.getLoginUser();
@@ -100,14 +98,12 @@ export function createStore() {
               }
             } catch (e) {
               // do nothing
-              console.log(111111);
               return throwError(e.code);
             }
           } else if (must) {
             return throwError();
           }
         } else if (must) {
-          console.log(`我在这里啦`);
           return throwError();
         }
       },
