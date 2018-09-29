@@ -5,34 +5,39 @@
 </style>
 
 <template>
-  <v-drawer
-    v-if="isGuest"
-    v-model="openDrawer"
-    :header-text="showSignUp ? '注册' : showReset ? '找回密码' : '登录'"
-    from="bottom"
-    size="100%"
-    class="sign-drawer"
-  >
-    <div class="container">
-      <div v-show="showSignIn">
-        <reset-password-form
-          v-show="showReset"
-          @to-login="showReset = false"
-          @to-register="showRegister"
-        />
-        <sign-in-form
-          v-show="!showReset"
-          @to-reset="showReset = true"
-          @to-register="showRegister"
+  <div>
+    <v-drawer
+      v-if="isGuest"
+      v-model="openDrawer"
+      :header-text="showSignUp ? '注册' : showReset ? '找回密码' : '登录'"
+      from="bottom"
+      size="100%"
+      class="sign-drawer"
+    >
+      <div class="container">
+        <div v-show="showSignIn">
+          <reset-password-form
+            v-show="showReset"
+            @to-login="showReset = false"
+            @to-register="showRegister"
+          />
+          <sign-in-form
+            v-show="!showReset"
+            @to-reset="showReset = true"
+            @to-register="showRegister"
+          />
+        </div>
+        <sign-up-form
+          v-show="showSignUp"
+          @to-login="showLogin"
         />
       </div>
-      <sign-up-form
-        v-show="showSignUp"
-        @to-login="showLogin"
-      />
-    </div>
-  </v-drawer>
-  <user-drawer v-else/>
+    </v-drawer>
+    <template v-else>
+      <user-drawer/>
+      <first-sign-drawer/>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -40,6 +45,7 @@ import SignInForm from "~/components/forms/SignInForm";
 import SignUpForm from "~/components/forms/SignUpForm";
 import ResetPasswordForm from "~/components/forms/ResetPasswordForm";
 import UserDrawer from "~/components/layouts/UserDrawer";
+import FirstSignDrawer from "~/components/drawers/FirstSignDrawer";
 
 export default {
   name: "SignDrawer",
@@ -47,7 +53,8 @@ export default {
     SignUpForm,
     SignInForm,
     ResetPasswordForm,
-    UserDrawer
+    UserDrawer,
+    FirstSignDrawer
   },
   data() {
     return {
