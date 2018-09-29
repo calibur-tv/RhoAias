@@ -86,7 +86,10 @@ import VueParticles from "~/components/particles/index.vue";
 export default {
   name: "AppDownload",
   async asyncData({ store, ctx }) {
-    const userAgent = ctx.header["user-agent"].toLowerCase();
+    const userAgent =
+      typeof window === "undefined"
+        ? ctx.header["user-agent"].toLowerCase()
+        : window.navigator.userAgent.toLowerCase();
     const iOS = userAgent.match(/iphone|ipad|ipod/) !== null;
     await store.dispatch("app/getDownloadUrl", {
       type: iOS ? 2 : 1
