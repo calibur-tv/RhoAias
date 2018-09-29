@@ -5,7 +5,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   width: 260px;
-  height: 380px;
+  height: 335px;
   background-color: #fff;
   z-index: 100;
   background-image: url("https://image.calibur.tv/owner/first-sign-drawer-bg.jpeg?imageMogr2/auto-orient/strip");
@@ -24,7 +24,6 @@
     letter-spacing: 3px;
     line-height: 24px;
     color: rgb(0, 0, 0);
-    margin-top: 20px;
     margin-bottom: 15px;
   }
 
@@ -49,7 +48,7 @@
       border-radius: 25px;
       text-align: center;
       color: #fff;
-      margin-top: 15px;
+      margin-top: 10px;
       font-weight: bold;
     }
   }
@@ -61,7 +60,10 @@
     v-if="show"
     class="first-sign-drawer"
   >
-    <h3 class="title">欢迎来到「calibur.tv」</h3>
+    <h3 class="title">
+      欢迎来到<br>
+      「calibur.tv」
+    </h3>
     <p class="content">
       使用你的“邀请码”带朋友一起来玩吧！<br>
       每邀请一个朋友加入<br>
