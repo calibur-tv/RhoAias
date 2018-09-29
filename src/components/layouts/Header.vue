@@ -112,7 +112,7 @@ $header-hgt: 48px;
 <template>
   <header id="header">
     <div 
-      :class="{ 'border-header': !homePage }" 
+      :class="{ 'border-header': !noBorderPage }"
       class="header-text">
       <div class="nav-left">
         <router-link to="/">
@@ -137,6 +137,11 @@ $header-hgt: 48px;
           class="link"
           to="/role/trending"
         >偶像</router-link>
+        <router-link
+          :class="{ 'active': appPage }"
+          class="link"
+          to="/app/download"
+        >APP</router-link>
       </div>
       <div class="nav-right">
         <div
@@ -211,6 +216,12 @@ export default {
     },
     rolePage() {
       return /^\/role/.test(this.path);
+    },
+    appPage() {
+      return /^\/app/.test(this.path);
+    },
+    noBorderPage() {
+      return this.homePage || this.appPage;
     }
   },
   methods: {

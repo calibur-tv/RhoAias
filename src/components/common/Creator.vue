@@ -101,7 +101,7 @@
 
 <template>
   <div
-    v-if="pageName !== 'homepage'"
+    v-if="showCreator"
     class="creators-container"
   >
     <div id="creator-menu-wrap">
@@ -168,6 +168,9 @@ export default {
     },
     pageName() {
       return this.$route.name;
+    },
+    showCreator() {
+      return ["homepage", "download-app"].indexOf(this.pageName) === -1;
     }
   },
   mounted() {

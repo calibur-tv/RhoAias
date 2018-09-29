@@ -16,6 +16,7 @@ import score from "./score";
 import flow from "./flow";
 import world from "./flow";
 import question from "./question";
+import app from "./app";
 
 Vue.use(Vuex);
 
@@ -126,7 +127,8 @@ export function createStore() {
       score,
       flow,
       world,
-      question
+      question,
+      app
     }
   });
 }
