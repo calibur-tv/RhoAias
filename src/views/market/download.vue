@@ -9,6 +9,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    width: 200px;
 
     .info {
       img {
@@ -33,7 +34,7 @@
     }
 
     button {
-      width: 175px;
+      width: 200px;
       border-radius: 20px;
       background-color: $color-pink-deep;
       color: #fff;
