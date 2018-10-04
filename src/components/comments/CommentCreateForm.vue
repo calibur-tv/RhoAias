@@ -44,6 +44,10 @@ export default {
     id: {
       required: true,
       type: Number
+    },
+    masterId: {
+      required: true,
+      type: Number
     }
   },
   data() {
@@ -84,7 +88,12 @@ export default {
             ctx: this
           }
         );
-        this.$toast.success("评论成功");
+        if (this.masterId === this.$store.state.user.id) {
+          this.$toast.success("评论成功");
+        } else {
+          this.$toast.success("评论成功，经验+2");
+          this.$store.commit("UPDATE_USER_EXP", 2);
+        }
         this.$emit("submit");
         this.content = "";
         setTimeout(() => {

@@ -95,18 +95,16 @@ export default {
     };
   },
   mounted() {
-    try {
-      if (localStorage.getItem("display-first-sign-dialog") === null) {
-        this.show = true;
-        const id = this.$backdrop.show({
-          click: () => {
-            this.show = false;
-            this.$backdrop.hide(id);
-          }
-        });
-        localStorage.setItem("display-first-sign-dialog", Date.now());
-      }
-    } catch (e) {}
+    if (!this.$cookie.get("display-first-sign-dialog")) {
+      this.show = true;
+      const id = this.$backdrop.show({
+        click: () => {
+          this.show = false;
+          this.$backdrop.hide(id);
+        }
+      });
+      this.$cookie.set("display-first-sign-dialog", 1);
+    }
   }
 };
 </script>

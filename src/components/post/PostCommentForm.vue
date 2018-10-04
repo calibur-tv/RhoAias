@@ -40,6 +40,10 @@ export default {
     id: {
       required: true,
       type: Number
+    },
+    masterId: {
+      required: true,
+      type: Number
     }
   },
   data() {
@@ -91,7 +95,12 @@ export default {
         this.forms = {
           content: ""
         };
-        this.$toast.success("评论成功");
+        if (this.masterId === this.$store.state.user.id) {
+          this.$toast.success("评论成功");
+        } else {
+          this.$toast.success("评论成功，经验+2");
+          this.$store.commit("UPDATE_USER_EXP", 2);
+        }
         setTimeout(() => {
           const dom = document.getElementById(`comment-${newComment.id}`);
           dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);

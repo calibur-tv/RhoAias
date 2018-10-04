@@ -245,6 +245,7 @@
           slot="reply-form"
           slot-scope="{ close }"
           :id="post.id"
+          :master-id="master.id"
           type="post"
           @close="close"
         />
@@ -361,9 +362,6 @@ export default {
       return result;
     }
   },
-  mounted() {
-    this.scrollToReply();
-  },
   methods: {
     handleBangumiFollow(result) {
       this.$store.commit("post/FOLLOW_BANGUMI", {
@@ -393,19 +391,6 @@ export default {
     },
     handleReplyBtnClick() {
       this.$channel.$emit("open-create-comment-drawer");
-    },
-    scrollToReply() {
-      const replyId = this.$route.query["comment-id"];
-      if (!replyId) {
-        return;
-      }
-      const reply = document.getElementById(`comment-${replyId}`);
-      if (!reply) {
-        return;
-      }
-      setTimeout(() => {
-        this.$scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
-      }, 400);
     }
   }
 };
