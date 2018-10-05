@@ -96,14 +96,21 @@ export default {
   },
   mounted() {
     if (!this.$cookie.get("display-first-sign-dialog")) {
-      this.show = true;
-      const id = this.$backdrop.show({
-        click: () => {
-          this.show = false;
-          this.$backdrop.hide(id);
+      try {
+        if (!localStorage.getItem("display-first-sign-dialog")) {
+          this.show = true;
+          const id = this.$backdrop.show({
+            click: () => {
+              this.show = false;
+              this.$backdrop.hide(id);
+            }
+          });
+          this.$cookie.set("display-first-sign-dialog", 1, {
+            expires: 7
+          });
+          localStorage.setItem("display-first-sign-dialog", 1);
         }
-      });
-      this.$cookie.set("display-first-sign-dialog", 1);
+      } catch (e) {}
     }
   }
 };
