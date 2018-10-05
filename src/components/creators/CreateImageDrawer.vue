@@ -326,7 +326,6 @@ export default {
       }
     },
     async createAlbum(poster) {
-      console.log(poster);
       if (!this.album.name) {
         this.$toast.error("请填写相册名字");
         return;
@@ -357,7 +356,8 @@ export default {
         );
         this.albumSlots[0].values.unshift(data);
         this.albumSlots[0].defaultIndex = 0;
-        this.$toast.success("相册创建成功！");
+        this.$toast.success("相册创建成功，经验+3");
+        this.$store.commit("UPDATE_USER_EXP", 3);
         this.image.albumId = data.id;
         this.image.selectedAlbum = true;
         this.isSingleModel = false;
@@ -428,11 +428,11 @@ export default {
                   geetest: data
                 })
               );
-              this.$toast.success("上传成功");
               this.show = false;
-              setTimeout(() => {
+              this.$store.commit("UPDATE_USER_EXP", 3);
+              this.$toast.success("上传成功，经验+3").then(() => {
                 window.location = this.$alias.image(newId);
-              }, 400);
+              });
               this.$channel.$emit("image-upload-done");
             },
             close: () => {

@@ -393,6 +393,7 @@
             v-if="openCreateCommentDrawer"
             :id="id"
             :type="type"
+            :master-id="masterId"
             @close="closeCommentDrawer"
             @submit="submitCommentCallback"
           />
@@ -493,6 +494,7 @@ export default {
     }
   },
   mounted() {
+    this.scrollToReply();
     if (this.auto) {
       this.$channel.$on(`fire-load-comment-${this.type}-${this.id}`, () => {
         this.loadMoreMainComment(true);
@@ -632,6 +634,12 @@ export default {
         });
         this.replyForm.open = false;
         this.replyForm.content = "";
+        if (this.replyForm.targetUserId === this.$store.state.user.id) {
+          this.$toast.success("回复成功");
+        } else {
+          this.$toast.success("回复成功，经验+1");
+          this.$store.commit("UPDATE_USER_EXP", 1);
+        }
       } catch (e) {
         this.$toast.error(e);
       } finally {
@@ -651,6 +659,19 @@ export default {
     },
     deleteCommentCallback() {
       this.$emit("delete-main-comment");
+    },
+    scrollToReply() {
+      const replyId = this.$route.query["comment-id"];
+      if (!replyId) {
+        return;
+      }
+      const reply = document.getElementById(`comment-${replyId}`);
+      if (!reply) {
+        return;
+      }
+      setTimeout(() => {
+        this.$scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
+      }, 400);
     }
   }
 };

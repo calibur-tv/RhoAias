@@ -197,10 +197,12 @@ export default {
             });
             this.title = "";
             this.content = "";
-            this.$toast.success("发布成功！");
             this.$channel.$emit("image-upload-done");
             this.open = false;
-            window.location = this.$alias.post(id);
+            this.$store.commit("UPDATE_USER_EXP", 4);
+            this.$toast.success("发布成功，经验+4").then(() => {
+              window.location = this.$alias.post(id);
+            });
           } catch (err) {
             this.$toast.error(err);
           } finally {

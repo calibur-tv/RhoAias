@@ -212,6 +212,11 @@ export function createRouter() {
             component: () => import("~/views/role/trending")
           },
           {
+            path: "app/download",
+            name: "download-app",
+            component: () => import("~/views/market/download")
+          },
+          {
             path: "role/:id(\\d+)",
             name: "role-show",
             component: () => import("~/views/role/show")

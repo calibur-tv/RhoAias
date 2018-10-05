@@ -37,9 +37,14 @@
       .panel {
         overflow: hidden;
         line-height: 25px;
+        height: 50px;
 
-        button {
-          @include btn-empty(#ffffff);
+        .nickname {
+          margin-top: 2px;
+        }
+
+        .level {
+          font-size: 14px;
         }
       }
     }
@@ -118,13 +123,20 @@
           />
         </a>
         <div class="panel">
-          <div>
+          <div class="nickname">
             <a 
               :href="$alias.user(user.zone)" 
               class="oneline" 
               v-text="user.nickname"/>
           </div>
-          <button @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}</button>
+          <div>
+            <user-sex
+              :sex="user.sex"
+              :secret="user.sexSecret"
+            />
+            ·
+            <span class="level">Lv{{ user.exp.level }}</span>
+          </div>
         </div>
       </div>
       <span class="badge">金币：{{ coinCount }} 个</span>
@@ -181,9 +193,13 @@
 
 <script>
 import UserApi from "~/api/userApi";
+import UserSex from "~/components/user/UserSex";
 
 export default {
   name: "VUserDrawer",
+  components: {
+    UserSex
+  },
   data() {
     return {
       switchUserDrawer: false,
@@ -232,30 +248,6 @@ export default {
       const api = new UserApi(this);
       api.logout();
       window.location.href = "/";
-    },
-    async handleDaySign() {
-      if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      if (this.daySigned || this.signDayLoading) {
-        return;
-      }
-      this.signDayLoading = true;
-
-      try {
-        await this.$store.dispatch("users/daySign", {
-          ctx: this
-        });
-        this.$store.commit("SET_USER_INFO", {
-          daySign: true,
-          coin: this.coinCount + 1
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.signDayLoading = false;
-      }
     }
   }
 };

@@ -147,9 +147,11 @@ export default {
                 });
                 this.images = [];
                 this.$emit("submit");
-                this.$toast.success("提交成功！");
-                window.location = this.$alias.question(id);
                 this.submitting = false;
+                this.$store.commit("UPDATE_USER_EXP", 3);
+                this.$toast.success("签到成功，经验+3").then(() => {
+                  window.location = this.$alias.question(id);
+                });
               } catch (err) {
                 this.$toast.error(err);
                 this.submitting = false;

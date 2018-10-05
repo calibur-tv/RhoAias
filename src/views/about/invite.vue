@@ -70,10 +70,12 @@
           :invite-code="inviteUserId"
         />
       </div>
-      <p 
+      <p
         v-else 
         class="signed">
         你已经是注册用户了 (￣3￣)
+        <br>
+        把这个网址链接发给小伙伴，或者告诉TA你的邀请码就行啦
         <br>
         快来邀请小伙伴一起注册 calibur 吧
         <br>
