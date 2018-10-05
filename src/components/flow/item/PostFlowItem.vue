@@ -220,7 +220,7 @@
       <div class="body">
         <div class="title">
           <div
-            v-if="item.top_at"
+            v-if="item.top_at && bangumiId"
             class="top_badge"
           >置顶</div>
           <div
