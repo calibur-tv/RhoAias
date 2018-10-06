@@ -21,6 +21,15 @@ $banner-height: 140px;
     @include filter-blur();
   }
 
+  .bangumi-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(#000, 0.3);
+  }
+
   .info {
     position: absolute;
     left: 0;
@@ -77,6 +86,7 @@ $banner-height: 140px;
       :style="{ backgroundImage: `url(${$resize(info.banner, { height: 400, mode: 2 })})` }"
       class="img bg"
     />
+    <div class="bangumi-mask"/>
     <div class="info">
       <img 
         :src="$resize(info.avatar, { width: 200 })"
