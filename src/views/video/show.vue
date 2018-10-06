@@ -166,26 +166,21 @@
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看番</p>
         <a @click="$channel.$emit('sign-in', false)">立即登录</a>
       </template>
-      <template v-else-if="video">
-        <video
-          ref="video"
-          :src="videoSrc"
-          :poster="video.poster"
-          preload="none"
-          controls="controls"
-          controlsList="nodownload"
-        />
-        <!--
-        <button
-          v-if="!playing"
-          class="play-btn iconfont icon-bofang"
-          @click="togglePlaying"
-        />
-        <div
-          v-if="loading"
-          class="video-loading iconfont icon-jiazailoading-A"/>
-        -->
+      <template v-else-if="blocked">
+        <p>
+          你已被禁止看视频功能，请加QQ群解禁
+        </p>
+        <a href="/about/hello">查看群号</a>
       </template>
+      <video
+        v-else-if="video"
+        ref="video"
+        :src="videoSrc"
+        :poster="video.poster"
+        preload="none"
+        controls="controls"
+        controlsList="nodownload"
+      />
     </div>
     <div class="container">
       <div id="metas">
@@ -419,6 +414,9 @@ export default {
         return "视频加载失败，建议使用 Safari 打开网页播放！";
       }
       return "视频加载失败，建议使用QQ浏览器播放！";
+    },
+    blocked() {
+      return this.videoPackage.blocked;
     }
   },
   mounted() {
@@ -430,11 +428,11 @@ export default {
     if (this.useOtherSiteSource) {
       return;
     }
-    if (this.isGuest) {
+    if (this.isGuest || this.blocked) {
       return;
     }
     this.player = this.$refs.video;
-    // this.player.controls = /ipad/i.test(navigator.userAgent);
+
     try {
       this.player.load();
     } catch (e) {
