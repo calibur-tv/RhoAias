@@ -175,7 +175,7 @@
         </p>
         <a href="/about/hello">查看群号</a>
       </template>
-      <template v-else-if="video.mustReward && !video.rewarded">
+      <template v-else-if="videoPackage.mustReward && !video.rewarded">
         <p>
           该视频需要投食之后才能播放
           <br>
