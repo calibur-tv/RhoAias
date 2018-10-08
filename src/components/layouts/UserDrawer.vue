@@ -23,6 +23,16 @@
       @include filter-blur();
     }
 
+    .mask {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(#000, 0.3);
+      z-index: -1;
+    }
+
     .user-info {
       margin-bottom: 5px;
 
@@ -112,6 +122,7 @@
       <div 
         :style="computeUserDrawerBg" 
         class="bg"/>
+      <div class="mask"/>
       <div class="user-info">
         <a 
           :href="$alias.user(user.zone)" 

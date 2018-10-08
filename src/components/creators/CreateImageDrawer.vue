@@ -345,7 +345,7 @@ export default {
       this.$toast.loading("创建中");
       const api = new ImageApi(this);
       try {
-        const data = await api.createAlbum(
+        const result = await api.createAlbum(
           Object.assign({}, poster, {
             bangumi_id: this.getSelectedMeta("bangumi", "id"),
             is_cartoon: false,
@@ -354,10 +354,11 @@ export default {
             part: 0
           })
         );
+        const data = result.data;
         this.albumSlots[0].values.unshift(data);
         this.albumSlots[0].defaultIndex = 0;
-        this.$toast.success("相册创建成功，经验+3");
-        this.$store.commit("UPDATE_USER_EXP", 3);
+        this.$toast.success(result.message);
+        this.$store.commit("UPDATE_USER_EXP", result.exp);
         this.image.albumId = data.id;
         this.image.selectedAlbum = true;
         this.isSingleModel = false;
@@ -420,7 +421,7 @@ export default {
         if (this.isSingleModel) {
           this.$captcha({
             success: async ({ data }) => {
-              newId = await api.uploadSingleImage(
+              const result = await api.uploadSingleImage(
                 Object.assign({}, images, {
                   is_creator: this.image.creator,
                   bangumi_id: this.getSelectedMeta("bangumi", "id"),
@@ -428,9 +429,10 @@ export default {
                   geetest: data
                 })
               );
+              newId = result.data;
               this.show = false;
-              this.$store.commit("UPDATE_USER_EXP", 3);
-              this.$toast.success("上传成功，经验+3").then(() => {
+              this.$store.commit("UPDATE_USER_EXP", result.exp);
+              this.$toast.success(result.message).then(() => {
                 window.location = this.$alias.image(newId);
               });
               this.$channel.$emit("image-upload-done");

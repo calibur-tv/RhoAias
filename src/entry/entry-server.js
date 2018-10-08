@@ -17,10 +17,9 @@ export default ssrContext => {
       const useAuth = routerMatched.some(record => record.meta.useAuth);
       const mustAuth = routerMatched.some(record => record.meta.mustAuth);
       const mustAdmin = routerMatched.some(record => record.meta.mustAdmin);
-      console.log(mustAdmin);
       try {
         if (mustAuth || mustAdmin) {
-          await store.dispatch(`init`, {
+          await store.dispatch("initAuth", {
             ctx,
             must: true,
             admin: mustAdmin
@@ -37,7 +36,7 @@ export default ssrContext => {
         );
         if (useAuth) {
           matched.unshift(
-            store.dispatch(`init`, {
+            store.dispatch("initAuth", {
               ctx,
               must: false,
               admin: false

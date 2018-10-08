@@ -260,18 +260,18 @@ export function createRouter() {
             component: () => import("~/views/score/create")
           }
         ]
-      },
-      {
-        path: "/campaign",
-        component: () => import("~/layouts/empty"),
-        meta: { mustAdmin: false },
-        children: [
-          {
-            path: "canvas",
-            component: () => import("~/views/campaign/canvas")
-          }
-        ]
       }
+      // {
+      //   path: "/campaign",
+      //   component: () => import("~/layouts/empty"),
+      //   meta: { useAuth: false },
+      //   children: [
+      //     {
+      //       path: "canvas",
+      //       component: () => import("~/views/campaign/canvas")
+      //     }
+      //   ]
+      // }
     ]
   });
 }

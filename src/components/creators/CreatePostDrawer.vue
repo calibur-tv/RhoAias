@@ -185,7 +185,7 @@ export default {
       this.$captcha({
         success: async ({ data }) => {
           try {
-            const id = await this.$store.dispatch("post/create", {
+            const result = await this.$store.dispatch("post/create", {
               title: this.title,
               bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
               desc: this.content.substring(0, 120),
@@ -199,9 +199,9 @@ export default {
             this.content = "";
             this.$channel.$emit("image-upload-done");
             this.open = false;
-            this.$store.commit("UPDATE_USER_EXP", 4);
-            this.$toast.success("发布成功，经验+4").then(() => {
-              window.location = this.$alias.post(id);
+            this.$store.commit("UPDATE_USER_EXP", result.exp);
+            this.$toast.success(result.message).then(() => {
+              window.location = this.$alias.post(result.data);
             });
           } catch (err) {
             this.$toast.error(err);

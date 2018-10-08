@@ -137,7 +137,7 @@ export default {
             success: async ({ data }) => {
               const api = new Api(this);
               try {
-                const id = await api.createQuestion({
+                const result = await api.createQuestion({
                   title: this.form.title,
                   tags: [this.form.bangumiId],
                   intro: this.form.content.substring(0, 120),
@@ -148,9 +148,9 @@ export default {
                 this.images = [];
                 this.$emit("submit");
                 this.submitting = false;
-                this.$store.commit("UPDATE_USER_EXP", 3);
-                this.$toast.success("签到成功，经验+3").then(() => {
-                  window.location = this.$alias.question(id);
+                this.$store.commit("UPDATE_USER_EXP", result.exp);
+                this.$toast.success(result.message).then(() => {
+                  window.location = this.$alias.question(result.data);
                 });
               } catch (err) {
                 this.$toast.error(err);

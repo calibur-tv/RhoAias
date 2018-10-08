@@ -78,26 +78,19 @@ export default {
       }
       this.$store.commit("comment/SET_SUBMITTING", { result: true });
       try {
-        const newComment = await this.$store.dispatch(
-          "comment/createMainComment",
-          {
-            content: this.content,
-            images: [],
-            type: this.type,
-            id: this.id,
-            ctx: this
-          }
-        );
-        if (this.masterId === this.$store.state.user.id) {
-          this.$toast.success("评论成功");
-        } else {
-          this.$toast.success("评论成功，经验+2");
-          this.$store.commit("UPDATE_USER_EXP", 2);
-        }
+        const result = await this.$store.dispatch("comment/createMainComment", {
+          content: this.content,
+          images: [],
+          type: this.type,
+          id: this.id,
+          ctx: this
+        });
+        this.$toast.success(result.message);
+        this.$store.commit("UPDATE_USER_EXP", result.exp);
         this.$emit("submit");
         this.content = "";
         setTimeout(() => {
-          const dom = document.getElementById(`comment-${newComment.id}`);
+          const dom = document.getElementById(`comment-${result.data.id}`);
           dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
         }, 400);
       } catch (e) {

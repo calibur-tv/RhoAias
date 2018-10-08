@@ -41,12 +41,12 @@ export function createStore() {
         const userAgent = ctx.header["user-agent"].toLowerCase();
         state.ssrContext = ctx;
         state.ua = {
-          ios: userAgent.match(/iphone|ipad|ipod/) !== null,
-          android: userAgent.match(/android/) !== null,
-          wechat: userAgent.match(/micromessenger/) !== null,
-          qq: userAgent.match(/qq\//) !== null,
-          alipay: userAgent.match(/alipayclient/) !== null,
-          weibo: userAgent.match(/weibo/i) !== null,
+          ios: /iphone|ipad|ipod/.test(userAgent),
+          android: /android/.test(userAgent),
+          wechat: /micromessenger/.test(userAgent),
+          qq: /qq\//.test(userAgent),
+          alipay: /alipayclient/.test(userAgent),
+          weibo: /weibo/i.test(userAgent),
           pc: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             userAgent
           )
@@ -95,7 +95,7 @@ export function createStore() {
       }
     },
     actions: {
-      async init({ commit }, { ctx, must, admin }) {
+      async initAuth({ commit }, { ctx, must, admin }) {
         const cookie = ctx.header.cookie;
         const throwError = code => {
           const error = new Error();

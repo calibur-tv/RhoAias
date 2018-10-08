@@ -4,7 +4,7 @@
   "author": "calibur.tv",
   "private": true,
   "scripts": {
-    "dev": "yarn cross-env NODE_ENV=development API_HOST=https://api.calibur.tv/ node server",
+    "dev": "yarn && cross-env NODE_ENV=development API_HOST=http://127.0.0.1:3099/ node server",
     "analyzer": "cross-env NODE_ENV=staging webpack --config build/webpack.analyzer.config.js --progress --hide-modules",
     "remove": "rimraf dist",
     "staging": "npm run remove && npm run staging:client && npm run staging:server",
