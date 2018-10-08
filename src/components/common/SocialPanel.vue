@@ -99,7 +99,7 @@ export default {
       required: true,
       type: String,
       validator: val =>
-        ~["post", "video", "image", "score", "answer"].indexOf(val)
+        ~["post", "video", "image", "score", "answer", "video"].indexOf(val)
     },
     isCreator: {
       required: true,
@@ -203,6 +203,7 @@ export default {
               }
             });
             this.$toast.success("操作成功");
+            this.$emit("reward-callback");
           } catch (e) {
             this.$toast.error(e);
           } finally {

@@ -13,11 +13,11 @@
     }
 
     a {
-      margin-top: 20px;
       display: inline-block;
       border-radius: 5px;
       border: 1px solid #fff;
       padding: 10px 15px;
+      margin: 20px 5px 0;
     }
 
     video {
@@ -153,6 +153,9 @@
 <template>
   <div id="video-show">
     <div class="video">
+      <template v-if="!videoSrc">
+        <p>这个资源消失了_〆(´Д｀ )</p>
+      </template>
       <template v-if="useOtherSiteSource">
         <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
         <a
@@ -166,26 +169,37 @@
         <p>流量压力太大了 (ಥ_ಥ)，需要登录才能看番</p>
         <a @click="$channel.$emit('sign-in', false)">立即登录</a>
       </template>
-      <template v-else-if="video">
-        <video
-          ref="video"
-          :src="videoSrc"
-          :poster="video.poster"
-          preload="none"
-          controls="controls"
-          controlsList="nodownload"
-        />
-        <!--
-        <button
-          v-if="!playing"
-          class="play-btn iconfont icon-bofang"
-          @click="togglePlaying"
-        />
-        <div
-          v-if="loading"
-          class="video-loading iconfont icon-jiazailoading-A"/>
-        -->
+      <template v-else-if="blocked">
+        <p>
+          你已被禁止看视频功能，请加QQ群解禁
+        </p>
+        <a href="/about/hello">查看群号</a>
       </template>
+      <template v-else-if="videoPackage.mustReward && !video.rewarded">
+        <p>
+          该视频需要投食之后才能播放
+          <br>
+          金币可通过签到等方式获得
+        </p>
+        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
+        <a href="/about/hello">&nbsp;&nbsp;什么是金币？</a>
+      </template>
+      <template v-else-if="showLevelThrottle">
+        <p>
+          该视频需要你的等级至少 {{ videoPackage.needMinLevel }} 才能播放
+        </p>
+        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
+        <a href="https://www.calibur.tv/post/2279">&nbsp;&nbsp;如何升级？</a>
+      </template>
+      <video
+        v-else-if="video"
+        ref="video"
+        :src="videoSrc"
+        :poster="video.poster"
+        preload="none"
+        controls="controls"
+        controlsList="nodownload"
+      />
     </div>
     <div class="container">
       <div id="metas">
@@ -237,6 +251,19 @@
           </li>
         </ul>
       </div>
+      <social-panel
+        :id="video.id"
+        :is-creator="video.is_creator"
+        :user-id="video.user_id"
+        :liked="video.liked"
+        :marked="video.marked"
+        :rewarded="video.rewarded"
+        :reward-users="video.reward_users"
+        :like-users="video.like_users"
+        :mark-users="video.mark_users"
+        type="video"
+        @reward-callback="handleRewardAction"
+      />
       <h3 class="sub-title">番剧简介</h3>
       <v-bangumi-panel
         v-if="bangumi"
@@ -270,6 +297,7 @@
 <script>
 import VideoApi from "~/api/videoApi";
 import CommentMain from "~/components/comments/CommentMain";
+import SocialPanel from "~/components/common/SocialPanel";
 
 export default {
   name: "VideoShow",
@@ -330,7 +358,8 @@ export default {
     ]);
   },
   components: {
-    CommentMain
+    CommentMain,
+    SocialPanel
   },
   data() {
     return {
@@ -419,6 +448,15 @@ export default {
         return "视频加载失败，建议使用 Safari 打开网页播放！";
       }
       return "视频加载失败，建议使用QQ浏览器播放！";
+    },
+    blocked() {
+      return this.videoPackage.blocked;
+    },
+    showLevelThrottle() {
+      if (this.$store.state.login) {
+        return this.$store.state.user.exp.level < this.video.needMinLevel;
+      }
+      return true;
     }
   },
   mounted() {
@@ -430,11 +468,11 @@ export default {
     if (this.useOtherSiteSource) {
       return;
     }
-    if (this.isGuest) {
+    if (this.isGuest || this.blocked) {
       return;
     }
     this.player = this.$refs.video;
-    // this.player.controls = /ipad/i.test(navigator.userAgent);
+
     try {
       this.player.load();
     } catch (e) {
@@ -524,6 +562,11 @@ export default {
       this.$alert("该视频资源6小时内有效，请在失效前下载至本地").then(() => {
         window.open(this.videoSrc);
       });
+    },
+    handleRewardAction() {
+      if (this.videoPackage.mustReward) {
+        window.location.reload();
+      }
     }
   }
 };
