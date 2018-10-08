@@ -25,6 +25,7 @@ export function createRouter() {
       {
         path: "/",
         component: () => import("~/layouts/default"),
+        meta: { useAuth: true },
         children: [
           {
             path: "",
@@ -246,6 +247,7 @@ export function createRouter() {
       {
         path: "/review",
         component: () => import("~/layouts/write"),
+        meta: { useAuth: true },
         children: [
           {
             path: "create",
@@ -262,6 +264,7 @@ export function createRouter() {
       {
         path: "/campaign",
         component: () => import("~/layouts/empty"),
+        meta: { mustAdmin: false },
         children: [
           {
             path: "canvas",

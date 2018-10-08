@@ -102,6 +102,7 @@ router.get("*", async ctx => {
   } catch (e) {
     const code = e.code || 500;
     ctx.status = code;
+    console.log(code);
     console.error(e);
     ctx.body = cacheHTML(code);
   }

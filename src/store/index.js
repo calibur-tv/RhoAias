@@ -95,8 +95,13 @@ export function createStore() {
       }
     },
     actions: {
-      async init({ commit }, ctx) {
+      async init({ commit }, { ctx, must, admin }) {
         const cookie = ctx.header.cookie;
+        const throwError = code => {
+          const error = new Error();
+          error.code = code || 401;
+          throw error;
+        };
         commit("SET_SSR_CTX", ctx);
         if (cookie) {
           let token = "";
@@ -111,12 +116,22 @@ export function createStore() {
             try {
               const user = await api.getLoginUser();
               if (user) {
+                if (admin && !user.is_admin) {
+                  return throwError(403);
+                }
                 commit("SET_USER", user);
+              } else if (must) {
+                return throwError();
               }
             } catch (e) {
               // do nothing
+              return throwError(e.code);
             }
+          } else if (must) {
+            return throwError();
           }
+        } else if (must) {
+          return throwError();
         }
       },
       async getUpToken({ state, commit }) {
