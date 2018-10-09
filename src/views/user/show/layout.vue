@@ -230,10 +230,13 @@
               <li>回复评论：+1</li>
             </ul>
             <p>
-              <strong>评论/回复自己的内容，是不会获得经验的~</strong>
+              <strong>评论/回复自己的内容不会获得经验</strong>
             </p>
             <p>
-              <strong>如果内容被删除，会掉经验的哦~</strong>
+              <strong>少于15字的内容，是没有经验的</strong>
+            </p>
+            <p>
+              <strong>如果内容被删除，会掉经验和等级</strong>
             </p>
           </div>
         </template>
@@ -355,7 +358,7 @@ export default {
       this.signDayLoading = true;
 
       try {
-        await this.$store.dispatch("users/daySign", {
+        const result = await this.$store.dispatch("users/daySign", {
           ctx: this
         });
         this.$store.commit("SET_USER_INFO", {
@@ -363,8 +366,8 @@ export default {
           coin: this.coinCount + 1
         });
         this.doSign = true;
-        this.$toast.success("签到成功，经验+2");
-        this.$store.commit("UPDATE_USER_EXP", 2);
+        this.$toast.success(result.message);
+        this.$store.commit("UPDATE_USER_EXP", result.exp);
       } catch (e) {
         this.$toast.error(e);
       } finally {

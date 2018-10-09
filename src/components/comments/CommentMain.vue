@@ -625,7 +625,7 @@ export default {
       }
       this.replyForm.replying = true;
       try {
-        await this.$store.dispatch("comment/createSubComment", {
+        const result = await this.$store.dispatch("comment/createSubComment", {
           ctx: this,
           id: this.replyForm.id,
           type: this.type,
@@ -634,12 +634,8 @@ export default {
         });
         this.replyForm.open = false;
         this.replyForm.content = "";
-        if (this.replyForm.targetUserId === this.$store.state.user.id) {
-          this.$toast.success("回复成功");
-        } else {
-          this.$toast.success("回复成功，经验+1");
-          this.$store.commit("UPDATE_USER_EXP", 1);
-        }
+        this.$toast.success(result.message);
+        this.$store.commit("UPDATE_USER_EXP", result.exp);
       } catch (e) {
         this.$toast.error(e);
       } finally {

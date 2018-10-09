@@ -41,12 +41,12 @@ export function createStore() {
         const userAgent = ctx.header["user-agent"].toLowerCase();
         state.ssrContext = ctx;
         state.ua = {
-          ios: userAgent.match(/iphone|ipad|ipod/) !== null,
-          android: userAgent.match(/android/) !== null,
-          wechat: userAgent.match(/micromessenger/) !== null,
-          qq: userAgent.match(/qq\//) !== null,
-          alipay: userAgent.match(/alipayclient/) !== null,
-          weibo: userAgent.match(/weibo/i) !== null,
+          ios: /iphone|ipad|ipod/.test(userAgent),
+          android: /android/.test(userAgent),
+          wechat: /micromessenger/.test(userAgent),
+          qq: /qq\//.test(userAgent),
+          alipay: /alipayclient/.test(userAgent),
+          weibo: /weibo/i.test(userAgent),
           pc: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             userAgent
           )
@@ -95,8 +95,13 @@ export function createStore() {
       }
     },
     actions: {
-      async init({ commit }, ctx) {
+      async initAuth({ commit }, { ctx, must, admin }) {
         const cookie = ctx.header.cookie;
+        const throwError = code => {
+          const error = new Error();
+          error.code = code || 401;
+          throw error;
+        };
         commit("SET_SSR_CTX", ctx);
         if (cookie) {
           let token = "";
@@ -111,12 +116,22 @@ export function createStore() {
             try {
               const user = await api.getLoginUser();
               if (user) {
+                if (admin && !user.is_admin) {
+                  return throwError(403);
+                }
                 commit("SET_USER", user);
+              } else if (must) {
+                return throwError();
               }
             } catch (e) {
               // do nothing
+              return throwError(e.code);
             }
+          } else if (must) {
+            return throwError();
           }
+        } else if (must) {
+          return throwError();
         }
       },
       async getUpToken({ state, commit }) {

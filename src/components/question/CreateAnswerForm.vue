@@ -187,17 +187,22 @@ export default {
           form.id = this.id;
           await api.updateAnswer(form);
         } else {
-          this.id = await api.createAnswer(form);
+          const result = await api.createAnswer(form);
+          this.id = result.data;
         }
         if (richContent.publish) {
           this.$store.commit("UPDATE_USER_EXP", 4);
           this.$toast
-            .success(this.id ? "发表成功！" : "发表成功，经验+4")
+            .success(
+              typeof result !== "undefined" ? result.message : "发布成功"
+            )
             .then(() => {
               window.location.href = this.$alias.answer(this.id);
             });
         } else {
-          this.$toast.success("编辑成功！");
+          this.$toast.success(
+            typeof result !== "undefined" ? result.message : "保存成功"
+          );
           this.$store.commit("question/EDIT_ANSWER", { id: this.id });
           this.closeEditor();
         }
