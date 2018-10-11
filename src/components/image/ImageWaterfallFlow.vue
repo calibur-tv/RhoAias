@@ -329,7 +329,11 @@ export default {
       return this.computeImageHeight(image) + 106;
     },
     computeImageHeight(image) {
-      return parseInt((image.height / image.width) * this.width, 10);
+      const result = parseInt((image.height / image.width) * this.width, 10);
+      if (result > 240) {
+        return 240;
+      }
+      return result;
     }
   }
 };
