@@ -180,7 +180,11 @@
           </div>
         </div>
         <div class="content">
-          <div class="image-area">
+          <image-preview
+            :images="post.images"
+            :download="false"
+            class="image-area"
+          >
             <div
               v-for="(img, idx) in post.images"
               :key="idx"
@@ -193,7 +197,7 @@
                 :height="img.height"
               />
             </div>
-          </div>
+          </image-preview>
           <div
             class="text-area"
             v-html="post.content"/>
@@ -274,6 +278,7 @@ import CommentMain from "~/components/comments/CommentMain";
 import PostCommentItem from "~/components/post/PostCommentItem";
 import PostCommentForm from "~/components/post/PostCommentForm";
 import SocialPanel from "~/components/common/SocialPanel";
+import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
 
 export default {
   name: "PostShow",
@@ -303,7 +308,8 @@ export default {
     CommentMain,
     PostCommentItem,
     PostCommentForm,
-    SocialPanel
+    SocialPanel,
+    ImagePreview
   },
   head() {
     return {
