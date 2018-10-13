@@ -16,7 +16,11 @@ export default ctx => {
     window.__JWT_TOKEN__ = token;
     return token;
   }
-  ctx.header.cookie.split("; ").forEach(item => {
+  const cookies = ctx.header.cookie;
+  if (!cookies) {
+    return "";
+  }
+  cookies.split("; ").forEach(item => {
     const temp = item.split("=");
     if (temp[0] === "JWT-TOKEN") {
       token = temp[1];
