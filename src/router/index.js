@@ -275,6 +275,11 @@ export function createRouter() {
             name: "app-invite",
             meta: { useAuth: true },
             component: () => import("~/views/app/invite")
+          },
+          {
+            path: "report",
+            name: "app-report",
+            component: () => import("~/views/app/report")
           }
         ]
       }

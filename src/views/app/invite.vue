@@ -219,7 +219,9 @@ export default {
         .then(canvas => {
           this.result = canvas.toDataURL("image/png");
           this.created = true;
-          this.$toast.success("长按图片保存");
+          if (this.$store.state.ua.ios) {
+            this.$toast.success("长按图片保存");
+          }
         })
         .catch(() => {});
     }
