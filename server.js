@@ -10,9 +10,14 @@ const resolve = file => path.resolve(__dirname, file);
 const Koa = require("koa");
 const LRU = require("lru-cache");
 const Route = require("koa-router");
+const Sentry = require("@sentry/node");
 
 const app = new Koa();
 const router = new Route();
+Sentry.init({
+  dsn: "https://7cb38ebf76534f1ca3936edfc7adad65@sentry.io/1300424"
+});
+
 const microCache = LRU({
   max: 100,
   maxAge: isDev ? 0 : 1000 * 60 * 15
@@ -103,6 +108,7 @@ router.get("*", async ctx => {
     const code = e.code || 500;
     ctx.status = code;
     console.error(e);
+    isProd && Sentry.captureException(err);
     ctx.body = cacheHTML(code);
   }
 });
