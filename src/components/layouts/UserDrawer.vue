@@ -41,7 +41,6 @@
         display: block;
         float: left;
         margin-right: 10px;
-        @extend %avatar;
       }
 
       .panel {
@@ -130,6 +129,7 @@
           <v-img
             :src="user.avatar"
             :lazy="false"
+            :avatar="true"
             size="50"
           />
         </a>

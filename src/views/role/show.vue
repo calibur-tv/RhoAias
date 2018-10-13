@@ -26,7 +26,6 @@
         .image {
           vertical-align: middle;
           display: inline-block;
-          @extend %avatar;
         }
       }
 
@@ -99,7 +98,6 @@
         display: inline-block;
         vertical-align: middle;
         margin-right: 3px;
-        @extend %avatar;
       }
 
       .score {
@@ -144,6 +142,7 @@
                     守护者：
                     <v-img
                       :src="role.lover.avatar"
+                      :avatar="true"
                       size="26"
                       class="image"
                     />
@@ -220,6 +219,7 @@
             <a :href="$alias.user(item.zone)">
               <v-img
                 :src="item.avatar"
+                :avatar="true"
                 size="30"
                 class="avatar"
               />

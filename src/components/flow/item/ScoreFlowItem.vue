@@ -20,7 +20,6 @@
     .user-avatar {
       margin-right: 5px;
       float: left;
-      @extend %avatar;
     }
 
     .header-content {
@@ -32,7 +31,7 @@
         .bangumi-name {
           overflow: hidden;
           display: block;
-          line-height: 23px;
+          line-height: 20px;
           font-size: 12px;
           vertical-align: middle;
           color: #333;
@@ -43,9 +42,11 @@
         color: #999;
         font-size: 11px;
         line-height: 11px;
+        margin-top: -3px;
 
         a {
           color: #999;
+          font-size: 11px;
         }
       }
     }
@@ -59,7 +60,6 @@
       .user-avatar {
         margin-right: 5px;
         float: left;
-        @extend %avatar;
       }
 
       .nickname {
@@ -176,6 +176,7 @@
         >
           <v-img
             :src="item.user.avatar"
+            :avatar="true"
             size="35"
           />
         </a>
@@ -232,6 +233,7 @@
           <div class="user-avatar">
             <v-img
               :src="item.user.avatar"
+              :avatar="true"
               size="35"
             />
           </div>

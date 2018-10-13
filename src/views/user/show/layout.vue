@@ -28,7 +28,6 @@
       position: absolute;
       left: $container-padding;
       top: -40px;
-      @extend %avatar;
     }
 
     .info {
@@ -171,6 +170,7 @@
     <div class="user-panel container">
       <v-img
         :src="user.avatar"
+        :avatar="true"
         size="80"
         class="avatar"
       />

@@ -24,7 +24,6 @@
         .avatar {
           float: left;
           margin-right: 9px;
-          @extend %avatar;
         }
 
         .summary {
@@ -97,7 +96,6 @@
             float: left;
             display: block;
             margin-right: 9px;
-            @extend %avatar;
           }
 
           .summary {
@@ -225,6 +223,7 @@
         <more-btn
           :no-more="noMore"
           :loading="loadingMainComment"
+          :auto="true"
           @fetch="loadMoreMainComment(false)"
         />
       </div>
@@ -251,6 +250,7 @@
                 class="avatar">
                 <v-img
                   :src="focusComment.from_user_avatar"
+                  :avatar="true"
                   size="35"
                 />
               </a>
@@ -314,6 +314,7 @@
                 >
                   <v-img
                     :src="item.from_user_avatar"
+                    :avatar="true"
                     size="35"
                   />
                 </a>

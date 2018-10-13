@@ -17,7 +17,6 @@
       margin-right: 10px;
       width: 38px;
       height: 38px;
-      @extend %avatar;
     }
 
     .info {
@@ -78,6 +77,7 @@
       >
         <v-img
           :src="item.user.avatar"
+          :avatar="true"
           size="38"
         />
       </a>

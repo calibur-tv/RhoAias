@@ -17,7 +17,6 @@
           vertical-align: middle;
           display: inline-block;
           border: 1px solid $color-gray-normal;
-          @extend %avatar;
         }
       }
 
@@ -34,6 +33,7 @@
     .images-wrap {
       .image-package {
         position: relative;
+        margin-bottom: 3px;
       }
     }
 
@@ -157,6 +157,7 @@
             class="author">
             <v-img
               :src="user.avatar"
+              :avatar="true"
               size="30"
               class="avatar"
             />

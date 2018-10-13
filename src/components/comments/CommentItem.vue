@@ -8,7 +8,6 @@
   .avatar {
     float: left;
     margin-right: 9px;
-    @extend %avatar;
   }
 
   .content {
@@ -89,6 +88,7 @@
       class="avatar">
       <v-img
         :src="comment.from_user_avatar"
+        :avatar="true"
         size="35"
       />
     </a>

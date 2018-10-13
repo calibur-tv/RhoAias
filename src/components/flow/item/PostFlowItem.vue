@@ -12,7 +12,6 @@
       margin-right: 7px;
       float: left;
       position: relative;
-      @extend %avatar;
     }
 
     .bangumi-avatar {
@@ -174,6 +173,7 @@
         >
           <v-img
             :src="item.user.avatar"
+            :avatar="true"
             size="35"
           />
         </router-link>

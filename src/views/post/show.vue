@@ -29,7 +29,6 @@
       .avatar {
         float: left;
         margin-right: 9px;
-        @extend %avatar;
       }
 
       .tool-btn {
@@ -145,6 +144,7 @@
             class="avatar">
             <v-img
               :src="master.avatar"
+              :avatar="true"
               size="35"
             />
           </a>

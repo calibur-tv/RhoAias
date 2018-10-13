@@ -38,10 +38,6 @@
       margin-left: 15px;
       line-height: 24px;
     }
-
-    .avatar {
-      @extend %avatar;
-    }
   }
 
   .calibur {
@@ -86,6 +82,7 @@
           @click="goHome">
           <v-img
             :src="user.avatar"
+            :avatar="true"
             size="24"
           />
         </button>

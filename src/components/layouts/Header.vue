@@ -87,10 +87,6 @@ $header-hgt: 48px;
         margin-top: 11px;
         float: right;
 
-        .avatar {
-          @extend %avatar;
-        }
-
         .badge {
           display: block;
           position: absolute;
@@ -147,11 +143,10 @@ $header-hgt: 48px;
         <div
           v-if="currentUser" 
           class="nav-avatar">
-          <button 
-            class="avatar" 
-            @click="openUserDrawer">
+          <button @click="openUserDrawer">
             <v-img
               :src="currentUser.avatar"
+              :avatar="true"
               size="24"
             />
           </button>
