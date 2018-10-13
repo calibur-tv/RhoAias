@@ -108,7 +108,9 @@ router.get("*", async ctx => {
     const code = e.code || 500;
     ctx.status = code;
     console.error(e);
-    isProd && Sentry.captureException(e);
+    if (code >= 500) {
+      isProd && Sentry.captureException(e);
+    }
     ctx.body = cacheHTML(code);
   }
 });
