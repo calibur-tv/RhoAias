@@ -34,7 +34,9 @@
     }
 
     .user-info {
-      margin-bottom: 5px;
+      margin-bottom: 3px;
+      overflow: hidden;
+      height: 50px;
 
       .avatar {
         position: relative;

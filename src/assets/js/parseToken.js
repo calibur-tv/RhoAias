@@ -1,4 +1,7 @@
 export default ctx => {
+  if (!ctx) {
+    return "";
+  }
   const isClient = typeof window !== "undefined";
   if (isClient && window.__JWT_TOKEN__) {
     return window.__JWT_TOKEN__;
