@@ -35,9 +35,10 @@
 <template>
   <div class="sign-in-form">
     <img
+      :src="$resize('https://image.calibur.tv/owner/logo/calibur-tv.png', { width: 500, height: 200 })"
       class="logo"
-      src="https://image.calibur.tv/owner/m-logo-login.png?imageMogr2/auto-orient/strip"
-      alt="sign-logo">
+      alt="sign-logo"
+    >
     <el-form
       ref="form"
       :model="form"

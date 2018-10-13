@@ -120,7 +120,7 @@ export function createStore() {
             throwError(403);
           }
           commit("SET_SSR_CTX", ctx);
-          commit("SET_USER", user);
+          user && commit("SET_USER", user);
         } catch (e) {
           // do nothing
           return throwError(e.code);
