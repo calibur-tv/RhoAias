@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import parseToken from "~/assets/js/parseToken";
 import UserApi from "~/api/userApi";
 import ImageApi from "~/api/imageApi";
 import bangumi from "./bangumi";
@@ -96,42 +97,33 @@ export function createStore() {
     },
     actions: {
       async initAuth({ commit }, { ctx, must, admin }) {
-        const cookie = ctx.header.cookie;
+        const token = parseToken(ctx);
         const throwError = code => {
           const error = new Error();
           error.code = code || 401;
           throw error;
         };
-        commit("SET_SSR_CTX", ctx);
-        if (cookie) {
-          let token = "";
-          cookie.split("; ").forEach(item => {
-            const temp = item.split("=");
-            if (temp[0] === "JWT-TOKEN") {
-              token = temp[1];
-            }
-          });
-          if (token) {
-            const api = new UserApi(ctx);
-            try {
-              const user = await api.getLoginUser();
-              if (user) {
-                if (admin && !user.is_admin) {
-                  return throwError(403);
-                }
-                commit("SET_USER", user);
-              } else if (must) {
-                return throwError();
-              }
-            } catch (e) {
-              // do nothing
-              return throwError(e.code);
-            }
-          } else if (must) {
-            return throwError();
+        if ((must || admin) && !token) {
+          throwError(401);
+        }
+        if (!token) {
+          commit("SET_SSR_CTX", ctx);
+          return;
+        }
+        const api = new UserApi(ctx);
+        try {
+          const user = await api.getLoginUser();
+          if ((admin || must) && !user) {
+            throwError(401);
           }
-        } else if (must) {
-          return throwError();
+          if (admin && (!user || !user.is_admin)) {
+            throwError(403);
+          }
+          commit("SET_SSR_CTX", ctx);
+          commit("SET_USER", user);
+        } catch (e) {
+          // do nothing
+          return throwError(e.code);
         }
       },
       async getUpToken({ state, commit }) {

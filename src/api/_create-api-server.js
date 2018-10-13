@@ -1,4 +1,5 @@
 import axios from "axios";
+import parseToken from "~/assets/js/parseToken";
 
 class Http {
   constructor(ctx) {
@@ -6,7 +7,7 @@ class Http {
       baseURL: process.env.API_HOST,
       headers: {
         Accept: "application/x.api.latest+json",
-        Authorization: `Bearer ${this.getAuthToken(ctx)}`
+        Authorization: `Bearer ${parseToken(ctx)}`
       },
       timeout: 10000
     });
@@ -46,29 +47,6 @@ class Http {
       e.code = code;
       throw e;
     }
-  }
-
-  getAuthToken(ctx) {
-    if (!ctx) {
-      return "";
-    }
-    let token = "";
-    if (ctx.header) {
-      const cookie = ctx.header.cookie;
-      if (cookie) {
-        cookie.split("; ").forEach(item => {
-          const temp = item.split("=");
-          if (temp[0] === "JWT-TOKEN") {
-            token = temp[1];
-          }
-        });
-      }
-    } else if (ctx.$state) {
-      // TODO
-    } else {
-      token = ctx;
-    }
-    return token;
   }
 }
 

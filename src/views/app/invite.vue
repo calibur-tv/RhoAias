@@ -120,7 +120,7 @@
       v-if="result"
       :src="result">
     <div
-      v-else
+      v-else-if="user"
       class="capture-area">
       <div class="main">
         <div class="avatar">
@@ -196,9 +196,7 @@ export default {
   },
   mounted() {
     if (!this.user) {
-      this.$toast.error("请先登录").then(() => {
-        window.location.href = "/";
-      });
+      this.$toast.error("请先登录");
       return;
     }
     this.$nextTick(() => {
