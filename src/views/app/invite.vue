@@ -1,9 +1,10 @@
 <style lang="scss">
+$main-color: #fb7784;
 #app-invite {
   width: 100%;
   min-height: 100%;
   overflow: hidden;
-  background-color: #fd8ab4;
+  background-color: $main-color;
 
   .capture-area {
     width: 200%;
@@ -12,7 +13,7 @@
     transform-origin: 0 0;
     padding-top: 30px;
     position: relative;
-    background-color: #fd8ab4;
+    background-color: $main-color;
 
     #background {
       position: absolute;
@@ -49,7 +50,7 @@
         color: #333;
 
         strong {
-          color: $color-pink-deep;
+          color: $main-color;
         }
       }
 
@@ -59,7 +60,7 @@
         text-align: center;
 
         strong {
-          color: $color-pink-deep;
+          color: $main-color;
         }
       }
 
@@ -74,7 +75,7 @@
           font-size: 24px;
           padding: 8px 20px;
           margin: 6px;
-          background-color: #fd8ab4;
+          background-color: $main-color;
         }
       }
 
