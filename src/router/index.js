@@ -260,6 +260,28 @@ export function createRouter() {
             component: () => import("~/views/score/create")
           }
         ]
+      },
+      {
+        path: "/app",
+        component: () => import("~/layouts/empty"),
+        children: [
+          {
+            path: "handbook",
+            name: "app-handbook",
+            component: () => import("~/views/app/handbook")
+          },
+          {
+            path: "invite",
+            name: "app-invite",
+            meta: { useAuth: true },
+            component: () => import("~/views/app/invite")
+          },
+          {
+            path: "report",
+            name: "app-report",
+            component: () => import("~/views/app/report")
+          }
+        ]
       }
       // {
       //   path: "/campaign",

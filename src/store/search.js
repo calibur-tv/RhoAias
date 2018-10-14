@@ -70,6 +70,9 @@ const actions = {
       commit("RESET_DATA");
     }
     const resource = state.resource[type];
+    if (!resource) {
+      return;
+    }
     if (resource.list.length || resource.noMore || resource.loading) {
       return;
     }

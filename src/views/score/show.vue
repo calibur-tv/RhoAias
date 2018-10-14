@@ -24,7 +24,7 @@
 
       .author {
         overflow: hidden;
-        line-height: 25px;
+        line-height: 16px;
         font-size: 12px;
         margin-bottom: $container-padding;
 
@@ -32,7 +32,6 @@
           margin-right: 10px;
           display: inline-block;
           vertical-align: middle;
-          @extend %avatar;
         }
       }
     }
@@ -118,6 +117,7 @@
             <div class="avatar">
               <v-img
                 :src="user.avatar"
+                :avatar="true"
                 size="25"
               />
             </div>

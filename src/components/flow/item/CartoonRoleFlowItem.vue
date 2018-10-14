@@ -90,7 +90,6 @@
       color: $color-text-normal;
 
       .image {
-        border-radius: 15px;
         vertical-align: middle;
         border: 1px solid $color-gray-normal;
         margin-left: 10px;
@@ -155,6 +154,7 @@
             <span v-text="item.lover.nickname"/>
             <v-img
               :src="item.lover.avatar"
+              :avatar="true"
               size="20"
               class="image"
             />

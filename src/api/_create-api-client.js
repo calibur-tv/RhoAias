@@ -1,4 +1,5 @@
 import axios from "axios";
+import parseToken from "~/assets/js/parseToken";
 
 const pendingQueue = {};
 const timeout = 15000;
@@ -31,13 +32,7 @@ export default ctx => {
       return config;
     }
     Object.assign(config.headers, {
-      Authorization: `Bearer ${
-        ctx.$store
-          ? ctx.$store.state.login
-            ? ctx.$store.state.user.token
-            : ""
-          : ctx
-      }`
+      Authorization: `Bearer ${parseToken(ctx)}`
     });
     return config;
   });

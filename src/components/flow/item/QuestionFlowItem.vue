@@ -16,7 +16,6 @@
       margin-right: 10px;
       width: 24px;
       height: 24px;
-      @extend %avatar;
     }
 
     .nickname {
@@ -75,6 +74,7 @@
       >
         <v-img
           :src="item.user.avatar"
+          :avatar="true"
           size="24"
         />
       </a>

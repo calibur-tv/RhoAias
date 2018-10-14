@@ -73,7 +73,7 @@ const mutations = {
 const actions = {
   async getData({ commit }, { api, id }) {
     const data = await api.edit({ id });
-    commit("INIT_SECTION", data);
+    data && commit("INIT_SECTION", data);
   }
 };
 

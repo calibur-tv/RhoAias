@@ -17,7 +17,6 @@
           vertical-align: middle;
           display: inline-block;
           border: 1px solid $color-gray-normal;
-          @extend %avatar;
         }
       }
 
@@ -34,6 +33,7 @@
     .images-wrap {
       .image-package {
         position: relative;
+        margin-bottom: 3px;
       }
     }
 
@@ -157,6 +157,7 @@
             class="author">
             <v-img
               :src="user.avatar"
+              :avatar="true"
               size="30"
               class="avatar"
             />
@@ -175,8 +176,9 @@
       </div>
     </div>
     <div class="album-body">
-      <div 
-        v-if="info.is_album" 
+      <image-preview
+        v-if="info.is_album"
+        :images="images"
         class="images-wrap">
         <div
           v-for="img in images"
@@ -197,19 +199,21 @@
         >
           还没有上传图片
         </p>
-      </div>
-      <div
+      </image-preview>
+      <image-preview
         v-else
-        class="image-package"
+        :images="[source]"
       >
-        <v-img
-          :src="source.url"
-          :width="source.width"
-          :height="source.height"
-          :full="true"
-          class="image"
-        />
-      </div>
+        <div class="image-package">
+          <v-img
+            :src="source.url"
+            :width="source.width"
+            :height="source.height"
+            :full="true"
+            class="image"
+          />
+        </div>
+      </image-preview>
       <div 
         v-if="info.is_cartoon" 
         class="cartoon-list">
@@ -284,6 +288,7 @@
 import Api from "~/api/imageApi";
 import CommentMain from "~/components/comments/CommentMain";
 import SocialPanel from "~/components/common/SocialPanel";
+import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
 
 export default {
   name: "ImageAlbum",
@@ -306,7 +311,8 @@ export default {
   },
   components: {
     CommentMain,
-    SocialPanel
+    SocialPanel,
+    ImagePreview
   },
   data() {
     return {

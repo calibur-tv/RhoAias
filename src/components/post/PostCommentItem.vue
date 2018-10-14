@@ -8,7 +8,6 @@
   .avatar {
     float: left;
     margin-right: 9px;
-    @extend %avatar;
   }
 
   .content {
@@ -89,6 +88,7 @@
       class="avatar">
       <v-img
         :src="post.from_user_avatar"
+        :avatar="true"
         size="35"
       />
     </a>
@@ -115,7 +115,11 @@
         </div>
       </div>
       <div class="main">
-        <div class="image-area">
+        <image-preview
+          :images="post.images"
+          :download="false"
+          class="image-area"
+        >
           <div
             v-for="(img, idx) in post.images"
             :key="idx"
@@ -128,7 +132,7 @@
               :full="true"
             />
           </div>
-        </div>
+        </image-preview>
         <div
           class="text-area"
           v-html="post.content"/>
@@ -160,11 +164,13 @@
 
 <script>
 import SubCommentList from "~/components/comments/SubCommentList";
+import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
 
 export default {
   name: "PostCommentItem",
   components: {
-    SubCommentList
+    SubCommentList,
+    ImagePreview
   },
   props: {
     post: {

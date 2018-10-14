@@ -51,7 +51,7 @@
           text-align: center;
           padding: 0 10px;
           height: 18px;
-          min-width: 36px;
+          min-width: 60px;
           margin-left: 5px;
           font-size: 12px;
           display: inline-block;

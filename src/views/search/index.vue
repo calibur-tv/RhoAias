@@ -70,6 +70,13 @@
     background-color: #fff;
   }
 
+  .error {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 13px;
+    color: $color-text-normal;
+  }
+
   .post-flow-item,
   .score-flow-item {
     margin-left: -$container-padding;
@@ -104,20 +111,27 @@
       :key="index"
       class="container"
     >
-      <component
-        v-for="item in list"
-        :key="`${item.type}-${item.id}`"
-        :is="`${item.type}-item`"
-        :item="item"
-        :in-common="item.type != selectedType"
-      />
+      <template v-if="list">
+        <component
+          v-for="item in list"
+          :key="`${item.type}-${item.id}`"
+          :is="`${item.type}-item`"
+          :item="item"
+          :in-common="item.type != selectedType"
+        />
+      </template>
     </div>
     <more-btn
+      v-if="list"
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
       @fetch="loadMore"
     />
+    <p
+      v-else
+      class="error"
+    >错误的搜索类型</p>
   </div>
 </template>
 
@@ -151,7 +165,7 @@ export default {
   },
   computed: {
     resource() {
-      return this.$store.state.search.resource[this.selectedType];
+      return this.$store.state.search.resource[this.selectedType] || {};
     },
     loading() {
       return this.resource.loading;

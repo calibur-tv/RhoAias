@@ -34,14 +34,15 @@
     }
 
     .user-info {
-      margin-bottom: 5px;
+      margin-bottom: 3px;
+      overflow: hidden;
+      height: 50px;
 
       .avatar {
         position: relative;
         display: block;
         float: left;
         margin-right: 10px;
-        @extend %avatar;
       }
 
       .panel {
@@ -130,6 +131,7 @@
           <v-img
             :src="user.avatar"
             :lazy="false"
+            :avatar="true"
             size="50"
           />
         </a>

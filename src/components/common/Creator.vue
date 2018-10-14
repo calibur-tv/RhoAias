@@ -118,10 +118,20 @@
           class="ic-btn el-icon-picture"
           @click="handleImageClick"
         />
-        <button class="ic-btn score-btn">
+        <button
+          v-if="userLevel > 2"
+          class="ic-btn score-btn"
+        >
           <a :href="$alias.createScore">
             <i class="el-icon-edit"/>
           </a>
+        </button>
+        <button
+          v-else
+          class="ic-btn score-btn"
+          @click="handleScoreClick"
+        >
+          <i class="el-icon-edit"/>
         </button>
         <button
           class="ic-btn iconfont icon-pinglun1"
@@ -171,6 +181,12 @@ export default {
     },
     showCreator() {
       return ["homepage", "download-app"].indexOf(this.pageName) === -1;
+    },
+    userLevel() {
+      if (this.isGuest) {
+        return 0;
+      }
+      return this.$store.state.user.exp.level;
     }
   },
   mounted() {
@@ -225,7 +241,18 @@ export default {
         this.$channel.$emit("sign-in");
         return;
       }
+      if (this.userLevel < 3) {
+        this.$toast.error("3级以上才能提问");
+        return;
+      }
       this.$channel.$emit("drawer-open-write-question");
+    },
+    handleScoreClick() {
+      if (this.userLevel < 3) {
+        this.$toast.error("3级以上才能写漫评");
+        return;
+      }
+      window.location = this.$alias.createScore;
     }
   }
 };
