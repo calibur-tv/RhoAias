@@ -108,8 +108,11 @@ router.get("*", async ctx => {
     const code = e.code || 500;
     ctx.status = code;
     console.error(e);
-    if (code >= 500) {
-      isProd && Sentry.captureException(e);
+    if (code >= 500 && isProd) {
+      Sentry.withScope(scope => {
+        scope.setTag("request-url", req.url);
+        Sentry.captureException(e);
+      });
     }
     ctx.body = cacheHTML(code);
   }
