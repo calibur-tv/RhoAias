@@ -199,6 +199,23 @@
             slot="title"
             class="title"
           >
+            申请版主
+          </h4>
+          <p class="p">如果你成为了吧主，那就代表你成为了这里重要的一员，因此我们在甄选吧主时会非常谨慎，你起码要满足一下要求：</p>
+          <ul>
+            <li>你要有足够的阅片量，是个真正的漫迷，足够强</li>
+            <li>你要有充足的精力和耐心，与 calibur 一同成长</li>
+            <li>你要有负责人的精神，不能滥用权限</li>
+            <li>你要待人和善，不能有意伤害其他漫友</li>
+            <li>思想正直，是社会主义的接班人~</li>
+          </ul>
+          <p class="p">如果你满足以上条件，请尽快联系我们<span class="strong">QQ群：106402736</span>，组织需要你！</p>
+        </el-collapse-item>
+        <el-collapse-item name="6">
+          <h4
+            slot="title"
+            class="title"
+          >
             尾巴
           </h4>
           <p class="p">一开始我只是因为喜欢动漫，从而萌生了创建 calibur 的这个想法，时至今日从我第一天开始坚持到现在已经过了3年，我经历了很久很久一段"无人问津"的时期，如今能坚持到与大家相见非常的开心，感谢大家来到这里</p>
@@ -235,7 +252,7 @@ export default {
   },
   data() {
     return {
-      activeName: ""
+      activeName: this.$route.query.index || ""
     };
   }
 };
