@@ -44,6 +44,33 @@
       padding: 0 0 0 16px;
     }
   }
+
+  .search-suggestion {
+    position: absolute;
+    left: 0;
+    top: 110%;
+    width: 100%;
+    z-index: 999;
+    max-height: 200px;
+    background-color: #fff;
+    overflow-y: scroll;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+
+    li {
+      height: 40px;
+      padding: 5px 0;
+
+      img {
+        height: 30px;
+        width: 30px;
+        border-radius: 3px;
+        vertical-align: middle;
+        margin-left: 10px;
+        margin-right: 8px;
+      }
+    }
+  }
 }
 </style>
 
@@ -83,6 +110,20 @@
         @focus="handleInputFocus"
       >
     </div>
+    <ul
+      v-show="displaySuggestion"
+      class="search-suggestion"
+    >
+      <li
+        v-for="(item, index) in filteredSelect"
+        :key="item.id"
+        :class="{ active: index === selectedIndex }"
+        @click="clickToSearch(index)"
+      >
+        <img :src="$resize(item.avatar, { width: 60 })">
+        <span v-text="item.name"/>
+      </li>
+    </ul>
   </form>
 </template>
 
@@ -97,18 +138,43 @@ export default {
     type: {
       type: String,
       default: "all"
+    },
+    showSuggestion: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       word: this.value,
       selectedType: this.type,
-      cacheKey: "search-history"
+      cacheKey: "search-history",
+      typing: false,
+      filteredSelect: [],
+      selectedIndex: -1,
+      state: "blur"
     };
+  },
+  computed: {
+    bangumis() {
+      return this.$store.state.bangumi.all;
+    },
+    displaySuggestion() {
+      return (
+        this.state === "focus" &&
+        this.showSuggestion &&
+        this.word.length &&
+        this.typing &&
+        this.filteredSelect.length
+      );
+    }
   },
   mounted() {
     this.$watch("value", val => {
       this.word = val;
+      this.typing = true;
+      this.selectedIndex = -1;
+      this.handleEnter(val);
     });
     this.$watch("word", val => {
       this.$emit("input", val);
@@ -117,23 +183,31 @@ export default {
       if (val.name === "search-index") {
         this.word = val.query.q;
         this.selectedType = val.query.type;
+        setTimeout(() => {
+          this.typing = false;
+        }, 0);
       }
     });
   },
   methods: {
     handleInputBlur() {
       this.$emit("input-blur");
+      this.state = "blur";
       document.body.scrollTop = 0;
     },
     handleInputFocus() {
       this.$emit("input-focus");
+      this.state = "focus";
       document.body.scrollTop = 0;
     },
     clear() {
       this.word = "";
     },
     submit() {
-      const q = this.word;
+      const q =
+        this.selectedIndex !== -1
+          ? this.filteredSelect[this.selectedIndex].name
+          : this.word;
       if (!q) {
         return;
       }
@@ -165,6 +239,21 @@ export default {
       } catch (e) {
         return [];
       }
+    },
+    clickToSearch(index) {
+      this.selectedIndex = index;
+      this.submit();
+    },
+    handleEnter(query) {
+      if (!query) {
+        this.filteredSelect = [];
+        return;
+      }
+      this.filteredSelect = this.bangumis.filter(option => {
+        return (
+          option.alias.indexOf(query) > -1 || option.name.indexOf(query) > -1
+        );
+      });
     }
   }
 };

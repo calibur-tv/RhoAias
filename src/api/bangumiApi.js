@@ -60,4 +60,8 @@ export default class extends BaseApi {
   getTopPosts({ id }) {
     return this.http.get(`bangumi/${id}/posts/top`);
   }
+
+  all() {
+    return this.http.get("search/bangumis");
+  }
 }

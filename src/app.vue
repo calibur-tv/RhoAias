@@ -107,6 +107,7 @@ export default {
       this.$store.dispatch("getNotification", this);
       this.$cookie.set("JWT-TOKEN", this.$store.state.user.token);
     }
+    this.$store.dispatch("bangumi/getAllBangumi");
   }
 };
 </script>

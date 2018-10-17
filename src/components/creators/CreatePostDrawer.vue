@@ -130,14 +130,6 @@ export default {
     };
   },
   computed: {
-    bangumiId() {
-      return this.$route.name === "bangumi-show"
-        ? parseInt(this.$route.params.id, 10)
-        : 0;
-    },
-    currentBangumi() {
-      return this.bangumiId ? this.$store.state.bangumi.info : null;
-    },
     bangumiPlaceholder() {
       if (this.loading) {
         return "加载中...";
@@ -147,20 +139,14 @@ export default {
       }
       return this.slots[0].values[this.slots[0].defaultIndex].name;
     },
-    followBangumis() {
-      return this.$store.state.users.bangumis;
+    bangumis() {
+      return this.$store.state.bangumi.all;
     }
   },
   mounted() {
-    this.$channel.$on("drawer-open-write-post", async data => {
+    this.$channel.$on("drawer-open-write-post", () => {
       this.open = true;
-      await this.getUserFollowedBangumis();
-      if (data) {
-        this.saveSelectedBangumi(data.id);
-        if (this.slots[0].values.every(_ => _.id !== data.id)) {
-          this.slots[0].values.push(data);
-        }
-      }
+      this.slots[0].values = this.bangumis;
     });
   },
   methods: {
@@ -234,45 +220,6 @@ export default {
           this.selectedBangumi = true;
         }
       });
-    },
-    appendCurrentBangumi() {
-      if (
-        !this.bangumiId ||
-        this.slots[0].values.some(_ => _.id === this.bangumiId)
-      ) {
-        this.saveSelectedBangumi(this.bangumiId);
-        return;
-      }
-      this.slots[0].values.unshift({
-        id: this.currentBangumi.id,
-        name: this.currentBangumi.name,
-        avatar: this.currentBangumi.avatar
-      });
-      this.slots[0].defaultIndex = 0;
-    },
-    async getUserFollowedBangumis() {
-      if (this.followBangumis.length) {
-        this.slots[0].values = this.slots[0].values.concat(this.followBangumis);
-        this.appendCurrentBangumi();
-        return;
-      }
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-      try {
-        const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.$store.state.user.zone
-        });
-        this.slots[0].values = this.slots[0].values.concat(bangumis);
-        this.$nextTick(() => {
-          this.appendCurrentBangumi();
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loading = false;
-      }
     },
     handleBangumiPickerBtnClick() {
       if (!this.slots[0].values.length) {

@@ -61,6 +61,7 @@
     </section>
     <main id="main">
       <v-search
+        v-model="query"
         @input-focus="handleSearchFocus"
         @input-blur="handleSearchBlur"
       />
@@ -100,7 +101,8 @@ export default {
         mode: 0
       },
       slogan: "···",
-      showBanner: true
+      showBanner: true,
+      query: ""
     };
   },
   computed: {

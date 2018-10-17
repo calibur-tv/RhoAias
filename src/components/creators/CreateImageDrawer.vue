@@ -218,9 +218,6 @@ export default {
       }
       return this.getSelectedMeta("album", "name");
     },
-    followBangumis() {
-      return this.$store.state.users.bangumis;
-    },
     pickerDrawerHeaderText() {
       if (this.openBangumisDrawer) {
         return "番剧";
@@ -235,8 +232,8 @@ export default {
   },
   mounted() {
     this.$channel.$on("open-create-image-drawer", () => {
-      this.getUserFollowedBangumis();
       this.getUserAlbum();
+      this.bangumiSlots[0].values = this.$store.state.bangumi.all;
       this.show = true;
     });
   },
@@ -300,30 +297,6 @@ export default {
           this.albumSlots[0].defaultIndex = index;
         }
       });
-    },
-    async getUserFollowedBangumis() {
-      if (this.followBangumis.length) {
-        this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(
-          this.followBangumis
-        );
-        return;
-      }
-      if (this.loadingBangumi) {
-        return;
-      }
-      this.loadingBangumi = true;
-      try {
-        const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.user.zone
-        });
-        this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(
-          bangumis
-        );
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingBangumi = false;
-      }
     },
     async createAlbum(poster) {
       if (!this.album.name) {

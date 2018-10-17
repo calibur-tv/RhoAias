@@ -163,6 +163,11 @@ export default {
     RoleItem,
     ScoreItem
   },
+  data() {
+    return {
+      words: this.$route.query.q
+    };
+  },
   computed: {
     resource() {
       return this.$store.state.search.resource[this.selectedType] || {};
@@ -184,9 +189,6 @@ export default {
     },
     selectedType() {
       return this.$route.query.type;
-    },
-    words() {
-      return this.$route.query.q;
     }
   },
   methods: {
