@@ -76,19 +76,6 @@
         <span>原创：</span>
         <mt-switch v-model="is_creator"/>
       </div>
-      <v-drawer
-        v-model="openBangumisDrawer"
-        class="bangumis-drawer"
-        from="bottom"
-        size="250px"
-        header-text="选择番剧"
-      >
-        <mt-picker
-          :slots="slots"
-          value-key="name"
-          @change="onValuesChange"
-        />
-      </v-drawer>
       <textarea
         v-model.trim="content"
         placeholder="来吧，尽情的（在1000字以内）发挥吧"
@@ -114,16 +101,8 @@ export default {
       exceed: 4,
       content: "",
       title: "",
-      slots: [
-        {
-          flex: 1,
-          defaultIndex: 0,
-          values: [],
-          textAlign: "center"
-        }
-      ],
+      bangumi: {},
       selectedBangumi: false,
-      openBangumisDrawer: false,
       loading: false,
       is_creator: false,
       submitting: false
@@ -137,16 +116,12 @@ export default {
       if (!this.selectedBangumi) {
         return "点击选择番剧";
       }
-      return this.slots[0].values[this.slots[0].defaultIndex].name;
-    },
-    bangumis() {
-      return this.$store.state.bangumi.all;
+      return this.bangumi.name;
     }
   },
   mounted() {
     this.$channel.$on("drawer-open-write-post", () => {
       this.open = true;
-      this.slots[0].values = this.bangumis;
     });
   },
   methods: {
@@ -173,7 +148,7 @@ export default {
           try {
             const result = await this.$store.dispatch("post/create", {
               title: this.title,
-              bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
+              bangumiId: this.bangumi.id,
               desc: this.content.substring(0, 120),
               content: this.content,
               geetest: data,
@@ -207,26 +182,17 @@ export default {
         }
       });
     },
-    onValuesChange(picker, values) {
-      if (!values[0]) {
-        return;
-      }
-      this.saveSelectedBangumi(values[0].id);
-    },
-    saveSelectedBangumi(id) {
-      this.slots[0].values.forEach((item, index) => {
-        if (item.id === id) {
-          this.slots[0].defaultIndex = index;
-          this.selectedBangumi = true;
-        }
-      });
-    },
     handleBangumiPickerBtnClick() {
-      if (!this.slots[0].values.length) {
-        this.$toast.error("还没有关注任何番剧");
-        return;
-      }
-      this.openBangumisDrawer = true;
+      const eventName = "create-post-form-select-bangumi";
+      this.$channel.$emit("open-bangumi-selected", {
+        eventName,
+        selected: this.bangumi.id
+      });
+      this.$channel.$on(eventName, bangumi => {
+        this.bangumi = bangumi || {};
+        this.selectedBangumi = !!bangumi;
+        this.$channel.$off(eventName);
+      });
     }
   }
 };

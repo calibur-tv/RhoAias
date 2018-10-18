@@ -151,8 +151,7 @@ export default {
       cacheKey: "search-history",
       typing: false,
       filteredSelect: [],
-      selectedIndex: -1,
-      state: "blur"
+      selectedIndex: -1
     };
   },
   computed: {
@@ -161,7 +160,6 @@ export default {
     },
     displaySuggestion() {
       return (
-        this.state === "focus" &&
         this.showSuggestion &&
         this.word.length &&
         this.typing &&
@@ -192,12 +190,10 @@ export default {
   methods: {
     handleInputBlur() {
       this.$emit("input-blur");
-      this.state = "blur";
       document.body.scrollTop = 0;
     },
     handleInputFocus() {
       this.$emit("input-focus");
-      this.state = "focus";
       document.body.scrollTop = 0;
     },
     clear() {

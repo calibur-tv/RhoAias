@@ -14,7 +14,7 @@ import ImageLazyLoad from "~/components/common/ImageLazyLoad";
 import ImageUploader from "~/components/common/ImageUploader";
 import resizeImage from "~/assets/js/resizeImage";
 import VPopover from "~/components/common/Popover";
-import { Swipe, SwipeItem, Picker, Switch, Badge } from "mint-ui";
+import { Picker, Switch, Badge } from "mint-ui";
 import { Upload, Form, FormItem, Input, Button, Rate } from "element-ui";
 
 Vue.use(Upload);
@@ -28,8 +28,6 @@ Vue.component(VPopover.name, VPopover);
 Vue.component(ImageUploader.name, ImageUploader);
 Vue.component(CollapseTransition.name, CollapseTransition);
 Vue.component(Field.name, Field);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
 Vue.component(Picker.name, Picker);
 Vue.component(NoSSR.name, NoSSR);
 Vue.component(Time.name, Time);
