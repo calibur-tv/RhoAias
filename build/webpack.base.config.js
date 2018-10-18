@@ -25,7 +25,8 @@ module.exports = {
       '~': resolve('../src'),
       'env': resolve('../.env.js'),
       'img': resolve('../src/assets/img'),
-      'static': resolve('../static')
+      'static': resolve('../static'),
+      'vendor': resolve('../vendor')
     },
     extensions: ['.js', '.vue', '.scss', '.css']
   },
@@ -131,7 +132,7 @@ module.exports = {
             cacheDirectory: true
           }
         },
-        exclude: /node_modules/
+        exclude: /(node_modules|vendor)/
       }
     ]
   },

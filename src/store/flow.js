@@ -1,5 +1,5 @@
 import Api from "~/api/flowApi";
-const deepAssign = require("deep-assign");
+import merge from "vendor/lodash/merge";
 
 const trendingFlowStore = {
   bangumiId: 0,
@@ -32,11 +32,11 @@ const trendingFlowStore = {
 };
 
 const state = () => ({
-  post: deepAssign({}, trendingFlowStore),
-  image: deepAssign({}, trendingFlowStore),
-  score: deepAssign({}, trendingFlowStore),
-  role: deepAssign({}, trendingFlowStore),
-  question: deepAssign({}, trendingFlowStore)
+  post: merge({}, trendingFlowStore),
+  image: merge({}, trendingFlowStore),
+  score: merge({}, trendingFlowStore),
+  role: merge({}, trendingFlowStore),
+  question: merge({}, trendingFlowStore)
 });
 
 const mutations = {
@@ -44,7 +44,7 @@ const mutations = {
     state[type].meta = data;
   },
   RESET_STATE(state, { type }) {
-    state[type] = deepAssign({}, trendingFlowStore);
+    state[type] = merge({}, trendingFlowStore);
   },
   PUSH_STATE(state, { data, type, sort, bangumiId, userZone, refresh }) {
     const list = refresh ? data.list : state[type][sort].list.concat(data.list);
