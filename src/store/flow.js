@@ -44,7 +44,7 @@ const mutations = {
     state[type].meta = data;
   },
   RESET_STATE(state, { type }) {
-    state[type] = merge({}, trendingFlowStore);
+    state[type] = deepAssign({}, trendingFlowStore);
   },
   PUSH_STATE(state, { data, type, sort, bangumiId, userZone, refresh }) {
     const list = refresh ? data.list : state[type][sort].list.concat(data.list);
