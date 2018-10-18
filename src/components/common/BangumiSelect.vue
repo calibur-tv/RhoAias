@@ -66,7 +66,8 @@ export default {
           return;
         }
         this.eventName = eventName;
-        const arr = list.length ? list : this.bangumis;
+        // const arr = list.length ? list : this.bangumis;
+        const arr = [{ id: 834, name: "次元壁" }];
         this.list = arr.map(_ => Object.assign({}, _));
         this.filteredList = this.list.map(_ => {
           return {

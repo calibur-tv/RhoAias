@@ -51,7 +51,7 @@
     top: 110%;
     width: 100%;
     z-index: 999;
-    max-height: 200px;
+    max-height: 160px;
     background-color: #fff;
     overflow-y: scroll;
     border: 1px solid #d9d9d9;
