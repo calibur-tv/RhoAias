@@ -33,7 +33,7 @@
     .images-wrap {
       .image-package {
         position: relative;
-        margin-bottom: 3px;
+        margin-bottom: 5px;
       }
     }
 
