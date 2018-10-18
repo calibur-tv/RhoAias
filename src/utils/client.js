@@ -4,7 +4,6 @@ import Backdrop from "~/assets/js/Backdrop";
 import captcha from "~/assets/js/captcha";
 import Cookies from "js-cookie";
 import Toast from "~/assets/js/Toast";
-import QRCode from "~/assets/js/qrcode";
 
 import { DatetimePicker, MessageBox } from "mint-ui";
 
@@ -12,18 +11,6 @@ Vue.component(DatetimePicker.name, DatetimePicker);
 
 Vue.use({
   install(Vue, options) {
-    Vue.prototype.$QRCode = (
-      el,
-      text,
-      options = { width: 170, height: 170 }
-    ) => {
-      return new QRCode(el, {
-        text,
-        width: options.width,
-        height: options.height
-      });
-    };
-
     Vue.prototype.$cookie = Cookies;
 
     Vue.prototype.$scrollToY = scrollToY;
@@ -41,62 +28,5 @@ Vue.use({
     Vue.prototype.$confirm = MessageBox.confirm;
 
     Vue.prototype.$prompt = MessageBox.prompt;
-
-    Vue.prototype.$eventManager = (function() {
-      class Manager {
-        constructor() {
-          this.id = 0;
-          this.listeners = {};
-        }
-
-        add(ele, evt, handler, capture = false) {
-          const events = typeof evt === "string" ? [evt] : evt;
-          const result = [];
-          events.forEach(e => {
-            const id = this.id++;
-            ele.addEventListener(e, handler, capture);
-            this.listeners[id] = {
-              element: ele,
-              event: e,
-              handler,
-              capture
-            };
-            result.push(id);
-          });
-          return result;
-        }
-
-        del(id) {
-          id.forEach(item => {
-            if (this.listeners[item]) {
-              const h = this.listeners[item];
-              h.element.removeEventListener(h.event, h.handler, h.capture);
-              Reflect.deleteProperty(this.listeners, item);
-            }
-          });
-        }
-      }
-      return new Manager();
-    })();
-
-    Vue.prototype.$checkInView = (dom, scale = 1) => {
-      const rect = dom.getBoundingClientRect();
-      return (
-        rect.top < window.innerHeight * scale &&
-        rect.bottom > 0 &&
-        (rect.left < window.innerWidth * scale && rect.right > 0)
-      );
-    };
-  }
-});
-
-Vue.mixin({
-  methods: {
-    $previewImages(images, image) {
-      this.$channel.$emit("open-image-reader", {
-        images,
-        image
-      });
-    }
   }
 });

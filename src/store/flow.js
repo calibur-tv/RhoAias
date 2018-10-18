@@ -1,5 +1,5 @@
 import Api from "~/api/flowApi";
-import { merge } from "lodash";
+const deepAssign = require("deep-assign");
 
 const trendingFlowStore = {
   bangumiId: 0,
@@ -32,11 +32,11 @@ const trendingFlowStore = {
 };
 
 const state = () => ({
-  post: merge({}, trendingFlowStore),
-  image: merge({}, trendingFlowStore),
-  score: merge({}, trendingFlowStore),
-  role: merge({}, trendingFlowStore),
-  question: merge({}, trendingFlowStore)
+  post: deepAssign({}, trendingFlowStore),
+  image: deepAssign({}, trendingFlowStore),
+  score: deepAssign({}, trendingFlowStore),
+  role: deepAssign({}, trendingFlowStore),
+  question: deepAssign({}, trendingFlowStore)
 });
 
 const mutations = {

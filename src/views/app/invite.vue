@@ -202,16 +202,26 @@ export default {
     }
     this.$nextTick(() => {
       this.generateQrCode();
-      setTimeout(() => {
-        this.create();
-      }, 3000);
     });
   },
   methods: {
     generateQrCode() {
-      this.$QRCode(this.$refs.qr, this.link, { width: 300, height: 300 });
+      import("~/assets/js/qrcode").then(ESModule => {
+        const QRCode = ESModule.default;
+        new QRCode(this.$refs.qr, {
+          text: this.link,
+          width: 300,
+          height: 300
+        });
+        setTimeout(() => {
+          this.create();
+        }, 3000);
+      });
     },
     create() {
+      if (!this.$store.state.ua.ios) {
+        return;
+      }
       html2canvas(document.querySelector(".capture-area"), {
         allowTaint: false,
         useCORS: true,
@@ -220,9 +230,7 @@ export default {
         .then(canvas => {
           this.result = canvas.toDataURL("image/png");
           this.created = true;
-          if (this.$store.state.ua.ios) {
-            this.$toast.success("长按图片保存");
-          }
+          this.$toast.success("长按图片保存");
         })
         .catch(() => {});
     }
