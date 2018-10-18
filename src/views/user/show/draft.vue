@@ -106,24 +106,26 @@
           :key="item.id"
           class="score-draft"
         >
-          <a
-            :href="$alias.bangumi(item.bangumi.id)"
-            class="bangumi"
-          >
-            <img :src="$resize(item.bangumi.avatar, { width: 100 })">
-          </a>
-          <a
-            :href="$alias.editScore(item.id)"
-            class="content"
-          >
-            <div class="title oneline">
-              写给《{{ item.bangumi.name }}》的漫评
-            </div>
-            <div
-              class="intro"
-              v-text="item.intro"
-            />
-          </a>
+          <template v-if="item && item.bangumi">
+            <a
+              :href="$alias.bangumi(item.bangumi.id)"
+              class="bangumi"
+            >
+              <img :src="$resize(item.bangumi.avatar, { width: 100 })">
+            </a>
+            <a
+              :href="$alias.editScore(item.id)"
+              class="content"
+            >
+              <div class="title oneline">
+                写给《{{ item.bangumi.name }}》的漫评
+              </div>
+              <div
+                class="intro"
+                v-text="item.intro"
+              />
+            </a>
+          </template>
         </div>
         <more-btn
           :no-more="true"
