@@ -74,8 +74,8 @@
         .name {
           font-size: 14px;
           font-weight: bold;
-          margin-bottom: 3px;
-          margin-top: 2px;
+          margin-bottom: 4px;
+          margin-top: 1px;
         }
 
         .body {
