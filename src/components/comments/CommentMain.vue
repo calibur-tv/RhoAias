@@ -505,13 +505,16 @@ export default {
       this.focusCommentId = id;
       this.openFocusCommentDrawer = true;
     });
-    this.$channel.$on("open-create-comment-drawer", () => {
-      if (!this.currentUserId) {
-        this.$channel.$emit("sign-in");
-        return;
+    this.$channel.$on(
+      `open-create-comment-drawer-${this.type}-${this.id}`,
+      () => {
+        if (!this.currentUserId) {
+          this.$channel.$emit("sign-in");
+          return;
+        }
+        this.openCreateCommentDrawer = true;
       }
-      this.openCreateCommentDrawer = true;
-    });
+    );
     this.$channel.$on(
       "reply-comment",
       ({ id, targetUserId, targetUserName }) => {
@@ -519,7 +522,7 @@ export default {
       }
     );
     document.getElementById("comment-wrap").addEventListener("click", e => {
-      if (/reply-btn/.test(e.target.className)) {
+      if (/reply-btn/.test(e.target.className) && this.$el.contains(e)) {
         const area = document.getElementById("reply-comment-textarea");
         area.style.display = "block";
         area.focus();
@@ -645,7 +648,7 @@ export default {
       }
     },
     writeComment() {
-      this.$channel.$emit("open-create-comment-drawer");
+      this.$channel.$emit(`open-create-comment-drawer-${this.type}-${this.id}`);
     },
     closeCommentDrawer() {
       this.openCreateCommentDrawer = false;
