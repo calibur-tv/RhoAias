@@ -69,9 +69,10 @@
           />
           <div class="field">
             <span>番剧：</span>
-            <div
-              @click="handleBangumiPickerBtnClick"
-              v-text="imageBangumiPlaceholder"
+            <bangumi-picker
+              v-model="image.bangumiId"
+              :label="false"
+              :display="show && sort === 'image'"
             />
           </div>
           <div class="field">
@@ -109,9 +110,10 @@
         />
         <div class="field">
           <span>番剧：</span>
-          <div
-            @click="handleBangumiPickerBtnClick"
-            v-text="albumBangumiPlaceholder"
+          <bangumi-picker
+            v-model="album.bangumiId"
+            :label="false"
+            :display="show && sort === 'album'"
           />
         </div>
         <div class="field">
@@ -129,9 +131,13 @@
 
 <script>
 import ImageApi from "~/api/imageApi";
+import BangumiPicker from "~/components/bangumi/BangumiPicker";
 
 export default {
   name: "CreateImageDrawer",
+  components: {
+    BangumiPicker
+  },
   data() {
     return {
       show: false,
@@ -154,40 +160,19 @@ export default {
       album: {
         name: "",
         bangumiId: "",
-        selectedBangumi: false,
         creator: false,
-        cartoon: false,
-        bangumi: {}
+        cartoon: false
       },
       image: {
         name: "",
         creator: false,
-        selectedBangumi: false,
-        selectedAlbum: false,
-        bangumi: {}
+        bangumiId: "",
+        selectedAlbum: false
       },
       isSingleModel: true
     };
   },
   computed: {
-    albumBangumiPlaceholder() {
-      if (this.loadingBangumi) {
-        return "加载中...";
-      }
-      if (!this.album.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.album.bangumi.name;
-    },
-    imageBangumiPlaceholder() {
-      if (this.loadingBangumi) {
-        return "加载中...";
-      }
-      if (!this.image.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.image.bangumi.name;
-    },
     imageAlbumPlaceholder() {
       if (this.loadingUserAlbum) {
         return "加载中...";
@@ -229,18 +214,6 @@ export default {
       this[name] = true;
       this.openPickerDrawer = true;
     },
-    handleBangumiPickerBtnClick() {
-      const eventName = "create-image-form-select-bangumi";
-      this.$channel.$emit("open-bangumi-selected", {
-        eventName,
-        selected: this[this.sort].bangumi.id
-      });
-      this.$channel.$on(eventName, bangumi => {
-        this[this.sort].bangumi = bangumi || {};
-        this[this.sort].selectedBangumi = !!bangumi;
-        this.$channel.$off(eventName);
-      });
-    },
     handleAlbumPickerBtnClick() {
       if (this.loadingUserAlbum) {
         this.$toast.error("数据加载中");
@@ -273,7 +246,7 @@ export default {
         this.$toast.error("相册名字请缩减至 30 字以内");
         return;
       }
-      if (!this.album.selectedBangumi) {
+      if (!this.album.bangumiId) {
         this.$toast.error("请选择要投稿的番剧");
         return;
       }
@@ -286,7 +259,7 @@ export default {
       try {
         const result = await api.createAlbum(
           Object.assign({}, poster, {
-            bangumi_id: this.album.bangumi.id,
+            bangumi_id: this.album.bangumiId,
             is_cartoon: false,
             name: this.album.name,
             is_creator: this.album.creator,
@@ -305,7 +278,6 @@ export default {
         this.album = {
           name: "",
           bangumiId: "",
-          selectedBangumi: false,
           creator: false,
           cartoon: false
         };
@@ -335,7 +307,7 @@ export default {
     },
     async createImage(images) {
       if (this.isSingleModel) {
-        if (!this.image.selectedBangumi) {
+        if (!this.image.bangumiId) {
           this.$toast.error("请选择要投稿的番剧");
           return;
         }
@@ -363,7 +335,7 @@ export default {
               const result = await api.uploadSingleImage(
                 Object.assign({}, images, {
                   is_creator: this.image.creator,
-                  bangumi_id: this.image.bangumi.id,
+                  bangumi_id: this.image.bangumiId,
                   name: this.image.name,
                   geetest: data
                 })

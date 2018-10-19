@@ -54,7 +54,7 @@
         margin: 10px 0;
 
         .image-package {
-          margin-bottom: 5px;
+          margin-bottom: 4px;
         }
 
         img {

@@ -2,14 +2,12 @@
   <div id="app">
     <router-view/>
     <sign-drawer/>
-    <bangumi-select/>
   </div>
 </template>
 
 <script>
 import { cdn, script, env, iPhoneXViewport } from "env";
 import SignDrawer from "~/components/common/Sign";
-import BangumiSelect from "~/components/common/BangumiSelect";
 
 export default {
   name: "Entry",
@@ -96,8 +94,7 @@ export default {
     };
   },
   components: {
-    SignDrawer,
-    BangumiSelect
+    SignDrawer
   },
   created() {
     if (this.$isServer) {

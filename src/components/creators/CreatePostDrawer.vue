@@ -67,9 +67,10 @@
       >
       <div class="bangumi">
         <span>发布到：</span>
-        <div
-          @click="handleBangumiPickerBtnClick"
-          v-text="bangumiPlaceholder"
+        <bangumi-picker
+          v-model="bangumiId"
+          :label="false"
+          :display="open"
         />
       </div>
       <div class="bangumi">
@@ -93,31 +94,23 @@
 </template>
 
 <script>
+import BangumiPicker from "~/components/bangumi/BangumiPicker";
+
 export default {
   name: "CreatePostDrawer",
+  components: {
+    BangumiPicker
+  },
   data() {
     return {
       open: false,
       exceed: 4,
       content: "",
       title: "",
-      bangumi: {},
-      selectedBangumi: false,
-      loading: false,
+      bangumiId: "",
       is_creator: false,
       submitting: false
     };
-  },
-  computed: {
-    bangumiPlaceholder() {
-      if (this.loading) {
-        return "加载中...";
-      }
-      if (!this.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.bangumi.name;
-    }
   },
   mounted() {
     this.$channel.$on("drawer-open-write-post", () => {
@@ -133,12 +126,12 @@ export default {
         this.$toast.error("内容不能为空！");
         return;
       }
-      if (this.loading) {
-        this.$toast.error("番剧加载中");
-        return;
-      }
       if (!this.title) {
         this.$toast.error("标题不能为空！");
+        return;
+      }
+      if (!this.bangumiId) {
+        this.$toast.error("请选择要投稿的番剧！");
         return;
       }
       this.submitting = true;
@@ -148,7 +141,7 @@ export default {
           try {
             const result = await this.$store.dispatch("post/create", {
               title: this.title,
-              bangumiId: this.bangumi.id,
+              bangumiId: this.bangumiId,
               desc: this.content.substring(0, 120),
               content: this.content,
               geetest: data,
@@ -180,18 +173,6 @@ export default {
         close: () => {
           this.submitting = false;
         }
-      });
-    },
-    handleBangumiPickerBtnClick() {
-      const eventName = "create-post-form-select-bangumi";
-      this.$channel.$emit("open-bangumi-selected", {
-        eventName,
-        selected: this.bangumi.id
-      });
-      this.$channel.$on(eventName, bangumi => {
-        this.bangumi = bangumi || {};
-        this.selectedBangumi = !!bangumi;
-        this.$channel.$off(eventName);
       });
     }
   }

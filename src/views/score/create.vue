@@ -97,6 +97,7 @@
     <h3 class="sub-title">番剧</h3>
     <bangumi-picker
       v-model="bangumiId"
+      :display="true"
       class="field"
     />
     <h3 class="sub-title">标题</h3>
