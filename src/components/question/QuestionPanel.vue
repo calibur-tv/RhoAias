@@ -61,8 +61,6 @@
       }
 
       .image-package {
-        margin-bottom: 4px;
-
         .image {
           margin: 15px 0;
         }

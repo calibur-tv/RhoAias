@@ -4,11 +4,11 @@
     font-size: 16px;
     line-height: 48px;
 
-    span {
+    > span {
       float: left;
     }
 
-    div {
+    > div {
       color: #000;
       overflow: hidden;
     }

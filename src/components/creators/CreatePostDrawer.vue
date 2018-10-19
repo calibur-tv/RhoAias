@@ -12,12 +12,12 @@
   .bangumi {
     font-size: 16px;
 
-    span {
+    > span {
       color: #666;
       float: left;
     }
 
-    div {
+    > div {
       color: #000;
       overflow: hidden;
     }

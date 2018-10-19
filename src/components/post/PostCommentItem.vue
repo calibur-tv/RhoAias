@@ -53,10 +53,6 @@
       .image-area {
         margin: 10px 0;
 
-        .image-package {
-          margin-bottom: 4px;
-        }
-
         img {
           width: 100%;
           height: auto;

@@ -126,11 +126,9 @@ export default {
             zone: this.user.zone
           }
         );
-        console.log(this.list[0].values);
         this.autoSelect(this.value);
         this.fetched = true;
       } catch (e) {
-        console.log(e);
         this.$toast.error(e);
       } finally {
         this.loading = false;
