@@ -5,7 +5,6 @@
       {
         "useBuiltIns": "usage",
         "targets": {
-          "node": "current",
           "browsers": [
             "Chrome >= 49",
             "Firefox >= 45",
