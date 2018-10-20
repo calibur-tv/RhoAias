@@ -4,7 +4,7 @@ module.exports = () => ({
   plugins: [
     autoprefixer({
       browsers: [
-        'defaults'
+        'last 3 versions'
       ],
       remove: false
     })

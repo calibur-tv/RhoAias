@@ -25,6 +25,7 @@
       position: relative;
       overflow: hidden;
       display: block;
+      font-size: 0;
 
       &.album-box:after {
         content: "";

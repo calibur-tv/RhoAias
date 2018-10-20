@@ -5,7 +5,12 @@
       {
         "useBuiltIns": "usage",
         "targets": {
-          "node": "current"
+          "node": "current",
+          "browsers": [
+            "Chrome >= 49",
+            "Firefox >= 45",
+            "iOS >= 10"
+          ]
         },
         "modules": false
       }
@@ -15,13 +20,21 @@
     "lodash",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-runtime",
-    ["component", {
-      "libraryName": "element-ui",
-      "styleLibraryName": "theme-chalk"
-    }, "element-ui"],
-    ["component", {
-      "libraryName": "mint-ui",
-      "style": true
-    }, "mint-ui"]
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      },
+      "element-ui"
+    ],
+    [
+      "component",
+      {
+        "libraryName": "mint-ui",
+        "style": true
+      },
+      "mint-ui"
+    ]
   ]
 }
