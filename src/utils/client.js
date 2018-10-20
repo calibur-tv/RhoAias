@@ -4,7 +4,9 @@ import captcha from "~/assets/js/captcha";
 import Cookies from "js-cookie";
 import Toast from "~/assets/js/Toast";
 
-import { MessageBox } from "mint-ui";
+import { DatetimePicker, MessageBox } from "mint-ui";
+
+Vue.component(DatetimePicker.name, DatetimePicker);
 
 Vue.use({
   install(Vue, options) {
