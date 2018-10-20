@@ -18,10 +18,8 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 
 before_script:
-  - yarn install
 
 script:
-  - yarn run test
 
 deploy:
   - provider: script
