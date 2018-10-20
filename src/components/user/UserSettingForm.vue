@@ -60,6 +60,19 @@
     width: 100%;
     margin-bottom: 10px;
   }
+
+  .mint-popup {
+    width: 100%;
+
+    .mint-datetime-cancel {
+      margin-left: 25px;
+    }
+
+    .mint-datetime-confirm {
+      float: right;
+      margin-right: 35px;
+    }
+  }
 }
 </style>
 
@@ -147,12 +160,16 @@
 
 <script>
 import Api from "~/api/userApi";
-import { DatetimePicker } from "mint-ui";
 
 export default {
   name: "UserSettingForm",
   components: {
-    "mt-datetime-picker": DatetimePicker
+    "mt-datetime-picker": () => {
+      if (typeof window === "undefined") {
+        return import("~/assets/js/empty");
+      }
+      return import("mint-ui/lib/datetime-picker");
+    }
   },
   data() {
     const validateNickname = (rule, value, callback) => {
