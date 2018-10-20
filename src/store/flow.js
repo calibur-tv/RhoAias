@@ -1,5 +1,5 @@
 import Api from "~/api/flowApi";
-import merge from "vendor/lodash/merge";
+import { merge } from "lodash";
 
 const trendingFlowStore = {
   bangumiId: 0,

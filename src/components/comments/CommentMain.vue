@@ -407,6 +407,7 @@
 <script>
 import CommentCreateForm from "./CommentCreateForm";
 import CommentItem from "./CommentItem";
+import scrollToY from "~/assets/js/scrollToY";
 
 export default {
   name: "VCommentMain",
@@ -670,7 +671,7 @@ export default {
         return;
       }
       setTimeout(() => {
-        this.$scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
+        scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
       }, 400);
     }
   }

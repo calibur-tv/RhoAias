@@ -35,10 +35,12 @@
 
 <script>
 import VChecklist from "~/components/common/CheckList";
+import VRadio from "~/components/common/Radio";
 
 export default {
   name: "BangumiSelect",
   components: {
+    VRadio,
     VChecklist
   },
   data() {

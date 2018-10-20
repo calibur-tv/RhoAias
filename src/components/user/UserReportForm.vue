@@ -56,9 +56,13 @@
 
 <script>
 import Api from "~/api/userApi";
+import VRadio from "~/components/common/Radio";
 
 export default {
   name: "UserReportForm",
+  components: {
+    VRadio
+  },
   props: {
     id: {
       type: [Number, String],

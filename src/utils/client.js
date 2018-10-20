@@ -1,19 +1,14 @@
 import Vue from "vue";
-import scrollToY from "~/assets/js/scrollToY";
 import Backdrop from "~/assets/js/Backdrop";
 import captcha from "~/assets/js/captcha";
 import Cookies from "js-cookie";
 import Toast from "~/assets/js/Toast";
 
-import { DatetimePicker, MessageBox } from "mint-ui";
-
-Vue.component(DatetimePicker.name, DatetimePicker);
+import { MessageBox } from "mint-ui";
 
 Vue.use({
   install(Vue, options) {
     Vue.prototype.$cookie = Cookies;
-
-    Vue.prototype.$scrollToY = scrollToY;
 
     Vue.prototype.$channel = new Vue();
 

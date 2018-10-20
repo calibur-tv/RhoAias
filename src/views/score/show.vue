@@ -214,6 +214,7 @@ import ScoreApi from "~/api/scoreApi";
 import CommentMain from "~/components/comments/CommentMain";
 import JsonContent from "~/components/jsonEditor/JsonContent";
 import SocialPanel from "~/components/common/SocialPanel";
+import { Rate } from "element-ui";
 
 export default {
   name: "ScoreShow",
@@ -234,7 +235,8 @@ export default {
   components: {
     CommentMain,
     JsonContent,
-    SocialPanel
+    SocialPanel,
+    "el-rate": Rate
   },
   data() {
     const labelMap = {

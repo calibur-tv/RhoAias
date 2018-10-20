@@ -132,10 +132,12 @@
 <script>
 import ImageApi from "~/api/imageApi";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import Field from "~/components/common/Field";
 
 export default {
   name: "CreateImageDrawer",
   components: {
+    "v-field": Field,
     BangumiPicker
   },
   data() {

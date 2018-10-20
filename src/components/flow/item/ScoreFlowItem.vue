@@ -309,8 +309,13 @@
 </template>
 
 <script>
+import { Rate } from "element-ui";
+
 export default {
   name: "ScoreFlowItem",
+  components: {
+    "el-rate": Rate
+  },
   props: {
     item: {
       required: true,

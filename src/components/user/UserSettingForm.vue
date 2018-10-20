@@ -147,9 +147,13 @@
 
 <script>
 import Api from "~/api/userApi";
+import { DatetimePicker } from "mint-ui";
 
 export default {
   name: "UserSettingForm",
+  components: {
+    "mt-datetime-picker": DatetimePicker
+  },
   data() {
     const validateNickname = (rule, value, callback) => {
       const length = value.replace(/([\u4e00-\u9fa5])/g, "aa").trim().length;

@@ -140,6 +140,7 @@
 <script>
 import BangumiScoreChart from "~/components/bangumi/charts/BangumiScoreChart";
 import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
+import { Rate } from "element-ui";
 
 export default {
   name: "BangumiScore",
@@ -157,7 +158,8 @@ export default {
   },
   components: {
     BangumiScoreChart,
-    ScoreFlowList
+    ScoreFlowList,
+    "el-rate": Rate
   },
   computed: {
     info() {
