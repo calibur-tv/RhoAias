@@ -523,7 +523,7 @@ export default {
       }
     );
     document.getElementById("comment-wrap").addEventListener("click", e => {
-      if (/reply-btn/.test(e.target.className) && this.$el.contains(e)) {
+      if (/reply-btn/.test(e.target.className) && this.$el.contains(e.target)) {
         const area = document.getElementById("reply-comment-textarea");
         area.style.display = "block";
         area.focus();
