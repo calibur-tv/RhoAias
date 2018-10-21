@@ -16,6 +16,11 @@
       margin-left: 4px;
     }
   }
+
+  .active {
+    background-color: $color-blue-light;
+    color: #fff;
+  }
 }
 </style>
 
