@@ -212,7 +212,7 @@ export default {
     },
     birthday: {
       get() {
-        return new Date(this.user.birthday);
+        return new Date(this.user.birthday.replace(/-/g, "/"));
       },
       set(value) {
         this.$store.commit("UPDATE_USER_INFO", {
@@ -331,7 +331,8 @@ export default {
             await api.settingProfile({
               nickname: this.nickname,
               signature: this.signature,
-              birthday: new Date(this.birthday).getTime() / 1000,
+              birthday:
+                new Date(this.birthday.replace(/-/g, "/")).getTime() / 1000,
               birth_secret: this.birthSecret,
               sex_secret: this.sexSecret,
               sex: this.sex
