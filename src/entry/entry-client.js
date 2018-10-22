@@ -48,7 +48,7 @@ if (window.__INITIAL_STATE__) {
 
 window.M = window.M || Object.create(null);
 
-if (env !== "production") {
+if (env === "staging") {
   // eslint-disable-next-line
   new VConsole();
 }
