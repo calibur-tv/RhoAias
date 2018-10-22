@@ -17,7 +17,7 @@
     header-text="搜索"
   >
     <div class="container">
-      <v-search/>
+      <v-search v-model="query"/>
       <div class="hr"/>
       <v-search-history/>
     </div>
@@ -42,10 +42,10 @@ export default {
   },
   data() {
     return {
-      open: this.value
+      open: this.value,
+      query: ""
     };
   },
-  computed: {},
   mounted() {
     this.$watch("value", val => {
       this.open = val;

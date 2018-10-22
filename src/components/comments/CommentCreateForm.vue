@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import scrollToY from "~/assets/js/scrollToY";
+
 export default {
   name: "CommentCreateForm",
   props: {
@@ -91,7 +93,7 @@ export default {
         this.content = "";
         setTimeout(() => {
           const dom = document.getElementById(`comment-${result.data.id}`);
-          dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
+          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
         }, 400);
       } catch (e) {
         this.$toast.error(e);

@@ -12,6 +12,7 @@ const staticFilePrefix = require('../qiniu.json').key_prefix
 // const SentryConfig = require('./sentry.config.js')
 const now = new Date().getTime();
 const StyleLintPlugin = require("stylelint-webpack-plugin");
+const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 module.exports = {
   cache: true,
@@ -25,7 +26,8 @@ module.exports = {
       '~': resolve('../src'),
       'env': resolve('../.env.js'),
       'img': resolve('../src/assets/img'),
-      'static': resolve('../static')
+      'static': resolve('../static'),
+      'vendor': resolve('../vendor')
     },
     extensions: ['.js', '.vue', '.scss', '.css']
   },
@@ -131,7 +133,7 @@ module.exports = {
             cacheDirectory: true
           }
         },
-        exclude: /node_modules/
+        exclude: /(node_modules|vendor)/
       }
     ]
   },
@@ -141,6 +143,7 @@ module.exports = {
   },
   plugins: (function () {
     let pluginArr = [
+      new LodashModuleReplacementPlugin(),
       new webpack.ProvidePlugin({}),
       new webpack.DefinePlugin({
         'process.env': {

@@ -1,5 +1,42 @@
 <style lang="scss">
 #the-world {
+  .carousel {
+    height: 150px;
+
+    .mint-swipe-item {
+      background-color: $color-pink-normal;
+    }
+
+    .background {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .intro {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: rgba(30, 30, 34, 0.6);
+      height: 50px;
+      width: 100%;
+      padding: 8px 20px 3px;
+      color: #fff;
+
+      .title {
+        font-size: 14px;
+      }
+
+      .desc {
+        margin-top: 4px;
+        font-size: 12px;
+      }
+    }
+  }
+
   .flow-intro {
     margin-top: $container-padding;
     margin-bottom: $container-padding;
@@ -93,7 +130,40 @@
 
 <template>
   <div id="the-world">
-    <div class="container flow-intro">
+    <div
+      v-if="loops.length"
+      class="carousel"
+    >
+      <no-ssr>
+        <mt-swipe :show-indicators="false">
+          <mt-swipe-item
+            v-for="(item, index) in loops"
+            :key="index"
+          >
+            <a
+              :href="item.link"
+              :style="{ backgroundImage: `url(${$resize(item.poster, { width: 600, height: 300 })})` }"
+              class="background"
+            >
+              <div class="intro">
+                <p
+                  class="title"
+                  v-text="item.title"
+                />
+                <p
+                  class="desc oneline"
+                  v-text="item.desc"
+                />
+              </div>
+            </a>
+          </mt-swipe-item>
+        </mt-swipe>
+      </no-ssr>
+    </div>
+    <div
+      v-else
+      class="container flow-intro"
+    >
       <router-view/>
     </div>
     <div class="hr"/>
@@ -123,10 +193,16 @@ import PostFlowList from "~/components/flow/list/PostFlowList";
 import ImageFlowList from "~/components/flow/list/ImageFlowList";
 import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
 import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
+import { Swipe, SwipeItem } from "mint-ui";
 
 export default {
   name: "TheWorld",
+  async asyncData({ store }) {
+    await store.dispatch("cm/getCmLoop");
+  },
   components: {
+    "mt-swipe": Swipe,
+    "mt-swipe-item": SwipeItem,
     vanTabs: Tabs,
     vanTab: Tab,
     PostFlowList,
@@ -162,6 +238,11 @@ export default {
       active,
       options
     };
+  },
+  computed: {
+    loops() {
+      return this.$store.state.cm.loops;
+    }
   }
 };
 </script>

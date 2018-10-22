@@ -298,12 +298,12 @@ export default {
       type: Object
     },
     bangumiId: {
-      required: true,
-      type: Number
+      type: Number,
+      default: 0
     },
     userZone: {
-      required: true,
-      type: String
+      type: String,
+      default: ""
     }
   },
   methods: {

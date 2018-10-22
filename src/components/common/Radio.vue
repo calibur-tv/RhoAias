@@ -116,7 +116,8 @@ $height: 48px;
   <div 
     class="mint-radiolist" 
     @change="$emit('change', currentValue)">
-    <label 
+    <label
+      v-if="title"
       class="mint-radiolist-title" 
       v-text="title"/>
     <div 

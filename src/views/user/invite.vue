@@ -239,14 +239,21 @@ export default {
     }
     this.$nextTick(() => {
       this.generateQrCode();
-      setTimeout(() => {
-        this.create();
-      }, 3000);
     });
   },
   methods: {
     generateQrCode() {
-      this.$QRCode(this.$refs.qr, this.link, { width: 300, height: 300 });
+      import("~/assets/js/qrcode").then(ESModule => {
+        const QRCode = ESModule.default;
+        new QRCode(this.$refs.qr, {
+          text: this.link,
+          width: 300,
+          height: 300
+        });
+        setTimeout(() => {
+          this.create();
+        }, 3000);
+      });
     },
     create() {
       html2canvas(document.querySelector(".capture-area"), {

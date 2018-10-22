@@ -407,6 +407,7 @@
 <script>
 import CommentCreateForm from "./CommentCreateForm";
 import CommentItem from "./CommentItem";
+import scrollToY from "~/assets/js/scrollToY";
 
 export default {
   name: "VCommentMain",
@@ -505,13 +506,16 @@ export default {
       this.focusCommentId = id;
       this.openFocusCommentDrawer = true;
     });
-    this.$channel.$on("open-create-comment-drawer", () => {
-      if (!this.currentUserId) {
-        this.$channel.$emit("sign-in");
-        return;
+    this.$channel.$on(
+      `open-create-comment-drawer-${this.type}-${this.id}`,
+      () => {
+        if (!this.currentUserId) {
+          this.$channel.$emit("sign-in");
+          return;
+        }
+        this.openCreateCommentDrawer = true;
       }
-      this.openCreateCommentDrawer = true;
-    });
+    );
     this.$channel.$on(
       "reply-comment",
       ({ id, targetUserId, targetUserName }) => {
@@ -519,7 +523,7 @@ export default {
       }
     );
     document.getElementById("comment-wrap").addEventListener("click", e => {
-      if (/reply-btn/.test(e.target.className)) {
+      if (/reply-btn/.test(e.target.className) && this.$el.contains(e.target)) {
         const area = document.getElementById("reply-comment-textarea");
         area.style.display = "block";
         area.focus();
@@ -645,7 +649,7 @@ export default {
       }
     },
     writeComment() {
-      this.$channel.$emit("open-create-comment-drawer");
+      this.$channel.$emit(`open-create-comment-drawer-${this.type}-${this.id}`);
     },
     closeCommentDrawer() {
       this.openCreateCommentDrawer = false;
@@ -667,7 +671,7 @@ export default {
         return;
       }
       setTimeout(() => {
-        this.$scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
+        scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
       }, 400);
     }
   }

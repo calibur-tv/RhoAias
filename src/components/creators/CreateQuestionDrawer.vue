@@ -43,9 +43,9 @@
           prop="bangumiId"
         >
           <bangumi-picker
-            v-if="show"
             v-model="form.bangumiId"
             :label="false"
+            :display="show"
           />
         </el-form-item>
         <el-form-item

@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import scrollToY from "~/assets/js/scrollToY";
+
 export default {
   name: "PostCommentForm",
   props: {
@@ -96,7 +98,7 @@ export default {
         this.$store.commit("UPDATE_USER_EXP", result.exp);
         setTimeout(() => {
           const dom = document.getElementById(`comment-${result.data.id}`);
-          dom && this.$scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
+          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
         }, 400);
         this.$channel.$emit("image-upload-done");
       } catch (e) {

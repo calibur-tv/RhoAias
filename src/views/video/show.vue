@@ -175,7 +175,7 @@
         </p>
         <a href="/about/hello">查看群号</a>
       </template>
-      <template v-else-if="videoPackage.mustReward && !video.rewarded">
+      <template v-else-if="needCoin">
         <p>
           该视频需要投食之后才能播放
           <br>
@@ -457,6 +457,9 @@ export default {
         return this.$store.state.user.exp.level < this.video.needMinLevel;
       }
       return true;
+    },
+    needCoin() {
+      return this.videoPackage.mustReward && !this.video.rewarded;
     }
   },
   mounted() {
@@ -465,10 +468,14 @@ export default {
       this.notSupport = true;
       return;
     }
-    if (this.useOtherSiteSource) {
-      return;
-    }
-    if (this.isGuest || this.blocked) {
+    if (
+      !this.videoSrc ||
+      this.useOtherSiteSource ||
+      this.showLevelThrottle ||
+      this.needCoin ||
+      this.isGuest ||
+      this.blocked
+    ) {
       return;
     }
     this.player = this.$refs.video;
@@ -526,20 +533,6 @@ export default {
         api.playing(this.id);
       }
     },
-    togglePlaying() {
-      try {
-        this.handlePlaying();
-        if (this.playing) {
-          this.player.pause();
-          this.playing = false;
-        } else {
-          this.player.play();
-          this.playing = true;
-        }
-      } catch (e) {
-        this.$alert(this.errorTips);
-      }
-    },
     handleVideoReportClick() {
       this.$channel.$emit("open-feedback", {
         type: 4,
@@ -547,20 +540,6 @@ export default {
           this.part
         }话 视频有错误，错误详情为：{?}`,
         placeholder: "请填写错误详情"
-      });
-    },
-    downloadVideo() {
-      if (this.useOtherSiteSource) {
-        this.$toast.error("第三方资源不支持下载");
-        return;
-      }
-      if (this.isGuest) {
-        this.$toast.error("登录后才能下载");
-        this.$channel.$emit("sign-in");
-        return;
-      }
-      this.$alert("该视频资源6小时内有效，请在失效前下载至本地").then(() => {
-        window.open(this.videoSrc);
       });
     },
     handleRewardAction() {

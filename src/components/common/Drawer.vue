@@ -50,6 +50,7 @@
     z-index: 1;
     border-bottom: 1px solid #f0f0f0;
     margin-bottom: 10px;
+    background-color: #fff;
 
     button {
       position: absolute;

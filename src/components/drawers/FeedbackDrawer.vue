@@ -50,9 +50,13 @@
 
 <script>
 import UserApi from "~/api/userApi";
+import VRadio from "~/components/common/Radio";
 
 export default {
   name: "FeedbackDrawer",
+  components: {
+    VRadio
+  },
   data() {
     return {
       show: false,

@@ -25,6 +25,7 @@
       position: relative;
       overflow: hidden;
       display: block;
+      font-size: 0;
 
       &.album-box:after {
         content: "";
@@ -169,7 +170,10 @@
           :width="width"
           :height="computeBoxHeight(item.source)"
         >
-          <div class="image">
+          <div
+            v-if="computeImageHeight(item.source)"
+            class="image"
+          >
             <a
               :href="$alias.image(item.id)"
               :class="{ 'album-box': item.is_album }"
@@ -329,6 +333,9 @@ export default {
       return this.computeImageHeight(image) + 106;
     },
     computeImageHeight(image) {
+      if (!image) {
+        return 0;
+      }
       const result = parseInt((image.height / image.width) * this.width, 10);
       if (result > 240) {
         return 240;

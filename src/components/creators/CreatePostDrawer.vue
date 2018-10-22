@@ -12,12 +12,12 @@
   .bangumi {
     font-size: 16px;
 
-    span {
+    > span {
       color: #666;
       float: left;
     }
 
-    div {
+    > div {
       color: #000;
       overflow: hidden;
     }
@@ -67,28 +67,16 @@
       >
       <div class="bangumi">
         <span>发布到：</span>
-        <div
-          @click="handleBangumiPickerBtnClick"
-          v-text="bangumiPlaceholder"
+        <bangumi-picker
+          v-model="bangumiId"
+          :label="false"
+          :display="open"
         />
       </div>
       <div class="bangumi">
         <span>原创：</span>
         <mt-switch v-model="is_creator"/>
       </div>
-      <v-drawer
-        v-model="openBangumisDrawer"
-        class="bangumis-drawer"
-        from="bottom"
-        size="250px"
-        header-text="选择番剧"
-      >
-        <mt-picker
-          :slots="slots"
-          value-key="name"
-          @change="onValuesChange"
-        />
-      </v-drawer>
       <textarea
         v-model.trim="content"
         placeholder="来吧，尽情的（在1000字以内）发挥吧"
@@ -106,61 +94,27 @@
 </template>
 
 <script>
+import BangumiPicker from "~/components/bangumi/BangumiPicker";
+
 export default {
   name: "CreatePostDrawer",
+  components: {
+    BangumiPicker
+  },
   data() {
     return {
       open: false,
       exceed: 4,
       content: "",
       title: "",
-      slots: [
-        {
-          flex: 1,
-          defaultIndex: 0,
-          values: [],
-          textAlign: "center"
-        }
-      ],
-      selectedBangumi: false,
-      openBangumisDrawer: false,
-      loading: false,
+      bangumiId: "",
       is_creator: false,
       submitting: false
     };
   },
-  computed: {
-    bangumiId() {
-      return this.$route.name === "bangumi-show"
-        ? parseInt(this.$route.params.id, 10)
-        : 0;
-    },
-    currentBangumi() {
-      return this.bangumiId ? this.$store.state.bangumi.info : null;
-    },
-    bangumiPlaceholder() {
-      if (this.loading) {
-        return "加载中...";
-      }
-      if (!this.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.slots[0].values[this.slots[0].defaultIndex].name;
-    },
-    followBangumis() {
-      return this.$store.state.users.bangumis;
-    }
-  },
   mounted() {
-    this.$channel.$on("drawer-open-write-post", async data => {
+    this.$channel.$on("drawer-open-write-post", () => {
       this.open = true;
-      await this.getUserFollowedBangumis();
-      if (data) {
-        this.saveSelectedBangumi(data.id);
-        if (this.slots[0].values.every(_ => _.id !== data.id)) {
-          this.slots[0].values.push(data);
-        }
-      }
     });
   },
   methods: {
@@ -172,12 +126,12 @@ export default {
         this.$toast.error("内容不能为空！");
         return;
       }
-      if (this.loading) {
-        this.$toast.error("番剧加载中");
-        return;
-      }
       if (!this.title) {
         this.$toast.error("标题不能为空！");
+        return;
+      }
+      if (!this.bangumiId) {
+        this.$toast.error("请选择要投稿的番剧！");
         return;
       }
       this.submitting = true;
@@ -187,7 +141,7 @@ export default {
           try {
             const result = await this.$store.dispatch("post/create", {
               title: this.title,
-              bangumiId: this.slots[0].values[this.slots[0].defaultIndex].id,
+              bangumiId: this.bangumiId,
               desc: this.content.substring(0, 120),
               content: this.content,
               geetest: data,
@@ -220,66 +174,6 @@ export default {
           this.submitting = false;
         }
       });
-    },
-    onValuesChange(picker, values) {
-      if (!values[0]) {
-        return;
-      }
-      this.saveSelectedBangumi(values[0].id);
-    },
-    saveSelectedBangumi(id) {
-      this.slots[0].values.forEach((item, index) => {
-        if (item.id === id) {
-          this.slots[0].defaultIndex = index;
-          this.selectedBangumi = true;
-        }
-      });
-    },
-    appendCurrentBangumi() {
-      if (
-        !this.bangumiId ||
-        this.slots[0].values.some(_ => _.id === this.bangumiId)
-      ) {
-        this.saveSelectedBangumi(this.bangumiId);
-        return;
-      }
-      this.slots[0].values.unshift({
-        id: this.currentBangumi.id,
-        name: this.currentBangumi.name,
-        avatar: this.currentBangumi.avatar
-      });
-      this.slots[0].defaultIndex = 0;
-    },
-    async getUserFollowedBangumis() {
-      if (this.followBangumis.length) {
-        this.slots[0].values = this.slots[0].values.concat(this.followBangumis);
-        this.appendCurrentBangumi();
-        return;
-      }
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-      try {
-        const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.$store.state.user.zone
-        });
-        this.slots[0].values = this.slots[0].values.concat(bangumis);
-        this.$nextTick(() => {
-          this.appendCurrentBangumi();
-        });
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loading = false;
-      }
-    },
-    handleBangumiPickerBtnClick() {
-      if (!this.slots[0].values.length) {
-        this.$toast.error("还没有关注任何番剧");
-        return;
-      }
-      this.openBangumisDrawer = true;
     }
   }
 };

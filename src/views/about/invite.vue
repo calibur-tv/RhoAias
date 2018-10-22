@@ -61,10 +61,7 @@
         <h3 class="sub-title">欢迎来到 calibur.tv，是谁邀请你的呢？</h3>
         <div class="tips">
           <p>注册之后，邀请者会收到短信提示，并且获得 1 枚金币；</p>
-          <p>由于站内视频流量过大，为了降低宽带费用，先需要注册后才能看番，影响到了大家的体验，非常抱歉；</p>
-          <p>另外<a 
-            href="/bangumi/34" 
-            target="_blank">《进击的巨人》</a>资源每周同步更新，大家不要错过。</p>
+          <p>由于站内视频流量过大，为了降低宽带费用，先需要注册后才能看番，影响到了大家的体验，非常抱歉</p>
         </div>
         <sign-up-form
           :invite-code="inviteUserId"

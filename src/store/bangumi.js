@@ -37,9 +37,13 @@ export default {
     topPosts: [],
     topFetchedId: false,
     score: null,
-    scoreFetchId: 0
+    scoreFetchId: 0,
+    all: []
   }),
   mutations: {
+    SET_ALL_BANGUMI(state, data) {
+      state.all = data;
+    },
     selectTag(state, id) {
       state.tags.forEach((tag, index) => {
         if (tag.id === id) {
@@ -116,6 +120,27 @@ export default {
     }
   },
   actions: {
+    async getAllBangumi({ state, commit }) {
+      let needLoad = true;
+      try {
+        const lastLoadAt = sessionStorage.getItem("all-bangumi-load-at");
+        if (lastLoadAt && Date.now() - lastLoadAt < 3600000) {
+          const list = JSON.parse(sessionStorage.getItem("all-bangumi-list"));
+          list && commit("SET_ALL_BANGUMI", list);
+          needLoad = !(list && list.length);
+        }
+      } catch (e) {}
+      if (state.all.length || !needLoad) {
+        return;
+      }
+      const api = new Api();
+      const data = await api.all();
+      commit("SET_ALL_BANGUMI", data);
+      try {
+        sessionStorage.setItem("all-bangumi-load-at", Date.now());
+        sessionStorage.setItem("all-bangumi-list", JSON.stringify(data));
+      } catch (e) {}
+    },
     async getTags({ state, commit }, { id, ctx }) {
       if (state.tags.length) {
         return;

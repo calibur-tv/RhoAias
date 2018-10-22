@@ -143,10 +143,12 @@ $footer-height: 50px;
 import html2canvas from "html2canvas";
 import OnePiece from "~/components/campaign/OnePiece";
 import BlackWork from "~/components/campaign/BlackWork";
+import VRadio from "~/components/common/Radio";
 
 export default {
   name: "CampaignCanvas",
   components: {
+    VRadio,
     OnePiece,
     BlackWork
   },

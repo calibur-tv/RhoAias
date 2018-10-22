@@ -18,6 +18,7 @@ import flow from "./flow";
 import world from "./flow";
 import question from "./question";
 import app from "./app";
+import cm from "./cm";
 
 Vue.use(Vuex);
 
@@ -161,7 +162,8 @@ export function createStore() {
       flow,
       world,
       question,
-      app
+      app,
+      cm
     }
   });
 }

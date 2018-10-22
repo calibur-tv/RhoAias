@@ -396,7 +396,7 @@ export default {
         });
     },
     handleReplyBtnClick() {
-      this.$channel.$emit("open-create-comment-drawer");
+      this.$channel.$emit(`open-create-comment-drawer-post-${this.post.id}`);
     }
   }
 };

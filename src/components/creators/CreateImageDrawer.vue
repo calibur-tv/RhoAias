@@ -4,11 +4,11 @@
     font-size: 16px;
     line-height: 48px;
 
-    span {
+    > span {
       float: left;
     }
 
-    div {
+    > div {
       color: #000;
       overflow: hidden;
     }
@@ -49,13 +49,7 @@
         size="250px"
       >
         <mt-picker
-          v-if="openBangumisDrawer"
-          :slots="bangumiSlots"
-          value-key="name"
-          @change="onBangumiValuesChange"
-        />
-        <mt-picker
-          v-else-if="openImageAlbumDrawer"
+          v-if="openImageAlbumDrawer"
           :slots="albumSlots"
           value-key="name"
           @change="onAlbumValuesChange"
@@ -75,9 +69,10 @@
           />
           <div class="field">
             <span>番剧：</span>
-            <div
-              @click="handleImageBangumiPickerBtnClick"
-              v-text="imageBangumiPlaceholder"
+            <bangumi-picker
+              v-model="image.bangumiId"
+              :label="false"
+              :display="show && sort === 'image'"
             />
           </div>
           <div class="field">
@@ -115,9 +110,10 @@
         />
         <div class="field">
           <span>番剧：</span>
-          <div
-            @click="handleAlbumBangumiPickerBtnClick"
-            v-text="albumBangumiPlaceholder"
+          <bangumi-picker
+            v-model="album.bangumiId"
+            :label="false"
+            :display="show && sort === 'album'"
           />
         </div>
         <div class="field">
@@ -135,9 +131,15 @@
 
 <script>
 import ImageApi from "~/api/imageApi";
+import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import Field from "~/components/common/Field";
 
 export default {
   name: "CreateImageDrawer",
+  components: {
+    "v-field": Field,
+    BangumiPicker
+  },
   data() {
     return {
       show: false,
@@ -149,14 +151,6 @@ export default {
       openBangumisDrawer: false,
       openImageAlbumDrawer: false,
       submitting: false,
-      bangumiSlots: [
-        {
-          flex: 1,
-          defaultIndex: 0,
-          values: [],
-          textAlign: "center"
-        }
-      ],
       albumSlots: [
         {
           flex: 1,
@@ -168,44 +162,19 @@ export default {
       album: {
         name: "",
         bangumiId: "",
-        selectedBangumi: false,
         creator: false,
         cartoon: false
       },
       image: {
         name: "",
         creator: false,
-        selectedBangumi: false,
+        bangumiId: "",
         selectedAlbum: false
       },
       isSingleModel: true
     };
   },
   computed: {
-    albumBangumiPlaceholder() {
-      if (this.loadingBangumi) {
-        return "加载中...";
-      }
-      if (!this.bangumiSlots[0].values.length) {
-        return "请先关注番剧";
-      }
-      if (!this.album.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.getSelectedMeta("bangumi", "name");
-    },
-    imageBangumiPlaceholder() {
-      if (this.loadingBangumi) {
-        return "加载中...";
-      }
-      if (!this.bangumiSlots[0].values.length) {
-        return "请先关注番剧";
-      }
-      if (!this.image.selectedBangumi) {
-        return "点击选择番剧";
-      }
-      return this.getSelectedMeta("bangumi", "name");
-    },
     imageAlbumPlaceholder() {
       if (this.loadingUserAlbum) {
         return "加载中...";
@@ -217,9 +186,6 @@ export default {
         return "点击选择相册";
       }
       return this.getSelectedMeta("album", "name");
-    },
-    followBangumis() {
-      return this.$store.state.users.bangumis;
     },
     pickerDrawerHeaderText() {
       if (this.openBangumisDrawer) {
@@ -235,7 +201,6 @@ export default {
   },
   mounted() {
     this.$channel.$on("open-create-image-drawer", () => {
-      this.getUserFollowedBangumis();
       this.getUserAlbum();
       this.show = true;
     });
@@ -251,22 +216,6 @@ export default {
       this[name] = true;
       this.openPickerDrawer = true;
     },
-    handleImageBangumiPickerBtnClick() {
-      if (!this.bangumiSlots[0].values.length) {
-        this.$toast.error("还没有关注任何番剧");
-        return;
-      }
-      this.image.selectedBangumi = true;
-      this.switchPickerDrawer("openBangumisDrawer");
-    },
-    handleAlbumBangumiPickerBtnClick() {
-      if (!this.bangumiSlots[0].values.length) {
-        this.$toast.error("还没有关注任何番剧");
-        return;
-      }
-      this.album.selectedBangumi = true;
-      this.switchPickerDrawer("openBangumisDrawer");
-    },
     handleAlbumPickerBtnClick() {
       if (this.loadingUserAlbum) {
         this.$toast.error("数据加载中");
@@ -279,17 +228,6 @@ export default {
       this.image.selectedAlbum = true;
       this.switchPickerDrawer("openImageAlbumDrawer");
     },
-    onBangumiValuesChange(picker, values) {
-      if (!values[0]) {
-        return;
-      }
-      const id = values[0].id;
-      this.bangumiSlots[0].values.forEach((item, index) => {
-        if (item.id === id) {
-          this.bangumiSlots[0].defaultIndex = index;
-        }
-      });
-    },
     onAlbumValuesChange(picker, values) {
       if (!values[0]) {
         return;
@@ -301,30 +239,6 @@ export default {
         }
       });
     },
-    async getUserFollowedBangumis() {
-      if (this.followBangumis.length) {
-        this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(
-          this.followBangumis
-        );
-        return;
-      }
-      if (this.loadingBangumi) {
-        return;
-      }
-      this.loadingBangumi = true;
-      try {
-        const bangumis = await this.$store.dispatch("users/getFollowBangumis", {
-          zone: this.user.zone
-        });
-        this.bangumiSlots[0].values = this.bangumiSlots[0].values.concat(
-          bangumis
-        );
-      } catch (e) {
-        this.$toast.error(e);
-      } finally {
-        this.loadingBangumi = false;
-      }
-    },
     async createAlbum(poster) {
       if (!this.album.name) {
         this.$toast.error("请填写相册名字");
@@ -334,7 +248,7 @@ export default {
         this.$toast.error("相册名字请缩减至 30 字以内");
         return;
       }
-      if (!this.album.selectedBangumi) {
+      if (!this.album.bangumiId) {
         this.$toast.error("请选择要投稿的番剧");
         return;
       }
@@ -347,7 +261,7 @@ export default {
       try {
         const result = await api.createAlbum(
           Object.assign({}, poster, {
-            bangumi_id: this.getSelectedMeta("bangumi", "id"),
+            bangumi_id: this.album.bangumiId,
             is_cartoon: false,
             name: this.album.name,
             is_creator: this.album.creator,
@@ -366,7 +280,6 @@ export default {
         this.album = {
           name: "",
           bangumiId: "",
-          selectedBangumi: false,
           creator: false,
           cartoon: false
         };
@@ -396,7 +309,7 @@ export default {
     },
     async createImage(images) {
       if (this.isSingleModel) {
-        if (!this.image.selectedBangumi) {
+        if (!this.image.bangumiId) {
           this.$toast.error("请选择要投稿的番剧");
           return;
         }
@@ -424,7 +337,7 @@ export default {
               const result = await api.uploadSingleImage(
                 Object.assign({}, images, {
                   is_creator: this.image.creator,
-                  bangumi_id: this.getSelectedMeta("bangumi", "id"),
+                  bangumi_id: this.image.bangumiId,
                   name: this.image.name,
                   geetest: data
                 })

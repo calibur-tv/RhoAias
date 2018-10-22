@@ -23,6 +23,10 @@
 export default {
   name: "BangumiPicker",
   props: {
+    display: {
+      required: true,
+      type: Boolean
+    },
     value: {
       required: true,
       type: [Number, String]
@@ -73,9 +77,11 @@ export default {
     this.$watch("value", val => {
       this.autoSelect(val);
     });
-    if (this.notInit) {
-      this.getData();
-    }
+    this.$watch("display", val => {
+      if (val && this.notInit) {
+        this.getData();
+      }
+    });
   },
   methods: {
     onClickSelect() {

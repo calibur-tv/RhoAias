@@ -189,7 +189,7 @@
     <v-drawer
       v-model="showCommentModal"
       from="bottom"
-      size="100%"
+      size="80%"
     >
       <div class="container">
         <comment-main

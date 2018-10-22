@@ -14,7 +14,7 @@
 
         .face {
           flex-shrink: 0;
-          margin-right: 15px;
+          margin-right: 10px;
           border-radius: 5px;
           float: left;
         }
@@ -25,7 +25,8 @@
           .name {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            margin-top: 1px;
           }
 
           .body {
@@ -71,7 +72,7 @@
             />
             <div class="content">
               <p 
-                class="name" 
+                class="name oneline"
                 v-text="item.name"/>
               <p 
                 class="body" 

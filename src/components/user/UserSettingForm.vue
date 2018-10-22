@@ -212,6 +212,9 @@ export default {
     },
     birthday: {
       get() {
+        if (/-/.test(this.user.birthday)) {
+          return new Date(this.user.birthday.replace(/-/g, "/"));
+        }
         return new Date(this.user.birthday);
       },
       set(value) {
