@@ -51,7 +51,8 @@ $panel-height: 92px;
     <div :class="$style.content">
       <a :href="$alias.bangumi(id)">
         <h5 
-          :class="$style.name" 
+          :class="$style.name"
+          class="oneline"
           v-text="name"/>
       </a>
       <div :class="$style.summary">

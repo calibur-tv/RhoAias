@@ -92,7 +92,7 @@
         margin-top: 5px;
 
         span {
-          margin-right: 10px;
+          margin-right: 8px;
         }
 
         .done {
