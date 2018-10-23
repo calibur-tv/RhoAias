@@ -454,7 +454,9 @@ export default {
     },
     showLevelThrottle() {
       if (this.$store.state.login) {
-        return this.$store.state.user.exp.level < this.video.needMinLevel;
+        return (
+          this.$store.state.user.exp.level < this.videoPackage.needMinLevel
+        );
       }
       return true;
     },
