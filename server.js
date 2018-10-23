@@ -96,7 +96,7 @@ router.get("*", async ctx => {
   ctx.set("Transfer-Encoding", "chunked");
   ctx.set("X-Content-Type-Options", "nosniff");
   ctx.set("X-Frame-Options", "DENY");
-  ctx.set("Cache-Control", "max-age=0, private");
+  ctx.set("Cache-Control", "max-age=0, private, no-siteapp, no-transform");
   ctx.set(
     "Content-Security-Policy",
     `script-src 'self' 'unsafe-inline' 'unsafe-eval' *.calibur.tv hm.baidu.com *.geetest.com zz.bdstatic.com push.zhanzhang.baidu.com res.wx.qq.com;`

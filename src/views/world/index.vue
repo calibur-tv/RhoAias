@@ -23,7 +23,7 @@
       background-color: rgba(30, 30, 34, 0.6);
       height: 50px;
       width: 100%;
-      padding: 8px 20px 3px;
+      padding: 8px 10px 3px;
       color: #fff;
 
       .title {

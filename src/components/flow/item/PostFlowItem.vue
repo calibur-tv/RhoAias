@@ -103,13 +103,13 @@
       color: #333;
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       @include twoline(18px);
     }
 
     .images {
       position: relative;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
 
       .poster-image {
         img {
@@ -147,9 +147,16 @@
     align-items: center;
     padding-bottom: 5px;
 
-    span {
-      font-size: 12px;
+    i {
       color: #666;
+      vertical-align: middle;
+      margin-right: 3px;
+    }
+
+    span {
+      vertical-align: middle;
+      font-size: 11px;
+      color: $color-text-normal;
     }
 
     .done {
@@ -267,22 +274,22 @@
         </div>
       </div>
       <div class="footer">
-        <span v-if="item.is_creator">
-          投食
-          {{ $utils.shortenNumber(item.reward_count) }}
-        </span>
-        <span v-else>
-          喜欢
-          {{ $utils.shortenNumber(item.like_count) }}
-        </span>
-        <span>
-          收藏
-          {{ $utils.shortenNumber(item.mark_count) }}
-        </span>
-        <span>
-          评论
-          {{ $utils.shortenNumber(item.comment_count) }}
-        </span>
+        <div v-if="item.is_creator">
+          <i class="iconfont icon-lingshitangguo"/>
+          <span>{{ $utils.shortenNumber(item.reward_count) }}</span>
+        </div>
+        <div v-else>
+          <i class="iconfont icon-guanzhu"/>
+          <span>{{ $utils.shortenNumber(item.like_count) }}</span>
+        </div>
+        <div>
+          <i class="iconfont icon-shoucang"/>
+          <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
+        </div>
+        <div>
+          <i class="iconfont icon-pinglun1"/>
+          <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
+        </div>
       </div>
     </router-link>
     <div class="hr"/>

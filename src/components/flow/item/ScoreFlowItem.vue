@@ -99,29 +99,6 @@
     .title {
       margin-bottom: 5px;
 
-      .top_badge,
-      .nice_badge {
-        float: left;
-        height: 16px;
-        line-height: 18px;
-        color: #fff;
-        cursor: default;
-        font-size: 11px;
-        font-weight: bold;
-        text-align: center;
-        border-radius: 4px;
-        padding: 0 4px;
-        margin-right: 5px;
-      }
-
-      .top_badge {
-        background-color: $color-blue-normal;
-      }
-
-      .nice_badge {
-        background-color: $color-pink-deep;
-      }
-
       .oneline {
         color: #4c4c4c;
         font-weight: bold;
@@ -136,7 +113,7 @@
       color: #333;
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       @include twoline(18px);
     }
   }
@@ -151,9 +128,16 @@
     align-items: center;
     padding-bottom: 5px;
 
-    span {
-      font-size: 12px;
+    i {
       color: #666;
+      vertical-align: middle;
+      margin-right: 3px;
+    }
+
+    span {
+      vertical-align: middle;
+      font-size: 11px;
+      color: $color-text-normal;
     }
 
     .done {
@@ -286,22 +270,22 @@
         />
       </div>
       <div class="footer">
-        <span v-if="item.is_creator">
-          投食
-          {{ $utils.shortenNumber(item.reward_count) }}
-        </span>
-        <span v-else>
-          喜欢
-          {{ $utils.shortenNumber(item.like_count) }}
-        </span>
-        <span>
-          收藏
-          {{ $utils.shortenNumber(item.mark_count) }}
-        </span>
-        <span>
-          评论
-          {{ $utils.shortenNumber(item.comment_count) }}
-        </span>
+        <div v-if="item.is_creator">
+          <i class="iconfont icon-lingshitangguo"/>
+          <span>{{ $utils.shortenNumber(item.reward_count) }}</span>
+        </div>
+        <div v-else>
+          <i class="iconfont icon-guanzhu"/>
+          <span>{{ $utils.shortenNumber(item.like_count) }}</span>
+        </div>
+        <div>
+          <i class="iconfont icon-shoucang"/>
+          <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
+        </div>
+        <div>
+          <i class="iconfont icon-pinglun1"/>
+          <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
+        </div>
       </div>
     </div>
     <div class="hr"/>

@@ -61,7 +61,7 @@
     }
 
     .badge {
-      margin-right: 30px;
+      margin-right: 28px;
       font-size: 14px;
     }
   }
@@ -78,7 +78,7 @@
     }
 
     i {
-      font-size: 13px;
+      font-size: 14px;
     }
 
     a,
