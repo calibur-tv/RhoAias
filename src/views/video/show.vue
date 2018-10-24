@@ -179,10 +179,10 @@
         <p>
           该视频需要投食之后才能播放
           <br>
-          金币可通过签到等方式获得
+          团子可通过签到等方式获得
         </p>
         <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
-        <a href="/about/hello">&nbsp;&nbsp;什么是金币？</a>
+        <a href="/about/hello">&nbsp;&nbsp;什么是团子？</a>
       </template>
       <template v-else-if="showLevelThrottle">
         <p>

@@ -222,7 +222,7 @@
               round
               @click="handleReplyBtnClick"
             >
-              <i class="iconfont icon-pinglun1"/>
+              <i class="iconfont icon-talk"/>
               回复
             </el-button>
           </social-panel>

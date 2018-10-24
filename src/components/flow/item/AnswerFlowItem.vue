@@ -152,7 +152,7 @@
         size="medium"
         @click="loadAnswerComment"
       >
-        <i class="iconfont icon-pinglun1"/>
+        <i class="iconfont icon-talk"/>
         {{ item.comment_count ? item.comment_count + ' 条评论' : '添加评论' }}
       </el-button>
       <template v-if="isMine">

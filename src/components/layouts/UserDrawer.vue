@@ -152,7 +152,7 @@
           </div>
         </div>
       </div>
-      <span class="badge">金币：{{ coinCount }} 个</span>
+      <span class="badge">团子：{{ coinCount }} 个</span>
       <span class="badge">邀请码：{{ user.id }}</span>
     </div>
     <ul 

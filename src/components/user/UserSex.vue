@@ -7,7 +7,7 @@
     />
     <i
       v-else-if="convertSex === '未知'"
-      class="iconfont icon-wenhao"
+      class="iconfont icon-unknown"
       style="color: gold"
     />
     <i

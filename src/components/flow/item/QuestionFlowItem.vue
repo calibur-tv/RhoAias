@@ -141,7 +141,7 @@
       <span class="stats">
         <i
           v-if="!item.comment_count"
-          class="iconfont icon-pinglun1"
+          class="iconfont icon-talk"
         />
         {{ item.comment_count ? item.comment_count + '条评论' : '还没有评论' }}
       </span>

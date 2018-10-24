@@ -39,7 +39,7 @@
         font-size: 14px;
         line-height: 14px;
         overflow: hidden;
-        margin-top: 4px;
+        margin-top: 3px;
         margin-bottom: 0;
         color: #333;
       }
@@ -275,19 +275,19 @@
       </div>
       <div class="footer">
         <div v-if="item.is_creator">
-          <i class="iconfont icon-lingshitangguo"/>
+          <i class="iconfont icon-fantuan"/>
           <span>{{ $utils.shortenNumber(item.reward_count) }}</span>
         </div>
         <div v-else>
-          <i class="iconfont icon-guanzhu"/>
+          <i class="iconfont icon-like"/>
           <span>{{ $utils.shortenNumber(item.like_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-shoucang"/>
+          <i class="iconfont icon--mark"/>
           <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-pinglun1"/>
+          <i class="iconfont icon-talk"/>
           <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
         </div>
       </div>
