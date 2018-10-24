@@ -224,7 +224,7 @@ export default {
       },
       {
         index: 2,
-        label: "评分",
+        label: "漫评",
         value: "world-score"
       },
       {

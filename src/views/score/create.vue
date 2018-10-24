@@ -372,7 +372,7 @@ export default {
         .then(id => {
           if (id) {
             this.$confirm("你已经给该番剧评过分了，不能重复评分", "提示", {
-              confirmButtonText: "查看我的评分",
+              confirmButtonText: "查看我的漫评",
               cancelButtonText: "换一个番剧",
               type: "warning"
             })
