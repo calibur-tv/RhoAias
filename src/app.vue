@@ -13,12 +13,17 @@ export default {
   name: "Entry",
   head() {
     const state = this.$store.state;
+    const path = this.$route.fullPath;
     const ua = state.ua;
 
     return {
       title: "天下漫友是一家",
       titleTemplate: titleChunk => {
-        return titleChunk ? `${titleChunk} - calibur` : "天下漫友是一家";
+        return /^\/app\//.test(path)
+          ? titleChunk || "calibur"
+          : titleChunk
+            ? `${titleChunk} - calibur`
+            : "天下漫友是一家";
       },
       htmlAttrs: {
         lang: "zh-CN"
