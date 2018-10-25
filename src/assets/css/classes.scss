@@ -1,7 +1,3 @@
-[v-cloak] {
-  display: none
-}
-
 .oneline {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,23 +127,6 @@
     background-color: $color-pink-normal;
     border-radius: 3px;
   }
-}
-
-.image-lazy-init {
-  opacity: 0.3;
-  background-color: #ccc;
-}
-
-.image-lazy-active {
-  transition: background-color, opacity .15s linear;
-  opacity: 1;
-  background-color: transparent;
-}
-
-.image-shim {
-  width: auto !important;
-  display: block;
-  margin: 0 auto 5px auto;
 }
 
 .el-popper[x-placement^="bottom"] {
