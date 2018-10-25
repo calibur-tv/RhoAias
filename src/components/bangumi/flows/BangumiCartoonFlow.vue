@@ -216,8 +216,13 @@
 </template>
 
 <script>
+import VPopover from "~/components/common/Popover";
+
 export default {
   name: "VBangumiCartoonFlow",
+  components: {
+    VPopover
+  },
   data() {
     return {
       loading: false

@@ -77,7 +77,7 @@ $panel-height: 92px;
 import FollowButton from "~/components/common/FollowButton";
 
 export default {
-  name: "VBangumiPanel",
+  name: "BangumiPanel",
   components: {
     FollowButton
   },

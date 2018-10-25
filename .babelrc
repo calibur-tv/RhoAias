@@ -17,6 +17,7 @@
   "plugins": [
     "syntax-dynamic-import",
     "transform-runtime",
+    "babel-plugin-lodash",
     ["component", [
       {
         "libraryName": "element-ui",

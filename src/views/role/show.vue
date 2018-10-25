@@ -178,7 +178,7 @@
       </div>
       <div class="bangumi">
         <h3 class="sub-title">所属番剧</h3>
-        <v-bangumi-panel
+        <bangumi-panel
           :id="bangumi.id"
           :avatar="bangumi.avatar"
           :name="bangumi.name"
@@ -188,7 +188,7 @@
           <p 
             class="summary" 
             v-text="bangumi.summary"/>
-        </v-bangumi-panel>
+        </bangumi-panel>
       </div>
     </div>
     <div class="tabs">
@@ -259,6 +259,8 @@
 
 <script>
 import CommentMain from "~/components/comments/CommentMain";
+import BangumiPanel from "~/components/panel/BangumiPanel";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "RoleShow",
@@ -275,7 +277,9 @@ export default {
     ]);
   },
   components: {
-    CommentMain
+    CommentMain,
+    BangumiPanel,
+    VPopover
   },
   data() {
     return {

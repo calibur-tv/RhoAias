@@ -183,6 +183,7 @@ import Rate from "vant/lib/rate";
 import "vant/lib/vant-css/rate.css";
 import JsonEditor from "~/components/jsonEditor/index";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import { Switch } from "mint-ui";
 
 export default {
   name: "ScoreCreate",
@@ -198,7 +199,8 @@ export default {
   components: {
     vanRate: Rate,
     JsonEditor,
-    BangumiPicker
+    BangumiPicker,
+    "mt-switch": Switch
   },
   data() {
     const labelMap = {

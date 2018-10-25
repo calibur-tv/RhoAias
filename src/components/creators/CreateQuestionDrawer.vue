@@ -76,11 +76,13 @@
 <script>
 import Api from "~/api/questionApi";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import ImageUploader from "~/components/common/ImageUploader";
 
 export default {
   name: "CreateQuestionDrawer",
   components: {
-    BangumiPicker
+    BangumiPicker,
+    ImageUploader
   },
   data() {
     const validateTitle = (rule, value, callback) => {

@@ -144,10 +144,12 @@
 
 <script>
 import SubCommentList from "./SubCommentList";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "CommentCommentItem",
   components: {
+    VPopover,
     SubCommentList
   },
   props: {

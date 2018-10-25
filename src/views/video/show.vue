@@ -265,7 +265,7 @@
         @reward-callback="handleRewardAction"
       />
       <h3 class="sub-title">番剧简介</h3>
-      <v-bangumi-panel
+      <bangumi-panel
         v-if="bangumi"
         :id="bangumi.id"
         :avatar="bangumi.avatar"
@@ -275,7 +275,7 @@
         @follow="handleBangumiFollow"
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
-      </v-bangumi-panel>
+      </bangumi-panel>
       <h3 class="sub-title">视频反馈</h3>
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong> 获得最新的资源更新提醒</p>
       <p class="tip">2：安卓用户建议大家使用最新版 QQ 浏览器在线播放，不要使用系统自带的浏览器</p>
@@ -298,6 +298,7 @@
 import VideoApi from "~/api/videoApi";
 import CommentMain from "~/components/comments/CommentMain";
 import SocialPanel from "~/components/common/SocialPanel";
+import BangumiPanel from "~/components/panel/BangumiPanel";
 
 export default {
   name: "VideoShow",
@@ -359,7 +360,8 @@ export default {
   },
   components: {
     CommentMain,
-    SocialPanel
+    SocialPanel,
+    BangumiPanel
   },
   data() {
     return {

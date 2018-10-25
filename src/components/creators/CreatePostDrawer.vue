@@ -95,11 +95,15 @@
 
 <script>
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import ImageUploader from "~/components/common/ImageUploader";
+import { Switch } from "mint-ui";
 
 export default {
   name: "CreatePostDrawer",
   components: {
-    BangumiPicker
+    BangumiPicker,
+    ImageUploader,
+    "mt-switch": Switch
   },
   data() {
     return {

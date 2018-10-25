@@ -263,10 +263,12 @@ import FollowButton from "~/components/common/FollowButton";
 import CreateAnswerForm from "~/components/question/CreateAnswerForm";
 import QuestionApi from "~/api/questionApi";
 import CommentMain from "~/components/comments/CommentMain";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "QuestionPanel",
   components: {
+    VPopover,
     FollowButton,
     CommentMain,
     CreateAnswerForm

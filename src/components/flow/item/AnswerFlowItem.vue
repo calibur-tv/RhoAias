@@ -218,6 +218,7 @@ import JsonContent from "~/components/jsonEditor/JsonContent";
 import VoteButton from "~/components/common/VoteButton";
 import CommentMain from "~/components/comments/CommentMain";
 import SocialPanel from "~/components/common/SocialPanel";
+import VPopover from "~/components/common/Popover";
 import Api from "~/api/questionApi";
 
 export default {
@@ -226,7 +227,8 @@ export default {
     JsonContent,
     VoteButton,
     CommentMain,
-    SocialPanel
+    SocialPanel,
+    VPopover
   },
   props: {
     item: {

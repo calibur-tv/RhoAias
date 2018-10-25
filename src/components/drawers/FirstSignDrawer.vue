@@ -95,6 +95,9 @@ export default {
     };
   },
   mounted() {
+    if (/^\/app\//.test(this.$route.fullPath)) {
+      return;
+    }
     if (!this.$cookie.get("display-first-sign-dialog")) {
       try {
         if (!localStorage.getItem("display-first-sign-dialog")) {

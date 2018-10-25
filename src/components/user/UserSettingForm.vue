@@ -147,9 +147,15 @@
 
 <script>
 import Api from "~/api/userApi";
+import VPopover from "~/components/common/Popover";
+import { Switch } from "mint-ui";
 
 export default {
   name: "UserSettingForm",
+  components: {
+    VPopover,
+    "mt-switch": Switch
+  },
   data() {
     const validateNickname = (rule, value, callback) => {
       const length = value.replace(/([\u4e00-\u9fa5])/g, "aa").trim().length;

@@ -207,11 +207,13 @@
 <script>
 import UserApi from "~/api/userApi";
 import UserSex from "~/components/user/UserSex";
+import { Badge } from "mint-ui";
 
 export default {
   name: "VUserDrawer",
   components: {
-    UserSex
+    UserSex,
+    "mt-badge": Badge
   },
   data() {
     return {

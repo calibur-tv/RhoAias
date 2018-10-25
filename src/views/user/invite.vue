@@ -196,9 +196,13 @@
 
 <script>
 import html2canvas from "html2canvas";
+import { Badge } from "mint-ui";
 
 export default {
   name: "PageUserInvite",
+  components: {
+    "mt-badge": Badge
+  },
   data() {
     return {
       created: false,
