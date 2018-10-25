@@ -13,6 +13,9 @@ export default {
   components: {
     UserReportForm
   },
+  head: {
+    title: "举报"
+  },
   computed: {
     id() {
       return this.$route.query.id;

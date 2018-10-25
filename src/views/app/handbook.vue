@@ -250,6 +250,9 @@ export default {
     "el-collapse": Collapse,
     "el-collapse-item": CollapseItem
   },
+  head: {
+    title: "帮助手册"
+  },
   data() {
     return {
       activeName: this.$route.query.index || ""

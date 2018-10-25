@@ -162,6 +162,9 @@ import html2canvas from "html2canvas";
 
 export default {
   name: "AppInvite",
+  head: {
+    title: "我的邀请码"
+  },
   data() {
     return {
       created: false,
