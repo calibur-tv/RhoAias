@@ -1,17 +1,25 @@
 <style lang="scss">
-.text-preview {
+.list-preview {
   position: relative;
   z-index: 1;
 
-  input {
-    width: 100%;
+  .sort-wrap {
     height: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
     border-bottom: 1px solid $color-gray-light;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
+
+    span {
+      line-height: 32px;
+    }
+
+    .mint-switch {
+      margin-bottom: 0 !important;
+      height: 32px !important;
+      float: right;
+    }
   }
 
   .content-wrap {
@@ -58,18 +66,16 @@
     v-model="show"
     from="right"
     size="100%"
-    header-text="编辑文本段落"
+    header-text="编辑列表段落"
     submit-text="确定"
   >
-    <div 
-      v-if="show" 
-      class="text-preview">
-      <input
-        v-model="title"
-        type="text"
-        placeholder="段落小标题"
-        maxlength="20"
-      >
+    <div
+      v-if="show"
+      class="list-preview">
+      <div class="sort-wrap">
+        <span>顺序：{{ sort ? '有序' : '无序' }}</span>
+        <mt-switch v-model="sort"/>
+      </div>
       <div class="content-wrap">
         <pre
           class="shim"
@@ -77,7 +83,7 @@
         />
         <textarea
           v-model="text"
-          placeholder="添加文字内容"
+          placeholder="添加文字列表，回车分割"
           @focus="textAreaFocus"
         />
       </div>
@@ -86,8 +92,13 @@
 </template>
 
 <script>
+import { Switch } from "mint-ui";
+
 export default {
-  name: "TxtPreview",
+  name: "ListPreview",
+  components: {
+    "mt-switch": Switch
+  },
   props: {
     item: {
       required: true,
@@ -107,17 +118,17 @@ export default {
       },
       set(value) {
         this.$store.commit("editor/UPDATE_SECTION_TEXT", {
-          value: value.replace(/\n/g, "<br>")
+          value
         });
       }
     },
-    title: {
+    sort: {
       get() {
-        return this.item.title;
+        return this.item.sort === "1";
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TITLE", {
-          value
+        this.$store.commit("editor/UPDATE_SECTION_SORT", {
+          value: value ? "1" : "0"
         });
       }
     }
@@ -127,7 +138,7 @@ export default {
       this.saving = false;
     });
     this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "txt") {
+      if (type === "list") {
         this.show = true;
       }
     });

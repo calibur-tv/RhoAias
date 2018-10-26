@@ -282,6 +282,10 @@ export default {
         this.$toast.error("标题为必填的");
         return;
       }
+      if (richContent.desc.length < 400) {
+        this.$toast.error("漫评至少400字");
+        return;
+      }
       const scores = {};
       let total = 0;
       Object.keys(this.form).forEach(key => {

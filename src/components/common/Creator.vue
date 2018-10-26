@@ -248,10 +248,6 @@ export default {
       this.$channel.$emit("drawer-open-write-question");
     },
     handleScoreClick() {
-      if (this.userLevel < 3) {
-        this.$toast.error("3级以上才能写漫评");
-        return;
-      }
       window.location = this.$alias.createScore;
     }
   }
