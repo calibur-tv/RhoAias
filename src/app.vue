@@ -1,8 +1,8 @@
 <style lang="scss" module>
 .share-img {
   position: fixed;
-  left: -400px;
-  top: -400px;
+  left: 100%;
+  top: 0;
 }
 </style>
 
