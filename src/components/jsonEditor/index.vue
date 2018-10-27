@@ -55,6 +55,7 @@ import ImgPreview from "./preview/ImgPreview";
 import TxtPreview from "./preview/TxtPreview";
 import ListPreview from "./preview/ListPreview";
 import UsePreview from "./preview/UsePreview";
+import scrollToY from "~/assets/js/scrollToY";
 
 export default {
   name: "JsonEditorMain",
@@ -159,12 +160,25 @@ export default {
     },
     handleItemAppend({ index, type }) {
       this.$store.commit("editor/APPEND_SECTION", { index, type });
+      this.scrollToBottom(index);
     },
     handleItemDelete({ index }) {
       this.$store.commit("editor/DELETE_SECTION", { index });
     },
     handleItemSort({ index }) {
       this.$store.commit("editor/SORT_SECTION", { index });
+    },
+    scrollToBottom(index) {
+      this.$nextTick(() => {
+        if (index === this.sections.length - 2) {
+          const dom = document.querySelector(`.json-item-${index}`);
+          scrollToY(
+            dom ? this.$utils.getOffsetTop(dom) + 300 : index * 300 + 1000,
+            1000,
+            document.getElementById("layout-write")
+          );
+        }
+      });
     }
   }
 };

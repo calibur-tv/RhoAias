@@ -1,5 +1,7 @@
 <style lang="scss">
 #score-create {
+  height: auto !important;
+
   .bangumi-search {
     margin-bottom: 20px;
   }

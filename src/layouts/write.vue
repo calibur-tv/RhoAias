@@ -99,11 +99,13 @@
           class="success"
           @click="emitPreview"
         >预览</button>
+        <!--
         <button
           v-if="id"
           class="danger"
           @click="emitDestroy"
         >删除</button>
+        -->
       </template>
     </header>
     <template v-if="user">
