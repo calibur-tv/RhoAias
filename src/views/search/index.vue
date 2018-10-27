@@ -154,6 +154,15 @@ export default {
       q: args.q
     });
   },
+  head: {
+    meta: [
+      {
+        hid: "description",
+        name: "description",
+        content: "搜索二次元的一切"
+      }
+    ]
+  },
   components: {
     vSearch,
     UserItem,

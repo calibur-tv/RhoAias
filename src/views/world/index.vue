@@ -200,6 +200,15 @@ export default {
   async asyncData({ store }) {
     await store.dispatch("cm/getCmLoop");
   },
+  head: {
+    meta: [
+      {
+        hid: "description",
+        name: "description",
+        content: "站内热点"
+      }
+    ]
+  },
   components: {
     "mt-swipe": Swipe,
     "mt-swipe-item": SwipeItem,

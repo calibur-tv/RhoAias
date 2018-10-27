@@ -27,6 +27,7 @@ $header-hgt: 48px;
         margin-right: 8px;
         margin-left: 5px;
         vertical-align: middle;
+        border-radius: 4px;
       }
 
       .link {
@@ -114,7 +115,7 @@ $header-hgt: 48px;
         <router-link to="/">
           <img
             class="logo"
-            src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200/format/jpg"
+            src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/80/h/80"
             alt="logo"
           >
         </router-link>

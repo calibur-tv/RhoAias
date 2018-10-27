@@ -129,6 +129,7 @@
           <div class="clearfix">
             <v-img
               :src="role.avatar"
+              :share="true"
               size="80"
               class="avatar"
             />
@@ -275,6 +276,18 @@ export default {
         seeReplyId: route.query["comment-id"]
       })
     ]);
+  },
+  head() {
+    return {
+      title: `《${this.bangumi.name}》—— ${this.role.name}`,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "calibur.tv，一个兴趣使然的二次元综合网站"
+        }
+      ]
+    };
   },
   components: {
     CommentMain,

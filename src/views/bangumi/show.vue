@@ -147,7 +147,7 @@ export default {
     keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`;
     const desc = this.info.summary;
     return {
-      title: `${name} - 番剧`,
+      title: `《${name}》`,
       meta: [
         { hid: "description", name: "description", content: desc },
         { hid: "keywords", name: "keywords", content: keywords }

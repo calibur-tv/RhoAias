@@ -7,6 +7,7 @@
     color: #ffffff;
     text-align: center;
     position: relative;
+    overflow: hidden;
 
     p {
       padding-top: 20vw;
@@ -55,6 +56,13 @@
       font-size: 30px;
       line-height: 80px;
       animation: rolling 1s infinite linear;
+    }
+
+    .share-poster {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
     }
   }
 
@@ -156,7 +164,7 @@
       <template v-if="!videoSrc">
         <p>这个资源消失了_〆(´Д｀ )</p>
       </template>
-      <template v-if="useOtherSiteSource">
+      <template v-else-if="useOtherSiteSource">
         <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
         <a
           :href="videoSrc"
@@ -200,6 +208,10 @@
         controls="controls"
         controlsList="nodownload"
       />
+      <img
+        :src="$resize(video.poster, { width: 200 })"
+        class="share-poster"
+      >
     </div>
     <div class="container">
       <div id="metas">

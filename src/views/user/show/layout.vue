@@ -171,6 +171,7 @@
       <v-img
         :src="user.avatar"
         :avatar="true"
+        :share="true"
         size="80"
         class="avatar"
       />
@@ -295,7 +296,7 @@ export default {
       return;
     }
     return {
-      title: `${user.nickname} - 用户`,
+      title: user.nickname,
       meta: [
         { hid: "description", name: "description", content: user.signature },
         {

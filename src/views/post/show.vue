@@ -317,7 +317,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.post.title} - 帖子`
+      title: this.post.title
     };
   },
   data() {
