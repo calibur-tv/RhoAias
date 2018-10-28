@@ -299,14 +299,14 @@
           v-if="!userZone || item.tags.length"
           class="tags"
         >
-          <a
-            v-if="!bangumiId && !userZone"
-            :href="$alias.bangumi(item.bangumi.id)"
+          <router-link
+            v-if="item.bangumi && !userZone"
+            :to="$alias.bangumi(item.bangumi.id)"
             target="_blank"
           >
             <i class="iconfont icon-tag"/>
             <span v-text="item.bangumi.name"/>
-          </a>
+          </router-link>
           <span
             v-for="tag in item.tags"
             :key="tag.id"
