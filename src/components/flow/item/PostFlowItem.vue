@@ -296,7 +296,7 @@
           </div>
         </div>
         <div
-          v-if="!userZone || item.tags.length"
+          v-if="item.bangumi || item.tags.length"
           class="tags"
         >
           <router-link

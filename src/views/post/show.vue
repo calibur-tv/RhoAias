@@ -78,38 +78,30 @@
       }
     }
 
+    .tags {
+      margin-bottom: -10px;
+
+      span {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 18px;
+        font-size: 12px;
+        border-radius: 9px;
+        line-height: 18px;
+        background-color: $color-gray-normal;
+        color: $color-text-normal;
+        margin-right: 7px;
+        margin-bottom: 7px;
+      }
+    }
+
     .footer {
       text-align: center;
       margin-bottom: 30px;
 
       button {
         margin: 0 5px;
-        font-size: 13px;
-
-        i {
-          font-size: 12px;
-          line-height: 16px;
-        }
-      }
-
-      .post-like-btn {
-        @include btn-empty(#ffffff, #fa5555);
-      }
-
-      .post-liked-btn {
-        @include btn-empty(#fa5555);
-      }
-
-      .post-mark-btn {
-        @include btn-empty(#ffffff, #eb9e05);
-      }
-
-      .post-marked-btn {
-        @include btn-empty(#eb9e05);
-      }
-
-      .post-comment-btn {
-        @include btn-empty(#ffffff, $color-blue-normal);
       }
     }
   }
@@ -201,6 +193,17 @@
           <div
             class="text-area"
             v-html="post.content"/>
+        </div>
+        <div
+          v-if="post.tags.length"
+          class="tags"
+        >
+          <span
+            v-for="tag in post.tags"
+            :key="tag.id"
+            class="tag"
+            v-text="tag.name"
+          />
         </div>
         <div class="footer">
           <social-panel

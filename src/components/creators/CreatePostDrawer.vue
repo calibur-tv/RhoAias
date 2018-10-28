@@ -9,7 +9,7 @@
     line-height: 20px;
   }
 
-  .bangumi {
+  .field-item {
     font-size: 16px;
 
     > span {
@@ -24,6 +24,21 @@
 
     .mint-switch {
       height: 40px;
+    }
+  }
+
+  .tags {
+    span {
+      display: inline-block;
+      padding-left: 5px;
+      padding-right: 5px;
+      height: 18px;
+      font-size: 12px;
+      border-radius: 9px;
+      line-height: 18px;
+      background-color: $color-gray-normal;
+      color: $color-text-normal;
+      margin-right: 5px;
     }
   }
 
@@ -65,17 +80,35 @@
         maxlength="40"
         placeholder="加个标题哟~"
       >
-      <div class="bangumi">
-        <span>发布到：</span>
+      <div class="field-item">
+        <span>番剧：</span>
         <bangumi-picker
           v-model="bangumiId"
           :label="false"
           :display="open"
         />
       </div>
-      <div class="bangumi">
+      <div class="field-item">
         <span>原创：</span>
         <mt-switch v-model="is_creator"/>
+      </div>
+      <div class="field-item">
+        <span>标签：</span>
+        <div
+          class="tags"
+          @click="openPostTagSelectDrawer = true"
+        >
+          <template v-if="selectedTags.length">
+            <span
+              v-for="tag in displayTags"
+              :key="tag.id"
+              v-text="tag.name"
+            />
+          </template>
+          <template v-else>
+            点击选择标签
+          </template>
+        </div>
       </div>
       <textarea
         v-model.trim="content"
@@ -90,6 +123,19 @@
         @submit="submit"
       />
     </div>
+    <v-drawer
+      v-model="openPostTagSelectDrawer"
+      header-text="选择标签"
+      submit-text="确认"
+      from="bottom"
+      size="70%"
+    >
+      <v-checklist
+        v-model="selectedTags"
+        :options="tags"
+        :max="3"
+      />
+    </v-drawer>
   </v-drawer>
 </template>
 
@@ -98,10 +144,12 @@ import BangumiPicker from "~/components/bangumi/BangumiPicker";
 import ImageUploader from "~/components/common/ImageUploader";
 import { Switch } from "mint-ui";
 import PostApi from "~/api/postApi";
+import VChecklist from "~/components/common/CheckList";
 
 export default {
   name: "CreatePostDrawer",
   components: {
+    VChecklist,
     BangumiPicker,
     ImageUploader,
     "mt-switch": Switch
@@ -113,13 +161,27 @@ export default {
       content: "",
       title: "",
       bangumiId: "",
+      tags: [],
+      selectedTags: [],
       is_creator: false,
-      submitting: false
+      submitting: false,
+      openPostTagSelectDrawer: false
     };
+  },
+  computed: {
+    displayTags() {
+      return this.selectedTags.map(_ => {
+        return {
+          id: _,
+          name: this.tags.filter(a => a.value === _)[0]["label"]
+        };
+      });
+    }
   },
   mounted() {
     this.$channel.$on("drawer-open-write-post", () => {
       this.open = true;
+      this.getPostTags();
     });
   },
   methods: {
@@ -151,6 +213,7 @@ export default {
               desc: this.content.substring(0, 120),
               content: this.content,
               is_creator: this.is_creator,
+              tags: this.selectedTags,
               geetest: data,
               images
             });
@@ -179,6 +242,29 @@ export default {
           this.submitting = false;
         }
       });
+    },
+    async getPostTags() {
+      if (this.tags.length) {
+        return;
+      }
+      try {
+        const list = JSON.parse(sessionStorage.getItem("cache-post-tags"));
+        if (list) {
+          this.tags = list;
+          return;
+        }
+      } catch (e) {}
+      const api = new PostApi(this);
+      try {
+        const tags = await api.tags();
+        this.tags = tags.map(_ => {
+          return {
+            label: _.name,
+            value: _.id
+          };
+        });
+        sessionStorage.setItem("cache-post-tags", JSON.stringify(this.tags));
+      } catch (e) {}
     }
   }
 };
