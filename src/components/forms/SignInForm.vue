@@ -154,7 +154,7 @@ export default {
             })
             .then(token => {
               this.$cookie.set("JWT-TOKEN", token, {
-                expires: this.form.remember ? 365 : 1
+                expires: 365
               });
               window.location.reload();
             })

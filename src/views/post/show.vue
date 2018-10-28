@@ -81,7 +81,7 @@
     .tags {
       margin-bottom: -10px;
 
-      span {
+      > * {
         display: inline-block;
         padding-left: 5px;
         padding-right: 5px;
@@ -91,8 +91,11 @@
         line-height: 18px;
         background-color: $color-gray-normal;
         color: $color-text-normal;
-        margin-right: 7px;
-        margin-bottom: 7px;
+        margin-right: 5px;
+      }
+
+      i {
+        margin-right: 2px;
       }
     }
 
@@ -198,6 +201,13 @@
           v-if="post.tags.length"
           class="tags"
         >
+          <router-link
+            :to="$alias.bangumi(bangumi.id)"
+            target="_blank"
+          >
+            <i class="iconfont icon-tag"/>
+            <span v-text="bangumi.name"/>
+          </router-link>
           <span
             v-for="tag in post.tags"
             :key="tag.id"
