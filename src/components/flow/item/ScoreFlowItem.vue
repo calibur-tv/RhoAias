@@ -113,13 +113,14 @@
       color: #333;
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 5px;
+      margin-bottom: 7px;
       @include twoline(18px);
     }
   }
 
   .footer {
-    height: 35px;
+    position: relative;
+    height: 38px;
     line-height: 30px;
     width: 100%;
     display: flex;
@@ -127,6 +128,18 @@
     justify-content: space-around;
     align-items: center;
     padding-bottom: 5px;
+    padding-top: 3px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: -$container-padding;
+      right: -$container-padding;
+      top: 0;
+      height: 1px;
+      transform: scaleY(0.5);
+      background-color: #eee;
+    }
 
     i {
       color: #666;

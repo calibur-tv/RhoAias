@@ -50,7 +50,7 @@ $banner-height: 140px;
     .share-img {
       position: fixed;
       left: 100%;
-      top: 0;
+      top: -100%;
     }
 
     .follow-button {

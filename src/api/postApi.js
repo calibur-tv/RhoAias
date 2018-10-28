@@ -1,9 +1,19 @@
 import BaseApi from "./_baseApi";
 
 export default class extends BaseApi {
-  create({ title, bangumiId, content, images, desc, geetest, is_creator }) {
+  create({
+    title,
+    tags,
+    bangumiId,
+    content,
+    images,
+    desc,
+    geetest,
+    is_creator
+  }) {
     return this.http.post("post/create", {
       title,
+      tags,
       bangumiId,
       content,
       images,

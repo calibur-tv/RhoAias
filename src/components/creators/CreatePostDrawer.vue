@@ -97,6 +97,7 @@
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
 import ImageUploader from "~/components/common/ImageUploader";
 import { Switch } from "mint-ui";
+import PostApi from "~/api/postApi";
 
 export default {
   name: "CreatePostDrawer",
@@ -143,14 +144,14 @@ export default {
       this.$captcha({
         success: async ({ data }) => {
           try {
-            const result = await this.$store.dispatch("post/create", {
+            const api = new PostApi(this);
+            const result = await api.create({
               title: this.title,
               bangumiId: this.bangumiId,
               desc: this.content.substring(0, 120),
               content: this.content,
-              geetest: data,
               is_creator: this.is_creator,
-              ctx: this,
+              geetest: data,
               images
             });
             this.title = "";
