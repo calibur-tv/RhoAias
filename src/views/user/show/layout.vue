@@ -53,7 +53,7 @@
 
     .faker-tips {
       margin-bottom: 5px;
-      padding: 8px 16px;
+      padding: 6px 13px 8px;
       border-radius: 4px;
       background-color: #fef0f0;
       color: #f56c6c;
@@ -171,6 +171,7 @@
       <v-img
         :src="user.avatar"
         :avatar="true"
+        :share="true"
         size="80"
         class="avatar"
       />
@@ -197,7 +198,7 @@
       <div class="signature">
         <template v-if="isMe">
           <p>
-            <strong>金币可提现额度（排除签到所得的金币）:</strong>
+            <strong>团子可提现额度（排除签到所得的团子）:</strong>
             {{ withdrawCoinCount }}
           </p>
           <div class="exp-container">
@@ -230,7 +231,7 @@
               <li>回复评论：+1</li>
               <li>获得喜欢：+2</li>
               <li>获得收藏：+2</li>
-              <li>获得金币：+3</li>
+              <li>获得团子：+3</li>
             </ul>
             <p>
               <strong>评论/回复自己的内容不会获得经验</strong>
@@ -253,8 +254,19 @@
         class="faker-tips">
         <span>重要提醒</span>
         <p>这是一个运营号，并非本人，该账号下所有信息都是搬运而来</p>
-        <p>如果你就是该账号本人，可以联系网站工作人员拿回该账号，该账号通过搬运资源获得的金币也将归你所有</p>
+        <p>如果你就是该账号本人，可以联系网站工作人员拿回该账号，该账号通过搬运资源获得的团子也将归你所有</p>
         <p>当然，你也有权要求我们删除所有你的内容</p>
+      </div>
+      <div
+        v-if="blockedAt"
+        class="faker-tips"
+      >
+        <span>该用户已被禁言，禁言至：{{ blockedAt }}，可能是由于以下原因：</span>
+        <p>1. 破坏社区环境，包括但不限于：无脑刷屏、复制他人内容来发表</p>
+        <p>2. 恶意带节奏</p>
+        <p>3. 发表于二次元无关的内容</p>
+        <p>4. 其它原因还没想好，希望大家引以为戒</p>
+        <p>如果想要提前申诉解禁，请加QQ群反馈</p>
       </div>
     </div>
     <div class="user-tabs">
@@ -295,7 +307,7 @@ export default {
       return;
     }
     return {
-      title: `${user.nickname} - 用户`,
+      title: user.nickname,
       meta: [
         { hid: "description", name: "description", content: user.signature },
         {
@@ -322,6 +334,9 @@ export default {
     },
     self() {
       return this.$store.state.user;
+    },
+    blockedAt() {
+      return this.$store.state.users.show.banned_to;
     },
     user() {
       return this.isMe ? this.self : this.$store.state.users.show;

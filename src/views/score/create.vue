@@ -1,5 +1,7 @@
 <style lang="scss">
 #score-create {
+  height: auto !important;
+
   .bangumi-search {
     margin-bottom: 20px;
   }
@@ -183,6 +185,7 @@ import Rate from "vant/lib/rate";
 import "vant/lib/vant-css/rate.css";
 import JsonEditor from "~/components/jsonEditor/index";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
+import { Switch } from "mint-ui";
 
 export default {
   name: "ScoreCreate",
@@ -198,7 +201,8 @@ export default {
   components: {
     vanRate: Rate,
     JsonEditor,
-    BangumiPicker
+    BangumiPicker,
+    "mt-switch": Switch
   },
   data() {
     const labelMap = {
@@ -278,6 +282,10 @@ export default {
       }
       if (!this.title) {
         this.$toast.error("标题为必填的");
+        return;
+      }
+      if (richContent.desc.length < 400) {
+        this.$toast.error("漫评至少400字");
         return;
       }
       const scores = {};
@@ -372,7 +380,7 @@ export default {
         .then(id => {
           if (id) {
             this.$confirm("你已经给该番剧评过分了，不能重复评分", "提示", {
-              confirmButtonText: "查看我的评分",
+              confirmButtonText: "查看我的漫评",
               cancelButtonText: "换一个番剧",
               type: "warning"
             })

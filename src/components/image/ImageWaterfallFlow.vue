@@ -18,8 +18,9 @@
   .image {
     width: 100%;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    background-color: #fafafa;
+    box-shadow: 0 1px 3px 0 rgba(80, 80, 80, 0.11);
+    background-color: #f2f3f5;
+    border-radius: 4px;
 
     .image-box {
       position: relative;
@@ -206,7 +207,7 @@
               />
               <div class="social">
                 <span v-if="item.is_creator">
-                  <i class="iconfont icon-guanzhu"/>
+                  <i class="iconfont icon-like"/>
                   {{ item.reward_count }}
                 </span>
                 <span v-else>
@@ -214,7 +215,7 @@
                   {{ item.like_count }}
                 </span>
                 <span>
-                  <i class="iconfont icon-pinglun1"/>
+                  <i class="iconfont icon-talk"/>
                   {{ item.comment_count }}
                 </span>
                 <span>

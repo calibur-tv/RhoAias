@@ -20,8 +20,13 @@
 </template>
 
 <script>
+import { Picker } from "mint-ui";
+
 export default {
   name: "BangumiPicker",
+  components: {
+    "mt-picker": Picker
+  },
   props: {
     display: {
       required: true,

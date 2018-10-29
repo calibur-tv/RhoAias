@@ -7,6 +7,7 @@
     color: #ffffff;
     text-align: center;
     position: relative;
+    overflow: hidden;
 
     p {
       padding-top: 20vw;
@@ -55,6 +56,13 @@
       font-size: 30px;
       line-height: 80px;
       animation: rolling 1s infinite linear;
+    }
+
+    .share-poster {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: -1;
     }
   }
 
@@ -156,7 +164,7 @@
       <template v-if="!videoSrc">
         <p>这个资源消失了_〆(´Д｀ )</p>
       </template>
-      <template v-if="useOtherSiteSource">
+      <template v-else-if="useOtherSiteSource">
         <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
         <a
           :href="videoSrc"
@@ -179,10 +187,10 @@
         <p>
           该视频需要投食之后才能播放
           <br>
-          金币可通过签到等方式获得
+          团子可通过签到等方式获得
         </p>
         <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
-        <a href="/about/hello">&nbsp;&nbsp;什么是金币？</a>
+        <a href="/about/hello">&nbsp;&nbsp;什么是团子？</a>
       </template>
       <template v-else-if="showLevelThrottle">
         <p>
@@ -200,6 +208,10 @@
         controls="controls"
         controlsList="nodownload"
       />
+      <img
+        :src="$resize(video.poster, { width: 200 })"
+        class="share-poster"
+      >
     </div>
     <div class="container">
       <div id="metas">
@@ -265,7 +277,7 @@
         @reward-callback="handleRewardAction"
       />
       <h3 class="sub-title">番剧简介</h3>
-      <v-bangumi-panel
+      <bangumi-panel
         v-if="bangumi"
         :id="bangumi.id"
         :avatar="bangumi.avatar"
@@ -275,7 +287,7 @@
         @follow="handleBangumiFollow"
       >
         <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
-      </v-bangumi-panel>
+      </bangumi-panel>
       <h3 class="sub-title">视频反馈</h3>
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong> 获得最新的资源更新提醒</p>
       <p class="tip">2：安卓用户建议大家使用最新版 QQ 浏览器在线播放，不要使用系统自带的浏览器</p>
@@ -298,6 +310,7 @@
 import VideoApi from "~/api/videoApi";
 import CommentMain from "~/components/comments/CommentMain";
 import SocialPanel from "~/components/common/SocialPanel";
+import BangumiPanel from "~/components/panel/BangumiPanel";
 
 export default {
   name: "VideoShow",
@@ -359,7 +372,8 @@ export default {
   },
   components: {
     CommentMain,
-    SocialPanel
+    SocialPanel,
+    BangumiPanel
   },
   data() {
     return {
@@ -454,7 +468,9 @@ export default {
     },
     showLevelThrottle() {
       if (this.$store.state.login) {
-        return this.$store.state.user.exp.level < this.video.needMinLevel;
+        return (
+          this.$store.state.user.exp.level < this.videoPackage.needMinLevel
+        );
       }
       return true;
     },

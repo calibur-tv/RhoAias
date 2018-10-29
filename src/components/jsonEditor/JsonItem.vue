@@ -92,6 +92,14 @@
         &.green {
           background-color: #67c23a;
         }
+
+        &.blue {
+          background-color: $color-blue-normal;
+        }
+
+        &.pink {
+          background-color: $color-pink-deep;
+        }
       }
     }
 
@@ -105,13 +113,47 @@
       .text {
         font-size: 13px;
         line-height: 16px;
-        -webkit-line-clamp: 4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
         color: $color-text-normal;
         @extend %breakWord;
+
+        &.line-4 {
+          -webkit-line-clamp: 4;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+        }
+
+        &.line-3 {
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+        }
+
+        &.oneline {
+          font-weight: bold;
+        }
+      }
+
+      ul li {
+        list-style-type: disc;
+      }
+
+      ol li {
+        list-style-type: decimal;
+      }
+
+      ul,
+      ol {
+        margin-left: 1.5em;
+      }
+
+      blockquote {
+        border-left: 4px solid $color-gray-deep;
+        padding-left: 10px;
+        margin-left: 5px;
       }
     }
   }
@@ -146,7 +188,7 @@
 
 <template>
   <div
-    :class="{ selected }"
+    :class="[{ selected }, `json-item-${index}`]"
     class="json-item"
   >
     <button
@@ -189,29 +231,127 @@
           v-else-if="item.type === 'txt'"
           class="default yellow"
         >
-          <i class="el-icon-document"/>
+          <i class="el-icon-edit-outline"/>
+        </div>
+        <div
+          v-else-if="item.type === 'list'"
+          class="default blue"
+        >
+          <i class="el-icon-tickets"/>
+        </div>
+        <div
+          v-else-if="item.type === 'use'"
+          class="default pink"
+        >
+          <i class="el-icon-service"/>
         </div>
       </div>
       <div class="content">
-        <div
-          v-if="item.text"
-          class="text"
-          v-html="item.text"
-        />
-        <div
-          v-else
-          class="text"
+        <template v-if="item.type === 'txt'">
+          <div
+            v-if="item.text && !item.title"
+            class="text line-4"
+            v-html="item.text"
+          />
+          <div
+            v-else-if="item.title && !item.text"
+            class="text oneline"
+            v-text="item.title"
+          />
+          <template
+            v-else-if="item.title && item.text"
+          >
+            <div
+              class="text oneline"
+              v-text="item.title"
+            />
+            <div
+              class="text line-3"
+              v-html="item.text"
+            />
+          </template>
+          <div
+            v-else
+            class="text"
+          >点击添加文字</div>
+        </template>
+        <template
+          v-else-if="item.type === 'img'"
         >
-          {{ item.type === 'txt' ? '点击添加文字' : '点击上传图片' }}
-        </div>
+          <div
+            v-if="item.text"
+            class="text line-4"
+            v-html="item.text"
+          />
+          <div
+            v-else-if="item.url"
+            class="text"
+          >
+            点击编辑图片
+          </div>
+          <div
+            v-else
+            class="text"
+          >
+            点击上传图片
+          </div>
+        </template>
+        <template v-else-if="item.type === 'list'">
+          <div
+            v-if="item.text"
+            class="text line-4"
+          >
+            <ol v-if="item.sort === '1'">
+              <li
+                v-for="(li, index) in computeList(item.text)"
+                :key="index"
+              >
+                <span
+                  class="oneline"
+                  v-text="li"/>
+              </li>
+            </ol>
+            <ul v-else>
+              <li
+                v-for="(li, index) in computeList(item.text)"
+                :key="index"
+              >
+                <span
+                  class="oneline"
+                  v-text="li"/>
+              </li>
+            </ul>
+          </div>
+          <div
+            v-else
+            class="text"
+          >点击添加列表</div>
+        </template>
+        <template v-else-if="item.type === 'use'">
+          <blockquote
+            v-if="item.text"
+            class="text line-4"
+            v-html="item.text"
+          />
+          <div
+            v-else
+            class="text"
+          >点击添加引用内容</div>
+        </template>
       </div>
     </div>
     <div class="append-area">
       <button @click="emitCreate('txt')">
-        <span><i class="el-icon-edit"/></span>
+        <span><i class="el-icon-edit-outline"/></span>
       </button>
       <button @click="emitCreate('img')">
         <span><i class="el-icon-picture"/></span>
+      </button>
+      <button @click="emitCreate('list')">
+        <span><i class="el-icon-tickets"/></span>
+      </button>
+      <button @click="emitCreate('use')">
+        <span><i class="el-icon-service"/></span>
       </button>
     </div>
   </div>
@@ -252,6 +392,13 @@ export default {
     },
     emitSort() {
       this.$emit("sort", { index: this.index });
+    },
+    computeList(text) {
+      let list = text;
+      while (/\n\n/.test(list)) {
+        list = list.replace(/\n\n/g, "\n");
+      }
+      return list.split("\n").slice(0, 4);
     }
   }
 };

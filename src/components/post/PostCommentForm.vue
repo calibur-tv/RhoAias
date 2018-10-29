@@ -31,9 +31,13 @@
 
 <script>
 import scrollToY from "~/assets/js/scrollToY";
+import ImageUploader from "~/components/common/ImageUploader";
 
 export default {
   name: "PostCommentForm",
+  components: {
+    ImageUploader
+  },
   props: {
     type: {
       required: true,

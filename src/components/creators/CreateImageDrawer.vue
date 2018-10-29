@@ -133,12 +133,17 @@
 import ImageApi from "~/api/imageApi";
 import BangumiPicker from "~/components/bangumi/BangumiPicker";
 import Field from "~/components/common/Field";
+import ImageUploader from "~/components/common/ImageUploader";
+import { Picker, Switch } from "mint-ui";
 
 export default {
   name: "CreateImageDrawer",
   components: {
     "v-field": Field,
-    BangumiPicker
+    "mt-switch": Switch,
+    "mt-picker": Picker,
+    BangumiPicker,
+    ImageUploader
   },
   data() {
     return {

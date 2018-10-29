@@ -3,20 +3,13 @@
   position: relative;
   z-index: 1;
 
-  input {
-    width: 100%;
-    height: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-bottom: 1px solid $color-gray-light;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
   .content-wrap {
     position: relative;
     margin-bottom: 46px;
+    margin-left: 15px;
+    padding-left: 1em;
+    color: #646464;
+    border-left: 3px solid #d3d3d3;
   }
 
   .shim,
@@ -61,15 +54,9 @@
     header-text="编辑文本段落"
     submit-text="确定"
   >
-    <div 
-      v-if="show" 
+    <div
+      v-if="show"
       class="text-preview">
-      <input
-        v-model="title"
-        type="text"
-        placeholder="段落小标题"
-        maxlength="20"
-      >
       <div class="content-wrap">
         <pre
           class="shim"
@@ -77,7 +64,7 @@
         />
         <textarea
           v-model="text"
-          placeholder="添加文字内容"
+          placeholder="添加引用的文本"
           @focus="textAreaFocus"
         />
       </div>
@@ -87,7 +74,7 @@
 
 <script>
 export default {
-  name: "TxtPreview",
+  name: "UsePreview",
   props: {
     item: {
       required: true,
@@ -127,7 +114,7 @@ export default {
       this.saving = false;
     });
     this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "txt") {
+      if (type === "use") {
         this.show = true;
       }
     });

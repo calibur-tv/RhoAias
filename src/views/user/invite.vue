@@ -182,11 +182,11 @@
       <h3 class="sub-title">使用介绍</h3>
       <ul class="intros">
         <li>非常感谢大家对 calibur.tv 的支持</li>
-        <li>目前网站还在初始阶段，为了促进推广，因此推出了金币功能</li>
-        <li>大家除了每日签到、发表原创内容来赚取金币外</li>
-        <li>还可以通过邀请朋友注册来赚取金币</li>
-        <li>每有一个人通过扫你的二维码注册，你就会获得一枚金币，并会收到短信通知</li>
-        <li>1金币 = 1人民币，满 100 金币可提现</li>
+        <li>目前网站还在初始阶段，为了促进推广，因此推出了团子功能</li>
+        <li>大家除了每日签到、发表原创内容来赚取团子外</li>
+        <li>还可以通过邀请朋友注册来赚取团子</li>
+        <li>每有一个人通过扫你的二维码注册，你就会获得一个团子，并会收到短信通知</li>
+        <li>1团子 = 1人民币，满 100 团子可提现</li>
         <li>大家快去邀请自己的漫友来 calibur 一起玩耍吧！</li>
         <li v-if="created">长按图片可保存到手机相册，更方便分享</li>
       </ul>
@@ -196,9 +196,13 @@
 
 <script>
 import html2canvas from "html2canvas";
+import { Badge } from "mint-ui";
 
 export default {
   name: "PageUserInvite",
+  components: {
+    "mt-badge": Badge
+  },
   data() {
     return {
       created: false,

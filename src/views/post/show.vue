@@ -78,38 +78,33 @@
       }
     }
 
+    .tags {
+      margin-bottom: -10px;
+
+      > * {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 18px;
+        font-size: 12px;
+        border-radius: 9px;
+        line-height: 18px;
+        background-color: $color-gray-normal;
+        color: $color-text-normal;
+        margin-right: 5px;
+      }
+
+      i {
+        margin-right: 2px;
+      }
+    }
+
     .footer {
       text-align: center;
       margin-bottom: 30px;
 
       button {
         margin: 0 5px;
-        font-size: 13px;
-
-        i {
-          font-size: 12px;
-          line-height: 16px;
-        }
-      }
-
-      .post-like-btn {
-        @include btn-empty(#ffffff, #fa5555);
-      }
-
-      .post-liked-btn {
-        @include btn-empty(#fa5555);
-      }
-
-      .post-mark-btn {
-        @include btn-empty(#ffffff, #eb9e05);
-      }
-
-      .post-marked-btn {
-        @include btn-empty(#eb9e05);
-      }
-
-      .post-comment-btn {
-        @include btn-empty(#ffffff, $color-blue-normal);
       }
     }
   }
@@ -202,6 +197,24 @@
             class="text-area"
             v-html="post.content"/>
         </div>
+        <div
+          v-if="post.tags.length"
+          class="tags"
+        >
+          <router-link
+            :to="$alias.bangumi(bangumi.id)"
+            target="_blank"
+          >
+            <i class="iconfont icon-tag"/>
+            <span v-text="bangumi.name"/>
+          </router-link>
+          <span
+            v-for="tag in post.tags"
+            :key="tag.id"
+            class="tag"
+            v-text="tag.name"
+          />
+        </div>
         <div class="footer">
           <social-panel
             :id="post.id"
@@ -222,7 +235,7 @@
               round
               @click="handleReplyBtnClick"
             >
-              <i class="iconfont icon-pinglun1"/>
+              <i class="iconfont icon-talk"/>
               回复
             </el-button>
           </social-panel>
@@ -258,7 +271,7 @@
     <div class="hr"/>
     <div class="container bangumi-panel">
       <h3 class="sub-title">所属番剧：</h3>
-      <v-bangumi-panel
+      <bangumi-panel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
@@ -268,7 +281,7 @@
         <p 
           class="summary" 
           v-text="bangumi.summary"/>
-      </v-bangumi-panel>
+      </bangumi-panel>
     </div>
   </div>
 </template>
@@ -279,6 +292,8 @@ import PostCommentItem from "~/components/post/PostCommentItem";
 import PostCommentForm from "~/components/post/PostCommentForm";
 import SocialPanel from "~/components/common/SocialPanel";
 import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
+import BangumiPanel from "~/components/panel/BangumiPanel";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "PostShow",
@@ -309,11 +324,13 @@ export default {
     PostCommentItem,
     PostCommentForm,
     SocialPanel,
-    ImagePreview
+    ImagePreview,
+    BangumiPanel,
+    VPopover
   },
   head() {
     return {
-      title: `${this.post.title} - 帖子`
+      title: this.post.title
     };
   },
   data() {

@@ -1,6 +1,18 @@
+<style lang="scss" module>
+.share-img {
+  position: fixed;
+  left: 100%;
+  top: -100%;
+}
+</style>
+
 <template>
   <div id="app">
     <router-view/>
+    <img
+      :class="$style.shareImg"
+      src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200"
+    >
     <sign-drawer/>
   </div>
 </template>
@@ -18,7 +30,7 @@ export default {
     return {
       title: "天下漫友是一家",
       titleTemplate: titleChunk => {
-        return titleChunk ? `${titleChunk} - calibur` : "天下漫友是一家";
+        return titleChunk || "calibur.tv";
       },
       htmlAttrs: {
         lang: "zh-CN"
@@ -38,7 +50,7 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: "一个兴趣使然的二次元综合网站"
+          content: "calibur.tv，动漫爱好者的聚集地"
         },
         {
           hid: "keywords",
@@ -69,7 +81,7 @@ export default {
               async: true
             }
           : "",
-        env === "staging"
+        env !== "production"
           ? {
               src:
                 "https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/3.0.0/vconsole.min.js",

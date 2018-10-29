@@ -193,7 +193,7 @@
     <div class="hr"/>
     <div class="container bangumi-panel">
       <h3 class="sub-title">所属番剧：</h3>
-      <v-bangumi-panel
+      <bangumi-panel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
@@ -203,7 +203,7 @@
         <p 
           class="summary" 
           v-text="bangumi.summary"/>
-      </v-bangumi-panel>
+      </bangumi-panel>
     </div>
   </div>
 </template>
@@ -214,6 +214,8 @@ import ScoreApi from "~/api/scoreApi";
 import CommentMain from "~/components/comments/CommentMain";
 import JsonContent from "~/components/jsonEditor/JsonContent";
 import SocialPanel from "~/components/common/SocialPanel";
+import BangumiPanel from "~/components/panel/BangumiPanel";
+import VPopover from "~/components/common/Popover";
 import { Rate } from "element-ui";
 
 export default {
@@ -232,10 +234,24 @@ export default {
       })
     ]);
   },
+  head() {
+    return {
+      title: this.info.title,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: `写给《${this.bangumi.name}》的漫评`
+        }
+      ]
+    };
+  },
   components: {
     CommentMain,
     JsonContent,
     SocialPanel,
+    BangumiPanel,
+    VPopover,
     "el-rate": Rate
   },
   data() {

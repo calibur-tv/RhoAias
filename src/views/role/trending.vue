@@ -17,7 +17,13 @@ export default {
     });
   },
   head: {
-    title: "角色排行榜"
+    meta: [
+      {
+        hid: "description",
+        name: "description",
+        content: "动漫角色排行榜"
+      }
+    ]
   },
   components: {
     CartoonRoleFlowList

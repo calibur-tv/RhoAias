@@ -159,9 +159,16 @@ $main-color: #fb7784;
 
 <script>
 import html2canvas from "html2canvas";
+import { Badge } from "mint-ui";
 
 export default {
   name: "AppInvite",
+  components: {
+    "mt-badge": Badge
+  },
+  head: {
+    title: "我的邀请码"
+  },
   data() {
     return {
       created: false,

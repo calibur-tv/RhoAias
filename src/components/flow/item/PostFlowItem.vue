@@ -29,30 +29,27 @@
       }
     }
 
-    .name {
+    .info {
       vertical-align: middle;
       display: block;
       overflow: hidden;
       height: 35px;
 
-      .nickname {
+      .name {
+        display: block;
         font-size: 14px;
         line-height: 14px;
         overflow: hidden;
         margin-top: 4px;
-        margin-bottom: 0;
         color: #333;
       }
 
-      a,
-      time,
-      span {
+      time {
         display: block;
         color: #999;
         font-size: 11px;
         line-height: 11px;
-        margin-top: 4px;
-        float: left;
+        margin-top: 3px;
       }
     }
   }
@@ -103,13 +100,13 @@
       color: #333;
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 5px;
+      margin-bottom: 7px;
       @include twoline(18px);
     }
 
     .images {
       position: relative;
-      margin-bottom: 5px;
+      margin-bottom: 7px;
 
       .poster-image {
         img {
@@ -135,10 +132,35 @@
         }
       }
     }
+
+    .tags {
+      height: 20px;
+      margin-bottom: 10px;
+      margin-top: -2px;
+      overflow: hidden;
+
+      > * {
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+        height: 18px;
+        font-size: 12px;
+        border-radius: 9px;
+        line-height: 18px;
+        background-color: $color-gray-normal;
+        color: $color-text-normal;
+        margin-right: 5px;
+      }
+
+      i {
+        margin-right: 2px;
+      }
+    }
   }
 
   .footer {
-    height: 35px;
+    position: relative;
+    height: 38px;
     line-height: 30px;
     width: 100%;
     display: flex;
@@ -146,6 +168,18 @@
     justify-content: space-around;
     align-items: center;
     padding-bottom: 5px;
+    padding-top: 3px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: -$container-padding;
+      right: -$container-padding;
+      top: 0;
+      height: 1px;
+      transform: scaleY(0.5);
+      background-color: #eee;
+    }
 
     i {
       color: #666;
@@ -173,56 +207,45 @@
       tag="div"
     >
       <div class="header">
-        <router-link
-          v-if="item.user"
-          :to="$alias.user(item.user.zone)"
-          class="user-avatar"
-        >
-          <v-img
-            :src="item.user.avatar"
-            :avatar="true"
-            size="35"
-          />
-        </router-link>
-        <router-link
-          v-else
-          :to="$alias.bangumi(item.bangumi.id)"
-          class="bangumi-avatar"
-        >
-          <v-img
-            :src="item.bangumi.avatar"
-            size="35"
-          />
-        </router-link>
-        <div class="name">
-          <div
-            v-if="item.user"
-            class="clearfix"
+        <template v-if="!userZone">
+          <router-link
+            :to="$alias.user(item.user.zone)"
+            class="user-avatar"
           >
+            <v-img
+              :src="item.user.avatar"
+              :avatar="true"
+              size="35"
+            />
+          </router-link>
+          <div class="info">
             <router-link
               :to="$alias.user(item.user.zone)"
-              class="nickname"
+              class="name oneline"
               v-text="item.user.nickname"
             />
+            <v-time v-model="item.created_at"/>
           </div>
-          <div
-            v-else
-            class="clearfix"
+        </template>
+        <template v-else>
+          <router-link
+            :to="$alias.bangumi(item.bangumi.id)"
+            class="bangumi-avatar"
           >
-            <span class="nickname">发表在</span>
-          </div>
-          <template v-if="item.bangumi">
+            <v-img
+              :src="item.bangumi.avatar"
+              size="35"
+            />
+          </router-link>
+          <div class="info">
             <router-link
               :to="$alias.bangumi(item.bangumi.id)"
+              class="name oneline"
               v-text="item.bangumi.name"
             />
-            <span>&nbsp;·&nbsp;</span>
-          </template>
-          <template v-else>
-            <span>发表于&nbsp;·&nbsp;</span>
-          </template>
-          <v-time v-model="item.created_at"/>
-        </div>
+            <v-time v-model="item.created_at"/>
+          </div>
+        </template>
       </div>
       <div class="body">
         <div class="title">
@@ -255,7 +278,7 @@
             v-if="item.images.length === 1"
             :src="item.images[0].url"
             width="100%"
-            height="160"
+            height="130"
             class="poster-image"
           />
           <div
@@ -272,22 +295,41 @@
             />
           </div>
         </div>
+        <div
+          v-if="item.bangumi || item.tags.length"
+          class="tags"
+        >
+          <router-link
+            v-if="item.bangumi && !userZone"
+            :to="$alias.bangumi(item.bangumi.id)"
+            target="_blank"
+          >
+            <i class="iconfont icon-tag"/>
+            <span v-text="item.bangumi.name"/>
+          </router-link>
+          <span
+            v-for="tag in item.tags"
+            :key="tag.id"
+            class="tag"
+            v-text="tag.name"
+          />
+        </div>
       </div>
       <div class="footer">
         <div v-if="item.is_creator">
-          <i class="iconfont icon-lingshitangguo"/>
+          <i class="iconfont icon-fantuan"/>
           <span>{{ $utils.shortenNumber(item.reward_count) }}</span>
         </div>
         <div v-else>
-          <i class="iconfont icon-guanzhu"/>
+          <i class="iconfont icon-like"/>
           <span>{{ $utils.shortenNumber(item.like_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-shoucang"/>
+          <i class="iconfont icon--mark"/>
           <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-pinglun1"/>
+          <i class="iconfont icon-talk"/>
           <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
         </div>
       </div>

@@ -132,7 +132,7 @@ export default {
           value: 10
         },
         {
-          label: "互刷金币",
+          label: "互刷团子",
           value: 11
         },
         {

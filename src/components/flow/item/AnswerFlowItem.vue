@@ -152,7 +152,7 @@
         size="medium"
         @click="loadAnswerComment"
       >
-        <i class="iconfont icon-pinglun1"/>
+        <i class="iconfont icon-talk"/>
         {{ item.comment_count ? item.comment_count + ' 条评论' : '添加评论' }}
       </el-button>
       <template v-if="isMine">
@@ -218,6 +218,7 @@ import JsonContent from "~/components/jsonEditor/JsonContent";
 import VoteButton from "~/components/common/VoteButton";
 import CommentMain from "~/components/comments/CommentMain";
 import SocialPanel from "~/components/common/SocialPanel";
+import VPopover from "~/components/common/Popover";
 import Api from "~/api/questionApi";
 
 export default {
@@ -226,7 +227,8 @@ export default {
     JsonContent,
     VoteButton,
     CommentMain,
-    SocialPanel
+    SocialPanel,
+    VPopover
   },
   props: {
     item: {

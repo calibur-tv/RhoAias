@@ -200,6 +200,15 @@ export default {
   async asyncData({ store }) {
     await store.dispatch("cm/getCmLoop");
   },
+  head: {
+    meta: [
+      {
+        hid: "description",
+        name: "description",
+        content: "站内热点"
+      }
+    ]
+  },
   components: {
     "mt-swipe": Swipe,
     "mt-swipe-item": SwipeItem,
@@ -224,7 +233,7 @@ export default {
       },
       {
         index: 2,
-        label: "评分",
+        label: "漫评",
         value: "world-score"
       },
       {

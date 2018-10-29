@@ -10,7 +10,7 @@
     class="follow-button"
     @click="toggleFollow"
   >
-    <i class="iconfont icon-guanzhu"/>
+    <i class="iconfont icon-like"/>
     {{ followed ? '已关注' : '关注' }}
   </button>
 </template>

@@ -47,6 +47,12 @@ $banner-height: 140px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
+    .share-img {
+      position: fixed;
+      left: 100%;
+      top: -100%;
+    }
+
     .follow-button {
       float: right;
       margin-top: 13px;
@@ -92,6 +98,10 @@ $banner-height: 140px;
         :src="$resize(info.avatar, { width: 200 })"
         class="avatar" 
         alt="avatar">
+      <img
+        class="share-img"
+        src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200"
+      >
       <follow-button
         :id="info.id"
         :followed="info.followed"

@@ -165,12 +165,14 @@
 <script>
 import SubCommentList from "~/components/comments/SubCommentList";
 import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "PostCommentItem",
   components: {
     SubCommentList,
-    ImagePreview
+    ImagePreview,
+    VPopover
   },
   props: {
     post: {

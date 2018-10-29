@@ -129,6 +129,7 @@
           <div class="clearfix">
             <v-img
               :src="role.avatar"
+              :share="true"
               size="80"
               class="avatar"
             />
@@ -171,14 +172,14 @@
             <p 
               v-if="role.star_count" 
               class="coin">
-              <strong>粉丝：</strong>共有 {{ role.fans_count }} 个粉丝，收获了 {{ role.star_count }} 个金币
+              <strong>粉丝：</strong>共有 {{ role.fans_count }} 个粉丝，收获了 {{ role.star_count }} 个团子
             </p>
           </div>
         </div>
       </div>
       <div class="bangumi">
         <h3 class="sub-title">所属番剧</h3>
-        <v-bangumi-panel
+        <bangumi-panel
           :id="bangumi.id"
           :avatar="bangumi.avatar"
           :name="bangumi.name"
@@ -188,7 +189,7 @@
           <p 
             class="summary" 
             v-text="bangumi.summary"/>
-        </v-bangumi-panel>
+        </bangumi-panel>
       </div>
     </div>
     <div class="tabs">
@@ -232,7 +233,7 @@
               <span
                 v-else
                 class="score"
-              >{{ item.score }}个金币</span>
+              >{{ item.score }}个团子</span>
             </a>
           </li>
         </ul>
@@ -259,6 +260,8 @@
 
 <script>
 import CommentMain from "~/components/comments/CommentMain";
+import BangumiPanel from "~/components/panel/BangumiPanel";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "RoleShow",
@@ -274,8 +277,22 @@ export default {
       })
     ]);
   },
+  head() {
+    return {
+      title: `《${this.bangumi.name}》—— ${this.role.name}`,
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: "calibur.tv，一个兴趣使然的二次元综合网站"
+        }
+      ]
+    };
+  },
   components: {
-    CommentMain
+    CommentMain,
+    BangumiPanel,
+    VPopover
   },
   data() {
     return {
@@ -343,7 +360,7 @@ export default {
         return;
       }
       if (!this.$store.state.user.coin) {
-        this.$toast.error("金币不足");
+        this.$toast.error("团子不足");
         return;
       }
       try {

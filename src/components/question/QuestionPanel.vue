@@ -201,7 +201,7 @@
           class="footer-btn"
           @click="loadQAQComment"
         >
-          <i class="iconfont icon-pinglun1"/>
+          <i class="iconfont icon-talk"/>
           {{ qaq.comment_count ? qaq.comment_count + '条评论' : '添加评论' }}
         </button>
         <div v-if="!collapsed">
@@ -263,10 +263,12 @@ import FollowButton from "~/components/common/FollowButton";
 import CreateAnswerForm from "~/components/question/CreateAnswerForm";
 import QuestionApi from "~/api/questionApi";
 import CommentMain from "~/components/comments/CommentMain";
+import VPopover from "~/components/common/Popover";
 
 export default {
   name: "QuestionPanel",
   components: {
+    VPopover,
     FollowButton,
     CommentMain,
     CreateAnswerForm

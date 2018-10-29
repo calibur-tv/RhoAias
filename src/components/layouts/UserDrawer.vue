@@ -152,7 +152,7 @@
           </div>
         </div>
       </div>
-      <span class="badge">金币：{{ coinCount }} 个</span>
+      <span class="badge">团子：{{ coinCount }} 个</span>
       <span class="badge">邀请码：{{ user.id }}</span>
     </div>
     <ul 
@@ -207,11 +207,13 @@
 <script>
 import UserApi from "~/api/userApi";
 import UserSex from "~/components/user/UserSex";
+import { Badge } from "mint-ui";
 
 export default {
   name: "VUserDrawer",
   components: {
-    UserSex
+    UserSex,
+    "mt-badge": Badge
   },
   data() {
     return {

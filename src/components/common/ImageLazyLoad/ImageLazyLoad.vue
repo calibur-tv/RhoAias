@@ -185,6 +185,10 @@ export default {
     avatar: {
       type: Boolean,
       default: false
+    },
+    share: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -292,7 +296,7 @@ export default {
         this.src,
         this.size
           ? {
-              width: +this.size * 2
+              width: this.share ? Math.max(+this.size * 2, 200) : +this.size * 2
             }
           : this.width === "auto"
             ? {

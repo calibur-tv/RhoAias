@@ -77,9 +77,6 @@ import vFooter from "~/components/layouts/Footer";
 
 export default {
   name: "PageIndex",
-  head: {
-    title: ""
-  },
   async asyncData({ store, ctx }) {
     await store.dispatch("homepage/getBanners", ctx);
   },

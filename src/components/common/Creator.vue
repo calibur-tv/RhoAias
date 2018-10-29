@@ -86,7 +86,7 @@
       }
     }
 
-    &.icon-pinglun1 {
+    &.icon-pinglun {
       background-color: RGB(60, 134, 247);
       font-weight: bold;
     }
@@ -134,7 +134,7 @@
           <i class="el-icon-edit"/>
         </button>
         <button
-          class="ic-btn iconfont icon-pinglun1"
+          class="ic-btn iconfont icon-pinglun"
           @click="handlePostClick"
         />
         <button
@@ -248,10 +248,6 @@ export default {
       this.$channel.$emit("drawer-open-write-question");
     },
     handleScoreClick() {
-      if (this.userLevel < 3) {
-        this.$toast.error("3级以上才能写漫评");
-        return;
-      }
       window.location = this.$alias.createScore;
     }
   }
