@@ -207,20 +207,20 @@
               />
               <div class="social">
                 <span v-if="item.is_creator">
-                  <i class="iconfont icon-like"/>
+                  <i class="iconfont icon-fantuan"/>
                   {{ item.reward_count }}
                 </span>
                 <span v-else>
-                  <i class="iconfont icon-icon_good"/>
+                  <i class="iconfont icon-like"/>
                   {{ item.like_count }}
+                </span>
+                <span>
+                  <i class="iconfont icon--mark"/>
+                  {{ item.mark_count }}
                 </span>
                 <span>
                   <i class="iconfont icon-talk"/>
                   {{ item.comment_count }}
-                </span>
-                <span>
-                  <i class="iconfont icon-pinglun"/>
-                  {{ item.mark_count }}
                 </span>
               </div>
             </div>

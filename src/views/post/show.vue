@@ -197,14 +197,8 @@
             class="text-area"
             v-html="post.content"/>
         </div>
-        <div
-          v-if="post.tags.length"
-          class="tags"
-        >
-          <router-link
-            :to="$alias.bangumi(bangumi.id)"
-            target="_blank"
-          >
+        <div class="tags">
+          <router-link :to="$alias.bangumi(bangumi.id)">
             <i class="iconfont icon-tag"/>
             <span v-text="bangumi.name"/>
           </router-link>

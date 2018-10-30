@@ -302,7 +302,6 @@
           <router-link
             v-if="item.bangumi && !userZone"
             :to="$alias.bangumi(item.bangumi.id)"
-            target="_blank"
           >
             <i class="iconfont icon-tag"/>
             <span v-text="item.bangumi.name"/>

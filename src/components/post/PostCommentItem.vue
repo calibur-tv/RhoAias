@@ -19,16 +19,31 @@
         line-height: 16px;
         font-size: 12px;
         color: #535353;
-        margin-top: 9px;
-        margin-left: 4px;
+        padding-top: 9px;
+        padding-left: 4px;
       }
 
       .user {
         .nickname {
           font-size: 14px;
-          line-height: 21px;
+          height: 22px;
+          line-height: 22px;
           display: block;
           color: #333;
+
+          span {
+            margin-right: 2px;
+          }
+
+          .icon-leader {
+            color: $color-pink-deep;
+            font-size: 14px;
+          }
+
+          .icon-master {
+            color: $color-blue-normal;
+            font-size: 13px;
+          }
         }
 
         .info {
@@ -62,7 +77,6 @@
 
     .footer {
       .social {
-        margin-top: 15px;
         font-size: 12px;
 
         .reply-liked-btn {
@@ -71,7 +85,8 @@
 
         button {
           color: #666;
-          margin-left: 3px;
+          padding-left: 3px;
+          padding-top: 11px;
         }
       }
     }
@@ -105,8 +120,18 @@
           <a
             :href="$alias.user(post.from_user_zone)"
             class="nickname oneline"
-            v-text="post.from_user_name"
-          />
+          >
+            <span v-text="post.from_user_name"/>
+            <span v-if="post.is_owner">(楼主)</span>
+            <i
+              v-if="post.is_leader"
+              class="iconfont icon-leader"
+            />
+            <i
+              v-if="post.is_master"
+              class="iconfont icon-master"
+            />
+          </a>
           <div class="info">
             <span>第{{ post.floor_count }}楼</span>
             <span>·</span>
