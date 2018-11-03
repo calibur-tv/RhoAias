@@ -127,9 +127,7 @@
             />
           </a>
           ·
-          <template>
-            发表于：<v-time v-model="info.published_at"/>
-          </template>
+          <v-time v-model="info.published_at"/>
           ·
           <v-popover
             :report-id="info.id"

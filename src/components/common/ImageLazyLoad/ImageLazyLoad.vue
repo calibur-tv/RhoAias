@@ -7,8 +7,7 @@ $placeholder-color: #ddd;
   background-color: transparent;
   transition: $transition;
   overflow: hidden;
-  display: inline-block;
-  font-size: 0;
+  display: block;
 
   img {
     width: 100%;

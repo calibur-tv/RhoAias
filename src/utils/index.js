@@ -1,5 +1,4 @@
 import Vue from "vue";
-import env from "env";
 import Alias from "~/assets/js/alias";
 import Utils from "~/assets/js/utils";
 import NoSSR from "~/assets/js/nossr";
@@ -24,9 +23,7 @@ Vue.component(MoreBtn.name, MoreBtn);
 Vue.component(Drawer.name, Drawer);
 
 Vue.use({
-  install(Vue, options) {
-    Vue.prototype.$cdn = env.cdn;
-
+  install(Vue) {
     Vue.prototype.$channel = new Vue();
 
     Vue.prototype.$alias = Alias;

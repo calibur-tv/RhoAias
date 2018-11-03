@@ -26,10 +26,11 @@
       .user {
         .nickname {
           font-size: 14px;
-          height: 22px;
-          line-height: 22px;
+          height: 20px;
+          line-height: 20px;
           display: block;
           color: #333;
+          margin-bottom: 1px;
 
           span {
             margin-right: 2px;
