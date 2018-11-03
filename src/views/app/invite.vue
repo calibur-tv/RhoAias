@@ -2,7 +2,7 @@
 $main-color: #fb7784;
 #app-invite {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
   overflow: hidden;
   background-color: $main-color;
 
@@ -220,9 +220,11 @@ export default {
           width: 300,
           height: 300
         });
+        /*
         setTimeout(() => {
           this.create();
         }, 3000);
+        */
       });
     },
     create() {
