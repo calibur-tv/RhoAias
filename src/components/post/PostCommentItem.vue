@@ -129,7 +129,7 @@
               class="iconfont icon-leader"
             />
             <i
-              v-if="post.is_master"
+              v-else-if="post.is_master"
               class="iconfont icon-master"
             />
           </a>
