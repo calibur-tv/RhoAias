@@ -147,7 +147,7 @@
             >
               <div class="intro">
                 <p
-                  class="title"
+                  class="title oneline"
                   v-text="item.title"
                 />
                 <p

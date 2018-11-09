@@ -1,3 +1,5 @@
+import { cdn } from "env";
+
 export default (url, options = {}) => {
   if (!url) {
     return "";
@@ -11,7 +13,7 @@ export default (url, options = {}) => {
     return url;
   }
 
-  const link = /^http/.test(url) ? url : `${env.cdn.image}${url}`;
+  const link = /^http/.test(url) ? url : `${cdn.image}${url}`;
   const canUseWebP = () => {
     if (typeof window === "undefined") {
       return false;

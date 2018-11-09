@@ -201,13 +201,13 @@
             <strong>团子可提现额度（排除签到所得的团子）:</strong>
             {{ withdrawCoinCount }}
           </p>
-          <div class="exp-container">
+          <div
+            class="exp-container"
+            @click="showExpTips = !showExpTips"
+          >
             <strong class="title">等级：</strong>
             <span class="level">Lv{{ user.exp.level }}</span>
-            <i
-              :class="showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"
-              @click="showExpTips = !showExpTips"
-            />
+            <i :class="showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"/>
             <span class="detail">{{ user.exp.have_exp }} / {{ user.exp.next_level_exp }}</span>
             <el-progress
               :show-text="false"
@@ -244,9 +244,13 @@
             </p>
           </div>
         </template>
-        <p>
+        <p style="margin-bottom: 10px">
           <strong>签名：</strong>
           {{ user.signature || '这个人还很神秘...' }}
+        </p>
+        <p>
+          <strong>战斗力：</strong>
+          {{ userPower }}
         </p>
       </div>
       <div
@@ -334,6 +338,9 @@ export default {
     },
     self() {
       return this.$store.state.user;
+    },
+    userPower() {
+      return this.$store.state.users.show.power;
     },
     blockedAt() {
       return this.$store.state.users.show.banned_to;

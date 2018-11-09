@@ -221,6 +221,7 @@ import UserApi from "~/api/userApi";
 import ImageApi from "~/api/imageApi";
 import ImageCropper from "~/components/common/ImageCropper";
 import UserSettingForm from "~/components/user/UserSettingForm";
+import { cdn } from "env";
 
 export default {
   name: "UserSetting",
@@ -314,7 +315,7 @@ export default {
           url: result.url
         });
         this.$store.commit("SET_USER_INFO", {
-          avatar: `${this.$cdn.image}${result.url}`
+          avatar: `${cdn.image}${result.url}`
         });
         this.$toast.success("头像更新成功");
       } catch (e) {
@@ -375,7 +376,7 @@ export default {
           url: result.url
         });
         this.$store.commit("SET_USER_INFO", {
-          banner: `${this.$cdn.image}${result.url}`
+          banner: `${cdn.image}${result.url}`
         });
         this.$toast.success("背景更新成功");
       } catch (e) {

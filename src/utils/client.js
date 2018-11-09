@@ -9,7 +9,7 @@ import { DatetimePicker, MessageBox } from "mint-ui";
 Vue.component(DatetimePicker.name, DatetimePicker);
 
 Vue.use({
-  install(Vue, options) {
+  install(Vue) {
     Vue.prototype.$cookie = Cookies;
 
     Vue.prototype.$channel = new Vue();

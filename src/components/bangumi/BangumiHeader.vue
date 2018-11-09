@@ -113,7 +113,8 @@ $banner-height: 140px;
         <p 
           class="title oneline" 
           v-text="info.name"/>
-        <span>关注 {{ $utils.shortenNumber(info.follow_users.total) }}</span>
+        <span>关注数 {{ $utils.shortenNumber(info.follow_users.total) }}</span>
+        <span>活跃度 {{ $utils.shortenNumber(info.power) }}</span>
       </div>
     </div>
   </section>
