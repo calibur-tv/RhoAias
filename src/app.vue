@@ -53,6 +53,12 @@ export default {
           content: "calibur.tv，动漫爱好者的聚集地"
         },
         {
+          rel: "search",
+          type: "application/opensearchdescription+xml",
+          title: "calibur",
+          href: `${cdn.static}/owner/h5/search.xml`
+        },
+        {
           hid: "keywords",
           name: "keywords",
           content:
