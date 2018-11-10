@@ -122,6 +122,9 @@ export default {
       }
     },
     handleMessageClick(evt, msg) {
+      if (!msg.link) {
+        return;
+      }
       if (/user/.test(evt.target.classList)) {
         window.location = this.$alias.user(msg.user.zone);
         return;
