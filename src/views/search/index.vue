@@ -148,9 +148,10 @@ export default {
   name: "SearchIndex",
   async asyncData({ store, route, ctx }) {
     const args = route.query;
+    const type = args.type || "all";
     await store.dispatch("search/fetchData", {
       ctx,
-      type: args.type,
+      type: type,
       q: args.q
     });
   },
@@ -197,7 +198,7 @@ export default {
       return this.$store.state.search.tabs;
     },
     selectedType() {
-      return this.$route.query.type;
+      return this.$route.query.type || "all";
     }
   },
   methods: {

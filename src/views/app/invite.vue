@@ -3,15 +3,12 @@ $main-color: #fb7784;
 #app-invite {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   background-color: $main-color;
 
   .capture-area {
-    width: 200%;
-    height: 200%;
-    transform: scale(0.5);
-    transform-origin: 0 0;
-    padding-top: 30px;
+    width: 100%;
+    height: 100%;
+    padding-top: 15px;
     position: relative;
     background-color: $main-color;
 
@@ -25,9 +22,9 @@ $main-color: #fb7784;
 
     .main {
       background-color: white;
-      margin: 0 30px 30px;
-      border-radius: 20px;
-      padding: 100px 0 50px;
+      margin: 0 15px 15px;
+      border-radius: 10px;
+      padding: 50px 0 25px;
       background-image: url(~img/campaign/invite-bg.png);
       background-size: contain;
       background-repeat: no-repeat;
@@ -35,17 +32,17 @@ $main-color: #fb7784;
       .avatar {
         margin: 0 auto;
         border: 10px solid white;
-        width: 200px;
-        height: 200px;
+        width: 100px;
+        height: 100px;
         @extend %avatar;
       }
 
       .nickname {
-        font-size: 42px;
+        font-size: 21px;
         font-weight: bold;
-        margin-top: 10px;
-        margin-left: 30px;
-        margin-right: 30px;
+        margin-top: 5px;
+        margin-left: 15px;
+        margin-right: 15px;
         text-align: center;
         color: #333;
 
@@ -55,8 +52,8 @@ $main-color: #fb7784;
       }
 
       .info {
-        font-size: 28px;
-        margin-top: 20px;
+        font-size: 14px;
+        margin-top: 10px;
         text-align: center;
 
         strong {
@@ -65,24 +62,24 @@ $main-color: #fb7784;
       }
 
       .tags {
-        margin: 40px 20px;
+        margin: 20px 10px;
         text-align: center;
-        height: 106px;
+        height: 53px;
         overflow: hidden;
 
         .mint-badge {
-          border-radius: 20px;
-          font-size: 24px;
-          padding: 8px 20px;
-          margin: 6px;
+          border-radius: 10px;
+          font-size: 12px;
+          padding: 4px 10px;
+          margin: 3px;
           background-color: $main-color;
         }
       }
 
       .logo {
         margin: 0 auto;
-        width: 180px;
-        height: 100px;
+        width: 90px;
+        height: 50px;
         background-image: url(~img/campaign/calibur-logo.png);
         background-size: contain;
         background-repeat: no-repeat;
@@ -91,24 +88,24 @@ $main-color: #fb7784;
 
     .qrcode-wrap {
       position: relative;
-      margin: 0 30px 30px;
+      margin: 0 15px 15px;
       background-color: white;
-      border-radius: 20px;
+      border-radius: 10px;
 
       .qrcode {
-        margin-left: 20px;
-        width: 200px;
-        height: 200px;
-        padding: 30px;
+        margin-left: 10px;
+        width: 100px;
+        height: 100px;
+        padding: 15px;
       }
 
       .tips {
         position: absolute;
-        top: 60px;
-        left: 220px;
-        margin-top: -24px;
-        font-size: 26px;
-        line-height: 42px;
+        top: 30px;
+        left: 110px;
+        margin-top: -12px;
+        font-size: 13px;
+        line-height: 21px;
       }
     }
   }
@@ -149,7 +146,7 @@ $main-color: #fb7784;
           class="qrcode"/>
         <p class="tips">
           <strong>扫描二维码注册</strong><br>
-          <strong>邀请者可获得现金奖励</strong><br>
+          <strong>邀请者可获得团子奖励</strong><br>
           求扫求转发！
         </p>
       </div>
