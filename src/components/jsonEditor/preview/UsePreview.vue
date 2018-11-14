@@ -3,7 +3,7 @@
   position: relative;
   z-index: 1;
 
-  .content-wrap {
+  .use-wrap {
     position: relative;
     margin-bottom: 46px;
     margin-left: 15px;
@@ -57,7 +57,7 @@
     <div
       v-if="show"
       class="text-preview">
-      <div class="content-wrap">
+      <div class="content-wrap use-wrap">
         <pre
           class="shim"
           v-html="item.text"
