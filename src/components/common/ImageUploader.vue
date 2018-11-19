@@ -80,6 +80,7 @@ export default {
       this.uploadImageTotal = 0;
       this.$refs.upload && this.$refs.upload.clearFiles();
     });
+    this.getUpToken();
   },
   methods: {
     handleImageUploadExceed() {

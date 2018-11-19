@@ -182,6 +182,7 @@
               </div>
             </div>
           </a>
+          <!--
           <div class="about">
             <a
               :href="$alias.user(item.user.zone)"
@@ -200,6 +201,7 @@
               v-text="item.user.nickname"
             />
           </div>
+          -->
         </li>
       </ul>
     </template>

@@ -175,6 +175,10 @@
           </div>
         </div>
         <div class="content">
+          <div
+            class="text-area"
+            v-html="post.content"
+          />
           <image-preview
             :images="post.images"
             :download="false"
@@ -193,9 +197,6 @@
               />
             </div>
           </image-preview>
-          <div
-            class="text-area"
-            v-html="post.content"/>
         </div>
         <div class="tags">
           <router-link :to="$alias.bangumi(bangumi.id)">
