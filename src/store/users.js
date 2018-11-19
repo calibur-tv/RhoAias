@@ -92,8 +92,7 @@ export default {
       }
       const api = new Api(ctx);
       const data = await api.followBangumis(zone);
-      commit("SET_USER_FOLLOW_BANGUMI", { data, zone });
-      return data;
+      data && commit("SET_USER_FOLLOW_BANGUMI", { data, zone });
     },
     async daySign({ rootState }, { ctx }) {
       if (rootState.user.signed) {

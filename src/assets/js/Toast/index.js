@@ -37,6 +37,7 @@ export default class {
   }
 
   error(tip) {
+    console && console.log(tip);
     this.stop();
     let text = "";
     let time;

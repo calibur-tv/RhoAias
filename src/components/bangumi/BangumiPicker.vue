@@ -117,12 +117,10 @@ export default {
       }
       this.loading = true;
       try {
-        this.list[0].values = await this.$store.dispatch(
-          "users/getFollowBangumis",
-          {
-            zone: this.user.zone
-          }
-        );
+        await this.$store.dispatch("users/getFollowBangumis", {
+          zone: this.user.zone
+        });
+        this.list[0].values = this.$store.state.users.bangumis;
         this.autoSelect(this.value);
         this.fetched = true;
       } catch (e) {
