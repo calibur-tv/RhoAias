@@ -142,9 +142,9 @@ export default {
     this.$channel.$on("write-open-drawer", ({ type }) => {
       if (type === "img") {
         this.show = true;
+        this.getUpToken();
       }
     });
-    this.getUpToken();
   },
   methods: {
     imageUploadSuccess(res, file) {

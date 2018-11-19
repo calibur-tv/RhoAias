@@ -26,9 +26,6 @@ export default {
   computed: {
     currentUserId() {
       return this.$store.state.login ? this.$store.state.user.id : 0;
-    },
-    currentPath() {
-      return this.$route.path;
     }
   },
   methods: {
@@ -75,12 +72,11 @@ export default {
       this.uploadImageTotal++;
       this.uploadPending--;
     },
-    async handleImageUploadBefore(file) {
+    handleImageUploadBefore(file) {
       if (!this.currentUserId) {
         this.$channel.$emit("sign-in");
         return false;
       }
-      await this.getUpToken();
 
       const isFormat =
         this.imageUploadAccept.split(",").indexOf(file.type) !== -1;
@@ -95,10 +91,11 @@ export default {
         return false;
       }
 
-      // this.uploadHeaders.key = `user/${this.currentUserId}${this.uploadConfig
-      //   .pathPrefix || this.currentPath}/${new Date().getTime()}-${Math.random()
-      //   .toString(36)
-      //   .substring(3, 6)}.${file.type.split("/").pop()}`;
+      this.uploadHeaders.key = this.$utils.createFileName({
+        userId: this.$store.state.user.id,
+        type: this.$route.fullPath,
+        file
+      });
 
       this.uploadImageList.push({
         name: file.name,

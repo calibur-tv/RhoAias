@@ -12,12 +12,12 @@
     margin-top: -15px;
     @extend %clearfix;
 
-    span {
+    > span {
       float: left;
       margin-left: 13px;
     }
 
-    div {
+    > div {
       color: #000;
       overflow: hidden;
     }
@@ -99,7 +99,6 @@
     <h3 class="sub-title">番剧</h3>
     <bangumi-picker
       v-model="bangumiId"
-      :display="true"
       class="field"
     />
     <h3 class="sub-title">标题</h3>
