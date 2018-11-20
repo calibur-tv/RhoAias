@@ -8,7 +8,7 @@
       width: 50%;
       height: 40px;
       font-size: 13px;
-      background-color: $color-gray-light;
+      background-color: #fff;
       color: $color-text-normal;
     }
 

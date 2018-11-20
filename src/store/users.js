@@ -28,9 +28,56 @@ export default {
         noMore: false,
         loading: false
       }
+    },
+    bookmark: {
+      post: {
+        noMore: false,
+        loading: false,
+        list: [],
+        total: 0,
+        page: 0
+      },
+      image: {
+        noMore: false,
+        loading: false,
+        list: [],
+        total: 0,
+        page: 0
+      },
+      score: {
+        noMore: false,
+        loading: false,
+        list: [],
+        total: 0,
+        page: 0
+      },
+      answer: {
+        noMore: false,
+        loading: false,
+        list: [],
+        total: 0,
+        page: 0
+      },
+      video: {
+        noMore: false,
+        loading: false,
+        list: [],
+        total: 0,
+        page: 0
+      }
     }
   }),
   mutations: {
+    SET_BOOKMARK_LOADING(state, type) {
+      state.bookmark[type].loading = true;
+    },
+    SET_BOOKMARKS(state, { data, type }) {
+      state.bookmark[type].list = state.bookmark[type].list.concat(data.list);
+      state.bookmark[type].noMore = data.noMore;
+      state.bookmark[type].total = data.total;
+      state.bookmark[type].page++;
+      state.bookmark[type].loading = false;
+    },
     SET_USER_INFO(state, data) {
       state.show = data;
     },
@@ -157,6 +204,22 @@ export default {
         },
         type
       });
+    },
+    async getBookmarks({ state, commit }, { type, init, ctx }) {
+      if (state.bookmark[type].page && init) {
+        return;
+      }
+      if (state.bookmark[type].loading || state.bookmark[type].noMore) {
+        return;
+      }
+      const api = new Api(ctx);
+      commit("SET_BOOKMARK_LOADING", type);
+      const data = await api.getBookmarks({
+        page: state.bookmark[type].page,
+        take: 16,
+        type
+      });
+      data && commit("SET_BOOKMARKS", { type, data });
     }
   },
   getters: {}

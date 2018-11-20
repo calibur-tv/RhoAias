@@ -168,6 +168,11 @@ export function createRouter() {
                 component: () => import("~/views/user/show/role")
               },
               {
+                path: "mark",
+                name: "user-mark",
+                component: () => import("~/views/user/show/mark")
+              },
+              {
                 path: "draft",
                 name: "user-draft",
                 component: () => import("~/views/user/show/draft")

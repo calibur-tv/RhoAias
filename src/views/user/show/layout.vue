@@ -123,10 +123,13 @@
   .user-tabs {
     background-color: #ffffff;
     position: relative;
-    height: 40px;
     padding-right: 10px;
     width: 100%;
     font-size: 0;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
     @include border-bottom();
 
     a {
@@ -280,12 +283,12 @@
       <router-link :to="$alias.user(zone, 'qaq')">问答</router-link>
       <router-link :to="$alias.user(zone, 'review')">漫评</router-link>
       <router-link :to="$alias.user(zone, 'role')">偶像</router-link>
-      <router-link
-        v-if="isMe"
-        :to="$alias.user(zone, 'draft')"
-      >草稿</router-link>
+      <template v-if="isMe">
+        <router-link :to="$alias.user(zone, 'mark')">收藏</router-link>
+        <router-link :to="$alias.user(zone, 'draft')">草稿</router-link>
+      </template>
     </div>
-    <router-view/>
+    <router-view class="user-main-view"/>
   </div>
 </template>
 

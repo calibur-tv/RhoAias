@@ -8,7 +8,7 @@
       width: 50%;
       height: 40px;
       font-size: 13px;
-      background-color: $color-gray-light;
+      background-color: #fff;
       color: $color-text-normal;
     }
 
@@ -119,11 +119,10 @@
         @click="switchTab(1)"
       >回帖</button>
     </div>
-    <post-flow-list
-      v-if="active === 0"
-      :user-zone="zone"
-    />
-    <div v-else-if="active === 1">
+    <template v-if="active === 0">
+      <post-flow-list :user-zone="zone"/>
+    </template>
+    <template v-else-if="active === 1">
       <ul id="posts-of-reply">
         <li
           v-for="item in list"
@@ -209,7 +208,7 @@
         :auto="true"
         @fetch="getUserPosts(false)"
       />
-    </div>
+    </template>
   </div>
 </template>
 
