@@ -187,31 +187,31 @@
 </template>
 
 <script>
-import Tab from "vant/lib/tab";
-import Tabs from "vant/lib/tabs";
-import PostFlowList from "~/components/flow/list/PostFlowList";
-import ImageFlowList from "~/components/flow/list/ImageFlowList";
-import ScoreFlowList from "~/components/flow/list/ScoreFlowList";
-import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
-import { Swipe, SwipeItem } from "mint-ui";
+import Tab from 'vant/lib/tab'
+import Tabs from 'vant/lib/tabs'
+import PostFlowList from '~/components/flow/list/PostFlowList'
+import ImageFlowList from '~/components/flow/list/ImageFlowList'
+import ScoreFlowList from '~/components/flow/list/ScoreFlowList'
+import QuestionFlowList from '~/components/flow/list/QuestionFlowList'
+import { Swipe, SwipeItem } from 'mint-ui'
 
 export default {
-  name: "TheWorld",
+  name: 'TheWorld',
   async asyncData({ store }) {
-    await store.dispatch("cm/getCmLoop");
+    await store.dispatch('cm/getCmLoop')
   },
   head: {
     meta: [
       {
-        hid: "description",
-        name: "description",
-        content: "站内热点"
+        hid: 'description',
+        name: 'description',
+        content: '站内热点'
       }
     ]
   },
   components: {
-    "mt-swipe": Swipe,
-    "mt-swipe-item": SwipeItem,
+    'mt-swipe': Swipe,
+    'mt-swipe-item': SwipeItem,
     vanTabs: Tabs,
     vanTab: Tab,
     PostFlowList,
@@ -223,35 +223,35 @@ export default {
     const options = [
       {
         index: 0,
-        label: "帖子",
-        value: "world-post"
+        label: '帖子',
+        value: 'world-post'
       },
       {
         index: 1,
-        label: "图片",
-        value: "world-image"
+        label: '图片',
+        value: 'world-image'
       },
       {
         index: 2,
-        label: "漫评",
-        value: "world-score"
+        label: '漫评',
+        value: 'world-score'
       },
       {
         index: 3,
-        label: "问答",
-        value: "world-question"
+        label: '问答',
+        value: 'world-question'
       }
-    ];
-    const active = options.filter(_ => _.value === this.$route.name)[0].index;
+    ]
+    const active = options.filter(_ => _.value === this.$route.name)[0].index
     return {
       active,
       options
-    };
+    }
   },
   computed: {
     loops() {
-      return this.$store.state.cm.loops;
+      return this.$store.state.cm.loops
     }
   }
-};
+}
 </script>

@@ -38,38 +38,38 @@
 </template>
 
 <script>
-import UserReportForm from "~/components/user/UserReportForm";
+import UserReportForm from '~/components/user/UserReportForm'
 
 export default {
-  name: "ReportDrawer",
+  name: 'ReportDrawer',
   components: {
     UserReportForm
   },
   data() {
     return {
       show: false,
-      title: "",
+      title: '',
       id: 0,
       model: 0,
       isCreator: false
-    };
+    }
   },
   computed: {
     drawerTitle() {
-      return this.title || "举报";
+      return this.title || '举报'
     }
   },
   mounted() {
     this.$channel.$on(
-      "open-report-drawer",
+      'open-report-drawer',
       ({ id, model, title, isCreator }) => {
-        this.id = id;
-        this.model = model;
-        this.title = title;
-        this.isCreator = isCreator;
-        this.show = true;
+        this.id = id
+        this.model = model
+        this.title = title
+        this.isCreator = isCreator
+        this.show = true
       }
-    );
+    )
   }
-};
+}
 </script>

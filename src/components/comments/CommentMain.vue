@@ -405,12 +405,12 @@
 </template>
 
 <script>
-import CommentCreateForm from "./CommentCreateForm";
-import CommentItem from "./CommentItem";
-import scrollToY from "~/assets/js/scrollToY";
+import CommentCreateForm from './CommentCreateForm'
+import CommentItem from './CommentItem'
+import scrollToY from '~/assets/js/scrollToY'
 
 export default {
-  name: "VCommentMain",
+  name: 'VCommentMain',
   components: {
     CommentCreateForm,
     CommentItem
@@ -425,13 +425,13 @@ export default {
       type: String,
       validator: val =>
         ~[
-          "post",
-          "video",
-          "image",
-          "score",
-          "question",
-          "answer",
-          "role"
+          'post',
+          'video',
+          'image',
+          'score',
+          'question',
+          'answer',
+          'role'
         ].indexOf(val)
     },
     onlySeeMaster: {
@@ -440,7 +440,7 @@ export default {
     },
     emptyText: {
       type: String,
-      default: "暂无评论，快来抢沙发吧╮(￣▽￣)╭！"
+      default: '暂无评论，快来抢沙发吧╮(￣▽￣)╭！'
     },
     masterId: {
       required: true,
@@ -462,109 +462,109 @@ export default {
       openFocusCommentDrawer: false,
       loadingSubComment: false,
       replyForm: {
-        id: "",
-        content: "",
+        id: '',
+        content: '',
         targetUserId: 0,
-        targetUserName: "",
+        targetUserName: '',
         open: false,
         replying: false,
         liking: false
       },
       openCreateCommentDrawer: false
-    };
+    }
   },
   computed: {
     store() {
-      return this.$store.state.comment;
+      return this.$store.state.comment
     },
     list() {
-      return this.store.list;
+      return this.store.list
     },
     noMore() {
-      return this.store.noMore;
+      return this.store.noMore
     },
     total() {
-      return this.store.total;
+      return this.store.total
     },
     focusComment() {
       return this.focusCommentId
         ? this.list.filter(_ => _.id === this.focusCommentId)[0]
-        : null;
+        : null
     },
     currentUserId() {
-      return this.$store.state.login ? this.$store.state.user.id : 0;
+      return this.$store.state.login ? this.$store.state.user.id : 0
     }
   },
   mounted() {
-    this.scrollToReply();
+    this.scrollToReply()
     if (this.auto) {
       this.$channel.$on(`fire-load-comment-${this.type}-${this.id}`, () => {
-        this.loadMoreMainComment(true);
-      });
+        this.loadMoreMainComment(true)
+      })
     }
-    this.$channel.$on("load-all-sub-comment", ({ id }) => {
-      this.focusCommentId = id;
-      this.openFocusCommentDrawer = true;
-    });
+    this.$channel.$on('load-all-sub-comment', ({ id }) => {
+      this.focusCommentId = id
+      this.openFocusCommentDrawer = true
+    })
     this.$channel.$on(
       `open-create-comment-drawer-${this.type}-${this.id}`,
       () => {
         if (!this.currentUserId) {
-          this.$channel.$emit("sign-in");
-          return;
+          this.$channel.$emit('sign-in')
+          return
         }
-        this.openCreateCommentDrawer = true;
+        this.openCreateCommentDrawer = true
       }
-    );
+    )
     this.$channel.$on(
-      "reply-comment",
+      'reply-comment',
       ({ id, targetUserId, targetUserName }) => {
-        this.handleSubCommentReply({ id, targetUserId, targetUserName });
+        this.handleSubCommentReply({ id, targetUserId, targetUserName })
       }
-    );
-    document.getElementById("comment-wrap").addEventListener("click", e => {
+    )
+    document.getElementById('comment-wrap').addEventListener('click', e => {
       if (/reply-btn/.test(e.target.className) && this.$el.contains(e.target)) {
-        const area = document.getElementById("reply-comment-textarea");
-        area.style.display = "block";
-        area.focus();
+        const area = document.getElementById('reply-comment-textarea')
+        area.style.display = 'block'
+        area.focus()
       }
-    });
+    })
   },
   methods: {
     async loadMoreMainComment(firstRequest = false) {
       if (this.loadingMainComment) {
-        return;
+        return
       }
-      this.loadingMainComment = true;
+      this.loadingMainComment = true
       try {
-        await this.$store.dispatch("comment/getMainComments", {
+        await this.$store.dispatch('comment/getMainComments', {
           ctx: this,
           type: this.type,
           id: this.id,
           onlySeeMaster: this.onlySeeMaster ? 1 : 0,
           firstRequest
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingMainComment = false;
+        this.loadingMainComment = false
       }
     },
     async loadMoreSubComment() {
       if (this.loadingSubComment) {
-        return;
+        return
       }
-      this.loadingSubComment = true;
+      this.loadingSubComment = true
       try {
-        await this.$store.dispatch("comment/getSubComments", {
+        await this.$store.dispatch('comment/getSubComments', {
           ctx: this,
           type: this.type,
           id: this.focusCommentId
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingSubComment = false;
+        this.loadingSubComment = false
       }
     },
     commentToComment(data) {
@@ -572,108 +572,108 @@ export default {
         id: data.parent_id,
         targetUserId: data.from_user_id,
         targetUserName: data.from_user_name
-      });
+      })
     },
     handleCommentBtnClick() {
       this.handleSubCommentReply({
         id: this.focusComment.id,
         targetUserId: this.focusComment.from_user_id,
         targetUserName: this.focusComment.from_user_name
-      });
+      })
     },
     handleSubCommentReply({ id, targetUserId, targetUserName }) {
       if (!this.currentUserId) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.replyForm.id = id;
-      this.replyForm.targetUserId = targetUserId;
-      this.replyForm.targetUserName = targetUserName;
-      this.replyForm.open = true;
+      this.replyForm.id = id
+      this.replyForm.targetUserId = targetUserId
+      this.replyForm.targetUserName = targetUserName
+      this.replyForm.open = true
       setTimeout(() => {
-        document.body.scrollTop = 0;
-      }, 200);
+        document.body.scrollTop = 0
+      }, 200)
     },
     async toggleFocusCommentLike() {
       if (!this.currentUserId) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (this.replyForm.liking) {
-        return;
+        return
       }
-      this.replyForm.liking = true;
+      this.replyForm.liking = true
       try {
-        await this.$store.dispatch("comment/toggleLikeMainComment", {
+        await this.$store.dispatch('comment/toggleLikeMainComment', {
           ctx: this,
           type: this.type,
           id: this.focusCommentId
-        });
+        })
       } catch (e) {
       } finally {
-        this.replyForm.liking = false;
+        this.replyForm.liking = false
       }
     },
     handleReplyDrawerClose() {
-      document.getElementById("reply-comment-textarea").style.display = "none";
+      document.getElementById('reply-comment-textarea').style.display = 'none'
     },
     async handleReplySubmit() {
       if (!this.currentUserId) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (!this.replyForm.content) {
-        return;
+        return
       }
       if (this.replyForm.replying) {
-        return;
+        return
       }
-      this.replyForm.replying = true;
+      this.replyForm.replying = true
       try {
-        const result = await this.$store.dispatch("comment/createSubComment", {
+        const result = await this.$store.dispatch('comment/createSubComment', {
           ctx: this,
           id: this.replyForm.id,
           type: this.type,
           content: this.replyForm.content,
           targetUserId: this.replyForm.targetUserId
-        });
-        this.replyForm.open = false;
-        this.replyForm.content = "";
-        this.$toast.success(result.message);
-        this.$store.commit("UPDATE_USER_EXP", result.exp);
+        })
+        this.replyForm.open = false
+        this.replyForm.content = ''
+        this.$toast.success(result.message)
+        this.$store.commit('UPDATE_USER_EXP', result.exp)
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.replyForm.replying = false;
-        this.handleReplyDrawerClose();
+        this.replyForm.replying = false
+        this.handleReplyDrawerClose()
       }
     },
     writeComment() {
-      this.$channel.$emit(`open-create-comment-drawer-${this.type}-${this.id}`);
+      this.$channel.$emit(`open-create-comment-drawer-${this.type}-${this.id}`)
     },
     closeCommentDrawer() {
-      this.openCreateCommentDrawer = false;
+      this.openCreateCommentDrawer = false
     },
     submitCommentCallback() {
-      this.openCreateCommentDrawer = false;
-      this.$emit("create-main-comment");
+      this.openCreateCommentDrawer = false
+      this.$emit('create-main-comment')
     },
     deleteCommentCallback() {
-      this.$emit("delete-main-comment");
+      this.$emit('delete-main-comment')
     },
     scrollToReply() {
-      const replyId = this.$route.query["comment-id"];
+      const replyId = this.$route.query['comment-id']
       if (!replyId) {
-        return;
+        return
       }
-      const reply = document.getElementById(`comment-${replyId}`);
+      const reply = document.getElementById(`comment-${replyId}`)
       if (!reply) {
-        return;
+        return
       }
       setTimeout(() => {
-        scrollToY(this.$utils.getOffsetTop(reply) - 100, 600);
-      }, 400);
+        scrollToY(this.$utils.getOffsetTop(reply) - 100, 600)
+      }, 400)
     }
   }
-};
+}
 </script>

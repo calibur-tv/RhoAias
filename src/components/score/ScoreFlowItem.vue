@@ -303,12 +303,12 @@
 </template>
 
 <script>
-import { Rate } from "element-ui";
+import { Rate } from 'element-ui'
 
 export default {
-  name: "ScoreFlowItem",
+  name: 'ScoreFlowItem',
   components: {
-    "el-rate": Rate
+    'el-rate': Rate
   },
   props: {
     item: {
@@ -319,20 +319,20 @@ export default {
   data() {
     return {
       zero: 0
-    };
+    }
   },
   computed: {
     pageName() {
-      return this.$route.name;
+      return this.$route.name
     },
     starCount() {
-      return this.item.total / 2;
+      return this.item.total / 2
     }
   },
   methods: {
     linkStart() {
-      this.$router.push(this.$alias.score(this.item.id));
+      this.$router.push(this.$alias.score(this.item.id))
     }
   }
-};
+}
 </script>

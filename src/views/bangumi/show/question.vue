@@ -7,25 +7,25 @@
 </template>
 
 <script>
-import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
+import QuestionFlowList from '~/components/flow/list/QuestionFlowList'
 
 export default {
-  name: "BangumiQuestion",
+  name: 'BangumiQuestion',
   async asyncData({ store, route, ctx }) {
-    await store.dispatch("flow/initData", {
-      type: "question",
-      sort: "active",
+    await store.dispatch('flow/initData', {
+      type: 'question',
+      sort: 'active',
       bangumiId: route.params.id,
       ctx
-    });
+    })
   },
   components: {
     QuestionFlowList
   },
   computed: {
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     }
   }
-};
+}
 </script>

@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import vSearch from "~/components/search/Input";
-import vSearchHistory from "~/components/search/History";
+import vSearch from '~/components/search/Input'
+import vSearchHistory from '~/components/search/History'
 
 export default {
-  name: "VSearchDrawer",
+  name: 'VSearchDrawer',
   components: {
     vSearch,
     vSearchHistory
@@ -43,17 +43,17 @@ export default {
   data() {
     return {
       open: this.value,
-      query: ""
-    };
+      query: ''
+    }
   },
   mounted() {
-    this.$watch("value", val => {
-      this.open = val;
-    });
-    this.$watch("open", val => {
-      this.$emit("input", val);
-    });
+    this.$watch('value', val => {
+      this.open = val
+    })
+    this.$watch('open', val => {
+      this.$emit('input', val)
+    })
   },
   methods: {}
-};
+}
 </script>

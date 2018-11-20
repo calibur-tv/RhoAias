@@ -130,25 +130,25 @@
 </template>
 
 <script>
-import ImageApi from "~/api/imageApi";
-import BangumiPicker from "~/components/bangumi/BangumiPicker";
-import Field from "~/components/common/Field";
-import ImageUploader from "~/components/common/ImageUploader";
-import { Picker, Switch } from "mint-ui";
+import ImageApi from '~/api/imageApi'
+import BangumiPicker from '~/components/bangumi/BangumiPicker'
+import Field from '~/components/common/Field'
+import ImageUploader from '~/components/common/ImageUploader'
+import { Picker, Switch } from 'mint-ui'
 
 export default {
-  name: "CreateImageDrawer",
+  name: 'CreateImageDrawer',
   components: {
-    "v-field": Field,
-    "mt-switch": Switch,
-    "mt-picker": Picker,
+    'v-field': Field,
+    'mt-switch': Switch,
+    'mt-picker': Picker,
     BangumiPicker,
     ImageUploader
   },
   data() {
     return {
       show: false,
-      sort: "image",
+      sort: 'image',
       loadedUserAlbum: false,
       loadingBangumi: false,
       loadingUserAlbum: false,
@@ -161,108 +161,108 @@ export default {
           flex: 1,
           defaultIndex: 0,
           values: [],
-          textAlign: "center"
+          textAlign: 'center'
         }
       ],
       album: {
-        name: "",
-        bangumiId: "",
+        name: '',
+        bangumiId: '',
         creator: false,
         cartoon: false
       },
       image: {
-        name: "",
+        name: '',
         creator: false,
-        bangumiId: "",
+        bangumiId: '',
         selectedAlbum: false
       },
       isSingleModel: true
-    };
+    }
   },
   computed: {
     imageAlbumPlaceholder() {
       if (this.loadingUserAlbum) {
-        return "加载中...";
+        return '加载中...'
       }
       if (!this.albumSlots[0].values.length) {
-        return "请先创建相册";
+        return '请先创建相册'
       }
       if (!this.image.selectedAlbum) {
-        return "点击选择相册";
+        return '点击选择相册'
       }
-      return this.getSelectedMeta("album", "name");
+      return this.getSelectedMeta('album', 'name')
     },
     pickerDrawerHeaderText() {
       if (this.openBangumisDrawer) {
-        return "番剧";
+        return '番剧'
       } else if (this.openImageAlbumDrawer) {
-        return "相册";
+        return '相册'
       }
-      return "选项卡";
+      return '选项卡'
     },
     user() {
-      return this.$store.state.user || {};
+      return this.$store.state.user || {}
     }
   },
   mounted() {
-    this.$channel.$on("open-create-image-drawer", () => {
-      this.getUserAlbum();
-      this.show = true;
-    });
+    this.$channel.$on('open-create-image-drawer', () => {
+      this.getUserAlbum()
+      this.show = true
+    })
   },
   methods: {
     switchTab(tab) {
-      this.sort = tab;
-      this.$channel.$emit("image-upload-done");
+      this.sort = tab
+      this.$channel.$emit('image-upload-done')
     },
     switchPickerDrawer(name) {
-      this.openBangumisDrawer = false;
-      this.openImageAlbumDrawer = false;
-      this[name] = true;
-      this.openPickerDrawer = true;
+      this.openBangumisDrawer = false
+      this.openImageAlbumDrawer = false
+      this[name] = true
+      this.openPickerDrawer = true
     },
     handleAlbumPickerBtnClick() {
       if (this.loadingUserAlbum) {
-        this.$toast.error("数据加载中");
-        return;
+        this.$toast.error('数据加载中')
+        return
       }
       if (!this.albumSlots[0].values.length) {
-        this.$toast.error("还没有创建相册");
-        return;
+        this.$toast.error('还没有创建相册')
+        return
       }
-      this.image.selectedAlbum = true;
-      this.switchPickerDrawer("openImageAlbumDrawer");
+      this.image.selectedAlbum = true
+      this.switchPickerDrawer('openImageAlbumDrawer')
     },
     onAlbumValuesChange(picker, values) {
       if (!values[0]) {
-        return;
+        return
       }
-      const id = values[0].id;
+      const id = values[0].id
       this.albumSlots[0].values.forEach((item, index) => {
         if (item.id === id) {
-          this.albumSlots[0].defaultIndex = index;
+          this.albumSlots[0].defaultIndex = index
         }
-      });
+      })
     },
     async createAlbum(poster) {
       if (!this.album.name) {
-        this.$toast.error("请填写相册名字");
-        return;
+        this.$toast.error('请填写相册名字')
+        return
       }
       if (this.album.name.length > 30) {
-        this.$toast.error("相册名字请缩减至 30 字以内");
-        return;
+        this.$toast.error('相册名字请缩减至 30 字以内')
+        return
       }
       if (!this.album.bangumiId) {
-        this.$toast.error("请选择要投稿的番剧");
-        return;
+        this.$toast.error('请选择要投稿的番剧')
+        return
       }
       if (this.submitting) {
-        return;
+        return
       }
-      this.submitting = true;
-      this.$toast.loading("创建中");
-      const api = new ImageApi(this);
+      this.submitting = true
+      this.$toast.loading('创建中')
+      const api = new ImageApi(this)
       try {
         const result = await api.createAlbum(
           Object.assign({}, poster, {
@@ -272,69 +272,69 @@ export default {
             is_creator: this.album.creator,
             part: 0
           })
-        );
-        const data = result.data;
-        this.albumSlots[0].values.unshift(data);
-        this.albumSlots[0].defaultIndex = 0;
-        this.$toast.success(result.message);
-        this.$store.commit("UPDATE_USER_EXP", result.exp);
-        this.image.albumId = data.id;
-        this.image.selectedAlbum = true;
-        this.isSingleModel = false;
-        this.switchTab("image");
+        )
+        const data = result.data
+        this.albumSlots[0].values.unshift(data)
+        this.albumSlots[0].defaultIndex = 0
+        this.$toast.success(result.message)
+        this.$store.commit('UPDATE_USER_EXP', result.exp)
+        this.image.albumId = data.id
+        this.image.selectedAlbum = true
+        this.isSingleModel = false
+        this.switchTab('image')
         this.album = {
-          name: "",
-          bangumiId: "",
+          name: '',
+          bangumiId: '',
           creator: false,
           cartoon: false
-        };
-        this.$channel.$emit("image-upload-done");
+        }
+        this.$channel.$emit('image-upload-done')
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.submitting = false;
+        this.submitting = false
       }
     },
     async getUserAlbum() {
       if (this.loadingUserAlbum || this.loadedUserAlbum) {
-        return;
+        return
       }
-      this.loadingUserAlbum = true;
+      this.loadingUserAlbum = true
       try {
         this.albumSlots[0].values = await this.$store.dispatch(
-          "image/userAlbum",
+          'image/userAlbum',
           {
             ctx: this
           }
-        );
-        this.loadedUserAlbum = true;
+        )
+        this.loadedUserAlbum = true
       } finally {
-        this.loadingUserAlbum = false;
+        this.loadingUserAlbum = false
       }
     },
     async createImage(images) {
       if (this.isSingleModel) {
         if (!this.image.bangumiId) {
-          this.$toast.error("请选择要投稿的番剧");
-          return;
+          this.$toast.error('请选择要投稿的番剧')
+          return
         }
         if (this.image.name.length > 30) {
-          this.$toast.error("图片名字请缩减至 30 字以内");
-          return;
+          this.$toast.error('图片名字请缩减至 30 字以内')
+          return
         }
       } else {
         if (!this.image.selectedAlbum) {
-          this.$toast.error("请选择要上传的相册");
-          return;
+          this.$toast.error('请选择要上传的相册')
+          return
         }
       }
       if (this.submitting) {
-        return;
+        return
       }
-      this.submitting = true;
-      this.$toast.loading("上传中...");
-      let newId;
-      const api = new ImageApi(this);
+      this.submitting = true
+      this.$toast.loading('上传中...')
+      let newId
+      const api = new ImageApi(this)
       try {
         if (this.isSingleModel) {
           this.$captcha({
@@ -346,49 +346,49 @@ export default {
                   name: this.image.name,
                   geetest: data
                 })
-              );
-              newId = result.data;
-              this.show = false;
-              this.$store.commit("UPDATE_USER_EXP", result.exp);
+              )
+              newId = result.data
+              this.show = false
+              this.$store.commit('UPDATE_USER_EXP', result.exp)
               this.$toast.success(result.message).then(() => {
-                window.location = this.$alias.image(newId);
-              });
-              this.$channel.$emit("image-upload-done");
+                window.location = this.$alias.image(newId)
+              })
+              this.$channel.$emit('image-upload-done')
             },
             close: () => {
-              this.submitting = false;
+              this.submitting = false
             },
             error: err => {
-              this.submitting = false;
-              this.$toast.error(err);
+              this.submitting = false
+              this.$toast.error(err)
             }
-          });
+          })
         } else {
-          newId = this.getSelectedMeta("album", "id");
+          newId = this.getSelectedMeta('album', 'id')
           await api.uploadManyImage({
             album_id: newId,
             images
-          });
-          this.$toast.success("上传成功");
-          this.show = false;
+          })
+          this.$toast.success('上传成功')
+          this.show = false
           setTimeout(() => {
-            window.location = this.$alias.image(newId);
-          }, 400);
-          this.$channel.$emit("image-upload-done");
+            window.location = this.$alias.image(newId)
+          }, 400)
+          this.$channel.$emit('image-upload-done')
         }
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.submitting = false;
+        this.submitting = false
       }
     },
     getSelectedMeta(name, value) {
-      const key = `${name}Slots`;
+      const key = `${name}Slots`
       if (!this[key][0].values.length) {
-        return 0;
+        return 0
       }
-      return this[key][0].values[this[key][0].defaultIndex][value];
+      return this[key][0].values[this[key][0].defaultIndex][value]
     }
   }
-};
+}
 </script>

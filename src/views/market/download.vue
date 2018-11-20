@@ -82,33 +82,33 @@
 </template>
 
 <script>
-import VueParticles from "~/components/particles/index.vue";
+import VueParticles from '~/components/particles/index.vue'
 
 export default {
-  name: "AppDownload",
+  name: 'AppDownload',
   async asyncData({ store, ctx }) {
     const userAgent =
-      typeof window === "undefined"
-        ? ctx.header["user-agent"].toLowerCase()
-        : window.navigator.userAgent.toLowerCase();
-    const iOS = userAgent.match(/iphone|ipad|ipod/) !== null;
-    await store.dispatch("app/getDownloadUrl", {
+      typeof window === 'undefined'
+        ? ctx.header['user-agent'].toLowerCase()
+        : window.navigator.userAgent.toLowerCase()
+    const iOS = userAgent.match(/iphone|ipad|ipod/) !== null
+    await store.dispatch('app/getDownloadUrl', {
       type: iOS ? 2 : 1
-    });
+    })
   },
   components: {
     VueParticles
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
     info() {
-      return this.$store.state.app.download;
+      return this.$store.state.app.download
     },
     iOS() {
-      return this.$store.state.ua.ios;
+      return this.$store.state.ua.ios
     }
   }
-};
+}
 </script>

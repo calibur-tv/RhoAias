@@ -293,55 +293,55 @@
 
 <script>
 export default {
-  name: "UserMark",
+  name: 'UserMark',
   async asyncData({ store, ctx }) {
-    await store.dispatch("users/getBookmarks", {
+    await store.dispatch('users/getBookmarks', {
       ctx,
-      type: "post",
+      type: 'post',
       init: true
-    });
+    })
   },
   data() {
     return {
-      type: "post"
-    };
+      type: 'post'
+    }
   },
   computed: {
     source() {
-      return this.$store.state.users.bookmark[this.type];
+      return this.$store.state.users.bookmark[this.type]
     },
     isMe() {
       return this.$store.state.login
         ? this.user.zone === this.$route.params.zone
-        : false;
+        : false
     }
   },
   mounted() {
     if (!this.isMe) {
       this.$router.replace({
-        name: "user-bangumi"
-      });
+        name: 'user-bangumi'
+      })
     }
   },
   methods: {
     switchTab(value) {
-      this.type = value;
-      this.getData(true);
+      this.type = value
+      this.getData(true)
     },
     loadMore() {
-      this.getData(false);
+      this.getData(false)
     },
     async getData(init) {
       try {
-        await this.$store.dispatch("users/getBookmarks", {
+        await this.$store.dispatch('users/getBookmarks', {
           type: this.type,
           init,
           ctx: this
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       }
     }
   }
-};
+}
 </script>

@@ -23,7 +23,7 @@
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           bottom: 1px;
@@ -101,29 +101,29 @@
 </template>
 
 <script>
-import BangumiHeader from "~/components/bangumi/BangumiHeader";
-import PostFlowList from "~/components/flow/list/PostFlowList";
-import BangumiVideoFlow from "~/components/bangumi/flows/BangumiVideoFlow";
-import BangumiCartoonFlow from "~/components/bangumi/flows/BangumiCartoonFlow";
-import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
-import ImageFlowList from "~/components/flow/list/ImageFlowList";
-import BangumiScoreFlow from "~/components/bangumi/flows/BangumiScoreFlow";
-import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
+import BangumiHeader from '~/components/bangumi/BangumiHeader'
+import PostFlowList from '~/components/flow/list/PostFlowList'
+import BangumiVideoFlow from '~/components/bangumi/flows/BangumiVideoFlow'
+import BangumiCartoonFlow from '~/components/bangumi/flows/BangumiCartoonFlow'
+import CartoonRoleFlowList from '~/components/flow/list/CartoonRoleFlowList'
+import ImageFlowList from '~/components/flow/list/ImageFlowList'
+import BangumiScoreFlow from '~/components/bangumi/flows/BangumiScoreFlow'
+import QuestionFlowList from '~/components/flow/list/QuestionFlowList'
 
 export default {
-  name: "BangumiShow",
+  name: 'BangumiShow',
   async asyncData({ route, store, ctx }) {
-    const id = route.params.id;
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("bangumi/getBangumi", { ctx, id }),
-      store.dispatch("bangumi/getTopPosts", { ctx, id }),
-      store.dispatch("flow/initData", {
-        type: "post",
-        sort: "active",
+      store.dispatch('bangumi/getBangumi', { ctx, id }),
+      store.dispatch('bangumi/getTopPosts', { ctx, id }),
+      store.dispatch('flow/initData', {
+        type: 'post',
+        sort: 'active',
         bangumiId: id,
         ctx
       })
-    ]);
+    ])
   },
   components: {
     BangumiHeader,
@@ -137,79 +137,79 @@ export default {
   },
   head() {
     if (!this.id) {
-      return;
+      return
     }
-    let keywords = this.info.alias;
+    let keywords = this.info.alias
     this.tags.forEach(tag => {
-      keywords += `,${tag.name}`;
-    });
-    const name = this.info.name;
-    keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`;
-    const desc = this.info.summary;
+      keywords += `,${tag.name}`
+    })
+    const name = this.info.name
+    keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`
+    const desc = this.info.summary
     return {
       title: `《${name}》`,
       meta: [
-        { hid: "description", name: "description", content: desc },
-        { hid: "keywords", name: "keywords", content: keywords }
+        { hid: 'description', name: 'description', content: desc },
+        { hid: 'keywords', name: 'keywords', content: keywords }
       ],
       script: [
         {
-          hid: "share-data",
+          hid: 'share-data',
           innerHTML: JSON.stringify({
             title: name,
             description: desc,
             imageUrl: this.info.avatar
           }),
-          type: "application/json"
+          type: 'application/json'
         }
       ]
-    };
+    }
   },
   data() {
     return {
-      sort: "post"
-    };
+      sort: 'post'
+    }
   },
   computed: {
     id() {
-      return +this.$route.params.id;
+      return +this.$route.params.id
     },
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     },
     tags() {
-      return this.info.tags;
+      return this.info.tags
     }
   },
   methods: {
     switchTab(tab) {
-      this.sort = tab;
+      this.sort = tab
       this.$nextTick(() => {
         switch (tab) {
-          case "post":
-            this.$channel.$emit("bangumi-tab-switch-post");
-            break;
-          case "video":
-            this.$channel.$emit("bangumi-tab-switch-video");
-            break;
-          case "cartoon":
-            this.$channel.$emit("bangumi-tab-switch-cartoon");
-            break;
-          case "role":
-            this.$channel.$emit("bangumi-tab-switch-role");
-            break;
-          case "image":
-            this.$channel.$emit("bangumi-tab-switch-image");
-            break;
-          case "question":
-            this.$channel.$emit("bangumi-tab-switch-question");
-            break;
-          case "score":
-            this.$channel.$emit("bangumi-tab-switch-score");
-            break;
+          case 'post':
+            this.$channel.$emit('bangumi-tab-switch-post')
+            break
+          case 'video':
+            this.$channel.$emit('bangumi-tab-switch-video')
+            break
+          case 'cartoon':
+            this.$channel.$emit('bangumi-tab-switch-cartoon')
+            break
+          case 'role':
+            this.$channel.$emit('bangumi-tab-switch-role')
+            break
+          case 'image':
+            this.$channel.$emit('bangumi-tab-switch-image')
+            break
+          case 'question':
+            this.$channel.$emit('bangumi-tab-switch-question')
+            break
+          case 'score':
+            this.$channel.$emit('bangumi-tab-switch-score')
+            break
         }
-      });
+      })
     }
   }
-};
+}
 </script>

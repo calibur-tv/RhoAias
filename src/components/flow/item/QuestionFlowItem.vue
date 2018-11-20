@@ -156,10 +156,10 @@
 </template>
 
 <script>
-import VoteButton from "~/components/common/VoteButton";
+import VoteButton from '~/components/common/VoteButton'
 
 export default {
-  name: "QuestionFlowItem",
+  name: 'QuestionFlowItem',
   components: {
     VoteButton
   },
@@ -177,5 +177,5 @@ export default {
       type: String
     }
   }
-};
+}
 </script>

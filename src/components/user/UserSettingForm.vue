@@ -146,121 +146,121 @@
 </template>
 
 <script>
-import Api from "~/api/userApi";
-import VPopover from "~/components/common/Popover";
-import { Switch } from "mint-ui";
+import Api from '~/api/userApi'
+import VPopover from '~/components/common/Popover'
+import { Switch } from 'mint-ui'
 
 export default {
-  name: "UserSettingForm",
+  name: 'UserSettingForm',
   components: {
     VPopover,
-    "mt-switch": Switch
+    'mt-switch': Switch
   },
   data() {
     const validateNickname = (rule, value, callback) => {
-      const length = value.replace(/([\u4e00-\u9fa5])/g, "aa").trim().length;
+      const length = value.replace(/([\u4e00-\u9fa5])/g, 'aa').trim().length
       if (!length) {
-        callback(new Error("昵称不能为空"));
+        callback(new Error('昵称不能为空'))
       } else if (length < 2) {
-        callback(new Error("昵称至少为2个字符"));
+        callback(new Error('昵称至少为2个字符'))
       } else if (length > 14) {
-        callback(new Error("昵称不能超过14个字符"));
+        callback(new Error('昵称不能超过14个字符'))
       }
-      callback();
-    };
+      callback()
+    }
     const validateSignature = (rule, value, callback) => {
       if (value.length > 150) {
-        callback(new Error("签名最多 150 个字"));
+        callback(new Error('签名最多 150 个字'))
       }
-      callback();
-    };
+      callback()
+    }
     const validateBirthday = (rule, value, callback) => {
-      const setTs = value.getTime();
-      const curTs = Date.now();
+      const setTs = value.getTime()
+      const curTs = Date.now()
       if (setTs >= curTs) {
-        callback(new Error("。。。"));
+        callback(new Error('。。。'))
       } else if (curTs - setTs < 315360000000) {
-        callback(new Error("你应该大于10岁了吧...?"));
+        callback(new Error('你应该大于10岁了吧...?'))
       } else if (curTs - setTs > 1576800000000) {
-        callback(new Error("你应该小于50岁的吧...?"));
+        callback(new Error('你应该小于50岁的吧...?'))
       }
-      callback();
-    };
+      callback()
+    }
     return {
       beginTime: new Date(new Date().getFullYear() - 40, 0, 1),
       endTime: new Date(new Date().getFullYear() - 10, 11, 31),
       submitting: false,
-      sexMap: ["点击选择", "男", "女", "伪娘", "药娘", "扶她"],
+      sexMap: ['点击选择', '男', '女', '伪娘', '药娘', '扶她'],
       rule: {
-        nickname: [{ validator: validateNickname, trigger: "submit" }],
-        signature: [{ validator: validateSignature, trigger: "submit" }],
-        birthday: [{ validator: validateBirthday, trigger: "submit" }]
+        nickname: [{ validator: validateNickname, trigger: 'submit' }],
+        signature: [{ validator: validateSignature, trigger: 'submit' }],
+        birthday: [{ validator: validateBirthday, trigger: 'submit' }]
       }
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     sex() {
-      return this.user.sex;
+      return this.user.sex
     },
     nickname: {
       get() {
-        return this.user.nickname;
+        return this.user.nickname
       },
       set(value) {
-        this.$store.commit("UPDATE_USER_INFO", {
-          key: "nickname",
+        this.$store.commit('UPDATE_USER_INFO', {
+          key: 'nickname',
           value
-        });
+        })
       }
     },
     birthday: {
       get() {
         if (/-/.test(this.user.birthday)) {
-          return new Date(this.user.birthday.replace(/-/g, "/"));
+          return new Date(this.user.birthday.replace(/-/g, '/'))
         }
-        return new Date(this.user.birthday);
+        return new Date(this.user.birthday)
       },
       set(value) {
-        this.$store.commit("UPDATE_USER_INFO", {
-          key: "birthday",
+        this.$store.commit('UPDATE_USER_INFO', {
+          key: 'birthday',
           value
-        });
+        })
       }
     },
     birthSecret: {
       get() {
-        return this.user.birthSecret;
+        return this.user.birthSecret
       },
       set(value) {
-        this.$store.commit("UPDATE_USER_INFO", {
-          key: "birthSecret",
+        this.$store.commit('UPDATE_USER_INFO', {
+          key: 'birthSecret',
           value
-        });
+        })
       }
     },
     sexSecret: {
       get() {
-        return this.user.sexSecret;
+        return this.user.sexSecret
       },
       set(value) {
-        this.$store.commit("UPDATE_USER_INFO", {
-          key: "sexSecret",
+        this.$store.commit('UPDATE_USER_INFO', {
+          key: 'sexSecret',
           value
-        });
+        })
       }
     },
     signature: {
       get() {
-        return this.user.signature;
+        return this.user.signature
       },
       set(value) {
-        this.$store.commit("UPDATE_USER_INFO", {
-          key: "signature",
+        this.$store.commit('UPDATE_USER_INFO', {
+          key: 'signature',
           value
-        });
+        })
       }
     },
     sexActions() {
@@ -268,74 +268,74 @@ export default {
         {
           name: this.sexMap[1],
           method: () => {
-            this.$store.commit("UPDATE_USER_INFO", {
-              key: "sex",
+            this.$store.commit('UPDATE_USER_INFO', {
+              key: 'sex',
               value: 1
-            });
+            })
           }
         },
         {
           name: this.sexMap[2],
           method: () => {
-            this.$store.commit("UPDATE_USER_INFO", {
-              key: "sex",
+            this.$store.commit('UPDATE_USER_INFO', {
+              key: 'sex',
               value: 2
-            });
+            })
           }
         },
         {
           name: this.sexMap[3],
           method: () => {
-            this.$store.commit("UPDATE_USER_INFO", {
-              key: "sex",
+            this.$store.commit('UPDATE_USER_INFO', {
+              key: 'sex',
               value: 3
-            });
+            })
           }
         },
         {
           name: this.sexMap[4],
           method: () => {
-            this.$store.commit("UPDATE_USER_INFO", {
-              key: "sex",
+            this.$store.commit('UPDATE_USER_INFO', {
+              key: 'sex',
               value: 4
-            });
+            })
           }
         },
         {
           name: this.sexMap[5],
           method: () => {
-            this.$store.commit("UPDATE_USER_INFO", {
-              key: "sex",
+            this.$store.commit('UPDATE_USER_INFO', {
+              key: 'sex',
               value: 5
-            });
+            })
           }
         }
-      ];
+      ]
     },
     selectedSexLabel() {
-      return this.sexMap[this.sex];
+      return this.sexMap[this.sex]
     },
     selectedBirthLabel() {
-      const date = this.birthday;
+      const date = this.birthday
       if (/1970 08:00:00 GMT\+0800/.test(date)) {
-        return "未设置";
+        return '未设置'
       }
       return `${date.getFullYear()}年${date.getMonth() +
-        1}月${date.getDate()}日`;
+        1}月${date.getDate()}日`
     }
   },
   methods: {
     openBirthPicker() {
-      this.$refs.birthPicker.open();
+      this.$refs.birthPicker.open()
     },
     submit() {
       this.$refs.form.validate(async valid => {
         if (valid) {
           if (this.submitting) {
-            return;
+            return
           }
-          this.submitting = true;
-          const api = new Api(this);
+          this.submitting = true
+          const api = new Api(this)
           try {
             await api.settingProfile({
               nickname: this.nickname,
@@ -344,18 +344,18 @@ export default {
               birth_secret: this.birthSecret,
               sex_secret: this.sexSecret,
               sex: this.sex
-            });
-            this.$toast.success("设置成功");
+            })
+            this.$toast.success('设置成功')
           } catch (err) {
-            this.$toast.error(err);
+            this.$toast.error(err)
           } finally {
-            this.submitting = false;
+            this.submitting = false
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
-};
+}
 </script>

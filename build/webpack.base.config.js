@@ -10,9 +10,9 @@ const cdn = require('../.env').cdn
 const staticFilePrefix = require('../qiniu.json').key_prefix
 // const SentryPlugin = require('./webpack.sentry.plugin.js')
 // const SentryConfig = require('./sentry.config.js')
-const now = new Date().getTime();
-const StyleLintPlugin = require("stylelint-webpack-plugin");
-const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
+const now = new Date().getTime()
+const StyleLintPlugin = require('stylelint-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   cache: true,
@@ -24,10 +24,10 @@ module.exports = {
   resolve: {
     alias: {
       '~': resolve('../src'),
-      'env': resolve('../.env.js'),
-      'img': resolve('../src/assets/img'),
-      'static': resolve('../static'),
-      'vendor': resolve('../vendor')
+      env: resolve('../.env.js'),
+      img: resolve('../src/assets/img'),
+      static: resolve('../static'),
+      vendor: resolve('../vendor')
     },
     extensions: ['.js', '.vue', '.scss', '.css']
   },
@@ -44,9 +44,7 @@ module.exports = {
               preserveWhitespace: false,
               postcss: [
                 require('autoprefixer')({
-                  browsers: [
-                    'last 3 versions'
-                  ]
+                  browsers: ['last 3 versions']
                 })
               ],
               loaders: {
@@ -54,9 +52,11 @@ module.exports = {
                   'vue-style-loader',
                   {
                     loader: 'css-loader',
-                    options: isDev ? {} : {
-                      minimize: true
-                    }
+                    options: isDev
+                      ? {}
+                      : {
+                          minimize: true
+                        }
                   },
                   'sass-loader',
                   {
@@ -72,7 +72,9 @@ module.exports = {
                 i18n: '@kazupon/vue-i18n-loader'
               },
               cssModules: {
-                localIdentName: isDev ? '[path][name]---[local]---[hash:base64:5]' : '[local]-[hash:base64:5]',
+                localIdentName: isDev
+                  ? '[path][name]---[local]---[hash:base64:5]'
+                  : '[local]-[hash:base64:5]',
                 camelCase: true
               }
             }
@@ -105,24 +107,26 @@ module.exports = {
         use: isDev
           ? ['vue-style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
           : ExtractTextPlugin.extract({
-            fallback: 'vue-style-loader',
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: true,
-                  importLoaders: 2
-                }
-              },
-              {
-                loader: 'postcss-loader',
-                options: {
-                  config: {
-                    path: './postcss.config.js'
+              fallback: 'vue-style-loader',
+              use: [
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: true,
+                    importLoaders: 2
                   }
-                }
-              }, 'sass-loader']
-          })
+                },
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    config: {
+                      path: './postcss.config.js'
+                    }
+                  }
+                },
+                'sass-loader'
+              ]
+            })
       },
       {
         test: /\.(js|vue)$/,
@@ -141,7 +145,7 @@ module.exports = {
     maxEntrypointSize: 300000,
     hints: isProd ? 'warning' : false
   },
-  plugins: (function () {
+  plugins: (function() {
     let pluginArr = [
       new LodashModuleReplacementPlugin(),
       new webpack.ProvidePlugin({}),
@@ -149,11 +153,13 @@ module.exports = {
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
           RELEASE: JSON.stringify(now || 'dev'),
-          API_HOST: JSON.stringify(process.env.API_HOST || 'https://api.calibur.tv/')
+          API_HOST: JSON.stringify(
+            process.env.API_HOST || 'https://api.calibur.tv/'
+          )
         }
       }),
       new StyleLintPlugin({
-        files: ["**/*.vue"]
+        files: ['**/*.vue']
       })
     ]
 
@@ -162,9 +168,7 @@ module.exports = {
 
     if (!isDev) {
       pluginArr = pluginArr.concat([
-        new CopyWebpackPlugin([
-          { from: resolve('../static') }
-        ]),
+        new CopyWebpackPlugin([{ from: resolve('../static') }]),
         new ExtractTextPlugin({
           filename: 'common.[contenthash].css',
           allChunks: true
@@ -181,5 +185,5 @@ module.exports = {
     }
 
     return pluginArr
-  }())
+  })()
 }

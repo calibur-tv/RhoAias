@@ -1,13 +1,13 @@
-import Api from "~/api/userApi";
-import ScoreApi from "~/api/scoreApi";
-import QuestionApi from "~/api/questionApi";
+import Api from '~/api/userApi'
+import ScoreApi from '~/api/scoreApi'
+import QuestionApi from '~/api/questionApi'
 
 export default {
   namespaced: true,
   state: () => ({
     show: null,
     bangumis: [],
-    fetchedBangumiZone: "",
+    fetchedBangumiZone: '',
     notifications: {
       checked: 0,
       take: 10,
@@ -69,41 +69,41 @@ export default {
   }),
   mutations: {
     SET_BOOKMARK_LOADING(state, type) {
-      state.bookmark[type].loading = true;
+      state.bookmark[type].loading = true
     },
     SET_BOOKMARKS(state, { data, type }) {
-      state.bookmark[type].list = state.bookmark[type].list.concat(data.list);
-      state.bookmark[type].noMore = data.noMore;
-      state.bookmark[type].total = data.total;
-      state.bookmark[type].page++;
-      state.bookmark[type].loading = false;
+      state.bookmark[type].list = state.bookmark[type].list.concat(data.list)
+      state.bookmark[type].noMore = data.noMore
+      state.bookmark[type].total = data.total
+      state.bookmark[type].page++
+      state.bookmark[type].loading = false
     },
     SET_USER_INFO(state, data) {
-      state.show = data;
+      state.show = data
     },
     SET_USER_FOLLOW_BANGUMI(state, { data, zone }) {
-      state.bangumis = data;
-      state.fetchedBangumiZone = zone;
+      state.bangumis = data
+      state.fetchedBangumiZone = zone
     },
     SET_NOTIFICATIONS(state, data) {
-      state.notifications.list = state.notifications.list.concat(data.list);
-      state.notifications.total = data.total;
-      state.notifications.noMore = data.noMore;
-      state.notifications.checked = 0;
+      state.notifications.list = state.notifications.list.concat(data.list)
+      state.notifications.total = data.total
+      state.notifications.noMore = data.noMore
+      state.notifications.checked = 0
     },
     READ_NOTIFICATION(state, id) {
       state.notifications.list.forEach((message, index) => {
         if (message.id === id && !message.checked) {
-          state.notifications.list[index].checked = true;
-          state.notifications.checked++;
+          state.notifications.list[index].checked = true
+          state.notifications.checked++
         }
-      });
+      })
     },
     READ_ALL_NOTIFICATION(state) {
       state.notifications.list.forEach((message, index) => {
-        state.notifications.list[index].checked = true;
-      });
-      state.notifications.checked = 88888888;
+        state.notifications.list[index].checked = true
+      })
+      state.notifications.checked = 88888888
     },
     CLEAR_NOTIFICATIONS(state) {
       state.notifications = {
@@ -112,115 +112,115 @@ export default {
         noMore: false,
         total: 0,
         list: []
-      };
+      }
     },
     SET_DRAFT_LOADING(state, type) {
-      state.drafts[type].loading = true;
+      state.drafts[type].loading = true
     },
     SET_USER_DRAFT(state, { data, type }) {
-      state.drafts[type].noMore = data.noMore;
-      state.drafts[type].loading = false;
-      state.drafts[type].total = data.total;
-      state.drafts[type].list = state.drafts[type].list.concat(data.list);
+      state.drafts[type].noMore = data.noMore
+      state.drafts[type].loading = false
+      state.drafts[type].total = data.total
+      state.drafts[type].list = state.drafts[type].list.concat(data.list)
     }
   },
   actions: {
     async getUser({ state, commit }, { ctx, zone }) {
       if (state.show && state.show.zone === zone) {
-        return;
+        return
       }
-      const api = new Api(ctx);
-      const data = await api.getUserInfo({ zone });
-      commit("SET_USER_INFO", data);
+      const api = new Api(ctx)
+      const data = await api.getUserInfo({ zone })
+      commit('SET_USER_INFO', data)
     },
     async getFollowBangumis({ state, commit }, { ctx, zone }) {
       if (state.fetchedBangumiZone === zone) {
-        return state.bangumis;
+        return state.bangumis
       }
-      const api = new Api(ctx);
-      const data = await api.followBangumis(zone);
-      data && commit("SET_USER_FOLLOW_BANGUMI", { data, zone });
+      const api = new Api(ctx)
+      const data = await api.followBangumis(zone)
+      data && commit('SET_USER_FOLLOW_BANGUMI', { data, zone })
     },
     async daySign({ rootState }, { ctx }) {
       if (rootState.user.signed) {
-        return;
+        return
       }
-      const api = new Api(ctx);
-      return await api.daySign();
+      const api = new Api(ctx)
+      return await api.daySign()
     },
     async getNotifications({ state, commit }, { ctx, reset }) {
       if (reset) {
-        commit("CLEAR_NOTIFICATIONS");
+        commit('CLEAR_NOTIFICATIONS')
       }
-      const length = state.notifications.list.length;
+      const length = state.notifications.list.length
       if (state.notifications.noMore) {
-        return;
+        return
       }
-      const api = new Api(ctx);
+      const api = new Api(ctx)
       const data = await api.getNotifications({
         minId: length ? state.notifications.list[length - 1].id : null,
         take: state.notifications.take
-      });
-      data && commit("SET_NOTIFICATIONS", data);
+      })
+      data && commit('SET_NOTIFICATIONS', data)
     },
     async readMessage({ state, commit }, { ctx, id }) {
-      let msg = null;
+      let msg = null
       state.notifications.list.forEach(message => {
         if (message.id === id && !message.checked) {
-          msg = message;
+          msg = message
         }
-      });
+      })
       if (msg) {
-        const api = new Api(ctx);
-        await api.readMessage(id);
-        commit("READ_NOTIFICATION", id);
+        const api = new Api(ctx)
+        await api.readMessage(id)
+        commit('READ_NOTIFICATION', id)
       }
     },
     async readAllMessage({ commit }, ctx) {
-      const api = new Api(ctx);
-      await api.readAllMessage();
-      commit("READ_ALL_NOTIFICATION");
+      const api = new Api(ctx)
+      await api.readAllMessage()
+      commit('READ_ALL_NOTIFICATION')
     },
     async getUserDrafts({ state, commit }, { type, ctx }) {
       if (!state.drafts[type]) {
-        return;
+        return
       }
       if (state.drafts[type].noMore || state.drafts[type].loading) {
-        return;
+        return
       }
-      let api;
-      if (type === "score") {
-        api = new ScoreApi(ctx);
-      } else if (type === "answer") {
-        api = new QuestionApi(ctx);
+      let api
+      if (type === 'score') {
+        api = new ScoreApi(ctx)
+      } else if (type === 'answer') {
+        api = new QuestionApi(ctx)
       }
-      commit("SET_DRAFT_LOADING", type);
-      const data = await api.drafts();
-      commit("SET_USER_DRAFT", {
+      commit('SET_DRAFT_LOADING', type)
+      const data = await api.drafts()
+      commit('SET_USER_DRAFT', {
         data: {
           list: data,
           noMore: true,
           total: 0
         },
         type
-      });
+      })
     },
     async getBookmarks({ state, commit }, { type, init, ctx }) {
       if (state.bookmark[type].page && init) {
-        return;
+        return
       }
       if (state.bookmark[type].loading || state.bookmark[type].noMore) {
-        return;
+        return
       }
-      const api = new Api(ctx);
-      commit("SET_BOOKMARK_LOADING", type);
+      const api = new Api(ctx)
+      commit('SET_BOOKMARK_LOADING', type)
       const data = await api.getBookmarks({
         page: state.bookmark[type].page,
         take: 16,
         type
-      });
-      data && commit("SET_BOOKMARKS", { type, data });
+      })
+      data && commit('SET_BOOKMARKS', { type, data })
     }
   },
   getters: {}
-};
+}

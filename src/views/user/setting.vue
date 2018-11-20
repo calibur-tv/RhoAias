@@ -217,14 +217,14 @@
 </template>
 
 <script>
-import UserApi from "~/api/userApi";
-import ImageApi from "~/api/imageApi";
-import ImageCropper from "~/components/common/ImageCropper";
-import UserSettingForm from "~/components/user/UserSettingForm";
-import { cdn } from "env";
+import UserApi from '~/api/userApi'
+import ImageApi from '~/api/imageApi'
+import ImageCropper from '~/components/common/ImageCropper'
+import UserSettingForm from '~/components/user/UserSettingForm'
+import { cdn } from 'env'
 
 export default {
-  name: "UserSetting",
+  name: 'UserSetting',
   components: {
     ImageCropper,
     UserSettingForm
@@ -234,158 +234,158 @@ export default {
       avatarSelector: {
         loading: false,
         file: null,
-        data: "",
+        data: '',
         showDrawer: false
       },
       bannerSelector: {
         loading: false,
         file: null,
-        data: ""
+        data: ''
       }
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     isMe() {
       return this.$store.state.login
         ? this.$route.params.zone === this.user.zone
-        : false;
+        : false
     }
   },
   mounted() {
     if (!this.isMe) {
-      window.location.href = this.$alias.user(this.user.zone, "setting");
+      window.location.href = this.$alias.user(this.user.zone, 'setting')
     }
   },
   methods: {
     selectAvatar(e) {
-      const file = e.target.files[0];
+      const file = e.target.files[0]
       if (!file) {
-        this.$toast.error("图片选择失败");
-        return;
+        this.$toast.error('图片选择失败')
+        return
       }
       if (
-        ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
+        ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].indexOf(
           file.type
         ) === -1
       ) {
-        this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
-        return;
+        this.$toast.error('仅支持 jpg / jpeg / png / gif 格式的图片')
+        return
       }
-      const reader = new FileReader();
-      this.avatarSelector.file = file;
+      const reader = new FileReader()
+      this.avatarSelector.file = file
       reader.onload = evt => {
-        this.avatarSelector.data = evt.target.result;
-        this.avatarSelector.showDrawer = true;
-      };
-      reader.readAsDataURL(file);
+        this.avatarSelector.data = evt.target.result
+        this.avatarSelector.showDrawer = true
+      }
+      reader.readAsDataURL(file)
     },
     cancelAvatarSelect() {
-      this.avatarSelector.showDrawer = false;
-      this.avatarSelector.file = null;
-      this.avatarSelector.data = "";
+      this.avatarSelector.showDrawer = false
+      this.avatarSelector.file = null
+      this.avatarSelector.data = ''
       this.$nextTick(() => {
-        this.$refs.avatarInput.value = "";
-      });
+        this.$refs.avatarInput.value = ''
+      })
     },
     async submitAvatarChange(formData) {
       if (this.avatarSelector.loading) {
-        return;
+        return
       }
 
-      this.$toast.loading("上传中...");
-      this.avatarSelector.loading = true;
+      this.$toast.loading('上传中...')
+      this.avatarSelector.loading = true
       const filename = this.$utils.createFileName({
         userId: this.user.id,
-        type: "avatar",
+        type: 'avatar',
         file: this.avatarSelector.file
-      });
-      const imageApi = new ImageApi();
+      })
+      const imageApi = new ImageApi()
       try {
-        await this.$store.dispatch("getUpToken");
-        formData.append("token", this.user.uptoken.upToken);
-        formData.append("key", filename);
-        const result = await imageApi.uploadToQiniu(formData);
-        const userApi = new UserApi(this);
+        await this.$store.dispatch('getUpToken')
+        formData.append('token', this.user.uptoken.upToken)
+        formData.append('key', filename)
+        const result = await imageApi.uploadToQiniu(formData)
+        const userApi = new UserApi(this)
         await userApi.settingImage({
-          type: "avatar",
+          type: 'avatar',
           url: result.url
-        });
-        this.$store.commit("SET_USER_INFO", {
+        })
+        this.$store.commit('SET_USER_INFO', {
           avatar: `${cdn.image}${result.url}`
-        });
-        this.$toast.success("头像更新成功");
+        })
+        this.$toast.success('头像更新成功')
       } catch (e) {
-        typeof e === "string"
+        typeof e === 'string'
           ? this.$toast.error(e)
-          : this.$toast.error("头像更新失败，请刷新网页重试或选择其他图片");
+          : this.$toast.error('头像更新失败，请刷新网页重试或选择其他图片')
       } finally {
-        this.avatarSelector.loading = false;
-        this.cancelAvatarSelect();
+        this.avatarSelector.loading = false
+        this.cancelAvatarSelect()
       }
     },
     selectBanner(e) {
-      const file = e.target.files[0];
+      const file = e.target.files[0]
       if (
-        ["image/jpeg", "image/png", "image/jpg", "image/gif"].indexOf(
+        ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'].indexOf(
           file.type
         ) === -1
       ) {
-        this.$toast.error("仅支持 jpg / jpeg / png / gif 格式的图片");
-        return;
+        this.$toast.error('仅支持 jpg / jpeg / png / gif 格式的图片')
+        return
       }
-      const reader = new FileReader();
-      this.bannerSelector.file = file;
+      const reader = new FileReader()
+      this.bannerSelector.file = file
       reader.onload = evt => {
-        this.bannerSelector.data = evt.target.result;
-      };
-      reader.readAsDataURL(file);
+        this.bannerSelector.data = evt.target.result
+      }
+      reader.readAsDataURL(file)
     },
     cancelBannerSelect() {
-      this.bannerSelector.file = null;
-      this.bannerSelector.data = "";
+      this.bannerSelector.file = null
+      this.bannerSelector.data = ''
       this.$nextTick(() => {
-        this.$refs.bannerInput.value = "";
-      });
+        this.$refs.bannerInput.value = ''
+      })
     },
     async submitBannerChange(formData) {
       if (this.bannerSelector.loading) {
-        return;
+        return
       }
 
-      this.$toast.loading("上传中...");
-      this.bannerSelector.loading = true;
+      this.$toast.loading('上传中...')
+      this.bannerSelector.loading = true
       const filename = this.$utils.createFileName({
         userId: this.user.id,
-        type: "banner",
+        type: 'banner',
         file: this.bannerSelector.file
-      });
-      const imageApi = new ImageApi();
+      })
+      const imageApi = new ImageApi()
       try {
-        await this.$store.dispatch("getUpToken");
-        formData.append("token", this.user.uptoken.upToken);
-        formData.append("key", filename);
-        const result = await imageApi.uploadToQiniu(formData);
-        const userApi = new UserApi(this);
+        await this.$store.dispatch('getUpToken')
+        formData.append('token', this.user.uptoken.upToken)
+        formData.append('key', filename)
+        const result = await imageApi.uploadToQiniu(formData)
+        const userApi = new UserApi(this)
         await userApi.settingImage({
-          type: "banner",
+          type: 'banner',
           url: result.url
-        });
-        this.$store.commit("SET_USER_INFO", {
+        })
+        this.$store.commit('SET_USER_INFO', {
           banner: `${cdn.image}${result.url}`
-        });
-        this.$toast.success("背景更新成功");
+        })
+        this.$toast.success('背景更新成功')
       } catch (e) {
-        typeof e === "string"
+        typeof e === 'string'
           ? this.$toast.error(e)
-          : this.$toast.error("背景更新失败，请刷新网页重试或选择其他图片");
+          : this.$toast.error('背景更新失败，请刷新网页重试或选择其他图片')
       } finally {
-        this.bannerSelector.loading = false;
-        this.cancelBannerSelect();
+        this.bannerSelector.loading = false
+        this.cancelBannerSelect()
       }
     }
   }
-};
+}
 </script>

@@ -25,16 +25,16 @@
 <script>
 /* eslint-disable */
 export default {
-  name: "vue-particles",
+  name: 'vue-particles',
   data: function() {
     return {
-      id: "particles-instance-" + Math.floor(Math.random() * 5000)
-    };
+      id: 'particles-instance-' + Math.floor(Math.random() * 5000)
+    }
   },
   props: {
     color: {
       type: String,
-      default: "#dedede"
+      default: '#dedede'
     },
     particleOpacity: {
       type: Number,
@@ -46,7 +46,7 @@ export default {
     },
     shapeType: {
       type: String,
-      default: "circle"
+      default: 'circle'
     },
     particleSize: {
       type: Number,
@@ -54,7 +54,7 @@ export default {
     },
     linesColor: {
       type: String,
-      default: "#dedede"
+      default: '#dedede'
     },
     linesWidth: {
       type: Number,
@@ -82,7 +82,7 @@ export default {
     },
     hoverMode: {
       type: String,
-      default: "grab"
+      default: 'grab'
     },
     clickEffect: {
       type: Boolean,
@@ -90,12 +90,12 @@ export default {
     },
     clickMode: {
       type: String,
-      default: "push"
+      default: 'push'
     }
   },
   mounted() {
     // import particle.js only on client-side
-    require("particles.js");
+    require('particles.js')
     this.$nextTick(() => {
       this.initParticleJS(
         this.color,
@@ -113,8 +113,8 @@ export default {
         this.hoverMode,
         this.clickEffect,
         this.clickMode
-      );
-    });
+      )
+    })
   },
   methods: {
     initParticleJS(
@@ -151,7 +151,7 @@ export default {
             type: shapeType,
             stroke: {
               width: 0,
-              color: "#192231"
+              color: '#192231'
             },
             polygon: {
               nb_sides: 5
@@ -187,10 +187,10 @@ export default {
           move: {
             enable: true,
             speed: moveSpeed,
-            direction: "none",
+            direction: 'none',
             random: false,
             straight: false,
-            out_mode: "out",
+            out_mode: 'out',
             bounce: false,
             attract: {
               enable: false,
@@ -200,7 +200,7 @@ export default {
           }
         },
         interactivity: {
-          detect_on: "canvas",
+          detect_on: 'canvas',
           events: {
             onhover: {
               enable: hoverEffect,
@@ -243,8 +243,8 @@ export default {
           }
         },
         retina_detect: true
-      });
+      })
     }
   }
-};
+}
 </script>

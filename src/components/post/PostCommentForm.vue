@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import scrollToY from "~/assets/js/scrollToY";
-import ImageUploader from "~/components/common/ImageUploader";
+import scrollToY from '~/assets/js/scrollToY'
+import ImageUploader from '~/components/common/ImageUploader'
 
 export default {
-  name: "PostCommentForm",
+  name: 'PostCommentForm',
   components: {
     ImageUploader
   },
@@ -55,96 +55,96 @@ export default {
   data() {
     return {
       forms: {
-        content: ""
+        content: ''
       },
       exceed: 5
-    };
+    }
   },
   computed: {
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     },
     submitting() {
-      return this.$store.state.comment.submitting;
+      return this.$store.state.comment.submitting
     }
   },
   methods: {
     async submit(images) {
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (!this.forms.content) {
         if (!images.length) {
-          this.$toast.error("内容不能为空");
+          this.$toast.error('内容不能为空')
         } else {
-          this.$emit("close");
+          this.$emit('close')
         }
-        return;
+        return
       }
       if (this.submitting) {
-        return;
+        return
       }
-      this.$store.commit("comment/SET_SUBMITTING", { result: true });
+      this.$store.commit('comment/SET_SUBMITTING', { result: true })
       try {
-        const result = await this.$store.dispatch("comment/createMainComment", {
+        const result = await this.$store.dispatch('comment/createMainComment', {
           content: this.forms.content,
           images: images,
           type: this.type,
           id: this.id,
           ctx: this
-        });
-        this.$emit("close");
+        })
+        this.$emit('close')
         this.forms = {
-          content: ""
-        };
-        this.$toast.success(result.message);
-        this.$store.commit("UPDATE_USER_EXP", result.exp);
+          content: ''
+        }
+        this.$toast.success(result.message)
+        this.$store.commit('UPDATE_USER_EXP', result.exp)
         setTimeout(() => {
-          const dom = document.getElementById(`comment-${result.data.id}`);
-          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
-        }, 400);
-        this.$channel.$emit("image-upload-done");
+          const dom = document.getElementById(`comment-${result.data.id}`)
+          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600)
+        }, 400)
+        this.$channel.$emit('image-upload-done')
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.$store.commit("comment/SET_SUBMITTING", { result: false });
+        this.$store.commit('comment/SET_SUBMITTING', { result: false })
       }
     },
     handleRemove(file) {
       this.images.forEach((item, index) => {
         if (item.id === file.uid) {
-          this.images.splice(index, 1);
+          this.images.splice(index, 1)
         }
-      });
+      })
     },
     handleSuccess(res, file) {
       this.images.push({
         id: file.uid,
         img: res.data
-      });
+      })
     },
     handleExceed() {
-      this.$toast.error(`最多可上传 ${this.exceed} 张图片!`);
+      this.$toast.error(`最多可上传 ${this.exceed} 张图片!`)
     },
     beforeUpload(file) {
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
 
-      this.uploadConfig.max = 5;
+      this.uploadConfig.max = 5
       this.uploadConfig.params = {
         userId: this.$store.state.user.id,
         id: this.id,
-        type: "post"
-      };
+        type: 'post'
+      }
 
-      return this.handleImageUploadBefore(file);
+      return this.handleImageUploadBefore(file)
     },
     handleAreaFocus() {
-      document.body.scrollTop = 0;
+      document.body.scrollTop = 0
     }
   }
-};
+}
 </script>

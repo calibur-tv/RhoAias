@@ -79,11 +79,11 @@ $field-height: 48px;
 
 <script>
 export default {
-  name: "VField",
+  name: 'VField',
   props: {
     label: {
       type: String,
-      default: ""
+      default: ''
     },
     value: {
       required: true,
@@ -91,7 +91,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: ""
+      default: ''
     },
     disabled: {
       type: Boolean,
@@ -99,25 +99,25 @@ export default {
     },
     type: {
       type: String,
-      default: "text"
+      default: 'text'
     },
     labelSize: {
       type: String,
-      default: "100px"
+      default: '100px'
     }
   },
   data() {
     return {
       text: this.value
-    };
+    }
   },
   watch: {
     value(val) {
-      this.text = val;
+      this.text = val
     },
     text(val) {
-      this.$emit("input", val);
+      this.$emit('input', val)
     }
   }
-};
+}
 </script>

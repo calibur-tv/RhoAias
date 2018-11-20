@@ -205,65 +205,65 @@
 </template>
 
 <script>
-import UserApi from "~/api/userApi";
-import UserSex from "~/components/user/UserSex";
-import { Badge } from "mint-ui";
+import UserApi from '~/api/userApi'
+import UserSex from '~/components/user/UserSex'
+import { Badge } from 'mint-ui'
 
 export default {
-  name: "VUserDrawer",
+  name: 'VUserDrawer',
   components: {
     UserSex,
-    "mt-badge": Badge
+    'mt-badge': Badge
   },
   data() {
     return {
       switchUserDrawer: false,
       signDayLoading: false
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     computeUserDrawerBg() {
       if (
         !this.user ||
-        this.user.banner.split("/default/user-banner").length > 1
+        this.user.banner.split('/default/user-banner').length > 1
       ) {
-        return {};
+        return {}
       }
       return {
         backgroundImage: `url(${this.$resize(this.user.banner, {
           height: 250,
           mode: 2
         })})`
-      };
+      }
     },
     notificationCount() {
       const result =
-        this.user.notification - this.$store.state.users.notifications.checked;
-      return result < 0 ? 0 : result;
+        this.user.notification - this.$store.state.users.notifications.checked
+      return result < 0 ? 0 : result
     },
     daySigned() {
-      return this.user.daySign;
+      return this.user.daySign
     },
     coinCount() {
-      return this.user.coin;
+      return this.user.coin
     }
   },
   mounted() {
-    this.$channel.$on("open-user-drawer", () => {
-      this.$store.dispatch("getNotification", this);
-      this.switchUserDrawer = true;
-    });
+    this.$channel.$on('open-user-drawer', () => {
+      this.$store.dispatch('getNotification', this)
+      this.switchUserDrawer = true
+    })
   },
   methods: {
     logout() {
-      this.$cookie.remove("JWT-TOKEN");
-      const api = new UserApi(this);
-      api.logout();
-      window.location.href = "/";
+      this.$cookie.remove('JWT-TOKEN')
+      const api = new UserApi(this)
+      api.logout()
+      window.location.href = '/'
     }
   }
-};
+}
 </script>

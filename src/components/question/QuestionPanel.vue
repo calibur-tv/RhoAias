@@ -259,14 +259,14 @@
 </template>
 
 <script>
-import FollowButton from "~/components/common/FollowButton";
-import CreateAnswerForm from "~/components/question/CreateAnswerForm";
-import QuestionApi from "~/api/questionApi";
-import CommentMain from "~/components/comments/CommentMain";
-import VPopover from "~/components/common/Popover";
+import FollowButton from '~/components/common/FollowButton'
+import CreateAnswerForm from '~/components/question/CreateAnswerForm'
+import QuestionApi from '~/api/questionApi'
+import CommentMain from '~/components/comments/CommentMain'
+import VPopover from '~/components/common/Popover'
 
 export default {
-  name: "QuestionPanel",
+  name: 'QuestionPanel',
   components: {
     VPopover,
     FollowButton,
@@ -278,65 +278,65 @@ export default {
       collapsed: true,
       showCommentModal: false,
       showCreateAnswerForm: false
-    };
+    }
   },
   computed: {
     id() {
-      return this.qaq.id;
+      return this.qaq.id
     },
     qaq() {
-      return this.$store.state.question.qaq;
+      return this.$store.state.question.qaq
     },
     collapsedContent() {
-      let text = this.qaq.intro.substring(0, 78);
+      let text = this.qaq.intro.substring(0, 78)
       if (this.qaq.images.length) {
-        text += "[图片]";
+        text += '[图片]'
       }
-      return `${text}...`;
+      return `${text}...`
     },
     answerPage() {
-      return this.$route.name === "answer-show";
+      return this.$route.name === 'answer-show'
     },
     answer() {
-      return this.$store.state.question.answers.list[0];
+      return this.$store.state.question.answers.list[0]
     },
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     },
     isMyAnswer() {
       if (this.isGuest || !this.answerPage) {
-        return false;
+        return false
       }
-      return this.answer.user.id === this.$store.state.user.id;
+      return this.answer.user.id === this.$store.state.user.id
     },
     isMyQAQ() {
       if (this.isGuest || this.answerPage) {
-        return false;
+        return false
       }
-      return this.qaq.user.id === this.$store.state.user.id;
+      return this.qaq.user.id === this.$store.state.user.id
     }
   },
   created() {
-    this.collapsed = this.qaq.intro || this.qaq.images.length;
+    this.collapsed = this.qaq.intro || this.qaq.images.length
   },
   mounted() {
-    this.$channel.$on("open-write-answer-dialog", (isEdit = false) => {
+    this.$channel.$on('open-write-answer-dialog', (isEdit = false) => {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (isEdit) {
-        this.editMyAnswer();
+        this.editMyAnswer()
       } else {
-        this.showCreateAnswerForm = true;
+        this.showCreateAnswerForm = true
       }
-    });
+    })
   },
   methods: {
     toggleFollowQAQ(result) {
-      const user = this.$store.state.user;
-      this.$store.commit("question/QAQ_SOCIAL_TOGGLE", {
-        key: "follow",
+      const user = this.$store.state.user
+      this.$store.commit('question/QAQ_SOCIAL_TOGGLE', {
+        key: 'follow',
         value: result,
         user: {
           id: user.id,
@@ -344,43 +344,43 @@ export default {
           nickname: user.nickname,
           avatar: user.avatar
         }
-      });
+      })
     },
     async editMyAnswer() {
       try {
-        await this.$store.dispatch("editor/getData", {
+        await this.$store.dispatch('editor/getData', {
           api: new QuestionApi(this),
           id: this.qaq.my_answer.id
-        });
-        this.showCreateAnswerForm = true;
+        })
+        this.showCreateAnswerForm = true
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       }
     },
     loadQAQComment() {
-      this.showCommentModal = true;
+      this.showCommentModal = true
       this.$nextTick(() => {
-        this.$channel.$emit(`fire-load-comment-question-${this.id}`);
-      });
+        this.$channel.$emit(`fire-load-comment-question-${this.id}`)
+      })
     },
     collapsedQAQ() {
-      this.collapsed = true;
-      window.scrollTo(0, 0);
+      this.collapsed = true
+      window.scrollTo(0, 0)
     },
     handleCommentChange(count) {
-      this.$store.commit("question/COMMENT_CHANGE_COUNT", {
+      this.$store.commit('question/COMMENT_CHANGE_COUNT', {
         id: this.id,
-        key: "qaq",
+        key: 'qaq',
         value: count
-      });
+      })
     },
     beginWriteAnswer() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.showCreateAnswerForm = true;
+      this.showCreateAnswerForm = true
     }
   }
-};
+}
 </script>

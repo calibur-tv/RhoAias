@@ -56,37 +56,37 @@
 </template>
 
 <script>
-import flowMixin from "./_flowListMixin";
-import CartoonRoleFlowItem from "../item/CartoonRoleFlowItem";
+import flowMixin from './_flowListMixin'
+import CartoonRoleFlowItem from '../item/CartoonRoleFlowItem'
 
 export default {
-  name: "CartoonRoleFlowList",
+  name: 'CartoonRoleFlowList',
   components: {
     CartoonRoleFlowItem
   },
   mixins: [flowMixin],
   data() {
     return {
-      flowType: "role"
-    };
+      flowType: 'role'
+    }
   },
   computed: {
     roles() {
       if (this.userZone) {
-        return this.source.list;
+        return this.source.list
       }
       // eslint-disable-next-line
-      return this.source.list.sort((a, b) => b.star_count - a.star_count);
+      return this.source.list.sort((a, b) => b.star_count - a.star_count)
     }
   },
   methods: {
     openFeedbackForRole() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 6,
         desc: `我想要为《${this.bangumiName}》的 {?} 应援`,
-        placeholder: "请填写你想要的角色"
-      });
+        placeholder: '请填写你想要的角色'
+      })
     }
   }
-};
+}
 </script>

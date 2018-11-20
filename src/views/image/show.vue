@@ -284,31 +284,31 @@
 </template>
 
 <script>
-import Api from "~/api/imageApi";
-import CommentMain from "~/components/comments/CommentMain";
-import SocialPanel from "~/components/common/SocialPanel";
-import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
-import BangumiPanel from "~/components/panel/BangumiPanel";
-import VPopover from "~/components/common/Popover";
+import Api from '~/api/imageApi'
+import CommentMain from '~/components/comments/CommentMain'
+import SocialPanel from '~/components/common/SocialPanel'
+import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
+import BangumiPanel from '~/components/panel/BangumiPanel'
+import VPopover from '~/components/common/Popover'
 
 export default {
-  name: "ImageAlbum",
+  name: 'ImageAlbum',
   async asyncData({ store, route, ctx }) {
-    const id = route.params.id;
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("image/show", { ctx, id }),
-      store.dispatch("comment/getMainComments", {
+      store.dispatch('image/show', { ctx, id }),
+      store.dispatch('comment/getMainComments', {
         ctx,
         id,
-        type: "image",
-        seeReplyId: route.query["comment-id"]
+        type: 'image',
+        seeReplyId: route.query['comment-id']
       })
-    ]);
+    ])
   },
   head() {
     return {
       title: this.info.name
-    };
+    }
   },
   components: {
     CommentMain,
@@ -323,130 +323,130 @@ export default {
       page: 0,
       part: 0,
       showAll: false
-    };
+    }
   },
   computed: {
     id() {
-      return +this.$route.params.id;
+      return +this.$route.params.id
     },
     info() {
-      return this.$store.state.image.show;
+      return this.$store.state.image.show
     },
     source() {
-      return this.info.source;
+      return this.info.source
     },
     images() {
-      return this.info.images;
+      return this.info.images
     },
     cartoon() {
-      return this.info.parts;
+      return this.info.parts
     },
     user() {
-      return this.info.user;
+      return this.info.user
     },
     bangumi() {
-      return this.info.bangumi;
+      return this.info.bangumi
     },
     likeAlbumBtnText() {
       const text = this.info.is_creator
         ? this.info.liked
-          ? "已赞赏"
-          : "赞赏"
+          ? '已赞赏'
+          : '赞赏'
         : this.info.liked
-          ? "已喜欢"
-          : "喜欢";
+          ? '已喜欢'
+          : '喜欢'
 
-      return this.info.like_count ? `${text}(${this.info.like_count})` : text;
+      return this.info.like_count ? `${text}(${this.info.like_count})` : text
     },
     isMine() {
       return this.$store.state.login
         ? this.user.id === this.$store.state.user.id
-        : false;
+        : false
     },
     showMoreBtn() {
-      return this.take < this.cartoon.length;
+      return this.take < this.cartoon.length
     },
     sortCartoons() {
-      const begin = (this.page - 1) * this.take;
+      const begin = (this.page - 1) * this.take
       return this.showAll
         ? this.cartoon
-        : this.cartoon.slice(begin, begin + this.take);
+        : this.cartoon.slice(begin, begin + this.take)
     },
     nextPartUrl() {
       if (!this.info.is_cartoon || !this.cartoon.length) {
-        return "";
+        return ''
       }
-      let index = 0;
+      let index = 0
       this.cartoon.forEach((item, idx) => {
         if (item.id === this.id) {
-          index = idx;
+          index = idx
         }
-      });
+      })
       if (index >= this.cartoon.length - 1) {
-        return "";
+        return ''
       }
-      return this.$alias.image(this.cartoon[index + 1].id);
+      return this.$alias.image(this.cartoon[index + 1].id)
     }
   },
   mounted() {
-    this.computePage();
+    this.computePage()
   },
   methods: {
     handleBangumiFollow(result) {
-      this.$store.commit("image/FOLLOW_ALBUM_BANGUMI", { result });
+      this.$store.commit('image/FOLLOW_ALBUM_BANGUMI', { result })
     },
     computePage() {
       if (!this.info.is_cartoon) {
-        return;
+        return
       }
       this.cartoon.forEach((meta, index) => {
         if (meta.id === this.id) {
-          this.part = index + 1;
+          this.part = index + 1
         }
-      });
-      this.page = Math.ceil(this.part / this.take);
+      })
+      this.page = Math.ceil(this.part / this.take)
     },
     toggleLike() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (this.isMine) {
-        this.$toast.error("不能为自己的相册点赞");
-        return;
+        this.$toast.error('不能为自己的相册点赞')
+        return
       }
       if (this.loadingFollowAlbum) {
-        return;
+        return
       }
-      this.loadingFollowAlbum = true;
+      this.loadingFollowAlbum = true
       if (this.info.is_creator && !this.info.liked) {
-        this.$confirm("原创相册点赞需要团子, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('原创相册点赞需要团子, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
           .then(() => {
-            this.submitLikeRequest();
+            this.submitLikeRequest()
           })
-          .catch(() => {});
-        return;
+          .catch(() => {})
+        return
       }
-      this.submitLikeRequest();
+      this.submitLikeRequest()
     },
     async submitLikeRequest() {
-      const api = new Api(this);
+      const api = new Api(this)
       try {
         const result = await api.toggleLike({
           id: this.id
-        });
-        this.$store.commit("image/ALBUM_LIKE", { result });
-        this.$toast.success("操作成功");
+        })
+        this.$store.commit('image/ALBUM_LIKE', { result })
+        this.$toast.success('操作成功')
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingFollowAlbum = false;
+        this.loadingFollowAlbum = false
       }
     }
   }
-};
+}
 </script>

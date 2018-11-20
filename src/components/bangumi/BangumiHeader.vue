@@ -121,22 +121,22 @@ $banner-height: 140px;
 </template>
 
 <script>
-import FollowButton from "~/components/common/FollowButton";
+import FollowButton from '~/components/common/FollowButton'
 
 export default {
-  name: "VBangumiHeader",
+  name: 'VBangumiHeader',
   components: {
     FollowButton
   },
   computed: {
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     }
   },
   methods: {
     actionFollow(result) {
-      this.$store.commit("bangumi/SET_FOLLOW", { result });
+      this.$store.commit('bangumi/SET_FOLLOW', { result })
     }
   }
-};
+}
 </script>

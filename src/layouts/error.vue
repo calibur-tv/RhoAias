@@ -16,14 +16,14 @@
 
 <script>
 export default {
-  name: "NuxtError",
-  props: ["error"],
+  name: 'NuxtError',
+  props: ['error'],
   head() {
     return {
-      title: this.error.message || "An error occured"
-    };
+      title: this.error.message || 'An error occured'
+    }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -35,7 +35,7 @@ export default {
   left: 0;
   right: 0;
   position: absolute;
-  font-family: "SF UI Text", "Helvetica Neue", "Lucida Grande";
+  font-family: 'SF UI Text', 'Helvetica Neue', 'Lucida Grande';
   text-align: center;
   padding-top: 20%;
 }

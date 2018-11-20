@@ -47,34 +47,34 @@
 </template>
 
 <script>
-import Clipboard from "clipboard";
+import Clipboard from 'clipboard'
 
 export default {
-  name: "ShareDrawer",
+  name: 'ShareDrawer',
   data() {
     return {
       show: false
-    };
+    }
   },
   mounted() {
-    this.$channel.$on("open-share", () => {
-      this.show = true;
-      this.bindShareEvent();
-    });
+    this.$channel.$on('open-share', () => {
+      this.show = true
+      this.bindShareEvent()
+    })
   },
   methods: {
     bindShareEvent() {
       this.$nextTick(() => {
-        const clipboard = new Clipboard(this.$refs.shareBtn);
+        const clipboard = new Clipboard(this.$refs.shareBtn)
 
-        clipboard.on("success", e => {
-          this.$toast.success("复制成功");
-          this.show = false;
-          clipboard.destroy();
-          e.clearSelection();
-        });
-      });
+        clipboard.on('success', e => {
+          this.$toast.success('复制成功')
+          this.show = false
+          clipboard.destroy()
+          e.clearSelection()
+        })
+      })
     }
   }
-};
+}
 </script>

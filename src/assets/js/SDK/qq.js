@@ -7,22 +7,22 @@ export default class {
       summary: this.getShareDesc(), // 分享内容
       pic: this.getShareImage(), // 分享图片
       url: this.getShareLink() // 分享链接
-    });
+    })
   }
 
   getShareTitle() {
-    return M.shareData.get().title;
+    return M.shareData.get().title
   }
 
   getShareLink() {
-    return M.shareData.get().link;
+    return M.shareData.get().link
   }
 
   getShareDesc() {
-    return M.shareData.get().description;
+    return M.shareData.get().description
   }
 
   getShareImage() {
-    return M.shareData.get().imageUrl;
+    return M.shareData.get().imageUrl
   }
 }

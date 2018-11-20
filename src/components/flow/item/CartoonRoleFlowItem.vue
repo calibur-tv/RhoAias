@@ -205,7 +205,7 @@
 
 <script>
 export default {
-  name: "CartoonRoleFlowItem",
+  name: 'CartoonRoleFlowItem',
   props: {
     item: {
       required: true,
@@ -224,5 +224,5 @@ export default {
       default: -1
     }
   }
-};
+}
 </script>

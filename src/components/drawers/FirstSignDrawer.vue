@@ -8,7 +8,7 @@
   height: 335px;
   background-color: #fff;
   z-index: 100;
-  background-image: url("https://image.calibur.tv/owner/first-sign-drawer-bg.jpeg?imageMogr2/auto-orient/strip");
+  background-image: url('https://image.calibur.tv/owner/first-sign-drawer-bg.jpeg?imageMogr2/auto-orient/strip');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -88,33 +88,33 @@
 
 <script>
 export default {
-  name: "FirstSignDrawer",
+  name: 'FirstSignDrawer',
   data() {
     return {
       show: false
-    };
+    }
   },
   mounted() {
     if (/^\/app\//.test(this.$route.fullPath)) {
-      return;
+      return
     }
-    if (!this.$cookie.get("display-first-sign-dialog")) {
+    if (!this.$cookie.get('display-first-sign-dialog')) {
       try {
-        if (!localStorage.getItem("display-first-sign-dialog")) {
-          this.show = true;
+        if (!localStorage.getItem('display-first-sign-dialog')) {
+          this.show = true
           const id = this.$backdrop.show({
             click: () => {
-              this.show = false;
-              this.$backdrop.hide(id);
+              this.show = false
+              this.$backdrop.hide(id)
             }
-          });
-          this.$cookie.set("display-first-sign-dialog", 1, {
+          })
+          this.$cookie.set('display-first-sign-dialog', 1, {
             expires: 7
-          });
-          localStorage.setItem("display-first-sign-dialog", 1);
+          })
+          localStorage.setItem('display-first-sign-dialog', 1)
         }
       } catch (e) {}
     }
   }
-};
+}
 </script>

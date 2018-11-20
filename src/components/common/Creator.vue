@@ -35,7 +35,7 @@
     box-shadow: 0 2px 5px rgba(26, 26, 26, 0.25);
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: 50%;
       top: 50%;
@@ -47,7 +47,7 @@
     }
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 50%;
       top: 50%;
@@ -152,13 +152,13 @@
 </template>
 
 <script>
-import { PaletteButton } from "mint-ui";
-import CreatePostDrawer from "~/components/creators/CreatePostDrawer";
-import CreateImageDrawer from "~/components/creators/CreateImageDrawer";
-import CreateQuestionDrawer from "~/components/creators/CreateQuestionDrawer";
+import { PaletteButton } from 'mint-ui'
+import CreatePostDrawer from '~/components/creators/CreatePostDrawer'
+import CreateImageDrawer from '~/components/creators/CreateImageDrawer'
+import CreateQuestionDrawer from '~/components/creators/CreateQuestionDrawer'
 
 export default {
-  name: "VCreatorMenu",
+  name: 'VCreatorMenu',
   components: {
     PaletteButton,
     CreatePostDrawer,
@@ -170,86 +170,86 @@ export default {
       backdropId: 0,
       lastScroll: 0,
       isScrollTop: true
-    };
+    }
   },
   computed: {
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     },
     pageName() {
-      return this.$route.name;
+      return this.$route.name
     },
     showCreator() {
-      return ["homepage", "download-app"].indexOf(this.pageName) === -1;
+      return ['homepage', 'download-app'].indexOf(this.pageName) === -1
     },
     userLevel() {
       if (this.isGuest) {
-        return 0;
+        return 0
       }
-      return this.$store.state.user.exp.level;
+      return this.$store.state.user.exp.level
     }
   },
   mounted() {
     window.addEventListener(
-      "scroll",
+      'scroll',
       this.$utils.throttle(() => {
         const scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        this.isScrollTop = this.lastScroll > scrollTop;
-        this.lastScroll = scrollTop;
+          document.documentElement.scrollTop || document.body.scrollTop
+        this.isScrollTop = this.lastScroll > scrollTop
+        this.lastScroll = scrollTop
       }, 200)
-    );
+    )
   },
   methods: {
     handlePaletteOpen() {
       this.backdropId = this.$backdrop.show({
         ele: this.$refs.palette.$el,
         click: () => {
-          this.close();
+          this.close()
         }
-      });
+      })
     },
     close() {
-      this.$refs.palette.collapse();
+      this.$refs.palette.collapse()
     },
     handlePaletteClose() {
-      this.$backdrop.hide(this.backdropId);
+      this.$backdrop.hide(this.backdropId)
     },
     handleImageClick() {
-      this.close();
+      this.close()
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.$channel.$emit("open-create-image-drawer");
+      this.$channel.$emit('open-create-image-drawer')
     },
     handlePostClick() {
-      this.close();
+      this.close()
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      if (~["post-show"].indexOf(this.pageName)) {
-        this.$channel.$emit("open-create-comment-drawer");
-        return;
+      if (~['post-show'].indexOf(this.pageName)) {
+        this.$channel.$emit('open-create-comment-drawer')
+        return
       }
-      this.$channel.$emit("drawer-open-write-post");
+      this.$channel.$emit('drawer-open-write-post')
     },
     handleQuestionClick() {
-      this.close();
+      this.close()
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (this.userLevel < 3) {
-        this.$toast.error("3级以上才能提问");
-        return;
+        this.$toast.error('3级以上才能提问')
+        return
       }
-      this.$channel.$emit("drawer-open-write-question");
+      this.$channel.$emit('drawer-open-write-question')
     },
     handleScoreClick() {
-      window.location = this.$alias.createScore;
+      window.location = this.$alias.createScore
     }
   }
-};
+}
 </script>

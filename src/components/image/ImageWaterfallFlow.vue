@@ -29,7 +29,7 @@
       font-size: 0;
 
       &.album-box:after {
-        content: "";
+        content: '';
         position: absolute;
         bottom: 0;
         left: 0;
@@ -295,19 +295,19 @@
 
 <script>
 export default {
-  name: "ImageWaterfallFlow",
+  name: 'ImageWaterfallFlow',
   components: {
     waterfall: () => {
-      if (typeof window === "undefined") {
-        return import("~/assets/js/empty");
+      if (typeof window === 'undefined') {
+        return import('~/assets/js/empty')
       }
-      return import("vue-waterfall/lib/waterfall");
+      return import('vue-waterfall/lib/waterfall')
     },
-    "waterfall-slot": () => {
-      if (typeof window === "undefined") {
-        return import("~/assets/js/empty");
+    'waterfall-slot': () => {
+      if (typeof window === 'undefined') {
+        return import('~/assets/js/empty')
       }
-      return import("vue-waterfall/lib/waterfall-slot");
+      return import('vue-waterfall/lib/waterfall-slot')
     }
   },
   props: {
@@ -322,7 +322,7 @@ export default {
     },
     userZone: {
       type: String,
-      default: ""
+      default: ''
     },
     width: {
       type: Number,
@@ -331,18 +331,18 @@ export default {
   },
   methods: {
     computeBoxHeight(image) {
-      return this.computeImageHeight(image) + 106;
+      return this.computeImageHeight(image) + 106
     },
     computeImageHeight(image) {
       if (!image) {
-        return 0;
+        return 0
       }
-      const result = parseInt((image.height / image.width) * this.width, 10);
+      const result = parseInt((image.height / image.width) * this.width, 10)
       if (result > 240) {
-        return 240;
+        return 240
       }
-      return result;
+      return result
     }
   }
-};
+}
 </script>

@@ -26,28 +26,28 @@
 </template>
 
 <script>
-import flowMixin from "./_flowListMixin";
-import ImageWaterfallFlow from "~/components/image/ImageWaterfallFlow";
+import flowMixin from './_flowListMixin'
+import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
 
 export default {
-  name: "ImageFlowList",
+  name: 'ImageFlowList',
   components: {
     ImageWaterfallFlow
   },
   mixins: [flowMixin],
   data() {
     return {
-      flowType: "image"
-    };
+      flowType: 'image'
+    }
   },
   methods: {
     openCreateImageModal() {
       if (this.$store.state.login) {
-        this.$channel.$emit("open-create-image-drawer");
+        this.$channel.$emit('open-create-image-drawer')
       } else {
-        this.$channel.$emit("sign-in");
+        this.$channel.$emit('sign-in')
       }
     }
   }
-};
+}
 </script>

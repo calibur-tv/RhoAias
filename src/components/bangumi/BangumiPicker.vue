@@ -20,12 +20,12 @@
 </template>
 
 <script>
-import { Picker } from "mint-ui";
+import { Picker } from 'mint-ui'
 
 export default {
-  name: "BangumiPicker",
+  name: 'BangumiPicker',
   components: {
-    "mt-picker": Picker
+    'mt-picker': Picker
   },
   props: {
     value: {
@@ -49,94 +49,94 @@ export default {
           flex: 1,
           defaultIndex: -1,
           values: [],
-          textAlign: "center"
+          textAlign: 'center'
         }
       ]
-    };
+    }
   },
   computed: {
     notInit() {
-      return !this.list[0].values.length;
+      return !this.list[0].values.length
     },
     placeholder() {
       if (this.loading) {
-        return "加载中...";
+        return '加载中...'
       }
       if (this.notInit) {
-        return "请先关注番剧";
+        return '请先关注番剧'
       }
       if (!this.selected) {
-        return "点击选择番剧";
+        return '点击选择番剧'
       }
-      return this.list[0].values[this.list[0].defaultIndex]["name"];
+      return this.list[0].values[this.list[0].defaultIndex]['name']
     },
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     }
   },
   mounted() {
-    this.$watch("value", val => {
-      this.autoSelect(val);
-    });
-    this.getData();
+    this.$watch('value', val => {
+      this.autoSelect(val)
+    })
+    this.getData()
   },
   methods: {
     onClickSelect() {
-      this.selected = true;
-      this.$emit("input", this.list[0].values[this.list[0].defaultIndex]["id"]);
+      this.selected = true
+      this.$emit('input', this.list[0].values[this.list[0].defaultIndex]['id'])
     },
     onSlideSelect(picker, values) {
       if (!values[0]) {
-        return;
+        return
       }
-      const id = values[0].id;
+      const id = values[0].id
       this.list[0].values.forEach((item, index) => {
         if (item.id === id) {
-          this.list[0].defaultIndex = index;
+          this.list[0].defaultIndex = index
           if (!this.isFirst) {
-            this.selected = true;
-            this.$emit("input", item.id);
+            this.selected = true
+            this.$emit('input', item.id)
           } else {
-            this.isFirst = false;
+            this.isFirst = false
           }
         }
-      });
+      })
     },
     openPicker() {
       if (!this.fetched) {
-        this.getData();
+        this.getData()
       } else if (this.notInit) {
-        this.$toast.error("请先关注番剧");
+        this.$toast.error('请先关注番剧')
       } else {
-        this.show = true;
+        this.show = true
       }
     },
     async getData() {
       if (this.loading || !this.user) {
-        return;
+        return
       }
-      this.loading = true;
+      this.loading = true
       try {
-        await this.$store.dispatch("users/getFollowBangumis", {
+        await this.$store.dispatch('users/getFollowBangumis', {
           zone: this.user.zone
-        });
-        this.list[0].values = this.$store.state.users.bangumis;
-        this.autoSelect(this.value);
-        this.fetched = true;
+        })
+        this.list[0].values = this.$store.state.users.bangumis
+        this.autoSelect(this.value)
+        this.fetched = true
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     autoSelect(id) {
       this.list[0].values.forEach((item, index) => {
         if (!(item.id - id)) {
-          this.selected = true;
-          this.list[0].defaultIndex = index;
+          this.selected = true
+          this.list[0].defaultIndex = index
         }
-      });
+      })
     }
   }
-};
+}
 </script>

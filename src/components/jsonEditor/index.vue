@@ -50,15 +50,15 @@
 </template>
 
 <script>
-import JsonItem from "./JsonItem";
-import ImgPreview from "./preview/ImgPreview";
-import TxtPreview from "./preview/TxtPreview";
-import ListPreview from "./preview/ListPreview";
-import UsePreview from "./preview/UsePreview";
-import scrollToY from "~/assets/js/scrollToY";
+import JsonItem from './JsonItem'
+import ImgPreview from './preview/ImgPreview'
+import TxtPreview from './preview/TxtPreview'
+import ListPreview from './preview/ListPreview'
+import UsePreview from './preview/UsePreview'
+import scrollToY from '~/assets/js/scrollToY'
 
 export default {
-  name: "JsonEditorMain",
+  name: 'JsonEditorMain',
   components: {
     JsonItem,
     ImgPreview,
@@ -68,118 +68,118 @@ export default {
   },
   computed: {
     id() {
-      return +(this.$route.params.id || 0);
+      return +(this.$route.params.id || 0)
     },
     sections() {
-      return this.$store.state.editor.sections;
+      return this.$store.state.editor.sections
     },
     selectedIndex() {
-      return this.$store.state.editor.selectedIndex;
+      return this.$store.state.editor.selectedIndex
     },
     curPreview() {
-      return this.selectedIndex >= 0 ? this.sections[this.selectedIndex] : {};
+      return this.selectedIndex >= 0 ? this.sections[this.selectedIndex] : {}
     }
   },
   mounted() {
-    this.$channel.$on("write-save", () => {
-      const richContent = this.getRichContent();
+    this.$channel.$on('write-save', () => {
+      const richContent = this.getRichContent()
       if (!richContent.length) {
-        this.$toast.info("内容不能为空！");
-        return;
+        this.$toast.info('内容不能为空！')
+        return
       }
-      this.$emit("submit", {
+      this.$emit('submit', {
         content: richContent,
         desc: this.getPureContent(),
         publish: false,
         id: this.id
-      });
-    });
-    this.$channel.$on("write-publish", () => {
-      const richContent = this.getRichContent();
+      })
+    })
+    this.$channel.$on('write-publish', () => {
+      const richContent = this.getRichContent()
       if (!richContent.length) {
-        this.$toast.info("内容不能为空！");
-        return;
+        this.$toast.info('内容不能为空！')
+        return
       }
-      this.$emit("submit", {
+      this.$emit('submit', {
         content: richContent,
         desc: this.getPureContent(),
         publish: true,
         id: this.id
-      });
-    });
+      })
+    })
   },
   methods: {
     getRichContent() {
-      const result = [];
+      const result = []
       this.sections.forEach(item => {
-        if (item.type === "img") {
+        if (item.type === 'img') {
           if (item.url) {
-            result.push(item);
+            result.push(item)
           }
-        } else if (item.type === "txt") {
+        } else if (item.type === 'txt') {
           if (item.title || item.text) {
-            result.push(item);
+            result.push(item)
           }
-        } else if (item.type === "use") {
+        } else if (item.type === 'use') {
           if (item.text) {
-            result.push(item);
+            result.push(item)
           }
-        } else if (item.type === "list") {
+        } else if (item.type === 'list') {
           if (item.text) {
-            result.push(item);
+            result.push(item)
           }
         }
-      });
-      return result;
+      })
+      return result
     },
     getPureContent() {
-      let result = "";
+      let result = ''
       this.sections.forEach(item => {
-        if (item.type === "txt" && item.title) {
-          result += `${item.title}，`;
+        if (item.type === 'txt' && item.title) {
+          result += `${item.title}，`
         }
-        if (item.type === "txt" && item.text) {
-          result += item.text.replace(/<br>/g, "\n");
+        if (item.type === 'txt' && item.text) {
+          result += item.text.replace(/<br>/g, '\n')
         }
-        if (item.type === "use" && item.text) {
-          result += item.text.replace(/<br>/g, "\n");
+        if (item.type === 'use' && item.text) {
+          result += item.text.replace(/<br>/g, '\n')
         }
-        if (item.type === "list" && item.text) {
-          let list = item.text;
+        if (item.type === 'list' && item.text) {
+          let list = item.text
           while (/\n\n/.test(list)) {
-            list = list.replace(/\n\n/g, "\n");
+            list = list.replace(/\n\n/g, '\n')
           }
-          result += list.replace(/\n/g, ";");
+          result += list.replace(/\n/g, ';')
         }
-      });
-      return result;
+      })
+      return result
     },
     handleItemPreview({ index, type }) {
-      this.$store.commit("editor/SWITCH_SECTION", { index });
-      this.$channel.$emit("write-open-drawer", { type });
+      this.$store.commit('editor/SWITCH_SECTION', { index })
+      this.$channel.$emit('write-open-drawer', { type })
     },
     handleItemAppend({ index, type }) {
-      this.$store.commit("editor/APPEND_SECTION", { index, type });
-      this.scrollToBottom(index);
+      this.$store.commit('editor/APPEND_SECTION', { index, type })
+      this.scrollToBottom(index)
     },
     handleItemDelete({ index }) {
-      this.$store.commit("editor/DELETE_SECTION", { index });
+      this.$store.commit('editor/DELETE_SECTION', { index })
     },
     handleItemSort({ index }) {
-      this.$store.commit("editor/SORT_SECTION", { index });
+      this.$store.commit('editor/SORT_SECTION', { index })
     },
     scrollToBottom(index) {
       this.$nextTick(() => {
         if (index === this.sections.length - 2) {
-          const dom = document.querySelector(`.json-item-${index}`);
+          const dom = document.querySelector(`.json-item-${index}`)
           scrollToY(
             dom ? this.$utils.getOffsetTop(dom) + 300 : index * 300 + 1000,
             1000,
-            document.getElementById("layout-write")
-          );
+            document.getElementById('layout-write')
+          )
         }
-      });
+      })
     }
   }
-};
+}
 </script>

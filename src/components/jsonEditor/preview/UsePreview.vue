@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  name: "UsePreview",
+  name: 'UsePreview',
   props: {
     item: {
       required: true,
@@ -85,53 +85,53 @@ export default {
     return {
       show: false,
       saving: false
-    };
+    }
   },
   computed: {
     text: {
       get() {
-        return this.item.text.replace(/<br>/g, "\n");
+        return this.item.text.replace(/<br>/g, '\n')
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TEXT", {
-          value: value.replace(/\n/g, "<br>")
-        });
+        this.$store.commit('editor/UPDATE_SECTION_TEXT', {
+          value: value.replace(/\n/g, '<br>')
+        })
       }
     },
     title: {
       get() {
-        return this.item.title;
+        return this.item.title
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TITLE", {
+        this.$store.commit('editor/UPDATE_SECTION_TITLE', {
           value
-        });
+        })
       }
     }
   },
   mounted() {
-    this.$channel.$on("write-save-done", () => {
-      this.saving = false;
-    });
-    this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "use") {
-        this.show = true;
+    this.$channel.$on('write-save-done', () => {
+      this.saving = false
+    })
+    this.$channel.$on('write-open-drawer', ({ type }) => {
+      if (type === 'use') {
+        this.show = true
       }
-    });
+    })
   },
   methods: {
     textAreaFocus() {
       if (this.text.length < 100) {
-        document.body.scrollTop = 0;
+        document.body.scrollTop = 0
       }
     },
     emitSave() {
-      if (!this.text.replace(/\n/g, "")) {
-        return;
+      if (!this.text.replace(/\n/g, '')) {
+        return
       }
-      this.$channel.$emit("write-save");
-      this.saving = true;
+      this.$channel.$emit('write-save')
+      this.saving = true
     }
   }
-};
+}
 </script>

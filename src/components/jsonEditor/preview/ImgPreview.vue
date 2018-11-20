@@ -101,11 +101,11 @@
 </template>
 
 <script>
-import { cdn } from "env";
-import UploadMixin from "~/mixins/upload";
+import { cdn } from 'env'
+import UploadMixin from '~/mixins/upload'
 
 export default {
-  name: "ImgPreview",
+  name: 'ImgPreview',
   mixins: [UploadMixin],
   props: {
     item: {
@@ -117,54 +117,54 @@ export default {
     return {
       show: false,
       saving: false
-    };
+    }
   },
   computed: {
     desc: {
       get() {
-        return this.item.text;
+        return this.item.text
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TEXT", { value });
+        this.$store.commit('editor/UPDATE_SECTION_TEXT', { value })
       }
     },
     imageWrapperHeight() {
       return {
         height: `${(this.item.height * window.innerWidth) / this.item.width +
           60}px`
-      };
+      }
     }
   },
   mounted() {
-    this.$channel.$on("write-save-done", () => {
-      this.saving = false;
-    });
-    this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "img") {
-        this.show = true;
-        this.getUpToken();
+    this.$channel.$on('write-save-done', () => {
+      this.saving = false
+    })
+    this.$channel.$on('write-open-drawer', ({ type }) => {
+      if (type === 'img') {
+        this.show = true
+        this.getUpToken()
       }
-    });
+    })
   },
   methods: {
     imageUploadSuccess(res, file) {
-      this.handleImageUploadSuccess(res, file);
-      this.$store.commit("editor/UPDATE_SECTION_IMAGE", {
+      this.handleImageUploadSuccess(res, file)
+      this.$store.commit('editor/UPDATE_SECTION_IMAGE', {
         url: `${cdn.image}${res.data.url}`,
         width: res.data.width,
         height: res.data.height,
         size: res.data.size,
         mime: res.data.type
-      });
-      this.$toast.success("上传成功");
+      })
+      this.$toast.success('上传成功')
     },
     emitSave() {
       if (!this.item.url) {
-        return;
+        return
       }
-      this.$channel.$emit("write-save");
-      this.saving = true;
+      this.$channel.$emit('write-save')
+      this.saving = true
     }
   }
-};
+}
 </script>

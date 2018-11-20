@@ -70,7 +70,7 @@
       border: 2px solid transparent;
       border-left: 0;
       border-top: 0;
-      content: " ";
+      content: ' ';
       position: absolute;
       top: 4px;
       left: 7px;
@@ -141,7 +141,7 @@
  * <mt-checklist :v-model="value" :options="['a', 'b', 'c']"></mt-checklist>
  */
 export default {
-  name: "VChecklist",
+  name: 'VChecklist',
   props: {
     max: {
       type: Number,
@@ -149,11 +149,11 @@ export default {
     },
     title: {
       type: String,
-      default: ""
+      default: ''
     },
     align: {
       type: String,
-      default: "left"
+      default: 'left'
     },
     options: {
       type: Array,
@@ -167,21 +167,21 @@ export default {
   data() {
     return {
       currentValue: this.value
-    };
+    }
   },
   computed: {
     limit() {
-      return this.max < this.currentValue.length;
+      return this.max < this.currentValue.length
     }
   },
   watch: {
     value(val) {
-      this.currentValue = val;
+      this.currentValue = val
     },
     currentValue(val) {
-      if (this.limit) val.pop();
-      this.$emit("input", val);
+      if (this.limit) val.pop()
+      this.$emit('input', val)
     }
   }
-};
+}
 </script>

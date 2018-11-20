@@ -282,37 +282,33 @@
 </template>
 
 <script>
-import CommentMain from "~/components/comments/CommentMain";
-import PostCommentItem from "~/components/post/PostCommentItem";
-import PostCommentForm from "~/components/post/PostCommentForm";
-import SocialPanel from "~/components/common/SocialPanel";
-import ImagePreview from "~/components/common/ImagePreview/ImagePreview";
-import BangumiPanel from "~/components/panel/BangumiPanel";
-import VPopover from "~/components/common/Popover";
+import CommentMain from '~/components/comments/CommentMain'
+import PostCommentItem from '~/components/post/PostCommentItem'
+import PostCommentForm from '~/components/post/PostCommentForm'
+import SocialPanel from '~/components/common/SocialPanel'
+import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
+import BangumiPanel from '~/components/panel/BangumiPanel'
+import VPopover from '~/components/common/Popover'
 
 export default {
-  name: "PostShow",
+  name: 'PostShow',
   async asyncData({ route, store, ctx }) {
-    const only = route.query.only
-      ? parseInt(route.query.only, 10)
-        ? 1
-        : 0
-      : 0;
-    const id = route.params.id;
+    const only = route.query.only ? (parseInt(route.query.only, 10) ? 1 : 0) : 0
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("post/getPost", {
+      store.dispatch('post/getPost', {
         id,
         ctx,
         only
       }),
-      store.dispatch("comment/getMainComments", {
+      store.dispatch('comment/getMainComments', {
         ctx,
         id,
-        type: "post",
+        type: 'post',
         onlySeeMaster: only,
-        seeReplyId: route.query["comment-id"]
+        seeReplyId: route.query['comment-id']
       })
-    ]);
+    ])
   },
   components: {
     CommentMain,
@@ -326,90 +322,90 @@ export default {
   head() {
     return {
       title: this.post.title
-    };
+    }
   },
   data() {
     return {
       loadingToggleLike: false,
       loadingToggleMark: false
-    };
+    }
   },
   computed: {
     resource() {
-      return this.$store.state.post.info;
+      return this.$store.state.post.info
     },
     bangumi() {
-      return this.resource.bangumi;
+      return this.resource.bangumi
     },
     post() {
-      return this.resource.post;
+      return this.resource.post
     },
     master() {
-      return this.resource.user;
+      return this.resource.user
     },
     total() {
-      return this.$store.state.comment.total + 1;
+      return this.$store.state.comment.total + 1
     },
     onlySeeMaster() {
-      return !!parseInt(this.$route.query.only, 10);
+      return !!parseInt(this.$route.query.only, 10)
     },
     isMaster() {
       if (!this.$store.state.login) {
-        return false;
+        return false
       }
-      return this.$store.state.user.id === this.master.id;
+      return this.$store.state.user.id === this.master.id
     },
     actions() {
       const result = [
         {
-          name: "回复",
+          name: '回复',
           method: this.handleReplyBtnClick
         }
-      ];
+      ]
       if (this.isMaster) {
         result.push({
-          name: "删除",
+          name: '删除',
           method: this.deletePost
-        });
+        })
       }
       result.push({
-        name: this.onlySeeMaster ? "取消只看楼主" : "只看楼主",
+        name: this.onlySeeMaster ? '取消只看楼主' : '只看楼主',
         method: this.switchOnlyMaster
-      });
+      })
 
-      return result;
+      return result
     }
   },
   methods: {
     handleBangumiFollow(result) {
-      this.$store.commit("post/FOLLOW_BANGUMI", {
+      this.$store.commit('post/FOLLOW_BANGUMI', {
         id: this.post.id,
         result
-      });
+      })
     },
     switchOnlyMaster() {
       window.location = this.$alias.post(this.post.id, {
         only: this.onlySeeMaster ? 0 : 1
-      });
+      })
     },
     deletePost() {
-      this.$confirm("删除后无法找回, 是否继续?")
+      this.$confirm('删除后无法找回, 是否继续?')
         .then(async () => {
-          await this.$store.dispatch("post/deletePost", {
+          await this.$store.dispatch('post/deletePost', {
             ctx: this,
             id: this.post.id
-          });
-          window.location = this.$alias.bangumi(this.bangumi.id);
+          })
+          window.location = this.$alias.bangumi(this.bangumi.id)
         })
         .catch(e => {
-          if (e !== "cancel") {
-            this.$toast.error(e);
+          if (e !== 'cancel') {
+            this.$toast.error(e)
           }
-        });
+        })
     },
     handleReplyBtnClick() {
-      this.$channel.$emit(`open-create-comment-drawer-post-${this.post.id}`);
+      this.$channel.$emit(`open-create-comment-drawer-post-${this.post.id}`)
     }
   }
-};
+}
 </script>

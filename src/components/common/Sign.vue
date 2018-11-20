@@ -41,14 +41,14 @@
 </template>
 
 <script>
-import SignInForm from "~/components/forms/SignInForm";
-import SignUpForm from "~/components/forms/SignUpForm";
-import ResetPasswordForm from "~/components/forms/ResetPasswordForm";
-import UserDrawer from "~/components/layouts/UserDrawer";
-import FirstSignDrawer from "~/components/drawers/FirstSignDrawer";
+import SignInForm from '~/components/forms/SignInForm'
+import SignUpForm from '~/components/forms/SignUpForm'
+import ResetPasswordForm from '~/components/forms/ResetPasswordForm'
+import UserDrawer from '~/components/layouts/UserDrawer'
+import FirstSignDrawer from '~/components/drawers/FirstSignDrawer'
 
 export default {
-  name: "SignDrawer",
+  name: 'SignDrawer',
   components: {
     SignUpForm,
     SignInForm,
@@ -62,34 +62,34 @@ export default {
       showSignIn: false,
       showSignUp: false,
       showReset: false
-    };
+    }
   },
   computed: {
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     }
   },
   mounted() {
-    this.$channel.$on("sign-up", () => {
-      this.showRegister();
-    });
-    this.$channel.$on("sign-in", (showToast = true) => {
-      showToast && this.$toast.error("请先登录");
-      this.showLogin();
-    });
+    this.$channel.$on('sign-up', () => {
+      this.showRegister()
+    })
+    this.$channel.$on('sign-in', (showToast = true) => {
+      showToast && this.$toast.error('请先登录')
+      this.showLogin()
+    })
   },
   methods: {
     showLogin() {
-      this.showReset = false;
-      this.showSignIn = true;
-      this.showSignUp = false;
-      this.openDrawer = true;
+      this.showReset = false
+      this.showSignIn = true
+      this.showSignUp = false
+      this.openDrawer = true
     },
     showRegister() {
-      this.showSignUp = true;
-      this.showSignIn = false;
-      this.openDrawer = true;
+      this.showSignUp = true
+      this.showSignIn = false
+      this.openDrawer = true
     }
   }
-};
+}
 </script>

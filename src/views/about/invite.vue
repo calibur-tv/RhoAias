@@ -83,20 +83,20 @@
 </template>
 
 <script>
-import SignUpForm from "~/components/forms/SignUpForm";
+import SignUpForm from '~/components/forms/SignUpForm'
 
 export default {
-  name: "InviteUser",
+  name: 'InviteUser',
   components: {
     SignUpForm
   },
   computed: {
     inviteUserId() {
-      return this.$route.params.id;
+      return this.$route.params.id
     },
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     }
   }
-};
+}
 </script>

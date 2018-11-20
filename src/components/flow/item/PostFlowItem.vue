@@ -171,7 +171,7 @@
     padding-top: 3px;
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: -$container-padding;
       right: -$container-padding;
@@ -339,7 +339,7 @@
 
 <script>
 export default {
-  name: "PostFlowItem",
+  name: 'PostFlowItem',
   props: {
     item: {
       required: true,
@@ -351,13 +351,13 @@ export default {
     },
     userZone: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   methods: {
     imageFilter(images) {
-      return images.slice(0, 3);
+      return images.slice(0, 3)
     }
   }
-};
+}
 </script>

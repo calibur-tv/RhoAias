@@ -146,13 +146,13 @@
 </template>
 
 <script>
-import Tab from "vant/lib/tab";
-import Tabs from "vant/lib/tabs";
+import Tab from 'vant/lib/tab'
+import Tabs from 'vant/lib/tabs'
 
 export default {
-  name: "BangumiNews",
+  name: 'BangumiNews',
   async asyncData({ store, ctx }) {
-    await store.dispatch("bangumi/getReleased", ctx);
+    await store.dispatch('bangumi/getReleased', ctx)
   },
   components: {
     vanTabs: Tabs,
@@ -160,23 +160,23 @@ export default {
   },
   data() {
     return {
-      showtime: ["最新", "一", "二", "三", "四", "五", "六", "日"],
+      showtime: ['最新', '一', '二', '三', '四', '五', '六', '日'],
       active: new Date().getDay() || 7
-    };
+    }
   },
   computed: {
     list() {
-      return this.$store.state.bangumi.released[this.active];
+      return this.$store.state.bangumi.released[this.active]
     }
   },
   methods: {
     openFeedbackForResource() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 5,
-        desc: "我想看新番：{?}",
-        placeholder: "请填写番剧名称"
-      });
+        desc: '我想看新番：{?}',
+        placeholder: '请填写番剧名称'
+      })
     }
   }
-};
+}
 </script>

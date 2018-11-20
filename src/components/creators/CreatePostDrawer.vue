@@ -140,73 +140,73 @@
 </template>
 
 <script>
-import BangumiPicker from "~/components/bangumi/BangumiPicker";
-import ImageUploader from "~/components/common/ImageUploader";
-import { Switch } from "mint-ui";
-import PostApi from "~/api/postApi";
-import VChecklist from "~/components/common/CheckList";
+import BangumiPicker from '~/components/bangumi/BangumiPicker'
+import ImageUploader from '~/components/common/ImageUploader'
+import { Switch } from 'mint-ui'
+import PostApi from '~/api/postApi'
+import VChecklist from '~/components/common/CheckList'
 
 export default {
-  name: "CreatePostDrawer",
+  name: 'CreatePostDrawer',
   components: {
     VChecklist,
     BangumiPicker,
     ImageUploader,
-    "mt-switch": Switch
+    'mt-switch': Switch
   },
   data() {
     return {
       open: false,
       exceed: 4,
-      content: "",
-      title: "",
-      bangumiId: "",
+      content: '',
+      title: '',
+      bangumiId: '',
       tags: [],
       selectedTags: [],
       is_creator: false,
       submitting: false,
       openPostTagSelectDrawer: false
-    };
+    }
   },
   computed: {
     displayTags() {
       return this.selectedTags.map(_ => {
         return {
           id: _,
-          name: this.tags.filter(a => a.value === _)[0]["label"]
-        };
-      });
+          name: this.tags.filter(a => a.value === _)[0]['label']
+        }
+      })
     }
   },
   mounted() {
-    this.$channel.$on("drawer-open-write-post", () => {
-      this.open = true;
-      this.getPostTags();
-    });
+    this.$channel.$on('drawer-open-write-post', () => {
+      this.open = true
+      this.getPostTags()
+    })
   },
   methods: {
     submit(images) {
       if (this.submitting) {
-        return;
+        return
       }
       if (!this.content) {
-        this.$toast.error("内容不能为空！");
-        return;
+        this.$toast.error('内容不能为空！')
+        return
       }
       if (!this.title) {
-        this.$toast.error("标题不能为空！");
-        return;
+        this.$toast.error('标题不能为空！')
+        return
       }
       if (!this.bangumiId) {
-        this.$toast.error("请选择要投稿的番剧！");
-        return;
+        this.$toast.error('请选择要投稿的番剧！')
+        return
       }
-      this.submitting = true;
-      this.$toast.loading("加载中");
+      this.submitting = true
+      this.$toast.loading('加载中')
       this.$captcha({
         success: async ({ data }) => {
           try {
-            const api = new PostApi(this);
+            const api = new PostApi(this)
             const result = await api.create({
               title: this.title,
               bangumiId: this.bangumiId,
@@ -216,56 +216,56 @@ export default {
               tags: this.selectedTags,
               geetest: data,
               images
-            });
-            this.title = "";
-            this.content = "";
-            this.$channel.$emit("image-upload-done");
-            this.open = false;
-            this.$store.commit("UPDATE_USER_EXP", result.exp);
+            })
+            this.title = ''
+            this.content = ''
+            this.$channel.$emit('image-upload-done')
+            this.open = false
+            this.$store.commit('UPDATE_USER_EXP', result.exp)
             this.$toast.success(result.message).then(() => {
-              window.location = this.$alias.post(result.data);
-            });
+              window.location = this.$alias.post(result.data)
+            })
           } catch (err) {
-            this.$toast.error(err);
+            this.$toast.error(err)
           } finally {
-            this.submitting = false;
+            this.submitting = false
           }
         },
         ready: () => {
-          this.$toast.stop();
+          this.$toast.stop()
         },
         error: e => {
-          this.$toast.error(e);
-          this.submitting = false;
+          this.$toast.error(e)
+          this.submitting = false
         },
         close: () => {
-          this.submitting = false;
+          this.submitting = false
         }
-      });
+      })
     },
     async getPostTags() {
       if (this.tags.length) {
-        return;
+        return
       }
       try {
-        const list = JSON.parse(sessionStorage.getItem("cache-post-tags"));
+        const list = JSON.parse(sessionStorage.getItem('cache-post-tags'))
         if (list) {
-          this.tags = list;
-          return;
+          this.tags = list
+          return
         }
       } catch (e) {}
-      const api = new PostApi(this);
+      const api = new PostApi(this)
       try {
-        const tags = await api.tags();
+        const tags = await api.tags()
         this.tags = tags.map(_ => {
           return {
             label: _.name,
             value: _.id
-          };
-        });
-        sessionStorage.setItem("cache-post-tags", JSON.stringify(this.tags));
+          }
+        })
+        sessionStorage.setItem('cache-post-tags', JSON.stringify(this.tags))
       } catch (e) {}
     }
   }
-};
+}
 </script>

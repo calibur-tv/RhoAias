@@ -195,83 +195,83 @@
 </template>
 
 <script>
-import html2canvas from "html2canvas";
-import { Badge } from "mint-ui";
+import html2canvas from 'html2canvas'
+import { Badge } from 'mint-ui'
 
 export default {
-  name: "PageUserInvite",
+  name: 'PageUserInvite',
   components: {
-    "mt-badge": Badge
+    'mt-badge': Badge
   },
   data() {
     return {
       created: false,
-      result: "",
+      result: '',
       cartoons: [
-        "喰种",
-        "死亡笔记",
-        "刀剑神域",
-        "一拳超人",
-        "进击的巨人",
-        "海贼王",
-        "CLANNAD",
-        "叛逆的鲁鲁修",
-        "七宗罪",
-        "JOJO的奇妙冒险",
-        "火影忍者",
-        "从零开始的异界生活"
+        '喰种',
+        '死亡笔记',
+        '刀剑神域',
+        '一拳超人',
+        '进击的巨人',
+        '海贼王',
+        'CLANNAD',
+        '叛逆的鲁鲁修',
+        '七宗罪',
+        'JOJO的奇妙冒险',
+        '火影忍者',
+        '从零开始的异界生活'
       ]
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     link() {
-      return this.user ? `http://calibur.tv/about/invite/${this.user.id}` : "";
+      return this.user ? `http://calibur.tv/about/invite/${this.user.id}` : ''
     },
     tags() {
-      return this.$utils.shuffle(this.cartoons).slice(0, 5);
+      return this.$utils.shuffle(this.cartoons).slice(0, 5)
     }
   },
   mounted() {
     if (!this.user) {
-      this.$toast.error("请先登录").then(() => {
-        window.location.href = "/";
-      });
-      return;
+      this.$toast.error('请先登录').then(() => {
+        window.location.href = '/'
+      })
+      return
     }
     this.$nextTick(() => {
-      this.generateQrCode();
-    });
+      this.generateQrCode()
+    })
   },
   methods: {
     generateQrCode() {
-      import("~/assets/js/qrcode").then(ESModule => {
-        const QRCode = ESModule.default;
+      import('~/assets/js/qrcode').then(ESModule => {
+        const QRCode = ESModule.default
         new QRCode(this.$refs.qr, {
           text: this.link,
           width: 300,
           height: 300
-        });
+        })
         setTimeout(() => {
-          this.create();
-        }, 3000);
-      });
+          this.create()
+        }, 3000)
+      })
     },
     create() {
-      html2canvas(document.querySelector(".capture-area"), {
+      html2canvas(document.querySelector('.capture-area'), {
         allowTaint: false,
         useCORS: true,
         backgroundColor: null
       })
         .then(canvas => {
-          this.result = canvas.toDataURL("image/png");
-          this.created = true;
-          this.$toast.success("长按图片保存");
+          this.result = canvas.toDataURL('image/png')
+          this.created = true
+          this.$toast.success('长按图片保存')
         })
-        .catch(() => {});
+        .catch(() => {})
     }
   }
-};
+}
 </script>

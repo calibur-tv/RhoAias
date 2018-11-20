@@ -58,35 +58,35 @@
 
 <script>
 export default {
-  name: "PostFlowList",
+  name: 'PostFlowList',
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/initData", {
-        type: "post",
-        sort: "active",
+      store.dispatch('world/initData', {
+        type: 'post',
+        sort: 'active',
         ctx
       }),
-      store.dispatch("world/getMeta", { type: "post" })
-    ]);
+      store.dispatch('world/getMeta', { type: 'post' })
+    ])
   },
   data() {
     return {
       showTips: false
-    };
+    }
   },
   computed: {
     meta() {
-      return this.$store.state.world.post.meta;
+      return this.$store.state.world.post.meta
     }
   },
   methods: {
     openCreatePost() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.$channel.$emit("drawer-open-write-post");
+      this.$channel.$emit('drawer-open-write-post')
     }
   }
-};
+}
 </script>

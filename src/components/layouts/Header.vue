@@ -173,60 +173,60 @@ $header-hgt: 48px;
 </template>
 
 <script>
-import SearchDrawer from "~/components/drawers/SearchDrawer";
+import SearchDrawer from '~/components/drawers/SearchDrawer'
 
 export default {
-  name: "VHeader",
+  name: 'VHeader',
   components: {
     SearchDrawer
   },
   data() {
     return {
       openSearchDrawer: false
-    };
+    }
   },
   computed: {
     currentUser() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     notificationCount() {
       if (!this.currentUser) {
-        return 0;
+        return 0
       }
       const result =
         this.currentUser.notification -
-        this.$store.state.users.notifications.checked;
-      return result < 0 ? 0 : result;
+        this.$store.state.users.notifications.checked
+      return result < 0 ? 0 : result
     },
     path() {
-      return this.$route.path;
+      return this.$route.path
     },
     homePage() {
-      return this.path === "/";
+      return this.path === '/'
     },
     worldPage() {
-      return /^\/world/.test(this.path);
+      return /^\/world/.test(this.path)
     },
     bangumiPage() {
-      return /^\/bangumi/.test(this.path);
+      return /^\/bangumi/.test(this.path)
     },
     rolePage() {
-      return /^\/role/.test(this.path);
+      return /^\/role/.test(this.path)
     },
     appPage() {
-      return /^\/app/.test(this.path);
+      return /^\/app/.test(this.path)
     },
     noBorderPage() {
-      return this.homePage || this.appPage;
+      return this.homePage || this.appPage
     }
   },
   methods: {
     openSignDrawer() {
-      this.$channel.$emit("sign-in", false);
+      this.$channel.$emit('sign-in', false)
     },
     openUserDrawer() {
-      this.$channel.$emit("open-user-drawer");
+      this.$channel.$emit('open-user-drawer')
     }
   }
-};
+}
 </script>

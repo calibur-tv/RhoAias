@@ -97,10 +97,10 @@
 </template>
 
 <script>
-import utils from "~/components/common/ImageLazyLoad/utils";
+import utils from '~/components/common/ImageLazyLoad/utils'
 
 export default {
-  name: "MoreBtn",
+  name: 'MoreBtn',
   props: {
     noMore: {
       type: Boolean,
@@ -123,26 +123,26 @@ export default {
     if (this.auto && !this.noMore) {
       const eventId = utils.on(
         document,
-        "scroll",
+        'scroll',
         this.$utils.throttle(() => {
           if (utils.checkInView(this.$el)) {
-            this.$emit("fetch");
+            this.$emit('fetch')
           }
           if (this.noMore) {
-            utils.off(eventId);
+            utils.off(eventId)
           }
         }, 200),
         false
-      );
+      )
     }
   },
   methods: {
     handleFetch() {
       if (this.loading || this.noMore) {
-        return;
+        return
       }
-      this.$emit("fetch");
+      this.$emit('fetch')
     }
   }
-};
+}
 </script>

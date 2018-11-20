@@ -11,7 +11,7 @@ $height: 48px;
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       height: 1px;
@@ -29,7 +29,7 @@ $height: 48px;
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       height: 1px;
@@ -90,7 +90,7 @@ $height: 48px;
     top: -2px;
 
     &::after {
-      content: "";
+      content: '';
       border-radius: 100%;
       position: absolute;
       left: 5px;
@@ -159,15 +159,15 @@ $height: 48px;
  * <mt-radio v-model="value" :options="['a', 'b', 'c']"></mt-radio>
  */
 export default {
-  name: "VRadio",
+  name: 'VRadio',
   props: {
     title: {
       type: String,
-      default: ""
+      default: ''
     },
     align: {
       type: String,
-      default: ""
+      default: ''
     },
     options: {
       type: Array,
@@ -175,21 +175,21 @@ export default {
     },
     value: {
       type: [String, Number],
-      default: ""
+      default: ''
     }
   },
   data() {
     return {
       currentValue: this.value
-    };
+    }
   },
   watch: {
     value(val) {
-      this.currentValue = val;
+      this.currentValue = val
     },
     currentValue(val) {
-      this.$emit("input", val);
+      this.$emit('input', val)
     }
   }
-};
+}
 </script>

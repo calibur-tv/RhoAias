@@ -145,7 +145,7 @@
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           left: $container-padding;
           right: 0;
@@ -293,115 +293,115 @@
 </template>
 
 <script>
-import UserSex from "~/components/user/UserSex";
-import { Progress } from "element-ui";
+import UserSex from '~/components/user/UserSex'
+import { Progress } from 'element-ui'
 
 export default {
-  name: "UserShow",
+  name: 'UserShow',
   components: {
     UserSex,
-    "el-progress": Progress
+    'el-progress': Progress
   },
   async asyncData({ route, store, ctx }) {
-    await store.dispatch("users/getUser", {
+    await store.dispatch('users/getUser', {
       ctx,
       zone: route.params.zone
-    });
+    })
   },
   head() {
-    const user = this.user;
+    const user = this.user
     if (!user) {
-      return;
+      return
     }
     return {
       title: user.nickname,
       meta: [
-        { hid: "description", name: "description", content: user.signature },
+        { hid: 'description', name: 'description', content: user.signature },
         {
-          hid: "keywords",
-          name: "keywords",
+          hid: 'keywords',
+          name: 'keywords',
           content: `calibur,用户,天下漫友是一家,${user.zone},${user.nickname}`
         }
       ]
-    };
+    }
   },
   data() {
     return {
       signDayLoading: false,
       doSign: false,
       showExpTips: false
-    };
+    }
   },
   computed: {
     zone() {
-      return this.$route.params.zone;
+      return this.$route.params.zone
     },
     isMe() {
-      return this.$store.state.login ? this.zone === this.self.zone : false;
+      return this.$store.state.login ? this.zone === this.self.zone : false
     },
     self() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     userPower() {
-      return this.$store.state.users.show.power;
+      return this.$store.state.users.show.power
     },
     blockedAt() {
-      return this.$store.state.users.show.banned_to;
+      return this.$store.state.users.show.banned_to
     },
     user() {
-      return this.isMe ? this.self : this.$store.state.users.show;
+      return this.isMe ? this.self : this.$store.state.users.show
     },
     bangumis() {
-      return this.$store.state.users.bangumis;
+      return this.$store.state.users.bangumis
     },
     daySigned() {
-      return this.self ? this.self.daySign : false;
+      return this.self ? this.self.daySign : false
     },
     coinCount() {
-      return this.self ? this.self.coin : 0;
+      return this.self ? this.self.coin : 0
     },
     withdrawCoinCount() {
-      let result = this.user.coin - this.user.coin_from_sign;
+      let result = this.user.coin - this.user.coin_from_sign
       if (this.doSign) {
-        result -= 1;
+        result -= 1
       }
-      return result < 0 ? 0 : result;
+      return result < 0 ? 0 : result
     },
     expPercent() {
       if (!this.isMe) {
-        return 0;
+        return 0
       }
       return parseInt(
         (this.user.exp.have_exp / this.user.exp.next_level_exp) * 100,
         10
-      );
+      )
     }
   },
   methods: {
     async handleDaySign() {
       if (this.daySigned || this.signDayLoading) {
-        this.$toast.info("今天已签过到");
-        return;
+        this.$toast.info('今天已签过到')
+        return
       }
-      this.signDayLoading = true;
+      this.signDayLoading = true
 
       try {
-        const result = await this.$store.dispatch("users/daySign", {
+        const result = await this.$store.dispatch('users/daySign', {
           ctx: this
-        });
-        this.$store.commit("SET_USER_INFO", {
+        })
+        this.$store.commit('SET_USER_INFO', {
           daySign: true,
           coin: this.coinCount + 1
-        });
-        this.doSign = true;
-        this.$toast.success(result.message);
-        this.$store.commit("UPDATE_USER_EXP", result.exp);
+        })
+        this.doSign = true
+        this.$toast.success(result.message)
+        this.$store.commit('UPDATE_USER_EXP', result.exp)
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.signDayLoading = false;
+        this.signDayLoading = false
       }
     }
   }
-};
+}
 </script>

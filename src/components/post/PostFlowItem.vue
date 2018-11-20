@@ -290,7 +290,7 @@
 
 <script>
 export default {
-  name: "PostFlowItem",
+  name: 'PostFlowItem',
   props: {
     item: {
       required: true,
@@ -299,11 +299,11 @@ export default {
   },
   methods: {
     imageFilter(images) {
-      return images.slice(0, 3);
+      return images.slice(0, 3)
     },
     linkStart() {
-      this.$router.push(this.$alias.post(this.item.id));
+      this.$router.push(this.$alias.post(this.item.id))
     }
   }
-};
+}
 </script>
