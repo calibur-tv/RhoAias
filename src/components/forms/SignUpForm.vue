@@ -139,9 +139,11 @@
         <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
           <i class="iconfont icon-qq"/>
         </a>
+        <!--
         <a href="https://api.calibur.tv/callback/oauth2/wechat?from=sign">
           <i class="iconfont icon-wechat"/>
         </a>
+        -->
       </span>
       <a
         v-if="!inviteCode"
