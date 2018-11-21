@@ -250,6 +250,25 @@ export function createRouter() {
         ]
       },
       {
+        path: '/callback',
+        component: () => import('~/layouts/empty'),
+        meta: { useAuth: false },
+        children: [
+          {
+            path: 'auth-error',
+            component: () => import('~/views/callback/auth/error')
+          },
+          {
+            path: 'auth-success',
+            component: () => import('~/views/callback/auth/success')
+          },
+          {
+            path: 'auth-redirect',
+            component: () => import('~/views/callback/auth/redirect')
+          }
+        ]
+      },
+      {
         path: '/review',
         component: () => import('~/layouts/write'),
         meta: { useAuth: true },

@@ -2,6 +2,7 @@
 .sign-up-form {
   input {
     border: 0;
+    padding: 0;
     border-bottom: 1px solid $color-gray-normal;
   }
 
@@ -10,9 +11,12 @@
   }
 
   .others {
-    margin-top: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     @extend %clearfix;
+
+    a {
+      font-size: 12px;
+    }
 
     .fl {
       float: left;
@@ -36,6 +40,32 @@
     top: 11px;
     font-size: 18px;
     color: $color-gray-deep;
+  }
+
+  .providers {
+    float: left;
+    margin-top: -5px;
+
+    span {
+      font-size: 12px;
+      line-height: 23px;
+    }
+
+    i {
+      font-size: 20px;
+      vertical-align: middle;
+      margin-left: 10px;
+      color: $color-text-normal;
+      cursor: pointer;
+    }
+
+    .icon-qq:hover {
+      color: #3194d0;
+    }
+
+    .icon-wechat-copy:hover {
+      color: #42c02e;
+    }
   }
 }
 </style>
@@ -102,14 +132,19 @@
       </el-form-item>
     </el-form>
     <div
-      v-if="!inviteCode"
       class="others"
     >
+      <span class="providers">
+        <span>社交账号注册</span>
+        <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
+          <i class="iconfont icon-qq"/>
+        </a>
+        <a href="https://api.calibur.tv/callback/oauth2/wechat?from=sign">
+          <i class="iconfont icon-wechat"/>
+        </a>
+      </span>
       <a
-        class="fl"
-        @click="showOAuth"
-      >社交账号注册</a>
-      <a
+        v-if="!inviteCode"
         class="fr"
         @click="showLogin"
       >已有账号»</a>

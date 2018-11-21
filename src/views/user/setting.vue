@@ -126,6 +126,28 @@
     @include btn-empty(#fff);
   }
 
+  .providers {
+    padding-left: $container-padding;
+    padding-right: $container-padding;
+    margin-top: 15px;
+
+    i {
+      font-size: 24px;
+      margin-right: 12px;
+      color: $color-gray-deep;
+    }
+
+    .icon-qq.is-bind,
+    .icon-qq:hover {
+      color: #3194d0;
+    }
+
+    .icon-wechat.is-bind,
+    .icon-wechat:hover {
+      color: #42c02e;
+    }
+  }
+
   .btn-submit {
     margin-top: 20px;
   }
@@ -204,6 +226,25 @@
             name="file" 
             @change="selectAvatar">
         </div>
+      </div>
+    </div>
+    <div class="hr"/>
+    <div class="hr"/>
+    <div class="form-item">
+      <p class="sub-title">绑定：</p>
+      <div class="providers">
+        <a :href="`https://api.calibur.tv/callback/oauth2/qq?from=bind&id=${user.id}&zone=${user.zone}`">
+          <i
+            :class="{ 'is-bind': user.providers.bind_qq }"
+            class="iconfont icon-qq"
+          />
+        </a>
+        <a :href="`https://api.calibur.tv/callback/oauth2/wechat?from=bind&id=${user.id}&zone=${user.zone}`">
+          <i
+            :class="{ 'is-bind': user.providers.bind_wechat }"
+            class="iconfont icon-wechat"
+          />
+        </a>
       </div>
     </div>
     <div class="hr"/>

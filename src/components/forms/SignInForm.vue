@@ -2,6 +2,7 @@
 .sign-in-form {
   input {
     border: 0;
+    padding: 0;
     border-bottom: 1px solid $color-gray-normal;
   }
 
@@ -10,8 +11,11 @@
   }
 
   .others {
-    margin-top: 15px;
     @extend %clearfix;
+
+    a {
+      font-size: 12px;
+    }
 
     .fl {
       float: left;
@@ -28,6 +32,34 @@
     top: 11px;
     font-size: 18px;
     color: $color-gray-deep;
+  }
+
+  .providers {
+    margin-bottom: 15px;
+    margin-top: -7px;
+    text-align: right;
+
+    span {
+      font-size: 12px;
+      line-height: 23px;
+      float: left;
+    }
+
+    i {
+      font-size: 20px;
+      vertical-align: middle;
+      margin-left: 10px;
+      color: $color-text-normal;
+      cursor: pointer;
+    }
+
+    .icon-qq:hover {
+      color: #3194d0;
+    }
+
+    .icon-wechat-copy:hover {
+      color: #42c02e;
+    }
   }
 }
 </style>
@@ -64,6 +96,15 @@
           @click="watchPwd = !watchPwd"
         ><i class="iconfont icon-yuedu"/></button>
       </el-form-item>
+      <div class="providers">
+        <span>社交账号登录</span>
+        <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
+          <i class="iconfont icon-qq"/>
+        </a>
+        <a href="https://api.calibur.tv/callback/oauth2/wechat?from=sign">
+          <i class="iconfont icon-wechat"/>
+        </a>
+      </div>
       <el-form-item>
         <el-button
           :loading="loading"
