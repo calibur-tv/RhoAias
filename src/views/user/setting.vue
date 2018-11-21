@@ -239,12 +239,14 @@
             class="iconfont icon-qq"
           />
         </a>
+        <!--
         <a :href="`https://api.calibur.tv/callback/oauth2/wechat?from=bind&id=${user.id}&zone=${user.zone}`">
           <i
             :class="{ 'is-bind': user.providers.bind_wechat }"
             class="iconfont icon-wechat"
           />
         </a>
+        -->
       </div>
     </div>
     <div class="hr"/>
