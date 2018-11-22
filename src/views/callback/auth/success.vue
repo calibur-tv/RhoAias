@@ -17,33 +17,21 @@
 <template>
   <div id="auth-success">
     <p>
-      {{ message }},（{{ timer }}s后自动跳转）
+      {{ message }}，正在返回首页
     </p>
-    <a href="/">点击返回首页</a>
   </div>
 </template>
 
 <script>
 export default {
   name: 'AuthSuccess',
-  data() {
-    return {
-      timer: 5
-    }
-  },
   computed: {
     message() {
       return this.$route.query.message
     }
   },
   mounted() {
-    setInterval(() => {
-      if (this.timer === 1) {
-        window.location = 'https://www.calibur.tv'
-      } else {
-        this.timer--
-      }
-    }, 1000)
+    window.location = 'https://www.calibur.tv'
   }
 }
 </script>

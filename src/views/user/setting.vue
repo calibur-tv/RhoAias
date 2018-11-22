@@ -239,14 +239,12 @@
             class="iconfont icon-qq"
           />
         </a>
-        <!--
-        <a :href="`https://api.calibur.tv/callback/oauth2/wechat?from=bind&id=${user.id}&zone=${user.zone}`">
+        <a :href="ua.wechat ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${user.id}&zone=${user.zone}` : 'javascript:;'">
           <i
             :class="{ 'is-bind': user.providers.bind_wechat }"
             class="iconfont icon-wechat"
           />
         </a>
-        -->
       </div>
     </div>
     <div class="hr"/>
@@ -295,6 +293,9 @@ export default {
       return this.$store.state.login
         ? this.$route.params.zone === this.user.zone
         : false
+    },
+    ua() {
+      return this.$store.state.ua
     }
   },
   mounted() {

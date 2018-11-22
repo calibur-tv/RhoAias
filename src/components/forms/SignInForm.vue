@@ -101,11 +101,12 @@
         <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
           <i class="iconfont icon-qq"/>
         </a>
-        <!--
-        <a href="https://api.calibur.tv/callback/oauth2/wechat?from=sign">
+        <a
+          v-if="ua.wechat"
+          href="https://api.calibur.tv/callback/oauth2/weixin?from=sign"
+        >
           <i class="iconfont icon-wechat"/>
         </a>
-        -->
       </div>
       <el-form-item>
         <el-button
@@ -168,6 +169,11 @@ export default {
       },
       loading: false,
       watchPwd: false
+    }
+  },
+  computed: {
+    ua() {
+      return this.$store.state.ua
     }
   },
   methods: {
