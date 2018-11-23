@@ -142,11 +142,11 @@ export default {
     getPureContent() {
       let result = ''
       this.sections.forEach(item => {
-        if (item.type === 'txt') {
-          result += `${item.text}，`
+        if (item.type === 'txt' && item.text) {
+          result += item.text.replace(/<br>/g, '\n')
         }
       })
-      return result.slice(0, -1)
+      return result
     },
     handleItemPreview({ index, type }) {
       this.$store.commit('editor/SWITCH_SECTION', { index })
