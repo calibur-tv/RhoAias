@@ -8,7 +8,7 @@ const templates = {
     text: ''
   },
   title: {
-    type: 'txt',
+    type: 'title',
     text: ''
   },
   txt: {

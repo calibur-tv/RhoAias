@@ -146,7 +146,7 @@ export default {
           result += `${item.text}，`
         }
       })
-      return result
+      return result.slice(0, -1)
     },
     handleItemPreview({ index, type }) {
       this.$store.commit('editor/SWITCH_SECTION', { index })

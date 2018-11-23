@@ -100,6 +100,10 @@
         &.pink {
           background-color: $color-pink-deep;
         }
+
+        &.purple {
+          background-color: #9266f9;
+        }
       }
     }
 
@@ -247,7 +251,7 @@
         </div>
         <div
           v-else-if="item.type === 'title'"
-          class="default pink"
+          class="default purple"
         >
           <i class="iconfont icon-title"/>
         </div>
