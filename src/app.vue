@@ -56,7 +56,7 @@ export default {
           rel: 'search',
           type: 'application/opensearchdescription+xml',
           title: 'calibur',
-          href: `${cdn.static}/owner/h5/search.xml`
+          href: `${cdn.static}owner/h5/search.xml`
         },
         {
           hid: 'keywords',
@@ -69,7 +69,7 @@ export default {
         {
           rel: 'shortcut icon',
           type: 'image/x-icon',
-          href: `${cdn.static}/favicon.ico`
+          href: `${cdn.static}favicon.ico`
         }
       ],
       script: [

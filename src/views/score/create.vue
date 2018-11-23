@@ -48,7 +48,7 @@
     .collapsed-icon {
       float: right;
       height: 24px;
-      padding: 0 5px;
+      padding: 0 5px 0 15px;
       margin-top: -4px;
       margin-right: -5px;
     }

@@ -82,7 +82,7 @@
           v-html="item.text"
         />
         <textarea
-          v-model="text"
+          v-model.trim="text"
           placeholder="添加文字列表，回车分割"
           @focus="textAreaFocus"
         />

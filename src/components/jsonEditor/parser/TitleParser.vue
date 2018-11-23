@@ -1,22 +1,25 @@
 <style lang="scss">
 .json-content-txt-parser {
-  p {
+  h3 {
     margin-left: $container-padding;
     margin-right: $container-padding;
-    font-weight: 400;
     line-height: 1.7;
     color: #2f2f2f;
     @extend %breakWord;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    font-size: 16px;
+    font-weight: bold;
+    margin-top: 1.66667em;
+    margin-bottom: 0.83333em;
+    font-size: 18px;
   }
 }
 </style>
 
 <template>
   <div class="json-content-txt-parser">
-    <p v-html="item.text"/>
+    <h3
+      v-if="item.text"
+      v-text="item.text"
+    />
   </div>
 </template>
 

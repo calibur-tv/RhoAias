@@ -46,6 +46,7 @@
     <txt-preview :item="curPreview"/>
     <list-preview :item="curPreview"/>
     <use-preview :item="curPreview"/>
+    <title-preview :item="curPreview"/>
   </div>
 </template>
 
@@ -55,6 +56,7 @@ import ImgPreview from './preview/ImgPreview'
 import TxtPreview from './preview/TxtPreview'
 import ListPreview from './preview/ListPreview'
 import UsePreview from './preview/UsePreview'
+import TitlePreview from './preview/TitlePreview'
 import scrollToY from '~/assets/js/scrollToY'
 
 export default {
@@ -64,7 +66,8 @@ export default {
     ImgPreview,
     TxtPreview,
     ListPreview,
-    UsePreview
+    UsePreview,
+    TitlePreview
   },
   computed: {
     id() {
@@ -117,7 +120,11 @@ export default {
             result.push(item)
           }
         } else if (item.type === 'txt') {
-          if (item.title || item.text) {
+          if (item.text) {
+            result.push(item)
+          }
+        } else if (item.type === 'title') {
+          if (item.text) {
             result.push(item)
           }
         } else if (item.type === 'use') {
@@ -135,21 +142,8 @@ export default {
     getPureContent() {
       let result = ''
       this.sections.forEach(item => {
-        if (item.type === 'txt' && item.title) {
-          result += `${item.title}，`
-        }
-        if (item.type === 'txt' && item.text) {
-          result += item.text.replace(/<br>/g, '\n')
-        }
-        if (item.type === 'use' && item.text) {
-          result += item.text.replace(/<br>/g, '\n')
-        }
-        if (item.type === 'list' && item.text) {
-          let list = item.text
-          while (/\n\n/.test(list)) {
-            list = list.replace(/\n\n/g, '\n')
-          }
-          result += list.replace(/\n/g, ';')
+        if (item.type === 'txt') {
+          result += `${item.text}，`
         }
       })
       return result

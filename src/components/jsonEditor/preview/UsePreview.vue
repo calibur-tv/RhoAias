@@ -63,7 +63,7 @@
           v-html="item.text"
         />
         <textarea
-          v-model="text"
+          v-model.trim="text"
           placeholder="添加引用的文本"
           @focus="textAreaFocus"
         />

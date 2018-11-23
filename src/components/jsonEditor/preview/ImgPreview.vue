@@ -57,7 +57,7 @@
             :full="true"
           />
           <el-input
-            v-model="desc"
+            v-model.trim="desc"
             maxlength="45"
             placeholder="添加图片描述"
           />

@@ -3,41 +3,15 @@
   position: relative;
   z-index: 1;
 
-  .content-wrap {
-    position: relative;
-    margin-bottom: 46px;
-  }
-
-  .shim,
-  textarea {
+  input {
     width: 100%;
-    display: block;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 25px;
-    letter-spacing: 0;
+    height: 40px;
     padding-left: 15px;
     padding-right: 15px;
-    @extend %breakWord;
-  }
-
-  .shim {
-    height: auto;
-    position: relative;
-    visibility: hidden;
-    white-space: pre-wrap;
-    min-height: 300px;
-  }
-
-  textarea {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    overflow-y: auto;
-    border: none;
-    resize: none;
-    color: #333;
+    border-bottom: 1px solid $color-gray-light;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
   }
 }
 </style>
@@ -53,17 +27,12 @@
     <div 
       v-if="show" 
       class="text-preview">
-      <div class="content-wrap">
-        <pre
-          class="shim"
-          v-html="item.text"
-        />
-        <textarea
-          v-model.trim="text"
-          placeholder="添加文字内容"
-          @focus="textAreaFocus"
-        />
-      </div>
+      <input
+        v-model.trim="text"
+        type="text"
+        placeholder="段落小标题"
+        maxlength="30"
+      >
     </div>
   </v-drawer>
 </template>
@@ -86,11 +55,11 @@ export default {
   computed: {
     text: {
       get() {
-        return this.item.text.replace(/<br>/g, '\n')
+        return this.item.text
       },
       set(value) {
         this.$store.commit('editor/UPDATE_SECTION_TEXT', {
-          value: value.replace(/\n/g, '<br>')
+          value
         })
       }
     }
@@ -100,17 +69,12 @@ export default {
       this.saving = false
     })
     this.$channel.$on('write-open-drawer', ({ type }) => {
-      if (type === 'txt') {
+      if (type === 'title') {
         this.show = true
       }
     })
   },
   methods: {
-    textAreaFocus() {
-      if (this.text.length < 100) {
-        document.body.scrollTop = 0
-      }
-    },
     emitSave() {
       if (!this.text.replace(/\n/g, '')) {
         return
