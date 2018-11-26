@@ -65,8 +65,14 @@
     .content {
       color: #000;
       font-size: 16px;
-      margin: 22px 0;
+      margin: 14px 0 22px;
       line-height: 24px;
+
+      .text-area {
+        p {
+          margin-bottom: 12px;
+        }
+      }
 
       .image-area {
         margin: 16px 0;
