@@ -21,7 +21,7 @@
 
   .cartoon {
     width: 145px;
-    height: 316px;
+    height: 250px;
     float: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     margin: 3px 3px 10px;
@@ -160,6 +160,7 @@
             </div>
             <div class="intro">
               <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
+              <!--
               <div class="social">
                 <span
                   v-if="item.like_count"
@@ -180,6 +181,7 @@
                   {{ item.comment_count }}
                 </span>
               </div>
+              -->
             </div>
           </a>
           <!--
