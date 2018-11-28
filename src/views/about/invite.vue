@@ -58,7 +58,7 @@
         v-if="isGuest"
         class="sign-wrap"
       >
-        <h3 class="sub-title">欢迎来到 calibur.tv，是谁邀请你的呢？</h3>
+        <h3 class="sub-title">欢迎来到 calibur.tv</h3>
         <sign-up-form
           :invite-code="inviteUserId"
         />
