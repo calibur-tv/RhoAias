@@ -2,10 +2,11 @@
 #app-invite {
   padding-top: 15px;
   position: relative;
-  height: 580px;
+  height: 600px;
   margin: 0 auto;
   overflow: hidden;
   background-color: #c73230;
+  min-height: 100vh;
 
   .top-bg {
     position: absolute;
