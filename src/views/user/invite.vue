@@ -2,6 +2,7 @@
 #user-invite {
   background-color: #fff;
   padding: 20px 0;
+  min-height: 100%;
 
   .capture-wrap {
     position: relative;
