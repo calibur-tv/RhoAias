@@ -2,12 +2,11 @@
 #user-invite {
   background-color: #fff;
   padding: 20px 0;
-  min-height: 100%;
 
   .capture-wrap {
     position: relative;
     width: 300px;
-    height: 560px;
+    height: 580px;
     margin: 0 auto 20px auto;
     border-radius: 5px;
     overflow: hidden;
