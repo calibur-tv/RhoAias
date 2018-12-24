@@ -123,7 +123,7 @@ $color: RGB(78, 73, 74);
 
 <script>
 export default {
-  name: "BlackWork",
+  name: 'BlackWork',
   props: {
     image: {
       required: true,
@@ -131,47 +131,47 @@ export default {
     },
     avatar: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
     return {
       selectedAvatar: this.avatar,
-      name: "",
-      dollar: ""
-    };
+      name: '',
+      dollar: ''
+    }
   },
   computed: {
     dollarInputWidth() {
-      const length = this.dollar.length;
+      const length = this.dollar.length
       return {
         width: `${(length + 1) * 5 + 20}px`
-      };
+      }
     }
   },
   mounted() {
-    this.$channel.$on("campaign-canvas-reset", () => {
-      this.selectedAvatar = this.avatar;
-    });
-    this.$channel.$on("campaign-canvas-creating", () => {
+    this.$channel.$on('campaign-canvas-reset', () => {
+      this.selectedAvatar = this.avatar
+    })
+    this.$channel.$on('campaign-canvas-creating', () => {
       if (!this.name) {
-        this.name = "無";
+        this.name = '無'
       }
       if (!this.dollar) {
-        this.dollar = 50;
+        this.dollar = 50
       }
-    });
+    })
   },
   methods: {
     selectAvatar(e) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
+      const file = e.target.files[0]
+      const reader = new FileReader()
       reader.onload = evt => {
-        this.selectedAvatar = evt.target.result;
-        this.$refs.uploader.value = "";
-      };
-      reader.readAsDataURL(file);
+        this.selectedAvatar = evt.target.result
+        this.$refs.uploader.value = ''
+      }
+      reader.readAsDataURL(file)
     }
   }
-};
+}
 </script>

@@ -93,34 +93,34 @@
 
 <script>
 export default {
-  name: "BangumiTime",
+  name: 'BangumiTime',
   async asyncData({ store, ctx }) {
-    await store.dispatch("bangumi/getTimeline", ctx);
+    await store.dispatch('bangumi/getTimeline', ctx)
   },
   data() {
     return {
       loading: false
-    };
+    }
   },
   computed: {
     timeline() {
-      return this.$store.state.bangumi.timeline;
+      return this.$store.state.bangumi.timeline
     }
   },
   methods: {
     async loadMore() {
       if (this.loading) {
-        return;
+        return
       }
-      this.loading = true;
+      this.loading = true
       try {
-        await this.$store.dispatch("bangumi/getTimeline");
+        await this.$store.dispatch('bangumi/getTimeline')
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     }
   }
-};
+}
 </script>

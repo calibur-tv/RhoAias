@@ -82,7 +82,7 @@
           v-html="item.text"
         />
         <textarea
-          v-model="text"
+          v-model.trim="text"
           placeholder="添加文字列表，回车分割"
           @focus="textAreaFocus"
         />
@@ -92,12 +92,12 @@
 </template>
 
 <script>
-import { Switch } from "mint-ui";
+import { Switch } from 'mint-ui'
 
 export default {
-  name: "ListPreview",
+  name: 'ListPreview',
   components: {
-    "mt-switch": Switch
+    'mt-switch': Switch
   },
   props: {
     item: {
@@ -109,53 +109,53 @@ export default {
     return {
       show: false,
       saving: false
-    };
+    }
   },
   computed: {
     text: {
       get() {
-        return this.item.text.replace(/<br>/g, "\n");
+        return this.item.text.replace(/<br>/g, '\n')
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TEXT", {
+        this.$store.commit('editor/UPDATE_SECTION_TEXT', {
           value
-        });
+        })
       }
     },
     sort: {
       get() {
-        return this.item.sort === "1";
+        return this.item.sort === '1'
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_SORT", {
-          value: value ? "1" : "0"
-        });
+        this.$store.commit('editor/UPDATE_SECTION_SORT', {
+          value: value ? '1' : '0'
+        })
       }
     }
   },
   mounted() {
-    this.$channel.$on("write-save-done", () => {
-      this.saving = false;
-    });
-    this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "list") {
-        this.show = true;
+    this.$channel.$on('write-save-done', () => {
+      this.saving = false
+    })
+    this.$channel.$on('write-open-drawer', ({ type }) => {
+      if (type === 'list') {
+        this.show = true
       }
-    });
+    })
   },
   methods: {
     textAreaFocus() {
       if (this.text.length < 100) {
-        document.body.scrollTop = 0;
+        document.body.scrollTop = 0
       }
     },
     emitSave() {
-      if (!this.text.replace(/\n/g, "")) {
-        return;
+      if (!this.text.replace(/\n/g, '')) {
+        return
       }
-      this.$channel.$emit("write-save");
-      this.saving = true;
+      this.$channel.$emit('write-save')
+      this.saving = true
     }
   }
-};
+}
 </script>

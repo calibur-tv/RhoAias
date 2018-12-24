@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import vHeader from "~/components/layouts/Header";
-import CreatorMenu from "~/components/common/Creator";
-import FeedbackDrawer from "~/components/drawers/FeedbackDrawer";
-import ShareDrawer from "~/components/drawers/ShareDrawer";
-import ReportDrawer from "~/components/drawers/ReportDrawer";
+import vHeader from '~/components/layouts/Header'
+import CreatorMenu from '~/components/common/Creator'
+import FeedbackDrawer from '~/components/drawers/FeedbackDrawer'
+import ShareDrawer from '~/components/drawers/ShareDrawer'
+import ReportDrawer from '~/components/drawers/ReportDrawer'
 
 export default {
   components: {
@@ -35,5 +35,5 @@ export default {
     ShareDrawer,
     ReportDrawer
   }
-};
+}
 </script>

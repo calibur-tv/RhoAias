@@ -1,4 +1,4 @@
-import Api from "~/api/appApi";
+import Api from '~/api/appApi'
 
 export default {
   namespaced: true,
@@ -7,17 +7,17 @@ export default {
   }),
   mutations: {
     SET_DOWNLOAD_URL(state, data) {
-      state.download = data;
+      state.download = data
     }
   },
   actions: {
     async getDownloadUrl({ commit }, { type }) {
-      const api = new Api();
+      const api = new Api()
       const data = await api.downloadUrl({
         type
-      });
-      commit("SET_DOWNLOAD_URL", data);
+      })
+      commit('SET_DOWNLOAD_URL', data)
     }
   },
   getters: {}
-};
+}

@@ -8,7 +8,7 @@
       width: 50%;
       height: 40px;
       font-size: 13px;
-      background-color: $color-gray-light;
+      background-color: #fff;
       color: $color-text-normal;
     }
 
@@ -55,19 +55,19 @@
 </template>
 
 <script>
-import QuestionFlowList from "~/components/flow/list/QuestionFlowList";
-import QuestionFlowItem from "~/components/flow/item/QuestionFlowItem";
-import Api from "~/api/flowApi";
+import QuestionFlowList from '~/components/flow/list/QuestionFlowList'
+import QuestionFlowItem from '~/components/flow/item/QuestionFlowItem'
+import Api from '~/api/flowApi'
 
 export default {
-  name: "UserQuestion",
+  name: 'UserQuestion',
   async asyncData({ store, route, ctx }) {
-    await store.dispatch("flow/initData", {
-      type: "question",
-      sort: "news",
+    await store.dispatch('flow/initData', {
+      type: 'question',
+      sort: 'news',
       userZone: route.params.zone,
       ctx
-    });
+    })
   },
   components: {
     QuestionFlowList,
@@ -81,50 +81,50 @@ export default {
       fetchedAnswer: false,
       noMoreAnswer: false,
       page: 0
-    };
+    }
   },
   computed: {
     zone() {
-      return this.$route.params.zone;
+      return this.$route.params.zone
     }
   },
   methods: {
     switchTab(value) {
-      this.active = value;
+      this.active = value
       if (value === 1) {
-        this.getUserAnswers(true);
+        this.getUserAnswers(true)
       }
     },
     async getUserAnswers(init = false) {
       if (init && this.fetchedAnswer) {
-        return;
+        return
       }
       if (this.loadingAnswer) {
-        return;
+        return
       }
-      this.loadingAnswer = true;
-      const api = new Api(this);
+      this.loadingAnswer = true
+      const api = new Api(this)
       try {
         const data = await api.fetch({
-          sort: "news",
-          type: "answer",
+          sort: 'news',
+          type: 'answer',
           take: 10,
           page: this.page,
           minId: 0,
-          seenIds: "",
+          seenIds: '',
           bangumiId: 0,
           userZone: this.zone
-        });
-        this.fetchedAnswer = true;
-        this.answerList = this.answerList.concat(data.list);
-        this.noMoreAnswer = data.noMore;
-        this.page++;
+        })
+        this.fetchedAnswer = true
+        this.answerList = this.answerList.concat(data.list)
+        this.noMoreAnswer = data.noMore
+        this.page++
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingAnswer = false;
+        this.loadingAnswer = false
       }
     }
   }
-};
+}
 </script>

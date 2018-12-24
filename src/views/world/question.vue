@@ -41,35 +41,35 @@
 
 <script>
 export default {
-  name: "QuestionWorld",
+  name: 'QuestionWorld',
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/initData", {
-        type: "question",
-        sort: "active",
+      store.dispatch('world/initData', {
+        type: 'question',
+        sort: 'active',
         ctx
       }),
-      store.dispatch("world/getMeta", { type: "question" })
-    ]);
+      store.dispatch('world/getMeta', { type: 'question' })
+    ])
   },
   data() {
     return {
       showTips: false
-    };
+    }
   },
   computed: {
     meta() {
-      return this.$store.state.world.question.meta;
+      return this.$store.state.world.question.meta
     }
   },
   methods: {
     openCreateQAQ() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.$channel.$emit("drawer-open-write-question");
+      this.$channel.$emit('drawer-open-write-question')
     }
   }
-};
+}
 </script>

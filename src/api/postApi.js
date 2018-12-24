@@ -1,4 +1,4 @@
-import BaseApi from "./_baseApi";
+import BaseApi from './_baseApi'
 
 export default class extends BaseApi {
   create({
@@ -11,7 +11,7 @@ export default class extends BaseApi {
     geetest,
     is_creator
   }) {
-    return this.http.post("post/create", {
+    return this.http.post('post/create', {
       title,
       tags,
       bangumiId,
@@ -20,20 +20,20 @@ export default class extends BaseApi {
       desc,
       geetest,
       is_creator
-    });
+    })
   }
 
   show({ id, page, take, only, replyId }) {
     return this.http.get(`post/${id}/show`, {
       params: { page, take, only, replyId }
-    });
+    })
   }
 
   deletePost(id) {
-    return this.http.post(`post/${id}/deletePost`);
+    return this.http.post(`post/${id}/deletePost`)
   }
 
   tags() {
-    return this.http.get("post/tags");
+    return this.http.get('post/tags')
   }
 }

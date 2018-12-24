@@ -17,7 +17,7 @@
 
       &:not(:last-child) {
         &:after {
-          content: "";
+          content: '';
           position: absolute;
           background-color: #c8c7cc;
           display: block;
@@ -77,12 +77,12 @@
 </template>
 
 <script>
-import { Popover } from "element-ui";
+import { Popover } from 'element-ui'
 
 export default {
-  name: "VPopover",
+  name: 'VPopover',
   components: {
-    "el-popover": Popover
+    'el-popover': Popover
   },
   props: {
     width: {
@@ -95,7 +95,7 @@ export default {
     },
     reportType: {
       type: String,
-      default: ""
+      default: ''
     },
     reportId: {
       type: Number,
@@ -103,7 +103,7 @@ export default {
     },
     reportText: {
       type: String,
-      default: "举报"
+      default: '举报'
     },
     isCreator: {
       type: Boolean,
@@ -111,42 +111,42 @@ export default {
     },
     className: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
     return {
       show: false
-    };
+    }
   },
   computed: {
     actionList() {
-      const result = this.actions;
+      const result = this.actions
       if (this.reportId) {
         result.push({
           name: this.reportText,
           method: () =>
-            this.$channel.$emit("open-report-drawer", {
+            this.$channel.$emit('open-report-drawer', {
               id: this.reportId,
               model: this.reportType,
               title: this.reportText,
               isCreator: this.isCreator
             })
-        });
+        })
       }
-      return result;
+      return result
     }
   },
   methods: {
     handleShow() {
-      this.$backdrop.show();
+      this.$backdrop.show()
     },
     handleHide() {
-      this.$backdrop.hide();
+      this.$backdrop.hide()
     },
     handleClick() {
-      this.show = false;
+      this.show = false
     }
   }
-};
+}
 </script>

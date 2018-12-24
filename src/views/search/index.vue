@@ -136,31 +136,31 @@
 </template>
 
 <script>
-import vSearch from "~/components/search/Input";
-import UserItem from "~/components/search/flows/UserItem";
-import BangumiItem from "~/components/search/flows/BangumiItem";
-import VideoItem from "~/components/search/flows/VideoItem";
-import PostItem from "~/components/flow/item/PostFlowItem";
-import RoleItem from "~/components/flow/item/CartoonRoleFlowItem";
-import ScoreItem from "~/components/flow/item/ScoreFlowItem";
+import vSearch from '~/components/search/Input'
+import UserItem from '~/components/search/flows/UserItem'
+import BangumiItem from '~/components/search/flows/BangumiItem'
+import VideoItem from '~/components/search/flows/VideoItem'
+import PostItem from '~/components/flow/item/PostFlowItem'
+import RoleItem from '~/components/flow/item/CartoonRoleFlowItem'
+import ScoreItem from '~/components/flow/item/ScoreFlowItem'
 
 export default {
-  name: "SearchIndex",
+  name: 'SearchIndex',
   async asyncData({ store, route, ctx }) {
-    const args = route.query;
-    const type = args.type || "all";
-    await store.dispatch("search/fetchData", {
+    const args = route.query
+    const type = args.type || 'all'
+    await store.dispatch('search/fetchData', {
       ctx,
       type: type,
       q: args.q
-    });
+    })
   },
   head: {
     meta: [
       {
-        hid: "description",
-        name: "description",
-        content: "搜索二次元的一切"
+        hid: 'description',
+        name: 'description',
+        content: '搜索二次元的一切'
       }
     ]
   },
@@ -176,48 +176,48 @@ export default {
   data() {
     return {
       words: this.$route.query.q
-    };
+    }
   },
   computed: {
     resource() {
-      return this.$store.state.search.resource[this.selectedType] || {};
+      return this.$store.state.search.resource[this.selectedType] || {}
     },
     loading() {
-      return this.resource.loading;
+      return this.resource.loading
     },
     list() {
-      return this.resource.list;
+      return this.resource.list
     },
     noMore() {
-      return this.resource.noMore;
+      return this.resource.noMore
     },
     total() {
-      return this.resource.total;
+      return this.resource.total
     },
     tabs() {
-      return this.$store.state.search.tabs;
+      return this.$store.state.search.tabs
     },
     selectedType() {
-      return this.$route.query.type || "all";
+      return this.$route.query.type || 'all'
     }
   },
   methods: {
     switchTab(tab) {
       this.$router.push({
-        name: "search-index",
+        name: 'search-index',
         query: { q: this.words, type: tab }
-      });
+      })
     },
     async loadMore() {
       try {
-        await this.$store.dispatch("search/fetchMore", {
+        await this.$store.dispatch('search/fetchMore', {
           ctx: this,
           type: this.selectedType
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       }
     }
   }
-};
+}
 </script>

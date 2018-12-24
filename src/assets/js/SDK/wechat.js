@@ -7,11 +7,11 @@ export default class {
       timestamp: timestamp,
       signature: signature,
       jsApiList: [
-        "onMenuShareTimeline",
-        "onMenuShareAppMessage",
-        "previewImage"
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'previewImage'
       ]
-    });
+    })
 
     // 初始化分享相关
     wx.ready(() => {
@@ -20,36 +20,36 @@ export default class {
         link: this.getShareLink(),
         imgUrl: this.getShareImage(),
         success: () => {
-          M.vueHub.$emit("note-share-wechat");
+          M.vueHub.$emit('note-share-wechat')
         }
-      });
+      })
 
       wx.onMenuShareAppMessage({
         title: this.getShareTitle(),
         desc: this.getShareDesc(),
         link: this.getShareLink(),
         imgUrl: this.getShareImage(),
-        type: "link",
+        type: 'link',
         success: () => {
-          M.vueHub.$emit("note-share-wechat");
+          M.vueHub.$emit('note-share-wechat')
         }
-      });
-    });
+      })
+    })
   }
 
   getShareTitle() {
-    return M.shareData.get().title;
+    return M.shareData.get().title
   }
 
   getShareLink() {
-    return M.shareData.get().link;
+    return M.shareData.get().link
   }
 
   getShareDesc() {
-    return M.shareData.get().description;
+    return M.shareData.get().description
   }
 
   getShareImage() {
-    return M.shareData.get().imageUrl;
+    return M.shareData.get().imageUrl
   }
 }

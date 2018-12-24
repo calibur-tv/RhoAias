@@ -46,28 +46,28 @@
 </template>
 
 <script>
-import AnswerFlowList from "~/components/flow/list/AnswerFlowList";
-import QuestionPanel from "~/components/question/QuestionPanel";
+import AnswerFlowList from '~/components/flow/list/AnswerFlowList'
+import QuestionPanel from '~/components/question/QuestionPanel'
 
 export default {
-  name: "QuestionShow",
+  name: 'QuestionShow',
   async asyncData({ store, route, ctx }) {
-    const id = route.params.id;
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("question/getQAQ", {
+      store.dispatch('question/getQAQ', {
         id,
         ctx
       }),
-      store.dispatch("question/getAnswers", {
+      store.dispatch('question/getAnswers', {
         questionId: id,
         ctx
       })
-    ]);
+    ])
   },
   head() {
     return {
       title: this.qaq.title
-    };
+    }
   },
   components: {
     AnswerFlowList,
@@ -75,11 +75,11 @@ export default {
   },
   computed: {
     id() {
-      return +this.$route.params.id;
+      return +this.$route.params.id
     },
     qaq() {
-      return this.$store.state.question.qaq;
+      return this.$store.state.question.qaq
     }
   }
-};
+}
 </script>

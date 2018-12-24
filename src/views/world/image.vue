@@ -60,42 +60,42 @@
 
 <script>
 export default {
-  name: "ImageFlowList",
+  name: 'ImageFlowList',
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/initData", {
-        type: "image",
-        sort: "active",
+      store.dispatch('world/initData', {
+        type: 'image',
+        sort: 'active',
         ctx
       }),
-      store.dispatch("world/getMeta", { type: "image" })
-    ]);
+      store.dispatch('world/getMeta', { type: 'image' })
+    ])
   },
   data() {
     return {
       showTips: false
-    };
+    }
   },
   computed: {
     meta() {
-      return this.$store.state.world.image.meta;
+      return this.$store.state.world.image.meta
     }
   },
   methods: {
     openCreateImage() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.$channel.$emit("open-create-image-drawer");
+      this.$channel.$emit('open-create-image-drawer')
     },
     openFeedback() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 3,
-        desc: "",
-        placeholder: ""
-      });
+        desc: '',
+        placeholder: ''
+      })
     }
   }
-};
+}
 </script>

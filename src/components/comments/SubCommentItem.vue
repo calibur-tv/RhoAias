@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: "SubCommentItem",
+  name: 'SubCommentItem',
   props: {
     comment: {
       required: true,
@@ -59,66 +59,66 @@ export default {
   data() {
     return {
       deleting: false
-    };
+    }
   },
   computed: {
     currentUserId() {
-      return this.$store.state.login ? this.$store.state.user.id : 0;
+      return this.$store.state.login ? this.$store.state.user.id : 0
     },
     isMine() {
-      return this.currentUserId === this.comment.from_user_id;
+      return this.currentUserId === this.comment.from_user_id
     },
     canDelete() {
-      return this.isMine || this.currentUserId === this.parentUserId;
+      return this.isMine || this.currentUserId === this.parentUserId
     }
   },
   methods: {
     handleSubCommentClick() {
       if (this.isMine) {
-        this.deleteComment();
+        this.deleteComment()
         this.$nextTick(() => {
-          document.getElementById("reply-comment-textarea").style.display =
-            "none";
-        });
-        return;
+          document.getElementById('reply-comment-textarea').style.display =
+            'none'
+        })
+        return
       }
       if (this.currentUserId) {
-        this.$channel.$emit("reply-comment", {
+        this.$channel.$emit('reply-comment', {
           id: this.parentCommentId,
           targetUserId: this.comment.from_user_id,
           targetUserName: this.comment.from_user_name
-        });
+        })
       }
     },
     deleteComment() {
       if (!this.canDelete) {
-        return;
+        return
       }
       if (this.deleting) {
-        return;
+        return
       }
-      this.deleting = true;
-      this.$confirm("删除后无法找回, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.deleting = true
+      this.$confirm('删除后无法找回, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
-          this.$store.dispatch("comment/deleteSubComment", {
+          this.$store.dispatch('comment/deleteSubComment', {
             ctx: this,
             type: this.type,
             id: this.comment.id,
             parentId: this.comment.parent_id
-          });
+          })
         })
         .catch(e => {
-          this.deleting = false;
-          if (e === "cancel") {
-            return;
+          this.deleting = false
+          if (e === 'cancel') {
+            return
           }
-          this.$toast.error(e);
-        });
+          this.$toast.error(e)
+        })
     }
   }
-};
+}
 </script>

@@ -51,15 +51,15 @@
 </template>
 
 <script>
-import UploadMixin from "~/mixins/upload";
+import UploadMixin from '~/mixins/upload'
 
 export default {
-  name: "ImageUploader",
+  name: 'ImageUploader',
   mixins: [UploadMixin],
   props: {
     listType: {
       type: String,
-      default: "picture-card"
+      default: 'picture-card'
     },
     limit: {
       type: Number,
@@ -75,28 +75,29 @@ export default {
     }
   },
   mounted() {
-    this.$channel.$on("image-upload-done", () => {
-      this.uploadImageList = [];
-      this.uploadImageTotal = 0;
-      this.$refs.upload && this.$refs.upload.clearFiles();
-    });
+    this.$channel.$on('image-upload-done', () => {
+      this.uploadImageList = []
+      this.uploadImageTotal = 0
+      this.$refs.upload && this.$refs.upload.clearFiles()
+    })
+    this.getUpToken()
   },
   methods: {
     handleImageUploadExceed() {
-      this.$toast.error(`最多可上传 ${this.limit} 张图片!`);
+      this.$toast.error(`最多可上传 ${this.limit} 张图片!`)
     },
     handleImageUploadEmit() {
       if (this.uploadPending) {
-        this.$toast.error("等待图片上传完成");
-        return;
+        this.$toast.error('等待图片上传完成')
+        return
       }
       if (this.required && !this.uploadImageTotal) {
-        this.$toast.error("请先选择图片");
-        return;
+        this.$toast.error('请先选择图片')
+        return
       }
-      const result = this.uploadImageList.filter(_ => _).map(_ => _.data);
-      this.$emit("submit", this.limit === 1 ? result[0] : result);
+      const result = this.uploadImageList.filter(_ => _).map(_ => _.data)
+      this.$emit('submit', this.limit === 1 ? result[0] : result)
     }
   }
-};
+}
 </script>

@@ -3,18 +3,18 @@
 </template>
 
 <script>
-import BangumiVideoFlow from "~/components/bangumi/flows/BangumiVideoFlow";
+import BangumiVideoFlow from '~/components/bangumi/flows/BangumiVideoFlow'
 
 export default {
-  name: "BangumiVideo",
+  name: 'BangumiVideo',
   async asyncData({ route, store, ctx }) {
-    await store.dispatch("bangumi/getVideos", {
+    await store.dispatch('bangumi/getVideos', {
       ctx,
       id: route.params.id
-    });
+    })
   },
   components: {
     BangumiVideoFlow
   }
-};
+}
 </script>

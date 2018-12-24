@@ -12,7 +12,7 @@
     position: relative;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       top: 16px;
@@ -242,21 +242,21 @@
 </template>
 
 <script>
-import { Collapse, CollapseItem } from "element-ui";
+import { Collapse, CollapseItem } from 'element-ui'
 
 export default {
-  name: "AppHandbook",
+  name: 'AppHandbook',
   components: {
-    "el-collapse": Collapse,
-    "el-collapse-item": CollapseItem
+    'el-collapse': Collapse,
+    'el-collapse-item': CollapseItem
   },
   head: {
-    title: "帮助手册"
+    title: '帮助手册'
   },
   data() {
     return {
-      activeName: this.$route.query.index || ""
-    };
+      activeName: this.$route.query.index || ''
+    }
   }
-};
+}
 </script>

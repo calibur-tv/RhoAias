@@ -6,23 +6,23 @@
 </template>
 
 <script>
-import UserReportForm from "~/components/user/UserReportForm";
+import UserReportForm from '~/components/user/UserReportForm'
 
 export default {
-  name: "AppReport",
+  name: 'AppReport',
   components: {
     UserReportForm
   },
   head: {
-    title: "举报"
+    title: '举报'
   },
   computed: {
     id() {
-      return this.$route.query.id;
+      return this.$route.query.id
     },
     model() {
-      return this.$route.query.type;
+      return this.$route.query.type
     }
   }
-};
+}
 </script>

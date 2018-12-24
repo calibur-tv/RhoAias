@@ -115,23 +115,23 @@
 
 <script>
 export default {
-  name: "BangumiVideoFlow",
+  name: 'BangumiVideoFlow',
   computed: {
     videos() {
-      return this.$store.state.bangumi.videos;
+      return this.$store.state.bangumi.videos
     },
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     }
   },
   methods: {
     openFeedbackForResource() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 5,
         desc: `我想看《${this.info.name}》的视频第 {?} 集`,
-        placeholder: "请填写你要看的集数"
-      });
+        placeholder: '请填写你要看的集数'
+      })
     }
   }
-};
+}
 </script>

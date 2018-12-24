@@ -18,7 +18,9 @@ module.exports = (app, templatePath, callback) => {
   let clientManifest
 
   let ready
-  const readyPromise = new Promise(resolve => { ready = resolve })
+  const readyPromise = new Promise(resolve => {
+    ready = resolve
+  })
   const update = () => {
     if (bundle && clientManifest) {
       ready()
@@ -29,7 +31,10 @@ module.exports = (app, templatePath, callback) => {
     }
   }
   // modify client config to work with hot middleware
-  clientConfig.entry.app = ['webpack-hot-middleware/client?reload=true', clientConfig.entry.app]
+  clientConfig.entry.app = [
+    'webpack-hot-middleware/client?reload=true',
+    clientConfig.entry.app
+  ]
   clientConfig.output.filename = '[name].js'
   clientConfig.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
@@ -57,7 +62,7 @@ module.exports = (app, templatePath, callback) => {
     stats = stats.toJson()
     if (stats.errors.length) {
       stats.errors.forEach(error => {
-        console.log(error);
+        console.log(error)
       })
       return
     }
@@ -82,12 +87,15 @@ module.exports = (app, templatePath, callback) => {
     stats = stats.toJson()
     if (stats.errors.length) {
       stats.errors.forEach(error => {
-        console.log(error);
+        console.log(error)
       })
       return
     }
 
-    const bundlePath = path.join(serverConfig.output.path, 'vue-ssr-server-bundle.json')
+    const bundlePath = path.join(
+      serverConfig.output.path,
+      'vue-ssr-server-bundle.json'
+    )
     bundle = JSON.parse(mfs.readFileSync(bundlePath, 'utf-8'))
     update()
   })

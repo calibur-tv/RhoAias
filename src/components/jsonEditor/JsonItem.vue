@@ -100,6 +100,10 @@
         &.pink {
           background-color: $color-pink-deep;
         }
+
+        &.purple {
+          background-color: #9266f9;
+        }
       }
     }
 
@@ -224,52 +228,52 @@
             v-if="!item.url"
             class="default green"
           >
-            <i class="el-icon-picture-outline"/>
+            <i class="iconfont icon-image"/>
           </div>
         </template>
         <div
           v-else-if="item.type === 'txt'"
           class="default yellow"
         >
-          <i class="el-icon-edit-outline"/>
+          <i class="iconfont icon-text"/>
         </div>
         <div
           v-else-if="item.type === 'list'"
           class="default blue"
         >
-          <i class="el-icon-tickets"/>
+          <i class="iconfont icon-list"/>
         </div>
         <div
           v-else-if="item.type === 'use'"
           class="default pink"
         >
-          <i class="el-icon-service"/>
+          <i class="iconfont icon-use"/>
+        </div>
+        <div
+          v-else-if="item.type === 'title'"
+          class="default purple"
+        >
+          <i class="iconfont icon-title"/>
         </div>
       </div>
       <div class="content">
-        <template v-if="item.type === 'txt'">
+        <template v-if="item.type === 'title'">
           <div
-            v-if="item.text && !item.title"
+            v-if="item.text"
             class="text line-4"
             v-html="item.text"
           />
           <div
-            v-else-if="item.title && !item.text"
-            class="text oneline"
-            v-text="item.title"
+            v-else
+            class="text"
+          >点击添加小标题</div>
+        </template>
+        <template v-else-if="item.type === 'txt'">
+          <div
+            v-if="item.text"
+            class="text line-4"
+            v-html="item.text"
           />
-          <template
-            v-else-if="item.title && item.text"
-          >
-            <div
-              class="text oneline"
-              v-text="item.title"
-            />
-            <div
-              class="text line-3"
-              v-html="item.text"
-            />
-          </template>
           <div
             v-else
             class="text"
@@ -342,16 +346,19 @@
     </div>
     <div class="append-area">
       <button @click="emitCreate('txt')">
-        <span><i class="el-icon-edit-outline"/></span>
+        <span><i class="iconfont icon-text"/></span>
       </button>
       <button @click="emitCreate('img')">
-        <span><i class="el-icon-picture"/></span>
+        <span><i class="iconfont icon-image"/></span>
       </button>
       <button @click="emitCreate('list')">
-        <span><i class="el-icon-tickets"/></span>
+        <span><i class="iconfont icon-list"/></span>
       </button>
       <button @click="emitCreate('use')">
-        <span><i class="el-icon-service"/></span>
+        <span><i class="iconfont icon-use"/></span>
+      </button>
+      <button @click="emitCreate('title')">
+        <span><i class="iconfont icon-title"/></span>
       </button>
     </div>
   </div>
@@ -359,7 +366,7 @@
 
 <script>
 export default {
-  name: "JsonItem",
+  name: 'JsonItem',
   props: {
     item: {
       type: Object,
@@ -377,29 +384,29 @@ export default {
   },
   computed: {
     sectionCount() {
-      return this.$store.state.editor.sections.length;
+      return this.$store.state.editor.sections.length
     }
   },
   methods: {
     emitPreview(type) {
-      this.$emit("preview", { index: this.index, type });
+      this.$emit('preview', { index: this.index, type })
     },
     emitCreate(type) {
-      this.$emit("create", { index: this.index, type });
+      this.$emit('create', { index: this.index, type })
     },
     emitDelete() {
-      this.$emit("delete", { index: this.index });
+      this.$emit('delete', { index: this.index })
     },
     emitSort() {
-      this.$emit("sort", { index: this.index });
+      this.$emit('sort', { index: this.index })
     },
     computeList(text) {
-      let list = text;
+      let list = text
       while (/\n\n/.test(list)) {
-        list = list.replace(/\n\n/g, "\n");
+        list = list.replace(/\n\n/g, '\n')
       }
-      return list.split("\n").slice(0, 4);
+      return list.split('\n').slice(0, 4)
     }
   }
-};
+}
 </script>

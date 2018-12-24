@@ -58,11 +58,7 @@
         v-if="isGuest"
         class="sign-wrap"
       >
-        <h3 class="sub-title">欢迎来到 calibur.tv，是谁邀请你的呢？</h3>
-        <div class="tips">
-          <p>注册之后，邀请者会收到短信提示，并且获得 1 枚团子；</p>
-          <p>由于站内视频流量过大，为了降低宽带费用，先需要注册后才能看番，影响到了大家的体验，非常抱歉</p>
-        </div>
+        <h3 class="sub-title">欢迎来到 calibur.tv</h3>
         <sign-up-form
           :invite-code="inviteUserId"
         />
@@ -83,20 +79,20 @@
 </template>
 
 <script>
-import SignUpForm from "~/components/forms/SignUpForm";
+import SignUpForm from '~/components/forms/SignUpForm'
 
 export default {
-  name: "InviteUser",
+  name: 'InviteUser',
   components: {
     SignUpForm
   },
   computed: {
     inviteUserId() {
-      return this.$route.params.id;
+      return this.$route.params.id
     },
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     }
   }
-};
+}
 </script>

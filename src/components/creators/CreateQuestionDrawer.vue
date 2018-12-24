@@ -74,12 +74,12 @@
 </template>
 
 <script>
-import Api from "~/api/questionApi";
-import BangumiPicker from "~/components/bangumi/BangumiPicker";
-import ImageUploader from "~/components/common/ImageUploader";
+import Api from '~/api/questionApi'
+import BangumiPicker from '~/components/bangumi/BangumiPicker'
+import ImageUploader from '~/components/common/ImageUploader'
 
 export default {
-  name: "CreateQuestionDrawer",
+  name: 'CreateQuestionDrawer',
   components: {
     BangumiPicker,
     ImageUploader
@@ -87,57 +87,57 @@ export default {
   data() {
     const validateTitle = (rule, value, callback) => {
       if (!value) {
-        callback(new Error("请输入问题标题"));
+        callback(new Error('请输入问题标题'))
       }
       if (value.length > 30) {
-        callback(new Error("标题最多 30 个字"));
+        callback(new Error('标题最多 30 个字'))
       }
-      callback();
-    };
+      callback()
+    }
     const validateBangumi = (rule, value, callback) => {
       if (!value) {
-        callback(new Error("至少选择 1 个番剧"));
+        callback(new Error('至少选择 1 个番剧'))
       }
-      callback();
-    };
+      callback()
+    }
     const validateContent = (rule, value, callback) => {
       if (!value) {
-        callback(new Error("问题不能为空"));
+        callback(new Error('问题不能为空'))
       }
-      callback();
-    };
+      callback()
+    }
     return {
       form: {
-        title: "",
-        bangumiId: "",
-        content: ""
+        title: '',
+        bangumiId: '',
+        content: ''
       },
       rules: {
-        title: [{ validator: validateTitle, trigger: "change" }],
-        bangumiId: [{ validator: validateBangumi, trigger: "submit" }],
-        content: [{ validator: validateContent, trigger: "submit" }]
+        title: [{ validator: validateTitle, trigger: 'change' }],
+        bangumiId: [{ validator: validateBangumi, trigger: 'submit' }],
+        content: [{ validator: validateContent, trigger: 'submit' }]
       },
       exceed: 7,
       submitting: false,
       show: false
-    };
+    }
   },
   mounted() {
-    this.$channel.$on("drawer-open-write-question", () => {
-      this.show = true;
-    });
+    this.$channel.$on('drawer-open-write-question', () => {
+      this.show = true
+    })
   },
   methods: {
     submit(images) {
       this.$refs.form.validate(valid => {
         if (valid) {
           if (this.submitting) {
-            return;
+            return
           }
-          this.submitting = true;
+          this.submitting = true
           this.$captcha({
             success: async ({ data }) => {
-              const api = new Api(this);
+              const api = new Api(this)
               try {
                 const result = await api.createQuestion({
                   title: this.form.title,
@@ -146,32 +146,32 @@ export default {
                   content: this.form.content,
                   images,
                   geetest: data
-                });
-                this.images = [];
-                this.$emit("submit");
-                this.submitting = false;
-                this.$store.commit("UPDATE_USER_EXP", result.exp);
+                })
+                this.images = []
+                this.$emit('submit')
+                this.submitting = false
+                this.$store.commit('UPDATE_USER_EXP', result.exp)
                 this.$toast.success(result.message).then(() => {
-                  window.location = this.$alias.question(result.data);
-                });
+                  window.location = this.$alias.question(result.data)
+                })
               } catch (err) {
-                this.$toast.error(err);
-                this.submitting = false;
+                this.$toast.error(err)
+                this.submitting = false
               }
             },
             error: e => {
-              this.submitting = false;
-              this.$toast.error(e);
+              this.submitting = false
+              this.$toast.error(e)
             },
             close: () => {
-              this.submitting = false;
+              this.submitting = false
             }
-          });
+          })
         } else {
-          return false;
+          return false
         }
-      });
+      })
     }
   }
-};
+}
 </script>

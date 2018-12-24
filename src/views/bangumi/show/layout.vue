@@ -23,7 +23,7 @@
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           bottom: 1px;
@@ -73,59 +73,59 @@
 </template>
 
 <script>
-import BangumiHeader from "~/components/bangumi/BangumiHeader";
+import BangumiHeader from '~/components/bangumi/BangumiHeader'
 
 export default {
-  name: "BangumiShowLayout",
+  name: 'BangumiShowLayout',
   async asyncData({ route, store, ctx }) {
-    await store.dispatch("bangumi/getBangumi", {
+    await store.dispatch('bangumi/getBangumi', {
       ctx,
       id: route.params.id
-    });
+    })
   },
   components: {
     BangumiHeader
   },
   head() {
     if (!this.id) {
-      return;
+      return
     }
-    let keywords = this.info.alias;
+    let keywords = this.info.alias
     this.tags.forEach(tag => {
-      keywords += `,${tag.name}`;
-    });
-    const name = this.info.name;
-    keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`;
-    const desc = this.info.summary;
+      keywords += `,${tag.name}`
+    })
+    const name = this.info.name
+    keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`
+    const desc = this.info.summary
     return {
       title: `${name} - 番剧`,
       meta: [
-        { hid: "description", name: "description", content: desc },
-        { hid: "keywords", name: "keywords", content: keywords }
+        { hid: 'description', name: 'description', content: desc },
+        { hid: 'keywords', name: 'keywords', content: keywords }
       ],
       script: [
         {
-          hid: "share-data",
+          hid: 'share-data',
           innerHTML: JSON.stringify({
             title: name,
             description: desc,
             imageUrl: this.info.avatar
           }),
-          type: "application/json"
+          type: 'application/json'
         }
       ]
-    };
+    }
   },
   computed: {
     id() {
-      return +this.$route.params.id;
+      return +this.$route.params.id
     },
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     },
     tags() {
-      return this.info.tags;
+      return this.info.tags
     }
   }
-};
+}
 </script>

@@ -3,17 +3,6 @@
   position: relative;
   z-index: 1;
 
-  input {
-    width: 100%;
-    height: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-bottom: 1px solid $color-gray-light;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
   .content-wrap {
     position: relative;
     margin-bottom: 46px;
@@ -64,19 +53,13 @@
     <div 
       v-if="show" 
       class="text-preview">
-      <input
-        v-model="title"
-        type="text"
-        placeholder="段落小标题"
-        maxlength="20"
-      >
       <div class="content-wrap">
         <pre
           class="shim"
           v-html="item.text"
         />
         <textarea
-          v-model="text"
+          v-model.trim="text"
           placeholder="添加文字内容"
           @focus="textAreaFocus"
         />
@@ -87,7 +70,7 @@
 
 <script>
 export default {
-  name: "TxtPreview",
+  name: 'TxtPreview',
   props: {
     item: {
       required: true,
@@ -98,53 +81,43 @@ export default {
     return {
       show: false,
       saving: false
-    };
+    }
   },
   computed: {
     text: {
       get() {
-        return this.item.text.replace(/<br>/g, "\n");
+        return this.item.text.replace(/<br>/g, '\n')
       },
       set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TEXT", {
-          value: value.replace(/\n/g, "<br>")
-        });
-      }
-    },
-    title: {
-      get() {
-        return this.item.title;
-      },
-      set(value) {
-        this.$store.commit("editor/UPDATE_SECTION_TITLE", {
-          value
-        });
+        this.$store.commit('editor/UPDATE_SECTION_TEXT', {
+          value: value.replace(/\n/g, '<br>')
+        })
       }
     }
   },
   mounted() {
-    this.$channel.$on("write-save-done", () => {
-      this.saving = false;
-    });
-    this.$channel.$on("write-open-drawer", ({ type }) => {
-      if (type === "txt") {
-        this.show = true;
+    this.$channel.$on('write-save-done', () => {
+      this.saving = false
+    })
+    this.$channel.$on('write-open-drawer', ({ type }) => {
+      if (type === 'txt') {
+        this.show = true
       }
-    });
+    })
   },
   methods: {
     textAreaFocus() {
       if (this.text.length < 100) {
-        document.body.scrollTop = 0;
+        document.body.scrollTop = 0
       }
     },
     emitSave() {
-      if (!this.text.replace(/\n/g, "")) {
-        return;
+      if (!this.text.replace(/\n/g, '')) {
+        return
       }
-      this.$channel.$emit("write-save");
-      this.saving = true;
+      this.$channel.$emit('write-save')
+      this.saving = true
     }
   }
-};
+}
 </script>

@@ -52,26 +52,26 @@
 
 <script>
 export default {
-  name: "ScoreFlowList",
+  name: 'ScoreFlowList',
   async asyncData({ store, ctx }) {
     await Promise.all([
-      store.dispatch("world/initData", {
-        type: "score",
-        sort: "active",
+      store.dispatch('world/initData', {
+        type: 'score',
+        sort: 'active',
         ctx
       }),
-      store.dispatch("world/getMeta", { type: "score" })
-    ]);
+      store.dispatch('world/getMeta', { type: 'score' })
+    ])
   },
   data() {
     return {
       showTips: false
-    };
+    }
   },
   computed: {
     meta() {
-      return this.$store.state.world.score.meta;
+      return this.$store.state.world.score.meta
     }
   }
-};
+}
 </script>

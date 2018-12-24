@@ -171,89 +171,89 @@
 
 <script>
 export default {
-  name: "BangumiTags",
+  name: 'BangumiTags',
   async asyncData({ store, route, ctx }) {
-    const id = route.query.id;
-    const arr = [store.dispatch("bangumi/getTags", { id, ctx })];
+    const id = route.query.id
+    const arr = [store.dispatch('bangumi/getTags', { id, ctx })]
     if (
       id &&
       (/^\d+$/.test(id) ||
-        (id.indexOf("-") !== -1 &&
-          id.split("-").every(item => /^\d+$/.test(item))))
+        (id.indexOf('-') !== -1 &&
+          id.split('-').every(item => /^\d+$/.test(item))))
     ) {
       arr.push(
-        store.dispatch("bangumi/getCategory", {
+        store.dispatch('bangumi/getCategory', {
           id,
           ctx
         })
-      );
+      )
     }
-    await Promise.all(arr);
+    await Promise.all(arr)
   },
   data() {
     return {
       loading: false,
       counter: 0
-    };
+    }
   },
   computed: {
     id() {
-      return this.$route.query.id;
+      return this.$route.query.id
     },
     tags() {
-      const begin = this.counter * 8;
-      const end = begin + 8;
-      return this.$store.state.bangumi.tags.slice(begin, end);
+      const begin = this.counter * 8
+      const end = begin + 8
+      return this.$store.state.bangumi.tags.slice(begin, end)
     },
     resource() {
-      return this.$store.state.bangumi.category;
+      return this.$store.state.bangumi.category
     },
     noMore() {
-      return this.resource.noMore;
+      return this.resource.noMore
     },
     bangumis() {
-      return this.resource.list;
+      return this.resource.list
     },
     total() {
-      return this.resource.total;
+      return this.resource.total
     }
   },
   methods: {
     choiceTags() {
       if ((this.counter + 1) * 8 >= this.$store.state.bangumi.tags.length) {
-        this.counter = 0;
+        this.counter = 0
       } else {
-        this.counter++;
+        this.counter++
       }
     },
     refresh() {
-      const selected = [];
+      const selected = []
       this.$store.state.bangumi.tags.forEach(tag => {
         if (tag.selected) {
-          selected.push(tag.id);
+          selected.push(tag.id)
         }
-      });
+      })
       if (selected.length) {
-        window.location = this.$alias.bangumiTag(selected.join("-"));
+        window.location = this.$alias.bangumiTag(selected.join('-'))
       }
     },
     async loadMore() {
       if (this.loading) {
-        return;
+        return
       }
-      this.loading = true;
+      this.loading = true
 
       try {
-        await this.$store.dispatch("bangumi/getCategory", {
+        await this.$store.dispatch('bangumi/getCategory', {
           id: this.$route.query.id,
           ctx: this
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     }
   }
-};
+}
 </script>

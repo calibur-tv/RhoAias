@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import UserApi from "~/api/userApi";
-import VRadio from "~/components/common/Radio";
+import UserApi from '~/api/userApi'
+import VRadio from '~/components/common/Radio'
 
 export default {
-  name: "FeedbackDrawer",
+  name: 'FeedbackDrawer',
   components: {
     VRadio
   },
@@ -62,61 +62,61 @@ export default {
       show: false,
       options: [
         {
-          label: "功能建议",
+          label: '功能建议',
           value: 1
         },
         {
-          label: "遇到错误",
+          label: '遇到错误',
           value: 2
         },
         {
-          label: "资源报错",
+          label: '资源报错',
           value: 4
         },
         {
-          label: "求资源",
+          label: '求资源',
           value: 5
         },
         {
-          label: "求偶像",
+          label: '求偶像',
           value: 6
         },
         {
-          label: "其它问题",
+          label: '其它问题',
           value: 3
         }
       ],
       selectedType: 1,
-      placeholder: "",
-      content: "",
-      preContent: ""
-    };
+      placeholder: '',
+      content: '',
+      preContent: ''
+    }
   },
   mounted() {
-    this.$channel.$on("open-feedback", ({ type, desc, placeholder } = {}) => {
-      this.selectedType = type || 1;
-      this.preContent = desc || "{?}";
+    this.$channel.$on('open-feedback', ({ type, desc, placeholder } = {}) => {
+      this.selectedType = type || 1
+      this.preContent = desc || '{?}'
       this.placeholder =
-        placeholder || "非常感谢您的反馈，请填写详细信息方便我们解决";
-      this.show = true;
-    });
+        placeholder || '非常感谢您的反馈，请填写详细信息方便我们解决'
+      this.show = true
+    })
   },
   methods: {
     async submitFeedback() {
       if (!this.content.length) {
-        this.$toast.error("请先填写反馈信息！");
-        return;
+        this.$toast.error('请先填写反馈信息！')
+        return
       }
-      const api = new UserApi(this);
+      const api = new UserApi(this)
       await api.feedback({
         type: this.selectedType,
-        desc: this.preContent.replace("{?}", this.content),
+        desc: this.preContent.replace('{?}', this.content),
         ua: navigator.userAgent
-      });
-      this.$toast.success("反馈成功，感谢您的反馈！");
-      this.content = "";
-      this.show = false;
+      })
+      this.$toast.success('反馈成功，感谢您的反馈！')
+      this.content = ''
+      this.show = false
     }
   }
-};
+}
 </script>

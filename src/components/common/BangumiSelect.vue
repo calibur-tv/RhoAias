@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import VChecklist from "~/components/common/CheckList";
-import VRadio from "~/components/common/Radio";
+import VChecklist from '~/components/common/CheckList'
+import VRadio from '~/components/common/Radio'
 
 export default {
-  name: "BangumiSelect",
+  name: 'BangumiSelect',
   components: {
     VRadio,
     VChecklist
@@ -48,55 +48,55 @@ export default {
       open: false,
       list: [],
       selectedIds: [],
-      selected: "",
+      selected: '',
       max: 1,
       filteredList: [],
-      eventName: ""
-    };
+      eventName: ''
+    }
   },
   computed: {
     bangumis() {
-      return this.$store.state.bangumi.all;
+      return this.$store.state.bangumi.all
     }
   },
   mounted() {
     this.$channel.$on(
-      "open-bangumi-selected",
-      ({ list = [], selected = [], max = 1, eventName = "" }) => {
+      'open-bangumi-selected',
+      ({ list = [], selected = [], max = 1, eventName = '' }) => {
         if (!eventName) {
-          console.error("使用 BangumiSelect 必须传入唯一的事件名用于回调");
-          return;
+          console.error('使用 BangumiSelect 必须传入唯一的事件名用于回调')
+          return
         }
-        this.eventName = eventName;
+        this.eventName = eventName
         // const arr = list.length ? list : this.bangumis;
-        const arr = [{ id: 834, name: "次元壁" }];
-        this.list = arr.map(_ => Object.assign({}, _));
+        const arr = [{ id: 834, name: '次元壁' }]
+        this.list = arr.map(_ => Object.assign({}, _))
         this.filteredList = this.list.map(_ => {
           return {
             label: _.name,
             value: _.id
-          };
-        });
-        this.selectedIds = selected;
-        this.selected = Array.isArray(selected) ? "" : selected;
-        this.max = max;
-        this.open = true;
+          }
+        })
+        this.selectedIds = selected
+        this.selected = Array.isArray(selected) ? '' : selected
+        this.max = max
+        this.open = true
       }
-    );
+    )
   },
   methods: {
     handleSubmit() {
-      const isMuti = this.max > 1;
+      const isMuti = this.max > 1
       if (isMuti && !this.selectedIds.length) {
-        return null;
+        return null
       }
       if (!isMuti && !this.selected) {
-        return null;
+        return null
       }
-      const selectedIds = isMuti ? this.selectedIds : [this.selected];
-      const result = this.list.filter(_ => selectedIds.indexOf(_.id) !== -1);
-      this.$channel.$emit(this.eventName, isMuti ? result : result[0]);
+      const selectedIds = isMuti ? this.selectedIds : [this.selected]
+      const result = this.list.filter(_ => selectedIds.indexOf(_.id) !== -1)
+      this.$channel.$emit(this.eventName, isMuti ? result : result[0])
     }
   }
-};
+}
 </script>

@@ -140,13 +140,13 @@ $footer-height: 50px;
 </template>
 
 <script>
-import html2canvas from "html2canvas";
-import OnePiece from "~/components/campaign/OnePiece";
-import BlackWork from "~/components/campaign/BlackWork";
-import VRadio from "~/components/common/Radio";
+import html2canvas from 'html2canvas'
+import OnePiece from '~/components/campaign/OnePiece'
+import BlackWork from '~/components/campaign/BlackWork'
+import VRadio from '~/components/common/Radio'
 
 export default {
-  name: "CampaignCanvas",
+  name: 'CampaignCanvas',
   components: {
     VRadio,
     OnePiece,
@@ -156,70 +156,70 @@ export default {
     return {
       creating: false,
       openSelectThemeDrawer: false,
-      result: "",
-      selectedTheme: "one-piece",
+      result: '',
+      selectedTheme: 'one-piece',
       themes: [
         {
-          label: "海贼王 - 通缉令",
-          value: "one-piece"
+          label: '海贼王 - 通缉令',
+          value: 'one-piece'
         },
         {
-          label: "博多豚骨拉面团 - 黑色工作",
-          value: "black-work"
+          label: '博多豚骨拉面团 - 黑色工作',
+          value: 'black-work'
         }
         //          {
         //            label: '无头骑士异闻录 - dollars',
         //            value: 'dollars'
         //          }
       ]
-    };
+    }
   },
   watch: {
     selectedTheme() {
       setTimeout(() => {
-        this.openSelectThemeDrawer = false;
-        this.$channel.$emit("campaign-canvas-reset");
-        this.result = "";
-      }, 300);
+        this.openSelectThemeDrawer = false
+        this.$channel.$emit('campaign-canvas-reset')
+        this.result = ''
+      }, 300)
     }
   },
   methods: {
     changeTheme() {
-      this.openSelectThemeDrawer = true;
+      this.openSelectThemeDrawer = true
     },
     create() {
       if (this.creating) {
-        return;
+        return
       }
       if (this.result) {
-        this.$channel.$emit("campaign-canvas-reset");
-        this.result = "";
-        return;
+        this.$channel.$emit('campaign-canvas-reset')
+        this.result = ''
+        return
       }
-      this.creating = true;
-      this.$channel.$emit("campaign-canvas-creating");
+      this.creating = true
+      this.$channel.$emit('campaign-canvas-creating')
 
-      this.$toast.loading("制作中...");
+      this.$toast.loading('制作中...')
 
       const config = {
         allowTaint: false,
         useCORS: true,
         backgroundColor: null
-      };
+      }
 
       setTimeout(() => {
-        html2canvas(document.querySelector(".canvas-wrap"), config)
+        html2canvas(document.querySelector('.canvas-wrap'), config)
           .then(canvas => {
-            this.result = canvas.toDataURL("image/png");
-            this.$toast.success("制作成功！长按图片可保持");
-            this.creating = false;
+            this.result = canvas.toDataURL('image/png')
+            this.$toast.success('制作成功！长按图片可保持')
+            this.creating = false
           })
           .catch(() => {
-            this.$toast.error("制作失败~");
-            this.creating = false;
-          });
-      }, 1000);
+            this.$toast.error('制作失败~')
+            this.creating = false
+          })
+      }, 1000)
     }
   }
-};
+}
 </script>

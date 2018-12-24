@@ -23,7 +23,7 @@
         position: relative;
 
         &:after {
-          content: "";
+          content: '';
           position: absolute;
           top: 0;
           bottom: 0;
@@ -61,23 +61,23 @@
 </template>
 
 <script>
-import UserApi from "~/api/userApi";
+import UserApi from '~/api/userApi'
 
 export default {
-  name: "VFooter",
+  name: 'VFooter',
   methods: {
     logout() {
-      this.$cookie.remove("JWT-TOKEN");
-      const api = new UserApi(this);
-      api.logout();
-      window.location.reload();
+      this.$cookie.remove('JWT-TOKEN')
+      const api = new UserApi(this)
+      api.logout()
+      window.location.reload()
     },
     login() {
-      this.$channel.$emit("sign-in", false);
+      this.$channel.$emit('sign-in', false)
     },
     register() {
-      this.$channel.$emit("sign-up");
+      this.$channel.$emit('sign-up')
     }
   }
-};
+}
 </script>

@@ -79,7 +79,7 @@
 
 <script>
 export default {
-  name: "SearchItemUser",
+  name: 'SearchItemUser',
   props: {
     item: {
       required: true,
@@ -91,5 +91,5 @@ export default {
       default: false
     }
   }
-};
+}
 </script>

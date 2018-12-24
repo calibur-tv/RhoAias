@@ -61,17 +61,17 @@
 
 <script>
 export default {
-  name: "UserBangumi",
+  name: 'UserBangumi',
   async asyncData({ route, store, ctx }) {
-    await store.dispatch("users/getFollowBangumis", {
+    await store.dispatch('users/getFollowBangumis', {
       ctx,
       zone: route.params.zone
-    });
+    })
   },
   computed: {
     bangumis() {
-      return this.$store.state.users.bangumis;
+      return this.$store.state.users.bangumis
     }
   }
-};
+}
 </script>

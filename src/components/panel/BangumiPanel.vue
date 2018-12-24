@@ -74,10 +74,10 @@ $panel-height: 92px;
 </template>
 
 <script>
-import FollowButton from "~/components/common/FollowButton";
+import FollowButton from '~/components/common/FollowButton'
 
 export default {
-  name: "BangumiPanel",
+  name: 'BangumiPanel',
   components: {
     FollowButton
   },
@@ -102,19 +102,19 @@ export default {
   data() {
     return {
       loadingFollow: false
-    };
+    }
   },
   methods: {
     handleCreate() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
-      this.$channel.$emit("drawer-open-write-post");
+      this.$channel.$emit('drawer-open-write-post')
     },
     actionFollow(result) {
-      this.$emit("follow", result);
+      this.$emit('follow', result)
     }
   }
-};
+}
 </script>

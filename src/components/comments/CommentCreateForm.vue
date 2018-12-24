@@ -34,10 +34,10 @@
 </template>
 
 <script>
-import scrollToY from "~/assets/js/scrollToY";
+import scrollToY from '~/assets/js/scrollToY'
 
 export default {
-  name: "CommentCreateForm",
+  name: 'CommentCreateForm',
   props: {
     type: {
       required: true,
@@ -54,56 +54,56 @@ export default {
   },
   data() {
     return {
-      content: ""
-    };
+      content: ''
+    }
   },
   computed: {
     isGuest() {
-      return !this.$store.state.login;
+      return !this.$store.state.login
     },
     submitting() {
-      return this.$store.state.comment.submitting;
+      return this.$store.state.comment.submitting
     }
   },
   methods: {
     async submit() {
       if (this.isGuest) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (!this.content) {
-        this.$emit("close");
-        return;
+        this.$emit('close')
+        return
       }
       if (this.submitting) {
-        return;
+        return
       }
-      this.$store.commit("comment/SET_SUBMITTING", { result: true });
+      this.$store.commit('comment/SET_SUBMITTING', { result: true })
       try {
-        const result = await this.$store.dispatch("comment/createMainComment", {
+        const result = await this.$store.dispatch('comment/createMainComment', {
           content: this.content,
           images: [],
           type: this.type,
           id: this.id,
           ctx: this
-        });
-        this.$toast.success(result.message);
-        this.$store.commit("UPDATE_USER_EXP", result.exp);
-        this.$emit("submit");
-        this.content = "";
+        })
+        this.$toast.success(result.message)
+        this.$store.commit('UPDATE_USER_EXP', result.exp)
+        this.$emit('submit')
+        this.content = ''
         setTimeout(() => {
-          const dom = document.getElementById(`comment-${result.data.id}`);
-          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600);
-        }, 400);
+          const dom = document.getElementById(`comment-${result.data.id}`)
+          dom && scrollToY(this.$utils.getOffsetTop(dom) - 100, 600)
+        }, 400)
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.$store.commit("comment/SET_SUBMITTING", { result: false });
+        this.$store.commit('comment/SET_SUBMITTING', { result: false })
       }
     },
     handleAreaFocus() {
-      document.body.scrollTop = 0;
+      document.body.scrollTop = 0
     }
   }
-};
+}
 </script>

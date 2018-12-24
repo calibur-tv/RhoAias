@@ -307,68 +307,68 @@
 </template>
 
 <script>
-import VideoApi from "~/api/videoApi";
-import CommentMain from "~/components/comments/CommentMain";
-import SocialPanel from "~/components/common/SocialPanel";
-import BangumiPanel from "~/components/panel/BangumiPanel";
+import VideoApi from '~/api/videoApi'
+import CommentMain from '~/components/comments/CommentMain'
+import SocialPanel from '~/components/common/SocialPanel'
+import BangumiPanel from '~/components/panel/BangumiPanel'
 
 export default {
-  name: "VideoShow",
+  name: 'VideoShow',
   head() {
-    const bangumi = this.bangumi;
-    const video = this.video;
+    const bangumi = this.bangumi
+    const video = this.video
     if (!bangumi || !video) {
-      return;
+      return
     }
-    let resultPart = video.part;
-    let season = "";
-    let title = "";
+    let resultPart = video.part
+    let season = ''
+    let title = ''
     if (this.season) {
       this.list.forEach((videos, index) => {
         videos.data.forEach(video => {
           if (video.id === this.video.id) {
-            resultPart = video.part - videos.base;
-            season = this.season.name[index];
+            resultPart = video.part - videos.base
+            season = this.season.name[index]
           }
-        });
-      });
+        })
+      })
     }
     if (season) {
       if (season === video.name) {
-        title = `${bangumi.name} : ${season} - 视频`;
+        title = `${bangumi.name} : ${season} - 视频`
       } else {
         title = `${bangumi.name} : ${season} : 第${resultPart}话 ${
           video.name
-        } - 视频`;
+        } - 视频`
       }
     } else {
-      title = `${bangumi.name} : 第${resultPart}话 ${video.name} - 视频`;
+      title = `${bangumi.name} : 第${resultPart}话 ${video.name} - 视频`
     }
     return {
       title,
       meta: [
-        { hid: "description", name: "description", content: bangumi.summary },
+        { hid: 'description', name: 'description', content: bangumi.summary },
         {
-          hid: "keywords",
-          name: "keywords",
+          hid: 'keywords',
+          name: 'keywords',
           content: `${bangumi.name}，第${video.part}话，${
             video.name
           }，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站`
         }
       ]
-    };
+    }
   },
   async asyncData({ route, store, ctx }) {
-    const id = route.params.id;
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("video/getShow", { id, ctx }),
-      store.dispatch("comment/getMainComments", {
+      store.dispatch('video/getShow', { id, ctx }),
+      store.dispatch('comment/getMainComments', {
         ctx,
         id,
-        type: "video",
-        seeReplyId: route.query["comment-id"]
+        type: 'video',
+        seeReplyId: route.query['comment-id']
       })
-    ]);
+    ])
   },
   components: {
     CommentMain,
@@ -387,102 +387,100 @@ export default {
       playing: false,
       notSupport: false,
       loading: false
-    };
+    }
   },
   computed: {
     id() {
-      return parseInt(this.$route.params.id, 10);
+      return parseInt(this.$route.params.id, 10)
     },
     isGuest() {
       //      return this.bangumi.id !== 34 && !this.$store.state.login;
-      return !this.$store.state.login;
+      return !this.$store.state.login
     },
     videoPackage() {
-      return this.$store.state.video;
+      return this.$store.state.video
     },
     video() {
-      return this.videoPackage.info;
+      return this.videoPackage.info
     },
     list() {
-      return this.videoPackage.list ? this.videoPackage.list.videos : [];
+      return this.videoPackage.list ? this.videoPackage.list.videos : []
     },
     bangumi() {
-      return this.videoPackage.bangumi;
+      return this.videoPackage.bangumi
     },
     season() {
-      return this.videoPackage.season;
+      return this.videoPackage.season
     },
     showMoreBtn() {
-      return this.take < this.videos.length;
+      return this.take < this.videos.length
     },
     videos() {
       if (!this.season) {
-        return this.list[0].data;
+        return this.list[0].data
       }
-      let result = [];
+      let result = []
       this.list.forEach(videos => {
-        result = result.concat(videos.data);
-      });
-      return result;
+        result = result.concat(videos.data)
+      })
+      return result
     },
     sortVideos() {
-      const begin = (this.page - 1) * this.take;
+      const begin = (this.page - 1) * this.take
       return this.showAll
         ? this.videos
-        : this.videos.slice(begin, begin + this.take);
+        : this.videos.slice(begin, begin + this.take)
     },
     useOtherSiteSource() {
-      return this.video.other_site;
+      return this.video.other_site
     },
     videoSrc() {
-      return this.video.src;
+      return this.video.src
     },
     isFlv() {
       return this.useOtherSiteSource
         ? false
         : this.videoSrc
           ? this.videoSrc
-              .split("?")[0]
-              .split(".")
+              .split('?')[0]
+              .split('.')
               .pop()
-              .toLowerCase() === "flv"
-          : false;
+              .toLowerCase() === 'flv'
+          : false
     },
     nextPartVideo() {
-      let nextId = 0;
+      let nextId = 0
       this.videos.forEach((video, index) => {
         if (video.id === this.id && index !== this.videos.length - 1) {
-          nextId = this.videos[index + 1].id;
+          nextId = this.videos[index + 1].id
         }
-      });
-      return nextId ? this.$alias.video(nextId) : "";
+      })
+      return nextId ? this.$alias.video(nextId) : ''
     },
     errorTips() {
       if (/(ipad|iphone|ios)/i.test(navigator.userAgent)) {
-        return "视频加载失败，建议使用 Safari 打开网页播放！";
+        return '视频加载失败，建议使用 Safari 打开网页播放！'
       }
-      return "视频加载失败，建议使用QQ浏览器播放！";
+      return '视频加载失败，建议使用QQ浏览器播放！'
     },
     blocked() {
-      return this.videoPackage.blocked;
+      return this.videoPackage.blocked
     },
     showLevelThrottle() {
       if (this.$store.state.login) {
-        return (
-          this.$store.state.user.exp.level < this.videoPackage.needMinLevel
-        );
+        return this.$store.state.user.exp.level < this.videoPackage.needMinLevel
       }
-      return true;
+      return true
     },
     needCoin() {
-      return this.videoPackage.mustReward && !this.video.rewarded;
+      return this.videoPackage.mustReward && !this.video.rewarded
     }
   },
   mounted() {
-    this.computePage();
+    this.computePage()
     if (this.isFlv) {
-      this.notSupport = true;
-      return;
+      this.notSupport = true
+      return
     }
     if (
       !this.videoSrc ||
@@ -492,77 +490,77 @@ export default {
       this.isGuest ||
       this.blocked
     ) {
-      return;
+      return
     }
-    this.player = this.$refs.video;
+    this.player = this.$refs.video
 
     try {
-      this.player.load();
+      this.player.load()
     } catch (e) {
-      this.$alert(this.errorTips);
-      return;
+      this.$alert(this.errorTips)
+      return
     }
-    this.player.addEventListener("pause", () => {
-      this.playing = false;
-    });
+    this.player.addEventListener('pause', () => {
+      this.playing = false
+    })
 
-    this.player.addEventListener("waiting", () => {
-      this.loading = true;
-    });
+    this.player.addEventListener('waiting', () => {
+      this.loading = true
+    })
 
-    this.player.addEventListener("playing", () => {
-      this.playing = true;
-      this.handlePlaying();
-    });
+    this.player.addEventListener('playing', () => {
+      this.playing = true
+      this.handlePlaying()
+    })
 
-    this.player.addEventListener("timeupdate", () => {
-      this.loading = false;
-    });
+    this.player.addEventListener('timeupdate', () => {
+      this.loading = false
+    })
 
-    this.player.addEventListener("abort", () => {
-      this.$alert(this.errorTips);
-    });
+    this.player.addEventListener('abort', () => {
+      this.$alert(this.errorTips)
+    })
 
-    this.player.addEventListener("error", () => {
-      this.$alert(this.errorTips);
-    });
+    this.player.addEventListener('error', () => {
+      this.$alert(this.errorTips)
+    })
   },
   methods: {
     handleBangumiFollow(result) {
-      this.$store.commit("video/followBangumi", {
+      this.$store.commit('video/followBangumi', {
         result
-      });
+      })
     },
     computePage() {
       this.videos.forEach(meta => {
         if (meta.id === this.id) {
-          this.part = meta.part;
+          this.part = meta.part
         }
-      });
-      this.page = Math.ceil(this.part / this.take);
+      })
+      this.page = Math.ceil(this.part / this.take)
     },
     handlePlaying() {
       if (this.firstPlay) {
-        this.loading = true;
-        this.firstPlay = false;
-        const api = new VideoApi(this);
-        api.playing(this.id);
+        this.loading = true
+        this.firstPlay = false
+        const api = new VideoApi(this)
+        api.playing(this.id)
       }
     },
     handleVideoReportClick() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 4,
         desc: `【H5】-《${this.bangumi.name}》第${
           this.part
         }话 视频有错误，错误详情为：{?}`,
-        placeholder: "请填写错误详情"
-      });
+        placeholder: '请填写错误详情'
+      })
     },
     handleRewardAction() {
       if (this.videoPackage.mustReward) {
-        window.location.reload();
+        window.location.reload()
       }
     }
   }
-};
+}
 </script>

@@ -129,15 +129,15 @@
 
 <script>
 export default {
-  name: "SearchInput",
+  name: 'SearchInput',
   props: {
     value: {
       type: String,
-      default: ""
+      default: ''
     },
     type: {
       type: String,
-      default: "all"
+      default: 'all'
     },
     showSuggestion: {
       type: Boolean,
@@ -148,15 +148,15 @@ export default {
     return {
       word: this.value,
       selectedType: this.type,
-      cacheKey: "search-history",
+      cacheKey: 'search-history',
       typing: false,
       filteredSelect: [],
       selectedIndex: -1
-    };
+    }
   },
   computed: {
     bangumis() {
-      return this.$store.state.bangumi.all;
+      return this.$store.state.bangumi.all
     },
     displaySuggestion() {
       return (
@@ -164,93 +164,93 @@ export default {
         this.word.length &&
         this.typing &&
         this.filteredSelect.length
-      );
+      )
     }
   },
   mounted() {
-    this.$watch("value", val => {
-      this.word = val;
-      this.typing = true;
-      this.selectedIndex = -1;
-      this.handleEnter(val);
-    });
-    this.$watch("word", val => {
-      this.$emit("input", val);
-    });
-    this.$watch("$route", val => {
-      if (val.name === "search-index") {
-        this.word = val.query.q;
-        this.selectedType = val.query.type;
+    this.$watch('value', val => {
+      this.word = val
+      this.typing = true
+      this.selectedIndex = -1
+      this.handleEnter(val)
+    })
+    this.$watch('word', val => {
+      this.$emit('input', val)
+    })
+    this.$watch('$route', val => {
+      if (val.name === 'search-index') {
+        this.word = val.query.q
+        this.selectedType = val.query.type
         setTimeout(() => {
-          this.typing = false;
-        }, 0);
+          this.typing = false
+        }, 0)
       }
-    });
+    })
   },
   methods: {
     handleInputBlur() {
-      this.$emit("input-blur");
-      document.body.scrollTop = 0;
+      this.$emit('input-blur')
+      document.body.scrollTop = 0
     },
     handleInputFocus() {
-      this.$emit("input-focus");
-      document.body.scrollTop = 0;
+      this.$emit('input-focus')
+      document.body.scrollTop = 0
     },
     clear() {
-      this.word = "";
+      this.word = ''
     },
     submit() {
       const q =
         this.selectedIndex !== -1
           ? this.filteredSelect[this.selectedIndex].name
-          : this.word;
+          : this.word
       if (!q) {
-        return;
+        return
       }
-      this.setHistory(q);
+      this.setHistory(q)
       this.$router.push({
-        name: "search-index",
+        name: 'search-index',
         query: { q, type: this.selectedType }
-      });
+      })
     },
     setHistory(q) {
       setTimeout(() => {
-        const list = this.getHistory();
-        const index = list.indexOf(q);
+        const list = this.getHistory()
+        const index = list.indexOf(q)
         if (index !== -1) {
-          list.splice(index, 1);
+          list.splice(index, 1)
         }
-        list.unshift(q);
+        list.unshift(q)
         if (list.length > 10) {
-          list.pop();
+          list.pop()
         }
         try {
-          localStorage.setItem(this.cacheKey, JSON.stringify(list));
+          localStorage.setItem(this.cacheKey, JSON.stringify(list))
         } catch (e) {}
-      }, 0);
+      }, 0)
     },
     getHistory() {
       try {
-        return JSON.parse(localStorage.getItem(this.cacheKey)) || [];
+        return JSON.parse(localStorage.getItem(this.cacheKey)) || []
       } catch (e) {
-        return [];
+        return []
       }
     },
     clickToSearch(index) {
-      this.selectedIndex = index;
-      this.submit();
+      this.selectedIndex = index
+      this.submit()
     },
     handleEnter(query) {
       if (!query) {
-        this.filteredSelect = [];
-        return;
+        this.filteredSelect = []
+        return
       }
       this.filteredSelect = this.bangumis.filter(option => {
         return (
           option.alias.indexOf(query) > -1 || option.name.indexOf(query) > -1
-        );
-      });
+        )
+      })
     }
   }
-};
+}
 </script>

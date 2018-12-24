@@ -121,7 +121,7 @@
  * 当抽屉关闭的时候，还原 body 的属性
  */
 export default {
-  name: "VDrawer",
+  name: 'VDrawer',
   props: {
     value: {
       type: Boolean,
@@ -129,20 +129,20 @@ export default {
     },
     id: {
       type: String,
-      default: ""
+      default: ''
     },
     from: {
       type: String,
-      default: "right",
-      validator: val => ~["left", "right", "top", "bottom"].indexOf(val)
+      default: 'right',
+      validator: val => ~['left', 'right', 'top', 'bottom'].indexOf(val)
     },
     size: {
       type: String,
-      default: "70%"
+      default: '70%'
     },
     headerText: {
       type: String,
-      default: ""
+      default: ''
     },
     backdrop: {
       type: Boolean,
@@ -150,7 +150,7 @@ export default {
     },
     submitText: {
       type: String,
-      default: ""
+      default: ''
     }
   },
   data() {
@@ -158,108 +158,108 @@ export default {
       show: this.value,
       pos: 0,
       backdropId: 0
-    };
+    }
   },
   computed: {
     position() {
-      const style = {};
-      if (this.from === "left" || this.from === "right") {
-        style.top = 0;
-        style.height = "100%";
-        style.width = this.size;
+      const style = {}
+      if (this.from === 'left' || this.from === 'right') {
+        style.top = 0
+        style.height = '100%'
+        style.width = this.size
       } else {
-        style.left = 0;
-        style.width = "100%";
-        style.height = this.size;
+        style.left = 0
+        style.width = '100%'
+        style.height = this.size
       }
-      style[this.from] = 0;
-      return style;
+      style[this.from] = 0
+      return style
     }
   },
   watch: {
     value(val) {
-      val ? this.open() : this.close();
-      this.show = val;
+      val ? this.open() : this.close()
+      this.show = val
     },
     show(val) {
-      this.$emit("input", val);
+      this.$emit('input', val)
     },
     $route() {
-      this.close();
+      this.close()
     }
   },
   mounted() {
     if (this.id) {
-      this.$channel.$on(`drawer-open-${this.id}`, this.open);
-      this.$channel.$on(`drawer-close-${this.id}`, this.close);
+      this.$channel.$on(`drawer-open-${this.id}`, this.open)
+      this.$channel.$on(`drawer-close-${this.id}`, this.close)
     }
   },
   beforeDestroy() {
     if (this.id) {
-      this.$channel.$off(`drawer-open-${this.id}`);
-      this.$channel.$off(`drawer-close-${this.id}`);
+      this.$channel.$off(`drawer-open-${this.id}`)
+      this.$channel.$off(`drawer-close-${this.id}`)
     }
   },
   methods: {
     open() {
       if (this.show) {
-        return;
+        return
       }
 
-      this.pos = window.scrollY;
+      this.pos = window.scrollY
 
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.top = 0;
-      document.body.style.bottom = 0;
-      document.body.style.right = 0;
-      document.body.style.left = 0;
-      document.body.style.height = `${window.innerHeight}px`;
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.top = 0
+      document.body.style.bottom = 0
+      document.body.style.right = 0
+      document.body.style.left = 0
+      document.body.style.height = `${window.innerHeight}px`
 
-      this.show = true;
-      window.__closeImageLazy__ = true;
+      this.show = true
+      window.__closeImageLazy__ = true
 
       if (this.id) {
-        this.$channel.$emit(`drawer-open-event-${this.id}`);
+        this.$channel.$emit(`drawer-open-event-${this.id}`)
       }
       if (this.backdrop) {
         this.backdropId = this.$backdrop.show({
           ele: this.$el,
           click: this.close
-        });
+        })
       }
     },
     close() {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.bottom = "";
-      document.body.style.right = "";
-      document.body.style.left = "";
-      document.body.style.height = "";
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.bottom = ''
+      document.body.style.right = ''
+      document.body.style.left = ''
+      document.body.style.height = ''
 
       if (!this.show) {
-        return;
+        return
       }
-      window.scrollTo(0, this.pos);
+      window.scrollTo(0, this.pos)
 
-      this.show = false;
-      window.__closeImageLazy__ = false;
+      this.show = false
+      window.__closeImageLazy__ = false
 
       if (this.backdrop) {
-        this.$backdrop.hide(this.backdropId);
+        this.$backdrop.hide(this.backdropId)
       }
       if (this.id) {
-        this.$channel.$emit(`drawer-close-event-${this.id}`);
+        this.$channel.$emit(`drawer-close-event-${this.id}`)
       }
-      this.$emit("cancel");
+      this.$emit('cancel')
     },
     submit() {
-      this.close();
+      this.close()
       this.$nextTick(() => {
-        this.$emit("submit");
-      });
+        this.$emit('submit')
+      })
     }
   }
-};
+}
 </script>

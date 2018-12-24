@@ -5,28 +5,28 @@
 </template>
 
 <script>
-import CartoonRoleFlowList from "~/components/flow/list/CartoonRoleFlowList";
+import CartoonRoleFlowList from '~/components/flow/list/CartoonRoleFlowList'
 
 export default {
-  name: "TrendingRole",
+  name: 'TrendingRole',
   async asyncData({ store, ctx }) {
-    await store.dispatch("world/initData", {
-      type: "role",
-      sort: "hot",
+    await store.dispatch('world/initData', {
+      type: 'role',
+      sort: 'hot',
       ctx
-    });
+    })
   },
   head: {
     meta: [
       {
-        hid: "description",
-        name: "description",
-        content: "动漫角色排行榜"
+        hid: 'description',
+        name: 'description',
+        content: '动漫角色排行榜'
       }
     ]
   },
   components: {
     CartoonRoleFlowList
   }
-};
+}
 </script>

@@ -8,7 +8,7 @@
       width: 50%;
       height: 40px;
       font-size: 13px;
-      background-color: $color-gray-light;
+      background-color: #fff;
       color: $color-text-normal;
     }
 
@@ -119,11 +119,10 @@
         @click="switchTab(1)"
       >回帖</button>
     </div>
-    <post-flow-list
-      v-if="active === 0"
-      :user-zone="zone"
-    />
-    <div v-else-if="active === 1">
+    <template v-if="active === 0">
+      <post-flow-list :user-zone="zone"/>
+    </template>
+    <template v-else-if="active === 1">
       <ul id="posts-of-reply">
         <li
           v-for="item in list"
@@ -209,23 +208,23 @@
         :auto="true"
         @fetch="getUserPosts(false)"
       />
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
-import PostFlowList from "~/components/flow/list/PostFlowList";
-import Api from "~/api/userApi";
+import PostFlowList from '~/components/flow/list/PostFlowList'
+import Api from '~/api/userApi'
 
 export default {
-  name: "UserPost",
+  name: 'UserPost',
   async asyncData({ store, route, ctx }) {
-    await store.dispatch("flow/initData", {
-      type: "post",
-      sort: "news",
+    await store.dispatch('flow/initData', {
+      type: 'post',
+      sort: 'news',
       userZone: route.params.zone,
       ctx
-    });
+    })
   },
   components: {
     PostFlowList
@@ -238,48 +237,48 @@ export default {
       fetched: false,
       noMore: false,
       page: 0
-    };
+    }
   },
   computed: {
     zone() {
-      return this.$route.params.zone;
+      return this.$route.params.zone
     }
   },
   methods: {
     switchTab(value) {
-      this.active = value;
+      this.active = value
       if (value === 1) {
-        this.getUserPosts(true);
+        this.getUserPosts(true)
       }
     },
     async getUserPosts(init = false) {
       if (init && this.fetched) {
-        return;
+        return
       }
       if (this.loading || this.noMore) {
-        return;
+        return
       }
-      this.loading = true;
-      const api = new Api(this);
+      this.loading = true
+      const api = new Api(this)
       try {
         const data = await api.replyPosts({
           take: 10,
           page: this.page,
           zone: this.zone
-        });
-        this.fetched = true;
-        this.list = this.list.concat(data.list);
-        this.noMore = data.noMore;
-        this.page++;
+        })
+        this.fetched = true
+        this.list = this.list.concat(data.list)
+        this.noMore = data.noMore
+        this.page++
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     imageFilter(images) {
-      return images.slice(0, 3);
+      return images.slice(0, 3)
     }
   }
-};
+}
 </script>

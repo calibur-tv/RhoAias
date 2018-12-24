@@ -21,7 +21,7 @@
 
   .cartoon {
     width: 145px;
-    height: 316px;
+    height: 250px;
     float: left;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     margin: 3px 3px 10px;
@@ -32,7 +32,7 @@
       display: block;
 
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         bottom: 0;
         left: 0;
@@ -160,6 +160,7 @@
             </div>
             <div class="intro">
               <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
+              <!--
               <div class="social">
                 <span
                   v-if="item.like_count"
@@ -180,8 +181,10 @@
                   {{ item.comment_count }}
                 </span>
               </div>
+              -->
             </div>
           </a>
+          <!--
           <div class="about">
             <a
               :href="$alias.user(item.user.zone)"
@@ -200,6 +203,7 @@
               v-text="item.user.nickname"
             />
           </div>
+          -->
         </li>
       </ul>
     </template>
@@ -216,83 +220,83 @@
 </template>
 
 <script>
-import VPopover from "~/components/common/Popover";
+import VPopover from '~/components/common/Popover'
 
 export default {
-  name: "VBangumiCartoonFlow",
+  name: 'VBangumiCartoonFlow',
   components: {
     VPopover
   },
   data() {
     return {
       loading: false
-    };
+    }
   },
   computed: {
     cartoons() {
-      return this.$store.state.bangumi.cartoon;
+      return this.$store.state.bangumi.cartoon
     },
     info() {
-      return this.$store.state.bangumi.info;
+      return this.$store.state.bangumi.info
     },
     sort() {
-      return this.cartoons.sort;
+      return this.cartoons.sort
     },
     sortActions() {
       return [
         {
-          name: "由大到序排序",
+          name: '由大到序排序',
           method: () => {
-            this.$store.dispatch("bangumi/changeCartoonSort", {
-              sort: "desc",
+            this.$store.dispatch('bangumi/changeCartoonSort', {
+              sort: 'desc',
               ctx: this,
               bangumiId: this.info.id
-            });
+            })
           }
         },
         {
-          name: "由小到大排序",
+          name: '由小到大排序',
           method: () => {
-            this.$store.dispatch("bangumi/changeCartoonSort", {
-              sort: "asc",
+            this.$store.dispatch('bangumi/changeCartoonSort', {
+              sort: 'asc',
               ctx: this,
               bangumiId: this.info.id
-            });
+            })
           }
         }
-      ];
+      ]
     }
   },
   created() {
     if (!this.cartoons.list.length) {
-      this.getCartoons();
+      this.getCartoons()
     }
   },
   methods: {
     async getCartoons() {
       if (this.loading) {
-        return;
+        return
       }
-      this.loading = true;
+      this.loading = true
 
       try {
-        await this.$store.dispatch("bangumi/getCartoons", {
+        await this.$store.dispatch('bangumi/getCartoons', {
           ctx: this,
           bangumiId: this.info.id
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
     openFeedbackForCartoon() {
-      this.$channel.$emit("open-feedback", {
+      this.$channel.$emit('open-feedback', {
         type: 7,
         desc: `我想看《${this.info.name}》的漫画第 {?} 话`,
-        placeholder: "请填写你要看的集数"
-      });
+        placeholder: '请填写你要看的集数'
+      })
     }
   }
-};
+}
 </script>

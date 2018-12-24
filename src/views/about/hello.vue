@@ -121,11 +121,11 @@
 
 <script>
 export default {
-  name: "PageHello",
+  name: 'PageHello',
   computed: {
     nickname() {
-      return this.$store.state.user ? this.$store.state.user.nickname : "";
+      return this.$store.state.user ? this.$store.state.user.nickname : ''
     }
   }
-};
+}
 </script>

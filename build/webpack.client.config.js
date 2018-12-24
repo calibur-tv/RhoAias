@@ -12,30 +12,26 @@ const config = merge(base, {
   devtool: false,
   entry: {
     app: resolve('../src/entry/entry-client.js'),
-    vendor: [
-      'vue',
-      'vuex',
-      'vue-router',
-      'vue-meta',
-      'axios'
-    ]
+    vendor: ['vue', 'vuex', 'vue-router', 'vue-meta', 'axios']
   },
   resolve: {
     alias: {
       'create-api': resolve('../src/api/_create-api-client.js')
     }
   },
-  plugins: (function () {
+  plugins: (function() {
     let pluginArr = [
       // strip dev-only code in Vue source
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+        'process.env.NODE_ENV': JSON.stringify(
+          process.env.NODE_ENV || 'development'
+        ),
         'process.env.VUE_ENV': '"client"'
       }),
       // extract vendor chunks for better caching
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
-        minChunks: function (module) {
+        minChunks: function(module) {
           // a module is extracted into the vendor chunk if...
           return (
             // it's inside node_modules
@@ -56,9 +52,12 @@ const config = merge(base, {
     if (!isDev) {
       pluginArr = pluginArr.concat([
         new webpack.optimize.AggressiveSplittingPlugin(),
-        new MinifyPlugin({}, {
-          sourceMap: false
-        })
+        new MinifyPlugin(
+          {},
+          {
+            sourceMap: false
+          }
+        )
       ])
     }
 
@@ -77,7 +76,7 @@ const config = merge(base, {
     }
 
     return pluginArr
-  }())
+  })()
 })
 
 module.exports = config

@@ -2,6 +2,7 @@
 .sign-in-form {
   input {
     border: 0;
+    padding: 0;
     border-bottom: 1px solid $color-gray-normal;
   }
 
@@ -10,8 +11,11 @@
   }
 
   .others {
-    margin-top: 15px;
     @extend %clearfix;
+
+    a {
+      font-size: 12px;
+    }
 
     .fl {
       float: left;
@@ -28,6 +32,34 @@
     top: 11px;
     font-size: 18px;
     color: $color-gray-deep;
+  }
+
+  .providers {
+    margin-bottom: 15px;
+    margin-top: -7px;
+    text-align: right;
+
+    span {
+      font-size: 12px;
+      line-height: 23px;
+      float: left;
+    }
+
+    i {
+      font-size: 20px;
+      vertical-align: middle;
+      margin-left: 10px;
+      color: $color-text-normal;
+      cursor: pointer;
+    }
+
+    .icon-qq:hover {
+      color: #3194d0;
+    }
+
+    .icon-wechat-copy:hover {
+      color: #42c02e;
+    }
   }
 }
 </style>
@@ -64,6 +96,18 @@
           @click="watchPwd = !watchPwd"
         ><i class="iconfont icon-yuedu"/></button>
       </el-form-item>
+      <div class="providers">
+        <span>社交账号登录</span>
+        <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
+          <i class="iconfont icon-qq"/>
+        </a>
+        <a
+          v-if="ua.wechat"
+          href="https://api.calibur.tv/callback/oauth2/weixin?from=sign"
+        >
+          <i class="iconfont icon-wechat"/>
+        </a>
+      </div>
       <el-form-item>
         <el-button
           :loading="loading"
@@ -87,64 +131,69 @@
 </template>
 
 <script>
-import UserApi from "~/api/userApi";
+import UserApi from '~/api/userApi'
 
 export default {
-  name: "SignInForm",
+  name: 'SignInForm',
   data() {
     const validateAccess = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("请填写手机号"));
+        return callback(new Error('请填写手机号'))
       }
       if (value.length !== 11) {
-        return callback(new Error("请填写11位手机号"));
+        return callback(new Error('请填写11位手机号'))
       }
-      callback();
-    };
+      callback()
+    }
     const validateSecret = (rule, value, callback) => {
-      if (value === "") {
-        return callback(new Error("请填写登录密码"));
+      if (value === '') {
+        return callback(new Error('请填写登录密码'))
       }
       if (value.length < 6) {
-        return callback(new Error("密码不能小于6位"));
+        return callback(new Error('密码不能小于6位'))
       }
       if (value.length > 16) {
-        return callback(new Error("密码不能大于16位"));
+        return callback(new Error('密码不能大于16位'))
       }
-      callback();
-    };
+      callback()
+    }
     return {
       form: {
-        access: "",
-        secret: "",
+        access: '',
+        secret: '',
         remember: true
       },
       rule: {
-        access: [{ validator: validateAccess, trigger: "blur" }],
-        secret: [{ validator: validateSecret, trigger: "blur" }]
+        access: [{ validator: validateAccess, trigger: 'blur' }],
+        secret: [{ validator: validateSecret, trigger: 'blur' }]
       },
       loading: false,
       watchPwd: false
-    };
+    }
+  },
+  computed: {
+    ua() {
+      return this.$store.state.ua
+    }
   },
   methods: {
     submitForm() {
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.login();
+          this.login()
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
     login() {
       if (this.loading) {
-        return;
+        return
       }
-      this.loading = true;
+      this.loading = true
       this.$captcha({
         success: ({ data }) => {
-          const api = new UserApi();
+          const api = new UserApi()
           api
             .login({
               access: this.form.access,
@@ -153,36 +202,36 @@ export default {
               geetest: data
             })
             .then(token => {
-              this.$cookie.set("JWT-TOKEN", token, {
+              this.$cookie.set('JWT-TOKEN', token, {
                 expires: 365
-              });
-              window.location.reload();
+              })
+              window.location.reload()
             })
             .catch(err => {
-              this.$toast.error(err);
-              this.loading = false;
-            });
+              this.$toast.error(err)
+              this.loading = false
+            })
         },
         close: () => {
-          this.loading = false;
+          this.loading = false
         },
         error: err => {
-          this.loading = false;
-          this.$toast.error(err);
+          this.loading = false
+          this.$toast.error(err)
         }
-      });
+      })
     },
     showReset() {
-      this.$emit("to-reset");
-      this.$refs.form.resetFields();
+      this.$emit('to-reset')
+      this.$refs.form.resetFields()
     },
     showRegister() {
-      this.$emit("to-register");
-      this.$refs.form.resetFields();
+      this.$emit('to-register')
+      this.$refs.form.resetFields()
     },
     showOAuth() {
-      this.$toast.info("暂未开放第三方登录");
+      this.$toast.info('暂未开放第三方登录')
     }
   }
-};
+}
 </script>

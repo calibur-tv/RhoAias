@@ -259,35 +259,35 @@
 </template>
 
 <script>
-import CommentMain from "~/components/comments/CommentMain";
-import BangumiPanel from "~/components/panel/BangumiPanel";
-import VPopover from "~/components/common/Popover";
+import CommentMain from '~/components/comments/CommentMain'
+import BangumiPanel from '~/components/panel/BangumiPanel'
+import VPopover from '~/components/common/Popover'
 
 export default {
-  name: "RoleShow",
+  name: 'RoleShow',
   async asyncData({ store, route, ctx }) {
-    const id = route.params.id;
+    const id = route.params.id
     await Promise.all([
-      store.dispatch("cartoonRole/getRoleInfo", { ctx, id }),
-      store.dispatch("comment/getMainComments", {
+      store.dispatch('cartoonRole/getRoleInfo', { ctx, id }),
+      store.dispatch('comment/getMainComments', {
         ctx,
         id,
-        type: "role",
-        seeReplyId: route.query["comment-id"]
+        type: 'role',
+        seeReplyId: route.query['comment-id']
       })
-    ]);
+    ])
   },
   head() {
     return {
       title: `《${this.bangumi.name}》—— ${this.role.name}`,
       meta: [
         {
-          hid: "description",
-          name: "description",
-          content: "calibur.tv，一个兴趣使然的二次元综合网站"
+          hid: 'description',
+          name: 'description',
+          content: 'calibur.tv，一个兴趣使然的二次元综合网站'
         }
       ]
-    };
+    }
   },
   components: {
     CommentMain,
@@ -296,128 +296,128 @@ export default {
   },
   data() {
     return {
-      sort: "comment",
+      sort: 'comment',
       loadingRoleFans: false,
       loadingRoleImage: false,
       roleImageLoaded: false,
-      fetchFansSort: "new",
+      fetchFansSort: 'new',
       fansSortActions: [
         {
-          name: "最多应援",
+          name: '最多应援',
           method: () => {
-            this.fetchFansSort = "hot";
-            this.fetchRoleFans(true);
+            this.fetchFansSort = 'hot'
+            this.fetchRoleFans(true)
           }
         },
         {
-          name: "最新应援",
+          name: '最新应援',
           method: () => {
-            this.fetchFansSort = "new";
-            this.fetchRoleFans(true);
+            this.fetchFansSort = 'new'
+            this.fetchRoleFans(true)
           }
         }
       ]
-    };
+    }
   },
   computed: {
     id() {
-      return +this.$route.params.id;
+      return +this.$route.params.id
     },
     info() {
-      return this.$store.state.cartoonRole.info;
+      return this.$store.state.cartoonRole.info
     },
     role() {
-      return this.info.data;
+      return this.info.data
     },
     bangumi() {
-      return this.info.bangumi;
+      return this.info.bangumi
     },
     images() {
-      return this.info.images;
+      return this.info.images
     },
     fans() {
-      return this.$store.state.cartoonRole.fans[this.fetchFansSort];
+      return this.$store.state.cartoonRole.fans[this.fetchFansSort]
     },
     computeRoleAlias() {
-      return this.role.alias.split(",");
+      return this.role.alias.split(',')
     }
   },
   methods: {
     switchTab(tab) {
-      this.sort = tab;
-      if (tab === "image") {
-        this.getRoleImages(true);
-      } else if (tab === "fans") {
-        this.fetchRoleFans(true);
+      this.sort = tab
+      if (tab === 'image') {
+        this.getRoleImages(true)
+      } else if (tab === 'fans') {
+        this.fetchRoleFans(true)
       }
     },
     handleBangumiFollow(result) {
-      this.$store.commit("cartoonRole/FOLLOW_ROLE_BANGUMI", { result });
+      this.$store.commit('cartoonRole/FOLLOW_ROLE_BANGUMI', { result })
     },
     async handleStarRole() {
       if (!this.$store.state.login) {
-        this.$channel.$emit("sign-in");
-        return;
+        this.$channel.$emit('sign-in')
+        return
       }
       if (!this.$store.state.user.coin) {
-        this.$toast.error("团子不足");
-        return;
+        this.$toast.error('团子不足')
+        return
       }
       try {
-        await this.$store.dispatch("cartoonRole/star", {
+        await this.$store.dispatch('cartoonRole/star', {
           bangumiId: this.bangumi.id,
           roleId: this.id,
           ctx: this,
           hasStar: this.role.hasStar
-        });
-        this.$store.commit("USE_COIN");
-        this.$toast.info(`+${this.role.hasStar}s`);
+        })
+        this.$store.commit('USE_COIN')
+        this.$toast.info(`+${this.role.hasStar}s`)
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       }
     },
     async fetchRoleFans(init = false) {
       if (init && this.fans.length) {
-        return;
+        return
       }
       if (this.loadingRoleFans) {
-        return;
+        return
       }
-      this.loadingRoleFans = true;
+      this.loadingRoleFans = true
       try {
-        await this.$store.dispatch("cartoonRole/getFansList", {
+        await this.$store.dispatch('cartoonRole/getFansList', {
           ctx: this,
           bangumiId: this.bangumi.id,
           roleId: this.id,
           sort: this.fetchFansSort
-        });
+        })
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingRoleFans = false;
+        this.loadingRoleFans = false
       }
     },
     async getRoleImages(init = false) {
       if (init && this.roleImageLoaded) {
-        return;
+        return
       }
       if (this.loadingRoleImage) {
-        return;
+        return
       }
-      this.loadingRoleImage = true;
+      this.loadingRoleImage = true
       try {
-        await this.$store.dispatch("image/getRoleImages", {
+        await this.$store.dispatch('image/getRoleImages', {
           ctx: this,
           id: this.id,
           force: init
-        });
-        this.roleImageLoaded = true;
+        })
+        this.roleImageLoaded = true
       } catch (e) {
-        this.$toast.error(e);
+        this.$toast.error(e)
       } finally {
-        this.loadingRoleImage = false;
+        this.loadingRoleImage = false
       }
     }
   }
-};
+}
 </script>

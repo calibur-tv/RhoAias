@@ -4,21 +4,45 @@
   padding: 20px 0;
 
   .capture-wrap {
-    box-shadow: 0 4px 10px #ddd;
+    position: relative;
     width: 300px;
-    height: 518px;
+    height: 560px;
     margin: 0 auto 20px auto;
     border-radius: 5px;
     overflow: hidden;
+
+    .top-bg {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      top: 0;
+      background-image: url(~img/invite/top.png);
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .bottom-bg {
+      position: absolute;
+      bottom: -1px;
+      right: 0;
+      left: 0;
+      top: 0;
+      background-image: url(~img/invite/bottom.png);
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
 
     .capture-area {
       width: 200%;
       height: 200%;
       transform: scale(0.5);
       transform-origin: 0 0;
-      padding-top: 30px;
+      padding-top: 50px;
       position: relative;
-      background-color: #fd8ab4;
+      background-color: #c73230;
 
       #background {
         position: absolute;
@@ -29,92 +53,209 @@
       }
 
       .main {
+        position: relative;
         background-color: white;
         margin: 0 30px 30px;
         border-radius: 20px;
-        padding: 100px 0 50px;
-        background-image: url(~img/campaign/invite-bg.png);
-        background-size: contain;
-        background-repeat: no-repeat;
+        padding-top: 45px;
+        padding-bottom: 45px;
 
-        .avatar {
-          margin: 0 auto;
-          border: 10px solid white;
-          width: 200px;
-          height: 200px;
-          @extend %avatar;
+        .border-outline {
+          position: relative;
+          height: 100%;
+          margin-left: 44px;
+          margin-right: 44px;
+          border: 2px solid #c7bfb0;
+
+          &:before {
+            position: absolute;
+            content: '';
+            left: -6px;
+            top: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 2px solid #c7bfb0;
+          }
+        }
+
+        .avatar-wrap {
+          position: relative;
+          height: 262px;
+          padding-top: 100px;
+
+          .avatar {
+            margin: 0 auto;
+            border: 6px solid #fb5956;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+
+            .avatar-hat {
+              position: absolute;
+              right: -5px;
+              top: -45px;
+              width: 84px;
+              height: 74px;
+              background-image: url(~img/invite/hat.png);
+              background-repeat: no-repeat;
+              background-size: contain;
+              background-position: center;
+            }
+          }
+
+          .avatar-bg {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 406px;
+            height: 136px;
+            margin-top: 45px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            transform: translate(-50%, -50%);
+            background-image: url(~img/invite/calibur.png);
+            z-index: 0;
+          }
         }
 
         .nickname {
-          font-size: 42px;
+          font-size: 38px;
           font-weight: bold;
-          margin-top: 10px;
+          margin-top: 12px;
           margin-left: 30px;
           margin-right: 30px;
           text-align: center;
           color: #333;
 
           strong {
-            color: $color-pink-deep;
+            color: #49689b;
+            margin-left: 5px;
           }
         }
 
         .info {
           font-size: 28px;
-          margin-top: 20px;
+          margin-top: 10px;
           text-align: center;
 
           strong {
-            color: $color-pink-deep;
+            color: #ff6881;
+            margin-left: 5px;
+            margin-right: 5px;
           }
         }
 
         .tags {
-          margin: 40px 20px;
+          margin: 38px 50px;
           text-align: center;
-          height: 106px;
+          height: 116px;
           overflow: hidden;
 
-          .mint-badge {
-            border-radius: 20px;
-            font-size: 24px;
-            padding: 8px 20px;
-            margin: 6px;
-            background-color: #fd8ab4;
+          .badge {
+            display: inline-block;
+            position: relative;
+            height: 50px;
+            line-height: 50px;
+            background-color: #ff6881;
+            padding: 0 20px;
+            margin-right: 20px;
+            border-radius: 0 8px 0 8px;
+            font-size: 0;
+            margin-bottom: 16px;
+
+            &:after {
+              content: '';
+              display: block;
+              position: absolute;
+              bottom: 0;
+              right: -8px;
+              width: 0;
+              height: 0;
+              border: 10px solid;
+              border-color: transparent;
+              border-bottom-color: #ff6881;
+            }
+
+            img {
+              width: 22px;
+              height: 22px;
+              margin-right: 8px;
+              margin-left: -8px;
+              vertical-align: middle;
+            }
+
+            span {
+              display: inline-block;
+              color: #fff;
+              font-size: 24px;
+              vertical-align: middle;
+            }
           }
         }
 
-        .logo {
-          margin: 0 auto;
+        .line {
+          margin-left: 60px;
+          margin-right: 60px;
+          height: 1px;
+          background-color: #f4f3f0;
+          margin-bottom: 50px;
+        }
+
+        .intro {
+          text-align: center;
+          color: #333333;
+          font-size: 24px;
+          line-height: 34px;
+
+          span {
+            color: #ff6881;
+            font-weight: bold;
+            margin-left: 2px;
+          }
+        }
+
+        .qr {
           width: 180px;
-          height: 100px;
-          background-image: url(~img/campaign/calibur-logo.png);
-          background-size: contain;
+          height: 180px;
+          margin: 17px auto 33px;
+        }
+
+        .slogan {
+          width: 240px;
+          height: 50px;
+          background-image: url(~img/invite/slogan.png);
+          background-position: center;
           background-repeat: no-repeat;
+          background-size: contain;
+          margin: 0 auto 120px;
         }
       }
 
-      .qrcode-wrap {
-        position: relative;
-        margin: 0 30px 30px;
-        background-color: white;
-        border-radius: 20px;
+      .snow-left {
+        position: absolute;
+        left: -55px;
+        top: -105px;
+        width: 220px;
+        height: 104px;
+        background-image: url(~img/invite/uk-left.png);
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: contain;
+      }
 
-        .qrcode {
-          margin-left: 20px;
-          width: 200px;
-          height: 200px;
-          padding: 30px;
-        }
-
-        .tips {
-          position: absolute;
-          top: 60px;
-          left: 220px;
-          margin-top: -24px;
-          font-size: 26px;
-          line-height: 42px;
-        }
+      .snow-right {
+        position: absolute;
+        right: -55px;
+        top: -90px;
+        height: 94px;
+        width: 300px;
+        background-image: url(~img/invite/uk-right.png);
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: contain;
       }
     }
   }
@@ -145,37 +286,48 @@
         :src="result">
       <div 
         v-else 
-        class="capture-area">
+        class="capture-area"
+      >
         <div class="main">
-          <div class="avatar">
-            <img 
-              :src="$resize(user.avatar, { width: 200 })" 
-              crossorigin="anonymous">
-          </div>
-          <p class="nickname">我是<strong>{{ user.nickname }}</strong></p>
-          <p class="info">跟我一起在 <strong>calibur.tv</strong> 追番吧</p>
-          <no-ssr>
+          <div class="border-outline">
+            <div class="avatar-wrap">
+              <div class="avatar-bg"/>
+              <div class="avatar">
+                <div class="avatar-hat"/>
+                <img
+                  :src="$resize(user.avatar, { width: 200 })"
+                  crossorigin="anonymous"
+                >
+              </div>
+            </div>
+            <p class="nickname">我是<strong>{{ user.nickname }}</strong></p>
+            <p class="info">和我一起在 <strong>calibur.tv</strong> 追番吧</p>
             <div class="tags">
-              <mt-badge
+              <div
                 v-for="(tag, index) in tags"
                 :key="index"
-                size="large"
-                v-text="tag"
-              />
+                class="badge"
+              >
+                <img src="~img/invite/icon.png">
+                <span>{{ tag }}</span>
+              </div>
             </div>
-          </no-ssr>
-          <div class="logo"/>
+            <div class="line"/>
+            <div class="intro">快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有<span>团子奖励</span></div>
+            <div class="logo"/>
+            <div
+              ref="qr"
+              class="qr"
+            />
+            <div class="slogan"/>
+            <div class="snow-left"/>
+            <div class="snow-right"/>
+            <div class="border-out"/>
+            <div class="border-inner"/>
+          </div>
         </div>
-        <div class="qrcode-wrap">
-          <div 
-            ref="qr" 
-            class="qrcode"/>
-          <p class="tips">
-            <strong>扫描二维码注册</strong><br>
-            <strong>邀请者可获得现金奖励</strong><br>
-            求扫求转发！
-          </p>
-        </div>
+        <div class="top-bg"/>
+        <div class="bottom-bg"/>
       </div>
     </div>
     <div class="container">
@@ -183,11 +335,9 @@
       <ul class="intros">
         <li>非常感谢大家对 calibur.tv 的支持</li>
         <li>目前网站还在初始阶段，为了促进推广，因此推出了团子功能</li>
-        <li>大家除了每日签到、发表原创内容来赚取团子外</li>
-        <li>还可以通过邀请朋友注册来赚取团子</li>
+        <li>大家除了每日签到、发表原创内容来赚取团子外，还可以通过邀请朋友注册来赚取团子</li>
         <li>每有一个人通过扫你的二维码注册，你就会获得一个团子，并会收到短信通知</li>
         <li>1团子 = 1人民币，满 100 团子可提现</li>
-        <li>大家快去邀请自己的漫友来 calibur 一起玩耍吧！</li>
         <li v-if="created">长按图片可保存到手机相册，更方便分享</li>
       </ul>
     </div>
@@ -195,83 +345,74 @@
 </template>
 
 <script>
-import html2canvas from "html2canvas";
-import { Badge } from "mint-ui";
+import html2canvas from 'html2canvas'
 
 export default {
-  name: "PageUserInvite",
-  components: {
-    "mt-badge": Badge
-  },
+  name: 'PageUserInvite',
   data() {
     return {
       created: false,
-      result: "",
+      result: '',
       cartoons: [
-        "喰种",
-        "死亡笔记",
-        "刀剑神域",
-        "一拳超人",
-        "进击的巨人",
-        "海贼王",
-        "CLANNAD",
-        "叛逆的鲁鲁修",
-        "七宗罪",
-        "JOJO的奇妙冒险",
-        "火影忍者",
-        "从零开始的异界生活"
+        '喰种',
+        '死亡笔记',
+        '刀剑神域',
+        '一拳超人',
+        '巨人',
+        '战栗杀机',
+        'JOJO'
       ]
-    };
+    }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
     link() {
-      return this.user ? `http://calibur.tv/about/invite/${this.user.id}` : "";
+      return this.user ? `http://calibur.tv/about/invite/${this.user.id}` : ''
     },
     tags() {
-      return this.$utils.shuffle(this.cartoons).slice(0, 5);
+      return this.$utils.shuffle(this.cartoons).slice(0, 5)
     }
   },
   mounted() {
     if (!this.user) {
-      this.$toast.error("请先登录").then(() => {
-        window.location.href = "/";
-      });
-      return;
+      this.$toast.error('请先登录').then(() => {
+        window.location.href = '/'
+      })
+      return
     }
     this.$nextTick(() => {
-      this.generateQrCode();
-    });
+      this.generateQrCode()
+    })
   },
   methods: {
     generateQrCode() {
-      import("~/assets/js/qrcode").then(ESModule => {
-        const QRCode = ESModule.default;
+      import('~/assets/js/qrcode').then(ESModule => {
+        const QRCode = ESModule.default
         new QRCode(this.$refs.qr, {
           text: this.link,
-          width: 300,
-          height: 300
-        });
+          width: 360,
+          height: 360
+        })
         setTimeout(() => {
-          this.create();
-        }, 3000);
-      });
+          this.create()
+        }, 3000)
+      })
     },
     create() {
-      html2canvas(document.querySelector(".capture-area"), {
+      html2canvas(document.querySelector('.capture-area'), {
         allowTaint: false,
         useCORS: true,
         backgroundColor: null
       })
         .then(canvas => {
-          this.result = canvas.toDataURL("image/png");
-          this.created = true;
-          this.$toast.success("长按图片保存");
+          this.result = canvas.toDataURL('image/png')
+          this.created = true
+          this.$toast.success('长按图片保存')
         })
-        .catch(() => {});
+        .catch(() => {})
     }
   }
-};
+}
 </script>

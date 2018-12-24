@@ -20,7 +20,7 @@
     text-align: left;
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       top: 50%;
       border: 3px solid #f5f5f5;
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import SubCommentItem from "./SubCommentItem";
+import SubCommentItem from './SubCommentItem'
 
 export default {
-  name: "PostSubCommentList",
+  name: 'PostSubCommentList',
   components: {
     SubCommentItem
   },
@@ -76,33 +76,33 @@ export default {
   },
   computed: {
     comments() {
-      return this.parentComment.comments;
+      return this.parentComment.comments
     },
     authorId() {
-      return this.parentComment.from_user_id;
+      return this.parentComment.from_user_id
     },
     hasComment() {
-      return !!this.comments.list.length;
+      return !!this.comments.list.length
     },
     filterComments() {
-      const data = this.comments;
-      const comments = data.list;
-      const result = comments.slice(0, 5);
+      const data = this.comments
+      const comments = data.list
+      const result = comments.slice(0, 5)
       if (comments.every(_ => _.id <= data.maxId)) {
-        return result;
+        return result
       }
-      const ids = result.map(_ => _.id);
+      const ids = result.map(_ => _.id)
       return result.concat(
         comments.filter(_ => _.id > data.maxId && ids.indexOf(_.id) === -1)
-      );
+      )
     }
   },
   methods: {
     loadAllComment() {
-      this.$channel.$emit("load-all-sub-comment", {
+      this.$channel.$emit('load-all-sub-comment', {
         id: this.parentComment.id
-      });
+      })
     }
   }
-};
+}
 </script>

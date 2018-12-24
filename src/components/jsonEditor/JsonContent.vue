@@ -10,18 +10,20 @@
 </template>
 
 <script>
-import TxtParser from "./parser/TxtParser";
-import ImgParser from "./parser/ImgParser";
-import UseParser from "./parser/UseParser";
-import ListParser from "./parser/ListParser";
+import TxtParser from './parser/TxtParser'
+import ImgParser from './parser/ImgParser'
+import UseParser from './parser/UseParser'
+import ListParser from './parser/ListParser'
+import TitleParser from './parser/TitleParser'
 
 export default {
-  name: "JsonContent",
+  name: 'JsonContent',
   components: {
     TxtParser,
     ImgParser,
     UseParser,
-    ListParser
+    ListParser,
+    TitleParser
   },
   props: {
     content: {
@@ -29,5 +31,5 @@ export default {
       type: Array
     }
   }
-};
+}
 </script>
