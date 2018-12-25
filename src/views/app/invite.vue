@@ -116,6 +116,10 @@
           background-image: url(~img/invite/calibur.png);
           z-index: 0;
         }
+
+        img {
+          border-radius: 50%;
+        }
       }
 
       .nickname {
