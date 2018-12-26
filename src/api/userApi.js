@@ -48,6 +48,15 @@ export default class extends BaseApi {
     return this.http.get(`user/${zone}/followed/bangumi`)
   }
 
+  bindPhone({ id, phone, password, authCode }) {
+    return this.http.post('door/bind_phone', {
+      id,
+      phone,
+      password,
+      authCode
+    })
+  }
+
   replyPosts({ zone, take, page }) {
     return this.http.get(`user/${zone}/posts/reply`, {
       params: { take, page }

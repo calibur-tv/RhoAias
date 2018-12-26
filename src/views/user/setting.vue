@@ -137,14 +137,16 @@
       color: $color-gray-deep;
     }
 
-    .icon-qq.is-bind,
-    .icon-qq:hover {
+    .icon-qq.is-bind {
       color: #3194d0;
     }
 
-    .icon-wechat.is-bind,
-    .icon-wechat:hover {
+    .icon-wechat.is-bind {
       color: #42c02e;
+    }
+
+    .icon-phone.is-bind {
+      color: $color-pink-deep;
     }
   }
 
@@ -245,6 +247,15 @@
             class="iconfont icon-wechat"
           />
         </a>
+        <a
+          href="javascript:;"
+          @click="bindUserPhone"
+        >
+          <i
+            :class="{ 'is-bind': user.providers.bind_phone }"
+            class="iconfont icon-phone"
+          />
+        </a>
       </div>
     </div>
     <div class="hr"/>
@@ -254,6 +265,30 @@
         <user-setting-form/>
       </div>
     </div>
+    <v-drawer
+      v-model="bindPhone.showInfoForm"
+      from="bottom"
+      header-text="填写信息"
+      submit-text="确认"
+      @submit="submitBindPhone"
+    >
+      <div class="container">
+        <el-input
+          v-model.trim="bindPhone.authCode"
+          type="number"
+          placeholder="短信验证码"
+          auto-complete="off"
+        />
+        <br>
+        <br>
+        <el-input
+          v-model.trim="bindPhone.password"
+          type="text"
+          placeholder="密码（6-16个字符组成，区分大小写）"
+          auto-complete="off"
+        />
+      </div>
+    </v-drawer>
   </div>
 </template>
 
@@ -282,6 +317,14 @@ export default {
         loading: false,
         file: null,
         data: ''
+      },
+      bindPhone: {
+        phone: '',
+        password: '',
+        authCode: '',
+        timeout: 0,
+        showInfoForm: false,
+        loadingBindPhone: false
       }
     }
   },
@@ -428,6 +471,82 @@ export default {
       } finally {
         this.bannerSelector.loading = false
         this.cancelBannerSelect()
+      }
+    },
+    bindUserPhone() {
+      if (this.user.providers.bind_phone) {
+        return
+      }
+      if (this.bindPhone.timeout) {
+        this.bindPhone.showInfoForm = true
+        return
+      }
+      this.$prompt('请输入要绑定的手机号（11位）', '绑定手机', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^(0|86|17951)?(1)[0-9]{10}$/,
+        inputErrorMessage: '请输入正确的手机号码'
+      })
+        .then(({ value }) => {
+          this.bindPhone.phone = value
+          this.$captcha({
+            success: async ({ data }) => {
+              const api = new UserApi(this)
+              try {
+                await api.sendMessage({
+                  type: 'bind_phone',
+                  phone_number: value,
+                  geetest: data
+                })
+                this.bindPhone.showInfoForm = true
+              } catch (err) {
+                this.$toast.error(err)
+              } finally {
+                this.bindPhone.timeout = 60
+                const timer = setInterval(() => {
+                  if (!--this.bindPhone.timeout) {
+                    clearInterval(timer)
+                  }
+                }, 1000)
+              }
+            }
+          })
+        })
+        .catch(() => {})
+    },
+    async submitBindPhone() {
+      if (this.user.providers.bind_phone) {
+        return
+      }
+      if (this.bindPhone.authCode.length !== 6) {
+        return this.$toast.error('请输入正确的短信验证码')
+      }
+      if (this.bindPhone.password.length < 6) {
+        return this.$toast.error('密码不能小于6位')
+      }
+      if (this.bindPhone.password.length > 16) {
+        return this.$toast.error('密码不能大于16位')
+      }
+      if (this.bindPhone.loadingBindPhone) {
+        return
+      }
+      this.bindPhone.loadingBindPhone = true
+      try {
+        const api = new UserApi(this)
+        await api.bindPhone({
+          id: this.user.id,
+          phone: this.bindPhone.phone,
+          password: this.bindPhone.password,
+          authCode: this.bindPhone.authCode
+        })
+        this.$toast.success('手机号绑定成功').then(() => {
+          this.bindPhone.showInfoForm = false
+          window.location.reload()
+        })
+      } catch (e) {
+        this.$toast.error(e)
+      } finally {
+        this.bindPhone.loadingBindPhone = false
       }
     }
   }
