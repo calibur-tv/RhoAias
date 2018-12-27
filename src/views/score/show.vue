@@ -103,8 +103,16 @@
 
 <template>
   <div id="score-show">
+    <v-img
+      v-if="info.banner"
+      :src="info.banner.url"
+      :width="info.banner.width"
+      :height="info.banner.height"
+      :full="true"
+      :lazy="false"
+    />
     <div class="score-header container">
-      <h1 
+      <h1
         class="title" 
         v-text="info.title"/>
       <div class="author-info">
