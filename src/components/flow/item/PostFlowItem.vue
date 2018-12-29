@@ -106,16 +106,17 @@
 
     .images {
       position: relative;
-      margin-bottom: 7px;
+      margin-bottom: 9px;
 
       .poster-image {
+        border-radius: 4px;
+
         img {
           height: auto;
           position: absolute;
           left: 0;
           top: 50%;
           transform: translateY(-50%);
-          border-radius: 4px;
         }
       }
 

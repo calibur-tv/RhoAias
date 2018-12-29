@@ -97,15 +97,29 @@
 
   .body {
     .title {
-      margin-bottom: 5px;
+      margin-top: 12px;
+      margin-bottom: 10px;
 
       .oneline {
         color: #4c4c4c;
         font-weight: bold;
         font-size: 14px;
         line-height: 14px;
-        margin-top: 0;
-        margin-bottom: 0;
+      }
+    }
+
+    .poster-image {
+      position: relative;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      margin-top: 10px;
+
+      img {
+        height: auto;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
 
@@ -113,8 +127,8 @@
       color: #333;
       font-size: 14px;
       margin-top: 0;
-      margin-bottom: 7px;
-      @include twoline(18px);
+      margin-bottom: 12px;
+      @include twoline(20px);
     }
   }
 
@@ -277,6 +291,13 @@
             v-text="item.title"
           />
         </div>
+        <v-img
+          v-if="item.banner"
+          :src="item.banner.url"
+          width="100%"
+          height="130"
+          class="poster-image"
+        />
         <div
           class="content"
           v-text="item.intro"

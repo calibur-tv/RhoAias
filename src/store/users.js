@@ -7,6 +7,7 @@ export default {
   state: () => ({
     show: null,
     bangumis: [],
+    mine_bangumis: [],
     fetchedBangumiZone: '',
     notifications: {
       checked: 0,
@@ -85,6 +86,9 @@ export default {
       state.bangumis = data
       state.fetchedBangumiZone = zone
     },
+    SET_MINE_FOLLOW_BANGUMI(state, { data }) {
+      state.mine_bangumis = data
+    },
     SET_NOTIFICATIONS(state, data) {
       state.notifications.list = state.notifications.list.concat(data.list)
       state.notifications.total = data.total
@@ -133,13 +137,15 @@ export default {
       const data = await api.getUserInfo({ zone })
       commit('SET_USER_INFO', data)
     },
-    async getFollowBangumis({ state, commit }, { ctx, zone }) {
-      if (state.fetchedBangumiZone === zone) {
-        return state.bangumis
-      }
+    async getFollowBangumis({ commit }, { ctx, zone }) {
       const api = new Api(ctx)
       const data = await api.followBangumis(zone)
       data && commit('SET_USER_FOLLOW_BANGUMI', { data, zone })
+    },
+    async getMineBangumis({ commit }, { ctx, zone }) {
+      const api = new Api(ctx)
+      const data = await api.followBangumis(zone)
+      data && commit('SET_MINE_FOLLOW_BANGUMI', { data, zone })
     },
     async daySign({ rootState }, { ctx }) {
       if (rootState.user.signed) {
