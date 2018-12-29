@@ -1,8 +1,20 @@
+<style lang="scss">
+#app-report {
+  .submit-btn,
+  .mint-radio .mint-radio-input:checked + .mint-radio-core {
+    background-color: #ff6881 !important;
+    border-color: #ff6881 !important;
+  }
+}
+</style>
+
 <template>
-  <user-report-form
-    :id="id"
-    :model="model"
-  />
+  <div id="app-report">
+    <user-report-form
+      :id="id"
+      :model="model"
+    />
+  </div>
 </template>
 
 <script>

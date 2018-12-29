@@ -304,6 +304,11 @@ export function createRouter() {
             path: 'report',
             name: 'app-report',
             component: () => import('~/views/app/report')
+          },
+          {
+            path: 'feedback',
+            name: 'app-feedback',
+            component: () => import('~/views/app/feedback')
           }
         ]
       }

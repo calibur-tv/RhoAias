@@ -18,7 +18,7 @@
       top: 16px;
       width: 5px;
       height: 16px;
-      background-color: $color-pink-normal;
+      background-color: #ff6881;
       border-radius: 2px;
     }
   }
@@ -35,7 +35,7 @@
   }
 
   .strong {
-    color: $color-pink-normal;
+    color: #ff6881;
     font-weight: bold;
   }
 
