@@ -1,7 +1,7 @@
 {
   "publicPath": "https://static.calibur.tv/m/",
   "all": [
-    "132.9f18dde402b65577d48b.js",
+    "133.663356481483e7ba6b02.js",
     "element-icons.2fad952a.woff",
     "src/assets/img/invite/top.4ffc852c.png",
     "src/assets/img/invite/bottom.04e9216c.png",
@@ -11,18 +11,18 @@
     "src/assets/img/invite/uk-left.975603e1.png",
     "src/assets/img/invite/uk-right.f716d8b5.png",
     "src/assets/img/invite/icon.8fd1d683.png",
-    "0.8fadfff2dc26b496fa73.js",
+    "0.9d343ef71cf51732f1e6.js",
     "1.8dba247b9f3a7df08c6f.js",
-    "2.3cea4c037fcfb301fbc0.js",
+    "2.04c660e82335752e654e.js",
     "3.c7c78e54c92025b70c93.js",
-    "4.78a6c83a2c2c353d2a94.js",
+    "4.99168ade8176b5dd420e.js",
     "5.1f57182b524696156132.js",
     "6.04d7fd5880bd81c333e5.js",
     "7.14b947b6d9eaa7160581.js",
     "8.70fb9b1174862f96dba0.js",
-    "9.b2e7bd4c9fe358a38cf2.js",
+    "9.9683253ce00d2f2e1af8.js",
     "10.e89c3c7864f0e0a2d1dd.js",
-    "11.d961e9a3d49f808e7c43.js",
+    "11.f9275abf6f5b8f99e060.js",
     "12.926e54eef43e3b909103.js",
     "13.0bfac4e61413875b1eb5.js",
     "14.4a9023b32ef64eadaeec.js",
@@ -46,7 +46,7 @@
     "32.870c7a442488261b667f.js",
     "33.af650359efbbf27c3ed7.js",
     "34.30eae90f98e4d0c7ba52.js",
-    "35.082c4fba37b7603dd644.js",
+    "35.dd4529581e7fa7d8afde.js",
     "36.4b188625d6bfe24be3da.js",
     "37.791e2c382ba978651f30.js",
     "38.977653c1d5587c5d67ba.js",
@@ -58,7 +58,7 @@
     "44.5822b9fc62cba83f1eec.js",
     "45.e468e9b28e1fd45dcab2.js",
     "46.75bf32fc811686fe6971.js",
-    "47.ae13020aa7cd497a87a5.js",
+    "47.8c39720adff3aa42d748.js",
     "48.1de175698a12caf6ff8c.js",
     "49.28342e2bec9bab5c331d.js",
     "50.5d37ee541c0b34c9d4ee.js",
@@ -143,151 +143,153 @@
     "129.61e0e8099d669c68904e.js",
     "130.e16d869bb3452143985d.js",
     "131.b375358b25c3be968689.js",
+    "132.9f18dde402b65577d48b.js",
     "element-icons.6f0a7632.ttf",
-    "133.663356481483e7ba6b02.js",
     "134.c6a8aec6519101dae06a.js",
     "135.e3b9ca00ae2884ce65d7.js",
     "136.8e60e0597d80e26595b5.js",
     "137.353faf26d1cb78c915bf.js",
     "138.2fb728f728c8e113ade4.js",
     "139.f43b79080413ccaae479.js",
-    "manifest.7b64350924f8b5b390b7.js",
+    "manifest.fdef5d2c3c2271034253.js",
     "common.674897799d9fa4977e2873c2799cea07.css",
     "common.b93c86202149a7a11520e5044131b824.css",
     "common.f13a6f41e67fe8e57da5a32e90c0fc4e.css",
     "common.6d9b505996cafd17bb2899ef749bea2c.css",
     "common.fc2f83f9fa5cd43837c6c220272343a9.css",
-    "common.594480cc7bd3620e0bc652c41baf7db5.css",
+    "common.6abe065be704bafda94a872265d536de.css",
+    "common.3dd9b3a88aef9b7d4b78246ff7c78871.css",
     "fonts/iconfont.eot",
     "fonts/iconfont.ttf",
-    "fonts/iconfont.woff",
     "robots.txt",
+    "fonts/iconfont.woff",
+    "fonts/iconfont.svg",
     "search.xml",
     "favicon.ico",
-    "fonts/iconfont.svg",
-    "0.8fadfff2dc26b496fa73.js.gz",
-    "2.3cea4c037fcfb301fbc0.js.gz",
-    "1.8dba247b9f3a7df08c6f.js.gz",
+    "2.04c660e82335752e654e.js.gz",
+    "0.9d343ef71cf51732f1e6.js.gz",
     "3.c7c78e54c92025b70c93.js.gz",
     "5.1f57182b524696156132.js.gz",
-    "4.78a6c83a2c2c353d2a94.js.gz",
+    "1.8dba247b9f3a7df08c6f.js.gz",
+    "7.14b947b6d9eaa7160581.js.gz",
+    "4.99168ade8176b5dd420e.js.gz",
     "6.04d7fd5880bd81c333e5.js.gz",
     "8.70fb9b1174862f96dba0.js.gz",
-    "7.14b947b6d9eaa7160581.js.gz",
-    "11.d961e9a3d49f808e7c43.js.gz",
+    "11.f9275abf6f5b8f99e060.js.gz",
     "10.e89c3c7864f0e0a2d1dd.js.gz",
-    "9.b2e7bd4c9fe358a38cf2.js.gz",
-    "12.926e54eef43e3b909103.js.gz",
+    "9.9683253ce00d2f2e1af8.js.gz",
     "16.edd912557136b0723b81.js.gz",
-    "20.2ebb711b30639e55df3e.js.gz",
+    "12.926e54eef43e3b909103.js.gz",
     "13.0bfac4e61413875b1eb5.js.gz",
-    "15.68b8bf50ab1a6bfb2289.js.gz",
-    "19.7b1da1ccd5c81ff0dc9a.js.gz",
     "17.80816ca6aacb16893d9e.js.gz",
+    "15.68b8bf50ab1a6bfb2289.js.gz",
+    "20.2ebb711b30639e55df3e.js.gz",
     "23.ce2de72191dfe9190dd9.js.gz",
-    "21.df849900d86f02bb7405.js.gz",
+    "19.7b1da1ccd5c81ff0dc9a.js.gz",
     "24.baff5424653d9a2a89ca.js.gz",
     "22.5347b77d6d55baa71de7.js.gz",
+    "21.df849900d86f02bb7405.js.gz",
+    "28.30ab649d9d7f5273981f.js.gz",
     "25.80ea6bcceb3d5f988f84.js.gz",
     "30.5b98663fbefb4daa4213.js.gz",
     "26.2b6ed1d8f7833ce2a7b0.js.gz",
-    "28.30ab649d9d7f5273981f.js.gz",
-    "33.af650359efbbf27c3ed7.js.gz",
     "27.4eb82d6c4545370e5bdd.js.gz",
-    "31.c81ffc2972dea066fe68.js.gz",
+    "33.af650359efbbf27c3ed7.js.gz",
     "29.66334b320f8aab09c996.js.gz",
     "32.870c7a442488261b667f.js.gz",
-    "35.082c4fba37b7603dd644.js.gz",
-    "34.30eae90f98e4d0c7ba52.js.gz",
+    "31.c81ffc2972dea066fe68.js.gz",
     "38.977653c1d5587c5d67ba.js.gz",
+    "35.dd4529581e7fa7d8afde.js.gz",
+    "34.30eae90f98e4d0c7ba52.js.gz",
+    "40.5d05eb2d33b7b253dce0.js.gz",
     "41.64df2e8f1a047ce19ab9.js.gz",
     "37.791e2c382ba978651f30.js.gz",
-    "40.5d05eb2d33b7b253dce0.js.gz",
     "39.872aa85ab1af1f91cc3e.js.gz",
-    "42.2b13bf145b2d24972ca6.js.gz",
-    "43.f82f95f9ead0846fbdc5.js.gz",
-    "46.75bf32fc811686fe6971.js.gz",
     "45.e468e9b28e1fd45dcab2.js.gz",
+    "42.2b13bf145b2d24972ca6.js.gz",
     "44.5822b9fc62cba83f1eec.js.gz",
-    "47.ae13020aa7cd497a87a5.js.gz",
+    "46.75bf32fc811686fe6971.js.gz",
+    "43.f82f95f9ead0846fbdc5.js.gz",
     "48.1de175698a12caf6ff8c.js.gz",
-    "51.1e8166ad07760c1be3ba.js.gz",
-    "50.5d37ee541c0b34c9d4ee.js.gz",
-    "53.ef09eb32ad8619e9b1b6.js.gz",
-    "52.864357e338f4a38fe8ca.js.gz",
+    "47.8c39720adff3aa42d748.js.gz",
     "54.c7898fbc9d46d2d2657d.js.gz",
+    "51.1e8166ad07760c1be3ba.js.gz",
+    "52.864357e338f4a38fe8ca.js.gz",
+    "53.ef09eb32ad8619e9b1b6.js.gz",
     "55.aaa8a7cfa3023a4a9b93.js.gz",
+    "50.5d37ee541c0b34c9d4ee.js.gz",
     "56.062f1ac33ea261236d0f.js.gz",
     "60.85d38ceb4888c283c840.js.gz",
-    "59.99120f736c7cd15ddf33.js.gz",
     "61.1ea9ead374eeb4324029.js.gz",
     "62.d8dc79430b9cf0c6d7ce.js.gz",
+    "59.99120f736c7cd15ddf33.js.gz",
     "58.684f1ff579459bf7658b.js.gz",
-    "65.11e16f00045e21f6ab7a.js.gz",
-    "66.6454bbbd3e5322d1c13a.js.gz",
     "63.63a37813106e9f2d43f1.js.gz",
+    "66.6454bbbd3e5322d1c13a.js.gz",
+    "65.11e16f00045e21f6ab7a.js.gz",
+    "67.bf2329655a1c262d801d.js.gz",
     "70.9771908c3382a44a76b2.js.gz",
     "68.1f72f0f1b29bbf99ac44.js.gz",
     "74.c73d68a853f8962c77a1.js.gz",
-    "67.bf2329655a1c262d801d.js.gz",
-    "69.0a8344a0681be302a503.js.gz",
     "76.e07332d857b42972de18.js.gz",
+    "69.0a8344a0681be302a503.js.gz",
     "73.43fa3c3609f0937fba65.js.gz",
     "91.e4891453bfaa9503d082.js.gz",
     "75.d8e5bb478cfbf1de7f78.js.gz",
-    "94.d77089c56168eb2e3735.js.gz",
-    "95.cc91482aae9e869338c9.js.gz",
     "97.e1ff25b7e846091f168a.js.gz",
-    "98.86ea8488d5fdeab31512.js.gz",
-    "96.a2f1a50fb9227673fb7a.js.gz",
+    "94.d77089c56168eb2e3735.js.gz",
     "93.690d99678d64bfb157fd.js.gz",
+    "95.cc91482aae9e869338c9.js.gz",
+    "98.86ea8488d5fdeab31512.js.gz",
     "99.d0307d8afd30f4a0655f.js.gz",
+    "96.a2f1a50fb9227673fb7a.js.gz",
+    "101.91daeac344fffe7a39d7.js.gz",
     "100.e6b3de8c6af1030490cc.js.gz",
     "102.4b1d4130cdc35b67f067.js.gz",
-    "101.91daeac344fffe7a39d7.js.gz",
-    "103.eb2b0451e4c8c5be4e0b.js.gz",
     "104.a7fb91c8fe3a5feab319.js.gz",
-    "106.638d2dec9ae82577f113.js.gz",
     "105.4ce8f5c802c5d9fee66a.js.gz",
-    "109.53c9c70152081184c223.js.gz",
-    "108.efbf95684fbeb5db1ae9.js.gz",
+    "103.eb2b0451e4c8c5be4e0b.js.gz",
+    "106.638d2dec9ae82577f113.js.gz",
     "107.3081768f82e1fc5b9d58.js.gz",
-    "92.b611b0d1f3ebcef3bfe2.js.gz",
-    "114.bd236c58f1a77572862c.js.gz",
-    "111.7d0e5641622692a42e6c.js.gz",
+    "108.efbf95684fbeb5db1ae9.js.gz",
+    "109.53c9c70152081184c223.js.gz",
     "115.e495ead4a98e974151fc.js.gz",
+    "111.7d0e5641622692a42e6c.js.gz",
     "112.d5bfa2b9acfd0c0c1a9d.js.gz",
+    "114.bd236c58f1a77572862c.js.gz",
+    "92.b611b0d1f3ebcef3bfe2.js.gz",
     "116.58364c3216c6657e84bd.js.gz",
+    "119.c4d56e2b7219a055f53d.js.gz",
     "117.b02c260136669afe13cd.js.gz",
     "118.77d9f70882fc5b32d76e.js.gz",
-    "121.f34463ac4b46f4eead86.js.gz",
-    "119.c4d56e2b7219a055f53d.js.gz",
+    "123.dc796f974845e16acee5.js.gz",
     "122.6fcd29664121d9151d32.js.gz",
     "124.7808c1c437a40ae1958d.js.gz",
+    "121.f34463ac4b46f4eead86.js.gz",
     "125.45919d53e3e5aa9e1b7a.js.gz",
-    "123.dc796f974845e16acee5.js.gz",
     "126.48d5e6a9934912dd0039.js.gz",
+    "129.61e0e8099d669c68904e.js.gz",
     "127.996700d3eeaec7ccbf84.js.gz",
     "128.376bf3f0e3bf7da2451d.js.gz",
-    "129.61e0e8099d669c68904e.js.gz",
     "130.e16d869bb3452143985d.js.gz",
     "131.b375358b25c3be968689.js.gz",
     "133.663356481483e7ba6b02.js.gz",
-    "132.9f18dde402b65577d48b.js.gz",
-    "135.e3b9ca00ae2884ce65d7.js.gz",
     "134.c6a8aec6519101dae06a.js.gz",
+    "132.9f18dde402b65577d48b.js.gz",
     "138.2fb728f728c8e113ade4.js.gz",
-    "common.674897799d9fa4977e2873c2799cea07.css.gz",
-    "common.f13a6f41e67fe8e57da5a32e90c0fc4e.css.gz",
-    "common.b93c86202149a7a11520e5044131b824.css.gz",
+    "135.e3b9ca00ae2884ce65d7.js.gz",
     "139.f43b79080413ccaae479.js.gz",
+    "common.f13a6f41e67fe8e57da5a32e90c0fc4e.css.gz",
+    "common.674897799d9fa4977e2873c2799cea07.css.gz",
     "common.fc2f83f9fa5cd43837c6c220272343a9.css.gz",
+    "common.6abe065be704bafda94a872265d536de.css.gz",
+    "common.b93c86202149a7a11520e5044131b824.css.gz",
     "common.6d9b505996cafd17bb2899ef749bea2c.css.gz",
     "110.013d3350cab4ec933801.js.gz",
-    "common.594480cc7bd3620e0bc652c41baf7db5.css.gz"
+    "common.3dd9b3a88aef9b7d4b78246ff7c78871.css.gz"
   ],
   "initial": [
-    "manifest.7b64350924f8b5b390b7.js",
+    "manifest.fdef5d2c3c2271034253.js",
     "99.d0307d8afd30f4a0655f.js",
     "95.cc91482aae9e869338c9.js",
     "96.a2f1a50fb9227673fb7a.js",
@@ -310,17 +312,17 @@
     "1.8dba247b9f3a7df08c6f.js",
     "5.1f57182b524696156132.js",
     "6.04d7fd5880bd81c333e5.js",
-    "4.78a6c83a2c2c353d2a94.js",
-    "2.3cea4c037fcfb301fbc0.js",
-    "0.8fadfff2dc26b496fa73.js"
+    "4.99168ade8176b5dd420e.js",
+    "2.04c660e82335752e654e.js",
+    "0.9d343ef71cf51732f1e6.js"
   ],
   "async": [
-    "132.9f18dde402b65577d48b.js",
+    "133.663356481483e7ba6b02.js",
     "7.14b947b6d9eaa7160581.js",
     "8.70fb9b1174862f96dba0.js",
-    "9.b2e7bd4c9fe358a38cf2.js",
+    "9.9683253ce00d2f2e1af8.js",
     "10.e89c3c7864f0e0a2d1dd.js",
-    "11.d961e9a3d49f808e7c43.js",
+    "11.f9275abf6f5b8f99e060.js",
     "12.926e54eef43e3b909103.js",
     "13.0bfac4e61413875b1eb5.js",
     "14.4a9023b32ef64eadaeec.js",
@@ -344,7 +346,7 @@
     "32.870c7a442488261b667f.js",
     "33.af650359efbbf27c3ed7.js",
     "34.30eae90f98e4d0c7ba52.js",
-    "35.082c4fba37b7603dd644.js",
+    "35.dd4529581e7fa7d8afde.js",
     "36.4b188625d6bfe24be3da.js",
     "37.791e2c382ba978651f30.js",
     "38.977653c1d5587c5d67ba.js",
@@ -356,7 +358,7 @@
     "44.5822b9fc62cba83f1eec.js",
     "45.e468e9b28e1fd45dcab2.js",
     "46.75bf32fc811686fe6971.js",
-    "47.ae13020aa7cd497a87a5.js",
+    "47.8c39720adff3aa42d748.js",
     "48.1de175698a12caf6ff8c.js",
     "49.28342e2bec9bab5c331d.js",
     "50.5d37ee541c0b34c9d4ee.js",
@@ -423,7 +425,7 @@
     "129.61e0e8099d669c68904e.js",
     "130.e16d869bb3452143985d.js",
     "131.b375358b25c3be968689.js",
-    "133.663356481483e7ba6b02.js",
+    "132.9f18dde402b65577d48b.js",
     "134.c6a8aec6519101dae06a.js",
     "135.e3b9ca00ae2884ce65d7.js",
     "136.8e60e0597d80e26595b5.js",
@@ -474,14 +476,14 @@
       105
     ],
     "51497345": [
-      0
+      142
     ],
     "53706248": [
       105
     ],
     "53968453": [
       14,
-      151
+      156
     ],
     "55119394": [
       109
@@ -807,11 +809,11 @@
     ],
     "313309f5": [
       14,
-      151
+      156
     ],
     "5941c964": [
       14,
-      151
+      156
     ],
     "6555fc8b": [
       106
@@ -846,15 +848,15 @@
     ],
     "20dea06e": [
       12,
-      156
+      157
     ],
     "1397a9d1": [
       14,
-      151
+      156
     ],
     "c8834922": [
       14,
-      151
+      156
     ],
     "01421a38": [
       16,
@@ -862,7 +864,7 @@
     ],
     "e59a0298": [
       14,
-      151
+      156
     ],
     "52bf0415": [
       119
@@ -910,11 +912,11 @@
     ],
     "7f3afa50": [
       14,
-      151
+      156
     ],
     "54620c38": [
       14,
-      151
+      156
     ],
     "e739b9e4": [
       11,
@@ -922,7 +924,7 @@
     ],
     "072be363": [
       14,
-      151
+      156
     ],
     "c2e8c7d0": [
       112
@@ -1058,7 +1060,7 @@
     ],
     "47344d32": [
       12,
-      156
+      157
     ],
     "373d405c": [
       10,
@@ -1073,15 +1075,15 @@
     ],
     "a18fde9c": [
       12,
-      156
+      157
     ],
     "fa55759a": [
       10,
       151
     ],
     "286f725a": [
-      14,
-      151
+      12,
+      157
     ],
     "16e2c476": [
       10,
@@ -1093,7 +1095,7 @@
     ],
     "6426e9e6": [
       12,
-      156
+      157
     ],
     "bc2ee814": [
       105
@@ -1234,7 +1236,7 @@
       151
     ],
     "d7f12ac4": [
-      12,
+      14,
       156
     ],
     "37f9368c": [
@@ -1243,7 +1245,7 @@
     ],
     "2b476c1f": [
       12,
-      156
+      157
     ],
     "5be351cc": [
       10,
@@ -1251,7 +1253,7 @@
     ],
     "f57e3928": [
       12,
-      156
+      157
     ],
     "90d3f884": [
       10,
@@ -1267,7 +1269,7 @@
     ],
     "7091d3fa": [
       12,
-      156
+      157
     ],
     "2e95757e": [
       107
@@ -1286,7 +1288,7 @@
     ],
     "b63a7dfc": [
       12,
-      156
+      157
     ],
     "d20981b8": [
       10,
@@ -1294,7 +1296,7 @@
     ],
     "7f4e5e78": [
       12,
-      156
+      157
     ],
     "2487c356": [
       10,
@@ -1339,7 +1341,7 @@
     ],
     "ba33aa3e": [
       14,
-      151
+      156
     ],
     "21d64636": [
       15,
@@ -1549,11 +1551,11 @@
     ],
     "0374c7fd": [
       12,
-      156
+      157
     ],
     "2da8d607": [
       14,
-      151
+      156
     ],
     "2cc18f3d": [
       13,
@@ -1635,7 +1637,7 @@
     ],
     "7fda95e2": [
       12,
-      156
+      157
     ],
     "5a383680": [
       10,
@@ -1643,7 +1645,7 @@
     ],
     "3c6401c0": [
       12,
-      156
+      157
     ],
     "3564904e": [
       10,
@@ -1651,7 +1653,7 @@
     ],
     "71e42ea6": [
       12,
-      156
+      157
     ],
     "1af3791f": [
       10,
@@ -1659,7 +1661,7 @@
     ],
     "5f3ea902": [
       12,
-      156
+      157
     ],
     "64dd46a1": [
       10,
@@ -1671,15 +1673,15 @@
     ],
     "62325ad6": [
       12,
-      156
+      157
     ],
     "33df4c74": [
       10,
       151
     ],
     "ec624258": [
-      14,
-      151
+      12,
+      157
     ],
     "2528f369": [
       10,
@@ -1687,7 +1689,7 @@
     ],
     "4e6ce75f": [
       12,
-      156
+      157
     ],
     "2ec4fcb1": [
       10,
@@ -1695,7 +1697,7 @@
     ],
     "747df3a6": [
       12,
-      156
+      157
     ],
     "ad4b2734": [
       10,
@@ -1732,7 +1734,7 @@
     ],
     "4e7e0292": [
       12,
-      156
+      157
     ],
     "fcd9b88a": [
       11,
@@ -1756,7 +1758,7 @@
       116
     ],
     "4f8d0180": [
-      12,
+      14,
       156
     ],
     "ba262f34": [
@@ -1777,7 +1779,7 @@
       154
     ],
     "1129580e": [
-      12,
+      14,
       156
     ],
     "2430e37a": [
@@ -1982,7 +1984,7 @@
       141
     ],
     "a66aee6c": [
-      143
+      0
     ],
     "006a1ff3": [
       139
@@ -2091,7 +2093,7 @@
       125
     ],
     "f461a178": [
-      143
+      0
     ],
     "c115f812": [
       135
@@ -2140,7 +2142,7 @@
       136
     ],
     "1fd3199c": [
-      143
+      0
     ],
     "07fb1974": [
       145
@@ -2309,7 +2311,7 @@
       130
     ],
     "498f5cae": [
-      0
+      142
     ],
     "6ae0079c": [
       132
@@ -2348,7 +2350,7 @@
       137
     ],
     "7df5f240": [
-      143
+      0
     ],
     "ada4c4a6": [
       127
@@ -2366,7 +2368,7 @@
       144
     ],
     "172d5232": [
-      143
+      0
     ],
     "064112d5": [
       126
@@ -2965,10 +2967,10 @@
       130
     ],
     "ca6d0dc0": [
-      0
+      142
     ],
     "2006a908": [
-      0
+      142
     ],
     "0370ca82": [
       131
@@ -3007,7 +3009,7 @@
       134
     ],
     "211a0a96": [
-      143
+      0
     ],
     "2333865c": [
       139
@@ -3049,13 +3051,13 @@
       130
     ],
     "3bdb8c54": [
-      0
+      142
     ],
     "123db364": [
       131
     ],
     "01ba9602": [
-      0
+      142
     ],
     "a56bcc76": [
       132

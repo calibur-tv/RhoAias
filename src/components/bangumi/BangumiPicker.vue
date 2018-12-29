@@ -117,10 +117,10 @@ export default {
       }
       this.loading = true
       try {
-        await this.$store.dispatch('users/getFollowBangumis', {
+        await this.$store.dispatch('users/getMineBangumis', {
           zone: this.user.zone
         })
-        this.list[0].values = this.$store.state.users.bangumis
+        this.list[0].values = this.$store.state.users.mine_bangumis
         this.autoSelect(this.value)
         this.fetched = true
       } catch (e) {
