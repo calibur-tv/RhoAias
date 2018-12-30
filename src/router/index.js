@@ -301,6 +301,12 @@ export function createRouter() {
             component: () => import('~/views/app/invite')
           },
           {
+            path: 'notice/:id(\\d+)',
+            name: 'app-notice',
+            meta: { useAuth: true },
+            component: () => import('~/views/app/notice')
+          },
+          {
             path: 'report',
             name: 'app-report',
             component: () => import('~/views/app/report')
