@@ -6,4 +6,8 @@ export default class extends BaseApi {
       params: { type, version: '0.0.0' }
     })
   }
+
+  notice({ id }) {
+    return this.http.get(`user/notice/show/${id}`)
+  }
 }
