@@ -322,6 +322,9 @@
 <script>
 export default {
   name: 'PageUserInvite',
+  head: {
+    title: '邀请码'
+  },
   data() {
     return {
       created: false,
