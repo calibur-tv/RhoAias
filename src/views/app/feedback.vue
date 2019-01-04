@@ -72,6 +72,9 @@ export default {
   components: {
     VRadio
   },
+  head: {
+    title: '反馈'
+  },
   data() {
     return {
       options: [

@@ -35,6 +35,9 @@ export default {
       id: route.params.id
     })
   },
+  head: {
+    title: '公告'
+  },
   components: {
     JsonContent
   },
