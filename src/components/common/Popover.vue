@@ -116,7 +116,8 @@ export default {
   },
   data() {
     return {
-      show: false
+      show: false,
+      backdropId: ''
     }
   },
   computed: {
@@ -139,10 +140,10 @@ export default {
   },
   methods: {
     handleShow() {
-      this.$backdrop.show()
+      this.backdropId = this.$backdrop.show()
     },
     handleHide() {
-      this.$backdrop.hide()
+      this.$backdrop.hide(this.backdropId)
     },
     handleClick() {
       this.show = false
