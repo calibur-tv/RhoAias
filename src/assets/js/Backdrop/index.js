@@ -19,17 +19,20 @@ export default class {
   }
 
   hide(id) {
-    const list = document.querySelectorAll('.backdrop')
-    if (list.length) {
-      const backdrop = id ? document.getElementById(id) : list[0]
-      backdrop.classList.add('hide')
-      backdrop.classList.remove('show')
-      document.body.style.overflowY = 'auto'
-      setTimeout(() => {
-        backdrop &&
-          backdrop.parentNode &&
-          backdrop.parentNode.removeChild(backdrop)
-      }, 200)
+    if (!id) {
+      return
     }
+    const backdrop = document.getElementById(id)
+    if (!backdrop) {
+      return
+    }
+    backdrop.classList.add('hide')
+    backdrop.classList.remove('show')
+    document.body.style.overflowY = 'auto'
+    setTimeout(() => {
+      backdrop &&
+        backdrop.parentNode &&
+        backdrop.parentNode.removeChild(backdrop)
+    }, 200)
   }
 }
