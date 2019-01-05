@@ -47,7 +47,6 @@
         {{ rewarded ? '已投食' : '投食' }}{{ rewardUsers.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${rewardUsers.total}` : '' }}
       </el-button>
       <el-button
-        v-else
         :class="{ 'is-plain': liked }"
         :loading="loadingLike"
         type="danger"
@@ -69,7 +68,6 @@
         <i class="iconfont icon--mark"/>
         {{ marked ? '已收藏' : '收藏' }}{{ markUsers.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${markUsers.total}` : '' }}
       </el-button>
-      <slot/>
     </div>
     <div class="users">
       <ul>
@@ -164,17 +162,15 @@ export default {
         this.$toast.info('不能给自己打赏')
         return
       }
-      this.$confirm(
-        this.rewarded
-          ? '即使取消投食你的团子也不会回到你的钱包, 是否继续?'
-          : '向TA投食需要消耗你一个团子，是否继续?',
-        '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }
-      )
+      if (this.rewarded) {
+        this.$toast.info('已投过食')
+        return
+      }
+      this.$confirm('向TA投食需要消耗你一个团子，是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
         .then(async () => {
           if (this.loadingReward) {
             return
