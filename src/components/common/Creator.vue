@@ -180,7 +180,11 @@ export default {
       return this.$route.name
     },
     showCreator() {
-      return ['homepage', 'download-app'].indexOf(this.pageName) === -1
+      return (
+        /^world-/.test(this.pageName) ||
+        /^bangumi-/.test(this.pageName) ||
+        /^user-/.test(this.pageName)
+      )
     },
     userLevel() {
       if (this.isGuest) {

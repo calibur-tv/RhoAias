@@ -59,9 +59,10 @@
       <div 
         v-else-if="!loading" 
         class="nothing">
-        <img 
-          :src="$resize('https://image.calibur.tv/owner/no-content', { width: 300 })"
-          alt="no-content">
+        <img
+          src="~img/no-content.png"
+          alt="no-content"
+        >
         <p>还没有内容</p>
         <slot/>
       </div>

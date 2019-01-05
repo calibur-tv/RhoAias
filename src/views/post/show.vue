@@ -112,6 +112,28 @@
       button {
         margin: 0 5px;
       }
+
+      .comment-post-btn {
+        position: fixed;
+        left: 50%;
+        margin-left: -37px;
+        bottom: 50px;
+        width: 74px;
+        height: 30px;
+        line-height: 30px;
+        color: #fff;
+        background-color: $color-pink-deep;
+        border-radius: 15px;
+        font-size: 13px;
+        z-index: 9;
+        box-shadow: 0 2px 5px rgba(26, 26, 26, 0.25);
+        transform: translateY(200px);
+        transition: 0.4s;
+
+        &.isScrollTop {
+          transform: translateY(0);
+        }
+      }
     }
   }
 
@@ -228,18 +250,15 @@
             :like-users="post.like_users"
             :mark-users="post.mark_users"
             type="post"
+          />
+          <button
+            :class="{ isScrollTop }"
+            class="comment-post-btn"
+            @click="handleReplyBtnClick"
           >
-            <el-button
-              type="primary"
-              class="el-button-primary"
-              size="mini"
-              round
-              @click="handleReplyBtnClick"
-            >
-              <i class="iconfont icon-talk"/>
-              回复
-            </el-button>
-          </social-panel>
+            <i class="iconfont icon-talk"/>
+            回复
+          </button>
         </div>
       </div>
       <div class="hr"/>
@@ -333,7 +352,9 @@ export default {
   data() {
     return {
       loadingToggleLike: false,
-      loadingToggleMark: false
+      loadingToggleMark: false,
+      lastScroll: 0,
+      isScrollTop: true
     }
   },
   computed: {
@@ -381,6 +402,17 @@ export default {
 
       return result
     }
+  },
+  mounted() {
+    window.addEventListener(
+      'scroll',
+      this.$utils.throttle(() => {
+        const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        this.isScrollTop = this.lastScroll > scrollTop
+        this.lastScroll = scrollTop
+      }, 200)
+    )
   },
   methods: {
     handleBangumiFollow(result) {
