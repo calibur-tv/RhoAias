@@ -10,6 +10,13 @@
     font-weight: normal;
     @extend %breakWord;
   }
+
+  .footer {
+    text-align: right;
+    font-size: 13px;
+    padding: 30px 15px;
+    color: #969696;
+  }
 }
 </style>
 
@@ -22,6 +29,14 @@
       />
     </div>
     <json-content :content="notice.content"/>
+    <footer class="footer">
+      <template v-if="notice.created_at === notice.updated_at">
+        <span>发布于：</span><v-time v-model="notice.created_at"/>
+      </template>
+      <template v-else>
+        <span>编辑于：</span><v-time v-model="notice.updated_at"/>
+      </template>
+    </footer>
   </div>
 </template>
 
