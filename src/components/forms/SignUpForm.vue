@@ -54,7 +54,7 @@
     i {
       font-size: 20px;
       vertical-align: middle;
-      margin-left: 10px;
+      margin-right: 10px;
       color: $color-text-normal;
       cursor: pointer;
     }
@@ -135,7 +135,6 @@
       class="others"
     >
       <span class="providers">
-        <span>社交账号注册</span>
         <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
           <i class="iconfont icon-qq"/>
         </a>
