@@ -97,7 +97,6 @@
         ><i class="iconfont icon-yuedu"/></button>
       </el-form-item>
       <div class="providers">
-        <span>社交账号登录</span>
         <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
           <i class="iconfont icon-qq"/>
         </a>
