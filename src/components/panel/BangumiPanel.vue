@@ -59,9 +59,14 @@ $panel-height: 92px;
         <slot/>
       </div>
       <div :class="$style.controls">
-        <button 
-          :class="$style.create" 
-          @click="handleCreate">发帖</button>
+        <button
+          v-if="createBtn"
+          :class="$style.create"
+          @click="handleCreate"
+        >
+          <i class="iconfont icon-pinglun"/>
+          发帖
+        </button>
         <follow-button
           :id="id"
           :followed="followed"
@@ -97,6 +102,10 @@ export default {
     followed: {
       required: true,
       type: Boolean
+    },
+    createBtn: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

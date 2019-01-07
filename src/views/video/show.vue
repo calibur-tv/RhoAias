@@ -92,8 +92,8 @@
 
       ul {
         margin-bottom: 2px;
-        margin-left: -10px;
-        margin-right: -10px;
+        margin-left: -4px;
+        margin-right: -4px;
       }
 
       .season-title {
@@ -106,7 +106,7 @@
         display: inline-block;
         text-align: center;
         margin-bottom: 10px;
-        padding: 0 10px;
+        padding: 0 5px;
       }
 
       .meta {
@@ -124,6 +124,10 @@
         background-color: $color-pink-normal;
         color: $color-white;
       }
+    }
+
+    .social-panel {
+      margin-top: 20px;
     }
 
     .bangumi-panel {
@@ -200,23 +204,23 @@
         <a href="https://www.calibur.tv/post/2279">&nbsp;&nbsp;如何升级？</a>
       </template>
       <video
-        v-else-if="video"
+        v-else-if="info"
         ref="video"
         :src="videoSrc"
-        :poster="video.poster"
+        :poster="info.poster"
         preload="none"
         controls="controls"
         controlsList="nodownload"
       />
       <img
-        :src="$resize(video.poster, { width: 200 })"
+        :src="$resize(info.poster, { width: 200 })"
         class="share-poster"
       >
     </div>
     <div class="container">
       <div id="metas">
         <h3 class="sub-title">
-          选集（{{ videos.length }}）
+          选集（{{ list.total }}）
           <a
             v-if="nextPartVideo"
             :href="nextPartVideo"
@@ -226,14 +230,14 @@
             class="more"
             @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
         </h3>
-        <template v-if="season && showAll">
+        <template v-if="list.has_season && showAll">
           <div
-            v-for="(videos, idx) in list"
+            v-for="(videos, idx) in list.videos"
             :key="idx"
           >
             <h6
               class="season-title"
-              v-text="season.name[idx]"/>
+              v-text="videos.name"/>
             <ul>
               <li
                 v-for="video in videos.data"
@@ -264,15 +268,15 @@
         </ul>
       </div>
       <social-panel
-        :id="video.id"
-        :is-creator="video.is_creator"
-        :user-id="video.user_id"
-        :liked="video.liked"
-        :marked="video.marked"
-        :rewarded="video.rewarded"
-        :reward-users="video.reward_users"
-        :like-users="video.like_users"
-        :mark-users="video.mark_users"
+        :id="info.id"
+        :is-creator="info.is_creator"
+        :user-id="info.user_id"
+        :liked="info.liked"
+        :marked="info.marked"
+        :rewarded="info.rewarded"
+        :reward-users="info.reward_users"
+        :like-users="info.like_users"
+        :mark-users="info.mark_users"
         type="video"
         @reward-callback="handleRewardAction"
       />
@@ -286,7 +290,7 @@
         class="bangumi-panel"
         @follow="handleBangumiFollow"
       >
-        <p class="part">第{{ video.part }}话&nbsp;{{ video.name }}</p>
+        <p class="part">第{{ info.part }}话&nbsp;{{ info.name }}</p>
       </bangumi-panel>
       <h3 class="sub-title">视频反馈</h3>
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong> 获得最新的资源更新提醒</p>
@@ -299,7 +303,7 @@
       </div>
       <comment-main
         :id="id"
-        :master-id="video.user_id"
+        :master-id="info.user_id"
         type="video"
       />
     </div>
@@ -315,45 +319,44 @@ import BangumiPanel from '~/components/panel/BangumiPanel'
 export default {
   name: 'VideoShow',
   head() {
-    const bangumi = this.bangumi
-    const video = this.video
-    if (!bangumi || !video) {
-      return
-    }
-    let resultPart = video.part
-    let season = ''
+    const { bangumi, info, list } = this
+    const hasSeason = list.has_season
+    const bangumiName = bangumi.name
+    const videoName = info.name
+    let resultPart = info.part
+    let seasonName = ''
     let title = ''
-    if (this.season) {
-      this.list.forEach((videos, index) => {
-        videos.data.forEach(video => {
-          if (video.id === this.video.id) {
-            resultPart = video.part - videos.base
-            season = this.season.name[index]
+    if (hasSeason) {
+      list.videos.forEach(videos => {
+        videos.data.forEach(item => {
+          if (item.id === info.id) {
+            resultPart = item.part - videos.base
+            seasonName = list.name
           }
         })
       })
     }
-    if (season) {
-      if (season === video.name) {
-        title = `${bangumi.name} : ${season} - 视频`
+    if (seasonName) {
+      if (seasonName === videoName) {
+        title = `${bangumiName} : ${seasonName} - 视频`
       } else {
-        title = `${bangumi.name} : ${season} : 第${resultPart}话 ${
-          video.name
-        } - 视频`
+        title = `${bangumiName} : ${seasonName} : 第${resultPart}话 ${videoName} - 视频`
       }
     } else {
-      title = `${bangumi.name} : 第${resultPart}话 ${video.name} - 视频`
+      title = `${bangumiName} : 第${resultPart}话 ${videoName} - 视频`
     }
     return {
       title,
       meta: [
-        { hid: 'description', name: 'description', content: bangumi.summary },
+        {
+          hid: 'description',
+          name: 'description',
+          content: bangumi.summary
+        },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: `${bangumi.name}，第${video.part}话，${
-            video.name
-          }，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站`
+          content: `${bangumiName}，第${resultPart}话，${videoName}，在线观看 动画片大全 动漫在线播放 日本动漫 好看的动漫 二次元网站`
         }
       ]
     }
@@ -391,36 +394,29 @@ export default {
   },
   computed: {
     id() {
-      return parseInt(this.$route.params.id, 10)
+      return +this.$route.params.id
     },
     isGuest() {
-      //      return this.bangumi.id !== 34 && !this.$store.state.login;
       return !this.$store.state.login
     },
     videoPackage() {
       return this.$store.state.video
     },
-    video() {
+    info() {
       return this.videoPackage.info
     },
     list() {
-      return this.videoPackage.list ? this.videoPackage.list.videos : []
+      return this.videoPackage.list
     },
     bangumi() {
       return this.videoPackage.bangumi
-    },
-    season() {
-      return this.videoPackage.season
     },
     showMoreBtn() {
       return this.take < this.videos.length
     },
     videos() {
-      if (!this.season) {
-        return this.list[0].data
-      }
       let result = []
-      this.list.forEach(videos => {
+      this.list.videos.forEach(videos => {
         result = result.concat(videos.data)
       })
       return result
@@ -432,10 +428,10 @@ export default {
         : this.videos.slice(begin, begin + this.take)
     },
     useOtherSiteSource() {
-      return this.video.other_site
+      return this.info.other_site
     },
     videoSrc() {
-      return this.video.src
+      return this.info.src
     },
     isFlv() {
       return this.useOtherSiteSource
@@ -450,8 +446,9 @@ export default {
     },
     nextPartVideo() {
       let nextId = 0
+      const currentId = +this.id
       this.videos.forEach((video, index) => {
-        if (video.id === this.id && index !== this.videos.length - 1) {
+        if (video.id === currentId && index !== this.videos.length - 1) {
           nextId = this.videos[index + 1].id
         }
       })
@@ -473,7 +470,7 @@ export default {
       return true
     },
     needCoin() {
-      return this.videoPackage.mustReward && !this.video.rewarded
+      return this.videoPackage.mustReward && !this.info.rewarded
     }
   },
   mounted() {

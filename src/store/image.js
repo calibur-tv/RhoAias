@@ -21,6 +21,9 @@ export default {
         })
       }
     },
+    FOLLOW_ALBUM_BANGUMI(state, { result }) {
+      state.show.bangumi.followed = result
+    },
     SET_IMAGE_INFO(state, data) {
       state.show = data
     },
