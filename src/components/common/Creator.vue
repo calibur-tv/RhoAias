@@ -176,15 +176,11 @@ export default {
     isGuest() {
       return !this.$store.state.login
     },
-    pageName() {
-      return this.$route.name
+    pagePath() {
+      return this.$route.path
     },
     showCreator() {
-      return (
-        /^world-/.test(this.pageName) ||
-        /^bangumi-/.test(this.pageName) ||
-        /^user-/.test(this.pageName)
-      )
+      return /^\/(world|video|qaq|soga|pin)\//.test(this.pagePath)
     },
     userLevel() {
       if (this.isGuest) {
@@ -233,7 +229,7 @@ export default {
         this.$channel.$emit('sign-in')
         return
       }
-      if (~['post-show'].indexOf(this.pageName)) {
+      if (/^\/post\//.test(this.pageName)) {
         this.$channel.$emit('open-create-comment-drawer')
         return
       }

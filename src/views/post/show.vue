@@ -296,6 +296,7 @@
         :avatar="bangumi.avatar"
         :name="bangumi.name"
         :followed="bangumi.followed"
+        :create-btn="false"
         @follow="handleBangumiFollow"
       >
         <p 

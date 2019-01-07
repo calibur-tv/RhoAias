@@ -6,7 +6,6 @@ export default {
     bangumi: null,
     info: null,
     list: null,
-    season: null,
     blocked: false,
     mustReward: false,
     needMinLevel: 0
@@ -36,7 +35,6 @@ export default {
       state.list = data.list
       state.info = data.info
       state.bangumi = data.bangumi
-      state.season = data.season
       state.blocked = data.ip_blocked
       state.mustReward = data.must_reward
       state.needMinLevel = data.need_min_level
