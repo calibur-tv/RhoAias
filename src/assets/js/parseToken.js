@@ -16,22 +16,18 @@ export default ctx => {
     window.__JWT_TOKEN__ = token
     return token
   }
-  const cookies = ctx.header.cookie
-  if (!cookies) {
-    return ''
-  }
-  cookies.split('; ').forEach(item => {
-    const temp = item.split('=')
-    if (temp[0] === 'JWT-TOKEN') {
-      token = temp[1]
-    }
-  })
-  if (token) {
-    return token
-  }
   const authHeader = ctx.header['authorization']
-  if (!authHeader) {
-    return ''
+  if (authHeader) {
+    token = authHeader.split('Bearer ')[1]
   }
-  return authHeader.split('Bearer ')[1]
+  const cookies = ctx.header.cookie
+  if (cookies) {
+    cookies.split('; ').forEach(item => {
+      const temp = item.split('=')
+      if (temp[0] === 'JWT-TOKEN') {
+        token = temp[1]
+      }
+    })
+  }
+  return token
 }
