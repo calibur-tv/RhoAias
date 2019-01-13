@@ -323,8 +323,6 @@
 </template>
 
 <script>
-import html2canvas from 'html2canvas'
-
 export default {
   name: 'PageUserInvite',
   head: {
@@ -377,23 +375,7 @@ export default {
           width: 360,
           height: 360
         })
-        setTimeout(() => {
-          this.create()
-        }, 1000)
       })
-    },
-    create() {
-      html2canvas(document.querySelector('.capture-area'), {
-        allowTaint: false,
-        useCORS: true,
-        backgroundColor: null
-      })
-        .then(canvas => {
-          this.result = canvas.toDataURL('image/png')
-          this.created = true
-          this.$toast.success('长按图片保存')
-        })
-        .catch(() => {})
     }
   }
 }
