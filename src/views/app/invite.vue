@@ -207,11 +207,14 @@
 
       .intro {
         text-align: center;
-        color: #333333;
         font-size: 24px;
         line-height: 34px;
 
         span {
+          color: #333333;
+        }
+
+        strong {
           color: #ff6881;
           font-weight: bold;
           margin-left: 2px;
@@ -300,7 +303,7 @@
             </div>
           </div>
           <div class="line"/>
-          <div class="intro">快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有<span>团子奖励</span></div>
+          <div class="intro"><span>快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有</span><strong>团子奖励</strong></div>
           <div class="logo"/>
           <div
             ref="qr"
@@ -320,6 +323,8 @@
 </template>
 
 <script>
+import html2canvas from 'html2canvas'
+
 export default {
   name: 'PageUserInvite',
   head: {
@@ -372,7 +377,23 @@ export default {
           width: 360,
           height: 360
         })
+        setTimeout(() => {
+          this.create()
+        }, 1000)
       })
+    },
+    create() {
+      html2canvas(document.querySelector('.capture-area'), {
+        allowTaint: false,
+        useCORS: true,
+        backgroundColor: null
+      })
+        .then(canvas => {
+          this.result = canvas.toDataURL('image/png')
+          this.created = true
+          this.$toast.success('长按图片保存')
+        })
+        .catch(() => {})
     }
   }
 }

@@ -48,11 +48,6 @@ if (window.__INITIAL_STATE__) {
 
 window.M = window.M || Object.create(null)
 
-if (env !== 'production') {
-  // eslint-disable-next-line
-  new VConsole()
-}
-
 const recorder = new Sentry({
   url: sentry.url,
   version: release,
