@@ -103,8 +103,8 @@
       if (
         !loaded &&
         (!script.readyState ||
-          script.readyState === 'loaded' ||
-          script.readyState === 'complete')
+        script.readyState === 'loaded' ||
+        script.readyState === 'complete')
       ) {
         loaded = true
         setTimeout(function() {
