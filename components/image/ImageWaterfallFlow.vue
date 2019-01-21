@@ -100,7 +100,7 @@
         color: $color-text-light;
         margin-top: 5px;
 
-        span {
+        span:not(:last-child) {
           margin-right: 8px;
         }
 
@@ -111,6 +111,8 @@
     }
 
     .about {
+      display: flex;
+      align-items: center;
       height: 51px;
       padding: 10px 15px;
       border-top: 1px solid #f2f2f2;
@@ -118,6 +120,8 @@
       .user-avatar {
         border-radius: 50%;
         overflow: hidden;
+        width: 30px;
+        height: 30px;
         border: 1px solid #e5e9ef;
       }
 
@@ -136,6 +140,15 @@
 
       .main-name {
         line-height: 30px;
+        font-size: 12px;
+        word-wrap: break-word;
+        color: $color-text-normal;
+      }
+
+      .main-name-user {
+        flex: 1;
+        max-height: 30px;
+        line-height: 14px;
         font-size: 12px;
         word-wrap: break-word;
         color: $color-text-normal;
@@ -257,7 +270,7 @@
                 </a>
                 <a
                   :href="$alias.user(item.user.zone)"
-                  class="main-name"
+                  class="main-name-user"
                   v-text="item.user.nickname"
                 />
               </template>
