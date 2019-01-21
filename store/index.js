@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { getLoginUser } from '~/api/userApi'
+import { getLoginUser, daySignAction } from '~/api/userApi'
 import { getUpToken } from '~/api/imageApi'
 import parseToken from '~/assets/js/parseToken'
 
@@ -78,6 +78,12 @@ export const mutations = {
 }
 
 export const actions = {
+  async daySign({ rootState }) {
+    if (rootState.user.signed) {
+      return
+    }
+    return await daySignAction(this)
+  },
   async nuxtServerInit({ commit }, { req }) {
     const headers = req.headers
     const ua = (headers['user-agent'] || '').toLowerCase()

@@ -380,7 +380,7 @@ export default {
       this.signDayLoading = true
 
       try {
-        const result = await this.$store.dispatch('users/daySign')
+        const result = await this.$store.dispatch('daySign')
         this.$store.commit('UPDATE_USER_INFO', {
           key: 'daySign',
           value: true
