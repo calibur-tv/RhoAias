@@ -20,7 +20,7 @@ export default {
     return {
       headers: [
         {
-          label: '新番放松',
+          label: '新番放送',
           route: 'bangumi-index-news'
         },
         {
