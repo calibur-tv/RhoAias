@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[53],{977:function(n,e,o){"use strict";o.r(e);var t={fetch:function(n){return(0,n.redirect)("/world/post")}},i=o(1),u=Object(i.a)(t,void 0,void 0,!1,null,null,null);u.options.__file="index.vue";e.default=u.exports}}]);
+//# sourceMappingURL=index.chunk.58bde6c5.js.map
