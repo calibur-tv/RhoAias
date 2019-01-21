@@ -303,7 +303,6 @@ export default {
     return {
       user: null,
       signDayLoading: false,
-      doSign: false,
       showExpTips: false
     }
   },
@@ -378,7 +377,6 @@ export default {
         return
       }
       this.signDayLoading = true
-
       try {
         const result = await daySignAction(this)
         this.$store.commit('UPDATE_USER_INFO', {
@@ -389,7 +387,6 @@ export default {
           key: 'coin',
           value: this.coinCount + 1
         })
-        this.doSign = true
         this.$toast.success(result.message)
         this.$store.commit('UPDATE_USER_EXP', result.exp)
       } finally {
