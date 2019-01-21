@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'RhoAias',
-      script: './server.js',
+      script: './server/index.js',
       watch: false,
       ignore_watch: 'node_modules',
       env: {

@@ -1,0 +1,16 @@
+@import "variables";
+@import "mixins";
+@import "classes";
+@import "fonts";
+@import "layout";
+@import "reboot";
+@import "theme";
+
+#__nuxt {
+  width: 100%;
+  overflow: hidden;
+}
+
+a {
+  font-size: $font-size;
+}

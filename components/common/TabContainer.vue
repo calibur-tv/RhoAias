@@ -1,0 +1,142 @@
+<style lang="scss">
+.tab-container {
+  > header {
+    font-size: 0;
+    border-bottom: 1px solid #f0f0f0;
+
+    div {
+      display: inline-block;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: $color-text-deep;
+
+      &.is-active {
+        position: relative;
+        color: $color-pink-deep !important;
+
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          width: 56px;
+          max-width: 100%;
+          border-bottom: 1px solid $color-pink-deep;
+          transform: translateX(-50%);
+        }
+
+        &:before {
+          content: '';
+          position: absolute;
+          margin-left: -3px;
+          left: 50%;
+          bottom: 1px;
+          width: 0;
+          height: 0;
+          border: 3px solid $color-pink-deep;
+          border-top-width: 0;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
+  }
+}
+</style>
+
+<template>
+  <section class="tab-container">
+    <header>
+      <div
+        v-for="(item, index) in headers"
+        :class="{ 'is-active': index === focusIndex }"
+        :style="{ width: `${100 / headers.length}%` }"
+        :key="index"
+        @click="handleTabSwitch(index)"
+      >
+        <i
+          v-if="computeItemIcon(item)"
+          :class="computeItemIcon(item)"
+        />
+        <span v-text="computeItemText(item)"/>
+      </div>
+    </header>
+    <main v-if="!router">
+      <div
+        v-for="(item, index) in headers"
+        v-show="index === focusIndex"
+        :key="index"
+      >
+        <slot :name="index"/>
+      </div>
+    </main>
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'TabContainer',
+  props: {
+    headers: {
+      required: true,
+      type: Array
+    },
+    defIndex: {
+      type: [Number, String],
+      default: '0'
+    },
+    router: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    let focusIndex
+    if (this.router) {
+      focusIndex = this.headers.map(_ => _.route).indexOf(this.$route.name)
+    } else {
+      focusIndex = +this.defIndex
+    }
+    return {
+      focusIndex
+    }
+  },
+  watch: {
+    $route(newVal) {
+      this.focusIndex = this.headers.map(_ => _.route).indexOf(newVal.name)
+    },
+    headers(newVal) {
+      this.focusIndex = newVal.map(_ => _.route).indexOf(this.$route.name)
+    }
+  },
+  methods: {
+    computeItemText(item) {
+      if (typeof item === 'string') {
+        return item
+      }
+      return item.label || item.name || item.text
+    },
+    computeItemIcon(item) {
+      if (typeof item === 'string' || !item.icon) {
+        return false
+      }
+      return `iconfont ic-${item.replace('ic-', '')}`
+    },
+    handleTabSwitch(index) {
+      if (this.focusIndex === index) {
+        return
+      }
+      if (this.router) {
+        this.$router.push({
+          name: this.headers[index].route,
+          params: this.$route.params
+        })
+      }
+      this.focusIndex = index
+      this.$emit('change', index)
+    }
+  }
+}
+</script>
