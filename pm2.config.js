@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'Merlin',
+      name: 'RhoAias',
       script: './server/index.js',
       watch: false,
       ignore_watch: 'node_modules',
