@@ -258,7 +258,7 @@
 import UserSex from '~/components/user/UserSex'
 import TabContainer from '~/components/common/TabContainer'
 import { Progress } from 'element-ui'
-import { getUserInfo } from '~/api/userApi'
+import { getLoginUser, daySignAction } from '~/api/userApi'
 
 export default {
   name: 'UserShow',
@@ -380,7 +380,7 @@ export default {
       this.signDayLoading = true
 
       try {
-        const result = await this.$store.dispatch('daySign')
+        const result = await daySignAction('daySign')
         this.$store.commit('UPDATE_USER_INFO', {
           key: 'daySign',
           value: true
