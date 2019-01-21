@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[1],{923:function(e,n,p){"use strict";p.r(n),n.default={name:"empty",props:["placeholder"],render:function(e){return e("div",{class:["empty-component-placeholder"]})}}}}]);
+//# sourceMappingURL=1.chunk.e48643c4.js.map

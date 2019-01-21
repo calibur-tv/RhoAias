@@ -264,7 +264,7 @@
 import CommentMain from '~/components/comments/CommentMain'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
-import { getCartoonRoleInfo } from '~/api/cartoonRoleApi'
+import { getCartoonRoleInfo, starRoleAction } from '~/api/cartoonRoleApi'
 
 export default {
   name: 'RoleShow',
@@ -308,6 +308,12 @@ export default {
     BangumiPanel,
     VPopover
   },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       sort: 'comment',
@@ -334,12 +340,6 @@ export default {
     }
   },
   computed: {
-    id() {
-      return +this.$route.params.id
-    },
-    images() {
-      return this.info.images
-    },
     fans() {
       return this.fetchFansSort === 'new' ? this.latestFans : this.biggestFans
     },
@@ -364,9 +364,7 @@ export default {
   methods: {
     switchTab(tab) {
       this.sort = tab
-      if (tab === 'image') {
-        this.getRoleImages(true)
-      } else if (tab === 'fans') {
+      if (tab === 'fans') {
         this.fetchRoleFans(true)
       }
     },
@@ -380,12 +378,11 @@ export default {
         return
       }
       try {
-        await this.$store.dispatch('cartoonRole/star', {
-          bangumiId: this.bangumi.id,
-          roleId: this.id,
-          ctx: this,
-          hasStar: this.role.hasStar
+        await starRoleAction(this, {
+          id: this.id
         })
+        this.role.hasStar++
+        this.role.star_count++
         this.$store.commit('USE_COIN')
         this.$toast.info(`+${this.role.hasStar}s`)
       } catch (e) {}
@@ -414,25 +411,6 @@ export default {
         })
       } finally {
         this.loadingRoleFans = false
-      }
-    },
-    async getRoleImages(init = false) {
-      if (init && this.roleImageLoaded) {
-        return
-      }
-      if (this.loadingRoleImage) {
-        return
-      }
-      this.loadingRoleImage = true
-      try {
-        await this.$store.dispatch('image/getRoleImages', {
-          ctx: this,
-          id: this.id,
-          force: init
-        })
-        this.roleImageLoaded = true
-      } finally {
-        this.loadingRoleImage = false
       }
     },
     loadMoreFans() {
