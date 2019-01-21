@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'RhoAias',
-      script: './server.js',
+      name: 'Merlin',
+      script: './server/index.js',
       watch: false,
       ignore_watch: 'node_modules',
       env: {

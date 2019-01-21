@@ -1,7 +1,22 @@
-### run
+# Merlin
 
-1. git clone
-2. yarn
-3. change`package.json` => `dev` => `API_HOST==https://t-api.calibur.tv/`
-4. npm run dev
-5. open localhost:3001
+> m.calibur.tv
+
+## Build Setup
+
+``` bash
+# install dependencies
+$ yarn install
+
+# serve with hot reload at localhost:3000
+$ yarn run dev
+
+# build for production and launch server
+$ yarn run build
+$ yarn start
+
+# generate static project
+$ yarn run generate
+```
+
+For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

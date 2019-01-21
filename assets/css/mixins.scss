@@ -1,0 +1,101 @@
+%clearfix {
+  &:after {
+    content: '';
+    clear: both;
+    display: table;
+  }
+
+  &:before {
+    content: '';
+    clear: both;
+    display: table;
+  }
+}
+
+%breakWord {
+  word-break: break-word !important;
+  word-break: break-all;
+}
+
+%smooth-scroll {
+  -webkit-overflow-scrolling: auto;
+}
+
+@mixin twoline($line-height) {
+  line-height: $line-height;
+  max-height: $line-height * 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+@mixin border($color, $radio: 0px) {
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid $color;
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5);
+    transform-origin: left top;
+    border-radius: $radio;
+  }
+}
+
+@mixin btn-empty($color, $background: transparent) {
+  position: relative;
+  padding: 4px 10px;
+  font-size: 14px;
+  color: $color;
+  background-color: $background;
+  border-radius: 8px;
+  white-space: nowrap;
+  @include border($color, 8px);
+}
+
+@mixin filter-blur($size: 2) {
+  filter: blur($size + px);
+  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=$size, MakeShadow=false);
+}
+
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin border-bottom($margin: -$container-padding) {
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: #F0F0F0;
+    transform: scaleY(0.5);
+    margin-left: $margin;
+    margin-right: $margin;
+  }
+}
+
+@include keyframes(rolling) {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
