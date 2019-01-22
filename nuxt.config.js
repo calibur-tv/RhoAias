@@ -20,6 +20,7 @@ module.exports = {
     RELEASE: releaseTag,
     injectScript
   },
+  buildDir: isDev ? '.nuxt-dev' : '.nuxt',
   /*
    ** Headers of the page
    */
