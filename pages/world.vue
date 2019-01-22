@@ -160,6 +160,9 @@
       :router="true"
     />
     <nuxt-child />
+    <no-ssr>
+      <creator-menu/>
+    </no-ssr>
   </div>
 </template>
 
@@ -167,6 +170,7 @@
 import { Swipe, SwipeItem } from 'mint-ui'
 import { getCarousel } from '~/api/carouselApi'
 import TabContainer from '~/components/common/TabContainer'
+import CreatorMenu from '~/components/common/Creator'
 
 export default {
   name: 'TheWorld',
@@ -187,7 +191,8 @@ export default {
   components: {
     'mt-swipe': Swipe,
     'mt-swipe-item': SwipeItem,
-    TabContainer
+    TabContainer,
+    CreatorMenu
   },
   data() {
     return {

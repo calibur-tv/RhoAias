@@ -133,7 +133,12 @@
 </template>
 
 <script>
-import { createAlbum, uploadSingleImage, uploadManyImage } from '~/api/imageApi'
+import {
+  createAlbum,
+  uploadSingleImage,
+  uploadManyImage,
+  getUserAlbums
+} from '~/api/imageApi'
 import BangumiPicker from '~/components/bangumi/BangumiPicker'
 import Field from '~/components/common/Field'
 import ImageUploader from '~/components/common/ImageUploader'
@@ -302,12 +307,7 @@ export default {
       }
       this.loadingUserAlbum = true
       try {
-        this.albumSlots[0].values = await this.$store.dispatch(
-          'image/userAlbum',
-          {
-            ctx: this
-          }
-        )
+        this.albumSlots[0].values = await getUserAlbums(this)
         this.loadedUserAlbum = true
       } finally {
         this.loadingUserAlbum = false

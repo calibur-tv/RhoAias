@@ -20,7 +20,7 @@
 
 <script>
 import { Picker } from 'mint-ui'
-
+import { followBangumis } from '~/api/userApi'
 export default {
   name: 'BangumiPicker',
   components: {
@@ -54,6 +54,9 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.state.user
+    },
     notInit() {
       return !this.list[0].values.length
     },
@@ -68,9 +71,11 @@ export default {
         return '点击选择番剧'
       }
       return this.list[0].values[this.list[0].defaultIndex]['name']
-    },
-    user() {
-      return this.$store.state.user
+    }
+  },
+  watch: {
+    user: function(user, x) {
+      if (!x && user) this.getData()
     }
   },
   mounted() {
@@ -116,10 +121,7 @@ export default {
       }
       this.loading = true
       try {
-        await this.$store.dispatch('users/getMineBangumis', {
-          zone: this.user.zone
-        })
-        this.list[0].values = this.$store.state.users.mine_bangumis
+        this.list[0].values = await followBangumis(this, this.user.zone)
         this.autoSelect(this.value)
         this.fetched = true
       } finally {

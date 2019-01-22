@@ -69,6 +69,10 @@ export const daySignAction = ctx => {
   return ctx.$axios.$post('user/daySign')
 }
 
+export const followBangumis = (ctx, zone) => {
+  return ctx.$axios.$get(`user/${zone}/followed/bangumi`)
+}
+
 export const getUserCard = (ctx, { id }) => {
   return ctx.$axios.$get('user/card', {
     params: { id }
