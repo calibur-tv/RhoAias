@@ -16,8 +16,8 @@
     <textarea
       v-model.trim="forms.content"
       class="content"
-      placeholder="来吧，尽情的（在1000字以内）发挥吧"
-      maxlength="1000"
+      placeholder="来吧，尽情的（在4000字以内）发挥吧"
+      maxlength="4000"
       @focus="handleAreaFocus"
     />
     <image-uploader
@@ -39,17 +39,9 @@ export default {
     ImageUploader
   },
   props: {
-    type: {
-      required: true,
-      type: String
-    },
     id: {
       required: true,
-      type: Number
-    },
-    masterId: {
-      required: true,
-      type: Number
+      type: String
     }
   },
   data() {
@@ -90,9 +82,8 @@ export default {
         const result = await this.$store.dispatch('comment/createMainComment', {
           content: this.forms.content,
           images: images,
-          type: this.type,
-          id: this.id,
-          ctx: this
+          type: 'post',
+          id: this.id
         })
         this.$emit('close')
         this.forms = {

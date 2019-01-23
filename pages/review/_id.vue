@@ -16,7 +16,7 @@
       float: right;
       font-weight: bold;
       font-size: 23px;
-      letter-spacing: 0px;
+      letter-spacing: 0;
       margin-left: 10px;
       color: #ff9900;
     }

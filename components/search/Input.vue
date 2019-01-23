@@ -41,7 +41,7 @@
       font-size: 18px;
       color: rgba(0, 0, 0, 0.87);
       word-wrap: break-word;
-      padding: 0 0 0 16px;
+      padding: 0 10px 0 16px;
     }
   }
 
@@ -86,6 +86,7 @@
       type="submit">
       <i class="iconfont icon-sousuo" />
     </button>
+    <!--
     <button 
       v-if="word" 
       class="clear-btn" 
@@ -93,6 +94,7 @@
       @click="clear">
       ×
     </button>
+    -->
     <div class="input-wrap">
       <input
         v-model.trim="word"

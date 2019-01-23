@@ -114,13 +114,13 @@
     </template>
     <h3 class="sub-title star-title">
       <span>评分</span>
-      <button 
-        class="tips-btn" 
+      <button
+        class="tips-btn"
         @click="openTips = !openTips">
         <i class="el-icon-question"/>
       </button>
-      <button 
-        class="collapsed-icon" 
+      <button
+        class="collapsed-icon"
         @click="collapsed = !collapsed">
         <i :class="[ collapsed ? 'el-icon-arrow-left' : 'el-icon-arrow-down' ]"/>
       </button>
@@ -145,8 +145,8 @@
       <p><strong>美感</strong>：有时候画质不是越好就越美，有些美具有一种艺术感，这种美可能是画面上的，可能是叙事的手法，可能是背景音乐。</p>
       <p>最后，一般情况下不存在0分的作品，如果你认为一部作品是0分，那就请放过它吧；也不存在满分的作品，如果你认为一部作品达到了满分，可能是你的阅片量还太少，需要再接再厉，(๑•̀ㅂ•́)و✧！</p>
     </div>
-    <div 
-      v-if="collapsed" 
+    <div
+      v-if="collapsed"
       class="field">
       <span>总分：</span>
       <div @click="collapsed = false">{{ total ? `${total} 分` : `${total}（点击修改各维度分数）` }}</div>
@@ -165,10 +165,11 @@
             class="label"
             v-text="`${labelMap[item]}：`"
           />
-          <van-rate
+          <el-rate
             v-model="form[item]"
             :size="20"
             :count="10"
+            allow-half
           />
         </div>
       </div>
@@ -179,8 +180,6 @@
 </template>
 
 <script>
-import Rate from 'vant/lib/rate'
-import 'vant/lib/rate/style'
 import JsonEditor from '~/components/jsonEditor/index'
 import BangumiPicker from '~/components/bangumi/BangumiPicker'
 import { Switch } from 'mint-ui'
@@ -190,9 +189,12 @@ import {
   updateScore,
   checkHasReviewed
 } from '~/api/scoreApi'
+import { Rate } from 'element-ui'
+import serverAuth from '~/mixins/serverAuth'
 
 export default {
   name: 'ScoreCreate',
+  layout: 'write',
   asyncData({ app, store, query, error }) {
     const { id } = query
     if (id) {
@@ -204,11 +206,12 @@ export default {
     }
   },
   components: {
-    vanRate: Rate,
     JsonEditor,
     BangumiPicker,
+    'el-rate': Rate,
     'mt-switch': Switch
   },
+  mixins: [serverAuth],
   data() {
     const labelMap = {
       lol: '笑点',

@@ -25,6 +25,7 @@ const _0bfc8543 = () => interopDefault(import('../pages/callback/auth-success.vu
 const _255890e8 = () => interopDefault(import('../pages/error/404.vue' /* webpackChunkName: "pages/error/404" */))
 const _6307f3b2 = () => interopDefault(import('../pages/my/invite.vue' /* webpackChunkName: "pages/my/invite" */))
 const _55fc68a2 = () => interopDefault(import('../pages/my/setting.vue' /* webpackChunkName: "pages/my/setting" */))
+const _d0988024 = () => interopDefault(import('../pages/review/create.vue' /* webpackChunkName: "pages/review/create" */))
 const _899ef50e = () => interopDefault(import('../pages/role/trending.vue' /* webpackChunkName: "pages/role/trending" */))
 const _86774a2a = () => interopDefault(import('../pages/about/invite/_id.vue' /* webpackChunkName: "pages/about/invite/_id" */))
 const _48b185e6 = () => interopDefault(import('../pages/app/notice/_id.vue' /* webpackChunkName: "pages/app/notice/_id" */))
@@ -192,6 +193,11 @@ export function createRouter() {
       component: _55fc68a2,
       props: false,
       name: "my-setting"
+    }, {
+      path: "/review/create",
+      component: _d0988024,
+      props: false,
+      name: "review-create"
     }, {
       path: "/role/trending",
       component: _899ef50e,

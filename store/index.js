@@ -86,17 +86,19 @@ export const actions = {
   },
   async initAuth({ state, commit }) {
     if (state.user) {
-      return
+      return true
     }
     if (!state.haveAuthToken) {
       commit('SET_USER', {})
-      return
+      return false
     }
     try {
       const data = await getLoginUser(this)
       commit('SET_USER', data)
+      return true
     } catch (e) {
       commit('SET_USER', {})
+      return false
     }
   },
   async getUpToken({ state, commit }) {

@@ -76,6 +76,7 @@
             <bangumi-picker
               v-model="image.bangumiId"
               :label="false"
+              :lazy="true"
               :display="show && sort === 'image'"
             />
           </div>
@@ -116,6 +117,7 @@
           <bangumi-picker
             v-model="album.bangumiId"
             :label="false"
+            :lazy="true"
             :display="show && sort === 'album'"
           />
         </div>

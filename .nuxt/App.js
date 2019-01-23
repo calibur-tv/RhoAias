@@ -7,8 +7,9 @@ import '../node_modules/normalize.css/normalize.css'
 
 import _6f6c098b from '../layouts/default.vue'
 import _77430317 from '../layouts/empty.vue'
+import _7842d5a9 from '../layouts/write.vue'
 
-const layouts = { "_default": _6f6c098b,"_empty": _77430317 }
+const layouts = { "_default": _6f6c098b,"_empty": _77430317,"_write": _7842d5a9 }
 
 export default {
   head: function() {

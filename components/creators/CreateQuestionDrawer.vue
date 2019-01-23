@@ -42,6 +42,7 @@
           <bangumi-picker
             v-model="form.bangumiId"
             :label="false"
+            :lazy="true"
             :display="show"
           />
         </el-form-item>

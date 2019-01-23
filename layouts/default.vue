@@ -27,6 +27,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('initAuth')
+    this.$store.dispatch('bangumi/getAllBangumi')
   }
 }
 </script>

@@ -115,7 +115,7 @@ export default {
       this.uploadPending--
     },
     handleImageUploadBefore(file) {
-      if (!this.currentUserId) {
+      if (!this.currentUser) {
         this.$channel.$emit('sign-in')
         return false
       }

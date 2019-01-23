@@ -101,7 +101,6 @@
 
 <template>
   <div 
-    v-if="showCreator" 
     class="creators-container">
     <div id="creator-menu-wrap">
       <palette-button
@@ -117,20 +116,14 @@
           class="ic-btn el-icon-picture" 
           @click="handleImageClick" />
         <button 
-          v-if="userLevel > 2" 
-          class="ic-btn score-btn">
-          <a :href="$alias.createScore"> <i class="el-icon-edit" /> </a>
-        </button>
-        <button 
-          v-else 
-          class="ic-btn score-btn" 
+          class="ic-btn score-btn"
           @click="handleScoreClick">
           <i class="el-icon-edit" />
         </button>
         <button 
           class="ic-btn iconfont icon-pinglun" 
           @click="handlePostClick" />
-        <button 
+        <button
           class="ic-btn el-icon-question" 
           @click="handleQuestionClick" />
       </palette-button>
@@ -167,12 +160,6 @@ export default {
   computed: {
     isGuest() {
       return !this.$store.state.login
-    },
-    pageName() {
-      return this.$route.name
-    },
-    showCreator() {
-      return ['index', 'download-app'].indexOf(this.pageName) === -1
     },
     userLevel() {
       if (this.isGuest) {
@@ -221,10 +208,6 @@ export default {
         this.$channel.$emit('sign-in')
         return
       }
-      if (~['post-show'].indexOf(this.pageName)) {
-        this.$channel.$emit('open-create-comment-drawer')
-        return
-      }
       this.$channel.$emit('drawer-open-write-post')
     },
     handleQuestionClick() {
@@ -240,6 +223,15 @@ export default {
       this.$channel.$emit('drawer-open-write-question')
     },
     handleScoreClick() {
+      this.close()
+      if (this.isGuest) {
+        this.$channel.$emit('sign-in')
+        return
+      }
+      if (this.userLevel < 3) {
+        this.$toast.error('3级以上才能写漫评')
+        return
+      }
       window.location = this.$alias.createScore
     }
   }

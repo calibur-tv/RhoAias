@@ -205,7 +205,7 @@ module.exports = {
               suppressErrors: !isDev,
               deleteAfterCompile: false,
               filenameTransform: filename => {
-                return `~/www/${filename}`
+                return `~/m/${filename}`
               }
             }),
             new CompressionPlugin({

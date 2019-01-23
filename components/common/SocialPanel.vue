@@ -100,7 +100,7 @@ export default {
     },
     id: {
       required: true,
-      type: Number
+      type: [Number, String]
     },
     type: {
       required: true,

@@ -20,7 +20,7 @@
 
 <script>
 import { Picker } from 'mint-ui'
-import { followBangumis } from '~/api/userApi'
+
 export default {
   name: 'BangumiPicker',
   components: {
@@ -32,6 +32,14 @@ export default {
       type: [Number, String]
     },
     label: {
+      type: Boolean,
+      default: true
+    },
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+    display: {
       type: Boolean,
       default: true
     }
@@ -73,16 +81,17 @@ export default {
       return this.list[0].values[this.list[0].defaultIndex]['name']
     }
   },
-  watch: {
-    user: function(user, x) {
-      if (!x && user) this.getData()
-    }
-  },
   mounted() {
     this.$watch('value', val => {
       this.autoSelect(val)
     })
-    this.getData()
+    if (this.lazy) {
+      this.$watch('display', val => {
+        val && this.getData()
+      })
+    } else {
+      this.getData()
+    }
   },
   methods: {
     onClickSelect() {
@@ -121,7 +130,9 @@ export default {
       }
       this.loading = true
       try {
-        this.list[0].values = await followBangumis(this, this.user.zone)
+        this.list[0].values = await this.$store.dispatch(
+          'bangumi/getCurrentUserFollowBangumis'
+        )
         this.autoSelect(this.value)
         this.fetched = true
       } finally {
