@@ -171,7 +171,7 @@
           </a>
           <v-popover
             :actions="actions"
-            :report-id="post.id"
+            :report-id="id"
             :is-creator="post.is_creator"
             report-type="post"
           >
@@ -238,7 +238,7 @@
         </div>
         <div class="footer">
           <social-panel
-            :id="post.id"
+            :id="id"
             :is-creator="post.is_creator"
             :is-mine="isMaster"
             type="post"
@@ -255,13 +255,12 @@
       </div>
       <div class="hr"/>
       <comment-main
-        :id="post.id"
+        :id="id"
         :only-see-master="onlySeeMaster"
         :bottom-append-comment="false"
         :lazy="false"
         :master-id="master.id"
         type="post"
-        empty-text=""
       >
         <div slot="header"/>
         <post-comment-item
@@ -270,6 +269,12 @@
           :post="comment"
           :master-id="master.id"
           :preview="post.preview_images"
+        />
+        <post-comment-form
+          slot="reply-form"
+          slot-scope="{ close }"
+          :id="id"
+          @close="close"
         />
       </comment-main>
     </div>
@@ -296,6 +301,7 @@ import SocialPanel from '~/components/common/SocialPanel'
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
+import PostCommentForm from '~/components/post/PostCommentForm'
 import { getPostInfo, deletePost } from '~/api/postApi'
 
 export default {
@@ -351,7 +357,14 @@ export default {
     SocialPanel,
     ImagePreview,
     BangumiPanel,
+    PostCommentForm,
     VPopover
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
   },
   head() {
     return {
@@ -414,12 +427,12 @@ export default {
   methods: {
     handleBangumiFollow(result) {
       this.$store.commit('post/FOLLOW_BANGUMI', {
-        id: this.post.id,
+        id: this.id,
         result
       })
     },
     switchOnlyMaster() {
-      window.location = this.$alias.post(this.post.id, {
+      window.location = this.$alias.post(this.id, {
         only: this.onlySeeMaster ? 0 : 1
       })
     },
@@ -436,7 +449,7 @@ export default {
         .catch(() => {})
     },
     handleReplyBtnClick() {
-      this.$channel.$emit(`open-create-comment-drawer-post-${this.post.id}`)
+      this.$channel.$emit(`open-create-comment-drawer-post-${this.id}`)
     }
   }
 }

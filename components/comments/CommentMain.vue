@@ -683,6 +683,7 @@ export default {
       this.$channel.$emit(`open-create-comment-drawer-${this.type}-${this.id}`)
     },
     closeCommentDrawer() {
+      console.log('')
       this.openCreateCommentDrawer = false
     },
     submitCommentCallback() {

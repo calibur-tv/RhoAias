@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import { cdn } from 'env'
 import UploadMixin from '~/mixins/upload'
 
 export default {
@@ -149,7 +148,7 @@ export default {
     imageUploadSuccess(res, file) {
       this.handleImageUploadSuccess(res, file)
       this.$store.commit('editor/UPDATE_SECTION_IMAGE', {
-        url: `${cdn.image}${res.data.url}`,
+        url: res.data.url,
         width: res.data.width,
         height: res.data.height,
         size: res.data.size,

@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[16],{978:function(n,e,i){"use strict";i.r(e);var o={fetch:function(n){var e=n.redirect,i=n.params;return e("/bangumi/".concat(i.id,"/post"))}},t=i(1),u=Object(t.a)(o,void 0,void 0,!1,null,null,null);u.options.__file="index.vue";e.default=u.exports}}]);
-//# sourceMappingURL=index.chunk.251a0e38.js.map

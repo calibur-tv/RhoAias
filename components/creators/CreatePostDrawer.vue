@@ -84,7 +84,8 @@
         <span>番剧：</span>
         <bangumi-picker 
           v-model="bangumiId" 
-          :label="false" 
+          :label="false"
+          :lazy="true"
           :display="open" />
       </div>
       <div class="field-item">
@@ -109,9 +110,9 @@
       </div>
       <textarea
         v-model.trim="content"
-        placeholder="来吧，尽情的（在1000字以内）发挥吧"
+        placeholder="来吧，尽情的（在8000字以内）发挥吧"
         class="content"
-        maxlength="1000"
+        maxlength="8000"
       />
       <image-uploader
         :loading="submitting"

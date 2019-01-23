@@ -27,7 +27,7 @@
 
 <template>
   <div id="error-404">
-    <img src="~assets/img/404.jpeg">
+    <img src="~assets/img/error/404.jpeg">
     <p>你闯入了未知的页面，返回<nuxt-link to="/">首页</nuxt-link>吧，少年！</p>
   </div>
 </template>

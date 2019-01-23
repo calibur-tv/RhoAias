@@ -34,6 +34,14 @@ export default {
     label: {
       type: Boolean,
       default: true
+    },
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+    display: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -54,6 +62,9 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.state.user
+    },
     notInit() {
       return !this.list[0].values.length
     },
@@ -68,16 +79,19 @@ export default {
         return '点击选择番剧'
       }
       return this.list[0].values[this.list[0].defaultIndex]['name']
-    },
-    user() {
-      return this.$store.state.user
     }
   },
   mounted() {
     this.$watch('value', val => {
       this.autoSelect(val)
     })
-    this.getData()
+    if (this.lazy) {
+      this.$watch('display', val => {
+        val && this.getData()
+      })
+    } else {
+      this.getData()
+    }
   },
   methods: {
     onClickSelect() {
@@ -116,10 +130,9 @@ export default {
       }
       this.loading = true
       try {
-        await this.$store.dispatch('users/getMineBangumis', {
-          zone: this.user.zone
-        })
-        this.list[0].values = this.$store.state.users.mine_bangumis
+        this.list[0].values = await this.$store.dispatch(
+          'bangumi/getCurrentUserFollowBangumis'
+        )
         this.autoSelect(this.value)
         this.fetched = true
       } finally {

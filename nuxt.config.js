@@ -20,6 +20,7 @@ module.exports = {
     RELEASE: releaseTag,
     injectScript
   },
+  buildDir: isDev ? '.nuxt-dev' : '.nuxt',
   /*
    ** Headers of the page
    */
@@ -204,7 +205,7 @@ module.exports = {
               suppressErrors: !isDev,
               deleteAfterCompile: false,
               filenameTransform: filename => {
-                return `~/www/${filename}`
+                return `~/m/${filename}`
               }
             }),
             new CompressionPlugin({
