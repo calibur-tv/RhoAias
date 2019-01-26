@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import Api from '~/api/questionApi'
+import { createAnswer, updateAnswer } from '~/api/answerApi'
 import JsonEditor from '~/components/jsonEditor/index'
 
 export default {
@@ -172,7 +172,6 @@ export default {
     async submit(richContent, geetest = {}) {
       this.$toast.loading('保存中')
       this.$channel.$emit('write-submit', true)
-      const api = new Api(this)
       try {
         const form = {
           question_id: this.questionId,
@@ -185,9 +184,9 @@ export default {
         let result
         if (this.id) {
           form.id = this.id
-          await api.updateAnswer(form)
+          await updateAnswer(this, form)
         } else {
-          result = await api.createAnswer(form)
+          result = await createAnswer(this, form)
           this.id = result.data
         }
         if (richContent.publish) {
@@ -203,9 +202,11 @@ export default {
           this.$toast.success(
             typeof result !== 'undefined' ? result.message : '保存成功'
           )
-          this.$store.commit('question/EDIT_ANSWER', { id: this.id })
+          // this.$store.commit('question/EDIT_ANSWER', { id: this.id })
           this.closeEditor()
         }
+      } catch (e) {
+        this.$toast.error(e)
       } finally {
         this.saving = false
       }
