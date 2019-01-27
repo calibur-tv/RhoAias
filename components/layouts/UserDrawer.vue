@@ -172,7 +172,7 @@
         </a>
       </li>
       <li>
-        <a href="/me/invite">
+        <a href="/my/invite">
           <i class="iconfont icon-yaoqingma" /> 我的邀请码
         </a>
       </li>

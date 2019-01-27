@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { getLoginUser } from '~/api/userApi'
+import { getLoginUser, getNotificationCount } from '~/api/userApi'
 import { getUpToken } from '~/api/imageApi'
 import parseToken from '~/assets/js/parseToken'
 

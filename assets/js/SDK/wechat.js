@@ -1,5 +1,8 @@
 export default class {
   init({ appId, timestamp, signature, nonceStr }) {
+    if (typeof window.wx === 'undefined') {
+      return
+    }
     wx.config({
       debug: false,
       appId: appId,
@@ -15,13 +18,55 @@ export default class {
 
     // 初始化分享相关
     wx.ready(() => {
+      // 初始化查看图片
+      const allNoteImages = []
+      ;[].forEach.call(
+        document.querySelectorAll('.image-package'),
+        imagePackage => {
+          const image = imagePackage.querySelector('img')
+
+          if (image) {
+            let imageSrc =
+              image.getAttribute('src') ||
+              image.getAttribute('data-original-src')
+
+            if (imageSrc.match(/^\/\//)) {
+              imageSrc = `http:${imageSrc}`
+            }
+
+            allNoteImages.push(imageSrc)
+
+            imagePackage.addEventListener('click', () => {
+              wx.previewImage({
+                current: imageSrc,
+                urls: allNoteImages
+              })
+            })
+          }
+        }
+      )
+
+      wx.updateTimelineShareData({
+        title: this.getShareTitle(),
+        link: this.getShareLink(),
+        imgUrl: this.getShareImage(),
+        success: () => {}
+      })
+
+      wx.updateAppMessageShareData({
+        title: this.getShareTitle(),
+        desc: this.getShareDesc(),
+        link: this.getShareLink(),
+        imgUrl: this.getShareImage(),
+        type: 'link',
+        success: () => {}
+      })
+
       wx.onMenuShareTimeline({
         title: this.getShareTitle(),
         link: this.getShareLink(),
         imgUrl: this.getShareImage(),
-        success: () => {
-          M.vueHub.$emit('note-share-wechat')
-        }
+        success: () => {}
       })
 
       wx.onMenuShareAppMessage({
@@ -30,9 +75,7 @@ export default class {
         link: this.getShareLink(),
         imgUrl: this.getShareImage(),
         type: 'link',
-        success: () => {
-          M.vueHub.$emit('note-share-wechat')
-        }
+        success: () => {}
       })
     })
   }
@@ -50,6 +93,7 @@ export default class {
   }
 
   getShareImage() {
+    // TODO format
     return M.shareData.get().imageUrl
   }
 }

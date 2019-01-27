@@ -373,8 +373,6 @@ export default {
             }, 1000)
           }
         }
-      } catch (e) {
-        this.$toast.error(e)
       } finally {
         this.$channel.$emit('write-save-done')
         this.$channel.$emit('write-submit', false)

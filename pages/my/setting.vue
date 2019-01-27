@@ -487,8 +487,6 @@ export default {
                   geetest: data
                 })
                 this.bindPhone.showInfoForm = true
-              } catch (err) {
-                this.$toast.error(err)
               } finally {
                 this.bindPhone.timeout = 60
                 const timer = setInterval(() => {
