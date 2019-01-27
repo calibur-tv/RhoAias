@@ -336,6 +336,10 @@ export default {
       ]
       if (this.isMe) {
         tabs.push({
+          label: '草稿',
+          route: 'user-zone-draft'
+        })
+        tabs.push({
           label: '收藏',
           route: 'user-zone-mark'
         })
