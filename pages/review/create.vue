@@ -167,8 +167,6 @@
           />
           <el-rate
             v-model="form[item]"
-            :size="20"
-            :count="10"
             allow-half
           />
         </div>
@@ -272,7 +270,7 @@ export default {
     total() {
       let result = 0
       this.columns.forEach(key => {
-        result += this.form[key]
+        result += this.form[key] * 2
       })
       return result
     }
@@ -410,7 +408,7 @@ export default {
       this.is_creator = this.resource.is_creator
       this.title = this.resource.title
       this.columns.forEach(key => {
-        this.form[key] = this.resource[key] * 2
+        this.form[key] = this.resource[key]
       })
     }
   }
