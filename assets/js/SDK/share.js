@@ -39,8 +39,7 @@ export default class {
               document
                 .querySelector('[name=description]')
                 .getAttribute('content') || 'calibur.tv - 天下漫友是一家',
-            imageUrl:
-              'https://image.calibur.tv/owner/logo/max.png-share120jpg'
+            imageUrl: 'https://image.calibur.tv/owner/logo/max.png-share120jpg'
           }
         }
         return Object.assign(

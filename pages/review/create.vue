@@ -302,7 +302,7 @@ export default {
       const scores = {}
       let total = 0
       Object.keys(this.form).forEach(key => {
-        const value = this.form[key]
+        const value = this.form[key] * 2
         scores[key] = value
         total += value
       })
