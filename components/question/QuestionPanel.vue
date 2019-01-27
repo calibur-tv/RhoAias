@@ -75,7 +75,7 @@
       }
 
       .others {
-        float: right;
+        text-align: right;
         line-height: 24px;
       }
     }
@@ -324,6 +324,13 @@ export default {
       } catch (e) {
         this.$toast.error(e)
       }
+    },
+    beginWriteAnswer() {
+      if (!this.$store.state.login) {
+        this.$channel.$emit('sign-in')
+        return
+      }
+      this.showCreateAnswerForm = true
     }
   }
 }
