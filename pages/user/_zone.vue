@@ -332,6 +332,10 @@ export default {
         {
           label: '问答',
           route: 'user-zone-qaq'
+        },
+        {
+          label: '草稿',
+          route: 'user-zone-draft'
         }
       ]
       if (this.isMe) {

@@ -134,6 +134,53 @@
           :id="id"
           type="question"
         />
+        <template v-if="qaq.my_answer">
+          <template v-if="answerPage">
+            <button
+              v-if="isMyAnswer"
+              class="footer-btn"
+              @click="editMyAnswer"
+            >
+              <i class="el-icon-edit"/>
+              编辑回答
+            </button>
+            <a
+              v-else-if="qaq.my_answer.published_at"
+              :href="$alias.answer(qaq.my_answer.id)"
+              class="footer-btn"
+            >
+              <i class="el-icon-view"/>
+              查看回答
+            </a>
+          </template>
+          <template v-else>
+            <a
+              v-if="qaq.my_answer.published_at"
+              :href="$alias.answer(qaq.my_answer.id)"
+              class="footer-btn"
+            >
+              <i class="el-icon-view"/>
+              查看回答
+            </a>
+            <button
+              v-else
+              class="footer-btn"
+              @click="editMyAnswer"
+            >
+              <i class="el-icon-edit"/>
+              编辑回答
+            </button>
+          </template>
+        </template>
+        <button
+          v-else
+          class="footer-btn"
+          @click="beginWriteAnswer"
+        >
+          <i class="el-icon-edit"/>
+          写回答
+        </button>
+
         <button 
           class="footer-btn" 
           @click="loadQAQComment">
@@ -159,6 +206,13 @@
         </div>
       </div>
     </div>
+    <create-answer-form
+      v-model="showCreateAnswerForm"
+      :title="qaq.title"
+      :question-id="id"
+      :answer-id="qaq.my_answer ? qaq.my_answer.id : 0"
+      :published="qaq.my_answer ? !!qaq.published_at : false"
+    />
     <v-drawer 
       v-model="showCommentModal" 
       from="bottom" 
@@ -188,13 +242,16 @@
 </template>
 
 <script>
+import CreateAnswerForm from '~/components/question/CreateAnswerForm'
 import FollowButton from '~/components/common/FollowButton'
 import CommentMain from '~/components/comments/CommentMain'
 import VPopover from '~/components/common/Popover'
+import { getEditAnswerData } from '~/api/answerApi'
 
 export default {
   name: 'QuestionPanel',
   components: {
+    CreateAnswerForm,
     VPopover,
     FollowButton,
     CommentMain
@@ -229,6 +286,15 @@ export default {
     },
     isGuest() {
       return !this.$store.state.login
+    },
+    answerPage() {
+      return this.$route.name === 'soga-id'
+    },
+    isMyAnswer() {
+      if (this.isGuest || !this.answerPage) {
+        return false
+      }
+      return this.answer.user.id === this.$store.state.user.id
     }
   },
   created() {
@@ -247,6 +313,17 @@ export default {
     },
     handleCommentChange(count) {
       this.qaq.comment_count += count
+    },
+    async editMyAnswer() {
+      try {
+        const data = await getEditAnswerData(this, {
+          id: this.qaq.my_answer.id
+        })
+        this.$store.commit('editor/INIT_SECTION', data)
+        this.showCreateAnswerForm = true
+      } catch (e) {
+        this.$toast.error(e)
+      }
     }
   }
 }
