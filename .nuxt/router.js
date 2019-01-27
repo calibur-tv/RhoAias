@@ -24,6 +24,7 @@ const _5480d568 = () => interopDefault(import('../pages/callback/auth-redirect.v
 const _0bfc8543 = () => interopDefault(import('../pages/callback/auth-success.vue' /* webpackChunkName: "pages/callback/auth-success" */))
 const _255890e8 = () => interopDefault(import('../pages/error/404.vue' /* webpackChunkName: "pages/error/404" */))
 const _6307f3b2 = () => interopDefault(import('../pages/my/invite.vue' /* webpackChunkName: "pages/my/invite" */))
+const _16b57aee = () => interopDefault(import('../pages/my/notification.vue' /* webpackChunkName: "pages/my/notification" */))
 const _55fc68a2 = () => interopDefault(import('../pages/my/setting.vue' /* webpackChunkName: "pages/my/setting" */))
 const _d0988024 = () => interopDefault(import('../pages/review/create.vue' /* webpackChunkName: "pages/review/create" */))
 const _899ef50e = () => interopDefault(import('../pages/role/trending.vue' /* webpackChunkName: "pages/role/trending" */))
@@ -188,6 +189,11 @@ export function createRouter() {
       component: _6307f3b2,
       props: false,
       name: "my-invite"
+    }, {
+      path: "/my/notification",
+      component: _16b57aee,
+      props: false,
+      name: "my-notification"
     }, {
       path: "/my/setting",
       component: _55fc68a2,

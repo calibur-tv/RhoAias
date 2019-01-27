@@ -1,7 +1,7 @@
 export default ({ app, store }) => {
   const isWechat = store.state.ua.wechat
   app.router.onReady(() => {
-    app.router.beforeResolve(async (to, from, next) => {
+    app.router.beforeResolve((to, from, next) => {
       if (isWechat) {
         window.location = to.fullPath
         return next(false)

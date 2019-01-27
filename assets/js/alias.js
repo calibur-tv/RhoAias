@@ -57,7 +57,7 @@ export default {
   },
 
   editScore(id) {
-    return `/review/edit/${id}`
+    return `/review/create?id=${id}`
   },
 
   question(id) {
