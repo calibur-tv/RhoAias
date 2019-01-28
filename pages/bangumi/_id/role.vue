@@ -1,6 +1,13 @@
 <style lang="scss" scoped>
+.align-center {
+  text-align: center;
+}
+.h-175 {
+  height: 175px;
+}
 .look-for-role-btn {
   margin: 10px auto 20px;
+  width: 200px;
 }
 </style>
 
@@ -21,13 +28,34 @@
         user-zone=""
       />
     </ul>
-    <el-button
+    <div 
+      slot="nothing" 
+      class="align-center">
+      <div 
+        class="state-nothing h-175">
+        <img
+          src="~assets/img/no-content.png"
+          alt="no-content"
+        >
+        <span>这里什么都没有</span>
+      </div>
+      <el-button
+        type="primary"
+        class="look-for-role-btn"
+        round
+        @click="openFeedback"
+      >求偶像</el-button>
+    </div>
+    <div 
       slot="no-more"
-      type="primary"
-      class="look-for-role-btn"
-      round
-      @click="openFeedback"
-    >求偶像</el-button>
+      class="align-center">
+      <el-button
+        type="primary"
+        class="look-for-role-btn"
+        round
+        @click="openFeedback"
+      >求偶像</el-button>
+    </div>
   </flow-list>
 </template>
 
