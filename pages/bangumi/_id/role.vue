@@ -1,3 +1,9 @@
+<style lang="scss" scoped>
+.look-for-role-btn {
+  margin: 10px auto 20px;
+}
+</style>
+
 <template>
   <flow-list
     :id="id"
@@ -15,6 +21,13 @@
         user-zone=""
       />
     </ul>
+    <el-button
+      slot="no-more"
+      type="primary"
+      class="look-for-role-btn"
+      round
+      @click="openFeedback"
+    >求偶像</el-button>
   </flow-list>
 </template>
 
@@ -40,6 +53,15 @@ export default {
     id: {
       required: true,
       type: String
+    }
+  },
+  methods: {
+    openFeedback() {
+      this.$channel.$emit('open-feedback', {
+        type: 6,
+        desc: `我想要为 {?} 应援`,
+        placeholder: '请填写要应援的偶像'
+      })
     }
   }
 }
