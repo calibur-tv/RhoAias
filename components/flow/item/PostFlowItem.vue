@@ -327,7 +327,7 @@
           <span>{{ $utils.shortenNumber(item.like_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon--mark"/>
+          <i class="iconfont icon-mark"/>
           <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
         </div>
         <div>
