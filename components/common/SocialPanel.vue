@@ -1,5 +1,5 @@
 <style lang="scss">
-.social-panel {
+.ours-panel {
   margin: 50px 0;
 
   .buttons {
@@ -34,7 +34,7 @@
 <template>
   <div
     v-if="source"
-    class="social-panel"
+    class="ours-panel"
   >
     <div class="buttons">
       <el-button
@@ -64,7 +64,7 @@
         :class="{ 'is-plain': source.mark }"
         :loading="source.mark_loading"
         type="success"
-        icon="iconfont icon--mark"
+        icon="iconfont icon-mark"
         round
         size="mini"
         @click="toggleAction('mark')"

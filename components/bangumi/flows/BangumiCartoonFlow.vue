@@ -169,7 +169,7 @@
                   {{ item.like_count }}
                 </span>
                 <span v-if="item.mark_count">
-                  <i class="iconfont icon--mark"/>
+                  <i class="iconfont icon-mark"/>
                   {{ item.mark_count }}
                 </span>
                 <span

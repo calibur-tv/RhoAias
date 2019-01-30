@@ -232,7 +232,7 @@
                   <i class="iconfont icon-like" /> {{ item.like_count }}
                 </span>
                 <span>
-                  <i class="iconfont icon--mark" /> {{ item.mark_count }}
+                  <i class="iconfont icon-mark" /> {{ item.mark_count }}
                 </span>
                 <span>
                   <i class="iconfont icon-talk" /> {{ item.comment_count }}
