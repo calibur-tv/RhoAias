@@ -97,12 +97,12 @@
         ><i class="iconfont icon-yuedu"/></button>
       </el-form-item>
       <div class="providers">
-        <a href="https://api.calibur.tv/callback/oauth2/qq?from=sign">
+        <a :href="qqRegisterLink">
           <i class="iconfont icon-qq"/>
         </a>
         <a
           v-if="ua.wechat"
-          href="https://api.calibur.tv/callback/oauth2/weixin?from=sign"
+          :href="wechatRegisterLink"
         >
           <i class="iconfont icon-wechat"/>
         </a>
@@ -134,6 +134,12 @@ import { login } from '~/api/userApi'
 
 export default {
   name: 'SignInForm',
+  props: {
+    inviteCode: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     const validateAccess = (rule, value, callback) => {
       if (!value) {
@@ -173,6 +179,20 @@ export default {
   computed: {
     ua() {
       return this.$store.state.ua
+    },
+    qqRegisterLink() {
+      let link = 'https://api.calibur.tv/callback/oauth2/qq?from=sign'
+      if (this.inviteCode) {
+        link = `${link}&invite=${this.inviteCode}`
+      }
+      return link
+    },
+    wechatRegisterLink() {
+      let link = 'https://api.calibur.tv/callback/oauth2/weixin?from=sign'
+      if (this.inviteCode) {
+        link = `${link}&invite=${this.inviteCode}`
+      }
+      return link
     }
   },
   methods: {

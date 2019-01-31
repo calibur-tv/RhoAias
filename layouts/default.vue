@@ -6,6 +6,7 @@
     <share-drawer />
     <report-drawer />
     <sign-drawer />
+    <gift-modal />
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import FeedbackDrawer from '~/components/drawers/FeedbackDrawer'
 import ShareDrawer from '~/components/drawers/ShareDrawer'
 import ReportDrawer from '~/components/drawers/ReportDrawer'
 import SignDrawer from '~/components/common/Sign'
+import GiftModal from '~/components/common/GiftModal'
 
 export default {
   name: 'DefaultLayout',
@@ -23,7 +25,8 @@ export default {
     FeedbackDrawer,
     ShareDrawer,
     ReportDrawer,
-    SignDrawer
+    SignDrawer,
+    GiftModal
   },
   mounted() {
     this.$store.dispatch('initAuth')

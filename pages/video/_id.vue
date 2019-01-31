@@ -64,6 +64,20 @@
       top: 0;
       z-index: -1;
     }
+
+    .need-coin-bg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      color: #ffffff;
+
+      p {
+        padding-top: 25vw;
+      }
+    }
   }
 
   .container {
@@ -159,6 +173,54 @@
       margin-top: 3px;
     }
   }
+
+  .need-coin-drawer {
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 13px;
+      margin-top: 25px;
+    }
+
+    p,
+    li {
+      line-height: 24px;
+    }
+
+    a {
+      color: $color-blue-normal;
+    }
+
+    ul {
+      margin-top: 10px;
+      margin-bottom: 15px;
+      margin-left: 20px;
+    }
+
+    li {
+      text-align: left;
+      list-style-type: disc;
+    }
+
+    .invite-btn {
+      width: 100%;
+      background-color: #f25d8e;
+      border-radius: 4px;
+      box-shadow: 0 4px 4px rgba(255, 112, 159, 0.3);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 50px;
+      padding: 0 24px;
+      margin-bottom: 5px;
+
+      &:hover {
+        background-color: #ff709f;
+      }
+    }
+  }
 }
 </style>
 
@@ -188,14 +250,6 @@
           你已被禁止看视频功能，请加QQ群解禁
         </p>
       </template>
-      <template v-else-if="needCoin">
-        <p>
-          该视频需要投食之后才能播放
-          <br>
-          团子可通过签到等方式获得
-        </p>
-        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
-      </template>
       <template v-else-if="showLevelThrottle">
         <p>
           该视频需要你的等级至少 {{ need_min_level }} 才能播放
@@ -216,6 +270,12 @@
         :src="$resize(info.poster, { width: 200 })"
         class="share-poster"
       >
+      <div
+        v-if="showRewardDialog"
+        class="need-coin-bg"
+      >
+        <p>该视频需要投食之后才能播放</p>
+      </div>
     </div>
     <div class="container">
       <div id="metas">
@@ -301,6 +361,34 @@
         />
       </v-lazy>
     </div>
+    <!-- 付费弹窗 -->
+    <v-drawer
+      v-model="showRewardDialog"
+      from="bottom"
+      size="70%"
+      class="need-coin-drawer"
+    >
+      <div
+        v-if="!isGuest"
+        class="container"
+      >
+        <h2>非常抱歉，为了降低流量压力，需要投食才能看番</h2>
+        <p>点击视频下方「投食」按钮即可继续观看</p>
+        <p>投食会消耗你一枚「团子」</p>
+        <p>如果你已经没有团子了，你可以：</p>
+        <ul>
+          <li>每天签到可以获得一枚团子</li>
+          <li>每天在站内发言、活跃就会获得团子</li>
+          <li>邀请别人注册 calibur，你与注册者都会获得团子</li>
+          <li>calibur 目前还不支持氪金，请见谅</li>
+        </ul>
+        <button
+          v-clipboard="`http://calibur.tv/about/invite/${user.id}`"
+          class="invite-btn"
+          @success="$toast.success('复制成功~快去发送给好友吧')"
+        >点击生成你的专属邀请码，获得团子</button>
+      </div>
+    </v-drawer>
   </div>
 </template>
 
@@ -309,7 +397,6 @@ import { getVideoInfo, markPlaying } from '~/api/videoApi'
 import CommentMain from '~/components/comments/CommentMain'
 import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
-import serverAuth from '~/mixins/serverAuth'
 
 export default {
   name: 'VideoShow',
@@ -349,7 +436,6 @@ export default {
     SocialPanel,
     BangumiPanel
   },
-  mixins: [serverAuth],
   props: {
     id: {
       type: String,
@@ -416,7 +502,8 @@ export default {
       list: [],
       ip_blocked: false,
       must_reward: false,
-      need_min_level: 0
+      need_min_level: 0,
+      showRewardDialog: false
     }
   },
   computed: {
@@ -424,7 +511,7 @@ export default {
       return !this.$store.state.login
     },
     isMine() {
-      return this.$store.state.login
+      return !this.isGuest
         ? this.info.user_id === this.$store.state.user.id
         : false
     },
@@ -472,65 +559,78 @@ export default {
       return this.take < this.videos.length
     },
     showLevelThrottle() {
-      if (this.$store.state.login) {
-        return this.$store.state.user.exp.level < this.need_min_level
+      if (!this.isGuest) {
+        return this.user.exp.level < this.need_min_level
       }
       return true
     },
     needCoin() {
       return this.must_reward && !this.info.rewarded
+    },
+    user() {
+      return this.$store.state.user
     }
   },
   mounted() {
     this.computePage()
-    if (this.isFlv) {
-      this.notSupport = true
-      return
-    }
-    if (
-      !this.videoSrc ||
-      this.useOtherSiteSource ||
-      this.showLevelThrottle ||
-      this.needCoin ||
-      this.isGuest ||
-      this.ip_blocked
-    ) {
-      return
-    }
-    this.player = this.$refs.video
-
-    try {
-      this.player.load()
-    } catch (e) {
-      this.$alert(this.errorTips)
-      return
-    }
-    this.player.addEventListener('pause', () => {
-      this.playing = false
-    })
-
-    this.player.addEventListener('waiting', () => {
-      this.loading = true
-    })
-
-    this.player.addEventListener('playing', () => {
-      this.playing = true
-      this.handlePlaying()
-    })
-
-    this.player.addEventListener('timeupdate', () => {
-      this.loading = false
-    })
-
-    this.player.addEventListener('abort', () => {
-      this.$alert(this.errorTips)
-    })
-
-    this.player.addEventListener('error', () => {
-      this.$alert(this.errorTips)
+    const canceler = this.$watch('isGuest', () => {
+      canceler()
+      this.initPlayer()
     })
   },
   methods: {
+    initPlayer() {
+      if (this.isFlv) {
+        this.notSupport = true
+        return
+      }
+      if (
+        !this.videoSrc ||
+        this.useOtherSiteSource ||
+        this.showLevelThrottle ||
+        this.isGuest ||
+        this.ip_blocked
+      ) {
+        return
+      }
+      this.player = this.$refs.video
+
+      try {
+        this.player.load()
+      } catch (e) {
+        this.$alert(this.errorTips)
+        return
+      }
+      const self = this
+      this.player.addEventListener('pause', () => {
+        this.playing = false
+      })
+
+      this.player.addEventListener('waiting', () => {
+        this.loading = true
+      })
+
+      this.player.addEventListener('playing', () => {
+        this.playing = true
+        this.handlePlaying()
+      })
+
+      this.player.addEventListener('timeupdate', function() {
+        self.loading = false
+        if (this.currentTime > 300 && self.needCoin) {
+          self.player.pause()
+          self.showRewardDialog = true
+        }
+      })
+
+      this.player.addEventListener('abort', () => {
+        this.$alert(this.errorTips)
+      })
+
+      this.player.addEventListener('error', () => {
+        this.$alert(this.errorTips)
+      })
+    },
     computePage() {
       this.videos.forEach(meta => {
         if (meta.id === +this.id) {
