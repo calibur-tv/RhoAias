@@ -58,6 +58,7 @@ export default {
         sort: this.sort,
         func: this.func,
         id: this.id,
+        count: this.count,
         changing: this.changing,
         _extra: this.extra
       })

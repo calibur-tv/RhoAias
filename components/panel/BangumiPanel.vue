@@ -50,7 +50,10 @@ $panel-height: 92px;
           v-text="name" />
       </nuxt-link>
       <div :class="$style.summary"><slot /></div>
-      <div :class="$style.controls">
+      <div
+        v-if="showFollow"
+        :class="$style.controls"
+      >
         <follow-button
           :id="id"
           type="bangumi"
@@ -80,6 +83,10 @@ export default {
     name: {
       required: true,
       type: String
+    },
+    showFollow: {
+      required: true,
+      type: Boolean
     }
   }
 }

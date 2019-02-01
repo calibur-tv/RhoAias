@@ -23,12 +23,14 @@
           />
           <sign-in-form
             v-show="!showReset"
+            :invite-code="paramsIsOK ? query.uid : ''"
             @to-reset="showReset = true"
             @to-register="showRegister"
           />
         </div>
         <sign-up-form
           v-show="showSignUp"
+          :invite-code="paramsIsOK ? query.uid : ''"
           @to-login="showLogin"
         />
       </div>
@@ -67,6 +69,20 @@ export default {
   computed: {
     isGuest() {
       return !this.$store.state.login
+    },
+    query() {
+      return this.$route.query
+    },
+    paramsIsOK() {
+      return !!(
+        this.query.uid &&
+        /^\d+$/.test(this.query.uid) &&
+        this.query.time &&
+        /^\d+$/.test(this.query.time) &&
+        Date.now() <= this.query.time * 1000 &&
+        this.query.key ===
+          this.$md5(`${this.query.uid}-the-world-${this.query.time}`)
+      )
     }
   },
   mounted() {

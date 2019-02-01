@@ -7,7 +7,9 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import ImageLazyLoad from '~/components/common/ImageLazyLoad'
 import LazyComponent from '~/components/common/LazyComponent'
 import { Upload, Form, FormItem, Input, Button } from 'element-ui'
+import VueClipboards from 'vue-clipboards'
 
+Vue.use(VueClipboards)
 Vue.use(Upload)
 Vue.use(Form)
 Vue.use(FormItem)
