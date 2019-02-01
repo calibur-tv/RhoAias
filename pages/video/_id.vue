@@ -147,10 +147,22 @@
     .bangumi-panel {
       margin-bottom: 15px;
 
-      .part {
+      button {
+        width: 100%;
+        background-color: #f25d8e;
+        border-radius: 4px;
+        box-shadow: 0 4px 4px rgba(255, 112, 159, 0.3);
+        color: #fff;
         font-size: 14px;
-        display: block;
-        @include twoline(16px);
+        line-height: 40px;
+        padding: 0 24px;
+        margin-bottom: 10px;
+
+        &.active {
+          background-color: #fff;
+          color: #f25d8e;
+          border: 1px solid #f25d8e;
+        }
       }
     }
 
@@ -340,9 +352,13 @@
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
+        :show-follow="false"
         class="bangumi-panel"
       >
-        <p class="part">第{{ info.part }}话&nbsp;{{ info.name }}</p>
+        <button
+          :class="{ 'active': buyed }"
+          @click="handleClickBuy"
+        >{{ buyed ? '已承包' : '10个团子承包整个季度' }}</button>
       </bangumi-panel>
       <h3 class="sub-title">视频反馈</h3>
       <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong> 获得最新的资源更新提醒</p>
@@ -393,7 +409,7 @@
 </template>
 
 <script>
-import { getVideoInfo, markPlaying } from '~/api/videoApi'
+import { getVideoInfo, markPlaying, buyVideoPackage } from '~/api/videoApi'
 import CommentMain from '~/components/comments/CommentMain'
 import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
@@ -503,6 +519,9 @@ export default {
       ip_blocked: false,
       must_reward: false,
       need_min_level: 0,
+      season_id: 0,
+      buyed: false,
+      buying: false,
       showRewardDialog: false
     }
   },
@@ -661,6 +680,35 @@ export default {
       if (this.must_reward) {
         window.location.reload()
       }
+    },
+    handleClickBuy() {
+      if (this.buyed) {
+        this.$toast.success('无需重复购买')
+        return
+      }
+      if (this.buying) {
+        return
+      }
+      this.$confirm('这会消耗你10个虚拟币，确认吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.buying = true
+          buyVideoPackage(this, {
+            season_id: this.season_id
+          })
+            .then(() => {
+              this.$toast.success('购买成功，正在刷新页面').then(() => {
+                window.location.reload()
+              })
+            })
+            .catch(() => {
+              this.buying = false
+            })
+        })
+        .catch(() => {})
     }
   }
 }
