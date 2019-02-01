@@ -26,7 +26,7 @@ export const actions = {
       type, // required
       func, // required
       count = 12,
-      sort,
+      sort = '',
       refresh = false,
       force = false
     }
@@ -75,7 +75,7 @@ export const actions = {
   // 3.set store，设置 loading
   async loadMore(
     { state, commit },
-    { type, changing = 'id', id = '', func, sort, count = 12 }
+    { type, changing = 'id', id = '', func, sort = '', count = 12 }
   ) {
     const fieldName = `${func}-${id}-${sort}`
     const field = state[fieldName]
@@ -173,7 +173,7 @@ export const mutations = {
 }
 
 export const getters = {
-  getFlow: state => (func, sort, id = '') => {
+  getFlow: state => (func, sort = '', id = '') => {
     return state[`${func}-${id}-${sort}`]
   }
 }

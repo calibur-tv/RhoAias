@@ -20,6 +20,10 @@ export default {
       type: Boolean,
       default: true
     },
+    count: {
+      type: [String, Number],
+      default: 12
+    },
     changing: {
       type: String,
       default: 'id'

@@ -1,265 +1,106 @@
 <style lang="scss">
+$main-color: #f25d8e;
 #app-invite {
-  padding-top: 15px;
-  position: relative;
-  height: 600px;
-  margin: 0 auto;
-  overflow: hidden;
-  background-color: #c73230;
-  min-height: 100vh;
+  .my-space {
+    .content {
+      border: 2px solid $main-color;
+      width: 280px;
+      margin: 60px auto 20px auto;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 14px;
 
-  .top-bg {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-    background-image: url('~assets/img/invite/top.png');
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .bottom-bg {
-    position: absolute;
-    bottom: -1px;
-    right: 0;
-    left: 0;
-    top: 0;
-    background-image: url('~assets/img/invite/bottom.png');
-    background-position: center bottom;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .capture-area {
-    width: 200%;
-    height: 200%;
-    transform: scale(0.5);
-    transform-origin: 0 0;
-    padding-top: 50px;
-    position: relative;
-    background-color: #c73230;
-
-    #background {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .main {
-      position: relative;
-      background-color: white;
-      margin: 0 30px 30px;
-      border-radius: 20px;
-      padding-top: 45px;
-      padding-bottom: 45px;
-
-      .border-outline {
-        position: relative;
-        height: 100%;
-        margin-left: 44px;
-        margin-right: 44px;
-        border: 2px solid #c7bfb0;
-
-        &:before {
-          position: absolute;
-          content: '';
-          left: -6px;
-          top: -6px;
-          right: -6px;
-          bottom: -6px;
-          border: 2px solid #c7bfb0;
-        }
-      }
-
-      .avatar-wrap {
-        position: relative;
-        height: 262px;
-        padding-top: 100px;
-
-        .avatar {
-          margin: 0 auto;
-          border: 6px solid #fb5956;
-          width: 160px;
-          height: 160px;
-          border-radius: 50%;
-          position: relative;
-          z-index: 2;
-
-          .avatar-hat {
-            position: absolute;
-            right: -5px;
-            top: -45px;
-            width: 84px;
-            height: 74px;
-            background-image: url('~assets/img/invite/hat.png');
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center;
-          }
-        }
-
-        .avatar-bg {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          width: 406px;
-          height: 136px;
-          margin-top: 45px;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: contain;
-          transform: translate(-50%, -50%);
-          background-image: url('~assets/img/invite/calibur.png');
-          z-index: 0;
-        }
-
-        img {
-          border-radius: 50%;
-        }
+      img {
+        display: block;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        margin: -40px auto 18px;
+        border: 2px solid $main-color;
+        background-color: #fff;
       }
 
       .nickname {
-        font-size: 38px;
-        font-weight: bold;
-        margin-top: 12px;
-        margin-left: 30px;
-        margin-right: 30px;
-        text-align: center;
-        color: #333;
-
-        strong {
-          color: #49689b;
-          margin-left: 5px;
-        }
+        color: $main-color;
       }
 
-      .info {
-        font-size: 28px;
-        margin-top: 10px;
-        text-align: center;
-
-        strong {
-          color: #ff6881;
-          margin-left: 5px;
-          margin-right: 5px;
-        }
-      }
-
-      .tags {
-        margin: 38px 50px;
-        text-align: center;
-        height: 116px;
-        overflow: hidden;
-
-        .badge {
-          display: inline-block;
-          position: relative;
-          height: 50px;
-          line-height: 50px;
-          background-color: #ff6881;
-          padding: 0 20px;
-          margin-right: 20px;
-          border-radius: 0 8px 0 8px;
-          font-size: 0;
-          margin-bottom: 16px;
-
-          &:after {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: -8px;
-            width: 0;
-            height: 0;
-            border: 10px solid;
-            border-color: transparent;
-            border-bottom-color: #ff6881;
-          }
-
-          img {
-            width: 22px;
-            height: 22px;
-            margin-right: 8px;
-            margin-left: -8px;
-            vertical-align: middle;
-          }
-
-          span {
-            display: inline-block;
-            color: #fff;
-            font-size: 24px;
-            vertical-align: middle;
-          }
-        }
-      }
-
-      .line {
-        margin-left: 60px;
-        margin-right: 60px;
-        height: 1px;
-        background-color: #f4f3f0;
-        margin-bottom: 50px;
+      .code {
+        font-size: 18px;
+        margin-top: 15px;
       }
 
       .intro {
-        text-align: center;
-        font-size: 24px;
-        line-height: 34px;
-
-        span {
-          color: #333333;
-        }
-
-        strong {
-          color: #ff6881;
-          font-weight: bold;
-          margin-left: 2px;
-        }
-      }
-
-      .qr {
-        width: 180px;
-        height: 180px;
-        margin: 17px auto 33px;
-      }
-
-      .slogan {
-        width: 240px;
-        height: 50px;
-        background-image: url('~assets/img/invite/slogan.png');
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        margin: 0 auto 120px;
+        color: $color-text-normal;
+        font-size: 13px;
+        line-height: 18px;
+        width: 208px;
+        margin: 15px auto;
+        text-indent: 2em;
+        text-align: left;
       }
     }
 
-    .snow-left {
-      position: absolute;
-      left: -55px;
-      top: -105px;
-      width: 220px;
-      height: 104px;
-      background-image: url('~assets/img/invite/uk-left.png');
-      background-repeat: no-repeat;
-      background-position: left top;
-      background-size: contain;
+    .tips {
+      font-size: 13px;
+      color: $color-text-normal;
+      text-align: center;
     }
 
-    .snow-right {
-      position: absolute;
-      right: -55px;
-      top: -90px;
-      height: 94px;
-      width: 300px;
-      background-image: url('~assets/img/invite/uk-right.png');
-      background-repeat: no-repeat;
-      background-position: left top;
-      background-size: contain;
+    .invite-btn {
+      display: block;
+      width: 280px;
+      margin: 20px auto;
+      background-color: $main-color;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 50px;
+      padding: 0 24px;
+      box-shadow: 0 4px 4px rgba(255, 112, 159, 0.3);
+    }
+  }
+
+  .invite-users {
+    .header {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        vertical-align: middle;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
+      strong {
+        color: $color-pink-deep;
+      }
+    }
+
+    .users {
+      width: 200px;
+      margin: 0 auto;
+
+      img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+
+      li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      img,
+      span {
+        vertical-align: middle;
+      }
     }
   }
 }
@@ -270,116 +111,110 @@
     v-if="user"
     id="app-invite"
   >
-    <img
-      v-if="result"
-      :src="result"
+    <tab-container
+      :headers="headers"
+      @change="handleTabSwitch"
     >
-    <div
-      v-else
-      class="capture-area"
-    >
-      <div class="main">
-        <div class="border-outline">
-          <div class="avatar-wrap">
-            <div class="avatar-bg"/>
-            <div class="avatar">
-              <div class="avatar-hat"/>
-              <img
-                :src="$resize(user.avatar, { width: 200 })"
-                crossorigin="anonymous"
-              >
-            </div>
+      <div
+        slot="0"
+        class="my-space"
+      >
+        <div class="content">
+          <img :src="$resize(user.avatar, { width: 150 })">
+          <p><span class="nickname">{{ user.nickname }}</span>，你的邀请码是</p>
+          <p class="code"><strong>{{ user.id }}</strong></p>
+          <div class="intro">
+            <p>把这个数字告诉你的朋友，让他们注册的时候填写，那么你们就都可以获得团子</p>
+            <p>邀请者可以得到5个团子，被邀请者可以得到2个团子</p>
           </div>
-          <p class="nickname">我是<strong>{{ user.nickname }}</strong></p>
-          <p class="info">和我一起在 <strong>calibur.tv</strong> 追番吧</p>
-          <div class="tags">
-            <div
-              v-for="(tag, index) in tags"
-              :key="index"
-              class="badge"
-            >
-              <img src="~assets/img/invite/icon.png">
-              <span>{{ tag }}</span>
-            </div>
-          </div>
-          <div class="line"/>
-          <div class="intro"><span>快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有</span><strong>团子奖励</strong></div>
-          <div class="logo"/>
-          <div
-            ref="qr"
-            class="qr"
-          />
-          <div class="slogan"/>
-          <div class="snow-left"/>
-          <div class="snow-right"/>
-          <div class="border-out"/>
-          <div class="border-inner"/>
         </div>
+        <p class="tips">你也可以直接复制注册链接给TA</p>
+        <button
+          v-clipboard="`http://calibur.tv/about/invite/${user.id}`"
+          class="invite-btn"
+          @success="$toast.success('复制成功~快去发送给好友吧')"
+        >点击生成你的专属邀请码</button>
       </div>
-      <div class="top-bg"/>
-      <div class="bottom-bg"/>
-    </div>
+      <div
+        slot="1"
+        class="invite-users"
+      >
+        <div
+          v-if="source"
+          class="header"
+        >
+          <img :src="$resize(user.avatar, { width: 80 })">
+          <span v-if="source.total">总共邀请了&nbsp;<strong>{{ source.total }}</strong>&nbsp;位小伙伴</span>
+          <span v-else>还没有邀请朋友注册</span>
+        </div>
+        <flow-list
+          :id="user.id"
+          :display-no-more="false"
+          func="getUserInviteUsers"
+          type="page"
+          count="20"
+        >
+          <ul
+            slot-scope="{ flow }"
+            class="users"
+          >
+            <li
+              v-for="item in flow"
+              :key="item.id"
+            >
+              <img :src="$resize(item.avatar, { width: 60 })">
+              <span v-text="item.nickname"/>
+            </li>
+          </ul>
+        </flow-list>
+      </div>
+    </tab-container>
   </div>
 </template>
 
 <script>
 import serverAuth from '~/mixins/serverAuth'
+import TabContainer from '~/components/common/TabContainer'
+import FlowList from '~/components/flow/FlowList'
 
 export default {
   name: 'PageUserInvite',
   layout: 'empty',
+  components: {
+    TabContainer,
+    FlowList
+  },
   head: {
     title: '邀请码'
   },
   mixins: [serverAuth],
   data() {
     return {
-      created: false,
-      result: '',
-      cartoons: [
-        '喰种',
-        '死亡笔记',
-        '刀剑神域',
-        '一拳超人',
-        '进击的巨人',
-        '战栗杀机',
-        'CLANNAD',
-        'JOJO'
-      ]
+      headers: ['我的邀请码', '我邀请的人']
     }
   },
   computed: {
     user() {
       return this.$store.state.user
     },
-    link() {
-      return this.user ? `http://calibur.tv/about/invite/${this.user.id}` : ''
-    },
-    tags() {
-      return this.$utils.shuffle(this.cartoons).slice(0, 5)
+    source() {
+      return this.$store.getters['flow/getFlow'](
+        'getUserInviteUsers',
+        '',
+        this.user.id
+      )
     }
-  },
-  mounted() {
-    if (!this.user) {
-      this.$toast.error('请先登录').then(() => {
-        window.location.href = '/'
-      })
-      return
-    }
-    this.$nextTick(() => {
-      this.generateQrCode()
-    })
   },
   methods: {
-    generateQrCode() {
-      import('~/assets/js/qrcode').then(ESModule => {
-        const QRCode = ESModule.default
-        new QRCode(this.$refs.qr, {
-          text: this.link,
-          width: 360,
-          height: 360
+    handleTabSwitch(index) {
+      if (index === 1) {
+        this.$store.dispatch('flow/initData', {
+          func: 'getUserInviteUsers',
+          type: 'page',
+          id: this.user.id,
+          count: 20
         })
-      })
+      }
     }
   }
 }

@@ -72,7 +72,7 @@
       class="content"
     >
       <div class="avatar">
-        <img :src="user.avatar">
+        <img :src="$resize(user.avatar, { width: 200 })">
       </div>
       <div class="tips">
         <p>这个页面是「{{ user.nickname }}」分享给你的</p>
@@ -86,7 +86,7 @@
         class="join"
         @click="joinUs"
       >
-        哟西，我加入！
+        可以，我加入！
       </button>
       <button
         class="abort"

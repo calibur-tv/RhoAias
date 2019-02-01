@@ -265,6 +265,16 @@ export const getUserScoreDrafts = ({ ctx }) => {
   return ctx.$axios.$get('score/drafts')
 }
 
+export const getUserInviteUsers = ({ ctx, id, page, count }) => {
+  return ctx.$axios.$get('user/invite/users', {
+    params: {
+      id,
+      page,
+      take: count
+    }
+  })
+}
+
 export const getUserAnswerDrafts = ({ ctx }) => {
   return ctx.$axios.$get('question/soga/drafts')
 }
