@@ -54,11 +54,11 @@
     overflow: hidden;
     border-radius: 5px;
     margin-right: 10px;
-    border: 1px solid $color-gray-normal;
 
     img {
       width: 100%;
       height: auto;
+      border: 1px solid $color-gray-normal;
     }
   }
 
@@ -91,9 +91,11 @@
 
       .image {
         vertical-align: middle;
-        border: 1px solid $color-gray-normal;
-        margin-left: 10px;
         display: inline-block;
+
+        img {
+          border: 1px solid $color-gray-normal;
+        }
       }
     }
   }
