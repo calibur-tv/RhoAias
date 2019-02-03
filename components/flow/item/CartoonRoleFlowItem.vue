@@ -54,11 +54,11 @@
     overflow: hidden;
     border-radius: 5px;
     margin-right: 10px;
-    border: 1px solid $color-gray-normal;
 
     img {
       width: 100%;
       height: auto;
+      border: 1px solid $color-gray-normal;
     }
   }
 
@@ -91,9 +91,11 @@
 
       .image {
         vertical-align: middle;
-        border: 1px solid $color-gray-normal;
-        margin-left: 10px;
         display: inline-block;
+
+        img {
+          border: 1px solid $color-gray-normal;
+        }
       }
     }
   }
@@ -127,30 +129,30 @@
 <template>
   <li class="cartoon-role-flow-item">
     <div class="clearfix">
-      <a
-        :href="$alias.cartoonRole(item.id)"
+      <nuxt-link
+        :to="$alias.cartoonRole(item.id)"
         class="avatar">
         <v-img
           :src="item.avatar"
           width="100"
           height="100"
         />
-      </a>
+      </nuxt-link>
       <div class="summary">
-        <a
-          :href="$alias.cartoonRole(item.id)"
+        <nuxt-link
+          :to="$alias.cartoonRole(item.id)"
           class="role">
           <span
             class="name"
             v-text="item.name"/>
           <span class="intro">：{{ item.intro }}</span>
-        </a>
+        </nuxt-link>
         <div
           v-if="item.lover"
           class="lover">
           <span>守护者：</span>
-          <a
-            :href="$alias.user(item.lover.zone)"
+          <nuxt-link
+            :to="$alias.user(item.lover.zone)"
             class="fr">
             <span v-text="item.lover.nickname"/>
             <v-img
@@ -160,7 +162,7 @@
               height="20"
               class="image"
             />
-          </a>
+          </nuxt-link>
         </div>
         <div
           v-else
@@ -196,8 +198,8 @@
               class="top"/>
           </template>
         </div>
-        <a
-          :href="$alias.bangumi(item.bangumi.id)"
+        <nuxt-link
+          :to="$alias.bangumi(item.bangumi.id)"
           class="bangumi"
           v-text="item.bangumi.name"/>
       </div>

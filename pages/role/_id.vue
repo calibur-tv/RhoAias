@@ -141,7 +141,7 @@
                 v-text="role.name"/>
               <div class="lover">
                 <template v-if="role.lover">
-                  <a :href="$alias.user(role.lover.zone)">
+                  <nuxt-link :to="$alias.user(role.lover.zone)">
                     守护者：
                     <v-img
                       :src="role.lover.avatar"
@@ -150,7 +150,7 @@
                       class="image"
                     />
                     {{ role.lover.nickname }}
-                  </a>
+                  </nuxt-link>
                 </template>
               </div>
               <button 
@@ -217,7 +217,7 @@
             v-for="(item, index) in fans.list"
             :key="index"
           >
-            <a :href="$alias.user(item.zone)">
+            <nuxt-link :to="$alias.user(item.zone)">
               <v-img
                 :src="item.avatar"
                 :avatar="true"
@@ -234,7 +234,7 @@
                 v-else
                 class="score"
               >{{ item.score }}个团子</span>
-            </a>
+            </nuxt-link>
           </li>
         </ul>
         <more-btn

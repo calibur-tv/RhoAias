@@ -2,7 +2,7 @@
   <li
     class="cartoon"
   >
-    <a :href="$alias.image(item.id)">
+    <nuxt-link :to="$alias.image(item.id)">
       <div class="poster-wrap">
         <img :src="$resize(item.source.url, { width: 290, height: 420 })">
         <div class="info">
@@ -15,7 +15,7 @@
       <div class="intro">
         <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
       </div>
-    </a>
+    </nuxt-link>
   </li>
 </template>
 

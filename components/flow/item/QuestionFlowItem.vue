@@ -68,8 +68,8 @@
 <template>
   <li class="question-flow-item">
     <header class="qaq-flow-header">
-      <a
-        :href="$alias.user(item.user.zone)"
+      <nuxt-link
+        :to="$alias.user(item.user.zone)"
         class="avatar"
       >
         <v-img
@@ -78,23 +78,23 @@
           width="24"
           height="24"
         />
-      </a>
-      <a
-        :href="$alias.user(item.user.zone)"
+      </nuxt-link>
+      <nuxt-link
+        :to="$alias.user(item.user.zone)"
         class="nickname"
         v-text="item.user.nickname"
       />
     </header>
-    <a :href="$alias.question(item.id)">
+    <nuxt-link :to="$alias.question(item.id)">
       <h3
         class="title"
         v-text="item.title"
       />
-    </a>
+    </nuxt-link>
     <div class="content">
-      <a
+      <nuxt-link
         v-if="item.answer"
-        :href="$alias.answer(item.answer.id)"
+        :to="$alias.answer(item.answer.id)"
       >
         <div
           v-if="item.answer.poster"
@@ -110,18 +110,18 @@
           class="text"
           v-text="item.answer.intro"
         />
-      </a>
-      <a
+      </nuxt-link>
+      <nuxt-link
         v-else
-        :href="$alias.question(item.id)"
+        :to="$alias.question(item.id)"
         class="text"
         v-text="item.intro"
       />
     </div>
     <div class="footer">
-      <a
+      <nuxt-link
         v-if="item.answer"
-        :href="$alias.answer(item.answer.id)"
+        :to="$alias.answer(item.answer.id)"
       >
         <vote-button
           :id="item.answer.id"
@@ -131,7 +131,7 @@
           :disabled="true"
           type="answer"
         />
-      </a>
+      </nuxt-link>
       <span class="stats">
         <i
           v-if="!item.answer_count"

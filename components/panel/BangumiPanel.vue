@@ -85,7 +85,7 @@ export default {
       type: String
     },
     showFollow: {
-      required: true,
+      default: true,
       type: Boolean
     }
   }

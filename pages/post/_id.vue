@@ -160,15 +160,15 @@
           {{ post.title }}
         </h1>
         <div class="user">
-          <a 
-            :href="$alias.user(master.zone)" 
+          <nuxt-link
+            :to="$alias.user(master.zone)"
             class="avatar">
             <v-img
               :src="master.avatar"
               :avatar="true"
               width="35"
             />
-          </a>
+          </nuxt-link>
           <v-popover
             :actions="actions"
             :report-id="id"
@@ -178,8 +178,8 @@
             <button class="tool-btn">···</button>
           </v-popover>
           <div class="summary">
-            <a
-              :href="$alias.user(master.zone)"
+            <nuxt-link
+              :to="$alias.user(master.zone)"
               class="nickname"
               v-text="master.nickname"
             />
@@ -425,12 +425,6 @@ export default {
     )
   },
   methods: {
-    handleBangumiFollow(result) {
-      this.$store.commit('post/FOLLOW_BANGUMI', {
-        id: this.id,
-        result
-      })
-    },
     switchOnlyMaster() {
       window.location = this.$alias.post(this.id, {
         only: this.onlySeeMaster ? 0 : 1
