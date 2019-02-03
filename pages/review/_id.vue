@@ -116,8 +116,8 @@
       <div class="author-info">
         <div class="total">{{ info.total }}分</div>
         <div class="author">
-          <a
-            :href="$alias.user(user.zone)"
+          <nuxt-link
+            :to="$alias.user(user.zone)"
             target="_blank"
           >
             <div class="avatar">
@@ -131,7 +131,7 @@
               class="name"
               v-text="user.nickname"
             />
-          </a>
+          </nuxt-link>
           ·
           <v-time v-model="info.published_at"/>
           ·
@@ -177,9 +177,9 @@
       v-if="isMine" 
       class="control container">
       <button @click="deleteScore">删除</button>
-      <a :href="$alias.editScore(info.id)">
+      <nuxt-link :to="$alias.editScore(info.id)">
         <button>编辑</button>
-      </a>
+      </nuxt-link>
     </div>
     <div class="container">
       <v-lazy>

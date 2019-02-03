@@ -75,8 +75,8 @@
     class="answer-flow-item"
   >
     <header class="answer-header">
-      <a
-        :href="$alias.user(item.user.zone)"
+      <nuxt-link
+        :to="$alias.user(item.user.zone)"
         class="avatar"
       >
         <v-img
@@ -85,10 +85,10 @@
           width="38"
           height="38"
         />
-      </a>
+      </nuxt-link>
       <div class="info">
-        <a
-          :href="$alias.user(item.user.zone)"
+        <nuxt-link
+          :to="$alias.user(item.user.zone)"
           class="nickname"
           v-text="item.user.nickname"
         />
@@ -103,12 +103,12 @@
       class="answer-meta"
     >
       <span v-if="item.source_url">
-        <a
+        <nuxt-link
           :href="item.source_url"
           target="_blank"
         >
           原文链接
-        </a>
+        </nuxt-link>
         ·
       </span>
       <span v-if="item.created_at === item.published_at">

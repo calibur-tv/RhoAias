@@ -180,8 +180,8 @@
         v-if="item.bangumi && item.user"
         class="header trending-header"
       >
-        <a
-          :href="$alias.user(item.user.zone)"
+        <nuxt-link
+          :to="$alias.user(item.user.zone)"
           class="user-avatar"
         >
           <v-img
@@ -190,7 +190,7 @@
             width="35"
             height="35"
           />
-        </a>
+        </nuxt-link>
         <div class="header-content">
           <div class="about">
             <el-rate
@@ -203,15 +203,15 @@
               v-model="zero"
               disabled
             />
-            <a
-              :href="$alias.bangumi(item.bangumi.id)"
+            <nuxt-link
+              :to="$alias.bangumi(item.bangumi.id)"
               class="bangumi-name oneline"
               v-text="item.bangumi.name"
             />
           </div>
           <div class="meta">
-            <a
-              :href="$alias.user(item.user.zone)"
+            <nuxt-link
+              :to="$alias.user(item.user.zone)"
               class="author"
               v-text="item.user.nickname"
             />
@@ -237,8 +237,8 @@
           v-model="zero"
           disabled
         />
-        <a
-          :href="$alias.user(item.user.zone)"
+        <nuxt-link
+          :to="$alias.user(item.user.zone)"
           class="user"
         >
           <div class="user-avatar">
@@ -253,7 +253,7 @@
             class="nickname oneline"
             v-text="item.user.nickname"
           />
-        </a>
+        </nuxt-link>
       </div>
       <div
         v-else-if="!item.user"
@@ -269,8 +269,8 @@
           v-model="zero"
           disabled
         />
-        <a
-          :href="$alias.bangumi(item.bangumi.id)"
+        <nuxt-link
+          :to="$alias.bangumi(item.bangumi.id)"
           class="bangumi"
         >
           <div class="bangumi-avatar">
@@ -284,7 +284,7 @@
             class="nickname oneline"
             v-text="item.bangumi.name"
           />
-        </a>
+        </nuxt-link>
       </div>
       <div class="body">
         <div class="title">

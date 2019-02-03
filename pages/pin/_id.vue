@@ -16,9 +16,13 @@
     .author {
       display: flex;
       align-items: center;
+
       .avatar {
         margin-right: 5px;
-        border: 1px solid $color-gray-normal;
+
+        img {
+          border: 1px solid $color-gray-normal;
+        }
       }
     }
 
@@ -157,8 +161,8 @@
           {{ info.name }}
         </h1>
         <div class="user">
-          <a
-            :href="$alias.user(user.zone)"
+          <nuxt-link
+            :to="$alias.user(user.zone)"
             class="author">
             <v-img
               :src="user.avatar"
@@ -168,7 +172,7 @@
               class="avatar"
             />
             {{ user.nickname }}
-          </a>
+          </nuxt-link>
           <span class="dot"> · </span>
           <v-time v-model="info.created_at"/>
           <div class="flex1"/>
@@ -226,10 +230,10 @@
         class="cartoon-list">
         <h3 class="sub-title">
           选集（{{ cartoon.length }}）
-          <a 
+          <nuxt-link
             v-if="nextPartUrl" 
-            :href="nextPartUrl" 
-            class="next">下一话</a>
+            :to="nextPartUrl"
+            class="next">下一话</nuxt-link>
           <div 
             v-if="showMoreBtn" 
             class="more" 
@@ -240,8 +244,8 @@
             v-for="item in sortCartoons"
             :key="item.id"
           >
-            <a
-              :href="$alias.image(item.id)"
+            <nuxt-link
+              :to="$alias.image(item.id)"
               :class="{ 'active': item.id === id }"
               class="oneline"
               v-text="item.name"
@@ -341,6 +345,12 @@ export default {
     BangumiPanel,
     VPopover
   },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       take: 4,
@@ -350,9 +360,6 @@ export default {
     }
   },
   computed: {
-    id() {
-      return +this.$route.params.id
-    },
     cartoon() {
       return this.info.parts
     },

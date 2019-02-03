@@ -40,9 +40,7 @@
     :key="item.id"
     class="video-flow-item"
   >
-    <a 
-      :href="$alias.video(item.id)" 
-      target="_blank">
+    <nuxt-link :to="$alias.video(item.id)">
       <v-img
         :src="item.poster"
         width="128"
@@ -55,7 +53,7 @@
           class="name"
           v-text="item.name"/>
       </div>
-    </a>
+    </nuxt-link>
   </li>
 </template>
 
