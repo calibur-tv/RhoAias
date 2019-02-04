@@ -108,10 +108,6 @@
     text-align: center;
     margin-bottom: 30px;
 
-    button {
-      margin: 0 5px;
-    }
-
     .comment-post-btn {
       position: fixed;
       left: 50%;
@@ -291,6 +287,7 @@
           v-text="bangumi.summary"/>
       </bangumi-panel>
     </div>
+    <share-btn :share-data="share_data"/>
   </div>
 </template>
 
@@ -302,6 +299,7 @@ import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
 import PostCommentForm from '~/components/post/PostCommentForm'
+import ShareBtn from '~/components/common/ShareBtn'
 import { getPostInfo, deletePost } from '~/api/postApi'
 
 export default {
@@ -336,7 +334,8 @@ export default {
         return {
           post,
           bangumi,
-          master: data.user
+          master: data.user,
+          share_data: data.share_data
         }
       })
       .catch(error)
@@ -358,7 +357,8 @@ export default {
     ImagePreview,
     BangumiPanel,
     PostCommentForm,
-    VPopover
+    VPopover,
+    ShareBtn
   },
   props: {
     id: {
@@ -376,7 +376,8 @@ export default {
       loadingToggleLike: false,
       loadingToggleMark: false,
       lastScroll: 0,
-      isScrollTop: true
+      isScrollTop: true,
+      share_data: null
     }
   },
   computed: {

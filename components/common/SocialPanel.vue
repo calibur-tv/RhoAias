@@ -8,6 +8,7 @@
     button {
       padding: 5px 7px 5px 4px;
       font-size: 11px !important;
+      margin: 0;
     }
   }
 

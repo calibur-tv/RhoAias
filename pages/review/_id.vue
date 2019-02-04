@@ -203,6 +203,7 @@
           v-text="bangumi.summary"/>
       </bangumi-panel>
     </div>
+    <share-btn :share-data="share_data"/>
   </div>
 </template>
 
@@ -212,6 +213,7 @@ import JsonContent from '~/components/jsonEditor/JsonContent'
 import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
+import ShareBtn from '~/components/common/ShareBtn'
 import { Rate } from 'element-ui'
 import { getScoreInfo, deleteScore } from '~/api/scoreApi'
 
@@ -263,7 +265,8 @@ export default {
         return {
           user: data.user,
           bangumi,
-          info
+          info,
+          share_data: data.share_data
         }
       })
       .catch(error)
@@ -286,6 +289,7 @@ export default {
     SocialPanel,
     BangumiPanel,
     VPopover,
+    ShareBtn,
     'el-rate': Rate
   },
   data() {
@@ -304,7 +308,8 @@ export default {
     return {
       labelMap,
       columns: Object.keys(labelMap),
-      loadingToggleLike: false
+      loadingToggleLike: false,
+      share_data: null
     }
   },
   computed: {
