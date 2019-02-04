@@ -108,10 +108,6 @@
     text-align: center;
     margin-bottom: 30px;
 
-    button {
-      margin: 0 5px;
-    }
-
     .comment-post-btn {
       position: fixed;
       left: 50%;
