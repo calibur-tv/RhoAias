@@ -125,9 +125,6 @@ export default {
         : `https://m.calibur.tv${this.route.path}`
     }
   },
-  watch: {},
-  created() {},
-  mounted() {},
   methods: {
     showIntroModal() {
       this.showModal = true

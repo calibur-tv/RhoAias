@@ -286,6 +286,7 @@
         </div>
       </div>
     </div>
+    <share-btn :share-data="share_data"/>
   </div>
 </template>
 
@@ -296,6 +297,7 @@ import SocialPanel from '~/components/common/SocialPanel'
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
+import ShareBtn from '~/components/common/ShareBtn'
 
 export default {
   name: 'ImageAlbum',
@@ -328,7 +330,8 @@ export default {
           bangumi,
           user: info.user,
           source: info.source,
-          images: info.images
+          images: info.images,
+          share_data: info.share_data
         }
       })
       .catch(error)
@@ -343,7 +346,8 @@ export default {
     SocialPanel,
     ImagePreview,
     BangumiPanel,
-    VPopover
+    VPopover,
+    ShareBtn
   },
   props: {
     id: {
@@ -356,7 +360,8 @@ export default {
       take: 4,
       page: 0,
       part: 0,
-      showAll: false
+      showAll: false,
+      share_data: null
     }
   },
   computed: {

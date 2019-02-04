@@ -405,6 +405,7 @@
         >点击生成你的专属邀请码，获得团子</button>
       </div>
     </v-drawer>
+    <share-btn :share-data="share_data"/>
   </div>
 </template>
 
@@ -413,6 +414,7 @@ import { getVideoInfo, markPlaying, buyVideoPackage } from '~/api/videoApi'
 import CommentMain from '~/components/comments/CommentMain'
 import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
+import ShareBtn from '~/components/common/ShareBtn'
 
 export default {
   name: 'VideoShow',
@@ -450,7 +452,8 @@ export default {
   components: {
     CommentMain,
     SocialPanel,
-    BangumiPanel
+    BangumiPanel,
+    ShareBtn
   },
   props: {
     id: {
@@ -522,7 +525,8 @@ export default {
       season_id: 0,
       buyed: false,
       buying: false,
-      showRewardDialog: false
+      showRewardDialog: false,
+      share_data: null
     }
   },
   computed: {

@@ -257,6 +257,7 @@
         </v-lazy>
       </div>
     </div>
+    <share-btn :share-data="share_data"/>
   </div>
 </template>
 
@@ -264,6 +265,7 @@
 import CommentMain from '~/components/comments/CommentMain'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
+import ShareBtn from '~/components/common/ShareBtn'
 import { getCartoonRoleInfo, starRoleAction } from '~/api/cartoonRoleApi'
 
 export default {
@@ -286,7 +288,8 @@ export default {
         return {
           info: data,
           role: data.data,
-          bangumi
+          bangumi,
+          share_data: data.share_data
         }
       })
       .catch(error)
@@ -306,7 +309,8 @@ export default {
   components: {
     CommentMain,
     BangumiPanel,
-    VPopover
+    VPopover,
+    ShareBtn
   },
   props: {
     id: {
@@ -336,7 +340,8 @@ export default {
             this.fetchRoleFans(true)
           }
         }
-      ]
+      ],
+      share_data: null
     }
   },
   computed: {
