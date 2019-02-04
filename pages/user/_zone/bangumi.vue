@@ -43,8 +43,8 @@
           v-for="item in flow"
           :key="item.id"
         >
-          <a
-            :href="$alias.bangumi(item.id)"
+          <nuxt-link
+            :to="$alias.bangumi(item.id)"
             class="clearfix">
             <v-img
               :src="item.avatar"
@@ -54,7 +54,7 @@
             <p
               class="name"
               v-text="item.name"/>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
       <!-- <more-btn

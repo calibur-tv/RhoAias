@@ -53,7 +53,7 @@
         <button @click="register">注册</button>
       </template>
       <button @click="$channel.$emit('open-feedback')">反馈</button>
-      <a href="/about/hello">欢迎</a>
+      <nuxt-link to="/about/hello">欢迎</nuxt-link>
       <button @click="$channel.$emit('open-share')">分享</button>
     </div>
     <p class="beian">© 沪ICP备17050785号-1</p>

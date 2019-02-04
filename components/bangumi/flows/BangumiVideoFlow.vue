@@ -57,7 +57,7 @@
               v-for="video in season.data" 
               :key="video.id" 
               class="video">
-              <a :href="$alias.video(video.id)">
+              <nuxt-link :to="$alias.video(video.id)">
                 <v-img
                   :src="video.poster"
                   width="128"
@@ -70,7 +70,7 @@
                     class="name" 
                     v-text="video.name" />
                 </div>
-              </a>
+              </nuxt-link>
             </li>
           </ul>
         </template>
@@ -82,7 +82,7 @@
           v-for="video in videos.list[0].data" 
           :key="video.id" 
           class="video">
-          <a :href="$alias.video(video.id)">
+          <nuxt-link :to="$alias.video(video.id)">
             <v-img 
               :src="video.poster" 
               width="128" 
@@ -94,7 +94,7 @@
                 class="name" 
                 v-text="video.name" />
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
     </section>

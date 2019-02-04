@@ -99,14 +99,14 @@
   <div 
     :id="`comment-${comment.id}`" 
     class="comment-item">
-    <a 
-      :href="$alias.user(comment.from_user_zone)" 
+    <nuxt-link
+      :to="$alias.user(comment.from_user_zone)"
       class="avatar">
       <v-img 
         :src="comment.from_user_avatar" 
         :avatar="true" 
         width="35" />
-    </a>
+    </nuxt-link>
     <div class="content">
       <div class="header">
         <v-popover
@@ -117,8 +117,8 @@
           <button class="tools-btn">···</button>
         </v-popover>
         <div class="user">
-          <a
-            :href="$alias.user(comment.from_user_zone)"
+          <nuxt-link
+            :to="$alias.user(comment.from_user_zone)"
             class="nickname oneline"
           >
             <span v-text="comment.from_user_name" />
@@ -129,7 +129,7 @@
             <i 
               v-else-if="comment.is_master" 
               class="iconfont icon-master" />
-          </a>
+          </nuxt-link>
           <div class="info">
             <span>第{{ comment.floor_count - 1 }}楼</span> <span>·</span>
             <v-time v-model="comment.created_at" />

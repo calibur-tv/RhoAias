@@ -149,12 +149,12 @@
             v-for="item in flow.list"
             :key="item.id"
           >
-            <a
-              :href="$alias.post(item.post.id)"
+            <nuxt-link
+              :to="$alias.post(item.post.id)"
               class="header"
               v-text="item.post.title"/>
-            <a
-              :href="$alias.post(item.post.id, { comment: item.post.id })"
+            <nuxt-link
+              :to="$alias.post(item.post.id, { comment: item.post.id })"
               class="origin">
               <div
                 class="content"
@@ -182,9 +182,9 @@
                   />
                 </div>
               </div>
-            </a>
-            <a
-              :href="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
+            </nuxt-link>
+            <nuxt-link
+              :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
               class="reply">
               <div
                 class="content"
@@ -212,14 +212,14 @@
                   />
                 </div>
               </div>
-            </a>
-            <a
-              :href="$alias.bangumi(item.bangumi.id)"
+            </nuxt-link>
+            <nuxt-link
+              :to="$alias.bangumi(item.bangumi.id)"
               class="footer">
               回复于
               <span v-text="item.bangumi.name"/>
               <v-time v-model="item.created_at"/>
-            </a>
+            </nuxt-link>
           </li>
         </ul>
       </flow-list>

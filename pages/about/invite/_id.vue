@@ -63,7 +63,7 @@
         <br>
         快来邀请小伙伴一起注册 calibur 吧
         <br>
-        点击查看<a href="/me/invite">我的邀请码</a>
+        点击查看<nuxt-link to="/my/invite">我的邀请码</nuxt-link>
       </p>
       <div
         v-else-if="isGuest"

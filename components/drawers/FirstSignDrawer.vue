@@ -71,16 +71,16 @@
       满100就可以提现噢！
     </p>
     <div class="control">
-      <a href="/about/hello">
+      <nuxt-link to="/about/hello">
         <button style="background-color: #00ce72">
           查看团子规则
         </button>
-      </a>
-      <a href="/me/invite">
+      </nuxt-link>
+      <nuxt-link to="/my/invite">
         <button style="background-color: gold">
           我的邀请码
         </button>
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>

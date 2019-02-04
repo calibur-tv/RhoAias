@@ -252,8 +252,8 @@
         <div class="container">
           <div class="reply">
             <div class="user clearfix">
-              <a
-                :href="$alias.user(focusComment.from_user_zone)"
+              <nuxt-link
+                :to="$alias.user(focusComment.from_user_zone)"
                 class="avatar"
               >
                 <v-img
@@ -261,10 +261,10 @@
                   :avatar="true"
                   width="35"
                 />
-              </a>
+              </nuxt-link>
               <div class="summary">
-                <a
-                  :href="$alias.user(focusComment.from_user_zone)"
+                <nuxt-link
+                  :to="$alias.user(focusComment.from_user_zone)"
                   class="nickname"
                   v-text="focusComment.from_user_name"
                 />
@@ -320,26 +320,26 @@
               v-for="item in focusComment.comments.list" 
               :key="item.id">
               <div class="from-user">
-                <a 
-                  :href="$alias.user(item.from_user_zone)" 
+                <nuxt-link
+                  :to="$alias.user(item.from_user_zone)"
                   class="avatar">
                   <v-img
                     :src="item.from_user_avatar"
                     :avatar="true"
                     width="35"
                   />
-                </a>
+                </nuxt-link>
                 <div class="summary">
                   <div class="users oneline">
-                    <a
-                      :href="$alias.user(item.from_user_zone)"
+                    <nuxt-link
+                      :to="$alias.user(item.from_user_zone)"
                       class="nickname"
                       v-text="item.from_user_name"
                     />
                     <template v-if="item.to_user_zone">
                       回复
-                      <a
-                        :href="$alias.user(item.to_user_zone)"
+                      <nuxt-link
+                        :to="$alias.user(item.to_user_zone)"
                         class="nickname"
                         v-text="item.to_user_name"
                       />

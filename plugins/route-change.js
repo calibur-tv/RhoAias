@@ -1,8 +1,8 @@
 export default ({ app, store }) => {
-  const isWechat = store.state.ua.wechat
+  const isTencent = store.state.ua.tencent
   app.router.onReady(() => {
     app.router.beforeResolve((to, from, next) => {
-      if (isWechat) {
+      if (isTencent) {
         window.location = to.fullPath
         return next(false)
       }

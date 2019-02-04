@@ -112,14 +112,14 @@
             class="score-draft"
           >
             <template v-if="item && item.bangumi">
-              <a
-                :href="$alias.bangumi(item.bangumi.id)"
+              <nuxt-link
+                :to="$alias.bangumi(item.bangumi.id)"
                 class="bangumi"
               >
                 <img :src="$resize(item.bangumi.avatar, { width: 100 })">
-              </a>
-              <a
-                :href="$alias.editScore(item.id)"
+              </nuxt-link>
+              <nuxt-link
+                :to="$alias.editScore(item.id)"
                 class="content"
               >
                 <div class="title oneline">
@@ -129,7 +129,7 @@
                   class="intro"
                   v-text="item.intro"
                 />
-              </a>
+              </nuxt-link>
             </template>
           </div>
           <!-- <more-btn
@@ -155,14 +155,14 @@
             :key="item.id"
             class="answer-draft"
           >
-            <a :href="$alias.question(item.question.id)">
+            <nuxt-link :to="$alias.question(item.question.id)">
               <h5
                 class="title"
                 v-text="item.question.title"
               />
-            </a>
-            <a
-              :href="$alias.answer(item.id)"
+            </nuxt-link>
+            <nuxt-link
+              :to="$alias.answer(item.id)"
               class="intro"
               v-text="item.intro"
             />

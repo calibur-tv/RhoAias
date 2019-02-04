@@ -125,19 +125,19 @@
         class="bg" />
       <div class="mask" />
       <div class="user-info">
-        <a 
-          :href="$alias.user(user.zone)" 
+        <nuxt-link
+          :to="$alias.user(user.zone)"
           class="avatar">
           <v-img 
             :src="user.avatar" 
             :lazy="false" 
             :avatar="true" 
             width="50" />
-        </a>
+        </nuxt-link>
         <div class="panel">
           <div class="nickname">
-            <a
-              :href="$alias.user(user.zone)"
+            <nuxt-link
+              :to="$alias.user(user.zone)"
               class="oneline"
               v-text="user.nickname"
             />
@@ -157,24 +157,24 @@
       class="routes container" 
       @click="switchUserDrawer = false">
       <li>
-        <a :href="$alias.user(user.zone)">
+        <nuxt-link :to="$alias.user(user.zone)">
           <i class="iconfont icon-zhuye" /> 个人主页
-        </a>
+        </nuxt-link>
       </li>
       <li>
-        <a href="/my/setting">
+        <nuxt-link to="/my/setting">
           <i class="iconfont icon-shezhi" /> 用户设置
-        </a>
+        </nuxt-link>
       </li>
       <li>
-        <a href="/about/hello">
+        <nuxt-link to="/about/hello">
           <i class="iconfont icon-bangzhu" /> 功能简介
-        </a>
+        </nuxt-link>
       </li>
       <li>
-        <a href="/my/invite">
+        <nuxt-link to="/my/invite">
           <i class="iconfont icon-yaoqingma" /> 我的邀请码
-        </a>
+        </nuxt-link>
       </li>
       <li>
         <button @click="logout">

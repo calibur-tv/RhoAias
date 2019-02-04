@@ -29,20 +29,20 @@
         :item="answer" 
         :qaq="qaq"
       />
-      <a :href="$alias.question(qaq.id)">
+      <nuxt-link :to="$alias.question(qaq.id)">
         <button
           v-if="qaq.answer_count > 1"
           class="read-all-btn"
         >查看全部 {{ qaq.answer_count }} 个回答</button>
-      </a>
+      </nuxt-link>
     </div>
     <no-content v-else>
-      <a :href="$alias.question(qaq.id)">
+      <nuxt-link :to="$alias.question(qaq.id)">
         <el-button
           type="primary"
           round
         >这个答案在审核中或已被删除，查看其它答案</el-button>
-      </a>
+      </nuxt-link>
     </no-content>
   </div>
 </template>

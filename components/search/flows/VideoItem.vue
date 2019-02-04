@@ -72,39 +72,39 @@
 
 <template>
   <div class="search-item-video">
-    <a 
+    <nuxt-link
       v-if="inCommon" 
-      :href="$alias.video(item.id)" 
+      :to="$alias.video(item.id)"
       class="in-common-avatar">
       <img
         :src="$resize(item.poster, { width: 180, height: 102 })"
         :alt="item.name"
       >
-    </a>
-    <a 
+    </nuxt-link>
+    <nuxt-link
       v-else 
-      :href="$alias.video(item.id)" 
+      :to="$alias.video(item.id)"
       class="avatar">
       <img
         :src="$resize(item.poster, { width: 120, height: 86 })"
         :alt="item.name"
       >
-    </a>
+    </nuxt-link>
     <div class="intro">
       <div class="head">
         <span 
           v-if="inCommon" 
           class="badge">视频</span>
-        <a 
-          :href="$alias.video(item.id)" 
+        <nuxt-link
+          :to="$alias.video(item.id)"
           class="name" 
           v-text="item.name" />
       </div>
-      <a :href="$alias.video(item.id)">
+      <nuxt-link :to="$alias.video(item.id)">
         <p 
           class="summary" 
           v-text="item.summary" />
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>

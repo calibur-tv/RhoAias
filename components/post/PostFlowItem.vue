@@ -163,32 +163,32 @@
   <li class="post-flow-item">
     <div @click="linkStart">
       <div class="header">
-        <a
+        <nuxt-link
           v-if="item.user"
-          :href="$alias.user(item.user.zone)"
+          :to="$alias.user(item.user.zone)"
           class="user-avatar"
           @click.stop
         >
           <v-img 
             :src="item.user.avatar" 
             width="35" />
-        </a>
-        <a
+        </nuxt-link>
+        <nuxt-link
           v-else
-          :href="$alias.bangumi(item.bangumi.id)"
+          :to="$alias.bangumi(item.bangumi.id)"
           class="bangumi-avatar"
           @click.stop
         >
           <v-img 
             :src="item.bangumi.avatar" 
             width="35" />
-        </a>
+        </nuxt-link>
         <div class="name">
           <div 
             v-if="item.user" 
             class="clearfix">
-            <a
-              :href="$alias.user(item.user.zone)"
+            <nuxt-link
+              :to="$alias.user(item.user.zone)"
               class="nickname"
               @click.stop
               v-text="item.user.nickname"
@@ -200,8 +200,8 @@
             <span class="nickname">发表在</span>
           </div>
           <template v-if="item.bangumi">
-            <a
-              :href="$alias.bangumi(item.bangumi.id)"
+            <nuxt-link
+              :to="$alias.bangumi(item.bangumi.id)"
               @click.stop
               v-text="item.bangumi.name"
             />

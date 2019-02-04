@@ -58,29 +58,29 @@
 
 <template>
   <div class="search-item-bangumi">
-    <a 
-      :href="$alias.bangumi(item.id)" 
+    <nuxt-link
+      :to="$alias.bangumi(item.id)"
       class="avatar">
       <img
         :src="$resize(item.avatar, { width: 120, height: 160 })"
         :alt="item.name"
       >
-    </a>
+    </nuxt-link>
     <div class="intro">
       <div class="head">
         <span 
           v-if="inCommon" 
           class="badge">番剧</span>
-        <a 
-          :href="$alias.bangumi(item.id)" 
+        <nuxt-link
+          :to="$alias.bangumi(item.id)"
           class="name" 
           v-text="item.name" />
       </div>
-      <a :href="$alias.bangumi(item.id)">
+      <nuxt-link :to="$alias.bangumi(item.id)">
         <p 
           class="summary" 
           v-text="item.summary" />
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>

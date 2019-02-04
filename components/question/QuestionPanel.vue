@@ -92,8 +92,8 @@
         <li 
           v-for="tag in qaq.tags" 
           :key="tag.id">
-          <a 
-            :href="$alias.bangumi(tag.id)" 
+          <nuxt-link
+            :to="$alias.bangumi(tag.id)"
             v-text="tag.name" />
         </li>
       </ul>
@@ -144,24 +144,24 @@
               <i class="el-icon-edit"/>
               编辑回答
             </button>
-            <a
+            <nuxt-link
               v-else-if="qaq.my_answer.published_at"
-              :href="$alias.answer(qaq.my_answer.id)"
+              :to="$alias.answer(qaq.my_answer.id)"
               class="footer-btn"
             >
               <i class="el-icon-view"/>
               查看回答
-            </a>
+            </nuxt-link>
           </template>
           <template v-else>
-            <a
+            <nuxt-link
               v-if="qaq.my_answer.published_at"
-              :href="$alias.answer(qaq.my_answer.id)"
+              :to="$alias.answer(qaq.my_answer.id)"
               class="footer-btn"
             >
               <i class="el-icon-view"/>
               查看回答
-            </a>
+            </nuxt-link>
             <button
               v-else
               class="footer-btn"

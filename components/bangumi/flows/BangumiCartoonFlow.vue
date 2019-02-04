@@ -145,7 +145,7 @@
           v-for="item in cartoons.list" 
           :key="item.id" 
           class="cartoon">
-          <a :href="$alias.image(item.id)">
+          <nuxt-link :to="$alias.image(item.id)">
             <div class="poster-wrap">
               <img
                 :src="$resize(item.source.url, { width: 290, height: 420 })"
@@ -159,50 +159,8 @@
             </div>
             <div class="intro">
               <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
-              <!--
-              <div class="social">
-                <span
-                  v-if="item.like_count"
-                  :class="{ 'done': item.liked }"
-                >
-                  <i class="iconfont icon-like"/>
-                  {{ item.like_count }}
-                </span>
-                <span v-if="item.mark_count">
-                  <i class="iconfont icon-mark"/>
-                  {{ item.mark_count }}
-                </span>
-                <span
-                  v-if="item.comment_count"
-                  :class="{ 'done': item.commented }"
-                >
-                  <i class="iconfont icon-talk"/>
-                  {{ item.comment_count }}
-                </span>
-              </div>
-              -->
             </div>
-          </a>
-          <!--
-          <div class="about">
-            <a
-              :href="$alias.user(item.user.zone)"
-              target="_blank"
-              class="user-avatar"
-            >
-              <v-img
-                :src="item.user.avatar"
-                width="30"
-              />
-            </a>
-            <a
-              :href="$alias.user(item.user.zone)"
-              target="_blank"
-              class="main-name"
-              v-text="item.user.nickname"
-            />
-          </div>
-          -->
+          </nuxt-link>
         </li>
       </ul>
     </template>

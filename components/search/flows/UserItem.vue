@@ -49,31 +49,31 @@
 
 <template>
   <div class="search-item-user">
-    <a 
-      :href="$alias.user(item.zone)" 
+    <nuxt-link
+      :to="$alias.user(item.zone)"
       class="avatar">
       <v-img 
         :src="item.avatar" 
         :avatar="true" 
         width="60"
         height="60" />
-    </a>
+    </nuxt-link>
     <div class="intro">
       <div class="head">
         <span 
           v-if="inCommon" 
           class="badge">用户</span>
-        <a
-          :href="$alias.user(item.zone)"
+        <nuxt-link
+          :to="$alias.user(item.zone)"
           class="nickname"
           v-text="item.nickname"
         />
       </div>
-      <a :href="$alias.user(item.zone)">
+      <nuxt-link :to="$alias.user(item.zone)">
         <p 
           class="signature" 
           v-text="item.signature" />
-      </a>
+      </nuxt-link>
     </div>
   </div>
 </template>

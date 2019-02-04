@@ -96,32 +96,31 @@
           <li
             v-for="(item, index) in list"
             :key="`${index}-${item.id}`">
-            <!-- 2019-01-20 周六更新番剧中出现两个 JOJO奇妙冒险, id相同, 会出现 Duplicate keys 问题 -->
-            <a :href="$alias.bangumi(item.id)">
+            <nuxt-link :to="$alias.bangumi(item.id)">
               <img
                 :title="item.name"
                 :alt="item.name"
                 :src="$resize(item.avatar, { width: 120 })"
                 class="face"
               >
-            </a>
+            </nuxt-link>
             <div class="content">
-              <a
-                :href="$alias.bangumi(item.id)"
+              <nuxt-link
+                :to="$alias.bangumi(item.id)"
                 class="name"
                 v-text="item.name"
               />
               <div class="body">
-                <a
+                <nuxt-link
                   v-if="item.released_video_id"
-                  :href="$alias.video(item.released_video_id)">
+                  :to="$alias.video(item.released_video_id)">
                   更新至
                   <span
                     :class="[item.update ? 'new' : 'old']"
                     class="part">
                     {{ item.end ? '已完结' : `${item.released_part}话` }}
                   </span>
-                </a>
+                </nuxt-link>
                 <strong v-else>
                   更新至
                   <span

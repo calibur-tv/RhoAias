@@ -99,14 +99,14 @@
   <div 
     :id="`comment-${post.id}`" 
     class="post-reply-item">
-    <a 
-      :href="$alias.user(post.from_user_zone)" 
+    <nuxt-link
+      :to="$alias.user(post.from_user_zone)"
       class="avatar">
       <v-img 
         :src="post.from_user_avatar" 
         :avatar="true" 
         width="35" />
-    </a>
+    </nuxt-link>
     <div class="content">
       <div class="header">
         <v-popover
@@ -117,8 +117,8 @@
           <button class="tools-btn">···</button>
         </v-popover>
         <div class="user">
-          <a 
-            :href="$alias.user(post.from_user_zone)" 
+          <nuxt-link
+            :to="$alias.user(post.from_user_zone)"
             class="nickname oneline">
             <span v-text="post.from_user_name" />
             <span v-if="post.is_owner">(楼主)</span>
@@ -128,7 +128,7 @@
             <i 
               v-else-if="post.is_master" 
               class="iconfont icon-master" />
-          </a>
+          </nuxt-link>
           <div class="info">
             <span>第{{ post.floor_count }}楼</span> <span>·</span>
             <v-time v-model="post.created_at" />

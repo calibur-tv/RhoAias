@@ -196,8 +196,8 @@
           <div 
             v-if="computeImageHeight(item.source)" 
             class="image">
-            <a
-              :href="$alias.image(item.id)"
+            <nuxt-link
+              :to="$alias.image(item.id)"
               :class="{ 'album-box': item.is_album }"
               class="image-box"
             >
@@ -219,7 +219,7 @@
                   class="image-count" 
                   v-text="item.image_count" />
               </div>
-            </a>
+            </nuxt-link>
             <div class="intro">
               <p 
                 class="name oneline" 
@@ -241,60 +241,60 @@
             </div>
             <div class="about">
               <template v-if="userZone">
-                <a
-                  :href="$alias.bangumi(item.bangumi.id)"
+                <nuxt-link
+                  :to="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
                   <v-img
                     :lazy="false"
                     :src="item.bangumi.avatar" 
                     width="60" />
-                </a>
+                </nuxt-link>
                 <div class="info">
-                  <a
-                    :href="$alias.bangumi(item.bangumi.id)"
+                  <nuxt-link
+                    :to="$alias.bangumi(item.bangumi.id)"
                     class="main-name oneline"
                     v-text="item.bangumi.name"
                   />
                 </div>
               </template>
               <template v-else-if="bangumiId">
-                <a 
-                  :href="$alias.user(item.user.zone)" 
+                <nuxt-link
+                  :to="$alias.user(item.user.zone)"
                   class="user-avatar">
                   <v-img 
                     :src="item.user.avatar"
                     :lazy="false"
                     width="30"
                     height="30" />
-                </a>
-                <a
-                  :href="$alias.user(item.user.zone)"
+                </nuxt-link>
+                <nuxt-link
+                  :to="$alias.user(item.user.zone)"
                   class="main-name-user"
                   v-text="item.user.nickname"
                 />
               </template>
               <template v-else>
-                <a
-                  :href="$alias.bangumi(item.bangumi.id)"
+                <nuxt-link
+                  :to="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
                   <v-img
                     :lazy="false"
                     :src="item.bangumi.avatar" 
                     width="30" />
-                </a>
+                </nuxt-link>
                 <div class="info">
                   <p class="main-info">
                     <span>UP：</span>
-                    <a
-                      :href="$alias.user(item.user.zone)"
+                    <nuxt-link
+                      :to="$alias.user(item.user.zone)"
                       class="oneline"
                       v-text="item.user.nickname"
                     />
                   </p>
-                  <a
-                    :href="$alias.bangumi(item.bangumi.id)"
+                  <nuxt-link
+                    :to="$alias.bangumi(item.bangumi.id)"
                     class="oneline"
                     v-text="item.bangumi.name"
                   />

@@ -63,8 +63,8 @@
           v-for="item in col.list" 
           :key="item.id" 
           class="bangumi">
-          <a 
-            :href="$alias.bangumi(item.id)" 
+          <nuxt-link
+            :to="$alias.bangumi(item.id)"
             class="bangumi-a">
             <v-img
               :src="item.avatar"
@@ -80,7 +80,7 @@
                 class="body" 
                 v-text="item.summary"/>
             </div>
-          </a>
+          </nuxt-link>
         </li>
       </ul>
     </ul>
