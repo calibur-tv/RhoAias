@@ -3,7 +3,6 @@
     <v-header />
     <nuxt class="main-view" />
     <feedback-drawer />
-    <share-drawer />
     <report-drawer />
     <sign-drawer />
     <gift-modal />
@@ -13,7 +12,6 @@
 <script>
 import vHeader from '~/components/layouts/Header'
 import FeedbackDrawer from '~/components/drawers/FeedbackDrawer'
-import ShareDrawer from '~/components/drawers/ShareDrawer'
 import ReportDrawer from '~/components/drawers/ReportDrawer'
 import SignDrawer from '~/components/common/Sign'
 import GiftModal from '~/components/common/GiftModal'
@@ -23,7 +21,6 @@ export default {
   components: {
     vHeader,
     FeedbackDrawer,
-    ShareDrawer,
     ReportDrawer,
     SignDrawer,
     GiftModal

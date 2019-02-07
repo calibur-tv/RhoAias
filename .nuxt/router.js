@@ -14,6 +14,7 @@ const _f5aba69c = () => interopDefault(import('../pages/world/post.vue' /* webpa
 const _d69ff482 = () => interopDefault(import('../pages/world/qaq.vue' /* webpackChunkName: "pages/world/qaq" */))
 const _50bff8ea = () => interopDefault(import('../pages/world/review.vue' /* webpackChunkName: "pages/world/review" */))
 const _ece0cb2a = () => interopDefault(import('../pages/about/hello.vue' /* webpackChunkName: "pages/about/hello" */))
+const _6c014a66 = () => interopDefault(import('../pages/about/reward.vue' /* webpackChunkName: "pages/about/reward" */))
 const _0adc80ab = () => interopDefault(import('../pages/app/download.vue' /* webpackChunkName: "pages/app/download" */))
 const _61e3dd28 = () => interopDefault(import('../pages/app/feedback.vue' /* webpackChunkName: "pages/app/feedback" */))
 const _a54a880a = () => interopDefault(import('../pages/app/handbook.vue' /* webpackChunkName: "pages/app/handbook" */))
@@ -176,6 +177,11 @@ export function createRouter() {
       component: _ece0cb2a,
       props: false,
       name: "about-hello"
+    }, {
+      path: "/about/reward",
+      component: _6c014a66,
+      props: false,
+      name: "about-reward"
     }, {
       path: "/app/download",
       component: _0adc80ab,

@@ -135,8 +135,7 @@
           :class="{ active: appPage }"
           class="link"
           to="/app/download"
-        >APP</router-link
-        >
+        >APP</router-link>
       </div>
       <div class="nav-right">
         <template v-if="haveAuthToken">
