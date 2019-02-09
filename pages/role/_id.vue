@@ -382,15 +382,34 @@ export default {
         this.$toast.error('团子不足')
         return
       }
-      try {
-        await starRoleAction(this, {
-          id: this.id
+      this.$prompt('请输入要应援的数额', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputPattern: /^\d+$/,
+        inputErrorMessage: '必须是正整数'
+      })
+        .then(async ({ value }) => {
+          const amount = +value
+          if (amount < 0) {
+            this.$toast.error('必须是正整数')
+            return
+          }
+          if (this.$store.state.user.coin < amount) {
+            this.$toast.error('团子不足')
+            return
+          }
+          try {
+            await starRoleAction(this, {
+              id: this.id,
+              amount
+            })
+            this.role.hasStar += amount
+            this.role.star_count += amount
+            this.$store.commit('USE_COIN', amount)
+            this.$toast.info(`+${this.role.hasStar}s`)
+          } catch (e) {}
         })
-        this.role.hasStar++
-        this.role.star_count++
-        this.$store.commit('USE_COIN')
-        this.$toast.info(`+${this.role.hasStar}s`)
-      } catch (e) {}
+        .catch(() => {})
     },
     async fetchRoleFans(init = false) {
       if (this.loadingRoleFans) return
