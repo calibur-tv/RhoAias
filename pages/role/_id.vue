@@ -366,9 +366,7 @@ export default {
       return this.role.alias.split(',')
     },
     currentUserId() {
-      return this.$store.state.login
-        ? this.$store.state.user.id
-        : 0
+      return this.$store.state.login ? this.$store.state.user.id : 0
     }
   },
   methods: {

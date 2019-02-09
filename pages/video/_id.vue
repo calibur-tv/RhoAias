@@ -245,10 +245,24 @@
         <p>这个资源消失了_〆(´Д｀ )</p>
       </template>
       <template v-else-if="useOtherSiteSource">
-        <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
-        <a
-          :href="videoSrc"
-          target="_blank">播放链接</a>
+        <template v-if="info.is_baidu_cloud">
+          <p>该视频仅提供百度云播放</p>
+          <a
+            v-clipboard="videoSrc"
+            href="javascript:;"
+            @success="$toast.success('复制成功')"
+          >点击复制链接</a>
+          <a
+            v-if="info.baidu_cloud_pwd"
+            href="javascript:;"
+          >密码：{{ info.baidu_cloud_pwd }}</a>
+        </template>
+        <template v-else>
+          <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
+          <a
+            :href="videoSrc"
+            target="_blank">播放链接</a>
+        </template>
       </template>
       <template v-else-if="notSupport">
         <p>该视频格式仅支持在电脑上播放 (눈_눈)</p>
