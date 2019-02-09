@@ -364,6 +364,11 @@ export default {
     },
     computeRoleAlias() {
       return this.role.alias.split(',')
+    },
+    currentUserId() {
+      return this.$store.state.login
+        ? this.$store.state.user.id
+        : 0
     }
   },
   methods: {
@@ -403,6 +408,12 @@ export default {
               id: this.id,
               amount
             })
+            if (!this.role.hasStar) {
+              this.role.fans_count++
+            }
+            if (this.role.lover && this.currentUserId === this.role.lover.id) {
+              this.role.lover.score += amount
+            }
             this.role.hasStar += amount
             this.role.star_count += amount
             this.$store.commit('USE_COIN', amount)
@@ -436,14 +447,6 @@ export default {
       } finally {
         this.loadingRoleFans = false
       }
-    },
-    loadMoreFans() {
-      this.$store.dispatch('flow/loadMore', {
-        func: 'cartoonRoleFans',
-        type: this.fetchFansSort === 'new' ? 'lastId' : 'seenIds',
-        sort: this.fetchFansSort,
-        id: this.id
-      })
     }
   }
 }
