@@ -118,7 +118,10 @@
             v-text="item.idol.name"
           />
         </nuxt-link>
-        <nuxt-link :to="$alias.user(item.user.zone)">
+        <nuxt-link
+          v-if="item.user"
+          :to="$alias.user(item.user.zone)"
+        >
           <p class="nickname oneline">
             交易人：{{ item.user.nickname }}
           </p>
@@ -190,6 +193,9 @@ export default {
     isMine() {
       if (!this.$store.state.login) {
         return false
+      }
+      if (!this.item.user) {
+        return true
       }
       return this.$store.state.user.id === this.item.user.id
     }
