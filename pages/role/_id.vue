@@ -381,6 +381,8 @@ export default {
         this.$channel.$emit('sign-in')
         return
       }
+      this.$toast.error('应援功能暂时关闭')
+      return
       if (!this.$store.state.user.coin) {
         this.$toast.error('团子不足')
         return
