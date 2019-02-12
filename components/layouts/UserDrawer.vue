@@ -61,8 +61,7 @@
     }
 
     .badge {
-      margin-right: 28px;
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 
@@ -150,7 +149,8 @@
           </div>
         </div>
       </div>
-      <span class="badge">团子：{{ coinCount }} 个</span>
+      <span class="badge">虚拟币：{{ coinCount }}</span>
+      ·
       <span class="badge">邀请码：{{ user.id }}</span>
     </div>
     <ul 
@@ -218,7 +218,7 @@ export default {
       }
     },
     coinCount() {
-      return this.user.coin
+      return this.user.pocket
     }
   },
   mounted() {
