@@ -58,7 +58,7 @@
         />
         <p class="intro">账单计算：</p>
         <p>预计支付：{{ needPay }}</p>
-        <p>购买后钱包余额：{{ pocket - needPay }}</p>
+        <p>购买后钱包余额：{{ parseFloat(pocket - needPay).toFixed(2) }}</p>
       </div>
     </v-drawer>
   </div>
