@@ -183,7 +183,7 @@ export default {
       submitting: false,
       deal: {
         id: 0,
-        idol_id: this.id,
+        idol_id: 0,
         product_count: 0,
         product_price: 0
       },
@@ -256,6 +256,7 @@ export default {
     },
     createDeal(idol) {
       this.idol = idol
+      this.deal.idol_id = idol.id
       this.getCanExchangeCount()
       this.showCreateDealDrawer = true
     },
