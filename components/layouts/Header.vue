@@ -113,6 +113,12 @@
             alt="logo"
           >
         </router-link>
+        <router-link
+          :class="{ active: rolePage }"
+          class="link"
+          to="/role/trending"
+        >股市</router-link
+        >
         <router-link 
           :class="{ active: worldPage }" 
           class="link" 
@@ -124,12 +130,6 @@
           class="link"
           to="/bangumi/news"
         >番剧</router-link
-        >
-        <router-link
-          :class="{ active: rolePage }"
-          class="link"
-          to="/role/trending"
-        >偶像</router-link
         >
         <router-link
           :class="{ active: appPage }"

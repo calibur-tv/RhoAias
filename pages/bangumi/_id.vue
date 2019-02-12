@@ -102,7 +102,7 @@ export default {
       }
       return result.concat([
         {
-          label: '偶像',
+          label: '股市',
           route: 'bangumi-id-role'
         },
         {

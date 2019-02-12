@@ -1,5 +1,9 @@
 <template>
   <div v-if="source">
+    <slot
+      :source="source"
+      name="header"
+    />
     <!-- flow list -->
     <slot :flow="source.list"/>
     <!-- flow state -->

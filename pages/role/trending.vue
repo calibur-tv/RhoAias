@@ -1,53 +1,53 @@
 <template>
-  <div id="trending-role">
-    <flow-list
-      func="getRoleTrending"
-      type="seenIds"
-      sort="hot"
-    >
-      <ul 
-        slot-scope="{ flow }" 
-        class="container">
-        <cartoon-role-flow-item
-          v-for="(item, index) in flow"
-          :key="item.id"
-          :item="item"
-          :index="index"
-          bangumi-id=""
-          user-zone=""
-        />
-      </ul>
-    </flow-list>
+  <div id="role-trending">
+    <tab-container
+      :headers="tabs"
+      :router="true"
+    />
+    <nuxt-child />
   </div>
 </template>
 
 <script>
-import FlowList from '~/components/flow/FlowList'
-import CartoonRoleFlowItem from '~/components/flow/item/CartoonRoleFlowItem'
+import TabContainer from '~/components/common/TabContainer'
 
 export default {
-  name: 'TrendingRole',
-  async asyncData({ store }) {
-    await Promise.all([
-      store.dispatch('flow/initData', {
-        func: 'getRoleTrending',
-        type: 'seenIds',
-        sort: 'hot'
-      })
-    ])
-  },
-  head: {
-    meta: [
-      {
-        hid: 'description',
-        name: 'description',
-        content: '动漫角色排行榜'
-      }
-    ]
-  },
+  name: 'RoleTrending',
   components: {
-    FlowList,
-    CartoonRoleFlowItem
+    TabContainer
+  },
+  props: {},
+  data() {
+    return {}
+  },
+  computed: {
+    tabs() {
+      const result = [
+        {
+          label: '已上市',
+          route: 'role-trending-listed'
+        },
+        {
+          label: '融资中',
+          route: 'role-trending-newbie'
+        },
+        {
+          label: '交易所',
+          route: 'role-trending-hall'
+        },
+        {
+          label: '功能简介',
+          route: 'role-trending-intro'
+        }
+      ]
+      if (this.$store.state.login) {
+        result.push({
+          label: '我的',
+          route: 'role-trending-mine'
+        })
+      }
+      return result
+    }
   }
 }
 </script>

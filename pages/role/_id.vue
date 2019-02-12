@@ -8,29 +8,26 @@
       float: left;
       margin-right: 10px;
       margin-bottom: $container-padding;
+      border: 1px solid $color-gray-normal;
+      border-radius: 5px;
     }
 
     .info {
+      position: relative;
       overflow: hidden;
+      height: 80px;
 
       .name {
         font-size: 18px;
         margin-bottom: 5px;
         margin-top: 0;
+        @include twoline(20px);
       }
 
-      .lover {
-        height: 26px;
-        margin-bottom: 5px;
-
-        .image {
-          vertical-align: middle;
-          display: inline-block;
-        }
-      }
-
-      .star {
-        @include btn-empty(#000);
+      .star-idol-btn {
+        position: absolute;
+        bottom: 7px;
+        right: 3px;
       }
     }
 
@@ -38,6 +35,15 @@
       line-height: 20px;
       font-size: 13px;
       margin-bottom: 5px;
+
+      &.collapsed {
+        @include twoline(20px);
+      }
+
+      button {
+        font-size: 13px;
+        color: $color-pink-normal;
+      }
     }
 
     .alias {
@@ -52,7 +58,6 @@
       li {
         float: left;
         margin-right: 5px;
-        text-decoration: underline;
       }
     }
 
@@ -61,10 +66,28 @@
       font-size: 13px;
       margin-bottom: 5px;
     }
+
+    .boss {
+      height: 26px;
+      margin-bottom: 10px;
+
+      img,
+      span {
+        vertical-align: middle;
+      }
+
+      img {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 1px solid $color-gray-normal;
+      }
+    }
   }
 
   .bangumi {
-    padding-top: $container-padding;
+    padding-top: 15px;
+    padding-bottom: 15px;
 
     .summary {
       font-size: 12px;
@@ -73,14 +96,12 @@
     }
   }
 
-  .fans-sort-btn {
-    float: right;
-    font-size: 13px;
-    line-height: 40px;
-  }
+  .tab-wrap {
+    .hr {
+      display: none;
+    }
 
-  .tab-card {
-    .role-fans {
+    .user-list {
       padding-top: $container-padding;
 
       li {
@@ -94,26 +115,52 @@
         }
       }
 
-      .avatar {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 3px;
+      .user {
+        overflow: hidden;
+        height: 30px;
+
+        .avatar {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 5px;
+          float: left;
+        }
+
+        .nickname {
+          overflow: hidden;
+          line-height: 30px;
+          font-size: 12px;
+          color: $color-text-normal;
+        }
       }
 
       .score {
         float: right;
-        margin-top: 9px;
         font-size: 12px;
+        margin-top: 8px;
         color: $color-text-normal;
       }
     }
 
-    .role-comment-wrap {
-      padding-left: $container-padding;
-      padding-right: $container-padding;
+    .rules {
+      p {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-weight: 500;
+        font-size: 14px;
+      }
 
-      .hr {
-        display: none;
+      ul {
+        margin-left: 15px;
+        margin-top: 5px;
+
+        li {
+          list-style-type: disc;
+          line-height: 22px;
+          font-size: 13px;
+          margin-bottom: 10px;
+        }
       }
     }
   }
@@ -126,41 +173,37 @@
     class="role-show">
     <div class="container">
       <div class="profile clearfix">
-        <h3 class="sub-title">角色信息</h3>
+        <h3 class="sub-title">偶像信息</h3>
         <div>
           <div class="clearfix">
             <v-img
               :src="role.avatar"
               :share="true"
               :width="80"
+              :height="80"
               class="avatar"
             />
             <div class="info">
               <h1 
-                class="name" 
+                class="name"
                 v-text="role.name"/>
-              <div class="lover">
-                <template v-if="role.lover">
-                  <nuxt-link :to="$alias.user(role.lover.zone)">
-                    守护者：
-                    <v-img
-                      :src="role.lover.avatar"
-                      :avatar="true"
-                      :width="26"
-                      class="image"
-                    />
-                    {{ role.lover.nickname }}
-                  </nuxt-link>
-                </template>
-              </div>
-              <button class="star">应援系统暂时关闭</button>
+              <star-idol-btn
+                :idol="role"
+                @success="handleStarCallback"
+              />
             </div>
           </div>
           <div>
-            <h3 class="sub-title">角色简介</h3>
-            <p class="summary">
-              <strong>介绍：</strong>{{ role.intro }}
-            </p>
+            <h3 class="sub-title">偶像简介</h3>
+            <div @click="collapsed = !collapsed">
+              <p
+                :class="{ 'collapsed': collapsed }"
+                class="summary"
+              >
+                <strong>介绍：</strong>{{ collapsed ? `${role.intro.substr(0, 30)}...` : role.intro }}
+                <button>{{ collapsed ? '全文' : '收起' }}</button>
+              </p>
+            </div>
             <ul class="alias clearfix">
               <strong>别名：</strong>
               <li
@@ -169,16 +212,37 @@
                 v-text="name"
               />
             </ul>
-            <p 
-              v-if="role.star_count" 
-              class="coin">
-              <strong>粉丝：</strong>共有 {{ role.fans_count }} 个粉丝，收获了 {{ role.star_count }} 个团子
-            </p>
+            <div class="coin">
+              <p><strong>当前市值：</strong>￥{{ role.company_state ? role.market_price : '未上市' }}</p>
+              <p><strong>每股股价：</strong>￥{{ role.stock_price }}</p>
+              <p><strong>持股人数：</strong>{{ role.fans_count }}</p>
+              <p><strong>已认购股数：</strong>{{ role.star_count }}</p>
+              <p><strong>总发行股数：</strong>{{ hasLimited ? role.max_stock_count : '无上限' }}</p>
+            </div>
+            <div class="coin">
+              <p><strong>我持有的股数：</strong>{{ hasBuyStock ? role.has_star : '未入股' }}</p>
+            </div>
+            <div class="coin">
+              <p><strong>注册时间：</strong>{{ role.created_at }}</p>
+              <p v-if="role.ipo_at"><strong>上市时间：</strong>{{ role.ipo_at }}</p>
+            </div>
+          </div>
+          <div v-if="role.boss">
+            <h3
+              class="sub-title"
+              style="margin-top:15px"
+            >大股东</h3>
+            <div class="boss">
+              <nuxt-link :to="$alias.user(role.boss.zone)">
+                <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
+                <span>{{ role.boss.nickname }}</span>
+              </nuxt-link>
+            </div>
           </div>
         </div>
       </div>
+      <div class="hr"/>
       <div class="bangumi">
-        <h3 class="sub-title">所属番剧</h3>
         <bangumi-panel
           :id="bangumi.id"
           :avatar="bangumi.avatar"
@@ -190,70 +254,103 @@
         </bangumi-panel>
       </div>
     </div>
-    <div class="tabs">
-      <button
-        :class="{ 'active': sort === 'comment' }"
-        @click="switchTab('comment')">留言板</button>
-      <button 
-        :class="{ 'active': sort === 'fans' }" 
-        @click="switchTab('fans')">应援团</button>
-      <v-popover
-        v-if="sort === 'fans'"
-        :actions="fansSortActions"
-        class-name="fans-sort-btn"
+    <div class="hr"/>
+    <div class="container tab-wrap">
+      <tab-container
+        :headers="tabs"
+        @change="handleTabSwitch"
       >
-        <span>
-          <i class="el-icon-d-caret"/>
-          排序
-        </span>
-      </v-popover>
-    </div>
-    <div class="tab-card">
-      <template v-if="sort === 'fans'">
-        <ul class="role-fans container">
-          <li
-            v-for="(item, index) in fans.list"
-            :key="index"
-          >
-            <nuxt-link :to="$alias.user(item.zone)">
-              <v-img
-                :src="item.avatar"
-                :avatar="true"
-                :width="30"
-                class="avatar"
-              />
-              {{ item.nickname }}
-              <v-time
-                v-if="fetchFansSort === 'new'"
-                v-model="item.score"
-                class="score"
-              />
-              <span
-                v-else
-                class="score"
-              >{{ item.score }}个团子</span>
-            </nuxt-link>
-          </li>
-        </ul>
-        <more-btn
-          :no-more="fans.noMore"
-          :length="fans.list.length"
-          :loading="loadingRoleFans"
-          @fetch="fetchRoleFans(false)"
-        />
-      </template>
-      <div
-        v-else-if="sort === 'comment'"
-        class="role-comment-wrap"
-      >
-        <v-lazy>
-          <comment-main
+        <template slot="0">
+          <v-lazy>
+            <comment-main
+              :id="id"
+              :master-id="1"
+              type="role"
+            />
+          </v-lazy>
+        </template>
+        <template slot="1">
+          <flow-list
             :id="id"
-            :master-id="1"
-            type="role"
-          />
-        </v-lazy>
-      </div>
+            func="virtualIdolOwners"
+            type="lastId"
+            sort="newest"
+          >
+            <ul
+              slot-scope="{ flow }"
+              class="user-list"
+            >
+              <li
+                v-for="item in flow"
+                :key="item.id"
+              >
+                <nuxt-link :to="$alias.user(item.zone)">
+                  <v-time
+                    v-model="item.score"
+                    class="score"
+                  />
+                  <div class="user">
+                    <img
+                      :src="$resize(item.avatar, { width: 60 })"
+                      class="avatar"
+                    >
+                    <p
+                      class="nickname oneline"
+                      v-text="item.nickname"
+                    />
+                  </div>
+                </nuxt-link>
+              </li>
+            </ul>
+          </flow-list>
+        </template>
+        <template slot="2">
+          <flow-list
+            :id="id"
+            func="virtualIdolOwners"
+            type="seenIds"
+            sort="biggest"
+          >
+            <ul
+              slot-scope="{ flow }"
+              class="user-list"
+            >
+              <li
+                v-for="item in flow"
+                :key="item.id"
+              >
+                <nuxt-link :to="$alias.user(item.zone)">
+                  <span class="score">持有{{ item.score }}股，占比{{ computedPercent(item.score) }}</span>
+                  <div class="user">
+                    <img
+                      :src="$resize(item.avatar, { width: 60 })"
+                      class="avatar"
+                    >
+                    <p
+                      class="nickname oneline"
+                      v-text="item.nickname"
+                    />
+                  </div>
+                </nuxt-link>
+              </li>
+            </ul>
+          </flow-list>
+        </template>
+        <template slot="3">
+          <div class="rules">
+            <p>目前还没有公司章程，以下为功能简介：</p>
+            <ul>
+              <li>新注册的公司，只要至少有20人参股，就可以自动上市</li>
+              <li>新注册的公司，若未能在指定时间期限内上市，则会倒闭，所有投资人的将无法获得收益</li>
+              <li>上市之后，占股最多的人将成为最大的股东</li>
+              <li>最大的股东并非实时变更，会在每天夜里重新指定</li>
+              <li>最大的股东可以修改偶像的简介，以及修改「每股股价」来提高市值</li>
+              <li>之后所有的持股人可以在「交易所」进行股权交易，以赚取虚拟币</li>
+              <li>在未来，会开发出更多的方式，让股东可以获得分红</li>
+            </ul>
+          </div>
+        </template>
+      </tab-container>
     </div>
     <share-btn :share-data="share_data"/>
   </div>
@@ -262,9 +359,11 @@
 <script>
 import CommentMain from '~/components/comments/CommentMain'
 import BangumiPanel from '~/components/panel/BangumiPanel'
-import VPopover from '~/components/common/Popover'
 import ShareBtn from '~/components/common/ShareBtn'
-import { getCartoonRoleInfo, starRoleAction } from '~/api/cartoonRoleApi'
+import StarIdolBtn from '~/components/idol/StarIdolBtn'
+import TabContainer from '~/components/common/TabContainer'
+import FlowList from '~/components/flow/FlowList'
+import { getCartoonRoleInfo } from '~/api/cartoonRoleApi'
 
 export default {
   name: 'RoleShow',
@@ -283,12 +382,7 @@ export default {
             follow: bangumi.followed
           }
         })
-        return {
-          info: data,
-          role: data.data,
-          bangumi,
-          share_data: data.share_data
-        }
+        return { ...data }
       })
       .catch(error)
   },
@@ -307,8 +401,10 @@ export default {
   components: {
     CommentMain,
     BangumiPanel,
-    VPopover,
-    ShareBtn
+    ShareBtn,
+    StarIdolBtn,
+    TabContainer,
+    FlowList
   },
   props: {
     id: {
@@ -318,130 +414,83 @@ export default {
   },
   data() {
     return {
-      sort: 'comment',
-      loadingRoleFans: false,
-      loadingRoleImage: false,
-      roleImageLoaded: false,
-      fetchFansSort: 'new',
-      fansSortActions: [
-        {
-          name: '最多应援',
-          method: () => {
-            this.fetchFansSort = 'hot'
-            this.fetchRoleFans(true)
-          }
-        },
-        {
-          name: '最新应援',
-          method: () => {
-            this.fetchFansSort = 'new'
-            this.fetchRoleFans(true)
-          }
-        }
-      ],
-      share_data: null
+      role: null,
+      bangumi: null,
+      share_data: null,
+      collapsed: true
     }
   },
   computed: {
-    fans() {
-      return this.fetchFansSort === 'new' ? this.latestFans : this.biggestFans
-    },
-    latestFans() {
-      return this.$store.getters['flow/getFlow'](
-        'cartoonRoleFans',
-        'new',
-        this.id
-      )
-    },
-    biggestFans() {
-      return this.$store.getters['flow/getFlow'](
-        'cartoonRoleFans',
-        'hot',
-        this.id
-      )
-    },
     computeRoleAlias() {
       return this.role.alias.split(',')
     },
     currentUserId() {
       return this.$store.state.login ? this.$store.state.user.id : 0
+    },
+    hasLimited() {
+      return this.role.max_stock_count !== '0.00'
+    },
+    hasBuyStock() {
+      return this.role.has_star !== '0.00'
+    },
+    tabs() {
+      return [
+        {
+          label: '留言板'
+        },
+        {
+          label: '投资人'
+        },
+        {
+          label: '股东列表'
+        },
+        {
+          label: '公司章程'
+        }
+      ]
     }
   },
   methods: {
-    switchTab(tab) {
-      this.sort = tab
-      if (tab === 'fans') {
-        this.fetchRoleFans(true)
-      }
+    computedPercent(score) {
+      return `${parseFloat((score / this.role.star_count) * 100).toFixed(2)}%`
     },
-    async handleStarRole() {
-      if (!this.$store.state.login) {
-        this.$channel.$emit('sign-in')
-        return
+    handleStarCallback({ count, amount }) {
+      if (!parseFloat(this.role.has_star)) {
+        this.role.fans_count++
+        if (this.role.fans_count === 20) {
+          this.role.company_state = 1
+        }
       }
-      if (!this.$store.state.user.coin) {
-        this.$toast.error('团子不足')
-        return
+      if (this.role.boss && this.currentUserId === this.role.boss.id) {
+        this.role.boss.score += count
       }
-      this.$prompt('请输入要应援的数额', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        inputPattern: /^\d+$/,
-        inputErrorMessage: '必须是正整数'
-      })
-        .then(async ({ value }) => {
-          const amount = +value
-          if (amount < 0) {
-            this.$toast.error('必须是正整数')
-            return
-          }
-          if (this.$store.state.user.coin < amount) {
-            this.$toast.error('团子不足')
-            return
-          }
-          try {
-            await starRoleAction(this, {
-              id: this.id,
-              amount
-            })
-            if (!this.role.hasStar) {
-              this.role.fans_count++
-            }
-            if (this.role.lover && this.currentUserId === this.role.lover.id) {
-              this.role.lover.score += amount
-            }
-            this.role.hasStar += amount
-            this.role.star_count += amount
-            this.$store.commit('USE_COIN', amount)
-            this.$toast.info(`+${this.role.hasStar}s`)
-          } catch (e) {}
-        })
-        .catch(() => {})
+      this.role.market_price = parseFloat(
+        parseFloat(this.role.market_price) + amount
+      ).toFixed(2)
+      this.role.has_star = parseFloat(
+        parseFloat(this.role.has_star) + count
+      ).toFixed(2)
+      this.role.star_count = parseFloat(
+        parseFloat(this.role.star_count) + count
+      ).toFixed(2)
+      this.$toast.success(`当前持股：${this.role.has_star}`)
     },
-    async fetchRoleFans(init = false) {
-      if (this.loadingRoleFans) return
-      if (init) {
-        this.loadingRoleFans = true
-        await this.$store.dispatch('flow/initData', {
-          func: 'cartoonRoleFans',
-          type: this.fetchFansSort === 'new' ? 'lastId' : 'seenIds',
-          sort: this.fetchFansSort,
+    handleTabSwitch(index) {
+      if (index === 1) {
+        this.$store.dispatch('flow/initData', {
+          func: 'virtualIdolOwners',
+          type: 'lastId',
+          sort: 'newest',
           id: this.id
         })
-        this.loadingRoleFans = false
-        return
       }
-
-      this.loadingRoleFans = true
-      try {
-        this.$store.dispatch('flow/loadMore', {
-          func: 'cartoonRoleFans',
-          type: this.fetchFansSort === 'new' ? 'lastId' : 'seenIds',
-          sort: this.fetchFansSort,
+      if (index === 2) {
+        this.$store.dispatch('flow/initData', {
+          func: 'virtualIdolOwners',
+          type: 'seenIds',
+          sort: 'biggest',
           id: this.id
         })
-      } finally {
-        this.loadingRoleFans = false
       }
     }
   }
