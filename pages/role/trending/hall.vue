@@ -141,7 +141,7 @@ export default {
       return this.deal.last_count
     },
     payAmount() {
-      if (!this.deal) {
+      if (!this.deal || !this.buyCount) {
         return 0
       }
       return parseFloat(this.buyCount * this.deal.product_price).toFixed(2)
@@ -170,6 +170,10 @@ export default {
       this.showDealDrawer = true
     },
     async makeDeal() {
+      if (!this.payAmount) {
+        this.$toast.error('未选择份额')
+        return
+      }
       if (this.pocket < this.payAmount) {
         this.$toast.error('没有足够的虚拟币')
         return
