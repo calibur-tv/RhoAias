@@ -93,7 +93,7 @@ export default {
       return +this.$store.state.user.pocket
     },
     maxCanBuy() {
-      if (!this.idol.max_stock_count) {
+      if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
         return '无上限'
       }
       return parseFloat(
@@ -102,7 +102,7 @@ export default {
     },
     maxCount() {
       const result = parseFloat(this.idol.stock_price) * this.pocket
-      if (!this.idol.max_stock_count) {
+      if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
         return parseFloat(result).toFixed(2)
       }
       const last = this.idol.max_stock_count - this.idol.star_count
