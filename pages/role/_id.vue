@@ -163,6 +163,32 @@
         }
       }
     }
+
+    .change-stock {
+      p {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      ul {
+        margin-left: 15px;
+        margin-top: 5px;
+
+        li {
+          list-style-type: disc;
+          line-height: 22px;
+          font-size: 13px;
+          margin-bottom: 10px;
+        }
+      }
+
+      .submit-btn {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+    }
   }
 }
 </style>
@@ -350,6 +376,43 @@
             </ul>
           </div>
         </template>
+        <template slot="4">
+          <div class="change-stock">
+            <template v-if="isBoss">
+              <p>发行规则：</p>
+              <ul>
+                <li>每周只能修改一次</li>
+                <li>每次增发的股份，不能小于 {{ minLevel }} 股</li>
+                <li>现阶段，不支持以每股价格低于 1.00 或高于 10.00 的价格进行增发</li>
+                <li>若已售出股份小于 4000，则每次发行的股值不能低于总市值的 25%，否则发行的股值不能低于总市值的 10%</li>
+              </ul>
+              <p>设置价格：</p>
+              <el-input-number
+                v-model="stock_form.new_price"
+                :min="1"
+                :max="10"
+                :step="0.01"
+              />
+              <p>设置份额：</p>
+              <el-input-number
+                v-model="stock_form.add_stock_count"
+                :step="1"
+                :min="minLevel"
+              />
+              <p>当前增发市值：￥{{ curAddPrice }}</p>
+              <p>增发后总市值：￥{{ totalMarketPrice }}</p>
+              <el-button
+                :loading="stock_form.submitting"
+                type="primary"
+                class="submit-btn"
+                @click="submitAddStock"
+              >
+                确认增发
+              </el-button>
+            </template>
+            <p v-else>只有大股东可以修改公司股价和发行量</p>
+          </div>
+        </template>
       </tab-container>
     </div>
     <share-btn :share-data="share_data"/>
@@ -363,7 +426,8 @@ import ShareBtn from '~/components/common/ShareBtn'
 import StarIdolBtn from '~/components/idol/StarIdolBtn'
 import TabContainer from '~/components/common/TabContainer'
 import FlowList from '~/components/flow/FlowList'
-import { getCartoonRoleInfo } from '~/api/cartoonRoleApi'
+import { getCartoonRoleInfo, changeStockPrice } from '~/api/cartoonRoleApi'
+import { InputNumber } from 'element-ui'
 
 export default {
   name: 'RoleShow',
@@ -404,7 +468,8 @@ export default {
     ShareBtn,
     StarIdolBtn,
     TabContainer,
-    FlowList
+    FlowList,
+    InputNumber
   },
   props: {
     id: {
@@ -417,7 +482,13 @@ export default {
       role: null,
       bangumi: null,
       share_data: null,
-      collapsed: true
+      collapsed: true,
+      minLevel: 500,
+      stock_form: {
+        submitting: false,
+        new_price: 0,
+        add_stock_count: 0
+      }
     }
   },
   computed: {
@@ -442,12 +513,41 @@ export default {
           label: '投资人'
         },
         {
-          label: '股东列表'
+          label: '股东'
         },
         {
-          label: '公司章程'
+          label: '章程'
+        },
+        {
+          label: '增发'
         }
       ]
+    },
+    isBoss() {
+      return this.role.boss ? this.role.boss.id === this.currentUserId : false
+    },
+    maxStockCount() {
+      return +this.role.max_stock_count + this.stock_form.add_stock_count
+    },
+    minAddPrice() {
+      let result
+      if (this.role.star_count < 4000) {
+        result = this.role.market_price * 0.25
+      } else {
+        result = this.role.market_price * 0.1
+      }
+      if (result < this.minLevel) {
+        return parseFloat(this.minLevel).toFixed(2)
+      }
+      return parseFloat(result).toFixed(2)
+    },
+    curAddPrice() {
+      return parseFloat(
+        this.stock_form.new_price * this.stock_form.add_stock_count
+      ).toFixed(2)
+    },
+    totalMarketPrice() {
+      return parseFloat(+this.role.market_price + +this.curAddPrice).toFixed(2)
     }
   },
   methods: {
@@ -492,6 +592,31 @@ export default {
           id: this.id
         })
       }
+    },
+    submitAddStock() {
+      if (this.stock_form.submitting) {
+        return
+      }
+      this.$confirm('一周只能修改一次，确认增发吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          this.stock_form.submitting = true
+          await changeStockPrice(this, {
+            idol_id: this.id,
+            max_stock_count: this.maxStockCount,
+            stock_price: this.stock_form.new_price
+          })
+          this.$toast.success('修改成功')
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+        .catch(() => {
+          this.stock_form.submitting = false
+        })
     }
   }
 }
