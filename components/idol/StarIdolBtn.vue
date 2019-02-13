@@ -52,7 +52,7 @@
         <p class="intro">购入份额：</p>
         <el-input-number
           v-model="count"
-          :min="maxCount < 1 ? 0.01 : 1"
+          :min="+maxCount < 1 ? 0.01 : 1"
           :step="0.01"
           :max="+maxCount"
         />
