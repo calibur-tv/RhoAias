@@ -52,9 +52,9 @@
         <p class="intro">购入份额：</p>
         <el-input-number
           v-model="count"
-          :min="+maxCount < 1 ? 0.01 : 1"
+          :min="minCount"
+          :max="maxCount"
           :step="0.01"
-          :max="+maxCount"
         />
         <p class="intro">账单计算：</p>
         <p>预计支付：{{ needPay }}</p>
@@ -103,15 +103,21 @@ export default {
     maxCount() {
       const result = parseFloat(this.idol.stock_price) * this.pocket
       if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
-        return parseFloat(result).toFixed(2)
+        return +parseFloat(result).toFixed(2)
       }
       const last = this.idol.max_stock_count - this.idol.star_count
       if (last < result) {
-        return parseFloat(last).toFixed(2)
+        return +parseFloat(last).toFixed(2)
       }
-      return parseFloat(result).toFixed(2)
+      return +parseFloat(result).toFixed(2)
+    },
+    minCount() {
+      return this.maxCount < 1 ? 0.01 : 1
     },
     needPay() {
+      if (!this.count) {
+        return 0
+      }
       return (parseFloat(this.idol.stock_price) * this.count).toFixed(2)
     }
   },
@@ -128,6 +134,10 @@ export default {
       this.showDrawer = true
     },
     async submitOrder() {
+      if (!this.needPay) {
+        this.$toast.error('未选择份额')
+        return
+      }
       if (this.submitting) {
         return
       }
