@@ -2,12 +2,11 @@
 .role-show {
   .profile {
     margin-top: $container-padding;
-    min-height: 80px;
 
     .avatar {
       float: left;
       margin-right: 10px;
-      margin-bottom: $container-padding;
+      margin-bottom: 5px;
       border: 1px solid $color-gray-normal;
       border-radius: 5px;
     }
@@ -15,7 +14,7 @@
     .info {
       position: relative;
       overflow: hidden;
-      height: 80px;
+      height: 75px;
 
       .name {
         font-size: 18px;
@@ -34,7 +33,7 @@
     .summary {
       line-height: 20px;
       font-size: 13px;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
 
       &.collapsed {
         @include twoline(20px);
@@ -45,47 +44,32 @@
         color: $color-pink-normal;
       }
     }
+  }
 
-    .alias {
-      line-height: 20px;
+  .boss {
+    margin-bottom: 15px;
+
+    img,
+    span {
+      vertical-align: middle;
+    }
+
+    img {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1px solid $color-gray-normal;
+    }
+
+    span {
       font-size: 13px;
-      margin-bottom: 5px;
-
-      strong {
-        float: left;
-      }
-
-      li {
-        float: left;
-        margin-right: 5px;
-      }
     }
+  }
 
-    .coin {
-      line-height: 20px;
-      font-size: 13px;
-      margin-bottom: 5px;
-    }
-
-    .boss {
-      margin-bottom: 15px;
-
-      img,
-      span {
-        vertical-align: middle;
-      }
-
-      img {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        border: 1px solid $color-gray-normal;
-      }
-
-      span {
-        font-size: 13px;
-      }
-    }
+  .qq-group {
+    line-height: 20px;
+    font-size: 13px;
+    margin-bottom: 10px;
   }
 
   .bangumi {
@@ -133,89 +117,65 @@
     id="role-show" 
     class="role-show">
     <div class="container">
-      <div class="profile clearfix">
+      <div class="profile">
         <h3 class="sub-title">偶像信息</h3>
-        <div>
-          <div class="clearfix">
-            <v-img
-              :src="role.avatar"
-              :share="true"
-              :width="80"
-              :height="80"
-              class="avatar"
+        <div class="clearfix">
+          <v-img
+            :src="role.avatar"
+            :share="true"
+            :width="75"
+            :height="75"
+            class="avatar"
+          />
+          <div class="info">
+            <h1
+              class="name"
+              v-text="role.name"/>
+            <star-idol-btn
+              :idol="role"
+              @success="handleStarCallback"
             />
-            <div class="info">
-              <h1 
-                class="name"
-                v-text="role.name"/>
-              <star-idol-btn
-                :idol="role"
-                @success="handleStarCallback"
-              />
-            </div>
           </div>
-          <div>
-            <h3 class="sub-title">偶像简介</h3>
-            <div @click="collapsed = !collapsed">
-              <p
-                v-if="collapsed"
-                class="summary collapsed"
-              >
-                <strong>介绍：</strong>{{ role.intro.substr(0, 30) }}...
-                <button>全文</button>
-              </p>
-              <div
-                v-else
-                class="summary"
-              >
-                <strong>介绍：</strong>
-                <p v-html="computedHtmlIntro"/>
-                <button>全文</button>
-              </div>
-            </div>
-            <ul class="alias clearfix">
-              <strong>别名：</strong>
-              <li
-                v-for="(name, index) in computeRoleAlias"
-                :key="index"
-                v-text="name"
-              />
-            </ul>
-            <div class="coin">
-              <p><strong>当前市值：</strong>￥{{ role.company_state ? role.market_price : '未上市' }}</p>
-              <p><strong>每股股价：</strong>￥{{ role.stock_price }}</p>
-              <p><strong>持股人数：</strong>{{ role.fans_count }}</p>
-              <p><strong>已认购股数：</strong>{{ role.star_count }}</p>
-              <p><strong>总发行股数：</strong>{{ hasLimited ? role.max_stock_count : '无上限' }}</p>
-            </div>
-            <div class="coin">
-              <p><strong>我持有的股数：</strong>{{ hasBuyStock ? role.has_star : '未入股' }}</p>
-            </div>
-            <div class="coin">
-              <p><strong>注册时间：</strong>{{ role.created_at }}</p>
-              <p v-if="role.ipo_at"><strong>上市时间：</strong>{{ role.ipo_at }}</p>
-            </div>
+        </div>
+        <div @click="collapsed = !collapsed">
+          <p
+            v-if="collapsed"
+            class="summary collapsed"
+          >
+            <strong>简介：</strong>{{ role.intro.substr(0, 30) }}...
+            <button>全文</button>
+          </p>
+          <div
+            v-else
+            class="summary"
+          >
+            <strong>简介：</strong>
+            <p v-html="computedHtmlIntro"/>
+            <button>收起</button>
           </div>
-          <div v-if="role.boss">
-            <h3
-              class="sub-title"
-              style="margin-top:15px"
-            >大股东</h3>
-            <div class="boss">
-              <nuxt-link :to="$alias.user(role.boss.zone)">
-                <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
-                <span>{{ role.boss.nickname }}</span>
-              </nuxt-link>
-              <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
-            </div>
-          </div>
-          <div>
-            <h3 class="sub-title">应援群</h3>
-            <div class="coin">
-              <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
-              <br>
-            </div>
-          </div>
+        </div>
+      </div>
+      <div class="stock-info">
+        <h3 class="sub-title">股市行情</h3>
+        <idol-stock-chart :idol="role"/>
+      </div>
+      <div v-if="role.boss">
+        <h3
+          class="sub-title"
+          style="margin-top:15px"
+        >大股东</h3>
+        <div class="boss">
+          <nuxt-link :to="$alias.user(role.boss.zone)">
+            <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
+            <span>{{ role.boss.nickname }}</span>
+          </nuxt-link>
+          <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="sub-title">应援群</h3>
+        <div class="qq-group">
+          <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
         </div>
       </div>
       <div class="hr"/>
@@ -327,6 +287,7 @@ import IdolOwnerList from '~/components/idol/IdolOwnerList'
 import IdolMarketPriceDraft from '~/components/idol/IdolMarketPriceDraft'
 import CreateChangeMarketPriceDraft from '~/components/idol/CreateChangeMarketPriceDraft'
 import ChangeIdolProfile from '~/components/idol/ChangeIdolProfile'
+import IdolStockChart from '~/components/idol/IdolStockChart'
 import { Collapse, CollapseItem } from 'element-ui'
 
 export default {
@@ -372,6 +333,7 @@ export default {
     IdolMarketPriceDraft,
     CreateChangeMarketPriceDraft,
     ChangeIdolProfile,
+    IdolStockChart,
     'el-collapse': Collapse,
     'el-collapse-item': CollapseItem
   },
@@ -391,20 +353,11 @@ export default {
     }
   },
   computed: {
-    computeRoleAlias() {
-      return this.role.alias.split(',')
-    },
     computedHtmlIntro() {
       return this.role.intro.replace(/\n/g, '<br>')
     },
     currentUserId() {
       return this.$store.state.login ? this.$store.state.user.id : 0
-    },
-    hasLimited() {
-      return this.role.max_stock_count !== '0.00'
-    },
-    hasBuyStock() {
-      return this.role.has_star !== '0.00'
     },
     tabs() {
       return [
