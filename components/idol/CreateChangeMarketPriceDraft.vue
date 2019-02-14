@@ -115,7 +115,7 @@ export default {
       this.stock_form.submitting = true
       try {
         await createMarketPriceDraft(this, {
-          idol_id: this.id,
+          idol_id: this.idol.id,
           add_stock_count: this.stock_form.add_stock_count,
           stock_price: this.stock_form.new_price
         })
