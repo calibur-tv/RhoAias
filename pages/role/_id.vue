@@ -68,8 +68,7 @@
     }
 
     .boss {
-      height: 26px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
 
       img,
       span {
@@ -81,6 +80,10 @@
         height: 15px;
         border-radius: 50%;
         border: 1px solid $color-gray-normal;
+      }
+
+      span {
+        font-size: 13px;
       }
     }
   }
@@ -155,12 +158,20 @@
             <h3 class="sub-title">偶像简介</h3>
             <div @click="collapsed = !collapsed">
               <p
-                :class="{ 'collapsed': collapsed }"
+                v-if="collapsed"
+                class="summary collapsed"
+              >
+                <strong>介绍：</strong>{{ role.intro.substr(0, 30) }}...
+                <button>全文</button>
+              </p>
+              <div
+                v-else
                 class="summary"
               >
-                <strong>介绍：</strong>{{ collapsed ? `${role.intro.substr(0, 30)}...` : role.intro }}
-                <button>{{ collapsed ? '全文' : '收起' }}</button>
-              </p>
+                <strong>介绍：</strong>
+                <p v-html="computedHtmlIntro"/>
+                <button>全文</button>
+              </div>
             </div>
             <ul class="alias clearfix">
               <strong>别名：</strong>
@@ -195,6 +206,14 @@
                 <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
                 <span>{{ role.boss.nickname }}</span>
               </nuxt-link>
+              <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="sub-title">应援群</h3>
+            <div class="coin">
+              <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
+              <br>
             </div>
           </div>
         </div>
@@ -250,16 +269,38 @@
               <li>上市之后，占股最多的人将成为最大的股东</li>
               <li>最大的股东并非实时变更，会在一定周期内自动变更为持股最多的人</li>
               <li>最大的股东可以发起「增发提案」来修改股价</li>
+              <li>最大的股东可以留下自己的个人寄语，第一个大股东可以创建应援群</li>
               <li>上市后所有的持股人可以在「交易所」进行股权交易，以赚取虚拟币</li>
               <li>在未来，会开发出更多的方式，让公司能够健康发展</li>
             </ul>
           </div>
         </template>
         <template slot="4">
-          <create-change-market-price-draft
-            v-if="isBoss"
-            :idol="role"
-          />
+          <template v-if="isBoss">
+            <el-collapse
+              v-model="activeName"
+              accordion
+            >
+              <el-collapse-item name="0">
+                <p
+                  slot="title"
+                  class="title"
+                >
+                  信息修改
+                </p>
+                <change-idol-profile :idol="role"/>
+              </el-collapse-item>
+              <el-collapse-item name="1">
+                <p
+                  slot="title"
+                  class="title"
+                >
+                  股权变更
+                </p>
+                <create-change-market-price-draft :idol="role"/>
+              </el-collapse-item>
+            </el-collapse>
+          </template>
           <p v-else>
             <br>
             <br>
@@ -285,6 +326,8 @@ import TabContainer from '~/components/common/TabContainer'
 import IdolOwnerList from '~/components/idol/IdolOwnerList'
 import IdolMarketPriceDraft from '~/components/idol/IdolMarketPriceDraft'
 import CreateChangeMarketPriceDraft from '~/components/idol/CreateChangeMarketPriceDraft'
+import ChangeIdolProfile from '~/components/idol/ChangeIdolProfile'
+import { Collapse, CollapseItem } from 'element-ui'
 
 export default {
   name: 'RoleShow',
@@ -327,7 +370,10 @@ export default {
     TabContainer,
     IdolOwnerList,
     IdolMarketPriceDraft,
-    CreateChangeMarketPriceDraft
+    CreateChangeMarketPriceDraft,
+    ChangeIdolProfile,
+    'el-collapse': Collapse,
+    'el-collapse-item': CollapseItem
   },
   props: {
     id: {
@@ -340,12 +386,16 @@ export default {
       role: null,
       bangumi: null,
       share_data: null,
-      collapsed: true
+      collapsed: true,
+      activeName: ''
     }
   },
   computed: {
     computeRoleAlias() {
       return this.role.alias.split(',')
+    },
+    computedHtmlIntro() {
+      return this.role.intro.replace(/\n/g, '<br>')
     },
     currentUserId() {
       return this.$store.state.login ? this.$store.state.user.id : 0
@@ -371,7 +421,7 @@ export default {
           label: '章程'
         },
         {
-          label: '增发提案'
+          label: '变更'
         }
       ]
     },
