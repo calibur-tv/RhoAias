@@ -327,3 +327,9 @@ export const getVirtualIdolDealList = ({ ctx, seen_ids }) => {
 export const myVirtualIdolDeals = ({ ctx }) => {
   return ctx.$axios.$get('cartoon_role/my_deal')
 }
+
+export const getIdolDraftList = ({ ctx, page, count, id }) => {
+  return ctx.$axios.$get('cartoon_role/market_price_draft_list', {
+    params: { page, count, idol_id: id }
+  })
+}

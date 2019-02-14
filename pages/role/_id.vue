@@ -101,48 +101,6 @@
       display: none;
     }
 
-    .user-list {
-      padding-top: $container-padding;
-
-      li {
-        margin-bottom: 10px;
-        font-size: 13px;
-        position: relative;
-        padding-bottom: 10px;
-
-        &:not(:last-child) {
-          @include border-bottom(0);
-        }
-      }
-
-      .user {
-        overflow: hidden;
-        height: 30px;
-
-        .avatar {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          margin-right: 5px;
-          float: left;
-        }
-
-        .nickname {
-          overflow: hidden;
-          line-height: 30px;
-          font-size: 12px;
-          color: $color-text-normal;
-        }
-      }
-
-      .score {
-        float: right;
-        font-size: 12px;
-        margin-top: 8px;
-        color: $color-text-normal;
-      }
-    }
-
     .rules {
       p {
         margin-top: 15px;
@@ -161,32 +119,6 @@
           font-size: 13px;
           margin-bottom: 10px;
         }
-      }
-    }
-
-    .change-stock {
-      p {
-        margin-top: 15px;
-        margin-bottom: 15px;
-        font-weight: 500;
-        font-size: 14px;
-      }
-
-      ul {
-        margin-left: 15px;
-        margin-top: 5px;
-
-        li {
-          list-style-type: disc;
-          line-height: 22px;
-          font-size: 13px;
-          margin-bottom: 10px;
-        }
-      }
-
-      .submit-btn {
-        width: 100%;
-        margin-bottom: 30px;
       }
     }
   }
@@ -296,122 +228,46 @@
           </v-lazy>
         </template>
         <template slot="1">
-          <flow-list
+          <idol-owner-list
             :id="id"
-            func="virtualIdolOwners"
-            type="lastId"
-            sort="newest"
-          >
-            <ul
-              slot-scope="{ flow }"
-              class="user-list"
-            >
-              <li
-                v-for="item in flow"
-                :key="item.id"
-              >
-                <nuxt-link :to="$alias.user(item.zone)">
-                  <v-time
-                    v-model="item.score"
-                    class="score"
-                  />
-                  <div class="user">
-                    <img
-                      :src="$resize(item.avatar, { width: 60 })"
-                      class="avatar"
-                    >
-                    <p
-                      class="nickname oneline"
-                      v-text="item.nickname"
-                    />
-                  </div>
-                </nuxt-link>
-              </li>
-            </ul>
-          </flow-list>
+            :star="role.star_count"
+          />
         </template>
         <template slot="2">
-          <flow-list
-            :id="id"
-            func="virtualIdolOwners"
-            type="seenIds"
-            sort="biggest"
-          >
-            <ul
-              slot-scope="{ flow }"
-              class="user-list"
-            >
-              <li
-                v-for="item in flow"
-                :key="item.id"
-              >
-                <nuxt-link :to="$alias.user(item.zone)">
-                  <span class="score">持有{{ item.score }}股，占比{{ computedPercent(item.score) }}</span>
-                  <div class="user">
-                    <img
-                      :src="$resize(item.avatar, { width: 60 })"
-                      class="avatar"
-                    >
-                    <p
-                      class="nickname oneline"
-                      v-text="item.nickname"
-                    />
-                  </div>
-                </nuxt-link>
-              </li>
-            </ul>
-          </flow-list>
+          <idol-market-price-draft
+            :is-boss="isBoss"
+            :idol="role"
+          />
         </template>
         <template slot="3">
           <div class="rules">
             <p>目前还没有公司章程，以下为功能简介：</p>
             <ul>
-              <li>新注册的公司，只要至少有20人参股，就可以自动上市</li>
+              <li>新注册的公司，只要达到20人参股，就会自动上市</li>
+              <!--
               <li>新注册的公司，若未能在指定时间期限内上市，则会倒闭，所有投资人的将无法获得收益</li>
+              -->
               <li>上市之后，占股最多的人将成为最大的股东</li>
-              <li>最大的股东并非实时变更，会在每天夜里重新指定</li>
-              <li>最大的股东可以修改偶像的简介，以及修改「每股股价」来提高市值</li>
-              <li>之后所有的持股人可以在「交易所」进行股权交易，以赚取虚拟币</li>
-              <li>在未来，会开发出更多的方式，让股东可以获得分红</li>
+              <li>最大的股东并非实时变更，会在一定周期内自动变更为持股最多的人</li>
+              <li>最大的股东可以发起「增发提案」来修改股价</li>
+              <li>上市后所有的持股人可以在「交易所」进行股权交易，以赚取虚拟币</li>
+              <li>在未来，会开发出更多的方式，让公司能够健康发展</li>
             </ul>
           </div>
         </template>
         <template slot="4">
-          <div class="change-stock">
-            <template v-if="isBoss">
-              <p>发行规则：</p>
-              <ul>
-                <li>每周只能修改一次</li>
-                <li>每次增发的股份，不能小于 {{ minLevel }} 股</li>
-                <li>现阶段，不支持以每股价格低于 1.00 或高于 10.00 的价格进行增发</li>
-                <li>若已售出股份小于 4000，则每次发行的股值不能低于总市值的 25%，否则发行的股值不能低于总市值的 10%</li>
-              </ul>
-              <p>设置价格：</p>
-              <el-input-number
-                v-model="stock_form.new_price"
-                :min="1"
-                :max="10"
-                :step="0.01"
-              />
-              <p>设置份额：</p>
-              <el-input-number
-                v-model="stock_form.add_stock_count"
-                :step="1"
-                :min="minLevel"
-              />
-              <p>当前增发市值：￥{{ curAddPrice }}</p>
-              <p>增发后总市值：￥{{ totalMarketPrice }}</p>
-              <el-button
-                :loading="stock_form.submitting"
-                type="primary"
-                class="submit-btn"
-                @click="submitAddStock"
-              >
-                确认增发
-              </el-button>
-            </template>
-            <p v-else>只有大股东可以修改公司股价和发行量</p>
-          </div>
+          <create-change-market-price-draft
+            v-if="isBoss"
+            :idol="role"
+          />
+          <p v-else>
+            <br>
+            <br>
+            只有大股东可以修改公司股价和发行量
+            <br>
+            <br>
+            <br>
+          </p>
         </template>
       </tab-container>
     </div>
@@ -420,14 +276,15 @@
 </template>
 
 <script>
+import { getCartoonRoleInfo } from '~/api/cartoonRoleApi'
 import CommentMain from '~/components/comments/CommentMain'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import ShareBtn from '~/components/common/ShareBtn'
 import StarIdolBtn from '~/components/idol/StarIdolBtn'
 import TabContainer from '~/components/common/TabContainer'
-import FlowList from '~/components/flow/FlowList'
-import { getCartoonRoleInfo, changeStockPrice } from '~/api/cartoonRoleApi'
-import { InputNumber } from 'element-ui'
+import IdolOwnerList from '~/components/idol/IdolOwnerList'
+import IdolMarketPriceDraft from '~/components/idol/IdolMarketPriceDraft'
+import CreateChangeMarketPriceDraft from '~/components/idol/CreateChangeMarketPriceDraft'
 
 export default {
   name: 'RoleShow',
@@ -468,8 +325,9 @@ export default {
     ShareBtn,
     StarIdolBtn,
     TabContainer,
-    FlowList,
-    InputNumber
+    IdolOwnerList,
+    IdolMarketPriceDraft,
+    CreateChangeMarketPriceDraft
   },
   props: {
     id: {
@@ -482,13 +340,7 @@ export default {
       role: null,
       bangumi: null,
       share_data: null,
-      collapsed: true,
-      minLevel: 500,
-      stock_form: {
-        submitting: false,
-        new_price: 0,
-        add_stock_count: 0
-      }
+      collapsed: true
     }
   },
   computed: {
@@ -513,47 +365,21 @@ export default {
           label: '投资人'
         },
         {
-          label: '股东'
+          label: '大事记'
         },
         {
           label: '章程'
         },
         {
-          label: '增发'
+          label: '增发提案'
         }
       ]
     },
     isBoss() {
       return this.role.boss ? this.role.boss.id === this.currentUserId : false
-    },
-    maxStockCount() {
-      return +this.role.max_stock_count + this.stock_form.add_stock_count
-    },
-    minAddPrice() {
-      let result
-      if (this.role.star_count < 4000) {
-        result = this.role.market_price * 0.25
-      } else {
-        result = this.role.market_price * 0.1
-      }
-      if (result < this.minLevel) {
-        return parseFloat(this.minLevel).toFixed(2)
-      }
-      return parseFloat(result).toFixed(2)
-    },
-    curAddPrice() {
-      return parseFloat(
-        this.stock_form.new_price * this.stock_form.add_stock_count
-      ).toFixed(2)
-    },
-    totalMarketPrice() {
-      return parseFloat(+this.role.market_price + +this.curAddPrice).toFixed(2)
     }
   },
   methods: {
-    computedPercent(score) {
-      return `${parseFloat((score / this.role.star_count) * 100).toFixed(2)}%`
-    },
     handleStarCallback({ count, amount }) {
       if (!parseFloat(this.role.has_star)) {
         this.role.fans_count++
@@ -579,44 +405,19 @@ export default {
       if (index === 1) {
         this.$store.dispatch('flow/initData', {
           func: 'virtualIdolOwners',
-          type: 'lastId',
-          sort: 'newest',
-          id: this.id
-        })
-      }
-      if (index === 2) {
-        this.$store.dispatch('flow/initData', {
-          func: 'virtualIdolOwners',
           type: 'seenIds',
           sort: 'biggest',
           id: this.id
         })
       }
-    },
-    submitAddStock() {
-      if (this.stock_form.submitting) {
-        return
+      if (index === 2) {
+        this.$store.dispatch('flow/initData', {
+          func: 'getIdolDraftList',
+          type: 'page',
+          sort: 'new',
+          id: this.id
+        })
       }
-      this.$confirm('一周只能修改一次，确认增发吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(async () => {
-          this.stock_form.submitting = true
-          await changeStockPrice(this, {
-            idol_id: this.id,
-            max_stock_count: this.maxStockCount,
-            stock_price: this.stock_form.new_price
-          })
-          this.$toast.success('修改成功')
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
-        .catch(() => {
-          this.stock_form.submitting = false
-        })
     }
   }
 }
