@@ -79,7 +79,7 @@
         />
         <p class="intro">支付金额：</p>
         <p>最多可购买：{{ maxBuyCount }}股</p>
-        <p>需要支付的数额：￥{{ payAmount }}</p>
+        <p>待支付金额：￥{{ payAmount }}</p>
       </div>
     </v-drawer>
   </div>

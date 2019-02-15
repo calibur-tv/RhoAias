@@ -25,16 +25,29 @@
       display: block;
       width: 35px;
       height: 35px;
-      border-radius: 50%;
+      border-radius: 5px;
       border: 1px solid $color-gray-normal;
       float: left;
       margin-right: 7px;
     }
 
-    p {
-      font-size: 17px;
-      color: #000;
-      line-height: 35px;
+    .info {
+      overflow: hidden;
+      height: 35px;
+
+      p {
+        color: black;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 19px;
+      }
+
+      .meta {
+        color: #8e8e93;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+      }
     }
   }
 
@@ -43,6 +56,46 @@
     font-size: 14px;
     line-height: 20px;
     color: #000;
+
+    .trend-placeholder {
+      height: 42px;
+
+      p {
+        line-height: 42px;
+        font-size: 12px;
+        text-align: center;
+        color: #8e8e93;
+      }
+    }
+
+    .price,
+    .boss {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      span {
+        color: #8e8e93;
+      }
+
+      strong {
+        font-size: 20px;
+        font-weight: normal;
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+      }
+    }
+
+    .boss {
+      margin-bottom: 6px;
+      margin-top: -8px;
+    }
 
     .badges {
       margin-top: 10px;
@@ -97,16 +150,40 @@
     <nuxt-link :to="$alias.cartoonRole(item.id)">
       <div class="header">
         <img :src="$resize(item.avatar, { width: 70, height: 70 })">
-        <p
-          class="name oneline"
-          v-text="item.name"
-        />
+        <div class="info">
+          <p
+            class="name oneline"
+            v-text="item.name"
+          />
+          <div class="meta">股价:￥{{ item.stock_price }} / 股，{{ item.fans_count }}人持股</div>
+        </div>
       </div>
       <div class="body">
-        <p>当前市值：￥{{ item.company_state ? item.market_price : '未上市' }}</p>
-        <p>每股股价：￥{{ item.stock_price }}</p>
-        <p>投资人数：{{ item.fans_count }}</p>
-        <p>认购股数：{{ item.star_count }}</p>
+        <p class="price">
+          <span>总市值:</span>
+          <strong>{{ item.company_state ? `￥${item.market_price}` : '未上市' }}</strong>
+        </p>
+        <p
+          v-if="item.boss"
+          class="boss"
+        >
+          <span>大股东：</span>
+          <img :src="$resize(item.boss.avatar, { width: 50, height: 50 })">
+        </p>
+        <div class="trend-placeholder">
+          <no-ssr v-if="trendData.length">
+            <v-trend
+              :data="trendData"
+              :gradient="['#ffafc9', '#ff8eb3', '#f25d8e']"
+              :auto-draw-duration="400"
+              :height="42"
+              :padding="0"
+              auto-draw
+              smooth
+            />
+          </no-ssr>
+          <p v-else>暂无数据</p>
+        </div>
         <div
           v-if="sort === 'mine'"
           class="badges"
@@ -154,11 +231,13 @@
 
 <script>
 import { Tag } from 'element-ui'
+import Trend from 'vuetrend'
 
 export default {
   name: 'VirtualIdolItem',
   components: {
-    'el-tag': Tag
+    'el-tag': Tag,
+    'v-trend': Trend
   },
   props: {
     item: {
@@ -168,6 +247,11 @@ export default {
     sort: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    trendData() {
+      return this.item.market_trend.map(_ => +_.value).reverse()
     }
   },
   methods: {
