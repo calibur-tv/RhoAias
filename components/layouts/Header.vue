@@ -205,7 +205,7 @@ export default {
       return /^\/bangumi/.test(this.path)
     },
     rolePage() {
-      return /^\/role/.test(this.path)
+      return /^\/role\/trending/.test(this.path)
     },
     appPage() {
       return /^\/app/.test(this.path)
