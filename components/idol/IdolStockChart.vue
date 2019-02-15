@@ -108,9 +108,6 @@ export default {
   },
   methods: {
     drawChart() {
-      if (this.idol.chart.length < 2) {
-        return
-      }
       const chart = new F2.Chart({
         id: 'chart-node',
         pixelRatio: window.devicePixelRatio
