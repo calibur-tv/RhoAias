@@ -59,6 +59,18 @@
       }
     }
   }
+
+  .todo {
+    a {
+      display: block;
+      background-color: $color-pink-light;
+      padding: 0 $container-padding;
+      font-size: 14px;
+      height: 30px;
+      line-height: 30px;
+      margin: 5px 0;
+    }
+  }
 }
 </style>
 
@@ -84,13 +96,24 @@
       :headers="tabs"
       :router="true"
     />
+    <div class="todo">
+      <nuxt-link
+        v-for="(item, index) in todo"
+        :key="index"
+        :to="$alias.cartoonRole(item.id)"
+        class="oneline"
+      >
+        <i class="iconfont icon-nitification"/>
+        <span>正在召开「{{ item.name }}」的股东大会</span>
+      </nuxt-link>
+    </div>
     <nuxt-child />
   </div>
 </template>
 
 <script>
 import TabContainer from '~/components/common/TabContainer'
-import { getStockMarketMeta } from '~/api/cartoonRoleApi'
+import { getStockMarketMeta, getUserWorkSchedule } from '~/api/cartoonRoleApi'
 
 export default {
   name: 'RoleTrending',
@@ -105,7 +128,8 @@ export default {
         money_count: 0,
         deal_count: 0,
         exchang_money_count: 0
-      }
+      },
+      todo: []
     }
   },
   computed: {
@@ -124,21 +148,31 @@ export default {
           route: 'role-trending-hall'
         }
       ]
-      if (this.$store.state.login) {
+      if (this.isLogin) {
         result.push({
           label: '我的',
           route: 'role-trending-mine'
         })
       }
       return result
+    },
+    isLogin() {
+      return this.$store.state.login
     }
   },
   mounted() {
     this.getMetaInfo()
+    const canceler = this.$watch('isLogin', () => {
+      canceler()
+      this.getUserNeedTodo()
+    })
   },
   methods: {
     async getMetaInfo() {
       this.meta = await getStockMarketMeta(this)
+    },
+    async getUserNeedTodo() {
+      this.todo = await getUserWorkSchedule(this)
     }
   }
 }
