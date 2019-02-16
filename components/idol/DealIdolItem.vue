@@ -144,10 +144,6 @@
           size="mini"
         >{{ computePriceText(item) }}</el-tag>
         <el-tag
-          size="mini"
-          type="info"
-        >占比:{{ parseFloat(item.product_count / item.idol.star_count * 100).toFixed(2) }}%</el-tag>
-        <el-tag
           v-if="item.idol.is_locked"
           size="mini"
           type="danger"
@@ -157,6 +153,10 @@
           size="mini"
           type="success"
         >挂牌中</el-tag>
+        <el-tag
+          size="mini"
+          type="info"
+        >占比:{{ parseFloat(item.product_count / item.idol.star_count * 100).toFixed(2) }}%</el-tag>
       </div>
     </div>
     <div class="footer">

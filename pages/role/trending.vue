@@ -26,6 +26,7 @@
     }
 
     .whats-this {
+      display: block;
       position: absolute;
       top: 37px;
       right: 65px;
@@ -37,6 +38,24 @@
         color: #fff;
         padding: 4px 6px;
         border-radius: 4px;
+      }
+
+      div {
+        position: absolute;
+        display: block;
+        width: 0.8rem;
+        height: 0.4rem;
+        left: 30px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          border-color: transparent;
+          border-style: solid;
+          top: 0;
+          border-width: 0.4rem 0.4rem 0;
+          border-top-color: #000;
+        }
       }
     }
   }
@@ -53,12 +72,13 @@
         <li>成交笔数：{{ meta.deal_count }}</li>
         <li>总成交额：￥{{ parseFloat(meta.exchang_money_count).toFixed(2) }}</li>
       </ul>
-      <!--
-      <div class="whats-this">
+      <nuxt-link
+        class="whats-this"
+        to="/role/trending/intro"
+      >
         <p>什么是股市</p>
         <div/>
-      </div>
-      -->
+      </nuxt-link>
     </div>
     <tab-container
       :headers="tabs"
@@ -92,20 +112,16 @@ export default {
     tabs() {
       const result = [
         {
-          label: '已上市',
+          label: '上市榜',
           route: 'role-trending-listed'
         },
         {
-          label: '融资中',
+          label: '新创榜',
           route: 'role-trending-newbie'
         },
         {
           label: '交易所',
           route: 'role-trending-hall'
-        },
-        {
-          label: '功能简介',
-          route: 'role-trending-intro'
         }
       ]
       if (this.$store.state.login) {
