@@ -24,6 +24,21 @@
         color: $color-text-normal;
       }
     }
+
+    .whats-this {
+      position: absolute;
+      top: 37px;
+      right: 65px;
+      opacity: 0.7;
+
+      p {
+        font-size: 12px;
+        background-color: #000;
+        color: #fff;
+        padding: 4px 6px;
+        border-radius: 4px;
+      }
+    }
   }
 }
 </style>
@@ -38,6 +53,12 @@
         <li>成交笔数：{{ meta.deal_count }}</li>
         <li>总成交额：￥{{ parseFloat(meta.exchang_money_count).toFixed(2) }}</li>
       </ul>
+      <!--
+      <div class="whats-this">
+        <p>什么是股市</p>
+        <div/>
+      </div>
+      -->
     </div>
     <tab-container
       :headers="tabs"

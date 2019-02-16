@@ -2,7 +2,7 @@
 #idol-stock-chart {
   margin-left: -$container-padding;
   margin-right: -$container-padding;
-  margin-bottom: -$container-padding;
+  margin-bottom: -5px;
 
   .table-wrap {
     margin-left: $container-padding;
@@ -45,7 +45,7 @@
   }
 
   .shim {
-    height: 30px;
+    height: 20px;
   }
 }
 </style>
