@@ -43,6 +43,10 @@
       text-align: center;
     }
   }
+
+  .shim {
+    height: 30px;
+  }
 }
 </style>
 
@@ -59,7 +63,7 @@
         </thead>
         <tbody>
           <tr>
-            <td>￥{{ idol.company_state ? idol.market_price : '未上市' }}</td>
+            <td>{{ idol.company_state ? `￥${idol.market_price}` : '未上市' }}</td>
             <td>￥{{ idol.stock_price }}</td>
             <td>{{ idol.fans_count }}人</td>
           </tr>
@@ -80,7 +84,14 @@
         </tbody>
       </table>
     </div>
-    <canvas id="chart-node"/>
+    <canvas
+      v-if="idol.chart.length"
+      id="chart-node"
+    />
+    <div
+      v-else
+      class="shim"
+    />
   </div>
 </template>
 
@@ -108,15 +119,18 @@ export default {
   },
   methods: {
     drawChart() {
-      const chart = new F2.Chart({
-        id: 'chart-node',
-        pixelRatio: window.devicePixelRatio
-      })
       const data = this.idol.chart.map(_ => {
         return {
           time: +_.time * 1000,
           value: parseFloat(_.value).toFixed(2)
         }
+      })
+      if (!data.length) {
+        return
+      }
+      const chart = new F2.Chart({
+        id: 'chart-node',
+        pixelRatio: window.devicePixelRatio
       })
       chart.source(data, {
         time: {

@@ -117,6 +117,16 @@
     id="role-show" 
     class="role-show">
     <div class="container">
+      <div v-if="role.has_market_price_draft && !role.market_price_draft_voted">
+        <br>
+        <p class="sub-title">重要提醒</p>
+        <el-alert
+          :closable="false"
+          title="正在召开股东大会"
+          type="warning"
+          description="股东大会召开中，请全体股东到本页面「大事记」一栏进行会议投票"
+        />
+      </div>
       <div class="profile">
         <h3 class="sub-title">偶像信息</h3>
         <div class="clearfix">
