@@ -5,7 +5,8 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 37px;
+    margin-top: 8px;
   }
 
   .align-center {

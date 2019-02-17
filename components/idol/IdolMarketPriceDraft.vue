@@ -37,6 +37,14 @@
       }
     }
   }
+
+  .el-steps--vertical {
+    margin-left: 5px;
+
+    .el-step__description {
+      padding-right: 5px;
+    }
+  }
 }
 </style>
 
@@ -47,7 +55,13 @@
         :closable="false"
         type="warning"
         title="提案项在通过/反对占比大于「50%」之后，会由系统自动增发股票/关闭提案（最多延迟5分钟）"
-        style="margin-top:15px;margin-bottom:15px"
+        style="margin-top:15px;margin-bottom:10px"
+      />
+      <el-alert
+        :closable="false"
+        type="warning"
+        title="若股东超过两天仍未投票，则视为弃权，将会用已投票的数据通过或驳回增发提案"
+        style="margin-bottom:15px"
       />
       <div class="draft-control">
         <div class="text-wrap">
@@ -83,7 +97,7 @@
             type="success"
             icon="el-icon-caret-top"
             @click="submitVote(true)"
-          >同意</el-button>
+          >赞同</el-button>
           <el-button
             :loading="submitting"
             :plain="draft.voted < 0"
@@ -140,7 +154,7 @@
           v-for="item in source.list"
           :key="item.id"
           :status="item.result === 0 ? 'finish' : item.result === 1 ? 'success' : 'error'"
-          :description="`本提案由「${item.user.nickname}」发起，发行「${item.add_stock_count}」股，每股「￥${item.stock_price}」` + (item.result === 0 ? '董事会正在投票' : item.result === 1 ? '董事会表决通过' : '董事会表决未通过')"
+          :description="`${item.created_at} - 本提案由「${item.user.nickname}」发起，发行「${item.add_stock_count}」股，每股「￥${item.stock_price}」，` + (item.result === 0 ? '董事会正在投票' : item.result === 1 ? '董事会表决通过' : '董事会表决未通过')"
           title="增发提案"
         />
         <el-step

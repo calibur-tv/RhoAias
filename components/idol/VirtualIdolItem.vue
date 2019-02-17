@@ -155,7 +155,7 @@
             class="name oneline"
             v-text="item.name"
           />
-          <div class="meta">股价:￥{{ item.stock_price }} / 股，{{ item.fans_count }}人持股</div>
+          <div class="meta">￥{{ item.stock_price }}/股，{{ item.fans_count }}人持股，已认购{{ item.star_count }}股</div>
         </div>
       </div>
       <div class="body">
@@ -205,8 +205,13 @@
         </div>
       </div>
       <div class="footer">
-        <span v-if="item.ipo_at">上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
-        <span v-else>注册时间：{{ item.created_at.split(' ')[0] }}</span>
+        <span v-if="sort === 'mine'">
+          持有：{{ item.has_star }}股，占比 {{ computedPercent }}
+        </span>
+        <template v-else>
+          <span v-if="item.ipo_at">上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
+          <span v-else>注册时间：{{ item.created_at.split(' ')[0] }}</span>
+        </template>
         <template
           v-if="sort === 'mine'"
         >
@@ -252,6 +257,11 @@ export default {
   computed: {
     trendData() {
       return this.item.market_trend.map(_ => +_.value).reverse()
+    },
+    computedPercent() {
+      return `${parseFloat(
+        (this.item.has_star / this.item.star_count) * 100
+      ).toFixed(2)}%`
     }
   },
   methods: {
