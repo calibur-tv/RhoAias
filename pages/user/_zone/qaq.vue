@@ -1,34 +1,15 @@
-<style lang="scss">
-#user-question {
-  .label {
-    font-size: 0;
-
-    button {
-      display: inline-block;
-      width: 50%;
-      height: 40px;
-      font-size: 13px;
-      background-color: #fff;
-      color: $color-text-normal;
-    }
-
-    .active {
-      background-color: $color-gray-normal;
-    }
-  }
-}
-</style>
-
 <template>
   <div id="user-question">
-    <div class="label">
-      <button
-        v-for="item in ['回答', '提问']"
-        :key="item"
-        :class="{ active: active === item }"
-        @click="switchTab(item)"
-      >{{ item }}</button>
-    </div>
+    <header class="tab-header">
+      <el-radio-group
+        v-model="active"
+        size="mini"
+        @change="switchTab"
+      >
+        <el-radio-button label="回答"/>
+        <el-radio-button label="提问"/>
+      </el-radio-group>
+    </header>
     <flow-list
       v-if="active === '回答'"
       :id="zone"

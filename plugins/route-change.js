@@ -9,8 +9,7 @@ export default ({ app, store }) => {
       next()
     })
 
-    app.router.afterEach((to, from) => {
-      // eslint-disable-line
+    app.router.afterEach(to => {
       _hmt.push(['_trackPageview', to.fullPath])
       M.sentry.setPageInfo(to.name)
     })

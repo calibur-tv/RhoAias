@@ -90,6 +90,9 @@ export default {
       type: String
     }
   },
+  head: {
+    title: '邀请注册'
+  },
   computed: {
     haveAuthToken() {
       return this.$store.state.haveAuthToken

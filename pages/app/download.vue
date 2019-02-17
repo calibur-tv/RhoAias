@@ -101,6 +101,9 @@ export default {
   components: {
     VueParticles
   },
+  head: {
+    title: 'APP下载'
+  },
   data() {
     return {
       info: null

@@ -120,7 +120,6 @@ export default {
   components: {
     TabContainer
   },
-  props: {},
   data() {
     return {
       meta: {

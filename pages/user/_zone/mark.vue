@@ -1,24 +1,6 @@
 <style lang="scss">
 #user-mark {
   padding-bottom: 15px;
-
-  .label {
-    font-size: 0;
-
-    button {
-      display: inline-block;
-      width: 20%;
-      height: 40px;
-      font-size: 13px;
-      background-color: #fff;
-      color: $color-text-normal;
-    }
-
-    .active {
-      background-color: $color-gray-normal;
-    }
-  }
-
   .user-mark-view {
     padding-left: $container-padding;
     padding-right: $container-padding;
@@ -164,13 +146,18 @@
 
 <template>
   <div id="user-mark">
-    <header class="label">
-      <button
-        v-for="item in nav"
-        :key="item.type"
-        :class="{ active: type === item.type }"
-        @click="switchTab(item.type)"
-      >{{ item.label }}</button>
+    <header class="tab-header">
+      <el-radio-group
+        v-model="active"
+        size="mini"
+        @change="switchTab"
+      >
+        <el-radio-button
+          v-for="item in nav"
+          :key="item.type"
+          :label="item.label"
+        />
+      </el-radio-group>
     </header>
     <main class="user-mark-view">
       <flow-list
@@ -330,6 +317,7 @@ export default {
   },
   data() {
     return {
+      active: '帖子',
       nav: [
         {
           label: '帖子',
@@ -355,10 +343,14 @@ export default {
       type: 'post'
     }
   },
-  computed: {},
-  mounted() {},
   methods: {
-    switchTab(type) {
+    switchTab(label) {
+      let type = ''
+      this.nav.forEach(item => {
+        if (item.label === label) {
+          type = item.type
+        }
+      })
       this.getData(type)
     },
     getData(sort) {

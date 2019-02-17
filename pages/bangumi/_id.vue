@@ -46,18 +46,10 @@ export default {
     }
   },
   head() {
-    let keywords = this.info.alias
-    const { tags, name, summary, avatar } = this.info
-    tags.forEach(tag => {
-      keywords += `,${tag.name}`
-    })
-    keywords += `${keywords}, ${name}动漫, ${name}动画片, ${name}全集, ${name}在线观看, ${name}吧`
+    const { name, summary, avatar } = this.info
     return {
-      title: `${name} - 番剧`,
-      meta: [
-        { hid: 'description', name: 'description', content: summary },
-        { hid: 'keywords', name: 'keywords', content: keywords }
-      ],
+      title: name,
+      meta: [{ hid: 'description', name: 'description', content: summary }],
       script: [
         {
           hid: 'share-data',

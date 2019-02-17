@@ -92,7 +92,7 @@ export default {
   },
   head() {
     return {
-      title: `${this.qaq.title} - 提问`
+      title: this.qaq.title
     }
   },
   components: {
@@ -104,6 +104,11 @@ export default {
     id: {
       type: String,
       required: true
+    }
+  },
+  data() {
+    return {
+      qaq: null
     }
   }
 }

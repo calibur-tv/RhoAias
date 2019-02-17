@@ -27,9 +27,14 @@ module.exports = {
   head() {
     const { ua } = this.$store.state
     return {
-      title: '天下漫友是一家',
-      titleTemplate: titleChunk => {
-        return titleChunk || 'calibur - 天下漫友是一家'
+      titleTemplate: title => {
+        if (!title) {
+          return 'calibur 二次元股市'
+        }
+        if (/:/.test(title)) {
+          return `calibur ${title}`
+        }
+        return `${title} | calibur 二次元股市`
       },
       htmlAttrs: {
         lang: 'zh-CN'
@@ -48,13 +53,12 @@ module.exports = {
         {
           hid: 'description',
           name: 'description',
-          content: '一个兴趣使然的二次元综合网站'
+          content: 'calibur.tv - 二次元股市'
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content:
-            'calibur，咖喱棒, 动漫，ACG，二次元，视频，番剧，动画，新番，神作, 排行榜, 贴吧, 盖楼, 应援, 帖子, 在线'
+          content: 'calibur，C站, 二次元股市'
         }
       ],
       link: [

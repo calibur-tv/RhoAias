@@ -33,6 +33,9 @@ export default {
       // store.dispatch('flow/getMeta', { type: 'image' })
     ])
   },
+  head: {
+    title: '相册区'
+  },
   data() {
     return {
       // flowType: 'image'

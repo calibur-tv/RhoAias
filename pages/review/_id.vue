@@ -273,14 +273,7 @@ export default {
   },
   head() {
     return {
-      title: this.info.title,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: `写给《${this.bangumi.name}》的漫评`
-        }
-      ]
+      title: this.info.title
     }
   },
   components: {

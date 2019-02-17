@@ -129,7 +129,7 @@ export default {
       }, 10000)
     },
     computeSlogan() {
-      const slogan = 'calibur.tv：天下漫友是一家'
+      const slogan = 'calibur.tv：二次元股市'
       const maxLen = slogan.length
       const maxTime = 900
       let index = 0

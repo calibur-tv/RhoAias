@@ -1,22 +1,5 @@
 <style lang="scss">
 #user-post {
-  .label {
-    font-size: 0;
-
-    button {
-      display: inline-block;
-      width: 50%;
-      height: 40px;
-      font-size: 13px;
-      background-color: #fff;
-      color: $color-text-normal;
-    }
-
-    .active {
-      background-color: $color-gray-normal;
-    }
-  }
-
   #posts-of-reply {
     background-color: #ffffff;
 
@@ -109,121 +92,121 @@
 
 <template>
   <div id="user-post">
-    <div class="label">
-      <button
-        v-for="item in ['发帖', '回帖']"
-        :key="item"
-        :class="{ active: active === item }"
-        @click="switchTab(item)"
-      >{{ item }}</button>
-    </div>
-    <template v-if="active === '发帖'">
-      <flow-list
-        :id="zone"
-        func="getUserPost"
-        type="page"
-        sort="news"
+    <header class="tab-header">
+      <el-radio-group
+        v-model="active"
+        size="mini"
+        @change="switchTab"
       >
-        <ul slot-scope="{ flow }">
-          <post-flow-item
-            v-for="item in flow"
-            :key="item.id"
-            :user-zone="zone"
-            :item="item"
-            bangumi-id=""
-          />
-        </ul>
-      </flow-list>
-    </template>
-    <template v-else-if="active === '回帖'">
-      <flow-list
-        :id="zone"
-        func="getUserPostReply"
-        type="page"
-        sort="news"
-      >
-        <ul 
-          id="posts-of-reply" 
-          slot-scope="{ flow }">
-          <li
-            v-for="item in flow.list"
-            :key="item.id"
-          >
-            <nuxt-link
-              :to="$alias.post(item.post.id)"
-              class="header"
-              v-text="item.post.title"/>
-            <nuxt-link
-              :to="$alias.post(item.post.id, { comment: item.post.id })"
-              class="origin">
+        <el-radio-button label="发帖"/>
+        <el-radio-button label="回帖"/>
+      </el-radio-group>
+    </header>
+    <flow-list
+      v-show="active === '发帖'"
+      :id="zone"
+      func="getUserPost"
+      type="page"
+      sort="news"
+    >
+      <ul slot-scope="{ flow }">
+        <post-flow-item
+          v-for="item in flow"
+          :key="item.id"
+          :user-zone="zone"
+          :item="item"
+          bangumi-id=""
+        />
+      </ul>
+    </flow-list>
+    <flow-list
+      v-show="active === '回帖'"
+      :id="zone"
+      func="getUserPostReply"
+      type="page"
+      sort="news"
+    >
+      <ul
+        id="posts-of-reply"
+        slot-scope="{ flow }">
+        <li
+          v-for="item in flow"
+          :key="item.id"
+        >
+          <nuxt-link
+            :to="$alias.post(item.post.id)"
+            class="header"
+            v-text="item.post.title"/>
+          <nuxt-link
+            :to="$alias.post(item.post.id, { comment: item.post.id })"
+            class="origin">
+            <div
+              class="content"
+              v-html="item.post.content"/>
+            <div
+              v-if="item.post.images.length"
+              class="images clearfix">
+              <v-img
+                v-if="item.post.images.length === 1"
+                :src="item.post.images[0].url"
+                width="100%"
+                height="190"
+                class="poster-image"
+              />
               <div
-                class="content"
-                v-html="item.post.content"/>
-              <div
-                v-if="item.post.images.length"
-                class="images clearfix">
+                v-else
+                class="image-list">
                 <v-img
-                  v-if="item.post.images.length === 1"
-                  :src="item.post.images[0].url"
-                  width="100%"
-                  height="190"
-                  class="poster-image"
+                  v-for="(image, index) in imageFilter(item.post.images)"
+                  :key="index"
+                  :src="image.url"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
-                <div
-                  v-else
-                  class="image-list">
-                  <v-img
-                    v-for="(image, index) in imageFilter(item.post.images)"
-                    :key="index"
-                    :src="image.url"
-                    class="image"
-                    width="32%"
-                    height="93"
-                  />
-                </div>
               </div>
-            </nuxt-link>
-            <nuxt-link
-              :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
-              class="reply">
+            </div>
+          </nuxt-link>
+          <nuxt-link
+            :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
+            class="reply">
+            <div
+              class="content"
+              v-html="item.content"/>
+            <div
+              v-if="item.images.length"
+              class="images clearfix">
+              <v-img
+                v-if="item.images.length === 1"
+                :src="item.images[0].url"
+                width="100%"
+                height="190"
+                class="poster-image"
+              />
               <div
-                class="content"
-                v-html="item.content"/>
-              <div
-                v-if="item.images.length"
-                class="images clearfix">
+                v-else
+                class="image-list">
                 <v-img
-                  v-if="item.images.length === 1"
-                  :src="item.images[0].url"
-                  width="100%"
-                  height="190"
-                  class="poster-image"
+                  v-for="(image, index) in imageFilter(item.images)"
+                  :key="index"
+                  :src="image.url"
+                  class="image"
+                  width="32%"
+                  height="93"
                 />
-                <div
-                  v-else
-                  class="image-list">
-                  <v-img
-                    v-for="(image, index) in imageFilter(item.images)"
-                    :key="index"
-                    :src="image.url"
-                    class="image"
-                    width="32%"
-                    height="93"
-                  />
-                </div>
               </div>
-            </nuxt-link>
-            <nuxt-link
-              :to="$alias.bangumi(item.bangumi.id)"
-              class="footer">
-              回复于
-              <span v-text="item.bangumi.name"/>
-              <v-time v-model="item.created_at"/>
-            </nuxt-link>
-          </li>
-        </ul>
-      </flow-list>
-    </template>
+            </div>
+          </nuxt-link>
+          <nuxt-link
+            :to="$alias.bangumi(item.bangumi.id)"
+            class="footer">
+            回复于
+            <span v-text="item.bangumi.name"/>
+            <v-time v-model="item.created_at"/>
+          </nuxt-link>
+        </li>
+      </ul>
+    </flow-list>
   </div>
 </template>
 

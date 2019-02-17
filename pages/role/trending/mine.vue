@@ -176,6 +176,9 @@ export default {
     'el-input-number': InputNumber
   },
   mixins: [serverAuth],
+  head: {
+    title: '我的股市'
+  },
   data() {
     return {
       selected: '我入股的公司',

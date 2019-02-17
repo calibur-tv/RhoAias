@@ -86,6 +86,17 @@ export default {
       type: String,
       required: true
     }
+  },
+  head() {
+    return {
+      title: this.qaq.title
+    }
+  },
+  data() {
+    return {
+      qaq: null,
+      answer: null
+    }
   }
 }
 </script>

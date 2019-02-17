@@ -64,6 +64,9 @@ export default {
     FlowList,
     VPopover
   },
+  head: {
+    title: '新创公司'
+  },
   data() {
     return {
       sort_selected: 'star_count',

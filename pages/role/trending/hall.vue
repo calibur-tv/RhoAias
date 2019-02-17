@@ -108,6 +108,9 @@ export default {
     DealIdolItem,
     'el-input-number': InputNumber
   },
+  head: {
+    title: '交易所'
+  },
   data() {
     return {
       deal: null,

@@ -28,7 +28,7 @@ export default {
           route: 'bangumi-index-timeline'
         },
         {
-          label: '分类索引',
+          label: '动画标签',
           route: 'bangumi-index-tags-id'
         }
       ]

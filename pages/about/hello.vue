@@ -79,6 +79,9 @@ export default {
     nickname() {
       return this.$store.state.user ? this.$store.state.user.nickname : ''
     }
+  },
+  head: {
+    title: '欢迎'
   }
 }
 </script>

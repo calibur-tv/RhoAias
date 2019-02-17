@@ -99,6 +99,9 @@ export default {
   async asyncData(ctx) {
     await ctx.store.dispatch('bangumi/getTimeline')
   },
+  head: {
+    title: '时间轴'
+  },
   data() {
     return {
       loading: false

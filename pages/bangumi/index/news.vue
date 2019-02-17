@@ -159,6 +159,9 @@ export default {
   components: {
     TabContainer
   },
+  head: {
+    title: '新番放送'
+  },
   data() {
     return {
       showtime: ['最新', '一', '二', '三', '四', '五', '六', '日'],

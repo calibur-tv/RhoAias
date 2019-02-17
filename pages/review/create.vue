@@ -210,6 +210,9 @@ export default {
     'mt-switch': Switch
   },
   mixins: [serverAuth],
+  head: {
+    title: '写漫评'
+  },
   data() {
     const labelMap = {
       lol: '笑点',

@@ -124,6 +124,11 @@
     padding-left: 8px;
     padding-right: 8px;
   }
+
+  .tab-header {
+    margin-top: 12px;
+    text-align: center;
+  }
 }
 </style>
 

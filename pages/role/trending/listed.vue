@@ -64,6 +64,9 @@ export default {
     FlowList,
     VPopover
   },
+  head: {
+    title: '上市公司'
+  },
   data() {
     return {
       sort_selected: 'activity',

@@ -1,21 +1,5 @@
 <style lang="scss">
 #user-draft {
-  .label {
-    font-size: 0;
-    display: flex;
-    button {
-      flex: 1;
-      height: 40px;
-      font-size: 13px;
-      background-color: #fff;
-      color: $color-text-normal;
-    }
-
-    .active {
-      background-color: $color-gray-normal;
-    }
-  }
-
   .score-draft {
     padding-bottom: 15px;
     padding-top: 20px;
@@ -88,16 +72,16 @@
 
 <template>
   <div id="user-draft">
-    <div class="label">
-      <button
-        :class="{ active: active === '漫评' }"
-        @click="switchTab('漫评')"
-      >漫评</button>
-      <button
-        :class="{ active: active === '回答' }"
-        @click="switchTab('回答')"
-      >回答</button>
-    </div>
+    <header class="tab-header">
+      <el-radio-group
+        v-model="active"
+        size="mini"
+        @change="switchTab"
+      >
+        <el-radio-button label="漫评"/>
+        <el-radio-button label="回答"/>
+      </el-radio-group>
+    </header>
     <div class="container">
       <flow-list
         v-if="active === '漫评'"

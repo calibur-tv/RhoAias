@@ -118,6 +118,8 @@
           :is="`${item.type}-item`"
           :item="item"
           :in-common="item.type != selectedType"
+          :bangumi-id="0"
+          user-zone=""
         />
       </template>
     </div>
@@ -155,14 +157,10 @@ export default {
       q: args.q
     })
   },
-  head: {
-    meta: [
-      {
-        hid: 'description',
-        name: 'description',
-        content: '搜索二次元的一切'
-      }
-    ]
+  head() {
+    return {
+      title: this.$route.query.q ? `搜索结果：${this.$route.query.q}` : '搜索'
+    }
   },
   components: {
     vSearch,

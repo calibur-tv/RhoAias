@@ -35,6 +35,9 @@ export default {
         sort: 'active'
       })
     ])
+  },
+  head: {
+    title: '漫评区'
   }
 }
 </script>

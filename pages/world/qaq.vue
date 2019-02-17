@@ -37,6 +37,9 @@ export default {
       // store.dispatch('flow/getMeta', { type: 'question' })
     ])
   },
+  head: {
+    title: '问答区'
+  },
   data() {
     return {}
   },

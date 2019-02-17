@@ -41,6 +41,9 @@ export default {
     FlowList,
     PostFlowItem
   },
+  head: {
+    title: '帖子区'
+  },
   data() {
     return {
       showTips: false

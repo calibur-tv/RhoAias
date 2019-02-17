@@ -331,14 +331,7 @@ export default {
   },
   head() {
     return {
-      title: `《${this.bangumi.name}》—— ${this.role.name}`,
-      meta: [
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'calibur.tv，一个兴趣使然的二次元综合网站'
-        }
-      ]
+      title: this.role.name
     }
   },
   components: {
