@@ -34,7 +34,7 @@
         font-size: 12px;
         font-weight: 600;
         line-height: 48px;
-        padding: 0 5px;
+        padding: 0 3px;
         text-align: center;
 
         &.active {
@@ -136,6 +136,11 @@
           class="link"
           to="/app/download"
         >APP</router-link>
+        <router-link
+          :class="{ active: rewardPage }"
+          class="link"
+          to="/about/reward"
+        >捐赠</router-link>
       </div>
       <div class="nav-right">
         <template v-if="haveAuthToken">
@@ -209,6 +214,9 @@ export default {
     },
     appPage() {
       return /^\/app/.test(this.path)
+    },
+    rewardPage() {
+      return /^\/about\/reward/.test(this.path)
     },
     noBorderPage() {
       return this.homePage || this.appPage
