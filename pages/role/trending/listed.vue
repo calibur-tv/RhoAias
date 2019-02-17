@@ -95,11 +95,6 @@ export default {
           method: this.showStockOrder
         },
         {
-          name: '最新上市',
-          value: 'newest',
-          method: this.showNewsOrder
-        },
-        {
           name: '最近活跃',
           value: 'activity',
           method: this.showActivityOrder
@@ -127,10 +122,6 @@ export default {
     },
     showStockOrder() {
       this.sort_selected = 'stock_price'
-      this.initTrending()
-    },
-    showNewsOrder() {
-      this.sort_selected = 'newest'
       this.initTrending()
     },
     showActivityOrder() {

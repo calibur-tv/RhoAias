@@ -1,85 +1,102 @@
 <style lang="scss">
 .role-show {
-  .profile {
-    margin-top: $container-padding;
-
-    .avatar {
-      float: left;
-      margin-right: 10px;
-      margin-bottom: 5px;
-      border: 1px solid $color-gray-normal;
-      border-radius: 5px;
+  .info-wrap {
+    .el-collapse-item__content {
+      padding-bottom: 0;
     }
 
-    .info {
-      position: relative;
-      overflow: hidden;
-      height: 75px;
+    .el-collapse-item {
+      &:last-child {
+        .el-collapse-item__header,
+        .el-collapse-item__wrap {
+          border-bottom-width: 0;
+        }
+      }
+    }
 
-      .name {
-        font-size: 18px;
+    .notice {
+      margin-bottom: 15px;
+    }
+
+    .profile {
+      .avatar {
+        float: left;
+        margin-right: 10px;
         margin-bottom: 5px;
-        margin-top: 0;
-        @include twoline(20px);
+        border: 1px solid $color-gray-normal;
+        border-radius: 5px;
       }
 
-      .star-idol-btn {
-        position: absolute;
-        bottom: 7px;
-        right: 3px;
+      .info {
+        position: relative;
+        overflow: hidden;
+        height: 75px;
+
+        .name {
+          font-size: 18px;
+          margin-bottom: 5px;
+          margin-top: 0;
+          @include twoline(20px);
+        }
+
+        .star-idol-btn {
+          position: absolute;
+          bottom: 7px;
+          right: 3px;
+        }
+      }
+
+      .summary {
+        line-height: 20px;
+        font-size: 13px;
+        margin-bottom: 8px;
+
+        &.collapsed {
+          @include twoline(20px);
+        }
+
+        button {
+          font-size: 13px;
+          color: $color-pink-normal;
+        }
       }
     }
 
-    .summary {
+    .boss {
+      margin-bottom: 15px;
+
+      img,
+      span {
+        vertical-align: middle;
+      }
+
+      img {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 1px solid $color-gray-normal;
+      }
+
+      span {
+        font-size: 13px;
+      }
+    }
+
+    .qq-group {
       line-height: 20px;
       font-size: 13px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+    }
 
-      &.collapsed {
-        @include twoline(20px);
+    .bangumi {
+      padding-top: 5px;
+      padding-bottom: 15px;
+
+      .summary {
+        font-size: 12px;
+        color: #666;
+        @include twoline(13px);
       }
-
-      button {
-        font-size: 13px;
-        color: $color-pink-normal;
-      }
-    }
-  }
-
-  .boss {
-    margin-bottom: 15px;
-
-    img,
-    span {
-      vertical-align: middle;
-    }
-
-    img {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-      border: 1px solid $color-gray-normal;
-    }
-
-    span {
-      font-size: 13px;
-    }
-  }
-
-  .qq-group {
-    line-height: 20px;
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
-
-  .bangumi {
-    padding-top: 15px;
-    padding-bottom: 15px;
-
-    .summary {
-      font-size: 12px;
-      color: #666;
-      @include twoline(13px);
     }
   }
 
@@ -113,101 +130,112 @@
 </style>
 
 <template>
-  <div 
+  <div
     id="role-show" 
     class="role-show">
-    <div class="container">
-      <div v-if="role.has_market_price_draft">
-        <br>
-        <p class="sub-title">重要提醒</p>
-        <el-alert
-          v-if="role.market_price_draft_voted"
-          :closable="false"
-          :description="`你已投「${role.market_price_draft_voted > 0 ? '同意' : '反对'}」票`"
-          title="正在召开股东大会"
-          type="info"
-        />
-        <el-alert
-          v-else
-          :closable="false"
-          title="正在召开股东大会"
-          type="warning"
-          description="股东大会召开中，请全体股东到本页面「大事记」一栏进行会议投票"
-        />
-      </div>
-      <div class="profile">
-        <h3 class="sub-title">偶像信息</h3>
-        <div class="clearfix">
-          <v-img
-            :src="role.avatar"
-            :share="true"
-            :width="75"
-            :height="75"
-            class="avatar"
-          />
-          <div class="info">
-            <h1
-              class="name"
-              v-text="role.name"/>
-            <star-idol-btn
-              :idol="role"
-              @success="handleStarCallback"
+    <div class="container info-wrap">
+      <el-collapse v-model="activeNames">
+        <el-collapse-item
+          title="偶像信息"
+          name="1"
+        >
+          <div
+            v-if="role.has_market_price_draft"
+            class="notice"
+          >
+            <el-alert
+              v-if="role.market_price_draft_voted"
+              :closable="false"
+              :description="`你已投「${role.market_price_draft_voted > 0 ? '同意' : '反对'}」票`"
+              title="正在召开股东大会"
+              type="info"
+            />
+            <el-alert
+              v-else
+              :closable="false"
+              title="正在召开股东大会"
+              type="warning"
+              description="股东大会召开中，请全体股东到本页面「大事记」一栏进行会议投票"
             />
           </div>
-        </div>
-        <div @click="collapsed = !collapsed">
-          <p
-            v-if="collapsed"
-            class="summary collapsed"
-          >
-            <strong>简介：</strong>{{ role.intro.substr(0, 30) }}...
-            <button>全文</button>
-          </p>
-          <div
-            v-else
-            class="summary"
-          >
-            <strong>简介：</strong>
-            <p v-html="computedHtmlIntro"/>
-            <button>收起</button>
+          <div class="profile">
+            <div class="clearfix">
+              <v-img
+                :src="role.avatar"
+                :share="true"
+                :width="75"
+                :height="75"
+                class="avatar"
+              />
+              <div class="info">
+                <h1
+                  class="name"
+                  v-text="role.name"/>
+                <star-idol-btn
+                  :idol="role"
+                  @success="handleStarCallback"
+                />
+              </div>
+            </div>
+            <div @click="collapsed = !collapsed">
+              <p
+                v-if="collapsed"
+                class="summary collapsed"
+              >
+                <strong>简介：</strong>{{ role.intro.substr(0, 30) }}...
+                <button>全文</button>
+              </p>
+              <div
+                v-else
+                class="summary"
+              >
+                <strong>简介：</strong>
+                <p v-html="computedHtmlIntro"/>
+                <button>收起</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="stock-info">
-        <h3 class="sub-title">股市行情</h3>
-        <idol-stock-chart :idol="role"/>
-      </div>
-      <div v-if="role.boss">
-        <h3
-          class="sub-title"
-          style="margin-top:15px"
-        >大股东</h3>
-        <div class="boss">
-          <nuxt-link :to="$alias.user(role.boss.zone)">
-            <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
-            <span>{{ role.boss.nickname }}</span>
-          </nuxt-link>
-          <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
-        </div>
-      </div>
-      <div>
-        <h3 class="sub-title">应援群</h3>
-        <div class="qq-group">
-          <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
-        </div>
-      </div>
-      <div class="hr"/>
-      <div class="bangumi">
-        <bangumi-panel
-          :id="bangumi.id"
-          :avatar="bangumi.avatar"
-          :name="bangumi.name"
+        </el-collapse-item>
+        <el-collapse-item
+          title="股市详情"
+          name="2"
         >
-          <p 
-            class="summary" 
-            v-text="bangumi.summary"/>
-        </bangumi-panel>
-      </div>
+          <idol-stock-chart :idol="role"/>
+        </el-collapse-item>
+        <el-collapse-item
+          title="其它信息"
+          name="3"
+        >
+          <div v-if="role.boss">
+            <h3 class="sub-title">大股东</h3>
+            <div class="boss">
+              <nuxt-link :to="$alias.user(role.boss.zone)">
+                <img :src="$resize(role.boss.avatar, { width: 30, height: 30 })">
+                <span>{{ role.boss.nickname }}</span>
+              </nuxt-link>
+              <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="sub-title">应援群</h3>
+            <div class="qq-group">
+              <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
+            </div>
+          </div>
+          <div class="bangumi">
+            <h3 class="sub-title">番剧</h3>
+            <bangumi-panel
+              :id="bangumi.id"
+              :avatar="bangumi.avatar"
+              :name="bangumi.name"
+            >
+              <p
+                class="summary"
+                v-text="bangumi.summary"/>
+            </bangumi-panel>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
     </div>
     <div class="hr"/>
     <div class="container tab-wrap">
@@ -360,6 +388,7 @@ export default {
       bangumi: null,
       share_data: null,
       collapsed: true,
+      activeNames: ['1', '2', '3'],
       activeName: ''
     }
   },

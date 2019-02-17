@@ -5,8 +5,7 @@
       font-size: 13px;
       line-height: 20px;
       text-align: center;
-      margin-top: 30px;
-      margin-bottom: 30px;
+      margin: 30px 15px;
     }
   }
 
