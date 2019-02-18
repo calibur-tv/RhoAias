@@ -338,7 +338,14 @@ export default {
   },
   head() {
     return {
-      title: this.info.name
+      title: this.info.name,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   components: {

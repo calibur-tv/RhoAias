@@ -359,7 +359,14 @@ export default {
   },
   head() {
     return {
-      title: this.role.name
+      title: this.role.name,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   components: {

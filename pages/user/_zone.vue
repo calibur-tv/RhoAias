@@ -277,18 +277,13 @@ export default {
       .catch(error)
   },
   head() {
-    const user = this.user
-    if (!user) {
-      return
-    }
     return {
-      title: user.nickname,
-      meta: [
-        { hid: 'description', name: 'description', content: user.signature },
+      title: this.user.nickname,
+      script: [
         {
-          hid: 'keywords',
-          name: 'keywords',
-          content: `calibur,用户,天下漫友是一家,${user.zone},${user.nickname}`
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.user.share_data),
+          type: 'application/json'
         }
       ]
     }

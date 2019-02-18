@@ -227,6 +227,9 @@ export default {
         return null
       }
       return this.displayImages[this.currentIndex]
+    },
+    isWechat() {
+      return this.$state.ua.wechat
     }
   },
   mounted() {
@@ -238,6 +241,9 @@ export default {
       this.show = false
     },
     handleClick(e) {
+      if (this.isWechat) {
+        return
+      }
       if (!this.total) {
         return
       }

@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import { getLoginUser } from '~/api/userApi'
 import { getUpToken } from '~/api/imageApi'
+import { getPageData } from '~/api/carouselApi'
 import parseToken from '~/assets/js/parseToken'
 
 export const state = () => ({
   user: null,
   login: false,
   ua: null,
-  haveAuthToken: false
+  haveAuthToken: false,
+  pageData: null
 })
 
 export const mutations = {
@@ -39,6 +41,9 @@ export const mutations = {
       ),
       others: /windows phone|blackberry/.test(ua)
     }
+  },
+  SET_PAGE_DATA(state, data) {
+    state.pageData = data
   },
   UPDATE_USER_INFO(state, { key, value }) {
     Vue.set(state.user, key, value)
@@ -81,6 +86,10 @@ export const actions = {
   async nuxtServerInit({ commit }, { req }) {
     const headers = req.headers
     const ua = (headers['user-agent'] || '').toLowerCase()
+    if (/mqqbrowser|qq|micromessenger/.test(ua)) {
+      const data = await getPageData(this)
+      commit('SET_PAGE_DATA', data)
+    }
     commit('SET_UA', { ua })
     commit('SET_AUTH_TOKEN', parseToken(req))
   },

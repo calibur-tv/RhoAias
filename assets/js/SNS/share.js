@@ -1,12 +1,13 @@
 import Wechat from './wechat'
 import QQ from './qq'
-import AliPay from './alipay'
 
 export default class {
-  constructor({ store }) {
-    const { wechat, ua } = store.state
+  constructor({ ua, config }) {
+    if (!config) {
+      return
+    }
     this.ua = ua
-    this.signature = wechat
+    this.config = config
     this.initShareSDK()
     return this.initShareData()
   }
@@ -14,13 +15,10 @@ export default class {
   initShareSDK() {
     if (this.ua.wechat) {
       const wechat = new Wechat()
-      wechat.init(this.signature)
-    } else if (this.ua.alipay) {
-      const alipay = new AliPay()
-      alipay.init()
+      wechat.init(this.config)
     } else if (this.ua.qq) {
       const qq = new QQ()
-      qq.init(this.signature)
+      qq.init(this.config)
     }
   }
 
@@ -35,11 +33,11 @@ export default class {
         } catch (e) {
           ret = {
             title: document.title,
-            description:
+            desc:
               document
                 .querySelector('[name=description]')
-                .getAttribute('content') || 'calibur.tv - 天下漫友是一家',
-            imageUrl: 'https://image.calibur.tv/owner/logo/max.png-share120jpg'
+                .getAttribute('content') || 'calibur | 二次元股市',
+            image: 'https://image.calibur.tv/owner/logo/max.png-share120jpg'
           }
         }
         return Object.assign(
@@ -48,11 +46,11 @@ export default class {
           },
           ret,
           {
-            imageUrl: /^https:/.test(ret.imageUrl)
-              ? ret.imageUrl.replace('https:', 'http:')
-              : /^http:/.test(ret.imageUrl)
-                ? ret.imageUrl
-                : `http://static.calibur.tv${ret.imageUrl}`
+            image: /^https:/.test(ret.image)
+              ? ret.image.replace('https:', 'http:')
+              : /^http:/.test(ret.image)
+                ? ret.image
+                : `http://image.calibur.tv${ret.image}`
           }
         )
       }

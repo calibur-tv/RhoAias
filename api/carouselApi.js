@@ -1,5 +1,7 @@
 export const getPageData = ctx => {
-  return ctx.$axios.$get('door/data', { refer: 'pc' })
+  return ctx.$axios.$get('door/data', {
+    params: { refer: 'h5' }
+  })
 }
 
 export const getBanners = ctx => {

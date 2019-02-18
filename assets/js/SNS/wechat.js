@@ -10,9 +10,11 @@ export default class {
       timestamp: timestamp,
       signature: signature,
       jsApiList: [
+        'previewImage',
         'onMenuShareTimeline',
         'onMenuShareAppMessage',
-        'previewImage'
+        'updateTimelineShareData',
+        'updateAppMessageShareData'
       ]
     })
 
@@ -26,9 +28,7 @@ export default class {
           const image = imagePackage.querySelector('img')
 
           if (image) {
-            let imageSrc =
-              image.getAttribute('src') ||
-              image.getAttribute('data-original-src')
+            let imageSrc = image.getAttribute('src')
 
             if (imageSrc.match(/^\/\//)) {
               imageSrc = `http:${imageSrc}`
@@ -89,11 +89,10 @@ export default class {
   }
 
   getShareDesc() {
-    return M.shareData.get().description
+    return M.shareData.get().desc
   }
 
   getShareImage() {
-    // TODO format
-    return M.shareData.get().imageUrl
+    return M.shareData.get().image
   }
 }

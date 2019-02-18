@@ -273,7 +273,14 @@ export default {
   },
   head() {
     return {
-      title: this.info.title
+      title: this.info.title,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   components: {

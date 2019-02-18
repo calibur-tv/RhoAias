@@ -66,10 +66,10 @@ export default class {
   }
 
   getShareDesc() {
-    return M.shareData.get().description
+    return M.shareData.get().desc
   }
 
   getShareImage() {
-    return M.shareData.get().imageUrl
+    return M.shareData.get().image
   }
 }

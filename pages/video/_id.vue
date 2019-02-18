@@ -503,7 +503,14 @@ export default {
       title = `${bangumiName}：第${resultPart}话 ${videoName}`
     }
     return {
-      title
+      title,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   data() {

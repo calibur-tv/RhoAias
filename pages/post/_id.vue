@@ -368,7 +368,14 @@ export default {
   },
   head() {
     return {
-      title: this.post.title
+      title: this.post.title,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   data() {

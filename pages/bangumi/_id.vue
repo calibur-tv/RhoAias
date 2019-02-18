@@ -46,18 +46,12 @@ export default {
     }
   },
   head() {
-    const { name, summary, avatar } = this.info
     return {
-      title: name,
-      meta: [{ hid: 'description', name: 'description', content: summary }],
+      title: this.info.name,
       script: [
         {
           hid: 'share-data',
-          innerHTML: JSON.stringify({
-            title: name,
-            description: summary,
-            imageUrl: avatar
-          }),
+          innerHTML: JSON.stringify(this.info.share_data),
           type: 'application/json'
         }
       ]
