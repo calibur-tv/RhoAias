@@ -146,7 +146,6 @@
       <v-img
         :src="user.avatar"
         :avatar="true"
-        :share="true"
         width="80"
         class="avatar"
       />

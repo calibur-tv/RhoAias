@@ -1,6 +1,6 @@
-export const getPageData = ctx => {
+export const getPageData = (ctx, url) => {
   return ctx.$axios.$get('door/data', {
-    params: { refer: 'h5' }
+    params: { refer: 'h5', url }
   })
 }
 

@@ -162,7 +162,6 @@
             <div class="clearfix">
               <v-img
                 :src="role.avatar"
-                :share="true"
                 :width="75"
                 :height="75"
                 class="avatar"

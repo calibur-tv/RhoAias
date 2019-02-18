@@ -87,7 +87,7 @@ export const actions = {
     const headers = req.headers
     const ua = (headers['user-agent'] || '').toLowerCase()
     if (/mqqbrowser|qq|micromessenger/.test(ua)) {
-      const data = await getPageData(this)
+      const data = await getPageData(this, `https://m.calibur.tv${req.url}`)
       commit('SET_PAGE_DATA', data)
     }
     commit('SET_UA', { ua })
