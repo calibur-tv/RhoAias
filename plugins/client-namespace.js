@@ -10,5 +10,5 @@ export default ({ store }) => {
   M.toast = new Toast()
   const SNS = new SNSShare({ config: pageData, ua })
   M.shareData = SNS.initShareData()
-  SNS.initShareSDK()
+  pageData && SNS.initShareSDK()
 }
