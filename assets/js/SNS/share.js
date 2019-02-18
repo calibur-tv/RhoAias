@@ -1,5 +1,4 @@
 import Wechat from './wechat'
-import QQ from './qq'
 
 export default class {
   constructor({ ua, config }) {
@@ -16,9 +15,6 @@ export default class {
     if (this.ua.wechat) {
       const wechat = new Wechat()
       wechat.init(this.config)
-    } else if (this.ua.qq) {
-      const qq = new QQ()
-      qq.init(this.config)
     }
   }
 
