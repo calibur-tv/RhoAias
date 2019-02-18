@@ -1,4 +1,5 @@
 import Wechat from './wechat'
+import QQ from './qq'
 
 export default class {
   constructor({ ua, config }) {
@@ -7,14 +8,15 @@ export default class {
     }
     this.ua = ua
     this.config = config
-    this.initShareSDK()
-    return this.initShareData()
   }
 
   initShareSDK() {
     if (this.ua.wechat) {
       const wechat = new Wechat()
       wechat.init(this.config)
+    } else if (this.ua.qq) {
+      const qq = new QQ()
+      qq.init(this.config)
     }
   }
 

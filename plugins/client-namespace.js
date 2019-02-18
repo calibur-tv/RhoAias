@@ -8,5 +8,7 @@ export default ({ store }) => {
 
   M.sentry = sentry
   M.toast = new Toast()
-  M.shareData = new SNSShare({ config: pageData, ua })
+  const SNS = new SNSShare({ config: pageData, ua })
+  M.shareData = SNS.initShareData()
+  SNS.initShareSDK()
 }
