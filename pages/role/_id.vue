@@ -211,6 +211,14 @@
               </nuxt-link>
             </div>
           </div>
+          <div v-if="role.company_state">
+            <h3 class="sub-title">
+              可支配资产
+            </h3>
+            <div class="boss">
+              <span>￥{{ computedIdolMoney }}</span>
+            </div>
+          </div>
           <div>
             <h3 class="sub-title">
               应援群
@@ -342,6 +350,18 @@ export default {
   computed: {
     computedHtmlIntro() {
       return this.role.intro.replace(/\n/g, '<br>')
+    },
+    computedIdolMoney() {
+      const market_price = +this.role.market_price
+      const star_count = +this.role.star_count
+      const total_income = +this.role.total_income
+      const total_pay = +this.role.total_pay
+      return parseFloat(
+        market_price -
+        star_count +
+        total_income -
+        total_pay
+      ).toFixed(2)
     },
     currentUserId() {
       return this.$store.state.login ? this.$store.state.user.id : 0
