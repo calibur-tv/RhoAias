@@ -111,8 +111,8 @@ export async function getRouteData(route) {
   // Send back a copy of route with meta based on Component definition
   return {
     ...route,
-    meta: getMatchedComponents(route).map((Component) => {
-      return Component.options.meta || {}
+    meta: getMatchedComponents(route).map((Component, index) => {
+      return { ...Component.options.meta, ...(route.matched[index] || {}).meta }
     })
   }
 }
@@ -129,7 +129,7 @@ export async function setContext(app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"API_URL":"http://localhost/","API_URL_BROWSER":"https://api.calibur.tv/","SENTRY_URL":"https://63fb1028c6e24cb5be33e8ed64d798e8@sentry.io/1278322","RELEASE":"2019-2-20 09:04:26","injectScript":{"baiduStat":"var _hmt=_hmt||[];(function(){var hm=document.createElement(\"script\");hm.src=\"https://hm.baidu.com/hm.js?c10304a2f70ee2ddf8d2818551d37a4b\";var s=document.getElementsByTagName(\"script\")[0];s.parentNode.insertBefore(hm,s)})();","baiduPush":"(function(){var bp=document.createElement('script');var curProtocol=window.location.protocol.split(':')[0];if(curProtocol==='https'){bp.src='https://zz.bdstatic.com/linksubmit/push.js'}else{bp.src='http://push.zhanzhang.baidu.com/push.js'}var s=document.getElementsByTagName(\"script\")[0];s.parentNode.insertBefore(bp,s)})();","iPhoneXViewport":"(function(){var iOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;var ratio=window.devicePixelRatio||1;var screen={width:window.screen.width*ratio,height:window.screen.height*ratio};if(iOS&&screen.width===1125&&screen.height===2436){document.querySelector('meta[name=viewport]').content=document.querySelector('meta[name=viewport]').content+',viewport-fit=cover'}}());"}}
+      env: {"API_URL":"http://localhost/","API_URL_BROWSER":"https://api.calibur.tv/","SENTRY_URL":"https://63fb1028c6e24cb5be33e8ed64d798e8@sentry.io/1278322","RELEASE":"2019-2-23 10:15:42"}
     }
     // Only set once
     if (context.req) app.context.req = context.req
@@ -280,6 +280,7 @@ export function normalizeError(err) {
     message = err.message || err
   }
   return {
+    ...err,
     message: message,
     statusCode: (err.statusCode || err.status || (err.response && err.response.status) || 500)
   }

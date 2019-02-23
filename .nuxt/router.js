@@ -35,6 +35,7 @@ const _a6a9a454 = () => interopDefault(import('../pages/role/trending/intro.vue'
 const _58186d7a = () => interopDefault(import('../pages/role/trending/listed.vue' /* webpackChunkName: "pages/role/trending/listed" */))
 const _0d65a859 = () => interopDefault(import('../pages/role/trending/mine.vue' /* webpackChunkName: "pages/role/trending/mine" */))
 const _59aaf264 = () => interopDefault(import('../pages/role/trending/newbie.vue' /* webpackChunkName: "pages/role/trending/newbie" */))
+const _15f12e59 = () => interopDefault(import('../pages/role/trending/product.vue' /* webpackChunkName: "pages/role/trending/product" */))
 const _86774a2a = () => interopDefault(import('../pages/about/invite/_id.vue' /* webpackChunkName: "pages/about/invite/_id" */))
 const _48b185e6 = () => interopDefault(import('../pages/app/notice/_id.vue' /* webpackChunkName: "pages/app/notice/_id" */))
 const _5b5baadf = () => interopDefault(import('../pages/bangumi/_id.vue' /* webpackChunkName: "pages/bangumi/_id" */))
@@ -75,8 +76,11 @@ const scrollBehavior = function (to, from, savedPosition) {
   // will retain current scroll position.
   let position = false
 
-  // if no children detected
-  if (to.matched.length < 2) {
+  // if no children detected and scrollToTop is not explicitly disabled
+  if (
+    to.matched.length < 2 &&
+    to.matched.every(r => r.components.default.options.scrollToTop !== false)
+  ) {
     // scroll to the top of the page
     position = { x: 0, y: 0 }
   } else if (to.matched.some(r => r.components.default.options.scrollToTop)) {
@@ -287,6 +291,11 @@ export function createRouter() {
         component: _59aaf264,
         props: false,
         name: "role-trending-newbie"
+      }, {
+        path: "product",
+        component: _15f12e59,
+        props: false,
+        name: "role-trending-product"
       }]
     }, {
       path: "/about/invite/:id?",
