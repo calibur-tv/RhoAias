@@ -85,24 +85,16 @@
       class="weekly-tabs"
       @change="changeActive"
     >
-      <template
-        v-for="(item, index) in showtime"
-        :slot="`${index}`"
-      >
-        <ul
-          :key="index"
-          class="container"
-        >
-          <li
-            v-for="(item, index) in list"
-            :key="`${index}-${item.id}`">
+      <template v-for="(weekly, index) in showtime" :slot="`${index}`">
+        <ul :key="index" class="container">
+          <li v-for="(item, subIndex) in list" :key="`${subIndex}-${item.id}`">
             <nuxt-link :to="$alias.bangumi(item.id)">
               <img
                 :title="item.name"
                 :alt="item.name"
                 :src="$resize(item.avatar, { width: 120 })"
                 class="face"
-              >
+              />
             </nuxt-link>
             <div class="content">
               <nuxt-link
@@ -113,19 +105,16 @@
               <div class="body">
                 <nuxt-link
                   v-if="item.released_video_id"
-                  :to="$alias.video(item.released_video_id)">
+                  :to="$alias.video(item.released_video_id)"
+                >
                   更新至
-                  <span
-                    :class="[item.update ? 'new' : 'old']"
-                    class="part">
+                  <span :class="[item.update ? 'new' : 'old']" class="part">
                     {{ item.end ? '已完结' : `${item.released_part}话` }}
                   </span>
                 </nuxt-link>
                 <strong v-else>
                   更新至
-                  <span
-                    :class="[item.update ? 'new' : 'old']"
-                    class="part">
+                  <span :class="[item.update ? 'new' : 'old']" class="part">
                     {{ item.end ? '已完结' : `${item.released_part}话` }}
                   </span>
                 </strong>
@@ -138,7 +127,9 @@
             :loading="false"
             :length="0"
           >
-            <button @click="openFeedbackForResource">求资源</button>
+            <button @click="openFeedbackForResource">
+              求资源
+            </button>
           </more-btn>
         </ul>
       </template>
@@ -152,15 +143,8 @@ import TabContainer from '~/components/common/TabContainer'
 
 export default {
   name: 'BangumiNews',
-  async asyncData(ctx) {
-    const released = await getReleasedBangumis(ctx)
-    return { released }
-  },
   components: {
     TabContainer
-  },
-  head: {
-    title: '新番放送'
   },
   data() {
     return {
@@ -172,6 +156,13 @@ export default {
     list() {
       return this.released[this.active]
     }
+  },
+  async asyncData(ctx) {
+    const released = await getReleasedBangumis(ctx)
+    return { released }
+  },
+  head: {
+    title: '新番放送'
   },
   methods: {
     openFeedbackForResource() {

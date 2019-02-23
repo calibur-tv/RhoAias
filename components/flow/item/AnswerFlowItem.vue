@@ -70,21 +70,10 @@
 </style>
 
 <template>
-  <div
-    :id="`answer-${item.id}`"
-    class="answer-flow-item"
-  >
+  <div :id="`answer-${item.id}`" class="answer-flow-item">
     <header class="answer-header">
-      <nuxt-link
-        :to="$alias.user(item.user.zone)"
-        class="avatar"
-      >
-        <v-img
-          :src="item.user.avatar"
-          :avatar="true"
-          width="38"
-          height="38"
-        />
+      <nuxt-link :to="$alias.user(item.user.zone)" class="avatar">
+        <v-img :src="item.user.avatar" :avatar="true" width="38" height="38" />
       </nuxt-link>
       <div class="info">
         <nuxt-link
@@ -92,42 +81,29 @@
           class="nickname"
           v-text="item.user.nickname"
         />
-        <p
-          class="oneline signature"
-          v-text="item.user.signature"
-        />
+        <p class="oneline signature" v-text="item.user.signature" />
       </div>
     </header>
-    <div
-      v-if="item.vote_count"
-      class="answer-meta"
-    >
+    <div v-if="item.vote_count" class="answer-meta">
       <span v-if="item.source_url">
-        <nuxt-link
-          :href="item.source_url"
-          target="_blank"
-        >
+        <nuxt-link :href="item.source_url" target="_blank">
           原文链接
         </nuxt-link>
         ·
       </span>
       <span v-if="item.created_at === item.published_at">
         发布于
-        <v-time
-          v-model="item.created_at"
-        />
+        <v-time v-model="item.created_at" />
       </span>
       <span v-else>
         编辑于
-        <v-time v-model="item.published_at"/>
+        <v-time v-model="item.published_at" />
       </span>
       ·
-      <span>
-        {{ item.vote_count }} 赞同了该回答
-      </span>
+      <span> {{ item.vote_count }} 赞同了该回答 </span>
     </div>
     <main class="answer-content">
-      <json-content :content="item.content"/>
+      <json-content :content="item.content" />
     </main>
     <footer class="answer-footer">
       <vote-button
@@ -137,12 +113,8 @@
         :author-id="item.user.id"
         type="answer"
       />
-      <el-button
-        type="text"
-        size="medium"
-        @click="loadAnswerComment"
-      >
-        <i class="iconfont icon-talk"/>
+      <el-button type="text" size="medium" @click="loadAnswerComment">
+        <i class="iconfont icon-talk" />
         {{ item.comment_count ? item.comment_count + ' 条评论' : '添加评论' }}
       </el-button>
       <v-popover
@@ -150,20 +122,13 @@
         :is-creator="!item.source_url"
         report-type="answer"
       >
-        <el-button
-          type="text"
-          size="medium"
-        >
-          <i class="el-icon-phone"/>
+        <el-button type="text" size="medium">
+          <i class="el-icon-phone" />
           举报
         </el-button>
       </v-popover>
     </footer>
-    <v-drawer
-      v-model="showCommentModal"
-      from="bottom"
-      size="80%"
-    >
+    <v-drawer v-model="showCommentModal" from="bottom" size="80%">
       <div class="container">
         <comment-main
           :id="item.id"
@@ -179,7 +144,9 @@
             class="write-btn"
             style="margin-left: 15px"
             @click="showCommentModal = false"
-          >关闭</button>
+          >
+            关闭
+          </button>
         </comment-main>
       </div>
     </v-drawer>

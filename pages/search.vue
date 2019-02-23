@@ -88,36 +88,33 @@
 <template>
   <div id="search-index">
     <div class="search-panel">
-      <v-search
-        v-model="words"
-        :type="selectedType"
-      />
+      <v-search v-model="words" :type="selectedType" />
       <div class="tabs-panel">
         <div class="cards">
           <button
             v-for="(tab, index) in tabs"
             :key="index"
-            :class="{ 'active': selectedType == index }"
+            :class="{ active: selectedType == index }"
             @click="switchTab(index)"
             v-text="tab"
           />
         </div>
-        <div class="tail"/>
+        <div class="tail" />
       </div>
     </div>
     <div
       v-for="(tab, index) in tabs"
-      v-if="index == selectedType"
+      v-show="index === selectedType"
       :key="index"
       class="container"
     >
       <template v-if="list">
         <component
+          :is="`${item.type}-item`"
           v-for="item in list"
           :key="`${item.type}-${item.id}`"
-          :is="`${item.type}-item`"
           :item="item"
-          :in-common="item.type != selectedType"
+          :in-common="item.type !== selectedType"
           :bangumi-id="0"
           user-zone=""
         />
@@ -130,10 +127,9 @@
       :length="list.length"
       @fetch="loadMore"
     />
-    <p
-      v-else
-      class="error"
-    >错误的搜索类型</p>
+    <p v-else class="error">
+      错误的搜索类型
+    </p>
   </div>
 </template>
 
@@ -148,20 +144,6 @@ import ScoreItem from '~/components/flow/item/ScoreFlowItem'
 
 export default {
   name: 'SearchIndex',
-  async asyncData({ store, route, ctx }) {
-    const args = route.query
-    const type = args.type || 'all'
-    await store.dispatch('search/fetchData', {
-      ctx,
-      type: type,
-      q: args.q
-    })
-  },
-  head() {
-    return {
-      title: this.$route.query.q ? `搜索结果：${this.$route.query.q}` : '搜索'
-    }
-  },
   components: {
     vSearch,
     UserItem,
@@ -170,16 +152,6 @@ export default {
     PostItem,
     RoleItem,
     ScoreItem
-  },
-  beforeRouteUpdate(to, from, next) {
-    const args = to.query
-    const type = args.type || 'all'
-    this.$store.dispatch('search/fetchData', {
-      ctx: this,
-      type: type,
-      q: args.q
-    })
-    next()
   },
   data() {
     return {
@@ -209,6 +181,30 @@ export default {
       return this.$route.query.type || 'all'
     }
   },
+  async asyncData({ store, route, ctx }) {
+    const args = route.query
+    const type = args.type || 'all'
+    await store.dispatch('search/fetchData', {
+      ctx,
+      type: type,
+      q: args.q
+    })
+  },
+  head() {
+    return {
+      title: this.$route.query.q ? `搜索结果：${this.$route.query.q}` : '搜索'
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    const args = to.query
+    const type = args.type || 'all'
+    this.$store.dispatch('search/fetchData', {
+      ctx: this,
+      type: type,
+      q: args.q
+    })
+    next()
+  },
   methods: {
     switchTab(tab) {
       this.$router.push({
@@ -222,7 +218,9 @@ export default {
           ctx: this,
           type: this.selectedType
         })
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
     }
   }
 }

@@ -126,17 +126,10 @@
 </style>
 
 <template>
-  <div 
-    :class="$style.imagePreview" 
-    @click="handleClick">
-    <div 
-      v-if="show" 
-      :class="$style.container" 
-      @click="handleClose">
+  <div :class="$style.imagePreview" @click="handleClick">
+    <div v-if="show" :class="$style.container" @click="handleClose">
       <div :class="[$style.bar, $style.topBar]">
-        <span 
-          v-if="total" 
-          :class="$style.total">
+        <span v-if="total" :class="$style.total">
           {{ currentIndex + 1 }}/{{ total }}
         </span>
         <span :class="$style.close"> &times; </span>
@@ -152,9 +145,7 @@
           下载原图
         </a>
       </div>
-      <div 
-        v-if="currentImage" 
-        :class="$style.wrap">
+      <div v-if="currentImage" :class="$style.wrap">
         <div
           :style="{
             backgroundImage: `url(${$resize(currentImage.url, {
@@ -166,14 +157,10 @@
           :class="$style.item"
         />
         <template v-if="total > 1">
-          <button 
-            :class="$style.prevBtn" 
-            @click.stop="switchImage(false)">
+          <button :class="$style.prevBtn" @click.stop="switchImage(false)">
             <i class="el-icon-caret-left" />
           </button>
-          <button 
-            :class="$style.nextBtn" 
-            @click.stop="switchImage(true)">
+          <button :class="$style.nextBtn" @click.stop="switchImage(true)">
             <i class="el-icon-caret-right" />
           </button>
         </template>
@@ -229,7 +216,7 @@ export default {
       return this.displayImages[this.currentIndex]
     },
     isWechat() {
-      return this.$state.ua.wechat
+      return this.$store.state.ua.wechat
     }
   },
   mounted() {

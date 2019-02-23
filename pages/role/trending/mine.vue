@@ -55,11 +55,7 @@
 <template>
   <div id="role-trending-mine">
     <header>
-      <el-radio-group
-        v-model="selected"
-        size="mini"
-        @change="handleTabSwitch"
-      >
+      <el-radio-group v-model="selected" size="mini" @change="handleTabSwitch">
         <el-radio-button
           v-for="(item, index) in options"
           :key="index"
@@ -68,7 +64,7 @@
       </el-radio-group>
     </header>
     <flow-list
-      v-show="selected === '我入股的公司'"
+      v-show="selected === '我的公司'"
       :id="userId"
       func="virtualIdolList"
       type="seenIds"
@@ -83,22 +79,17 @@
           @create="createDeal"
         />
       </ul>
-      <div
-        slot="nothing"
-        class="align-center"
-      >
-        <img src="~assets/img/no-content.png">
+      <div slot="nothing" class="align-center">
+        <img src="~assets/img/no-content.png" />
         <nuxt-link to="/role/trending/newbie">
-          <el-button
-            type="primary"
-            size="mini"
-            round
-          >查看融资中的公司</el-button>
+          <el-button type="primary" size="mini" round>
+            查看融资中的公司
+          </el-button>
         </nuxt-link>
       </div>
     </flow-list>
     <flow-list
-      v-show="selected === '我发起的交易'"
+      v-show="selected === '我的交易'"
       func="myVirtualIdolDeals"
       type="page"
       sort="mine"
@@ -111,13 +102,24 @@
           @delete="deleteDeal"
         />
       </ul>
-      <div
-        slot="nothing"
-        class="align-center"
-      >
-        <img src="~assets/img/no-content.png">
+      <div slot="nothing" class="align-center">
+        <img src="~assets/img/no-content.png" />
         <p>还没有发起过交易</p>
       </div>
+    </flow-list>
+    <flow-list
+      v-show="selected === '我的采购'"
+      func="getUserProductOrders"
+      type="page"
+      sort="news"
+    >
+      <ul slot-scope="{ flow }">
+        <idol-product-order-item
+          v-for="(item, index) in flow"
+          :key="index"
+          :item="item"
+        />
+      </ul>
     </flow-list>
     <v-drawer
       v-model="showCreateDealDrawer"
@@ -127,30 +129,50 @@
       submit-text="提交"
       @submit="submitDeal"
     >
-      <div
-        v-if="idol && deal"
-        class="create-idol-deal-drawer container"
-      >
-        <p class="intro">交易建议：</p>
-        <p v-if="deal.is_locked">当前公开发售的股份已停牌，可高于市场价格出售</p>
-        <p v-else>当前仍有股份在公开发售，应该低于公开价格发售</p>
-        <p>最终交易的总价值不得低于 0.01 个虚拟币，当前市场价：<strong>{{ idol.stock_price }}</strong>/股</p>
-        <p v-if="loaded">{{ deal.id ? '检测到当前有正在出售的交易，可对其进行修改' : '当前未有正在进行的交易，可新建一个交易' }}</p>
-        <p class="intro">出售份额：</p>
+      <div v-if="idol && deal" class="create-idol-deal-drawer container">
+        <p class="intro">
+          交易建议：
+        </p>
+        <p v-if="deal.is_locked">
+          当前公开发售的股份已停牌，可高于市场价格出售
+        </p>
+        <p v-else>
+          当前仍有股份在公开发售，应该低于公开价格发售
+        </p>
+        <p>
+          最终交易的总价值不得低于 0.01 个虚拟币，当前市场价：<strong>{{
+            idol.stock_price
+          }}</strong
+          >/股
+        </p>
+        <p v-if="loaded">
+          {{
+            deal.id
+              ? '检测到当前有正在出售的交易，可对其进行修改'
+              : '当前未有正在进行的交易，可新建一个交易'
+          }}
+        </p>
+        <p class="intro">
+          出售份额：
+        </p>
         <el-input-number
           v-model="deal.product_count"
           :min="0.01"
           :max="has_star"
           :step="0.01"
         />
-        <p class="intro">出售价格：</p>
+        <p class="intro">
+          出售价格：
+        </p>
         <el-input-number
           v-model="deal.product_price"
           :min="0.01"
           :max="10"
           :step="0.01"
         />
-        <p class="tips">预计收益：{{ canGetMoney }}（精度为小数点后两位，超出的不计）</p>
+        <p class="tips">
+          预计收益：{{ canGetMoney }}（精度为小数点后两位，超出的不计）
+        </p>
       </div>
     </v-drawer>
   </div>
@@ -167,6 +189,7 @@ import {
   createCartoonRoleDeal
 } from '~/api/cartoonRoleApi'
 import { InputNumber } from 'element-ui'
+import IdolProductOrderItem from '~/components/idol/IdolProductOrderItem'
 
 export default {
   name: 'RoleTrendingMine',
@@ -174,6 +197,7 @@ export default {
     FlowList,
     DealIdolItem,
     VirtualIdolItem,
+    IdolProductOrderItem,
     'el-input-number': InputNumber
   },
   mixins: [serverAuth],
@@ -182,8 +206,8 @@ export default {
   },
   data() {
     return {
-      selected: '我入股的公司',
-      options: ['我入股的公司', '我发起的交易'],
+      selected: '我的公司',
+      options: ['我的公司', '我的交易', '我的采购'],
       submitting: false,
       deal: {
         id: 0,
@@ -226,9 +250,22 @@ export default {
         sort: 'mine'
       })
     },
+    getMyOrderRequest() {
+      this.$store.dispatch('flow/initData', {
+        func: 'getUserProductOrders',
+        type: 'page',
+        sort: 'news'
+      })
+    },
     handleTabSwitch(label) {
-      if (label === '我发起的交易') {
+      if (label === '我的公司') {
+        this.getMyIdols()
+      }
+      if (label === '我的交易') {
         this.getMyDeals()
+      }
+      if (label === '我的采购') {
+        this.getMyOrderRequest()
       }
     },
     deleteDeal(deal) {

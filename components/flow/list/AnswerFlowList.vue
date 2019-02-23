@@ -11,9 +11,7 @@
 </style>
 
 <template>
-  <div 
-    v-if="source" 
-    id="answer-flow-list">
+  <div v-if="source" id="answer-flow-list">
     <ul>
       <answer-flow-item
         v-for="item in source.list"

@@ -1,9 +1,5 @@
 <template>
-  <flow-list
-    func="getWorldScore"
-    type="seenIds"
-    sort="active"
-  >
+  <flow-list func="getWorldScore" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
       <score-flow-item
         v-for="item in flow"
@@ -13,7 +9,7 @@
         user-zone=""
       />
     </ul>
-    <no-content slot="nothing"/>
+    <no-content slot="nothing" />
   </flow-list>
 </template>
 

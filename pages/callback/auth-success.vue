@@ -17,9 +17,7 @@
 
 <template>
   <div id="auth-success">
-    <p>
-      {{ message }}，正在返回首页
-    </p>
+    <p>{{ message }}，正在返回首页</p>
   </div>
 </template>
 

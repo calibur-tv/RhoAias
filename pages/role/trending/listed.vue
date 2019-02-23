@@ -18,19 +18,11 @@
 
 <template>
   <div id="role-trending-listed">
-    <flow-list
-      :sort="current_sort"
-      func="virtualIdolList"
-      type="seenIds"
-    >
-      <div
-        slot="header"
-        slot-scope="{ source }"
-        class="role-trending-header"
-      >
+    <flow-list :sort="current_sort" func="virtualIdolList" type="seenIds">
+      <div slot="header" slot-scope="{ source }" class="role-trending-header">
         <span>总共 {{ source.total }} 个公司</span>
         <v-popover :actions="actions">
-          <span><i class="el-icon-d-caret"/>{{ selectedLabel }}</span>
+          <span><i class="el-icon-d-caret" />{{ selectedLabel }}</span>
         </v-popover>
       </div>
       <ul slot-scope="{ flow }">
@@ -52,20 +44,10 @@ import VPopover from '~/components/common/Popover'
 
 export default {
   name: 'RoleTrendingListed',
-  async asyncData({ store }) {
-    await store.dispatch('flow/initData', {
-      func: 'virtualIdolList',
-      type: 'seenIds',
-      sort: 'trending-activity-1'
-    })
-  },
   components: {
     VirtualIdolItem,
     FlowList,
     VPopover
-  },
-  head: {
-    title: '上市公司'
   },
   data() {
     return {
@@ -101,6 +83,16 @@ export default {
         }
       ]
     }
+  },
+  async asyncData({ store }) {
+    await store.dispatch('flow/initData', {
+      func: 'virtualIdolList',
+      type: 'seenIds',
+      sort: 'trending-activity-1'
+    })
+  },
+  head: {
+    title: '上市公司'
   },
   methods: {
     initTrending() {

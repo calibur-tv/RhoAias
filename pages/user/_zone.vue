@@ -133,52 +133,46 @@
 </style>
 
 <template>
-  <div
-    v-if="user"
-    id="user-show"
-  >
+  <div v-if="user" id="user-show">
     <div class="user-banner">
       <div
-        :style="{ backgroundImage: `url(${$resize(user.banner, { height: 240, mode: 2 })})` }"
-        class="img bg"/>
+        :style="{
+          backgroundImage: `url(${$resize(user.banner, {
+            height: 240,
+            mode: 2
+          })})`
+        }"
+        class="img bg"
+      />
     </div>
     <div class="user-panel container">
-      <v-img
-        :src="user.avatar"
-        :avatar="true"
-        width="80"
-        class="avatar"
-      />
+      <v-img :src="user.avatar" :avatar="true" width="80" class="avatar" />
       <div class="info">
-        <button
-          v-if="isMe"
-          @click="handleDaySign">{{ daySigned ? '已签到' : '签到' }}</button>
+        <button v-if="isMe" @click="handleDaySign">
+          {{ daySigned ? '已签到' : '签到' }}
+        </button>
         <div class="nickname oneline">
           {{ user.nickname }}
-          <user-sex
-            v-if="isMe"
-            :sex="user.sex"
-            :secret="user.sexSecret"
-          />
+          <user-sex v-if="isMe" :sex="user.sex" :secret="user.sexSecret" />
           <template v-else>
-            <user-sex
-              :sex="user.sex"
-              :secret="user.sexSecret"
-            />
+            <user-sex :sex="user.sex" :secret="user.sexSecret" />
             <span class="level">Lv{{ user.level }}</span>
           </template>
         </div>
       </div>
       <div class="signature">
         <template v-if="isMe">
-          <div
-            class="exp-container"
-            @click="showExpTips = !showExpTips"
-          >
+          <div class="exp-container" @click="showExpTips = !showExpTips">
             <strong class="title">等级：</strong>
             <span class="level">Lv{{ exp.level }}</span>
-            <i :class="showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'"/>
-            <span class="detail">{{ exp.have_exp }} / {{ exp.next_level_exp }}</span>
+            <i
+              :class="
+                showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
+              "
+            />
+            <span class="detail"
+              >{{ exp.have_exp }} / {{ exp.next_level_exp }}</span
+            >
             <el-progress
               :show-text="false"
               :stroke-width="14"
@@ -186,10 +180,7 @@
               color="#f25d8e"
             />
           </div>
-          <div
-            v-if="showExpTips"
-            class="exp-detail"
-          >
+          <div v-if="showExpTips" class="exp-detail">
             <ul>
               <li>每日签到：+2</li>
               <li>发帖子：+4</li>
@@ -229,19 +220,20 @@
           {{ user.banlance.light_count }}
         </p>
       </div>
-      <div
-        v-if="user.faker"
-        class="faker-tips">
+      <div v-if="user.faker" class="faker-tips">
         <span>重要提醒</span>
         <p>这是一个运营号，并非本人，该账号下所有信息都是搬运而来</p>
-        <p>如果你就是该账号本人，可以联系网站工作人员拿回该账号，该账号通过搬运资源获得的团子也将归你所有</p>
+        <p>
+          如果你就是该账号本人，可以联系网站工作人员拿回该账号，该账号通过搬运资源获得的团子也将归你所有
+        </p>
         <p>当然，你也有权要求我们删除所有你的内容</p>
       </div>
-      <div
-        v-if="user.banned_to"
-        class="faker-tips"
-      >
-        <span>该用户已被禁言，禁言至：{{ user.banned_to }}，可能是由于以下原因：</span>
+      <div v-if="user.banned_to" class="faker-tips">
+        <span
+          >该用户已被禁言，禁言至：{{
+            user.banned_to
+          }}，可能是由于以下原因：</span
+        >
         <p>1. 破坏社区环境，包括但不限于：无脑刷屏、复制他人内容来发表</p>
         <p>2. 恶意带节奏</p>
         <p>3. 发表于二次元无关的内容</p>
@@ -249,12 +241,9 @@
       </div>
     </div>
     <div class="user-tabs">
-      <tab-container
-        :headers="headers"
-        :router="true"
-      />
+      <tab-container :headers="headers" :router="true" />
     </div>
-    <nuxt-child class="user-main-view"/>
+    <nuxt-child class="user-main-view" />
   </div>
 </template>
 
@@ -266,27 +255,6 @@ import { getUserInfo, daySignAction } from '~/api/userApi'
 
 export default {
   name: 'UserShow',
-  asyncData({ app, params, error }) {
-    return getUserInfo(app, {
-      zone: params.zone
-    })
-      .then(user => {
-        return { user }
-      })
-      .catch(error)
-  },
-  head() {
-    return {
-      title: this.user.nickname,
-      script: [
-        {
-          hid: 'share-data',
-          innerHTML: JSON.stringify(this.user.share_data),
-          type: 'application/json'
-        }
-      ]
-    }
-  },
   components: {
     TabContainer,
     UserSex,
@@ -371,6 +339,32 @@ export default {
         return 0
       }
       return parseInt((this.exp.have_exp / this.exp.next_level_exp) * 100, 10)
+    }
+  },
+  asyncData({ app, params, error }) {
+    return getUserInfo(app, {
+      zone: params.zone
+    })
+      .then(user => {
+        return { user }
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
+  },
+  head() {
+    return {
+      title: this.user.nickname,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.user.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   methods: {

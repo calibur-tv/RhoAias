@@ -277,61 +277,52 @@
 </style>
 
 <template>
-  <div
-    v-if="user"
-    id="user-invite"
-  >
+  <div v-if="user" id="user-invite">
     <div class="container">
-      <h3 class="sub-title">邀请码{{ created ? '（长按图片可保存到手机相册）' : '' }}</h3>
+      <h3 class="sub-title">
+        邀请码{{ created ? '（长按图片可保存到手机相册）' : '' }}
+      </h3>
     </div>
     <div class="capture-wrap">
-      <img
-        v-if="result"
-        :src="result">
-      <div
-        v-else
-        class="capture-area"
-      >
+      <img v-if="result" :src="result" />
+      <div v-else class="capture-area">
         <div class="main">
           <div class="border-outline">
             <div class="avatar-wrap">
-              <div class="avatar-bg"/>
+              <div class="avatar-bg" />
               <div class="avatar">
-                <div class="avatar-hat"/>
+                <div class="avatar-hat" />
                 <img
                   :src="$resize(user.avatar, { width: 200 })"
                   crossorigin="anonymous"
-                >
+                />
               </div>
             </div>
-            <p class="nickname">我是<strong>{{ user.nickname }}</strong></p>
+            <p class="nickname">
+              我是<strong>{{ user.nickname }}</strong>
+            </p>
             <p class="info">和我一起在 <strong>calibur.tv</strong> 追番吧</p>
             <div class="tags">
-              <div
-                v-for="(tag, index) in tags"
-                :key="index"
-                class="badge"
-              >
-                <img src="~assets/img/invite/icon.png">
+              <div v-for="(tag, index) in tags" :key="index" class="badge">
+                <img src="~assets/img/invite/icon.png" />
                 <span>{{ tag }}</span>
               </div>
             </div>
-            <div class="line"/>
-            <div class="intro">快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有<span>团子奖励</span></div>
-            <div class="logo"/>
-            <div
-              ref="qr"
-              class="qr"
-            />
-            <div class="slogan"/>
-            <div class="snow-left"/>
-            <div class="snow-right"/>
-            <div class="border-out"/>
-            <div class="border-inner"/>
+            <div class="line" />
+            <div class="intro">
+              快扫码注册(๑˃́ꇴ˂̀๑)，邀请者有<span>团子奖励</span>
+            </div>
+            <div class="logo" />
+            <div ref="qr" class="qr" />
+            <div class="slogan" />
+            <div class="snow-left" />
+            <div class="snow-right" />
+            <div class="border-out" />
+            <div class="border-inner" />
           </div>
         </div>
-        <div class="top-bg"/>
-        <div class="bottom-bg"/>
+        <div class="top-bg" />
+        <div class="bottom-bg" />
       </div>
     </div>
   </div>

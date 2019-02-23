@@ -44,19 +44,11 @@
 <template>
   <div id="bangumi-video-flow">
     <section v-if="videos.total">
-      <div 
-        v-if="videos.has_season" 
-        class="container">
+      <div v-if="videos.has_season" class="container">
         <template v-for="season in videos.list">
-          <h3 
-            :key="season.name" 
-            class="sub-title" 
-            v-text="season.name" />
+          <h3 :key="season.name" class="sub-title" v-text="season.name" />
           <ul :key="season.name">
-            <li 
-              v-for="video in season.data" 
-              :key="video.id" 
-              class="video">
+            <li v-for="video in season.data" :key="video.id" class="video">
               <nuxt-link :to="$alias.video(video.id)">
                 <v-img
                   :src="video.poster"
@@ -66,33 +58,20 @@
                 />
                 <div class="intro">
                   <p class="part oneline">第{{ video.part - season.base }}话</p>
-                  <span 
-                    class="name" 
-                    v-text="video.name" />
+                  <span class="name" v-text="video.name" />
                 </div>
               </nuxt-link>
             </li>
           </ul>
         </template>
       </div>
-      <ul 
-        v-else 
-        class="container">
-        <li 
-          v-for="video in videos.list[0].data" 
-          :key="video.id" 
-          class="video">
+      <ul v-else class="container">
+        <li v-for="video in videos.list[0].data" :key="video.id" class="video">
           <nuxt-link :to="$alias.video(video.id)">
-            <v-img 
-              :src="video.poster" 
-              width="128" 
-              height="80" 
-              class="poster" />
+            <v-img :src="video.poster" width="128" height="80" class="poster" />
             <div class="intro">
               <p class="part oneline">第{{ video.part }}话</p>
-              <span 
-                class="name" 
-                v-text="video.name" />
+              <span class="name" v-text="video.name" />
             </div>
           </nuxt-link>
         </li>
@@ -105,7 +84,9 @@
       :loading="false"
       :length="videos.total"
     >
-      <button @click="openFeedbackForResource">求资源</button>
+      <button @click="openFeedbackForResource">
+        求资源
+      </button>
     </more-btn>
   </div>
 </template>

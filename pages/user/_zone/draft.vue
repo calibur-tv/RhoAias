@@ -73,13 +73,9 @@
 <template>
   <div id="user-draft">
     <header class="tab-header">
-      <el-radio-group
-        v-model="active"
-        size="mini"
-        @change="switchTab"
-      >
-        <el-radio-button label="漫评"/>
-        <el-radio-button label="回答"/>
+      <el-radio-group v-model="active" size="mini" @change="switchTab">
+        <el-radio-button label="漫评" />
+        <el-radio-button label="回答" />
       </el-radio-group>
     </header>
     <div class="container">
@@ -90,29 +86,16 @@
         sort="news"
       >
         <template slot-scope="{ flow }">
-          <div
-            v-for="item in flow"
-            :key="item.id"
-            class="score-draft"
-          >
+          <div v-for="item in flow" :key="item.id" class="score-draft">
             <template v-if="item && item.bangumi">
-              <nuxt-link
-                :to="$alias.bangumi(item.bangumi.id)"
-                class="bangumi"
-              >
-                <img :src="$resize(item.bangumi.avatar, { width: 100 })">
+              <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="bangumi">
+                <img :src="$resize(item.bangumi.avatar, { width: 100 })" />
               </nuxt-link>
-              <nuxt-link
-                :to="$alias.editScore(item.id)"
-                class="content"
-              >
+              <nuxt-link :to="$alias.editScore(item.id)" class="content">
                 <div class="title oneline">
                   写给《{{ item.bangumi.name }}》的漫评
                 </div>
-                <div
-                  class="intro"
-                  v-text="item.intro"
-                />
+                <div class="intro" v-text="item.intro" />
               </nuxt-link>
             </template>
           </div>
@@ -134,16 +117,9 @@
         sort="news"
       >
         <template slot-scope="{ flow }">
-          <div
-            v-for="item in flow"
-            :key="item.id"
-            class="answer-draft"
-          >
+          <div v-for="item in flow" :key="item.id" class="answer-draft">
             <nuxt-link :to="$alias.question(item.question.id)">
-              <h5
-                class="title"
-                v-text="item.question.title"
-              />
+              <h5 class="title" v-text="item.question.title" />
             </nuxt-link>
             <nuxt-link
               :to="$alias.answer(item.id)"
@@ -161,13 +137,6 @@
 import FlowList from '~/components/flow/FlowList'
 export default {
   name: 'UserDraft',
-  async asyncData({ store }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserScoreDrafts',
-      type: 'page',
-      sort: 'news'
-    })
-  },
   components: {
     FlowList
   },
@@ -183,6 +152,13 @@ export default {
     isMe() {
       return this.$store.state.login ? this.zone === this.self.zone : false
     }
+  },
+  async asyncData({ store }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserScoreDrafts',
+      type: 'page',
+      sort: 'news'
+    })
   },
   mounted() {},
   methods: {

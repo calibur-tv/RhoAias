@@ -1,11 +1,6 @@
 <template>
   <div id="bangumi-post-flow">
-    <flow-list
-      :id="id"
-      func="getBangumiPost"
-      type="seenIds"
-      sort="active"
-    >
+    <flow-list :id="id" func="getBangumiPost" type="seenIds" sort="active">
       <ul slot-scope="{ flow }">
         <post-flow-item
           v-for="item in computeFlow(flow)"
@@ -25,20 +20,6 @@ import { getTopicPosts } from '~/api/bangumiApi'
 
 export default {
   name: 'BangumiPostFlow',
-  async asyncData({ app, params }) {
-    const topic = await getTopicPosts(app, {
-      id: params.id
-    })
-    return { topic }
-  },
-  async fetch({ store, params }) {
-    await store.dispatch('flow/initData', {
-      id: params.id,
-      func: 'getBangumiPost',
-      type: 'seenIds',
-      sort: 'active'
-    })
-  },
   components: {
     FlowList,
     PostFlowItem
@@ -53,6 +34,20 @@ export default {
     return {
       topic: []
     }
+  },
+  async asyncData({ app, params }) {
+    const topic = await getTopicPosts(app, {
+      id: params.id
+    })
+    return { topic }
+  },
+  async fetch({ store, params }) {
+    await store.dispatch('flow/initData', {
+      id: params.id,
+      func: 'getBangumiPost',
+      type: 'seenIds',
+      sort: 'active'
+    })
   },
   methods: {
     computeFlow(flow) {

@@ -56,18 +56,15 @@
 </style>
 
 <template>
-  <div
-    v-if="show"
-    class="first-sign-drawer"
-  >
+  <div v-if="show" class="first-sign-drawer">
     <h3 class="title">
-      欢迎来到<br>
+      欢迎来到<br />
       「calibur.tv」
     </h3>
     <p class="content">
-      使用你的“邀请码”带朋友一起来玩吧！<br>
-      每邀请一个朋友加入<br>
-      你就可以获得一个团子<br>
+      使用你的“邀请码”带朋友一起来玩吧！<br />
+      每邀请一个朋友加入<br />
+      你就可以获得一个团子<br />
       满100就可以提现噢！
     </p>
     <div class="control">
@@ -112,7 +109,9 @@ export default {
           })
           localStorage.setItem('display-first-sign-dialog', 1)
         }
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
     }
   }
 }

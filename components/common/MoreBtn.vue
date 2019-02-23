@@ -50,46 +50,28 @@
 
 <template>
   <div class="nomore-wraper">
-    <div
-      v-if="noMore"
-      class="nomore">
+    <div v-if="noMore" class="nomore">
       <template v-if="length">
         没有更多了，休息一下吧
       </template>
-      <div
-        v-else-if="!loading"
-        class="nothing">
-        <img
-          src="~assets/img/no-content.png"
-          alt="no-content"
-        >
+      <div v-else-if="!loading" class="nothing">
+        <img src="~assets/img/no-content.png" alt="no-content" />
         <p>还没有内容</p>
-        <slot/>
+        <slot />
       </div>
     </div>
     <template v-else>
       <template v-if="auto">
-        <div
-          v-if="loading"
-          class="loadmore"
-        >
-          <div class="rolling"/>
+        <div v-if="loading" class="loadmore">
+          <div class="rolling" />
         </div>
-        <span
-          v-else
-          style="line-height: 44px"
-          @click="handleFetch"
-        >点击加载更多</span>
+        <span v-else style="line-height: 44px" @click="handleFetch"
+          >点击加载更多</span
+        >
       </template>
       <template v-else>
-        <button
-          class="loadmore"
-          @click="handleFetch"
-        >
-          <div
-            v-if="loading"
-            class="rolling"
-          />
+        <button class="loadmore" @click="handleFetch">
+          <div v-if="loading" class="rolling" />
           <span v-else>点击加载更多</span>
         </button>
       </template>

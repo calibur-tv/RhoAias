@@ -33,10 +33,7 @@
 </style>
 
 <template>
-  <div
-    v-if="source"
-    class="ours-panel"
-  >
+  <div v-if="source" class="ours-panel">
     <div class="buttons">
       <el-button
         v-if="isCreator"
@@ -48,7 +45,12 @@
         size="mini"
         @click="toggleAction('reward')"
       >
-        {{ source.reward ? '已投食' : '投食' }}{{ source.reward_users.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.reward_users.total}` : '' }}
+        {{ source.reward ? '已投食' : '投食'
+        }}{{
+          source.reward_users.total
+            ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.reward_users.total}`
+            : ''
+        }}
       </el-button>
       <el-button
         :class="{ 'is-plain': source.like }"
@@ -59,7 +61,12 @@
         size="mini"
         @click="toggleAction('like')"
       >
-        {{ source.like ? '已喜欢' : '喜欢' }}{{ source.like_users.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.like_users.total}` : '' }}
+        {{ source.like ? '已喜欢' : '喜欢'
+        }}{{
+          source.like_users.total
+            ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.like_users.total}`
+            : ''
+        }}
       </el-button>
       <el-button
         :class="{ 'is-plain': source.mark }"
@@ -70,17 +77,18 @@
         size="mini"
         @click="toggleAction('mark')"
       >
-        {{ source.mark ? '已收藏' : '收藏' }}{{ source.mark_users.total ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.mark_users.total}` : '' }}
+        {{ source.mark ? '已收藏' : '收藏'
+        }}{{
+          source.mark_users.total
+            ? `&nbsp;&nbsp;|&nbsp;&nbsp;${source.mark_users.total}`
+            : ''
+        }}
       </el-button>
     </div>
     <div class="users">
       <ul>
-        <li
-          v-for="user in displayUsers"
-          :key="user.id"
-          class="user-face"
-        >
-          <img :src="$resize(user.avatar, { width: 60 })">
+        <li v-for="user in displayUsers" :key="user.id" class="user-face">
+          <img :src="$resize(user.avatar, { width: 60 })" />
         </li>
       </ul>
     </div>

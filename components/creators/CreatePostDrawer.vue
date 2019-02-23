@@ -79,14 +79,15 @@
         type="text"
         maxlength="40"
         placeholder="加个标题哟~"
-      >
+      />
       <div class="field-item">
         <span>番剧：</span>
-        <bangumi-picker 
-          v-model="bangumiId" 
+        <bangumi-picker
+          v-model="bangumiId"
           :label="false"
           :lazy="true"
-          :display="open" />
+          :display="open"
+        />
       </div>
       <div class="field-item">
         <span>原创：</span>
@@ -94,14 +95,9 @@
       </div>
       <div class="field-item">
         <span>标签：</span>
-        <div 
-          class="tags" 
-          @click="openPostTagSelectDrawer = true">
+        <div class="tags" @click="openPostTagSelectDrawer = true">
           <template v-if="selectedTags.length">
-            <span 
-              v-for="tag in displayTags" 
-              :key="tag.id" 
-              v-text="tag.name" />
+            <span v-for="tag in displayTags" :key="tag.id" v-text="tag.name" />
           </template>
           <template v-else>
             点击选择标签
@@ -128,10 +124,7 @@
       from="bottom"
       size="70%"
     >
-      <v-checklist 
-        v-model="selectedTags" 
-        :options="tags" 
-        :max="3" />
+      <v-checklist v-model="selectedTags" :options="tags" :max="3" />
     </v-drawer>
   </v-drawer>
 </template>
@@ -244,7 +237,9 @@ export default {
           this.tags = list
           return
         }
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       try {
         const tags = await getPostTags(this)
         this.tags = tags.map(_ => {
@@ -254,7 +249,9 @@ export default {
           }
         })
         sessionStorage.setItem('cache-post-tags', JSON.stringify(this.tags))
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
     }
   }
 }

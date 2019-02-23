@@ -4,21 +4,12 @@
 }
 </style>
 
-
 <template>
-  <div 
-    id="bangumi-video-flow" 
-    class="container">
+  <div id="bangumi-video-flow" class="container">
     <section v-if="source.total">
       <div v-if="source.has_season">
-        <div
-          v-for="season in source.videos"
-          :key="season.name"
-        >
-          <h3
-            :key="season.name"
-            class="sub-title"
-            v-text="season.name"/>
+        <div v-for="season in source.videos" :key="season.name">
+          <h3 :key="season.name" class="sub-title" v-text="season.name" />
           <ul>
             <video-flow-item
               v-for="video in season.data"
@@ -47,15 +38,6 @@ import VideoFlowItem from '~/components/flow/item/VideoFlowItem'
 
 export default {
   name: 'BangumiVideo',
-  asyncData({ params, app, error }) {
-    return getBangumiVideos(app, {
-      id: params.id
-    })
-      .then(source => {
-        return { source }
-      })
-      .catch(error)
-  },
   components: {
     VideoFlowItem
   },
@@ -69,6 +51,20 @@ export default {
     return {
       source: null
     }
+  },
+  asyncData({ params, app, error }) {
+    return getBangumiVideos(app, {
+      id: params.id
+    })
+      .then(source => {
+        return { source }
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
   }
 }
 </script>

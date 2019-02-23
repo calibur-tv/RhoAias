@@ -68,16 +68,8 @@
 <template>
   <li class="question-flow-item">
     <header class="qaq-flow-header">
-      <nuxt-link
-        :to="$alias.user(item.user.zone)"
-        class="avatar"
-      >
-        <v-img
-          :src="item.user.avatar"
-          :avatar="true"
-          width="24"
-          height="24"
-        />
+      <nuxt-link :to="$alias.user(item.user.zone)" class="avatar">
+        <v-img :src="item.user.avatar" :avatar="true" width="24" height="24" />
       </nuxt-link>
       <nuxt-link
         :to="$alias.user(item.user.zone)"
@@ -86,30 +78,14 @@
       />
     </header>
     <nuxt-link :to="$alias.question(item.id)">
-      <h3
-        class="title"
-        v-text="item.title"
-      />
+      <h3 class="title" v-text="item.title" />
     </nuxt-link>
     <div class="content">
-      <nuxt-link
-        v-if="item.answer"
-        :to="$alias.answer(item.answer.id)"
-      >
-        <div
-          v-if="item.answer.poster"
-          class="poster"
-        >
-          <v-img
-            :src="item.answer.poster.url"
-            width="100%"
-            height="140"
-          />
+      <nuxt-link v-if="item.answer" :to="$alias.answer(item.answer.id)">
+        <div v-if="item.answer.poster" class="poster">
+          <v-img :src="item.answer.poster.url" width="100%" height="140" />
         </div>
-        <div
-          class="text"
-          v-text="item.answer.intro"
-        />
+        <div class="text" v-text="item.answer.intro" />
       </nuxt-link>
       <nuxt-link
         v-else
@@ -119,10 +95,7 @@
       />
     </div>
     <div class="footer">
-      <nuxt-link
-        v-if="item.answer"
-        :to="$alias.answer(item.answer.id)"
-      >
+      <nuxt-link v-if="item.answer" :to="$alias.answer(item.answer.id)">
         <vote-button
           :id="item.answer.id"
           :total="item.answer.vote_count"
@@ -133,23 +106,14 @@
         />
       </nuxt-link>
       <span class="stats">
-        <i
-          v-if="!item.answer_count"
-          class="el-icon-edit"
-        />
+        <i v-if="!item.answer_count" class="el-icon-edit" />
         {{ item.answer_count ? item.answer_count + '个回答' : '还没有回答' }}
       </span>
       <span class="stats">
-        <i
-          v-if="!item.comment_count"
-          class="iconfont icon-talk"
-        />
+        <i v-if="!item.comment_count" class="iconfont icon-talk" />
         {{ item.comment_count ? item.comment_count + '条评论' : '还没有评论' }}
       </span>
-      <span
-        v-if="item.follow_count"
-        class="stats"
-      >
+      <span v-if="item.follow_count" class="stats">
         {{ item.follow_count }}人关注
       </span>
     </div>

@@ -1,13 +1,9 @@
 <template>
   <div id="user-question">
     <header class="tab-header">
-      <el-radio-group
-        v-model="active"
-        size="mini"
-        @change="switchTab"
-      >
-        <el-radio-button label="回答"/>
-        <el-radio-button label="提问"/>
+      <el-radio-group v-model="active" size="mini" @change="switchTab">
+        <el-radio-button label="回答" />
+        <el-radio-button label="提问" />
       </el-radio-group>
     </header>
     <flow-list
@@ -27,13 +23,7 @@
         />
       </ul>
     </flow-list>
-    <flow-list
-      v-else
-      :id="zone"
-      func="getUserQAQ"
-      type="page"
-      sort="news"
-    >
+    <flow-list v-else :id="zone" func="getUserQAQ" type="page" sort="news">
       <ul slot-scope="{ flow }">
         <question-flow-item
           v-for="item in flow"
@@ -53,14 +43,6 @@ import QuestionFlowItem from '~/components/flow/item/QuestionFlowItem'
 
 export default {
   name: 'UserFAQ',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserAnswer',
-      type: 'page',
-      sort: 'news',
-      id: params.zone
-    })
-  },
   components: {
     FlowList,
     QuestionFlowItem
@@ -75,6 +57,14 @@ export default {
     return {
       active: '回答'
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserAnswer',
+      type: 'page',
+      sort: 'news',
+      id: params.zone
+    })
   },
   methods: {
     switchTab(value) {

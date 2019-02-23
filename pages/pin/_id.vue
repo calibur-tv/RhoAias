@@ -156,14 +156,13 @@
     <div class="container">
       <div class="album-header">
         <h1 class="title oneline">
-          [{{ info.is_creator ? '原创' : '转载' }}]
-          [{{ info.is_cartoon ? '漫画' : '相册' }}]
+          [{{ info.is_creator ? '原创' : '转载' }}] [{{
+            info.is_cartoon ? '漫画' : '相册'
+          }}]
           {{ info.name }}
         </h1>
         <div class="user">
-          <nuxt-link
-            :to="$alias.user(user.zone)"
-            class="author">
+          <nuxt-link :to="$alias.user(user.zone)" class="author">
             <v-img
               :src="user.avatar"
               :avatar="true"
@@ -174,28 +173,23 @@
             {{ user.nickname }}
           </nuxt-link>
           <span class="dot"> · </span>
-          <v-time v-model="info.created_at"/>
-          <div class="flex1"/>
+          <v-time v-model="info.created_at" />
+          <div class="flex1" />
           <v-popover
             :report-id="info.id"
             :is-creator="info.is_creator"
             report-type="image"
           >
-            <button class="tool-btn">···</button>
+            <button class="tool-btn">
+              ···
+            </button>
           </v-popover>
         </div>
       </div>
     </div>
     <div class="album-body">
-      <image-preview
-        v-if="info.is_album"
-        :images="images"
-        class="images-wrap">
-        <div
-          v-for="img in images"
-          :key="img.id"
-          class="image-package"
-        >
+      <image-preview v-if="info.is_album" :images="images" class="images-wrap">
+        <div v-for="img in images" :key="img.id" class="image-package">
           <v-img
             :src="img.url"
             :full="true"
@@ -204,17 +198,11 @@
             class="image"
           />
         </div>
-        <p
-          v-if="!info.image_count"
-          class="no-image"
-        >
+        <p v-if="!info.image_count" class="no-image">
           还没有上传图片
         </p>
       </image-preview>
-      <image-preview
-        v-else
-        :images="[source]"
-      >
+      <image-preview v-else :images="[source]">
         <div class="image-package">
           <v-img
             :src="source.url"
@@ -225,28 +213,21 @@
           />
         </div>
       </image-preview>
-      <div 
-        v-if="info.is_cartoon" 
-        class="cartoon-list">
+      <div v-if="info.is_cartoon" class="cartoon-list">
         <h3 class="sub-title">
           选集（{{ cartoon.length }}）
-          <nuxt-link
-            v-if="nextPartUrl" 
-            :to="nextPartUrl"
-            class="next">下一话</nuxt-link>
-          <div 
-            v-if="showMoreBtn" 
-            class="more" 
-            @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+          <nuxt-link v-if="nextPartUrl" :to="nextPartUrl" class="next">
+            下一话
+          </nuxt-link>
+          <div v-if="showMoreBtn" class="more" @click="showAll = !showAll">
+            {{ showAll ? '收起' : '展开' }}
+          </div>
         </h3>
         <ul>
-          <li
-            v-for="item in sortCartoons"
-            :key="item.id"
-          >
+          <li v-for="item in sortCartoons" :key="item.id">
             <nuxt-link
               :to="$alias.image(item.id)"
-              :class="{ 'active': item.id === id }"
+              :class="{ active: item.id === id }"
               class="oneline"
               v-text="item.name"
             />
@@ -264,29 +245,25 @@
     </div>
     <div class="container">
       <v-lazy>
-        <comment-main
-          :id="id"
-          :master-id="user.id"
-          type="image"
-        />
+        <comment-main :id="id" :master-id="user.id" type="image" />
       </v-lazy>
-      <div class="hr"/>
+      <div class="hr" />
       <div class="album-footer">
         <div class="bangumi-panel">
-          <h3 class="sub-title">所属番剧：</h3>
+          <h3 class="sub-title">
+            所属番剧：
+          </h3>
           <bangumi-panel
             :id="bangumi.id"
             :name="bangumi.name"
             :avatar="bangumi.avatar"
           >
-            <p 
-              class="summary" 
-              v-text="bangumi.summary"/>
+            <p class="summary" v-text="bangumi.summary" />
           </bangumi-panel>
         </div>
       </div>
     </div>
-    <share-btn :share-data="share_data"/>
+    <share-btn :share-data="share_data" />
   </div>
 </template>
 
@@ -301,53 +278,6 @@ import ShareBtn from '~/components/common/ShareBtn'
 
 export default {
   name: 'ImageAlbum',
-  async asyncData({ app, store, params, error }) {
-    const { id } = params
-    return getImageInfo(app, { id })
-      .then(info => {
-        const { bangumi } = info
-        store.commit('social/SET_STATE', {
-          type: 'image',
-          id,
-          data: {
-            like: info.liked,
-            reward: info.rewarded,
-            mark: info.marked,
-            like_users: info.like_users,
-            mark_users: info.mark_users,
-            reward_users: info.reward_users
-          }
-        })
-        store.commit('social/SET_STATE', {
-          type: 'bangumi',
-          id: bangumi.id,
-          data: {
-            follow: bangumi.followed
-          }
-        })
-        return {
-          info,
-          bangumi,
-          user: info.user,
-          source: info.source,
-          images: info.images,
-          share_data: info.share_data
-        }
-      })
-      .catch(error)
-  },
-  head() {
-    return {
-      title: this.info.name,
-      script: [
-        {
-          hid: 'share-data',
-          innerHTML: JSON.stringify(this.share_data),
-          type: 'application/json'
-        }
-      ]
-    }
-  },
   components: {
     CommentMain,
     SocialPanel,
@@ -403,6 +333,58 @@ export default {
         return ''
       }
       return this.$alias.image(this.cartoon[index + 1].id)
+    }
+  },
+  async asyncData({ app, store, params, error }) {
+    const { id } = params
+    return getImageInfo(app, { id })
+      .then(info => {
+        const { bangumi } = info
+        store.commit('social/SET_STATE', {
+          type: 'image',
+          id,
+          data: {
+            like: info.liked,
+            reward: info.rewarded,
+            mark: info.marked,
+            like_users: info.like_users,
+            mark_users: info.mark_users,
+            reward_users: info.reward_users
+          }
+        })
+        store.commit('social/SET_STATE', {
+          type: 'bangumi',
+          id: bangumi.id,
+          data: {
+            follow: bangumi.followed
+          }
+        })
+        return {
+          info,
+          bangumi,
+          user: info.user,
+          source: info.source,
+          images: info.images,
+          share_data: info.share_data
+        }
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
+  },
+  head() {
+    return {
+      title: this.info.name,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   mounted() {

@@ -141,20 +141,15 @@
         </v-popover>
       </h3>
       <ul class="cartoon-list clearfix">
-        <li 
-          v-for="item in cartoons.list" 
-          :key="item.id" 
-          class="cartoon">
+        <li v-for="item in cartoons.list" :key="item.id" class="cartoon">
           <nuxt-link :to="$alias.image(item.id)">
             <div class="poster-wrap">
               <img
                 :src="$resize(item.source.url, { width: 290, height: 420 })"
-              >
+              />
               <div class="info">
                 <i class="el-icon-picture-outline" />
-                <span 
-                  class="image-count" 
-                  v-text="item.image_count" />
+                <span class="image-count" v-text="item.image_count" />
               </div>
             </div>
             <div class="intro">
@@ -171,7 +166,9 @@
       :auto="true"
       @fetch="getCartoons"
     >
-      <button @click="openFeedbackForCartoon">求漫画</button>
+      <button @click="openFeedbackForCartoon">
+        求漫画
+      </button>
     </more-btn>
   </div>
 </template>

@@ -45,17 +45,23 @@
 
 <template>
   <div id="homepage">
-    <section
-      v-show="showBanner"
-      id="banner">
+    <section v-show="showBanner" id="banner">
       <div
-        :class="{ 'show' : toggle }"
-        :style="{ backgroundImage: banner1 ? `url(${$resize(banner1.url, options)})` : '' }"
+        :class="{ show: toggle }"
+        :style="{
+          backgroundImage: banner1
+            ? `url(${$resize(banner1.url, options)})`
+            : ''
+        }"
         class="bg"
       />
       <div
-        :class="{ 'show' : !toggle }"
-        :style="{ backgroundImage: banner2 ? `url(${$resize(banner2.url, options)})` : '' }"
+        :class="{ show: !toggle }"
+        :style="{
+          backgroundImage: banner2
+            ? `url(${$resize(banner2.url, options)})`
+            : ''
+        }"
         class="bg"
       />
     </section>
@@ -67,7 +73,7 @@
       />
       <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
     </main>
-    <v-footer v-show="showFooter"/>
+    <v-footer v-show="showFooter" />
   </div>
 </template>
 
@@ -78,13 +84,6 @@ import { getBanners } from '~/api/carouselApi'
 
 export default {
   name: 'Index',
-  async asyncData({ app }) {
-    const data = await getBanners(app)
-    return {
-      banners: data,
-      banner1: data[0]
-    }
-  },
   components: {
     vSearch,
     vFooter
@@ -105,6 +104,13 @@ export default {
       slogan: '···',
       showBanner: true,
       query: ''
+    }
+  },
+  async asyncData({ app }) {
+    const data = await getBanners(app)
+    return {
+      banners: data,
+      banner1: data[0]
     }
   },
   mounted() {

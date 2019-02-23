@@ -15,7 +15,9 @@
 </style>
 
 <template>
-  <div class="json-content-txt-parser"><p v-html="item.text" /></div>
+  <div class="json-content-txt-parser">
+    <p v-html="item.text" />
+  </div>
 </template>
 
 <script>

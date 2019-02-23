@@ -1,9 +1,6 @@
 <template>
   <div id="bangumi-index-layout">
-    <tab-container
-      :headers="headers"
-      :router="true"
-    />
+    <tab-container :headers="headers" :router="true" />
     <nuxt-child />
   </div>
 </template>

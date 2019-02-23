@@ -29,21 +29,18 @@
 </style>
 
 <template>
-  <div 
-    v-if="list.length" 
-    class="search-history">
-    <p class="title">搜索历史</p>
+  <div v-if="list.length" class="search-history">
+    <p class="title">
+      搜索历史
+    </p>
     <ul>
-      <li 
-        v-for="(item, index) in list" 
-        :key="index" 
-        @click="query(item)">
+      <li v-for="(item, index) in list" :key="index" @click="query(item)">
         <i class="iconfont icon-lishijilu" /> {{ item }}
       </li>
     </ul>
-    <button 
-      class="clear-btn" 
-      @click="clear">清除历史记录</button>
+    <button class="clear-btn" @click="clear">
+      清除历史记录
+    </button>
   </div>
 </template>
 
@@ -81,7 +78,9 @@ export default {
         this.list = list
         try {
           localStorage.setItem(this.cacheKey, JSON.stringify(list))
-        } catch (e) {}
+        } catch (e) {
+          // do nothing
+        }
       }, 0)
     },
     get() {
@@ -94,7 +93,9 @@ export default {
     clear() {
       try {
         localStorage.removeItem(this.cacheKey)
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       this.list = []
     }
   }

@@ -2,7 +2,9 @@ export default {
   set(key, value) {
     try {
       localStorage.setItem(key, value)
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
     return this.get(key)
   },
 
@@ -17,12 +19,16 @@ export default {
   remove(key) {
     try {
       localStorage.removeItem(key)
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
   },
 
   clear() {
     try {
       localStorage.clear()
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
   }
 }

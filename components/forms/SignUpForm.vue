@@ -72,12 +72,7 @@
 
 <template>
   <div class="sign-up-form">
-    <el-form
-      ref="form"
-      :model="form"
-      :rules="rule"
-      status-icon
-    >
+    <el-form ref="form" :model="form" :rules="rule" status-icon>
       <el-form-item prop="nickname">
         <el-input
           v-model="form.nickname"
@@ -106,7 +101,9 @@
           class="watch-pwd"
           type="button"
           @click="watchPwd = !watchPwd"
-        ><i class="iconfont icon-yuedu"/></button>
+        >
+          <i class="iconfont icon-yuedu" />
+        </button>
       </el-form-item>
       <el-form-item v-if="!inviteCode">
         <el-input
@@ -131,25 +128,16 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <div
-      class="others"
-    >
+    <div class="others">
       <span class="providers">
         <a :href="qqRegisterLink">
-          <i class="iconfont icon-qq"/>
+          <i class="iconfont icon-qq" />
         </a>
-        <a
-          v-if="ua.wechat"
-          :href="wechatRegisterLink"
-        >
-          <i class="iconfont icon-wechat"/>
+        <a v-if="ua.wechat" :href="wechatRegisterLink">
+          <i class="iconfont icon-wechat" />
         </a>
       </span>
-      <a
-        v-if="!inviteCode"
-        class="fr"
-        @click="showLogin"
-      >已有账号»</a>
+      <a v-if="!inviteCode" class="fr" @click="showLogin">已有账号»</a>
     </div>
     <div class="tip">
       提示：由于注册时要根据初始昵称为每个用户分配独立域名，因此注册时的昵称不支持日文和特殊符号和标点符号，可在注册完成后在个人设置页面修改昵称
@@ -278,6 +266,7 @@ export default {
       } else if (this.step === 3) {
         return '注册中...'
       }
+      return '注册'
     },
     submitBtnLoading() {
       return this.step === 1 || this.step === 3

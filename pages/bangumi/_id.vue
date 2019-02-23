@@ -1,11 +1,8 @@
 <template>
   <div id="bangumi-show">
-    <bangumi-header :info="info"/>
-    <tab-container
-      :headers="headers"
-      :router="true"
-    />
-    <nuxt-child/>
+    <bangumi-header :info="info" />
+    <tab-container :headers="headers" :router="true" />
+    <nuxt-child />
   </div>
 </template>
 
@@ -19,22 +16,6 @@ export default {
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
-  asyncData({ app, params, store, error }) {
-    const { id } = params
-    return getBangumiInfo(app, { id })
-      .then(info => {
-        store.commit('social/SET_STATE', {
-          id,
-          type: 'bangumi',
-          data: {
-            follow: info.followed,
-            follow_users: info.follow_users
-          }
-        })
-        return { info }
-      })
-      .catch(error)
-  },
   components: {
     BangumiHeader,
     TabContainer
@@ -43,18 +24,6 @@ export default {
     id: {
       type: String,
       required: true
-    }
-  },
-  head() {
-    return {
-      title: this.info.name,
-      script: [
-        {
-          hid: 'share-data',
-          innerHTML: JSON.stringify(this.info.share_data),
-          type: 'application/json'
-        }
-      ]
     }
   },
   data() {
@@ -104,6 +73,39 @@ export default {
           route: 'bangumi-id-qaq'
         }
       ])
+    }
+  },
+  asyncData({ app, params, store, error }) {
+    const { id } = params
+    return getBangumiInfo(app, { id })
+      .then(info => {
+        store.commit('social/SET_STATE', {
+          id,
+          type: 'bangumi',
+          data: {
+            follow: info.followed,
+            follow_users: info.follow_users
+          }
+        })
+        return { info }
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
+  },
+  head() {
+    return {
+      title: this.info.name,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.info.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   }
 }

@@ -1,10 +1,5 @@
 <template>
-  <flow-list
-    :id="zone"
-    func="getUserScore"
-    type="page"
-    sort="news"
-  >
+  <flow-list :id="zone" func="getUserScore" type="page" sort="news">
     <ul slot-scope="{ flow }">
       <score-flow-item
         v-for="item in flow"
@@ -23,14 +18,6 @@ import ScoreFlowItem from '~/components/flow/item/ScoreFlowItem'
 
 export default {
   name: 'UserScore',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserScore',
-      type: 'page',
-      sort: 'news',
-      id: params.zone
-    })
-  },
   components: {
     FlowList,
     ScoreFlowItem
@@ -40,6 +27,14 @@ export default {
       type: String,
       required: true
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserScore',
+      type: 'page',
+      sort: 'news',
+      id: params.zone
+    })
   }
 }
 </script>

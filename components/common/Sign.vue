@@ -36,8 +36,8 @@
       </div>
     </v-drawer>
     <template v-else>
-      <user-drawer/>
-      <first-sign-drawer/>
+      <user-drawer />
+      <first-sign-drawer />
     </template>
   </div>
 </template>

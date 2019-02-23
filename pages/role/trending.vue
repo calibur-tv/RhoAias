@@ -77,33 +77,40 @@
 <template>
   <div id="role-trending">
     <div class="banner">
-      <img :src="$resize('https://image.calibur.tv/owner/image/stock-banner.jpeg', { height: 200, mode: 2 })">
+      <img
+        :src="
+          $resize('https://image.calibur.tv/owner/image/stock-banner.jpeg', {
+            height: 200,
+            mode: 2
+          })
+        "
+      />
       <ul v-if="meta">
         <li>投资人数：{{ meta.buyer_count }}</li>
         <li>总交易额：￥{{ parseFloat(meta.money_count).toFixed(2) }}</li>
         <li>成交笔数：{{ meta.deal_count }}</li>
-        <li>总成交额：￥{{ parseFloat(meta.exchang_money_count).toFixed(2) }}</li>
+        <li>
+          总成交额：￥{{ parseFloat(meta.exchang_money_count).toFixed(2) }}
+        </li>
       </ul>
-      <nuxt-link
-        class="whats-this"
-        to="/role/trending/intro"
-      >
+      <nuxt-link class="whats-this" to="/role/trending/intro">
         <p>什么是股市</p>
-        <div/>
+        <div />
       </nuxt-link>
     </div>
-    <tab-container
-      :headers="tabs"
-      :router="true"
-    />
+    <tab-container :headers="tabs" :router="true" />
     <div class="todo">
+      <nuxt-link v-if="orderCount" to="/role/trending/mine">
+        <i class="iconfont icon-nitification" />
+        <span>你有「{{ orderCount }}条」采购请求待处理</span>
+      </nuxt-link>
       <nuxt-link
         v-for="(item, index) in todo"
         :key="index"
         :to="$alias.cartoonRole(item.id)"
         class="oneline"
       >
-        <i class="iconfont icon-nitification"/>
+        <i class="iconfont icon-nitification" />
         <span>正在召开「{{ item.name }}」的股东大会</span>
       </nuxt-link>
     </div>
@@ -113,7 +120,11 @@
 
 <script>
 import TabContainer from '~/components/common/TabContainer'
-import { getStockMarketMeta, getUserWorkSchedule } from '~/api/cartoonRoleApi'
+import {
+  getStockMarketMeta,
+  getUserWorkSchedule,
+  getMineProductOrderCount
+} from '~/api/cartoonRoleApi'
 
 export default {
   name: 'RoleTrending',
@@ -128,12 +139,17 @@ export default {
         deal_count: 0,
         exchang_money_count: 0
       },
-      todo: []
+      todo: [],
+      orderCount: 0
     }
   },
   computed: {
     tabs() {
       const result = [
+        {
+          label: '产品区',
+          route: 'role-trending-product'
+        },
         {
           label: '上市榜',
           route: 'role-trending-listed'
@@ -161,10 +177,16 @@ export default {
   },
   mounted() {
     this.getMetaInfo()
-    const canceler = this.$watch('isLogin', () => {
-      canceler()
+    if (this.isLogin) {
       this.getUserNeedTodo()
-    })
+      this.getUserOrderCount()
+    } else {
+      const canceler = this.$watch('isLogin', () => {
+        canceler()
+        this.getUserNeedTodo()
+        this.getUserOrderCount()
+      })
+    }
   },
   methods: {
     async getMetaInfo() {
@@ -172,6 +194,9 @@ export default {
     },
     async getUserNeedTodo() {
       this.todo = await getUserWorkSchedule(this)
+    },
+    async getUserOrderCount() {
+      this.orderCount = await getMineProductOrderCount(this)
     }
   }
 }

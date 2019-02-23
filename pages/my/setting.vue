@@ -159,10 +159,18 @@
 <template>
   <div id="user-setting">
     <div class="form-item">
-      <p class="sub-title">背景：</p>
+      <p class="sub-title">
+        背景：
+      </p>
       <div
-        :style="{ backgroundImage: `url(${$resize(user.banner, { height: 120, mode: 2 })})` }"
-        class="banner-setting">
+        :style="{
+          backgroundImage: `url(${$resize(user.banner, {
+            height: 120,
+            mode: 2
+          })})`
+        }"
+        class="banner-setting"
+      >
         <template v-if="bannerSelector.data">
           <image-cropper
             :init-image="bannerSelector.data"
@@ -177,24 +185,27 @@
             type="info"
             round
             @click="cancelBannerSelect"
-          >取消</el-button>
+          >
+            取消
+          </el-button>
         </template>
-        <div
-          v-else
-          class="submit-banner-btn file-input">
+        <div v-else class="submit-banner-btn file-input">
           点击更新背景
           <input
             ref="bannerInput"
             type="file"
             accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif"
             name="file"
-            @change="selectBanner">
+            @change="selectBanner"
+          />
         </div>
       </div>
     </div>
-    <div class="hr"/>
+    <div class="hr" />
     <div class="form-item">
-      <p class="sub-title">头像：</p>
+      <p class="sub-title">
+        头像：
+      </p>
       <div class="container avatar-setting">
         <v-drawer
           v-model="avatarSelector.showDrawer"
@@ -214,8 +225,11 @@
           />
         </v-drawer>
         <div
-          :style="{ backgroundImage: `url(${$resize(user.avatar, { width: 80 })})` }"
-          class="avatar"/>
+          :style="{
+            backgroundImage: `url(${$resize(user.avatar, { width: 80 })})`
+          }"
+          class="avatar"
+        />
         <div class="change-image-btn file-input">
           点击更新头像
           <input
@@ -223,31 +237,45 @@
             type="file"
             accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif"
             name="file"
-            @change="selectAvatar">
+            @change="selectAvatar"
+          />
         </div>
       </div>
     </div>
-    <div class="hr"/>
-    <div class="hr"/>
+    <div class="hr" />
+    <div class="hr" />
     <div class="form-item">
-      <p class="sub-title">绑定：</p>
+      <p class="sub-title">
+        绑定：
+      </p>
       <div class="providers">
-        <a :href="`https://api.calibur.tv/callback/oauth2/qq?from=bind&id=${user.id}&zone=${user.zone}`">
+        <a
+          :href="
+            `https://api.calibur.tv/callback/oauth2/qq?from=bind&id=${
+              user.id
+            }&zone=${user.zone}`
+          "
+        >
           <i
             :class="{ 'is-bind': user.providers.bind_qq }"
             class="iconfont icon-qq"
           />
         </a>
-        <a :href="ua.wechat ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${user.id}&zone=${user.zone}` : 'javascript:;'">
+        <a
+          :href="
+            ua.wechat
+              ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${
+                  user.id
+                }&zone=${user.zone}`
+              : 'javascript:;'
+          "
+        >
           <i
             :class="{ 'is-bind': user.providers.bind_wechat }"
             class="iconfont icon-wechat"
           />
         </a>
-        <a
-          href="javascript:;"
-          @click="bindUserPhone"
-        >
+        <a href="javascript:;" @click="bindUserPhone">
           <i
             :class="{ 'is-bind': user.providers.bind_phone }"
             class="iconfont icon-phone"
@@ -255,11 +283,13 @@
         </a>
       </div>
     </div>
-    <div class="hr"/>
+    <div class="hr" />
     <div class="form-item">
-      <p class="sub-title">其它：</p>
+      <p class="sub-title">
+        其它：
+      </p>
       <div class="container">
-        <user-setting-form/>
+        <user-setting-form />
       </div>
     </div>
     <v-drawer
@@ -276,8 +306,8 @@
           placeholder="短信验证码"
           auto-complete="off"
         />
-        <br>
-        <br>
+        <br />
+        <br />
         <el-input
           v-model.trim="bindPhone.password"
           type="text"

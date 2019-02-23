@@ -149,21 +149,14 @@
     <div class="container">
       <div class="post">
         <h1 class="title">
-          <div
-            v-if="post.is_nice"
-            class="nice_badge"
-          >精</div>
+          <div v-if="post.is_nice" class="nice_badge">
+            精
+          </div>
           {{ post.title }}
         </h1>
         <div class="user">
-          <nuxt-link
-            :to="$alias.user(master.zone)"
-            class="avatar">
-            <v-img
-              :src="master.avatar"
-              :avatar="true"
-              width="35"
-            />
+          <nuxt-link :to="$alias.user(master.zone)" class="avatar">
+            <v-img :src="master.avatar" :avatar="true" width="35" />
           </nuxt-link>
           <v-popover
             :actions="actions"
@@ -171,7 +164,9 @@
             :is-creator="post.is_creator"
             report-type="post"
           >
-            <button class="tool-btn">···</button>
+            <button class="tool-btn">
+              ···
+            </button>
           </v-popover>
           <div class="summary">
             <nuxt-link
@@ -186,11 +181,9 @@
                 <span>共{{ total }}楼</span>
                 <span>·</span>
               </template>
-              <v-time v-model="post.created_at"/>
-              <span 
-                v-if="post.view_count" 
-                class="fr">
-                <i class="iconfont icon-yuedu"/>
+              <v-time v-model="post.created_at" />
+              <span v-if="post.view_count" class="fr">
+                <i class="iconfont icon-yuedu" />
                 {{ $utils.shortenNumber(post.view_count) }}
               </span>
             </div>
@@ -215,16 +208,24 @@
               />
             </div>
           </image-preview>
-          <div
-            class="text-area"
-            v-html="post.content"
-          />
+          <div class="text-area" v-html="post.content" />
         </div>
         <div class="tags">
           <router-link :to="$alias.bangumi(bangumi.id)">
-            <i class="iconfont icon-tag"/>
-            <span v-text="bangumi.name"/>
+            <i class="iconfont icon-tag" />
+            <span v-text="bangumi.name" />
           </router-link>
+          <router-link v-if="post.idol" :to="$alias.cartoonRole(post.idol.id)">
+            <i class="iconfont icon-tag" />
+            <span v-text="post.idol.name" />
+          </router-link>
+          <buy-content-btn
+            v-else-if="post.is_idol_manager && post.is_creator"
+            :id="id"
+            :title="post.title"
+            :author="master.nickname"
+            type="post"
+          />
           <span
             v-for="tag in post.tags"
             :key="tag.id"
@@ -244,12 +245,12 @@
             class="comment-post-btn"
             @click="handleReplyBtnClick"
           >
-            <i class="iconfont icon-talk"/>
+            <i class="iconfont icon-talk" />
             回复
           </button>
         </div>
       </div>
-      <div class="hr"/>
+      <div class="hr" />
       <comment-main
         :id="id"
         :only-see-master="onlySeeMaster"
@@ -258,7 +259,7 @@
         :master-id="master.id"
         type="post"
       >
-        <div slot="header"/>
+        <div slot="header" />
         <post-comment-item
           slot="comment-item"
           slot-scope="{ comment }"
@@ -267,27 +268,27 @@
           :preview="post.preview_images"
         />
         <post-comment-form
+          :id="id"
           slot="reply-form"
           slot-scope="{ close }"
-          :id="id"
           @close="close"
         />
       </comment-main>
     </div>
-    <div class="hr"/>
+    <div class="hr" />
     <div class="container bangumi-panel">
-      <h3 class="sub-title">所属番剧：</h3>
+      <h3 class="sub-title">
+        所属番剧：
+      </h3>
       <bangumi-panel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
       >
-        <p 
-          class="summary" 
-          v-text="bangumi.summary"/>
+        <p class="summary" v-text="bangumi.summary" />
       </bangumi-panel>
     </div>
-    <share-btn :share-data="share_data"/>
+    <share-btn :share-data="share_data" />
   </div>
 </template>
 
@@ -300,10 +301,73 @@ import BangumiPanel from '~/components/panel/BangumiPanel'
 import VPopover from '~/components/common/Popover'
 import PostCommentForm from '~/components/post/PostCommentForm'
 import ShareBtn from '~/components/common/ShareBtn'
+import BuyContentBtn from '~/components/idol/BuyContentBtn'
 import { getPostInfo, deletePost } from '~/api/postApi'
 
 export default {
   name: 'PostShow',
+  components: {
+    CommentMain,
+    PostCommentItem,
+    SocialPanel,
+    ImagePreview,
+    BangumiPanel,
+    PostCommentForm,
+    VPopover,
+    ShareBtn,
+    BuyContentBtn
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      post: null,
+      bangumi: null,
+      master: null,
+      loadingToggleLike: false,
+      loadingToggleMark: false,
+      lastScroll: 0,
+      isScrollTop: true,
+      share_data: null
+    }
+  },
+  computed: {
+    total() {
+      return this.$store.state.comment.total + 1
+    },
+    onlySeeMaster() {
+      return !!parseInt(this.$route.query.only, 10)
+    },
+    isMaster() {
+      if (!this.$store.state.login) {
+        return false
+      }
+      return this.$store.state.user.id === this.master.id
+    },
+    actions() {
+      const result = [
+        {
+          name: this.onlySeeMaster ? '取消只看楼主' : '只看楼主',
+          method: this.switchOnlyMaster
+        },
+        {
+          name: '回复',
+          method: this.handleReplyBtnClick
+        }
+      ]
+      if (this.isMaster) {
+        result.push({
+          name: '删除',
+          method: this.deletePost
+        })
+      }
+      return result
+    }
+  },
   asyncData({ query, store, params, app, error }) {
     const { id } = params
     return getPostInfo(app, {
@@ -338,7 +402,12 @@ export default {
           share_data: data.share_data
         }
       })
-      .catch(error)
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
   },
   async fetch({ store, query, params }) {
     try {
@@ -348,22 +417,8 @@ export default {
         onlySeeMaster: query.only ? (parseInt(query.only, 10) ? 1 : 0) : 0,
         seeReplyId: query['comment-id']
       })
-    } catch (e) {}
-  },
-  components: {
-    CommentMain,
-    PostCommentItem,
-    SocialPanel,
-    ImagePreview,
-    BangumiPanel,
-    PostCommentForm,
-    VPopover,
-    ShareBtn
-  },
-  props: {
-    id: {
-      type: String,
-      required: true
+    } catch (e) {
+      // do nothing
     }
   },
   head() {
@@ -376,49 +431,6 @@ export default {
           type: 'application/json'
         }
       ]
-    }
-  },
-  data() {
-    return {
-      loadingToggleLike: false,
-      loadingToggleMark: false,
-      lastScroll: 0,
-      isScrollTop: true,
-      share_data: null
-    }
-  },
-  computed: {
-    total() {
-      return this.$store.state.comment.total + 1
-    },
-    onlySeeMaster() {
-      return !!parseInt(this.$route.query.only, 10)
-    },
-    isMaster() {
-      if (!this.$store.state.login) {
-        return false
-      }
-      return this.$store.state.user.id === this.master.id
-    },
-    actions() {
-      const result = [
-        {
-          name: '回复',
-          method: this.handleReplyBtnClick
-        }
-      ]
-      if (this.isMaster) {
-        result.push({
-          name: '删除',
-          method: this.deletePost
-        })
-      }
-      result.push({
-        name: this.onlySeeMaster ? '取消只看楼主' : '只看楼主',
-        method: this.switchOnlyMaster
-      })
-
-      return result
     }
   },
   mounted() {

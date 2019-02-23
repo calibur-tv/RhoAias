@@ -63,16 +63,10 @@
 </style>
 
 <template>
-  <div
-    v-if="showDialog"
-    class="gift-modal"
-  >
-    <div
-      v-if="user"
-      class="content"
-    >
+  <div v-if="showDialog" class="gift-modal">
+    <div v-if="user" class="content">
       <div class="avatar">
-        <img :src="$resize(user.avatar, { width: 200 })">
+        <img :src="$resize(user.avatar, { width: 200 })" />
       </div>
       <div class="tips">
         <p>这个页面是「{{ user.nickname }}」分享给你的</p>
@@ -82,21 +76,15 @@
         <p>更重要的是，calibur 的发展需要你</p>
         <p>请加入我们吧</p>
       </div>
-      <button
-        class="join"
-        @click="joinUs"
-      >
+      <button class="join" @click="joinUs">
         可以，我加入！
       </button>
-      <button
-        class="abort"
-        @click="abortYou"
-      >
+      <button class="abort" @click="abortYou">
         但是，我拒绝！
       </button>
       <p class="expired">
         <span>该邀请将于</span>
-        <v-time v-model="query.time"/>
+        <v-time v-model="query.time" />
         <span>失效</span>
       </p>
     </div>

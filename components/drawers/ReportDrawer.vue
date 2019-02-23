@@ -29,11 +29,7 @@
     size="100%"
     class="report-drawer"
   >
-    <user-report-form
-      :id="id"
-      :model="model"
-      @success="show = false"
-    />
+    <user-report-form :id="id" :model="model" @success="show = false" />
   </v-drawer>
 </template>
 

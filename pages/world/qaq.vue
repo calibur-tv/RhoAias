@@ -1,9 +1,5 @@
 <template>
-  <flow-list
-    func="getWorldQAQ"
-    type="seenIds"
-    sort="active"
-  >
+  <flow-list func="getWorldQAQ" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
       <question-flow-item
         v-for="item in flow"
@@ -13,7 +9,7 @@
         user-zone=""
       />
     </ul>
-    <no-content slot="nothing"/>
+    <no-content slot="nothing" />
   </flow-list>
 </template>
 
@@ -27,6 +23,9 @@ export default {
     FlowList,
     QuestionFlowItem
   },
+  data() {
+    return {}
+  },
   async asyncData({ store }) {
     await Promise.all([
       store.dispatch('flow/initData', {
@@ -39,9 +38,6 @@ export default {
   },
   head: {
     title: '问答区'
-  },
-  data() {
-    return {}
   },
   methods: {
     openCreateQAQModal() {

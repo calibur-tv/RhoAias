@@ -1,14 +1,6 @@
 <template>
-  <flow-list
-    :id="zone"
-    func="getUserRole"
-    type="page"
-    sort="news"
-  >
-    <ul
-      slot-scope="{ flow }"
-      class="container"
-    >
+  <flow-list :id="zone" func="getUserRole" type="page" sort="news">
+    <ul slot-scope="{ flow }" class="container">
       <cartoon-role-flow-item
         v-for="item in flow"
         :key="item.id"
@@ -26,14 +18,6 @@ import CartoonRoleFlowItem from '~/components/flow/item/CartoonRoleFlowItem'
 
 export default {
   name: 'UserCartoonRole',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserRole',
-      type: 'page',
-      sort: 'news',
-      id: params.zone
-    })
-  },
   components: {
     FlowList,
     CartoonRoleFlowItem
@@ -43,6 +27,14 @@ export default {
       type: String,
       required: true
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserRole',
+      type: 'page',
+      sort: 'news',
+      id: params.zone
+    })
   }
 }
 </script>

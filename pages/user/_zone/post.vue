@@ -93,13 +93,9 @@
 <template>
   <div id="user-post">
     <header class="tab-header">
-      <el-radio-group
-        v-model="active"
-        size="mini"
-        @change="switchTab"
-      >
-        <el-radio-button label="发帖"/>
-        <el-radio-button label="回帖"/>
+      <el-radio-group v-model="active" size="mini" @change="switchTab">
+        <el-radio-button label="发帖" />
+        <el-radio-button label="回帖" />
       </el-radio-group>
     </header>
     <flow-list
@@ -126,26 +122,19 @@
       type="page"
       sort="news"
     >
-      <ul
-        id="posts-of-reply"
-        slot-scope="{ flow }">
-        <li
-          v-for="item in flow"
-          :key="item.id"
-        >
+      <ul id="posts-of-reply" slot-scope="{ flow }">
+        <li v-for="item in flow" :key="item.id">
           <nuxt-link
             :to="$alias.post(item.post.id)"
             class="header"
-            v-text="item.post.title"/>
+            v-text="item.post.title"
+          />
           <nuxt-link
             :to="$alias.post(item.post.id, { comment: item.post.id })"
-            class="origin">
-            <div
-              class="content"
-              v-html="item.post.content"/>
-            <div
-              v-if="item.post.images.length"
-              class="images clearfix">
+            class="origin"
+          >
+            <div class="content" v-html="item.post.content" />
+            <div v-if="item.post.images.length" class="images clearfix">
               <v-img
                 v-if="item.post.images.length === 1"
                 :src="item.post.images[0].url"
@@ -153,9 +142,7 @@
                 height="190"
                 class="poster-image"
               />
-              <div
-                v-else
-                class="image-list">
+              <div v-else class="image-list">
                 <v-img
                   v-for="(image, index) in imageFilter(item.post.images)"
                   :key="index"
@@ -168,14 +155,16 @@
             </div>
           </nuxt-link>
           <nuxt-link
-            :to="$alias.post(item.post.id, { comment: item.post.id, reply: item.id })"
-            class="reply">
-            <div
-              class="content"
-              v-html="item.content"/>
-            <div
-              v-if="item.images.length"
-              class="images clearfix">
+            :to="
+              $alias.post(item.post.id, {
+                comment: item.post.id,
+                reply: item.id
+              })
+            "
+            class="reply"
+          >
+            <div class="content" v-html="item.content" />
+            <div v-if="item.images.length" class="images clearfix">
               <v-img
                 v-if="item.images.length === 1"
                 :src="item.images[0].url"
@@ -183,9 +172,7 @@
                 height="190"
                 class="poster-image"
               />
-              <div
-                v-else
-                class="image-list">
+              <div v-else class="image-list">
                 <v-img
                   v-for="(image, index) in imageFilter(item.images)"
                   :key="index"
@@ -197,12 +184,10 @@
               </div>
             </div>
           </nuxt-link>
-          <nuxt-link
-            :to="$alias.bangumi(item.bangumi.id)"
-            class="footer">
+          <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="footer">
             回复于
-            <span v-text="item.bangumi.name"/>
-            <v-time v-model="item.created_at"/>
+            <span v-text="item.bangumi.name" />
+            <v-time v-model="item.created_at" />
           </nuxt-link>
         </li>
       </ul>
@@ -215,14 +200,6 @@ import FlowList from '~/components/flow/FlowList'
 import PostFlowItem from '~/components/flow/item/PostFlowItem'
 export default {
   name: 'UserPost',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserPostReply',
-      sort: 'news',
-      type: 'page',
-      id: params.zone
-    })
-  },
   components: {
     FlowList,
     PostFlowItem
@@ -237,6 +214,14 @@ export default {
     return {
       active: '回帖'
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserPostReply',
+      sort: 'news',
+      type: 'page',
+      id: params.zone
+    })
   },
   methods: {
     switchTab(value) {

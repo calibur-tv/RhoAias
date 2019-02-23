@@ -52,13 +52,9 @@
 <template>
   <div id="idol-owner-list">
     <div class="header">
-      <el-radio-group
-        v-model="active"
-        size="mini"
-        @change="handleTabSwitch"
-      >
-        <el-radio-button label="按持股数量"/>
-        <el-radio-button label="按入股时间"/>
+      <el-radio-group v-model="active" size="mini" @change="handleTabSwitch">
+        <el-radio-button label="按持股数量" />
+        <el-radio-button label="按入股时间" />
       </el-radio-group>
     </div>
     <flow-list
@@ -68,25 +64,17 @@
       type="seenIds"
       sort="biggest"
     >
-      <ul
-        slot-scope="{ flow }"
-        class="owner-list"
-      >
-        <li
-          v-for="item in flow"
-          :key="item.id"
-        >
+      <ul slot-scope="{ flow }" class="owner-list">
+        <li v-for="item in flow" :key="item.id">
           <nuxt-link :to="$alias.user(item.zone)">
-            <span class="score">持有{{ item.score }}股，占比{{ computedPercent(item.score) }}</span>
+            <span class="score"
+              >持有{{ item.score }}股，占比{{
+                computedPercent(item.score)
+              }}</span
+            >
             <div class="user">
-              <img
-                :src="$resize(item.avatar, { width: 60 })"
-                class="avatar"
-              >
-              <p
-                class="nickname oneline"
-                v-text="item.nickname"
-              />
+              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" />
+              <p class="nickname oneline" v-text="item.nickname" />
             </div>
           </nuxt-link>
         </li>
@@ -99,28 +87,13 @@
       type="lastId"
       sort="newest"
     >
-      <ul
-        slot-scope="{ flow }"
-        class="owner-list"
-      >
-        <li
-          v-for="item in flow"
-          :key="item.id"
-        >
+      <ul slot-scope="{ flow }" class="owner-list">
+        <li v-for="item in flow" :key="item.id">
           <nuxt-link :to="$alias.user(item.zone)">
-            <v-time
-              v-model="item.score"
-              class="score"
-            />
+            <v-time v-model="item.score" class="score" />
             <div class="user">
-              <img
-                :src="$resize(item.avatar, { width: 60 })"
-                class="avatar"
-              >
-              <p
-                class="nickname oneline"
-                v-text="item.nickname"
-              />
+              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" />
+              <p class="nickname oneline" v-text="item.nickname" />
             </div>
           </nuxt-link>
         </li>

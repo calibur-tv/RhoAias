@@ -32,10 +32,12 @@
 <template>
   <div class="star-idol-btn-wrap">
     <button
-      :class="{ 'locked': idol.is_locked }"
+      :class="{ locked: idol.is_locked }"
       class="star-idol-btn"
       @click="openStarDrawer"
-    >{{ idol.is_locked ? '已停牌' : '入股' }}</button>
+    >
+      {{ idol.is_locked ? '已停牌' : '入股' }}
+    </button>
     <v-drawer
       v-model="showDrawer"
       header-text="入股"
@@ -45,18 +47,26 @@
       @submit="submitOrder"
     >
       <div class="buy-idol-stock-drawer container">
-        <p class="intro">每股价格：</p>
+        <p class="intro">
+          每股价格：
+        </p>
         <p>￥{{ idol.stock_price }}</p>
-        <p class="intro">购买上限：</p>
+        <p class="intro">
+          购买上限：
+        </p>
         <p>{{ maxCanBuy }}股</p>
-        <p class="intro">购入份额：</p>
+        <p class="intro">
+          购入份额：
+        </p>
         <el-input-number
           v-model="count"
           :min="minCount"
           :max="maxCount"
           :step="0.01"
         />
-        <p class="intro">账单计算：</p>
+        <p class="intro">
+          账单计算：
+        </p>
         <p>预计支付：{{ needPay }}</p>
         <p>购买后钱包余额：{{ parseFloat(pocket - needPay).toFixed(2) }}</p>
       </div>
@@ -71,7 +81,7 @@ import { starRoleAction } from '~/api/cartoonRoleApi'
 export default {
   name: 'StarIdolBtn',
   components: {
-    InputNumber
+    'el-input-number': InputNumber
   },
   props: {
     idol: {

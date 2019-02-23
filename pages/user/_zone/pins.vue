@@ -1,10 +1,5 @@
 <template>
-  <flow-list
-    :id="zone"
-    func="getUserImage"
-    type="page"
-    sort="news"
-  >
+  <flow-list :id="zone" func="getUserImage" type="page" sort="news">
     <image-waterfall-flow
       slot-scope="{ flow }"
       :list="flow"
@@ -20,14 +15,6 @@ import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
 
 export default {
   name: 'UserImage',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserImage',
-      type: 'page',
-      sort: 'news',
-      id: params.zone
-    })
-  },
   components: {
     FlowList,
     ImageWaterfallFlow
@@ -37,6 +24,14 @@ export default {
       type: String,
       required: true
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserImage',
+      type: 'page',
+      sort: 'news',
+      id: params.zone
+    })
   }
 }
 </script>

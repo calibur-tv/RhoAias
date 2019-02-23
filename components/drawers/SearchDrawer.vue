@@ -17,9 +17,9 @@
     header-text="搜索"
   >
     <div class="container">
-      <v-search v-model="query"/>
-      <div class="hr"/>
-      <v-search-history/>
+      <v-search v-model="query" />
+      <div class="hr" />
+      <v-search-history />
     </div>
   </v-drawer>
 </template>

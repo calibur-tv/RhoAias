@@ -67,15 +67,16 @@
 <template>
   <div class="sign-in-form">
     <img
-      :src="$resize('https://image.calibur.tv/owner/logo/calibur-pink-new.png', { width: 500, height: 200 })"
+      :src="
+        $resize('https://image.calibur.tv/owner/logo/calibur-pink-new.png', {
+          width: 500,
+          height: 200
+        })
+      "
       class="logo"
       alt="sign-logo"
-    >
-    <el-form
-      ref="form"
-      :model="form"
-      :rules="rule"
-    >
+    />
+    <el-form ref="form" :model="form" :rules="rule">
       <el-form-item prop="access">
         <el-input
           v-model="form.access"
@@ -94,17 +95,16 @@
           class="watch-pwd"
           type="button"
           @click="watchPwd = !watchPwd"
-        ><i class="iconfont icon-yuedu"/></button>
+        >
+          <i class="iconfont icon-yuedu" />
+        </button>
       </el-form-item>
       <div class="providers">
         <a :href="qqRegisterLink">
-          <i class="iconfont icon-qq"/>
+          <i class="iconfont icon-qq" />
         </a>
-        <a
-          v-if="ua.wechat"
-          :href="wechatRegisterLink"
-        >
-          <i class="iconfont icon-wechat"/>
+        <a v-if="ua.wechat" :href="wechatRegisterLink">
+          <i class="iconfont icon-wechat" />
         </a>
       </div>
       <el-form-item>
@@ -113,18 +113,14 @@
           class="submit-btn"
           type="primary"
           @click="submitForm"
-        >登录</el-button>
+        >
+          登录
+        </el-button>
       </el-form-item>
     </el-form>
     <div class="others">
-      <a
-        class="fl"
-        @click="showReset"
-      >忘记密码?></a>
-      <a
-        class="fr"
-        @click="showRegister"
-      >点击注册»</a>
+      <a class="fl" @click="showReset">忘记密码?></a>
+      <a class="fr" @click="showRegister">点击注册»</a>
     </div>
   </div>
 </template>

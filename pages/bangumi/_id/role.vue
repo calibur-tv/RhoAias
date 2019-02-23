@@ -22,14 +22,6 @@ import VirtualIdolItem from '~/components/idol/VirtualIdolItem'
 
 export default {
   name: 'BangumiCartoonRole',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      func: 'virtualIdolList',
-      type: 'seenIds',
-      sort: 'bangumi-activity-1',
-      id: params.id
-    })
-  },
   components: {
     FlowList,
     VirtualIdolItem
@@ -39,6 +31,14 @@ export default {
       required: true,
       type: String
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'virtualIdolList',
+      type: 'seenIds',
+      sort: 'bangumi-activity-1',
+      id: params.id
+    })
   }
 }
 </script>

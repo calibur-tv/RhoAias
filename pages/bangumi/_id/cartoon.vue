@@ -137,19 +137,12 @@
       <h3 class="sub-title">
         <span>共 {{ source.total }} 集</span>
         <button @click="handleSortSwitch()">
-          <i class="el-icon-d-caret"/>
+          <i class="el-icon-d-caret" />
           排序
         </button>
       </h3>
-      <flow-list
-        :id="id"
-        :sort="sort"
-        func="getBangumiCartoon"
-        type="page"
-      >
-        <ul 
-          slot-scope="{ flow }" 
-          class="cartoon-list clearfix">
+      <flow-list :id="id" :sort="sort" func="getBangumiCartoon" type="page">
+        <ul slot-scope="{ flow }" class="cartoon-list clearfix">
           <cartoon-flow-item
             v-for="item in flow"
             :key="item.id"
@@ -167,14 +160,6 @@ import FlowList from '~/components/flow/FlowList'
 import CartoonFlowItem from '~/components/flow/item/CartoonFlowItem'
 export default {
   name: 'BangumiCartoonFlow',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      id: params.id,
-      func: 'getBangumiCartoon',
-      type: 'page',
-      sort: 'asc'
-    })
-  },
   components: {
     FlowList,
     CartoonFlowItem
@@ -211,6 +196,14 @@ export default {
     //     }
     //   ]
     // }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      id: params.id,
+      func: 'getBangumiCartoon',
+      type: 'page',
+      sort: 'asc'
+    })
   },
   methods: {
     handleSortSwitch() {

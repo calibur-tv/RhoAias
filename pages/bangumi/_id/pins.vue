@@ -1,11 +1,6 @@
 <template>
   <div id="bangumi-image-flow">
-    <flow-list
-      :id="id"
-      func="getBangumiImage"
-      type="seenIds"
-      sort="active"
-    >
+    <flow-list :id="id" func="getBangumiImage" type="seenIds" sort="active">
       <image-waterfall-flow
         slot-scope="{ flow }"
         :bangumi-id="id"
@@ -21,14 +16,6 @@ import ImageWaterfallFlow from '~/components/image/ImageWaterfallFlow'
 
 export default {
   name: 'BangumiImageFlow',
-  async asyncData({ store, params }) {
-    await store.dispatch('flow/initData', {
-      id: params.id,
-      func: 'getBangumiImage',
-      type: 'seenIds',
-      sort: 'active'
-    })
-  },
   components: {
     FlowList,
     ImageWaterfallFlow
@@ -38,6 +25,14 @@ export default {
       required: true,
       type: String
     }
+  },
+  async asyncData({ store, params }) {
+    await store.dispatch('flow/initData', {
+      id: params.id,
+      func: 'getBangumiImage',
+      type: 'seenIds',
+      sort: 'active'
+    })
   }
 }
 </script>

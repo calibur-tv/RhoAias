@@ -102,72 +102,73 @@
 
 <template>
   <header id="header">
-    <div 
-      :class="{ 'border-header': !noBorderPage }" 
-      class="header-text">
+    <div :class="{ 'border-header': !noBorderPage }" class="header-text">
       <div class="nav-left">
         <router-link to="/">
           <img
             class="logo"
             src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/80/h/80"
             alt="logo"
-          >
+          />
         </router-link>
         <router-link
           :class="{ active: rolePage }"
           class="link"
           to="/role/trending"
-        >股市</router-link
         >
-        <router-link 
-          :class="{ active: worldPage }" 
-          class="link" 
+          股市
+        </router-link>
+        <router-link
+          :class="{ active: worldPage }"
+          class="link"
           to="/world/post"
-        >社区</router-link
         >
+          社区
+        </router-link>
         <router-link
           :class="{ active: bangumiPage }"
           class="link"
           to="/bangumi/news"
-        >番剧</router-link
         >
+          番剧
+        </router-link>
         <router-link
           :class="{ active: appPage }"
           class="link"
           to="/app/download"
-        >APP</router-link>
+        >
+          APP
+        </router-link>
         <router-link
           :class="{ active: rewardPage }"
           class="link"
           to="/about/reward"
-        >捐赠</router-link>
+        >
+          捐赠
+        </router-link>
       </div>
       <div class="nav-right">
         <template v-if="haveAuthToken">
-          <div
-            v-if="currentUser"
-            class="nav-avatar">
+          <div v-if="currentUser" class="nav-avatar">
             <button @click="openUserDrawer">
-              <v-img
-                :src="currentUser.avatar"
-                :avatar="true"
-                width="24" />
+              <v-img :src="currentUser.avatar" :avatar="true" width="24" />
             </button>
           </div>
           <img
             v-else
-            :src="$resize('https://image.calibur.tv/default/user-avatar', { width: 48 })"
+            :src="
+              $resize('https://image.calibur.tv/default/user-avatar', {
+                width: 48
+              })
+            "
             class="faker-user-avatar"
-          >
+          />
         </template>
-        <button 
-          v-else 
-          class="sign-btn" 
-          @click="openSignDrawer">登录</button>
+        <button v-else class="sign-btn" @click="openSignDrawer">
+          登录
+        </button>
         <template v-if="!homePage">
-          <button 
-            class="open-search-btn" 
-            @click="openSearchDrawer = true">
+          <button class="open-search-btn" @click="openSearchDrawer = true">
             <i class="iconfont icon-sousuo" />
           </button>
           <search-drawer v-model="openSearchDrawer" />

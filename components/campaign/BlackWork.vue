@@ -71,13 +71,8 @@ $color: RGB(78, 73, 74);
 
 <template>
   <div id="campaign-black-work">
-    <img 
-      v-if="image" 
-      :src="image" 
-      class="canvas-wrap bg" >
-    <div 
-      v-else 
-      class="canvas-wrap bg">
+    <img v-if="image" :src="image" class="canvas-wrap bg" />
+    <div v-else class="canvas-wrap bg">
       <div class="the-world">
         <div
           v-if="selectedAvatar"
@@ -85,37 +80,39 @@ $color: RGB(78, 73, 74);
           class="avatar bg"
         />
         <div class="file-input-wrap textarea">
-          <div class="text">点击上传头像</div>
+          <div class="text">
+            点击上传头像
+          </div>
           <input
             ref="uploader"
             type="file"
             accept="image/png, image/jpeg, image/jpg, image/x-png"
             @change="selectAvatar"
-          >
+          />
         </div>
         <div class="item sex textarea">
           <span>性别：</span>
-          <div><input 
-            type="text" 
-            maxlength="2" ></div>
+          <div>
+            <input type="text" maxlength="2" />
+          </div>
         </div>
         <div class="item height textarea">
           <span>身長：</span>
-          <div><input 
-            type="text" 
-            maxlength="12" ></div>
+          <div>
+            <input type="text" maxlength="12" />
+          </div>
         </div>
         <div class="item face textarea">
           <span>特徽：</span>
-          <div><input 
-            type="text" 
-            maxlength="12" ></div>
+          <div>
+            <input type="text" maxlength="12" />
+          </div>
         </div>
         <div class="item location textarea">
           <span>所在地：</span>
-          <div><input 
-            type="text" 
-            maxlength="12" ></div>
+          <div>
+            <input type="text" maxlength="12" />
+          </div>
         </div>
       </div>
     </div>

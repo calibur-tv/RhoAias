@@ -24,28 +24,26 @@
 
 <template>
   <div id="change-idol-profile">
-    <p class="tips">修改特殊留言（一周只能修改一次，20字以内）：</p>
+    <p class="tips">
+      修改特殊留言（一周只能修改一次，20字以内）：
+    </p>
     <el-input
       v-model.trim="lover_words"
       :rows="3"
       type="textarea"
       placeholder="用简单的文字表达你的爱吧！"
     />
-    <p class="tips">修改QQ群号<span class="warn">（设置之后不能修改）</span>：</p>
-    <el-input
-      v-model="qq_group"
-      placeholder="填写QQ群号码"
-    />
-    <div class="tips">修改经纪人</div>
-    <el-input
-      v-model="manager_id"
-      placeholder="填写要任命的经纪人的邀请码"
-    />
-    <el-button
-      :loading="submitting"
-      type="primary"
-      @click="beforeSubmit"
-    >确认提交</el-button>
+    <p class="tips">
+      修改QQ群号<span class="warn">（设置之后不能修改）</span>：
+    </p>
+    <el-input v-model="qq_group" placeholder="填写QQ群号码" />
+    <div class="tips">
+      修改经纪人
+    </div>
+    <el-input v-model="manager_id" placeholder="填写要任命的经纪人的邀请码" />
+    <el-button :loading="submitting" type="primary" @click="beforeSubmit">
+      确认提交
+    </el-button>
   </div>
 </template>
 

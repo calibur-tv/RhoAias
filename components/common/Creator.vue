@@ -100,8 +100,7 @@
 </style>
 
 <template>
-  <div 
-    class="creators-container">
+  <div class="creators-container">
     <div id="creator-menu-wrap">
       <palette-button
         ref="palette"
@@ -112,20 +111,12 @@
         @expand="handlePaletteOpen"
         @collapse="handlePaletteClose"
       >
-        <button 
-          class="ic-btn el-icon-picture" 
-          @click="handleImageClick" />
-        <button 
-          class="ic-btn score-btn"
-          @click="handleScoreClick">
+        <button class="ic-btn el-icon-picture" @click="handleImageClick" />
+        <button class="ic-btn score-btn" @click="handleScoreClick">
           <i class="el-icon-edit" />
         </button>
-        <button 
-          class="ic-btn iconfont icon-pinglun" 
-          @click="handlePostClick" />
-        <button
-          class="ic-btn el-icon-question" 
-          @click="handleQuestionClick" />
+        <button class="ic-btn iconfont icon-pinglun" @click="handlePostClick" />
+        <button class="ic-btn el-icon-question" @click="handleQuestionClick" />
       </palette-button>
     </div>
     <template v-if="!isGuest">

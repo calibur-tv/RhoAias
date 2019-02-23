@@ -69,7 +69,7 @@
     }
 
     .price,
-    .boss {
+    .owners {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -92,9 +92,18 @@
       }
     }
 
-    .boss {
+    .owners {
       margin-bottom: 6px;
       margin-top: -8px;
+
+      .boss {
+        z-index: 2;
+      }
+
+      .manager {
+        z-index: 1;
+        margin-right: -12px;
+      }
     }
 
     .badges {
@@ -149,26 +158,36 @@
   <li class="virtual-idol-item">
     <nuxt-link :to="$alias.cartoonRole(item.id)">
       <div class="header">
-        <img :src="$resize(item.avatar, { width: 70, height: 70 })">
+        <img :src="$resize(item.avatar, { width: 70, height: 70 })" />
         <div class="info">
-          <p
-            class="name oneline"
-            v-text="item.name"
-          />
-          <div class="meta">￥{{ item.stock_price }}/股，{{ item.fans_count }}人持股，已认购{{ item.star_count }}股</div>
+          <p class="name oneline" v-text="item.name" />
+          <div class="meta">
+            ￥{{ item.stock_price }}/股，{{ item.fans_count }}人持股，已认购{{
+              item.star_count
+            }}股
+          </div>
         </div>
       </div>
       <div class="body">
         <p class="price">
           <span>总市值:</span>
-          <strong>{{ item.company_state ? `￥${item.market_price}` : '未上市' }}</strong>
+          <strong>{{
+            item.company_state ? `￥${item.market_price}` : '未上市'
+          }}</strong>
         </p>
-        <p
-          v-if="item.boss"
-          class="boss"
-        >
-          <span>大股东：</span>
-          <img :src="$resize(item.boss.avatar, { width: 50, height: 50 })">
+        <p v-if="item.boss" class="owners">
+          <span>负责人：</span>
+          <span>
+            <img
+              v-if="item.manager"
+              :src="$resize(item.manager.avatar, { width: 50, height: 50 })"
+              class="manager"
+            />
+            <img
+              class="boss"
+              :src="$resize(item.boss.avatar, { width: 50, height: 50 })"
+            />
+          </span>
         </p>
         <div class="trend-placeholder">
           <no-ssr v-if="trendData.length">
@@ -182,26 +201,20 @@
               smooth
             />
           </no-ssr>
-          <p v-else>暂无数据</p>
+          <p v-else>
+            暂无数据
+          </p>
         </div>
-        <div
-          v-if="sort === 'mine'"
-          class="badges"
-        >
-          <el-tag
-            v-if="item.is_locked"
-            size="mini"
-            type="danger"
-          >已停牌</el-tag>
-          <el-tag
-            v-else
-            size="mini"
-            type="success"
-          >挂牌中</el-tag>
-          <el-tag
-            size="mini"
-            type="info"
-          >{{ item.company_state ? '已上市' : '未上市' }}</el-tag>
+        <div v-if="sort === 'mine'" class="badges">
+          <el-tag v-if="item.is_locked" size="mini" type="danger">
+            已停牌
+          </el-tag>
+          <el-tag v-else size="mini" type="success">
+            挂牌中
+          </el-tag>
+          <el-tag size="mini" type="info">
+            {{ item.company_state ? '已上市' : '未上市' }}
+          </el-tag>
         </div>
       </div>
       <div class="footer">
@@ -209,26 +222,26 @@
           持有：{{ item.has_star }}股，占比 {{ computedPercent }}
         </span>
         <template v-else>
-          <span v-if="item.ipo_at">上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
+          <span v-if="item.ipo_at"
+            >上市时间：{{ item.ipo_at.split(' ')[0] }}</span
+          >
           <span v-else>注册时间：{{ item.created_at.split(' ')[0] }}</span>
         </template>
-        <template
-          v-if="sort === 'mine'"
-        >
+        <template v-if="sort === 'mine'">
           <button
             v-if="item.company_state"
             class="can-deal"
             @click.stop.prevent="createDeal"
-          >发起交易</button>
-          <button
-            v-else
-            class="mine-btn"
-          >查看数据</button>
+          >
+            发起交易
+          </button>
+          <button v-else class="mine-btn">
+            查看数据
+          </button>
         </template>
-        <button
-          v-else
-          class="pub-btn"
-        >马上入股</button>
+        <button v-else class="pub-btn">
+          马上入股
+        </button>
       </div>
     </nuxt-link>
   </li>

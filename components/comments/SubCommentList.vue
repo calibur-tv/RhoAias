@@ -34,9 +34,7 @@
 
 <template>
   <div class="sub-comment-list-wrap">
-    <div 
-      v-if="hasComment" 
-      class="sub-comment-list">
+    <div v-if="hasComment" class="sub-comment-list">
       <sub-comment-item
         v-for="comment in filterComments"
         :key="comment.id"

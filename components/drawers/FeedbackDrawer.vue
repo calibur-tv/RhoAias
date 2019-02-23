@@ -33,17 +33,12 @@
     <div class="container">
       <div class="desc">
         <p>详细信息</p>
-        <textarea 
-          v-model.trim="content" 
-          :placeholder="placeholder"/>
+        <textarea v-model.trim="content" :placeholder="placeholder" />
       </div>
-      <v-radio
-        v-model="selectedType"
-        :options="options"
-        title="反馈类型"/>
-      <button 
-        class="btn-submit" 
-        @click="submitFeedback">提交</button>
+      <v-radio v-model="selectedType" :options="options" title="反馈类型" />
+      <button class="btn-submit" @click="submitFeedback">
+        提交
+      </button>
     </div>
   </v-drawer>
 </template>

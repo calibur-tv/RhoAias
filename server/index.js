@@ -23,7 +23,7 @@ async function start() {
           return
         }
         args[0] = `[${new Date().toLocaleString()}]${args[0]}`
-        console.log(...args)
+        console.log(...args) // eslint-disable-line no-console
       })
     )
     const builder = new Builder(nuxt)
@@ -60,7 +60,7 @@ async function start() {
             })
           }
           if (code !== 404) {
-            console.error(e)
+            console.error(e) // eslint-disable-line no-console
           }
           reject(e)
         })

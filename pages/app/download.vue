@@ -59,25 +59,20 @@
       <div class="info">
         <img
           src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200/format/jpg"
-        >
+        />
         <div class="text">
           calibur.tv
           <p>天下漫友是一家</p>
         </div>
       </div>
-      <a
-        v-if="info.download_url"
-        :href="info.download_url"
-        target="_blank"
-      >
+      <a v-if="info.download_url" :href="info.download_url" target="_blank">
         <button>立即下载</button>
       </a>
-      <button
-        v-else
-        class="not-work"
-      >开发中~TuT</button>
+      <button v-else class="not-work">
+        开发中~TuT
+      </button>
     </div>
-    <vue-particles/>
+    <vue-particles />
   </div>
 </template>
 
@@ -87,6 +82,14 @@ import { downloadUrl } from '~/api/appApi'
 
 export default {
   name: 'AppDownload',
+  components: {
+    VueParticles
+  },
+  data() {
+    return {
+      info: null
+    }
+  },
   asyncData({ app, req }) {
     const userAgent = process.server
       ? req.headers['user-agent'].toLowerCase()
@@ -98,16 +101,8 @@ export default {
       return { info }
     })
   },
-  components: {
-    VueParticles
-  },
   head: {
     title: 'APP下载'
-  },
-  data() {
-    return {
-      info: null
-    }
   }
 }
 </script>

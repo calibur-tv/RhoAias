@@ -1,13 +1,7 @@
 <template>
   <div>
-    <flow-list 
-      func="getWorldImage" 
-      type="seenIds" 
-      sort="active">
-      <image-waterfall-flow
-        slot-scope="{ flow }"
-        :list="flow"
-      />
+    <flow-list func="getWorldImage" type="seenIds" sort="active">
+      <image-waterfall-flow slot-scope="{ flow }" :list="flow" />
       <no-content slot="nothing" />
     </flow-list>
   </div>
@@ -23,6 +17,11 @@ export default {
     FlowList,
     ImageWaterfallFlow
   },
+  data() {
+    return {
+      // flowType: 'image'
+    }
+  },
   async asyncData({ store }) {
     await Promise.all([
       store.dispatch('flow/initData', {
@@ -35,11 +34,6 @@ export default {
   },
   head: {
     title: '相册区'
-  },
-  data() {
-    return {
-      // flowType: 'image'
-    }
   },
   methods: {
     // openCreateImageModal() {

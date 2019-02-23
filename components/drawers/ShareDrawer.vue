@@ -38,10 +38,14 @@
         快来加入我们吧~\(^o^)/~ 网址：http://calibur.tv
       </p>
       <button
-        v-clipboard="`【calibur.tv】一个纯粹的二次元社区网站，致力于实现'天下漫友是一家'！站内海量动漫资源在线播放，更有看漫画、cosplay、发帖、为偶像应援等功能，每天签到送团子！快来加入我们吧~\(^o^)/~ 网址：http://calibur.tv`"
+        v-clipboard="
+          `【calibur.tv】一个纯粹的二次元社区网站，致力于实现'天下漫友是一家'！站内海量动漫资源在线播放，更有看漫画、cosplay、发帖、为偶像应援等功能，每天签到送团子！快来加入我们吧~\(^o^)/~ 网址：http://calibur.tv`
+        "
         class="btn-submit"
         @success="$toast.success('复制成功~快去发送给好友吧')"
-      >点击复制</button>
+      >
+        点击复制
+      </button>
     </div>
   </v-drawer>
 </template>

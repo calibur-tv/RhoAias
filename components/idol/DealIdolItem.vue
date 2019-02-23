@@ -27,7 +27,8 @@
       width: 35px;
       height: 35px;
       border: 1px solid $color-gray-normal;
-      margin-right: 8px;
+      margin-right: 7px;
+      border-radius: 5px;
     }
 
     .intro {
@@ -109,68 +110,62 @@
   <li class="deal-idol-item">
     <div class="header">
       <nuxt-link :to="$alias.cartoonRole(item.idol.id)">
-        <img :src="$resize(item.idol.avatar, { width: 70, height: 70 })">
+        <img :src="$resize(item.idol.avatar, { width: 70, height: 70 })" />
       </nuxt-link>
       <div class="intro">
         <nuxt-link :to="$alias.cartoonRole(item.idol.id)">
-          <p
-            class="name oneline"
-            v-text="item.idol.name"
-          />
+          <p class="name oneline" v-text="item.idol.name" />
         </nuxt-link>
-        <nuxt-link
-          v-if="item.user"
-          :to="$alias.user(item.user.zone)"
-        >
-          <p class="nickname oneline">
-            交易人：{{ item.user.nickname }}
-          </p>
+        <nuxt-link v-if="item.user" :to="$alias.user(item.user.zone)">
+          <p class="nickname oneline">交易人：{{ item.user.nickname }}</p>
         </nuxt-link>
       </div>
     </div>
     <div class="body">
-      <p class="intro">股价详情：</p>
+      <p class="intro">
+        股价详情：
+      </p>
       <p>当前市值：￥{{ item.idol.market_price }}</p>
       <p>每股股价：￥{{ item.idol.stock_price }}</p>
       <p>发行股数：{{ item.idol.star_count }}</p>
-      <p class="intro badge">交易详情：</p>
+      <p class="intro badge">
+        交易详情：
+      </p>
       <p>交易编号：#&nbsp;{{ item.id }}</p>
       <p>出售股价：￥{{ item.product_price }}</p>
       <p>出售股数：{{ item.product_count }}</p>
-      <p>已成交数：{{ parseFloat(item.product_count - item.last_count).toFixed(2) }}</p>
+      <p>
+        已成交数：{{
+          parseFloat(item.product_count - item.last_count).toFixed(2)
+        }}
+      </p>
       <div class="badge">
-        <el-tag
-          :type="computePriceColor(item)"
-          size="mini"
-        >{{ computePriceText(item) }}</el-tag>
-        <el-tag
-          v-if="item.idol.is_locked"
-          size="mini"
-          type="danger"
-        >已停牌</el-tag>
-        <el-tag
-          v-else
-          size="mini"
-          type="success"
-        >挂牌中</el-tag>
-        <el-tag
-          size="mini"
-          type="info"
-        >占比:{{ parseFloat(item.product_count / item.idol.star_count * 100).toFixed(2) }}%</el-tag>
+        <el-tag :type="computePriceColor(item)" size="mini">
+          {{ computePriceText(item) }}
+        </el-tag>
+        <el-tag v-if="item.idol.is_locked" size="mini" type="danger">
+          已停牌
+        </el-tag>
+        <el-tag v-else size="mini" type="success">
+          挂牌中
+        </el-tag>
+        <el-tag size="mini" type="info">
+          占比:{{
+            parseFloat(
+              (item.product_count / item.idol.star_count) * 100
+            ).toFixed(2)
+          }}%
+        </el-tag>
       </div>
     </div>
     <div class="footer">
       <span>发起时间：{{ item.created_at.split(' ')[0] }}</span>
-      <button
-        v-if="isMine"
-        class="delete"
-        @click="deleteDeal"
-      >终止交易</button>
-      <button
-        v-else
-        class="create"
-        @click="makeDeal"
-      >马上交易</button>
+      <button v-if="isMine" class="delete" @click="deleteDeal">
+        终止交易
+      </button>
+      <button v-else class="create" @click="makeDeal">
+        马上交易
+      </button>
     </div>
   </li>
 </template>

@@ -67,7 +67,11 @@
         <div class="text-wrap">
           <p>
             <strong>提案内容：</strong>
-            <span>增发{{ draft.add_stock_count }}股，每股￥{{ draft.stock_price }}</span>
+            <span
+              >增发{{ draft.add_stock_count }}股，每股￥{{
+                draft.stock_price
+              }}</span
+            >
           </p>
           <p>
             <strong>提案董事：</strong>
@@ -79,15 +83,27 @@
           </p>
           <p>
             <strong>通过情况：</strong>
-            <span>{{ draft.pass_count }}人投票，占比：{{ draft.pass_percent }}%</span>
+            <span
+              >{{ draft.pass_count }}人投票，占比：{{
+                draft.pass_percent
+              }}%</span
+            >
           </p>
           <p>
             <strong>反对情况：</strong>
-            <span>{{ draft.ban_count }}人投票，占比：{{ draft.ban_percent }}%</span>
+            <span
+              >{{ draft.ban_count }}人投票，占比：{{ draft.ban_percent }}%</span
+            >
           </p>
           <p>
             <strong>我的选择：</strong>
-            <span>{{ draft.voted === 0 ? '未投票' : draft.voted > 0 ? '赞同票' : '反对票' }}</span>
+            <span>{{
+              draft.voted === 0
+                ? '未投票'
+                : draft.voted > 0
+                ? '赞同票'
+                : '反对票'
+            }}</span>
           </p>
         </div>
         <div class="button-wrap">
@@ -97,7 +113,9 @@
             type="success"
             icon="el-icon-caret-top"
             @click="submitVote(true)"
-          >赞同</el-button>
+          >
+            赞同
+          </el-button>
           <el-button
             :loading="submitting"
             :plain="draft.voted < 0"
@@ -105,16 +123,12 @@
             @click="submitVote(false)"
           >
             反对
-            <i class="el-icon-caret-bottom el-icon--right"/>
+            <i class="el-icon-caret-bottom el-icon--right" />
           </el-button>
         </div>
       </div>
     </div>
-    <el-steps
-      v-if="source && source.noMore"
-      space="100px"
-      direction="vertical"
-    >
+    <el-steps v-if="source && source.noMore" space="100px" direction="vertical">
       <template v-if="!idol.ipo_at">
         <el-step
           title="增发提案"
@@ -122,7 +136,7 @@
           description="还未选举出大股东"
         />
         <el-step
-          :description="`投资人未满20人，还差${ 20 - idol.fans_count }人`"
+          :description="`投资人未满20人，还差${20 - idol.fans_count}人`"
           title="等待上市"
           status="process"
         />
@@ -138,11 +152,7 @@
           status="process"
           description="大股东还未发起提案"
         />
-        <el-step
-          :description="idol.ipo_at"
-          title="公司上市"
-          status="success"
-        />
+        <el-step :description="idol.ipo_at" title="公司上市" status="success" />
         <el-step
           :description="idol.created_at"
           title="公司注册"
@@ -153,15 +163,28 @@
         <el-step
           v-for="item in source.list"
           :key="item.id"
-          :status="item.result === 0 ? 'finish' : item.result === 1 ? 'success' : 'error'"
-          :description="`${item.created_at} - 本提案由「${item.user.nickname}」发起，发行「${item.add_stock_count}」股，每股「￥${item.stock_price}」，` + (item.result === 0 ? '董事会正在投票' : item.result === 1 ? '董事会表决通过' : '董事会表决未通过')"
+          :status="
+            item.result === 0
+              ? 'finish'
+              : item.result === 1
+              ? 'success'
+              : 'error'
+          "
+          :description="
+            `${item.created_at} - 本提案由「${
+              item.user.nickname
+            }」发起，发行「${item.add_stock_count}」股，每股「￥${
+              item.stock_price
+            }」，` +
+              (item.result === 0
+                ? '董事会正在投票'
+                : item.result === 1
+                ? '董事会表决通过'
+                : '董事会表决未通过')
+          "
           title="增发提案"
         />
-        <el-step
-          :description="idol.ipo_at"
-          title="公司上市"
-          status="success"
-        />
+        <el-step :description="idol.ipo_at" title="公司上市" status="success" />
         <el-step
           :description="idol.created_at"
           title="公司注册"

@@ -28,32 +28,17 @@
 
 <template>
   <div id="user-bangumi">
-    <flow-list
-      :id="zone"
-      func="getUserFollowBangumis"
-      type="page"
-      sort="news"
-    >
+    <flow-list :id="zone" func="getUserFollowBangumis" type="page" sort="news">
       <ul
         v-if="flow.length"
         id="bangumis"
         slot-scope="{ flow }"
-        class="container">
-        <li
-          v-for="item in flow"
-          :key="item.id"
-        >
-          <nuxt-link
-            :to="$alias.bangumi(item.id)"
-            class="clearfix">
-            <v-img
-              :src="item.avatar"
-              class="avatar"
-              width="40"
-            />
-            <p
-              class="name"
-              v-text="item.name"/>
+        class="container"
+      >
+        <li v-for="item in flow" :key="item.id">
+          <nuxt-link :to="$alias.bangumi(item.id)" class="clearfix">
+            <v-img :src="item.avatar" class="avatar" width="40" />
+            <p class="name" v-text="item.name" />
           </nuxt-link>
         </li>
       </ul>
@@ -74,6 +59,12 @@ export default {
   components: {
     FlowList
   },
+  props: {
+    zone: {
+      type: String,
+      required: true
+    }
+  },
   async asyncData({ store, params }) {
     await store.dispatch('flow/initData', {
       func: 'getUserFollowBangumis',
@@ -82,12 +73,6 @@ export default {
       count: 9999,
       id: params.zone
     })
-  },
-  props: {
-    zone: {
-      type: String,
-      required: true
-    }
   }
 }
 </script>

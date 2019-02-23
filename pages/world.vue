@@ -123,14 +123,10 @@
 
 <template>
   <div id="the-world">
-    <div 
-      v-if="loops.length" 
-      class="carousel">
+    <div v-if="loops.length" class="carousel">
       <no-ssr>
         <mt-swipe :show-indicators="false">
-          <mt-swipe-item 
-            v-for="(item, index) in loops" 
-            :key="index">
+          <mt-swipe-item v-for="(item, index) in loops" :key="index">
             <a
               :href="item.link"
               :style="{
@@ -142,12 +138,8 @@
               class="background"
             >
               <div class="intro">
-                <p 
-                  class="title oneline" 
-                  v-text="item.title" />
-                <p 
-                  class="desc oneline" 
-                  v-text="item.desc" />
+                <p class="title oneline" v-text="item.title" />
+                <p class="desc oneline" v-text="item.desc" />
               </div>
             </a>
           </mt-swipe-item>
@@ -155,13 +147,10 @@
       </no-ssr>
     </div>
     <div class="hr" />
-    <tab-container
-      :headers="headers"
-      :router="true"
-    />
+    <tab-container :headers="headers" :router="true" />
     <nuxt-child />
     <no-ssr>
-      <creator-menu/>
+      <creator-menu />
     </no-ssr>
   </div>
 </template>
@@ -174,20 +163,6 @@ import CreatorMenu from '~/components/common/Creator'
 
 export default {
   name: 'TheWorld',
-  asyncData({ app }) {
-    return getCarousel(app).then(loops => {
-      return { loops }
-    })
-  },
-  head: {
-    meta: [
-      {
-        hid: 'description',
-        name: 'description',
-        content: '站内热点'
-      }
-    ]
-  },
   components: {
     'mt-swipe': Swipe,
     'mt-swipe-item': SwipeItem,
@@ -216,6 +191,20 @@ export default {
         }
       ]
     }
+  },
+  asyncData({ app }) {
+    return getCarousel(app).then(loops => {
+      return { loops }
+    })
+  },
+  head: {
+    meta: [
+      {
+        hid: 'description',
+        name: 'description',
+        content: '站内热点'
+      }
+    ]
   }
 }
 </script>

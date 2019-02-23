@@ -14,34 +14,21 @@
 </style>
 
 <template>
-  <div 
-    id="answer-show" 
-    class="answer-show">
-    <question-panel 
-      :qaq="qaq"
-      :answer="answer"
-    />
-    <div
-      v-if="answer"
-      class="answer"
-    >
-      <answer-flow-item 
-        :item="answer" 
-        :qaq="qaq"
-      />
+  <div id="answer-show" class="answer-show">
+    <question-panel :qaq="qaq" :answer="answer" />
+    <div v-if="answer" class="answer">
+      <answer-flow-item :item="answer" :qaq="qaq" />
       <nuxt-link :to="$alias.question(qaq.id)">
-        <button
-          v-if="qaq.answer_count > 1"
-          class="read-all-btn"
-        >查看全部 {{ qaq.answer_count }} 个回答</button>
+        <button v-if="qaq.answer_count > 1" class="read-all-btn">
+          查看全部 {{ qaq.answer_count }} 个回答
+        </button>
       </nuxt-link>
     </div>
     <no-content v-else>
       <nuxt-link :to="$alias.question(qaq.id)">
-        <el-button
-          type="primary"
-          round
-        >这个答案在审核中或已被删除，查看其它答案</el-button>
+        <el-button type="primary" round>
+          这个答案在审核中或已被删除，查看其它答案
+        </el-button>
       </nuxt-link>
     </no-content>
   </div>
@@ -56,6 +43,22 @@ export default {
   name: 'AnswerShow',
   validate({ params }) {
     return /^\d+$/.test(params.id)
+  },
+  components: {
+    QuestionPanel,
+    AnswerFlowItem
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      qaq: null,
+      answer: null
+    }
   },
   asyncData({ app, store, params, error }) {
     const { id } = params
@@ -75,27 +78,16 @@ export default {
           qaq: question
         }
       })
-      .catch(error)
-  },
-  components: {
-    QuestionPanel,
-    AnswerFlowItem
-  },
-  props: {
-    id: {
-      type: String,
-      required: true
-    }
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
   },
   head() {
     return {
       title: this.qaq.title
-    }
-  },
-  data() {
-    return {
-      qaq: null,
-      answer: null
     }
   }
 }

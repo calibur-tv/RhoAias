@@ -49,17 +49,19 @@
     from="bottom"
     size="100%"
   >
-    <div 
-      id="create-answer-form" 
-      class="container">
-      <h3 class="sub-title">转载</h3>
+    <div id="create-answer-form" class="container">
+      <h3 class="sub-title">
+        转载
+      </h3>
       <el-input
         v-model="source_url"
         placeholder="如果是转载，请复制原文链接至此"
         class="source-url"
         size="medium"
       />
-      <h3 class="sub-title">正文</h3>
+      <h3 class="sub-title">
+        正文
+      </h3>
       <json-editor @submit="beforeSubmit" />
     </div>
     <div class="qaq-editor-footer">
@@ -78,10 +80,9 @@
           size="medium"
           type="primary"
           @click="$channel.$emit('write-publish')"
-        >{{
-          published ? '更新回答' : id ? '发布回答' : '提交回答'
-        }}</el-button
         >
+          {{ published ? '更新回答' : id ? '发布回答' : '提交回答' }}
+        </el-button>
       </div>
     </div>
   </v-drawer>

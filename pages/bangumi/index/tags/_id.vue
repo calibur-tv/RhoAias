@@ -93,17 +93,11 @@
 </style>
 
 <template>
-  <div
-    id="bangumi-tag"
-    class="container"
-  >
+  <div id="bangumi-tag" class="container">
     <div id="tags">
       <h3 class="sub-title">
         标签列表
-        <span
-          class="tag-change"
-          @click="choiceTags"
-        >
+        <span class="tag-change" @click="choiceTags">
           <i
             :style="{ transform: `rotate(${counter * 360}deg)` }"
             class="el-icon-refresh"
@@ -111,47 +105,28 @@
         </span>
       </h3>
       <ul>
-        <li
-          v-for="tag in tagsList"
-          :key="tag.id"
-          @click="selectTag(tag)"
-        >
+        <li v-for="tag in tagsList" :key="tag.id" @click="selectTag(tag)">
           <a
-            :class="{ 'selected': tag.selected }" 
+            :class="{ selected: tag.selected }"
             @click.prevent
             v-text="tag.name"
           />
         </li>
-        <button 
-          class="btn" 
-          @click="loadBangumis">点击搜索</button>
+        <button class="btn" @click="loadBangumis">
+          点击搜索
+        </button>
       </ul>
     </div>
-    <div 
-      v-if="bangumis.total" 
-      id="bangumis">
-      <div class="hr"/>
+    <div v-if="bangumis.total" id="bangumis">
+      <div class="hr" />
       <h3 class="sub-title">番剧列表({{ bangumis.total }})</h3>
       <ul>
-        <li 
-          v-for="item in bangumis.data" 
-          :key="item.id">
-          <nuxt-link
-            :to="$alias.bangumi(item.id)"
-            class="bangumi-a">
-            <v-img
-              :src="item.avatar"
-              width="60"
-              height="60"
-              class="face"
-            />
+        <li v-for="item in bangumis.data" :key="item.id">
+          <nuxt-link :to="$alias.bangumi(item.id)" class="bangumi-a">
+            <v-img :src="item.avatar" width="60" height="60" class="face" />
             <div class="content">
-              <p 
-                class="name" 
-                v-text="item.name"/>
-              <p 
-                class="body" 
-                v-text="item.summary"/>
+              <p class="name" v-text="item.name" />
+              <p class="body" v-text="item.summary" />
             </div>
           </nuxt-link>
         </li>
@@ -173,19 +148,6 @@ import { getAllBangumiTag, getCategoryBangumis } from '~/api/bangumiApi'
 
 export default {
   name: 'BangumiTags',
-  async asyncData({ app }) {
-    const data = await getAllBangumiTag(app)
-    return {
-      tags: data.map(_ => {
-        return Object.assign(_, {
-          selected: false
-        })
-      })
-    }
-  },
-  head: {
-    title: '动画标签'
-  },
   data() {
     return {
       loading: false,
@@ -218,6 +180,19 @@ export default {
       const end = begin + 8
       return this.tags.slice(begin, end)
     }
+  },
+  async asyncData({ app }) {
+    const data = await getAllBangumiTag(app)
+    return {
+      tags: data.map(_ => {
+        return Object.assign(_, {
+          selected: false
+        })
+      })
+    }
+  },
+  head: {
+    title: '动画标签'
   },
   methods: {
     selectTag(tag) {

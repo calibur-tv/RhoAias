@@ -57,40 +57,31 @@
 <template>
   <div id="layout-write">
     <header>
-      <button
-        class="calibur"
-        @click="goIndex">
+      <button class="calibur" @click="goIndex">
         <img
-          :src="$resize('https://image.calibur.tv/owner/logo-new/logo.png', { width: 50 })"
+          :src="
+            $resize('https://image.calibur.tv/owner/logo-new/logo.png', {
+              width: 50
+            })
+          "
           class="logo"
           alt="logo"
-        >
+        />
         <span class="slogan">calibur.tv</span>
       </button>
       <template v-if="user">
-        <button
-          class="avatar"
-          @click="goHome">
-          <v-img
-            :src="user.avatar"
-            :avatar="true"
-            :width="24"
-            :height="24"
-          />
+        <button class="avatar" @click="goHome">
+          <v-img :src="user.avatar" :avatar="true" :width="24" :height="24" />
         </button>
-        <button
-          class="primary"
-          @click="emitPublish"
-        >发布</button>
-        <button
-          v-if="!published"
-          class="warning"
-          @click="emitSave"
-        >保存</button>
-        <button
-          class="success"
-          @click="emitPreview"
-        >预览</button>
+        <button class="primary" @click="emitPublish">
+          发布
+        </button>
+        <button v-if="!published" class="warning" @click="emitSave">
+          保存
+        </button>
+        <button class="success" @click="emitPreview">
+          预览
+        </button>
         <!--
         <button
           v-if="id"
@@ -101,7 +92,7 @@
       </template>
     </header>
     <template>
-      <router-view class="main-view"/>
+      <router-view class="main-view" />
       <v-drawer
         v-model="preview"
         :footer="false"
@@ -111,10 +102,7 @@
         size="100%"
         class="preview-drawer"
       >
-        <json-content
-          v-if="preview"
-          :content="sections"
-        />
+        <json-content v-if="preview" :content="sections" />
       </v-drawer>
     </template>
   </div>

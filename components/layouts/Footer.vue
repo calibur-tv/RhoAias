@@ -45,16 +45,24 @@
 <template>
   <footer id="footer">
     <div class="panel">
-      <button 
-        v-if="haveAuthToken"
-        @click="logout">退出</button>
+      <button v-if="haveAuthToken" @click="logout">
+        退出
+      </button>
       <template v-else>
-        <button @click="login">登录</button>
-        <button @click="register">注册</button>
+        <button @click="login">
+          登录
+        </button>
+        <button @click="register">
+          注册
+        </button>
       </template>
-      <button @click="$channel.$emit('open-feedback')">反馈</button>
+      <button @click="$channel.$emit('open-feedback')">
+        反馈
+      </button>
     </div>
-    <p class="beian">© 沪ICP备17050785号-1</p>
+    <p class="beian">
+      © 沪ICP备17050785号-1
+    </p>
   </footer>
 </template>
 

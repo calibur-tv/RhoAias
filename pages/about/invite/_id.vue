@@ -54,23 +54,22 @@
 <template>
   <div id="invite-user">
     <div class="container">
-      <p
-        v-if="haveAuthToken"
-        class="signed">
+      <p v-if="haveAuthToken" class="signed">
         你已经是注册用户了 (￣3￣)
-        <br>
+        <br />
         把这个网址链接发给小伙伴，或者告诉TA你的邀请码就行啦
-        <br>
+        <br />
         快来邀请小伙伴一起注册 calibur 吧
-        <br>
-        点击查看<nuxt-link to="/my/invite">我的邀请码</nuxt-link>
+        <br />
+        点击查看<nuxt-link to="/my/invite">
+          我的邀请码
+        </nuxt-link>
       </p>
-      <div
-        v-else-if="isGuest"
-        class="sign-wrap"
-      >
-        <h3 class="sub-title">欢迎来到 calibur.tv</h3>
-        <sign-up-form :invite-code="id"/>
+      <div v-else-if="isGuest" class="sign-wrap">
+        <h3 class="sub-title">
+          欢迎来到 calibur.tv
+        </h3>
+        <sign-up-form :invite-code="id" />
       </div>
     </div>
   </div>

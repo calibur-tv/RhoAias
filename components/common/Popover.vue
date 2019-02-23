@@ -65,9 +65,7 @@
           @click="item.method"
         >
           <i class="el-icon-arrow-right" />
-          <span 
-            class="oneline" 
-            v-text="item.name" />
+          <span class="oneline" v-text="item.name" />
         </li>
       </ul>
       <slot slot="reference" />

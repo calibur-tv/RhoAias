@@ -47,8 +47,8 @@ export default class {
             image: /^https:/.test(ret.image)
               ? ret.image.replace('https:', 'http:')
               : /^http:/.test(ret.image)
-                ? ret.image
-                : `http://image.calibur.tv${ret.image}`
+              ? ret.image
+              : `http://image.calibur.tv${ret.image}`
           }
         )
       }

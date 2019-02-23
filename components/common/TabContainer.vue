@@ -51,16 +51,13 @@
     <header>
       <div
         v-for="(item, index) in headers"
+        :key="index"
         :class="{ 'is-active': index === focusIndex }"
         :style="{ width: `${100 / headers.length}%` }"
-        :key="index"
         @click="handleTabSwitch(index)"
       >
-        <i
-          v-if="computeItemIcon(item)"
-          :class="computeItemIcon(item)"
-        />
-        <span v-text="computeItemText(item)"/>
+        <i v-if="computeItemIcon(item)" :class="computeItemIcon(item)" />
+        <span v-text="computeItemText(item)" />
       </div>
     </header>
     <main v-if="!router">
@@ -69,7 +66,7 @@
         v-show="index === focusIndex"
         :key="index"
       >
-        <slot :name="index"/>
+        <slot :name="index" />
       </div>
     </main>
   </section>

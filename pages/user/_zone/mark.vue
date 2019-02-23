@@ -147,11 +147,7 @@
 <template>
   <div id="user-mark">
     <header class="tab-header">
-      <el-radio-group
-        v-model="active"
-        size="mini"
-        @change="switchTab"
-      >
+      <el-radio-group v-model="active" size="mini" @change="switchTab">
         <el-radio-button
           v-for="item in nav"
           :key="item.type"
@@ -167,16 +163,11 @@
         type="page"
         sort="post"
       >
-        <ul 
-          slot-scope="{ flow }" 
-          class="posts">
-          <li
-            v-for="item in flow"
-            :key="item.id"
-          >
+        <ul slot-scope="{ flow }" class="posts">
+          <li v-for="item in flow" :key="item.id">
             <a
               :href="item.deleted_at ? 'javascript:;' : $alias.post(item.id)"
-              :class="[ item.deleted_at ? 'deleted' : 'blue-link' ]"
+              :class="[item.deleted_at ? 'deleted' : 'blue-link']"
               v-text="item.title"
             />
           </li>
@@ -189,25 +180,11 @@
         type="page"
         sort="image"
       >
-        <ul 
-          slot-scope="{ flow }" 
-          class="images">
-          <li
-            v-for="item in flow"
-            :key="item.id"
-          >
-            <a
-              :href="item.deleted_at ? 'javascript:;' : $alias.image(item.id)"
-            >
-              <v-img
-                :src="item.url"
-                :width="140"
-                :height="180"
-              />
-              <div
-                v-if="item.deleted_at"
-                class="delete-mask"
-              >该相册已删除</div>
+        <ul slot-scope="{ flow }" class="images">
+          <li v-for="item in flow" :key="item.id">
+            <a :href="item.deleted_at ? 'javascript:;' : $alias.image(item.id)">
+              <v-img :src="item.url" :width="140" :height="180" />
+              <div v-if="item.deleted_at" class="delete-mask">该相册已删除</div>
             </a>
           </li>
         </ul>
@@ -219,16 +196,11 @@
         type="page"
         sort="answer"
       >
-        <ul 
-          slot-scope="{ flow }" 
-          class="answers">
-          <li
-            v-for="item in flow"
-            :key="item.id"
-          >
+        <ul slot-scope="{ flow }" class="answers">
+          <li v-for="item in flow" :key="item.id">
             <a
               :href="item.deleted_at ? 'javascript:;' : $alias.answer(item.id)"
-              :class="[ item.deleted_at ? 'deleted' : 'blue-link' ]"
+              :class="[item.deleted_at ? 'deleted' : 'blue-link']"
               v-text="item.intro || '[图片]'"
             />
           </li>
@@ -241,19 +213,14 @@
         type="page"
         sort="score"
       >
-        <ul 
-          slot-scope="{ flow }" 
-          class="scores">
-          <li
-            v-for="item in flow"
-            :key="item.id"
-          >
+        <ul slot-scope="{ flow }" class="scores">
+          <li v-for="item in flow" :key="item.id">
             <a
               :href="item.deleted_at ? 'javascript:;' : $alias.score(item.id)"
-              :class="[ item.deleted_at ? 'deleted' : 'blue-link' ]"
+              :class="[item.deleted_at ? 'deleted' : 'blue-link']"
               v-text="item.title"
             />
-            <p v-text="item.intro || '[图片]'"/>
+            <p v-text="item.intro || '[图片]'" />
           </li>
         </ul>
       </flow-list>
@@ -264,33 +231,16 @@
         type="page"
         sort="video"
       >
-        <ul 
-          slot-scope="{ flow }" 
-          class="videos">
-          <li
-            v-for="item in flow"
-            :key="item.id"
-          >
-            <a
-              :href="item.deleted_at ? 'javascript:;' : $alias.video(item.id)"
-            >
+        <ul slot-scope="{ flow }" class="videos">
+          <li v-for="item in flow" :key="item.id">
+            <a :href="item.deleted_at ? 'javascript:;' : $alias.video(item.id)">
               <div class="poster">
-                <v-img
-                  :src="item.poster"
-                  :width="120"
-                  :height="80"
-                />
-                <div
-                  v-if="item.deleted_at"
-                  class="delete-mask"
-                >
+                <v-img :src="item.poster" :width="120" :height="80" />
+                <div v-if="item.deleted_at" class="delete-mask">
                   视频已失效
                 </div>
               </div>
-              <p
-                class="name"
-                v-text="item.name"
-              />
+              <p class="name" v-text="item.name" />
             </a>
           </li>
         </ul>
@@ -304,14 +254,6 @@ import FlowList from '~/components/flow/FlowList'
 
 export default {
   name: 'UserMark',
-  async asyncData({ store }) {
-    await store.dispatch('flow/initData', {
-      func: 'getUserBookmarks',
-      type: 'page',
-      sort: 'post',
-      count: 9999
-    })
-  },
   components: {
     FlowList
   },
@@ -342,6 +284,14 @@ export default {
       ],
       type: 'post'
     }
+  },
+  async asyncData({ store }) {
+    await store.dispatch('flow/initData', {
+      func: 'getUserBookmarks',
+      type: 'page',
+      sort: 'post',
+      count: 9999
+    })
   },
   methods: {
     switchTab(label) {

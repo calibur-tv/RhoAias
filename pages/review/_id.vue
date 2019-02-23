@@ -110,60 +110,42 @@
       :lazy="false"
     />
     <div class="score-header container">
-      <h1
-        class="title" 
-        v-text="info.title"/>
+      <h1 class="title" v-text="info.title" />
       <div class="author-info">
         <div class="total">{{ info.total }}分</div>
         <div class="author">
-          <nuxt-link
-            :to="$alias.user(user.zone)"
-            target="_blank"
-          >
+          <nuxt-link :to="$alias.user(user.zone)" target="_blank">
             <div class="avatar">
-              <v-img
-                :src="user.avatar"
-                :avatar="true"
-                :width="25"
-              />
+              <v-img :src="user.avatar" :avatar="true" :width="25" />
             </div>
-            <span
-              class="name"
-              v-text="user.nickname"
-            />
+            <span class="name" v-text="user.nickname" />
           </nuxt-link>
           ·
-          <v-time v-model="info.published_at"/>
+          <v-time v-model="info.published_at" />
           ·
           <v-popover
             :report-id="info.id"
             :is-creator="info.is_creator"
             report-type="score"
           >
-            <button class="tool-btn">举报</button>
+            <button class="tool-btn">
+              举报
+            </button>
           </v-popover>
         </div>
       </div>
       <div class="star-row">
-        <div
-          v-for="(item, index) in columns"
-          :key="index"
-          class="star-item"
-        >
+        <div v-for="(item, index) in columns" :key="index" class="star-item">
           <div
             class="label"
             v-text="`${labelMap[item]}：${info[item] * 2}分`"
           />
-          <el-rate
-            v-model="info[item]"
-            disabled
-            allow-half
-          />
+          <el-rate v-model="info[item]" disabled allow-half />
         </div>
       </div>
     </div>
     <div class="score-body">
-      <json-content :content="info.content"/>
+      <json-content :content="info.content" />
     </div>
     <div class="score-footer">
       <social-panel
@@ -173,37 +155,33 @@
         type="score"
       />
     </div>
-    <div 
-      v-if="isMine" 
-      class="control container">
-      <button @click="deleteScore">删除</button>
+    <div v-if="isMine" class="control container">
+      <button @click="deleteScore">
+        删除
+      </button>
       <nuxt-link :to="$alias.editScore(info.id)">
         <button>编辑</button>
       </nuxt-link>
     </div>
     <div class="container">
       <v-lazy>
-        <comment-main
-          :id="info.id"
-          :master-id="user.id"
-          type="score"
-        />
+        <comment-main :id="info.id" :master-id="user.id" type="score" />
       </v-lazy>
     </div>
-    <div class="hr"/>
+    <div class="hr" />
     <div class="container bangumi-panel">
-      <h3 class="sub-title">所属番剧：</h3>
+      <h3 class="sub-title">
+        所属番剧：
+      </h3>
       <bangumi-panel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
       >
-        <p 
-          class="summary" 
-          v-text="bangumi.summary"/>
+        <p class="summary" v-text="bangumi.summary" />
       </bangumi-panel>
     </div>
-    <share-btn :share-data="share_data"/>
+    <share-btn :share-data="share_data" />
   </div>
 </template>
 
@@ -232,57 +210,6 @@ const labelMap = {
 const columns = Object.keys(labelMap)
 export default {
   name: 'ScoreShow',
-  asyncData({ app, store, params, query, error }) {
-    const { id } = params
-    const { hash, time } = query
-    return getScoreInfo(app, { id, hash, time })
-      .then(data => {
-        const info = {}
-        const { bangumi } = data
-        Object.keys(data).forEach(key => {
-          const value = data[key]
-          info[key] = columns.indexOf(key) !== -1 ? +value : value
-        })
-        store.commit('social/SET_STATE', {
-          type: 'score',
-          id,
-          data: {
-            like: data.liked,
-            reward: data.rewarded,
-            mark: data.marked,
-            like_users: data.like_users,
-            mark_users: data.mark_users,
-            reward_users: data.reward_users
-          }
-        })
-        store.commit('social/SET_STATE', {
-          type: 'bangumi',
-          id: bangumi.id,
-          data: {
-            follow: bangumi.followed
-          }
-        })
-        return {
-          user: data.user,
-          bangumi,
-          info,
-          share_data: data.share_data
-        }
-      })
-      .catch(error)
-  },
-  head() {
-    return {
-      title: this.info.title,
-      script: [
-        {
-          hid: 'share-data',
-          innerHTML: JSON.stringify(this.share_data),
-          type: 'application/json'
-        }
-      ]
-    }
-  },
   components: {
     CommentMain,
     JsonContent,
@@ -320,6 +247,62 @@ export default {
       return this.currentUserId === this.user.id
     }
   },
+  asyncData({ app, store, params, query, error }) {
+    const { id } = params
+    const { hash, time } = query
+    return getScoreInfo(app, { id, hash, time })
+      .then(data => {
+        const info = {}
+        const { bangumi } = data
+        Object.keys(data).forEach(key => {
+          const value = data[key]
+          info[key] = columns.indexOf(key) !== -1 ? +value : value
+        })
+        store.commit('social/SET_STATE', {
+          type: 'score',
+          id,
+          data: {
+            like: data.liked,
+            reward: data.rewarded,
+            mark: data.marked,
+            like_users: data.like_users,
+            mark_users: data.mark_users,
+            reward_users: data.reward_users
+          }
+        })
+        store.commit('social/SET_STATE', {
+          type: 'bangumi',
+          id: bangumi.id,
+          data: {
+            follow: bangumi.followed
+          }
+        })
+        return {
+          user: data.user,
+          bangumi,
+          info,
+          share_data: data.share_data
+        }
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
+  },
+  head() {
+    return {
+      title: this.info.title,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
+    }
+  },
   methods: {
     deleteScore() {
       this.$confirm('删除后无法找回, 是否继续?', '提示', {
@@ -336,7 +319,9 @@ export default {
             setTimeout(() => {
               window.location.reload()
             }, 1000)
-          } catch (e) {}
+          } catch (e) {
+            // do nothing
+          }
         })
         .catch(() => {})
     }

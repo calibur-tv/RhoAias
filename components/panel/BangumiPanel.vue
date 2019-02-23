@@ -34,30 +34,18 @@ $panel-height: 92px;
 
 <template>
   <div :class="$style.bangumiPanel">
-    <nuxt-link
-      :class="$style.avatar" 
-      :to="$alias.bangumi(id)">
-      <v-img 
-        :src="avatar" 
-        width="80" 
-        height="92" />
+    <nuxt-link :class="$style.avatar" :to="$alias.bangumi(id)">
+      <v-img :src="avatar" width="80" height="92" />
     </nuxt-link>
     <div :class="$style.content">
       <nuxt-link :to="$alias.bangumi(id)">
-        <h5 
-          :class="$style.name" 
-          class="oneline" 
-          v-text="name" />
+        <h5 :class="$style.name" class="oneline" v-text="name" />
       </nuxt-link>
-      <div :class="$style.summary"><slot /></div>
-      <div
-        v-if="showFollow"
-        :class="$style.controls"
-      >
-        <follow-button
-          :id="id"
-          type="bangumi"
-        />
+      <div :class="$style.summary">
+        <slot />
+      </div>
+      <div v-if="showFollow" :class="$style.controls">
+        <follow-button :id="id" type="bangumi" />
       </div>
     </div>
   </div>

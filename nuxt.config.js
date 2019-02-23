@@ -17,86 +17,79 @@ module.exports = {
     API_URL: baseUrl.API_URL[buildEnv],
     API_URL_BROWSER: baseUrl.API_URL_BROWSER[buildEnv],
     SENTRY_URL: 'https://63fb1028c6e24cb5be33e8ed64d798e8@sentry.io/1278322',
-    RELEASE: releaseTag,
-    injectScript
+    RELEASE: releaseTag
   },
   buildDir: isDev ? '.nuxt-dev' : '.nuxt',
   /*
    ** Headers of the page
    */
-  head() {
-    const { ua } = this.$store.state
-    return {
-      titleTemplate: title => {
-        if (!title) {
-          return 'calibur 二次元股市'
-        }
-        if (/:/.test(title)) {
-          return `calibur ${title}`
-        }
-        return `${title} | calibur 二次元股市`
+  head: {
+    titleTemplate: 'calibur 二次元股市',
+    /*
+     titleTemplate: title => {
+     if (!title) {
+     return 'calibur 二次元股市'
+     }
+     if (/:/.test(title)) {
+     return `calibur ${title}`
+     }
+     return `${title} | calibur 二次元股市`
+     },
+     */
+    htmlAttrs: {
+      lang: 'zh-CN'
+    },
+    bodyAttrs: {
+      id: 'calibur-tv'
+    },
+    meta: [
+      { charset: 'utf-8' },
+      {
+        name: 'viewport',
+        content: 'width=device-width,initial-scale=1,maximum-scale=1'
       },
-      htmlAttrs: {
-        lang: 'zh-CN'
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
+      { name: 'force-rendering', content: 'webkit' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'calibur.tv - 二次元股市'
       },
-      bodyAttrs: {
-        id: 'calibur-tv'
+      {
+        hid: 'keywords',
+        name: 'keywords',
+        content: 'calibur，C站, 二次元股市'
+      }
+    ],
+    link: [
+      {
+        rel: 'shortcut icon',
+        type: 'image/x-icon',
+        href: `https://image.calibur.tv/favicon.ico`
+      }
+    ],
+    script: [
+      {
+        innerHTML: injectScript.baiduStat,
+        type: 'text/javascript',
+        async: true
       },
-      meta: [
-        { charset: 'utf-8' },
-        {
-          name: 'viewport',
-          content: 'width=device-width,initial-scale=1,maximum-scale=1'
-        },
-        { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
-        { name: 'force-rendering', content: 'webkit' },
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'calibur.tv - 二次元股市'
-        },
-        {
-          hid: 'keywords',
-          name: 'keywords',
-          content: 'calibur，C站, 二次元股市'
-        }
-      ],
-      link: [
-        {
-          rel: 'shortcut icon',
-          type: 'image/x-icon',
-          href: `https://image.calibur.tv/favicon.ico`
-        }
-      ],
-      script: [
-        {
-          innerHTML: process.env.injectScript.baiduStat,
-          type: 'text/javascript',
-          async: true
-        },
-        {
-          innerHTML: process.env.injectScript.baiduPush,
-          type: 'text/javascript',
-          async: true
-        },
-        ua.ios
-          ? { innerHTML: process.env.iPhoneXViewport, type: 'text/javascript' }
-          : '',
-        ua.qq
-          ? {
-              src: '//qzonestyle.gtimg.cn/qzone/qzact/common/share/share.js',
-              type: 'text/javascript'
-            }
-          : '',
-        ua.wechat
-          ? {
-              src: '//res2.wx.qq.com/open/js/jweixin-1.4.0.js',
-              type: 'text/javascript'
-            }
-          : ''
-      ].filter(_ => _),
-      __dangerouslyDisableSanitizers: 'script'
-    }
+      {
+        innerHTML: injectScript.baiduPush,
+        type: 'text/javascript',
+        async: true
+      },
+      { innerHTML: injectScript.iPhoneXViewport, type: 'text/javascript' },
+      {
+        src: '//qzonestyle.gtimg.cn/qzone/qzact/common/share/share.js',
+        type: 'text/javascript'
+      },
+      {
+        src: '//res2.wx.qq.com/open/js/jweixin-1.4.0.js',
+        type: 'text/javascript'
+      }
+    ].filter(_ => _),
+    __dangerouslyDisableSanitizers: 'script'
   },
 
   /*

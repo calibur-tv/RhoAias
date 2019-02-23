@@ -84,36 +84,25 @@
 </style>
 
 <template>
-  <div 
-    v-if="qaq" 
-    id="question-panel">
+  <div v-if="qaq" id="question-panel">
     <div class="qaq-question">
       <ul class="qaq-tags">
-        <li 
-          v-for="tag in qaq.tags" 
-          :key="tag.id">
-          <nuxt-link
-            :to="$alias.bangumi(tag.id)"
-            v-text="tag.name" />
+        <li v-for="tag in qaq.tags" :key="tag.id">
+          <nuxt-link :to="$alias.bangumi(tag.id)" v-text="tag.name" />
         </li>
       </ul>
-      <div class="title"><h1 v-text="qaq.title" /></div>
+      <div class="title">
+        <h1 v-text="qaq.title" />
+      </div>
       <div class="content">
-        <div 
-          v-if="collapsed" 
-          class="collapsed-content">
+        <div v-if="collapsed" class="collapsed-content">
           {{ collapsedContent }}
-          <el-button 
-            type="text" 
-            size="mini" 
-            @click="collapsed = false">
+          <el-button type="text" size="mini" @click="collapsed = false">
             显示全部 <i class="el-icon-arrow-down" />
           </el-button>
         </div>
         <template v-else>
-          <div 
-            class="text-area" 
-            v-html="qaq.content" />
+          <div class="text-area" v-html="qaq.content" />
           <div
             v-for="(img, idx) in qaq.images"
             :key="idx"
@@ -130,18 +119,11 @@
         </template>
       </div>
       <div class="panel">
-        <follow-button
-          :id="id"
-          type="question"
-        />
+        <follow-button :id="id" type="question" />
         <template v-if="qaq.my_answer">
           <template v-if="answerPage">
-            <button
-              v-if="isMyAnswer"
-              class="footer-btn"
-              @click="editMyAnswer"
-            >
-              <i class="el-icon-edit"/>
+            <button v-if="isMyAnswer" class="footer-btn" @click="editMyAnswer">
+              <i class="el-icon-edit" />
               编辑回答
             </button>
             <nuxt-link
@@ -149,7 +131,7 @@
               :to="$alias.answer(qaq.my_answer.id)"
               class="footer-btn"
             >
-              <i class="el-icon-view"/>
+              <i class="el-icon-view" />
               查看回答
             </nuxt-link>
           </template>
@@ -159,46 +141,29 @@
               :to="$alias.answer(qaq.my_answer.id)"
               class="footer-btn"
             >
-              <i class="el-icon-view"/>
+              <i class="el-icon-view" />
               查看回答
             </nuxt-link>
-            <button
-              v-else
-              class="footer-btn"
-              @click="editMyAnswer"
-            >
-              <i class="el-icon-edit"/>
+            <button v-else class="footer-btn" @click="editMyAnswer">
+              <i class="el-icon-edit" />
               编辑回答
             </button>
           </template>
         </template>
-        <button
-          v-else
-          class="footer-btn"
-          @click="beginWriteAnswer"
-        >
-          <i class="el-icon-edit"/>
+        <button v-else class="footer-btn" @click="beginWriteAnswer">
+          <i class="el-icon-edit" />
           写回答
         </button>
 
-        <button 
-          class="footer-btn" 
-          @click="loadQAQComment">
+        <button class="footer-btn" @click="loadQAQComment">
           <i class="iconfont icon-talk" />
           {{ qaq.comment_count ? qaq.comment_count + '条评论' : '添加评论' }}
         </button>
-        <div
-          v-if="!collapsed"
-          class="others"
-        >
-          <button 
-            class="collapse-btn" 
-            @click="collapsedQAQ">
+        <div v-if="!collapsed" class="others">
+          <button class="collapse-btn" @click="collapsedQAQ">
             <i class="el-icon-arrow-up" /><span>收起</span>
           </button>
-          <v-popover 
-            :report-id="id"
-            report-type="question">
+          <v-popover :report-id="id" report-type="question">
             <button class="collapse-btn">
               <i class="el-icon-phone" /><span>举报</span>
             </button>
@@ -213,10 +178,7 @@
       :answer-id="qaq.my_answer ? qaq.my_answer.id : 0"
       :published="qaq.my_answer ? !!qaq.published_at : false"
     />
-    <v-drawer 
-      v-model="showCommentModal" 
-      from="bottom" 
-      size="100%">
+    <v-drawer v-model="showCommentModal" from="bottom" size="100%">
       <div class="container">
         <comment-main
           :id="id"

@@ -203,16 +203,10 @@
 
 <template>
   <li class="post-flow-item">
-    <router-link
-      :to="$alias.post(item.id)"
-      tag="div"
-    >
+    <router-link :to="$alias.post(item.id)" tag="div">
       <div class="header">
         <template v-if="!userZone">
-          <router-link
-            :to="$alias.user(item.user.zone)"
-            class="user-avatar"
-          >
+          <router-link :to="$alias.user(item.user.zone)" class="user-avatar">
             <v-img
               :src="item.user.avatar"
               :avatar="true"
@@ -226,7 +220,7 @@
               class="name oneline"
               v-text="item.user.nickname"
             />
-            <v-time v-model="item.created_at"/>
+            <v-time v-model="item.created_at" />
           </div>
         </template>
         <template v-else>
@@ -234,11 +228,7 @@
             :to="$alias.bangumi(item.bangumi.id)"
             class="bangumi-avatar"
           >
-            <v-img
-              :src="item.bangumi.avatar"
-              width="35"
-              height="35"
-            />
+            <v-img :src="item.bangumi.avatar" width="35" height="35" />
           </router-link>
           <div class="info">
             <router-link
@@ -246,37 +236,25 @@
               class="name oneline"
               v-text="item.bangumi.name"
             />
-            <v-time v-model="item.created_at"/>
+            <v-time v-model="item.created_at" />
           </div>
         </template>
       </div>
       <div class="body">
         <div class="title">
-          <div
-            v-if="item.top_at && bangumiId"
-            class="top_badge"
-          >置顶</div>
-          <div
-            v-if="item.is_nice"
-            class="nice_badge"
-          >精</div>
-          <div
-            v-if="item.is_creator"
-            class="creator_badge"
-          >原创</div>
-          <p
-            class="oneline"
-            v-text="item.title"
-          />
+          <div v-if="item.top_at && bangumiId" class="top_badge">
+            置顶
+          </div>
+          <div v-if="item.is_nice" class="nice_badge">
+            精
+          </div>
+          <div v-if="item.is_creator" class="creator_badge">
+            原创
+          </div>
+          <p class="oneline" v-text="item.title" />
         </div>
-        <p
-          class="content"
-          v-text="item.desc"
-        />
-        <div
-          v-if="item.images.length"
-          class="images"
-        >
+        <p class="content" v-text="item.desc" />
+        <div v-if="item.images.length" class="images">
           <v-img
             v-if="item.images.length === 1"
             :src="item.images[0].url"
@@ -284,10 +262,7 @@
             height="130"
             class="poster-image"
           />
-          <div
-            v-else
-            class="image-list"
-          >
+          <div v-else class="image-list">
             <v-img
               v-for="(image, index) in imageFilter(item.images)"
               :key="index"
@@ -298,45 +273,48 @@
             />
           </div>
         </div>
-        <div
-          v-if="item.bangumi || item.tags.length"
-          class="tags"
-        >
+        <div class="tags">
           <router-link
             v-if="item.bangumi && !userZone"
             :to="$alias.bangumi(item.bangumi.id)"
           >
-            <i class="iconfont icon-tag"/>
-            <span v-text="item.bangumi.name"/>
+            <i class="iconfont icon-tag" />
+            <span v-text="item.bangumi.name" />
           </router-link>
-          <span
-            v-for="tag in item.tags"
-            :key="tag.id"
-            class="tag"
-            v-text="tag.name"
-          />
+          <router-link v-if="item.idol" :to="$alias.cartoonRole(item.idol.id)">
+            <i class="iconfont icon-tag" />
+            <span v-text="item.idol.name" />
+          </router-link>
+          <template v-if="item.tags.length">
+            <span
+              v-for="tag in item.tags"
+              :key="tag.id"
+              class="tag"
+              v-text="tag.name"
+            />
+          </template>
         </div>
       </div>
       <div class="footer">
         <div v-if="item.is_creator">
-          <i class="iconfont icon-fantuan"/>
+          <i class="iconfont icon-fantuan" />
           <span>{{ $utils.shortenNumber(item.reward_count) }}</span>
         </div>
         <div v-else>
-          <i class="iconfont icon-like"/>
+          <i class="iconfont icon-like" />
           <span>{{ $utils.shortenNumber(item.like_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-mark"/>
+          <i class="iconfont icon-mark" />
           <span>{{ $utils.shortenNumber(item.mark_count) }}</span>
         </div>
         <div>
-          <i class="iconfont icon-talk"/>
+          <i class="iconfont icon-talk" />
           <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
         </div>
       </div>
     </router-link>
-    <div class="hr"/>
+    <div class="hr" />
   </li>
 </template>
 

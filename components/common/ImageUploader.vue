@@ -40,15 +40,17 @@
       :on-exceed="handleImageUploadExceed"
       :file-list="uploadImageList"
       :list-type="listType"
-    >+</el-upload
     >
+      +
+    </el-upload>
     <el-button
       :loading="!!uploadPending || loading"
       type="primary"
       class="upload-btn"
       @click="handleImageUploadEmit"
-    >{{ uploadPending ? '图片上传中...' : '确认提交' }}</el-button
     >
+      {{ uploadPending ? '图片上传中...' : '确认提交' }}
+    </el-button>
   </div>
 </template>
 

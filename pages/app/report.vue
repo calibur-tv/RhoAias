@@ -10,10 +10,7 @@
 
 <template>
   <div id="app-report">
-    <user-report-form
-      :id="id"
-      :model="model"
-    />
+    <user-report-form :id="id" :model="model" />
   </div>
 </template>
 

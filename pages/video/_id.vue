@@ -237,9 +237,7 @@
 </style>
 
 <template>
-  <div 
-    id="video-show" 
-    class="video-show">
+  <div id="video-show" class="video-show">
     <div class="video">
       <template v-if="!videoSrc">
         <p>这个资源消失了_〆(´Д｀ )</p>
@@ -251,17 +249,15 @@
             v-clipboard="videoSrc"
             href="javascript:;"
             @success="$toast.success('复制成功')"
-          >点击复制链接</a>
-          <a
-            v-if="info.baidu_cloud_pwd"
-            href="javascript:;"
-          >密码：{{ info.baidu_cloud_pwd }}</a>
+            >点击复制链接</a
+          >
+          <a v-if="info.baidu_cloud_pwd" href="javascript:;"
+            >密码：{{ info.baidu_cloud_pwd }}</a
+          >
         </template>
         <template v-else>
           <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
-          <a
-            :href="videoSrc"
-            target="_blank">播放链接</a>
+          <a :href="videoSrc" target="_blank">播放链接</a>
         </template>
       </template>
       <template v-else-if="notSupport">
@@ -277,10 +273,10 @@
         </p>
       </template>
       <template v-else-if="showLevelThrottle">
-        <p>
-          该视频需要你的等级至少 {{ need_min_level }} 才能播放
-        </p>
-        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
+        <p>该视频需要你的等级至少 {{ need_min_level }} 才能播放</p>
+        <a href="https://www.calibur.tv/post/2282"
+          >&nbsp;&nbsp;为什么要限流？</a
+        >
         <a href="https://www.calibur.tv/post/2279">&nbsp;&nbsp;如何升级？</a>
       </template>
       <video
@@ -292,14 +288,8 @@
         controls="controls"
         controlsList="nodownload"
       />
-      <img
-        :src="$resize(info.poster, { width: 200 })"
-        class="share-poster"
-      >
-      <div
-        v-if="showRewardDialog"
-        class="need-coin-bg"
-      >
+      <img :src="$resize(info.poster, { width: 200 })" class="share-poster" />
+      <div v-if="showRewardDialog" class="need-coin-bg">
         <p>该视频需要投食之后才能播放</p>
       </div>
     </div>
@@ -307,29 +297,18 @@
       <div id="metas">
         <h3 class="sub-title">
           选集（{{ videos.length }}）
-          <a
-            v-if="nextPartVideo"
-            :href="nextPartVideo"
-            class="next">下一话</a>
-          <div
-            v-if="showMoreBtn"
-            class="more"
-            @click="showAll = !showAll">{{ showAll ? '收起' : '展开' }}</div>
+          <a v-if="nextPartVideo" :href="nextPartVideo" class="next">下一话</a>
+          <div v-if="showMoreBtn" class="more" @click="showAll = !showAll">
+            {{ showAll ? '收起' : '展开' }}
+          </div>
         </h3>
         <template v-if="list.has_season && showAll">
-          <div
-            v-for="(items, idx) in list.videos"
-            :key="idx"
-          >
-            <h6
-              class="season-title"
-              v-text="items.name"/>
+          <div v-for="(items, idx) in list.videos" :key="idx">
+            <h6 class="season-title" v-text="items.name" />
             <ul>
-              <li
-                v-for="video in items.data"
-                :key="video.id">
+              <li v-for="video in items.data" :key="video.id">
                 <a
-                  :class="{ 'a-active' : $route.params.id == video.id }"
+                  :class="{ 'a-active': $route.params.id == video.id }"
                   :href="$alias.video(video.id)"
                   class="meta oneline"
                 >
@@ -340,11 +319,9 @@
           </div>
         </template>
         <ul v-else>
-          <li
-            v-for="video in sortVideos"
-            :key="video.id">
+          <li v-for="video in sortVideos" :key="video.id">
             <a
-              :class="{ 'a-active' : $route.params.id == video.id }"
+              :class="{ 'a-active': $route.params.id == video.id }"
               :href="$alias.video(video.id)"
               class="meta oneline"
             >
@@ -360,7 +337,9 @@
         type="video"
         @reward-callback="handleRewardAction"
       />
-      <h3 class="sub-title">番剧简介</h3>
+      <h3 class="sub-title">
+        番剧简介
+      </h3>
       <bangumi-panel
         v-if="bangumi"
         :id="bangumi.id"
@@ -369,26 +348,33 @@
         :show-follow="false"
         class="bangumi-panel"
       >
-        <button
-          :class="{ 'active': buyed }"
-          @click="handleClickBuy"
-        >{{ buyed ? '已承包' : '10个团子承包整个季度' }}</button>
+        <button :class="{ active: buyed }" @click="handleClickBuy">
+          {{ buyed ? '已承包' : '10个团子承包整个季度' }}
+        </button>
       </bangumi-panel>
-      <h3 class="sub-title">视频反馈</h3>
-      <p class="tip">1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong> 获得最新的资源更新提醒</p>
-      <p class="tip">2：安卓用户建议大家使用最新版 QQ 浏览器在线播放，不要使用系统自带的浏览器</p>
-      <p class="tip">3：iOS用户建议使用自带的 Safari 播放</p>
+      <h3 class="sub-title">
+        视频反馈
+      </h3>
+      <p class="tip">
+        1：大家可以加入QQ群 <strong>106402736</strong>、<strong
+          >806818950</strong
+        >
+        获得最新的资源更新提醒
+      </p>
+      <p class="tip">
+        2：安卓用户建议大家使用最新版 QQ
+        浏览器在线播放，不要使用系统自带的浏览器
+      </p>
+      <p class="tip">
+        3：iOS用户建议使用自带的 Safari 播放
+      </p>
       <div>
-        <button
-          class="video-report-btn"
-          @click="handleVideoReportClick">视频报错</button>
+        <button class="video-report-btn" @click="handleVideoReportClick">
+          视频报错
+        </button>
       </div>
       <v-lazy>
-        <comment-main
-          :id="id"
-          :master-id="info.user_id"
-          type="video"
-        />
+        <comment-main :id="id" :master-id="info.user_id" type="video" />
       </v-lazy>
     </div>
     <!-- 付费弹窗 -->
@@ -398,10 +384,7 @@
       size="70%"
       class="need-coin-drawer"
     >
-      <div
-        v-if="!isGuest"
-        class="container"
-      >
+      <div v-if="!isGuest" class="container">
         <h2>非常抱歉，为了降低流量压力，需要投食才能看番</h2>
         <p>点击视频下方「投食」按钮即可继续观看</p>
         <p>投食会消耗你一枚「团子」</p>
@@ -416,10 +399,12 @@
           v-clipboard="`http://calibur.tv/about/invite/${user.id}`"
           class="invite-btn"
           @success="$toast.success('复制成功~快去发送给好友吧')"
-        >点击生成你的专属邀请码，获得团子</button>
+        >
+          点击生成你的专属邀请码，获得团子
+        </button>
       </div>
     </v-drawer>
-    <share-btn :share-data="share_data"/>
+    <share-btn :share-data="share_data" />
   </div>
 </template>
 
@@ -435,34 +420,6 @@ export default {
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
-  async asyncData({ app, store, params, error }) {
-    const { id } = params
-    return getVideoInfo(app, { id })
-      .then(data => {
-        const { bangumi, info } = data
-        store.commit('social/SET_STATE', {
-          type: 'video',
-          id,
-          data: {
-            like: info.liked,
-            reward: info.rewarded,
-            mark: info.marked,
-            like_users: info.like_users,
-            mark_users: info.mark_users,
-            reward_users: info.reward_users
-          }
-        })
-        store.commit('social/SET_STATE', {
-          type: 'bangumi',
-          id: bangumi.id,
-          data: {
-            follow: bangumi.followed
-          }
-        })
-        return data
-      })
-      .catch(error)
-  },
   components: {
     CommentMain,
     SocialPanel,
@@ -473,44 +430,6 @@ export default {
     id: {
       type: String,
       required: true
-    }
-  },
-  head() {
-    const { bangumi, info, list } = this
-    const hasSeason = list.has_season
-    const bangumiName = bangumi.name
-    const videoName = info.name
-    let resultPart = info.part
-    let seasonName = ''
-    let title = ''
-    if (hasSeason) {
-      list.videos.forEach(videos => {
-        videos.data.forEach(item => {
-          if (item.id === info.id) {
-            resultPart = item.part - videos.base
-            seasonName = list.name
-          }
-        })
-      })
-    }
-    if (seasonName) {
-      if (seasonName === videoName) {
-        title = `${bangumiName}：${seasonName}`
-      } else {
-        title = `${seasonName}：第${resultPart}话 ${videoName}`
-      }
-    } else {
-      title = `${bangumiName}：第${resultPart}话 ${videoName}`
-    }
-    return {
-      title,
-      script: [
-        {
-          hid: 'share-data',
-          innerHTML: JSON.stringify(this.share_data),
-          type: 'application/json'
-        }
-      ]
     }
   },
   data() {
@@ -570,12 +489,12 @@ export default {
       return this.useOtherSiteSource
         ? false
         : this.videoSrc
-          ? this.videoSrc
-              .split('?')[0]
-              .split('.')
-              .pop()
-              .toLowerCase() === 'flv'
-          : false
+        ? this.videoSrc
+            .split('?')[0]
+            .split('.')
+            .pop()
+            .toLowerCase() === 'flv'
+        : false
     },
     nextPartVideo() {
       let nextId = 0
@@ -601,6 +520,77 @@ export default {
     },
     user() {
       return this.$store.state.user
+    }
+  },
+  async asyncData({ app, store, params, error }) {
+    const { id } = params
+    return getVideoInfo(app, { id })
+      .then(data => {
+        const { bangumi, info } = data
+        store.commit('social/SET_STATE', {
+          type: 'video',
+          id,
+          data: {
+            like: info.liked,
+            reward: info.rewarded,
+            mark: info.marked,
+            like_users: info.like_users,
+            mark_users: info.mark_users,
+            reward_users: info.reward_users
+          }
+        })
+        store.commit('social/SET_STATE', {
+          type: 'bangumi',
+          id: bangumi.id,
+          data: {
+            follow: bangumi.followed
+          }
+        })
+        return data
+      })
+      .catch(e => {
+        error({
+          statusCode: e.statusCode,
+          message: e.message
+        })
+      })
+  },
+  head() {
+    const { bangumi, info, list } = this
+    const hasSeason = list.has_season
+    const bangumiName = bangumi.name
+    const videoName = info.name
+    let resultPart = info.part
+    let seasonName = ''
+    let title = ''
+    if (hasSeason) {
+      list.videos.forEach(videos => {
+        videos.data.forEach(item => {
+          if (item.id === info.id) {
+            resultPart = item.part - videos.base
+            seasonName = list.name
+          }
+        })
+      })
+    }
+    if (seasonName) {
+      if (seasonName === videoName) {
+        title = `${bangumiName}：${seasonName}`
+      } else {
+        title = `${seasonName}：第${resultPart}话 ${videoName}`
+      }
+    } else {
+      title = `${bangumiName}：第${resultPart}话 ${videoName}`
+    }
+    return {
+      title,
+      script: [
+        {
+          hid: 'share-data',
+          innerHTML: JSON.stringify(this.share_data),
+          type: 'application/json'
+        }
+      ]
     }
   },
   mounted() {

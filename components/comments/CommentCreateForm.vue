@@ -30,8 +30,9 @@
       class="submit-btn"
       type="primary"
       @click="submit"
-    >发布</el-button
     >
+      发布
+    </el-button>
   </div>
 </template>
 

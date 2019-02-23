@@ -31,8 +31,8 @@ export default (url, options = {}) => {
   const format = options.format
     ? `/format/${options.format}`
     : canUseWebP()
-      ? '/format/webp'
-      : ''
+    ? '/format/webp'
+    : ''
   const mode = options.mode === undefined ? 1 : options.mode
 
   if ((mode === 1 && !options.width) || (!options.width && !options.height)) {

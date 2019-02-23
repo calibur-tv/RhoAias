@@ -31,18 +31,10 @@
 
 <template>
   <div id="role-trending-hall">
-    <flow-list
-      func="getVirtualIdolDealList"
-      type="seenIds"
-      sort="active"
-    >
-      <div
-        slot="header"
-        slot-scope="{ source }"
-        class="role-trending-header"
-      >
+    <flow-list func="getVirtualIdolDealList" type="seenIds" sort="active">
+      <div slot="header" slot-scope="{ source }" class="role-trending-header">
         <span>总共 {{ source.total }} 笔交易</span>
-        <span @click="refresh"><i class="el-icon-refresh"/>&nbsp;刷新</span>
+        <span @click="refresh"><i class="el-icon-refresh" />&nbsp;刷新</span>
       </div>
       <ul slot-scope="{ flow }">
         <deal-idol-item
@@ -62,22 +54,25 @@
       from="bottom"
       @submit="makeDeal"
     >
-      <div
-        v-if="deal"
-        class="make-idol-deal-form container"
-      >
-        <p class="intro">交易信息：</p>
+      <div v-if="deal" class="make-idol-deal-form container">
+        <p class="intro">
+          交易信息：
+        </p>
         <p><strong>交易玩家：</strong>{{ deal.user.nickname }}</p>
         <p><strong>交易偶像：</strong>{{ deal.idol.name }}</p>
         <p><strong>每股价格：</strong>{{ deal.product_price }}</p>
-        <p class="intro">购买份额：</p>
+        <p class="intro">
+          购买份额：
+        </p>
         <el-input-number
           v-model="buyCount"
           :step="0.01"
           :min="+minBuyCount"
           :max="+maxBuyCount"
         />
-        <p class="intro">支付金额：</p>
+        <p class="intro">
+          支付金额：
+        </p>
         <p>最多可购买：{{ maxBuyCount }}股</p>
         <p>待支付金额：￥{{ payAmount }}</p>
       </div>
@@ -96,20 +91,10 @@ import {
 
 export default {
   name: 'RoleTrendingHall',
-  async asyncData({ store }) {
-    await store.dispatch('flow/initData', {
-      func: 'getVirtualIdolDealList',
-      type: 'seenIds',
-      sort: 'active'
-    })
-  },
   components: {
     FlowList,
     DealIdolItem,
     'el-input-number': InputNumber
-  },
-  head: {
-    title: '交易所'
   },
   data() {
     return {
@@ -149,6 +134,16 @@ export default {
       }
       return parseFloat(this.buyCount * this.deal.product_price).toFixed(2)
     }
+  },
+  async asyncData({ store }) {
+    await store.dispatch('flow/initData', {
+      func: 'getVirtualIdolDealList',
+      type: 'seenIds',
+      sort: 'active'
+    })
+  },
+  head: {
+    title: '交易所'
   },
   methods: {
     async refresh() {

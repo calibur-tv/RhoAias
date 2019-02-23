@@ -73,16 +73,15 @@
     class="user-setting-form"
   >
     <div class="tips">
-      <p>填写正确的性别和生日有助于网站对你番剧喜好的分析，在未来我们有可能根据你的喜好来推荐合适的番剧</p>
-      <p>如果你担心自己的性别和生日被其他用户知道，可以勾选<strong>私密</strong>，这样我们只会在推荐系统中用到你的数据</p>
+      <p>
+        填写正确的性别和生日有助于网站对你番剧喜好的分析，在未来我们有可能根据你的喜好来推荐合适的番剧
+      </p>
+      <p>
+        如果你担心自己的性别和生日被其他用户知道，可以勾选<strong>私密</strong>，这样我们只会在推荐系统中用到你的数据
+      </p>
     </div>
-    <el-form-item
-      label="昵称"
-      prop="nickname"
-    >
-      <el-input 
-        v-model="nickname" 
-        class="bottom-line"/>
+    <el-form-item label="昵称" prop="nickname">
+      <el-input v-model="nickname" class="bottom-line" />
     </el-form-item>
     <el-form-item label="生日">
       <no-ssr>
@@ -99,7 +98,7 @@
       </no-ssr>
       <div class="state-wrap">
         <div class="state-label">状态：{{ birthSecret ? '私密' : '公开' }}</div>
-        <mt-switch v-model="birthSecret"/>
+        <mt-switch v-model="birthSecret" />
       </div>
       <div class="select-btn">
         <button
@@ -112,21 +111,15 @@
     <el-form-item label="性别">
       <div class="state-wrap">
         <div class="state-label">状态：{{ sexSecret ? '私密' : '公开' }}</div>
-        <mt-switch v-model="sexSecret"/>
+        <mt-switch v-model="sexSecret" />
       </div>
       <div class="select-btn">
         <v-popover :actions="sexActions">
-          <button
-            type="button"
-            v-text="selectedSexLabel"
-          />
+          <button type="button" v-text="selectedSexLabel" />
         </v-popover>
       </div>
     </el-form-item>
-    <el-form-item
-      label="签名"
-      prop="signature"
-    >
+    <el-form-item label="签名" prop="signature">
       <el-input
         v-model="signature"
         :rows="5"
@@ -141,7 +134,9 @@
       size="small"
       class="submit-btn"
       @click="submit"
-    >提交</el-button>
+    >
+      提交
+    </el-button>
   </el-form>
 </template>
 

@@ -100,33 +100,30 @@ $color: RGB(78, 73, 74);
 
 <template>
   <div id="campaign-one-piece">
-    <img 
-      v-if="image" 
-      :src="image" 
-      class="canvas-wrap bg" >
-    <div 
-      v-else 
-      class="canvas-wrap bg">
+    <img v-if="image" :src="image" class="canvas-wrap bg" />
+    <div v-else class="canvas-wrap bg">
       <div
         v-if="selectedAvatar"
         :style="{ backgroundImage: `url(${selectedAvatar})` }"
         class="avatar bg"
       />
       <div class="file-input-wrap">
-        <div class="textarea text">点击上传头像</div>
+        <div class="textarea text">
+          点击上传头像
+        </div>
         <input
           ref="uploader"
           type="file"
           accept="image/png, image/jpeg, image/jpg, image/x-png"
           @change="selectAvatar"
-        >
+        />
       </div>
       <div class="name-wrap">
         <input
           v-model="name"
           class="textarea name oneline"
           placeholder="名称"
-        >
+        />
       </div>
       <div class="dollar-wrap">
         <div class="dollar-icon bg" />
@@ -136,8 +133,10 @@ $color: RGB(78, 73, 74);
           class="textarea dollar-input"
           placeholder="金"
           type="number"
-        >
-        <div class="dollar-tail">一</div>
+        />
+        <div class="dollar-tail">
+          一
+        </div>
       </div>
     </div>
   </div>

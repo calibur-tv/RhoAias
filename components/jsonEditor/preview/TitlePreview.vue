@@ -24,15 +24,13 @@
     header-text="编辑文本段落"
     submit-text="确定"
   >
-    <div 
-      v-if="show" 
-      class="text-preview">
+    <div v-if="show" class="text-preview">
       <input
         v-model.trim="text"
         type="text"
         placeholder="段落小标题"
         maxlength="30"
-      >
+      />
     </div>
   </v-drawer>
 </template>

@@ -24,10 +24,7 @@
 
 <template>
   <div class="json-editor-main">
-    <transition-group 
-      name="list-complete" 
-      tag="div" 
-      class="editor-tabs">
+    <transition-group name="list-complete" tag="div" class="editor-tabs">
       <json-item
         v-for="(item, index) in sections"
         :key="item.id"

@@ -96,16 +96,9 @@
 </style>
 
 <template>
-  <div 
-    :id="`comment-${post.id}`" 
-    class="post-reply-item">
-    <nuxt-link
-      :to="$alias.user(post.from_user_zone)"
-      class="avatar">
-      <v-img 
-        :src="post.from_user_avatar" 
-        :avatar="true" 
-        width="35" />
+  <div :id="`comment-${post.id}`" class="post-reply-item">
+    <nuxt-link :to="$alias.user(post.from_user_zone)" class="avatar">
+      <v-img :src="post.from_user_avatar" :avatar="true" width="35" />
     </nuxt-link>
     <div class="content">
       <div class="header">
@@ -114,20 +107,19 @@
           :report-id="post.id"
           report-type="post_comment"
         >
-          <button class="tools-btn">···</button>
+          <button class="tools-btn">
+            ···
+          </button>
         </v-popover>
         <div class="user">
           <nuxt-link
             :to="$alias.user(post.from_user_zone)"
-            class="nickname oneline">
+            class="nickname oneline"
+          >
             <span v-text="post.from_user_name" />
             <span v-if="post.is_owner">(楼主)</span>
-            <i 
-              v-if="post.is_leader" 
-              class="iconfont icon-leader" />
-            <i 
-              v-else-if="post.is_master" 
-              class="iconfont icon-master" />
+            <i v-if="post.is_leader" class="iconfont icon-leader" />
+            <i v-else-if="post.is_master" class="iconfont icon-master" />
           </nuxt-link>
           <div class="info">
             <span>第{{ post.floor_count }}楼</span> <span>·</span>
@@ -154,14 +146,10 @@
             />
           </div>
         </image-preview>
-        <div 
-          class="text-area" 
-          v-html="post.content" />
+        <div class="text-area" v-html="post.content" />
       </div>
       <div class="footer">
-        <sub-comment-list 
-          :parent-comment="post" 
-          type="post" />
+        <sub-comment-list :parent-comment="post" type="post" />
         <div class="social">
           <button
             :class="[post.liked ? 'reply-liked-btn' : 'reply-like-btn']"
@@ -171,9 +159,7 @@
             {{ post.liked ? '已赞' : '赞' }}
             <span v-if="post.like_count">({{ post.like_count }})</span>
           </button>
-          <button 
-            class="reply-btn fr" 
-            @click="handleCommentBtnClick">
+          <button class="reply-btn fr" @click="handleCommentBtnClick">
             回复
           </button>
         </div>

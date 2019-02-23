@@ -107,44 +107,43 @@ $main-color: #f25d8e;
 </style>
 
 <template>
-  <div
-    v-if="user"
-    id="app-invite"
-  >
-    <tab-container
-      :headers="headers"
-      @change="handleTabSwitch"
-    >
-      <div
-        slot="0"
-        class="my-space"
-      >
+  <div v-if="user" id="app-invite">
+    <tab-container :headers="headers" @change="handleTabSwitch">
+      <div slot="0" class="my-space">
         <div class="content">
-          <img :src="$resize(user.avatar, { width: 150 })">
-          <p><span class="nickname">{{ user.nickname }}</span>，你的邀请码是</p>
-          <p class="code"><strong>{{ user.id }}</strong></p>
+          <img :src="$resize(user.avatar, { width: 150 })" />
+          <p>
+            <span class="nickname">{{ user.nickname }}</span
+            >，你的邀请码是
+          </p>
+          <p class="code">
+            <strong>{{ user.id }}</strong>
+          </p>
           <div class="intro">
-            <p>把这个数字告诉你的朋友，让他们注册的时候填写，那么你们就都可以获得团子</p>
+            <p>
+              把这个数字告诉你的朋友，让他们注册的时候填写，那么你们就都可以获得团子
+            </p>
             <p>邀请者可以得到5个团子，被邀请者可以得到2个团子</p>
           </div>
         </div>
-        <p class="tips">你也可以直接复制注册链接给TA</p>
+        <p class="tips">
+          你也可以直接复制注册链接给TA
+        </p>
         <button
           v-clipboard="`http://calibur.tv/about/invite/${user.id}`"
           class="invite-btn"
           @success="$toast.success('复制成功~快去发送给好友吧')"
-        >点击生成你的专属邀请码</button>
-      </div>
-      <div
-        slot="1"
-        class="invite-users"
-      >
-        <div
-          v-if="source"
-          class="header"
         >
-          <img :src="$resize(user.avatar, { width: 80 })">
-          <span v-if="source.total">总共邀请了&nbsp;<strong>{{ source.total }}</strong>&nbsp;位小伙伴</span>
+          点击生成你的专属邀请码
+        </button>
+      </div>
+      <div slot="1" class="invite-users">
+        <div v-if="source" class="header">
+          <img :src="$resize(user.avatar, { width: 80 })" />
+          <span v-if="source.total"
+            >总共邀请了&nbsp;<strong>{{ source.total }}</strong
+            >&nbsp;位小伙伴</span
+          >
           <span v-else>还没有邀请朋友注册</span>
         </div>
         <flow-list
@@ -154,16 +153,10 @@ $main-color: #f25d8e;
           type="page"
           count="20"
         >
-          <ul
-            slot-scope="{ flow }"
-            class="users"
-          >
-            <li
-              v-for="item in flow"
-              :key="item.id"
-            >
-              <img :src="$resize(item.avatar, { width: 60 })">
-              <span v-text="item.nickname"/>
+          <ul slot-scope="{ flow }" class="users">
+            <li v-for="item in flow" :key="item.id">
+              <img :src="$resize(item.avatar, { width: 60 })" />
+              <span v-text="item.nickname" />
             </li>
           </ul>
         </flow-list>

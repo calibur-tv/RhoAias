@@ -33,6 +33,7 @@ export default class {
   init() {
     this.events.forEach(evt => {
       this.player.addEventListener(evt, () => {
+        // eslint-disable-next-line
         console.log('video lifecycle', evt)
       })
     })

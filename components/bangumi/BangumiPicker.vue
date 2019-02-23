@@ -1,7 +1,9 @@
 <template>
   <div class="bangumi-picker">
     <span v-if="label">番剧：</span>
-    <div @click="openPicker">{{ placeholder }}</div>
+    <div @click="openPicker">
+      {{ placeholder }}
+    </div>
     <v-drawer
       v-model="show"
       from="bottom"
@@ -10,10 +12,7 @@
       submit-text="确认"
       @submit="onClickSelect"
     >
-      <mt-picker 
-        :slots="list" 
-        value-key="name" 
-        @change="onSlideSelect" />
+      <mt-picker :slots="list" value-key="name" @change="onSlideSelect" />
     </v-drawer>
   </div>
 </template>

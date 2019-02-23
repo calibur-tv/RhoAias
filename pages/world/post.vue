@@ -7,15 +7,9 @@
 </style>
 
 <template>
-  <flow-list 
-    func="getWorldPost" 
-    type="seenIds" 
-    sort="active">
+  <flow-list func="getWorldPost" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
-      <post-flow-item 
-        v-for="item in flow" 
-        :key="item.id" 
-        :item="item" />
+      <post-flow-item v-for="item in flow" :key="item.id" :item="item" />
     </ul>
     <no-content slot="nothing" />
   </flow-list>
@@ -27,22 +21,9 @@ import PostFlowItem from '~/components/flow/item/PostFlowItem'
 
 export default {
   name: 'PostFlowList',
-  async asyncData(ctx) {
-    await Promise.all([
-      ctx.store.dispatch('flow/initData', {
-        func: 'getWorldPost',
-        type: 'seenIds',
-        sort: 'active'
-      })
-      // store.dispatch('flow/getMeta', { type: 'post' })
-    ])
-  },
   components: {
     FlowList,
     PostFlowItem
-  },
-  head: {
-    title: '帖子区'
   },
   data() {
     return {
@@ -53,6 +34,19 @@ export default {
     // meta() {
     //   return this.$store.state.flow.post.meta
     // }
+  },
+  async asyncData(ctx) {
+    await Promise.all([
+      ctx.store.dispatch('flow/initData', {
+        func: 'getWorldPost',
+        type: 'seenIds',
+        sort: 'active'
+      })
+      // store.dispatch('flow/getMeta', { type: 'post' })
+    ])
+  },
+  head: {
+    title: '帖子区'
   },
   methods: {
     // openCreatePost() {
