@@ -122,7 +122,7 @@ export default {
       return +parseFloat(result).toFixed(2)
     },
     minCount() {
-      return this.maxCount < 1 ? 0.01 : 1
+      return this.idol.company_state ? 0.01 : 1
     },
     needPay() {
       if (!this.count) {
