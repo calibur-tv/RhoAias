@@ -44,6 +44,13 @@
         }
       }
 
+      .invite-code {
+        float: right;
+        color: $color-text-light;
+        margin-top: 14px;
+        font-size: 12px;
+      }
+
       button {
         margin-top: 8px;
         float: right;
@@ -151,6 +158,7 @@
         <button v-if="isMe" @click="handleDaySign">
           {{ daySigned ? '已签到' : '签到' }}
         </button>
+        <span v-else class="invite-code">邀请码：{{ user.id }}</span>
         <div class="nickname oneline">
           {{ user.nickname }}
           <user-sex v-if="isMe" :sex="user.sex" :secret="user.sexSecret" />
