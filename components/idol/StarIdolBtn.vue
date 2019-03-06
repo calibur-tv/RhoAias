@@ -59,6 +59,7 @@
           购入份额：
         </p>
         <el-input-number
+          v-if="signed"
           v-model="count"
           :min="minCount"
           :max="maxCount"
@@ -96,8 +97,11 @@ export default {
     }
   },
   computed: {
+    signed() {
+      return this.$store.state.login
+    },
     pocket() {
-      if (!this.$store.state.login) {
+      if (!this.signed) {
         return 0
       }
       return +this.$store.state.user.pocket
@@ -124,7 +128,7 @@ export default {
   },
   methods: {
     openStarDrawer() {
-      if (!this.$store.state.login) {
+      if (!this.signed) {
         this.$channel.$emit('sign-in')
         return
       }
@@ -135,7 +139,7 @@ export default {
       this.showDrawer = true
     },
     async submitOrder() {
-      if (!this.count <= 0) {
+      if (this.count <= 0) {
         this.$toast.error('未选择份额')
         return
       }
