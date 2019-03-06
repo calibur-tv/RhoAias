@@ -143,7 +143,7 @@
     </nuxt-link>
     <div class="footer">
       <span>时间：{{ item.created_at.split(' ')[0] }}</span>
-      <button v-if="state === 0" @click="cancelOrder(item.id)">
+      <button v-if="canDelete" @click="cancelOrder(item.id)">
         取消订单
       </button>
     </div>
@@ -172,6 +172,12 @@ export default {
     }
   },
   computed: {
+    canDelete() {
+      if (!this.$store.state.login) {
+        return false
+      }
+      return this.state === 0 && this.$store.state.user.zone === this.item.buyer.zone
+    },
     computeTagColor() {
       const result = this.state
       if (result === 0) {
