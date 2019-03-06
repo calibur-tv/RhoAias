@@ -92,7 +92,7 @@ export default {
   data() {
     return {
       showDrawer: false,
-      count: 0
+      count: this.idol.company_state ? 0.01 : 1
     }
   },
   computed: {
