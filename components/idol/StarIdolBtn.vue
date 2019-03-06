@@ -111,15 +111,18 @@ export default {
       ).toFixed(2)
     },
     maxCount() {
-      const result = parseFloat(this.idol.stock_price) * this.pocket
+      if (!this.pocket) {
+        return 0
+      }
+      const result = +parseFloat(this.pocket / this.idol.stock_price).toFixed(2)
       if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
-        return +parseFloat(result).toFixed(2)
+        return result
       }
       const last = this.idol.max_stock_count - this.idol.star_count
       if (last < result) {
         return +parseFloat(last).toFixed(2)
       }
-      return +parseFloat(result).toFixed(2)
+      return result
     },
     minCount() {
       return this.idol.company_state ? 0.01 : 1
