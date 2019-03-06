@@ -54,7 +54,7 @@
         <p class="intro">
           购买上限：
         </p>
-        <p>{{ maxCanBuy }}股</p>
+        <p>{{ parseFloat(maxCount).toFixed(2) }}股</p>
         <p class="intro">
           购入份额：
         </p>
@@ -92,7 +92,7 @@ export default {
   data() {
     return {
       showDrawer: false,
-      count: 1
+      count: -1
     }
   },
   computed: {
@@ -102,36 +102,28 @@ export default {
       }
       return +this.$store.state.user.pocket
     },
-    maxCanBuy() {
-      if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
-        return '无上限'
-      }
-      return parseFloat(
-        this.idol.max_stock_count - this.idol.star_count
-      ).toFixed(2)
-    },
     maxCount() {
-      if (!this.pocket) {
-        return 0
+      const maxCanBuy =
+        !this.idol.max_stock_count || this.idol.max_stock_count === '0.00'
+          ? -1
+          : this.idol.max_stock_count - this.idol.star_count
+      const pocketCanBuy = this.pocket
+        ? this.pocket / this.idol.stock_price
+        : '0.00'
+      if (maxCanBuy === -1) {
+        return pocketCanBuy
       }
-      const result = +parseFloat(this.pocket / this.idol.stock_price).toFixed(2)
-      if (!this.idol.max_stock_count || this.idol.max_stock_count === '0.00') {
-        return result
-      }
-      const last = this.idol.max_stock_count - this.idol.star_count
-      if (last < result) {
-        return +parseFloat(last).toFixed(2)
-      }
-      return result
+      return Math.min(pocketCanBuy, maxCanBuy)
     },
     minCount() {
-      return this.idol.company_state ? 0.01 : 1
+      return Math.min(this.idol.company_state ? 0.01 : 1, this.maxCount)
     },
     needPay() {
-      if (!this.count) {
-        return 0
-      }
-      return (parseFloat(this.idol.stock_price) * this.count).toFixed(2)
+      return this.count === -1
+        ? parseFloat(this.minCount * this.idol.stock_price).toFixed(2)
+        : this.count
+        ? parseFloat(this.idol.stock_price * this.count).toFixed(2)
+        : '0.00'
     }
   },
   methods: {
@@ -147,7 +139,7 @@ export default {
       this.showDrawer = true
     },
     async submitOrder() {
-      if (!this.needPay) {
+      if (!this.count <= 0) {
         this.$toast.error('未选择份额')
         return
       }
