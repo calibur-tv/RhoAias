@@ -139,6 +139,9 @@ export default {
       this.showDrawer = true
     },
     async submitOrder() {
+      if (this.count === -1) {
+        this.count = +parseFloat(this.needPay / this.idol.stock_price).toFixed(2)
+      }
       if (!this.count <= 0) {
         this.$toast.error('未选择份额')
         return
