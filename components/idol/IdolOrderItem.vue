@@ -143,15 +143,20 @@
     </nuxt-link>
     <div class="footer">
       <span>时间：{{ item.created_at.split(' ')[0] }}</span>
-      <button v-if="canDelete" @click="cancelOrder(item.id)">
-        取消订单
-      </button>
+      <template v-if="isMine">
+        <button v-if="state === 0" @click="cancelOrder(item.id)">
+          取消订单
+        </button>
+        <button v-if="state === 1" @click="rollbackOrder(item.id)">
+          终止订单
+        </button>
+      </template>
     </div>
   </li>
 </template>
 
 <script>
-import { deleteOrder } from '~/api/cartoonRoleApi'
+import { deleteOrder, overOrder } from '~/api/cartoonRoleApi'
 import { Tag } from 'element-ui'
 
 export default {
@@ -172,11 +177,11 @@ export default {
     }
   },
   computed: {
-    canDelete() {
+    isMine() {
       if (!this.$store.state.login) {
         return false
       }
-      return this.state === 0 && this.$store.state.user.zone === this.item.buyer.zone
+      return this.$store.state.user.zone === this.item.buyer.zone
     },
     computeTagColor() {
       const result = this.state
@@ -192,6 +197,8 @@ export default {
         return 'warning'
       } else if (result === 5) {
         return 'info'
+      } else if (result === 6) {
+        return 'danger'
       }
       return ''
     },
@@ -209,6 +216,8 @@ export default {
         return '作品已出售'
       } else if (result === 5) {
         return '作品已失效'
+      } else if (result === 6) {
+        return '经纪人解约'
       }
       return '未知状态'
     }
@@ -229,6 +238,29 @@ export default {
             await deleteOrder(this, { order_id })
             this.$toast.success('订单已取消')
             this.state = 3
+          } catch (e) {
+            this.$toast.error(e)
+          } finally {
+            this.loading = false
+          }
+        })
+        .catch()
+    },
+    rollbackOrder(order_id) {
+      if (this.loading) {
+        return
+      }
+      this.$confirm('终止后无法得到收益分成，也不会退还定金，确认要这么做吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async () => {
+          try {
+            this.loading = true
+            await overOrder(this, { order_id })
+            this.$toast.success('订单已解约')
+            this.state = 6
           } catch (e) {
             this.$toast.error(e)
           } finally {
