@@ -81,3 +81,5 @@ typings/
 
 # Mac
 .DS_Store
+
+.env.js

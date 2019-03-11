@@ -93,6 +93,7 @@
 
 <script>
 import { getUserCard } from '~/api/userApi'
+import { SHARE_KEY } from '~/.env'
 
 export default {
   name: 'GiftModal',
@@ -115,7 +116,7 @@ export default {
         /^\d+$/.test(this.query.time) &&
         Date.now() <= this.query.time * 1000 &&
         this.query.key ===
-          this.$md5(`${this.query.uid}-the-world-${this.query.time}`)
+          this.$md5(`${this.query.uid}-${SHARE_KEY}-${this.query.time}`)
       )
     },
     isGuest() {

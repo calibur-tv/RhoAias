@@ -250,11 +250,15 @@ export default {
       if (this.loading) {
         return
       }
-      this.$confirm('终止后无法得到收益分成，也不会退还定金，确认要这么做吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      this.$confirm(
+        '终止后无法得到收益分成，也不会退还定金，确认要这么做吗？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      )
         .then(async () => {
           try {
             this.loading = true

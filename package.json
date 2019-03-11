@@ -1,5 +1,5 @@
 {
-  "name": "merlin",
+  "name": "RhoAias",
   "version": "1.0.0",
   "description": "m.calibur.tv",
   "author": "caliburFE",
@@ -36,6 +36,7 @@
     "normalize.css": "^8.0.1",
     "nuxt": "^2.4.5",
     "particles.js": "^2.0.0",
+    "qs": "^6.6.0",
     "timeago.js": "3.0.0",
     "v-charts": "^1.19.0",
     "vant": "^1.6.4",

@@ -56,6 +56,9 @@ export default ({ $axios, app }) => {
       })
       if (/\/door\/refresh/.test(err.config.url)) {
         Cookies.remove('JWT-TOKEN')
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       }
       M.toast.error(err.message)
     }
