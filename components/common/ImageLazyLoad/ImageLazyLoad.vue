@@ -303,7 +303,7 @@ export default {
        * container 的高度通过一个内部元素的 padding 来撑起来
        */
       return {
-        width: `${this.width}px`
+        width: this.$px2vw(this.width)
       }
     },
     blockModeClasses() {
@@ -536,7 +536,7 @@ export default {
       if (/%$/.test(size)) {
         return size
       }
-      return `${size}px`
+      return this.$px2vw(size)
     },
     handleImageLoadSuccess() {
       this.error = false

@@ -151,8 +151,8 @@
             backgroundImage: `url(${$resize(currentImage.url, {
               webP: !download
             })})`,
-            width: `${currentImage.finalWidth}px`,
-            height: `${currentImage.finalHeight}px`
+            width: `${$px2vw(currentImage.finalWidth)}`,
+            height: `${$px2vw(currentImage.finalHeight)}`
           }"
           :class="$style.item"
         />

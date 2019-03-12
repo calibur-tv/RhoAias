@@ -3,6 +3,7 @@ import Alias from '~/assets/js/alias'
 import Utils from '~/assets/js/utils'
 import resizeImage from '~/assets/js/resizeImage'
 import md5 from 'blueimp-md5'
+import px2vw from '~/assets/js/px2vw'
 
 Vue.use({
   install(Vue) {
@@ -13,5 +14,7 @@ Vue.use({
     Vue.prototype.$utils = Utils
 
     Vue.prototype.$resize = resizeImage
+
+    Vue.prototype.$px2vw = px2vw
   }
 })
