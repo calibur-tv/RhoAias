@@ -250,6 +250,18 @@ module.exports = {
           'vant'
         ]
       ]
+    },
+    postcss: {
+      plugins: {
+        'postcss-px-to-viewport': {
+          viewportWidth: 375
+        }
+      },
+      preset: {
+        autoprefixer: {
+          remove: false
+        }
+      }
     }
   }
 }
