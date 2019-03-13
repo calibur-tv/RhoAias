@@ -61,7 +61,7 @@ $field-height: 48px;
       <span>&times;</span>
     </div>
     <div class="input">
-      <input v-model="text" :type="type" :placeholder="placeholder" />
+      <input v-model="text" :type="type" :placeholder="placeholder" >
     </div>
   </div>
 </template>

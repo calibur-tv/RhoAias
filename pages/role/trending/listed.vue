@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     selectedLabel() {
-      return this.actions.filter(_ => _.value === this.sort_selected)[0]['name']
+      return this.actions.filter(_ => _.value === this.sort_selected)[0].name
     },
     actions() {
       return [

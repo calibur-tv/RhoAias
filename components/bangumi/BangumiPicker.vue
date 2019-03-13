@@ -77,7 +77,7 @@ export default {
       if (!this.selected) {
         return '点击选择番剧'
       }
-      return this.list[0].values[this.list[0].defaultIndex]['name']
+      return this.list[0].values[this.list[0].defaultIndex].name
     }
   },
   mounted() {
@@ -95,7 +95,7 @@ export default {
   methods: {
     onClickSelect() {
       this.selected = true
-      this.$emit('input', this.list[0].values[this.list[0].defaultIndex]['id'])
+      this.$emit('input', this.list[0].values[this.list[0].defaultIndex].id)
     },
     onSlideSelect(picker, values) {
       if (!values[0]) {

@@ -44,7 +44,7 @@
         </button>
       </div>
       <div v-else-if="statusCode === 403" id="error-403">
-        <img src="~assets/img/error/500.jpeg" alt="error-403" />
+        <img src="~assets/img/error/500.jpeg" alt="error-403" >
         <h3>您没有权限访问该页面</h3>
         <a href="/" class="back">回到首页</a>
       </div>

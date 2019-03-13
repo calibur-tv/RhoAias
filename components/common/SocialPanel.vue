@@ -88,7 +88,7 @@
     <div class="users">
       <ul>
         <li v-for="user in displayUsers" :key="user.id" class="user-face">
-          <img :src="$resize(user.avatar, { width: 60 })" />
+          <img :src="$resize(user.avatar, { width: 60 })" >
         </li>
       </ul>
     </div>

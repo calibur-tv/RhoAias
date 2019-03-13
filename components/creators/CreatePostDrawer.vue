@@ -163,7 +163,7 @@ export default {
       return this.selectedTags.map(_ => {
         return {
           id: _,
-          name: this.tags.filter(a => a.value === _)[0]['label']
+          name: this.tags.filter(a => a.value === _)[0].label
         }
       })
     }

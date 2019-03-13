@@ -24,16 +24,16 @@ export default {
     let timeout = null
     let previous = 0
     if (!options) options = {}
-    let later = function() {
+    const later = function() {
       previous = options.leading === false ? 0 : Date.now()
       timeout = null
       result = func.apply(context, args)
       if (!timeout) context = args = null
     }
     return function() {
-      let now = Date.now()
+      const now = Date.now()
       if (!previous && options.leading === false) previous = now
-      let remaining = wait - (now - previous)
+      const remaining = wait - (now - previous)
       context = this
       args = arguments
       if (remaining <= 0 || remaining > wait) {

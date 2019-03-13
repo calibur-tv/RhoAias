@@ -55,7 +55,7 @@
         没有更多了，休息一下吧
       </template>
       <div v-else-if="!loading" class="nothing">
-        <img src="~assets/img/no-content.png" alt="no-content" />
+        <img src="~assets/img/no-content.png" alt="no-content" >
         <p>还没有内容</p>
         <slot />
       </div>

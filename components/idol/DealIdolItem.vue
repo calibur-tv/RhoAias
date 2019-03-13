@@ -110,7 +110,7 @@
   <li class="deal-idol-item">
     <div class="header">
       <nuxt-link :to="$alias.cartoonRole(item.idol.id)">
-        <img :src="$resize(item.idol.avatar, { width: 70, height: 70 })" />
+        <img :src="$resize(item.idol.avatar, { width: 70, height: 70 })" >
       </nuxt-link>
       <div class="intro">
         <nuxt-link :to="$alias.cartoonRole(item.idol.id)">

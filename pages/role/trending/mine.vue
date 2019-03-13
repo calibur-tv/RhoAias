@@ -80,7 +80,7 @@
         />
       </ul>
       <div slot="nothing" class="align-center">
-        <img src="~assets/img/no-content.png" />
+        <img src="~assets/img/no-content.png" >
         <nuxt-link to="/role/trending/newbie">
           <el-button type="primary" size="mini" round>
             查看融资中的公司
@@ -103,7 +103,7 @@
         />
       </ul>
       <div slot="nothing" class="align-center">
-        <img src="~assets/img/no-content.png" />
+        <img src="~assets/img/no-content.png" >
         <p>还没有发起过交易</p>
       </div>
     </flow-list>
@@ -287,7 +287,7 @@ export default {
       })
       if (deal) {
         // 去掉已售出的份额
-        deal['product_count'] = deal['last_count']
+        deal.product_count = deal.last_count
         Object.keys(this.deal).forEach(key => {
           this.deal[key] = deal[key]
         })

@@ -17,7 +17,7 @@ export default req => {
       }
     })
   }
-  const authHeader = req ? req.headers['authorization'] : ''
+  const authHeader = req ? req.headers.authorization : ''
   if (authHeader) {
     token = authHeader.split('Bearer ')[1]
   }

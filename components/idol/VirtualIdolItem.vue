@@ -158,7 +158,7 @@
   <li class="virtual-idol-item">
     <nuxt-link :to="$alias.cartoonRole(item.id)">
       <div class="header">
-        <img :src="$resize(item.avatar, { width: 70, height: 70 })" />
+        <img :src="$resize(item.avatar, { width: 70, height: 70 })" >
         <div class="info">
           <p class="name oneline" v-text="item.name" />
           <div class="meta">

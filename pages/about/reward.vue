@@ -44,11 +44,11 @@
       <p>就算是1块钱的捐助，也能让 calibur 更好的发展</p>
     </div>
     <div class="alipay">
-      <img src="~assets/img/alipay.png" />
+      <img src="~assets/img/alipay.png" >
       <p>支付宝</p>
     </div>
     <div class="wechat">
-      <img src="~assets/img/wechat.png" />
+      <img src="~assets/img/wechat.png" >
       <p>微信</p>
     </div>
     <div class="calibur">

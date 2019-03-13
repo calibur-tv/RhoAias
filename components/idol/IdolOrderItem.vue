@@ -118,7 +118,7 @@
   <li class="idol-order-item">
     <div class="header">
       <nuxt-link class="avatar" :to="$alias.user(item.buyer.zone)">
-        <img :src="$resize(item.buyer.avatar, { width: 80 })" />
+        <img :src="$resize(item.buyer.avatar, { width: 80 })" >
       </nuxt-link>
       <div class="info">
         <nuxt-link
@@ -132,13 +132,15 @@
       </div>
     </div>
     <nuxt-link class="body" :to="$alias.post(item.product.id)">
-      <p class="intro">订单详情：</p>
+      <p class="intro">
+        订单详情：
+      </p>
       <p>价格：￥{{ item.amount }}</p>
       <p>分成：偶像占{{ item.income_ratio }}%</p>
       <p>
-        状态：<el-tag size="mini" :type="computeTagColor">{{
-          computedResult
-        }}</el-tag>
+        状态：<el-tag size="mini" :type="computeTagColor">
+          {{ computedResult }}
+        </el-tag>
       </p>
     </nuxt-link>
     <div class="footer">

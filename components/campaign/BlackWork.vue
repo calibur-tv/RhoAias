@@ -71,7 +71,7 @@ $color: RGB(78, 73, 74);
 
 <template>
   <div id="campaign-black-work">
-    <img v-if="image" :src="image" class="canvas-wrap bg" />
+    <img v-if="image" :src="image" class="canvas-wrap bg" >
     <div v-else class="canvas-wrap bg">
       <div class="the-world">
         <div
@@ -93,25 +93,25 @@ $color: RGB(78, 73, 74);
         <div class="item sex textarea">
           <span>性别：</span>
           <div>
-            <input type="text" maxlength="2" />
+            <input type="text" maxlength="2" >
           </div>
         </div>
         <div class="item height textarea">
           <span>身長：</span>
           <div>
-            <input type="text" maxlength="12" />
+            <input type="text" maxlength="12" >
           </div>
         </div>
         <div class="item face textarea">
           <span>特徽：</span>
           <div>
-            <input type="text" maxlength="12" />
+            <input type="text" maxlength="12" >
           </div>
         </div>
         <div class="item location textarea">
           <span>所在地：</span>
           <div>
-            <input type="text" maxlength="12" />
+            <input type="text" maxlength="12" >
           </div>
         </div>
       </div>

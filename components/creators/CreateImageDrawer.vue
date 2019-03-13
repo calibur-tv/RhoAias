@@ -319,11 +319,9 @@ export default {
           this.$toast.error('图片名字请缩减至 30 字以内')
           return
         }
-      } else {
-        if (!this.image.selectedAlbum) {
-          this.$toast.error('请选择要上传的相册')
-          return
-        }
+      } else if (!this.image.selectedAlbum) {
+        this.$toast.error('请选择要上传的相册')
+        return
       }
       if (this.submitting) {
         return

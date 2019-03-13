@@ -306,8 +306,8 @@
           placeholder="短信验证码"
           auto-complete="off"
         />
-        <br />
-        <br />
+        <br >
+        <br >
         <el-input
           v-model.trim="bindPhone.password"
           type="text"

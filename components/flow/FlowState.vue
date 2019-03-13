@@ -79,7 +79,7 @@ $font-size: 14px;
     <div v-else-if="nothing">
       <slot name="nothing">
         <div class="state-nothing">
-          <img src="~assets/img/no-content.png" alt="no-content" />
+          <img src="~assets/img/no-content.png" alt="no-content" >
           <span>这里什么都没有</span>
         </div>
       </slot>
@@ -158,7 +158,7 @@ export default {
         el.tagName !== 'BOYD' &&
         el.nodeType === 1
       ) {
-        let overflowY = window.getComputedStyle(el).overflowY
+        const overflowY = window.getComputedStyle(el).overflowY
         if (overflowY === 'scroll' || overflowY === 'auto') {
           return el
         }

@@ -284,7 +284,7 @@
       </h3>
     </div>
     <div class="capture-wrap">
-      <img v-if="result" :src="result" />
+      <img v-if="result" :src="result" >
       <div v-else class="capture-area">
         <div class="main">
           <div class="border-outline">
@@ -304,7 +304,7 @@
             <p class="info">和我一起在 <strong>calibur.tv</strong> 追番吧</p>
             <div class="tags">
               <div v-for="(tag, index) in tags" :key="index" class="badge">
-                <img src="~assets/img/invite/icon.png" />
+                <img src="~assets/img/invite/icon.png" >
                 <span>{{ tag }}</span>
               </div>
             </div>

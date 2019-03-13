@@ -66,7 +66,7 @@
   <div v-if="showDialog" class="gift-modal">
     <div v-if="user" class="content">
       <div class="avatar">
-        <img :src="$resize(user.avatar, { width: 200 })" />
+        <img :src="$resize(user.avatar, { width: 200 })" >
       </div>
       <div class="tips">
         <p>这个页面是「{{ user.nickname }}」分享给你的</p>

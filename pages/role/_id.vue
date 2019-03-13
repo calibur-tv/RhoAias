@@ -280,12 +280,12 @@
             </el-collapse>
           </template>
           <p v-else>
-            <br />
-            <br />
+            <br >
+            <br >
             只有大股东可以修改公司股价和发行量
-            <br />
-            <br />
-            <br />
+            <br >
+            <br >
+            <br >
           </p>
         </template>
       </tab-container>

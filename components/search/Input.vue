@@ -119,7 +119,7 @@
         :class="{ active: index === selectedIndex }"
         @click="clickToSearch(index)"
       >
-        <img :src="$resize(item.avatar, { width: 60 })" />
+        <img :src="$resize(item.avatar, { width: 60 })" >
         <span v-text="item.name" />
       </li>
     </ul>

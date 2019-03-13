@@ -111,7 +111,7 @@ $main-color: #f25d8e;
     <tab-container :headers="headers" @change="handleTabSwitch">
       <div slot="0" class="my-space">
         <div class="content">
-          <img :src="$resize(user.avatar, { width: 150 })" />
+          <img :src="$resize(user.avatar, { width: 150 })" >
           <p>
             <span class="nickname">{{ user.nickname }}</span
             >，你的邀请码是
@@ -139,7 +139,7 @@ $main-color: #f25d8e;
       </div>
       <div slot="1" class="invite-users">
         <div v-if="source" class="header">
-          <img :src="$resize(user.avatar, { width: 80 })" />
+          <img :src="$resize(user.avatar, { width: 80 })" >
           <span v-if="source.total"
             >总共邀请了&nbsp;<strong>{{ source.total }}</strong
             >&nbsp;位小伙伴</span
@@ -155,7 +155,7 @@ $main-color: #f25d8e;
         >
           <ul slot-scope="{ flow }" class="users">
             <li v-for="item in flow" :key="item.id">
-              <img :src="$resize(item.avatar, { width: 60 })" />
+              <img :src="$resize(item.avatar, { width: 60 })" >
               <span v-text="item.nickname" />
             </li>
           </ul>

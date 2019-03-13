@@ -205,7 +205,7 @@ export default {
       return this.$store.state.login ? this.$store.state.user.id : 0
     },
     isMine() {
-      return this.currentUserId === this.post['from_user_id']
+      return this.currentUserId === this.post.from_user_id
     },
     canDelete() {
       return this.isMine || this.currentUserId === this.masterId

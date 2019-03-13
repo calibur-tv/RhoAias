@@ -70,10 +70,9 @@
             <span class="score"
               >持有{{ item.score }}股，占比{{
                 computedPercent(item.score)
-              }}</span
-            >
+              }}</span>
             <div class="user">
-              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" />
+              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" >
               <p class="nickname oneline" v-text="item.nickname" />
             </div>
           </nuxt-link>
@@ -92,7 +91,7 @@
           <nuxt-link :to="$alias.user(item.zone)">
             <v-time v-model="item.score" class="score" />
             <div class="user">
-              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" />
+              <img :src="$resize(item.avatar, { width: 60 })" class="avatar" >
               <p class="nickname oneline" v-text="item.nickname" />
             </div>
           </nuxt-link>
