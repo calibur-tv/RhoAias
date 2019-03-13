@@ -69,7 +69,9 @@ $font-size: 14px;
 
 <template>
   <div class="flow-state-wrap">
-    <div v-if="error" @click="fetch">
+    <div v-if="error"
+         @click="fetch"
+    >
       <slot name="error">
         <div class="state-error">
           <span>出错了，点击重试</span>
@@ -79,14 +81,18 @@ $font-size: 14px;
     <div v-else-if="nothing">
       <slot name="nothing">
         <div class="state-nothing">
-          <img src="~assets/img/no-content.png" alt="no-content" >
+          <img
+            src="~assets/img/no-content.png" alt="no-content"
+          >
           <span>这里什么都没有</span>
         </div>
       </slot>
     </div>
     <div v-else-if="noMore">
       <slot name="no-more">
-        <div v-if="displayNoMore" class="state-no-more">
+        <div v-if="displayNoMore"
+             class="state-no-more"
+        >
           <span>没有更多了</span>
         </div>
       </slot>
@@ -99,8 +105,12 @@ $font-size: 14px;
         </div>
       </slot>
     </div>
-    <div v-else-if="auto" class="state-shim" />
-    <button v-else @click="fetch">
+    <div v-else-if="auto"
+         class="state-shim"
+    />
+    <button v-else
+            @click="fetch"
+    >
       <slot name="load-btn">
         <div class="state-fetch-btn-text">
           <span>点击加载更多</span>

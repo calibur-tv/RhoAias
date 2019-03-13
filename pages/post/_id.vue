@@ -158,7 +158,7 @@
           <nuxt-link :to="$alias.user(master.zone)" class="avatar">
             <v-img :src="master.avatar" :avatar="true" width="35" />
           </nuxt-link>
-          <v-popover
+          <VPopover
             :actions="actions"
             :report-id="id"
             :is-creator="post.is_creator"
@@ -167,7 +167,7 @@
             <button class="tool-btn">
               ···
             </button>
-          </v-popover>
+          </VPopover>
           <div class="summary">
             <nuxt-link
               :to="$alias.user(master.zone)"
@@ -190,7 +190,7 @@
           </div>
         </div>
         <div class="content">
-          <image-preview
+          <ImagePreview
             :images="post.images"
             :download="false"
             class="image-area"
@@ -207,7 +207,7 @@
                 :height="img.height"
               />
             </div>
-          </image-preview>
+          </ImagePreview>
           <div class="text-area" v-html="post.content" />
         </div>
         <div class="tags">
@@ -219,7 +219,7 @@
             <i class="iconfont icon-tag" />
             <span v-text="post.idol.name" />
           </router-link>
-          <buy-content-btn
+          <BuyContentBtn
             v-else-if="post.is_idol_manager && post.is_creator"
             :id="id"
             :title="post.title"
@@ -234,7 +234,7 @@
           />
         </div>
         <div class="footer">
-          <social-panel
+          <SocialPanel
             :id="id"
             :is-creator="post.is_creator"
             :is-mine="isMaster"
@@ -251,7 +251,7 @@
         </div>
       </div>
       <div class="hr" />
-      <comment-main
+      <CommentMain
         :id="id"
         :only-see-master="onlySeeMaster"
         :bottom-append-comment="false"
@@ -260,35 +260,35 @@
         type="post"
       >
         <div slot="header" />
-        <post-comment-item
+        <PostCommentItem
           slot="comment-item"
           slot-scope="{ comment }"
           :post="comment"
           :master-id="master.id"
           :preview="post.preview_images"
         />
-        <post-comment-form
+        <PostCommentForm
           :id="id"
           slot="reply-form"
           slot-scope="{ close }"
           @close="close"
         />
-      </comment-main>
+      </CommentMain>
     </div>
     <div class="hr" />
     <div class="container bangumi-panel">
       <h3 class="sub-title">
         所属番剧：
       </h3>
-      <bangumi-panel
+      <BangumiPanel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
       >
         <p class="summary" v-text="bangumi.summary" />
-      </bangumi-panel>
+      </BangumiPanel>
     </div>
-    <share-btn :share-data="share_data" />
+    <ShareBtn :share-data="share_data" />
   </div>
 </template>
 

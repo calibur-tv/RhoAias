@@ -1,8 +1,8 @@
 <template>
   <div id="bangumi-question-flow">
-    <flow-list :id="id" func="getBangumiQAQ" type="seenIds" sort="active">
+    <FlowList :id="id" func="getBangumiQAQ" type="seenIds" sort="active">
       <ul slot-scope="{ flow }">
-        <question-flow-item
+        <QuestionFlowItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -10,7 +10,7 @@
           user-zone=""
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

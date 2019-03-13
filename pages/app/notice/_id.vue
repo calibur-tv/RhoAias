@@ -25,7 +25,7 @@
     <div class="container">
       <h1 class="title" v-text="notice.title" />
     </div>
-    <json-content :content="notice.content" />
+    <JsonContent :content="notice.content" />
     <footer class="footer">
       <template v-if="notice.created_at === notice.updated_at">
         <span>发布于：</span><v-time v-model="notice.created_at" />

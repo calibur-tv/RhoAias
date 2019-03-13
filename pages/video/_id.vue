@@ -249,11 +249,8 @@
             v-clipboard="videoSrc"
             href="javascript:;"
             @success="$toast.success('复制成功')"
-            >点击复制链接</a
-          >
-          <a v-if="info.baidu_cloud_pwd" href="javascript:;"
-            >密码：{{ info.baidu_cloud_pwd }}</a
-          >
+          >点击复制链接</a>
+          <a v-if="info.baidu_cloud_pwd" href="javascript:;">密码：{{ info.baidu_cloud_pwd }}</a>
         </template>
         <template v-else>
           <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
@@ -274,9 +271,7 @@
       </template>
       <template v-else-if="showLevelThrottle">
         <p>该视频需要你的等级至少 {{ need_min_level }} 才能播放</p>
-        <a href="https://www.calibur.tv/post/2282"
-          >&nbsp;&nbsp;为什么要限流？</a
-        >
+        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
         <a href="https://www.calibur.tv/post/2279">&nbsp;&nbsp;如何升级？</a>
       </template>
       <video
@@ -288,7 +283,9 @@
         controls="controls"
         controlsList="nodownload"
       />
-      <img :src="$resize(info.poster, { width: 200 })" class="share-poster" >
+      <img
+        :src="$resize(info.poster, { width: 200 })" class="share-poster"
+      >
       <div v-if="showRewardDialog" class="need-coin-bg">
         <p>该视频需要投食之后才能播放</p>
       </div>
@@ -330,7 +327,7 @@
           </li>
         </ul>
       </div>
-      <social-panel
+      <SocialPanel
         :id="info.id"
         :is-creator="info.is_creator"
         :is-mine="isMine"
@@ -340,7 +337,7 @@
       <h3 class="sub-title">
         番剧简介
       </h3>
-      <bangumi-panel
+      <BangumiPanel
         v-if="bangumi"
         :id="bangumi.id"
         :avatar="bangumi.avatar"
@@ -351,14 +348,12 @@
         <button :class="{ active: buyed }" @click="handleClickBuy">
           {{ buyed ? '已承包' : '10个团子承包整个季度' }}
         </button>
-      </bangumi-panel>
+      </BangumiPanel>
       <h3 class="sub-title">
         视频反馈
       </h3>
       <p class="tip">
-        1：大家可以加入QQ群 <strong>106402736</strong>、<strong
-          >806818950</strong
-        >
+        1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong>
         获得最新的资源更新提醒
       </p>
       <p class="tip">
@@ -374,7 +369,7 @@
         </button>
       </div>
       <v-lazy>
-        <comment-main :id="id" :master-id="info.user_id" type="video" />
+        <CommentMain :id="id" :master-id="info.user_id" type="video" />
       </v-lazy>
     </div>
     <!-- 付费弹窗 -->
@@ -404,7 +399,7 @@
         </button>
       </div>
     </v-drawer>
-    <share-btn :share-data="share_data" />
+    <ShareBtn :share-data="share_data" />
   </div>
 </template>
 

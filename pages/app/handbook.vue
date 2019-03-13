@@ -65,15 +65,11 @@
           <ul>
             <li>站内流通着一种虚拟货币，它与人民币是一比一的恒定汇率</li>
             <li>
-              虚拟币分两种，一种是不可提现的<strong>「团子」</strong>，另一种是可以提现的<strong
-                >「光玉」</strong
-              >
+              虚拟币分两种，一种是不可提现的<strong>「团子」</strong>，另一种是可以提现的<strong>「光玉」</strong>
             </li>
             <li>1团子 = 1光玉 = 1人民币</li>
             <li>
-              <strong
-                >团子可以通过：「每日签到」、「每日活跃提升战斗力」、「邀请他人加入小站」获得</strong
-              >
+              <strong>团子可以通过：「每日签到」、「每日活跃提升战斗力」、「邀请他人加入小站」获得</strong>
             </li>
             <li>光玉只能通过你自己发表优质的原创内容，让别人投食给你</li>
             <li>
@@ -89,8 +85,7 @@
             如何提现：
           </h5>
           <p class="p">
-            目前不支持自动提现，需加QQ群：<span class="strong">718529809</span
-            >，加群时附上你的邀请码，审核通过后可进群提现
+            目前不支持自动提现，需加QQ群：<span class="strong">718529809</span>，加群时附上你的邀请码，审核通过后可进群提现
           </p>
           <h5 class="subtitle">
             重要提醒：
@@ -130,9 +125,7 @@
           </p>
           <ul>
             <li>
-              3级以后才可以发漫评、在问答区提问<span class="strong"
-                >（目前发表漫评、问答区仅在网页端开放，APP相关还在研发中）</span
-              >
+              3级以后才可以发漫评、在问答区提问<span class="strong">（目前发表漫评、问答区仅在网页端开放，APP相关还在研发中）</span>
             </li>
           </ul>
           <h5 class="subtitle">
@@ -232,9 +225,7 @@
             <li>思想正直，是社会主义的接班人~</li>
           </ul>
           <p class="p">
-            如果你满足以上条件，请尽快联系我们<span class="strong"
-              >QQ群：106402736</span
-            >，组织需要你！
+            如果你满足以上条件，请尽快联系我们<span class="strong">QQ群：106402736</span>，组织需要你！
           </p>
         </el-collapse-item>
         <el-collapse-item name="6">
@@ -247,9 +238,7 @@
           </p>
           <p class="p">
             calibur 建设的初衷是：
-            <span class="strong"
-              >为了让喜欢动漫的人，在为动漫付出的同时，既可以得到精神上的回报，也可以获得物质上的奖励</span
-            >， 让大家<span class="strong">不需要再用爱来发电</span>，
+            <span class="strong">为了让喜欢动漫的人，在为动漫付出的同时，既可以得到精神上的回报，也可以获得物质上的奖励</span>， 让大家<span class="strong">不需要再用爱来发电</span>，
             因此有了团子系统，并且我坚持让团子可提现，都是为了贯彻我的初衷，保持最初的"纯粹"
           </p>
           <p class="p">
@@ -259,8 +248,7 @@
           <p class="p">
             calibur 的定位是一个「二次元社区」，因此重要的就是<span
               class="strong"
-              >社区氛围</span
-            >与<span class="strong">内容质量</span>
+            >社区氛围</span>与<span class="strong">内容质量</span>
             如果大家想为 calibur
             的成长做一点贡献，希望多发表一些高质量的内容，帮助社区成长
           </p>

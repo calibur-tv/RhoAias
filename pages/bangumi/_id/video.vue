@@ -11,7 +11,7 @@
         <div v-for="season in source.videos" :key="season.name">
           <h3 :key="season.name" class="sub-title" v-text="season.name" />
           <ul>
-            <video-flow-item
+            <VideoFlowItem
               v-for="video in season.data"
               :key="video.id"
               :item="video"
@@ -21,7 +21,7 @@
         </div>
       </div>
       <ul v-else>
-        <video-flow-item
+        <VideoFlowItem
           v-for="video in source.videos[0].data"
           :key="video.id"
           :item="video"

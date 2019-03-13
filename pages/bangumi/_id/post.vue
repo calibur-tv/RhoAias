@@ -1,15 +1,15 @@
 <template>
   <div id="bangumi-post-flow">
-    <flow-list :id="id" func="getBangumiPost" type="seenIds" sort="active">
+    <FlowList :id="id" func="getBangumiPost" type="seenIds" sort="active">
       <ul slot-scope="{ flow }">
-        <post-flow-item
+        <PostFlowItem
           v-for="item in computeFlow(flow)"
           :key="item.id"
           :bangumi-id="id"
           :item="item"
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

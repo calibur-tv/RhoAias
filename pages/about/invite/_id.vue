@@ -56,11 +56,11 @@
     <div class="container">
       <p v-if="haveAuthToken" class="signed">
         你已经是注册用户了 (￣3￣)
-        <br >
+        <br>
         把这个网址链接发给小伙伴，或者告诉TA你的邀请码就行啦
-        <br >
+        <br>
         快来邀请小伙伴一起注册 calibur 吧
-        <br >
+        <br>
         点击查看<nuxt-link to="/my/invite">
           我的邀请码
         </nuxt-link>
@@ -69,7 +69,7 @@
         <h3 class="sub-title">
           欢迎来到 calibur.tv
         </h3>
-        <sign-up-form :invite-code="id" />
+        <SignUpForm :invite-code="id" />
       </div>
     </div>
   </div>

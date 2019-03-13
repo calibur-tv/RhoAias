@@ -63,7 +63,7 @@
         />
       </el-radio-group>
     </header>
-    <flow-list
+    <FlowList
       v-show="selected === '我的公司'"
       :id="userId"
       func="virtualIdolList"
@@ -71,7 +71,7 @@
       sort="user-activity-1"
     >
       <ul slot-scope="{ flow }">
-        <virtual-idol-item
+        <VirtualIdolItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -80,22 +80,22 @@
         />
       </ul>
       <div slot="nothing" class="align-center">
-        <img src="~assets/img/no-content.png" >
+        <img src="~assets/img/no-content.png">
         <nuxt-link to="/role/trending/newbie">
           <el-button type="primary" size="mini" round>
             查看融资中的公司
           </el-button>
         </nuxt-link>
       </div>
-    </flow-list>
-    <flow-list
+    </FlowList>
+    <FlowList
       v-show="selected === '我的交易'"
       func="myVirtualIdolDeals"
       type="page"
       sort="mine"
     >
       <ul slot-scope="{ flow }">
-        <deal-idol-item
+        <DealIdolItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -103,24 +103,24 @@
         />
       </ul>
       <div slot="nothing" class="align-center">
-        <img src="~assets/img/no-content.png" >
+        <img src="~assets/img/no-content.png">
         <p>还没有发起过交易</p>
       </div>
-    </flow-list>
-    <flow-list
+    </FlowList>
+    <FlowList
       v-show="selected === '我的采购'"
       func="getUserProductOrders"
       type="page"
       sort="news"
     >
       <ul slot-scope="{ flow }">
-        <idol-product-order-item
+        <IdolProductOrderItem
           v-for="(item, index) in flow"
           :key="index"
           :item="item"
         />
       </ul>
-    </flow-list>
+    </FlowList>
     <v-drawer
       v-model="showCreateDealDrawer"
       from="bottom"
@@ -142,8 +142,7 @@
         <p>
           最终交易的总价值不得低于 0.01 个虚拟币，当前市场价：<strong>{{
             idol.stock_price
-          }}</strong
-          >/股
+          }}</strong>/股
         </p>
         <p v-if="loaded">
           {{

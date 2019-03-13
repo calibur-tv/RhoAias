@@ -80,8 +80,12 @@
         如果你担心自己的性别和生日被其他用户知道，可以勾选<strong>私密</strong>，这样我们只会在推荐系统中用到你的数据
       </p>
     </div>
-    <el-form-item label="昵称" prop="nickname">
-      <el-input v-model="nickname" class="bottom-line" />
+    <el-form-item label="昵称"
+                  prop="nickname"
+    >
+      <el-input v-model="nickname"
+                class="bottom-line"
+      />
     </el-form-item>
     <el-form-item label="生日">
       <no-ssr>
@@ -97,7 +101,9 @@
         />
       </no-ssr>
       <div class="state-wrap">
-        <div class="state-label">状态：{{ birthSecret ? '私密' : '公开' }}</div>
+        <div class="state-label">
+          状态：{{ birthSecret ? '私密' : '公开' }}
+        </div>
         <mt-switch v-model="birthSecret" />
       </div>
       <div class="select-btn">
@@ -110,16 +116,22 @@
     </el-form-item>
     <el-form-item label="性别">
       <div class="state-wrap">
-        <div class="state-label">状态：{{ sexSecret ? '私密' : '公开' }}</div>
+        <div class="state-label">
+          状态：{{ sexSecret ? '私密' : '公开' }}
+        </div>
         <mt-switch v-model="sexSecret" />
       </div>
       <div class="select-btn">
-        <v-popover :actions="sexActions">
-          <button type="button" v-text="selectedSexLabel" />
-        </v-popover>
+        <VPopover :actions="sexActions">
+          <button type="button"
+                  v-text="selectedSexLabel"
+          />
+        </VPopover>
       </div>
     </el-form-item>
-    <el-form-item label="签名" prop="signature">
+    <el-form-item label="签名"
+                  prop="signature"
+    >
       <el-input
         v-model="signature"
         :rows="5"

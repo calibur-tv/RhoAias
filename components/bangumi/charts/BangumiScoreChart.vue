@@ -1,6 +1,6 @@
 <template>
   <not-ssr :style="{ height: size }">
-    <ve-radar
+    <VeRadar
       :data="chartData"
       :setting="chartSettings"
       :extend="chartExtend"
@@ -15,14 +15,11 @@
 </template>
 
 <script>
+import VeRadar from 'v-charts/lib/radar.common'
+
 export default {
   components: {
-    VeRadar: () => {
-      if (typeof window === 'undefined') {
-        return import('~/assets/js/empty')
-      }
-      return import('v-charts/lib/radar.common')
-    }
+    VeRadar
   },
   props: {
     source: {

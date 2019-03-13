@@ -84,7 +84,7 @@
             mode: 2
           })
         "
-      />
+      >
       <ul v-if="meta">
         <li>投资人数：{{ meta.buyer_count }}</li>
         <li>总交易额：￥{{ parseFloat(meta.money_count).toFixed(2) }}</li>
@@ -98,7 +98,7 @@
         <div />
       </nuxt-link>
     </div>
-    <tab-container :headers="tabs" :router="true" />
+    <TabContainer :headers="tabs" :router="true" />
     <div class="todo">
       <nuxt-link v-if="orderCount" to="/role/trending/mine">
         <i class="iconfont icon-nitification" />

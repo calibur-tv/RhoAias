@@ -112,7 +112,9 @@
     <div class="score-header container">
       <h1 class="title" v-text="info.title" />
       <div class="author-info">
-        <div class="total">{{ info.total }}分</div>
+        <div class="total">
+          {{ info.total }}分
+        </div>
         <div class="author">
           <nuxt-link :to="$alias.user(user.zone)" target="_blank">
             <div class="avatar">
@@ -123,7 +125,7 @@
           ·
           <v-time v-model="info.published_at" />
           ·
-          <v-popover
+          <VPopover
             :report-id="info.id"
             :is-creator="info.is_creator"
             report-type="score"
@@ -131,7 +133,7 @@
             <button class="tool-btn">
               举报
             </button>
-          </v-popover>
+          </VPopover>
         </div>
       </div>
       <div class="star-row">
@@ -145,10 +147,10 @@
       </div>
     </div>
     <div class="score-body">
-      <json-content :content="info.content" />
+      <JsonContent :content="info.content" />
     </div>
     <div class="score-footer">
-      <social-panel
+      <SocialPanel
         :id="info.id"
         :is-creator="info.is_creator"
         :is-mine="isMine"
@@ -165,7 +167,7 @@
     </div>
     <div class="container">
       <v-lazy>
-        <comment-main :id="info.id" :master-id="user.id" type="score" />
+        <CommentMain :id="info.id" :master-id="user.id" type="score" />
       </v-lazy>
     </div>
     <div class="hr" />
@@ -173,15 +175,15 @@
       <h3 class="sub-title">
         所属番剧：
       </h3>
-      <bangumi-panel
+      <BangumiPanel
         :id="bangumi.id"
         :avatar="bangumi.avatar"
         :name="bangumi.name"
       >
         <p class="summary" v-text="bangumi.summary" />
-      </bangumi-panel>
+      </BangumiPanel>
     </div>
-    <share-btn :share-data="share_data" />
+    <ShareBtn :share-data="share_data" />
   </div>
 </template>
 

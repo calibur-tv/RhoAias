@@ -156,7 +156,7 @@
       </el-radio-group>
     </header>
     <main class="user-mark-view">
-      <flow-list
+      <FlowList
         v-if="type === 'post'"
         :display-no-more="false"
         func="getUserBookmarks"
@@ -172,8 +172,8 @@
             />
           </li>
         </ul>
-      </flow-list>
-      <flow-list
+      </FlowList>
+      <FlowList
         v-if="type === 'image'"
         :display-no-more="false"
         func="getUserBookmarks"
@@ -188,8 +188,8 @@
             </a>
           </li>
         </ul>
-      </flow-list>
-      <flow-list
+      </FlowList>
+      <FlowList
         v-else-if="type === 'answer'"
         :display-no-more="false"
         func="getUserBookmarks"
@@ -205,8 +205,8 @@
             />
           </li>
         </ul>
-      </flow-list>
-      <flow-list
+      </FlowList>
+      <FlowList
         v-else-if="type === 'score'"
         :display-no-more="false"
         func="getUserBookmarks"
@@ -223,8 +223,8 @@
             <p v-text="item.intro || '[图片]'" />
           </li>
         </ul>
-      </flow-list>
-      <flow-list
+      </FlowList>
+      <FlowList
         v-else-if="type === 'video'"
         :display-no-more="false"
         func="getUserBookmarks"
@@ -244,7 +244,7 @@
             </a>
           </li>
         </ul>
-      </flow-list>
+      </FlowList>
     </main>
   </div>
 </template>

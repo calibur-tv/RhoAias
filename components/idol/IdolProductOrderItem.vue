@@ -115,20 +115,30 @@
       v-text="item.product.title"
     />
     <div class="body">
-      <div v-for="order in item.orders" :key="order.id" class="order-item">
-        <nuxt-link :to="$alias.cartoonRole(order.idol.id)" class="avatar">
-          <img :src="$resize(order.idol.avatar, { width: 80 })" >
+      <div v-for="order in item.orders"
+           :key="order.id" class="order-item"
+      >
+        <nuxt-link :to="$alias.cartoonRole(order.idol.id)"
+                   class="avatar"
+        >
+          <img :src="$resize(order.idol.avatar, { width: 80 })">
         </nuxt-link>
         <div class="control">
           <template v-if="order.result === 0">
-            <button class="resolve" @click="resolveOrder(order.id)">
+            <button class="resolve"
+                    @click="resolveOrder(order.id)"
+            >
               同意
             </button>
-            <button class="reject" @click="rejectOrder(order.id)">
+            <button class="reject"
+                    @click="rejectOrder(order.id)"
+            >
               拒绝
             </button>
           </template>
-          <el-tag v-else :type="computeTagColor(order.result)" size="mini">
+          <el-tag v-else
+                  :type="computeTagColor(order.result)" size="mini"
+          >
             {{ computedOrderResult(order.result) }}
           </el-tag>
         </div>

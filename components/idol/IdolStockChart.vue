@@ -100,8 +100,12 @@
         </tbody>
       </table>
     </div>
-    <canvas v-if="idol.chart.length" id="chart-node" />
-    <div v-else class="shim" />
+    <canvas v-if="idol.chart.length"
+            id="chart-node"
+    />
+    <div v-else
+         class="shim"
+    />
   </div>
 </template>
 

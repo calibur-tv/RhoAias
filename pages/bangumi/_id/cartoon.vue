@@ -141,16 +141,16 @@
           排序
         </button>
       </h3>
-      <flow-list :id="id" :sort="sort" func="getBangumiCartoon" type="page">
+      <FlowList :id="id" :sort="sort" func="getBangumiCartoon" type="page">
         <ul slot-scope="{ flow }" class="cartoon-list clearfix">
-          <cartoon-flow-item
+          <CartoonFlowItem
             v-for="item in flow"
             :key="item.id"
             :bangumi-id="id"
             :item="item"
           />
         </ul>
-      </flow-list>
+      </FlowList>
     </template>
   </div>
 </template>

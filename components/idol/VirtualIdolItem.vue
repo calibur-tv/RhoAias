@@ -158,9 +158,11 @@
   <li class="virtual-idol-item">
     <nuxt-link :to="$alias.cartoonRole(item.id)">
       <div class="header">
-        <img :src="$resize(item.avatar, { width: 70, height: 70 })" >
+        <img :src="$resize(item.avatar, { width: 70, height: 70 })">
         <div class="info">
-          <p class="name oneline" v-text="item.name" />
+          <p class="name oneline"
+             v-text="item.name"
+          />
           <div class="meta">
             ￥{{ item.stock_price }}/股，{{ item.fans_count }}人持股，已认购{{
               item.star_count
@@ -175,18 +177,20 @@
             item.company_state ? `￥${item.market_price}` : '未上市'
           }}</strong>
         </p>
-        <p v-if="item.boss" class="owners">
+        <p v-if="item.boss"
+           class="owners"
+        >
           <span>负责人：</span>
           <span>
             <img
               v-if="item.manager"
               :src="$resize(item.manager.avatar, { width: 50, height: 50 })"
               class="manager"
-            />
+            >
             <img
               class="boss"
               :src="$resize(item.boss.avatar, { width: 50, height: 50 })"
-            />
+            >
           </span>
         </p>
         <div class="trend-placeholder">
@@ -205,14 +209,22 @@
             暂无数据
           </p>
         </div>
-        <div v-if="sort === 'mine'" class="badges">
-          <el-tag v-if="item.is_locked" size="mini" type="danger">
+        <div v-if="sort === 'mine'"
+             class="badges"
+        >
+          <el-tag v-if="item.is_locked"
+                  size="mini" type="danger"
+          >
             已停牌
           </el-tag>
-          <el-tag v-else size="mini" type="success">
+          <el-tag v-else
+                  size="mini" type="success"
+          >
             挂牌中
           </el-tag>
-          <el-tag size="mini" type="info">
+          <el-tag size="mini"
+                  type="info"
+          >
             {{ item.company_state ? '已上市' : '未上市' }}
           </el-tag>
         </div>
@@ -222,9 +234,7 @@
           持有：{{ item.has_star }}股，占比 {{ computedPercent }}
         </span>
         <template v-else>
-          <span v-if="item.ipo_at"
-            >上市时间：{{ item.ipo_at.split(' ')[0] }}</span
-          >
+          <span v-if="item.ipo_at">上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
           <span v-else>注册时间：{{ item.created_at.split(' ')[0] }}</span>
         </template>
         <template v-if="sort === 'mine'">
@@ -235,11 +245,15 @@
           >
             发起交易
           </button>
-          <button v-else class="mine-btn">
+          <button v-else
+                  class="mine-btn"
+          >
             查看数据
           </button>
         </template>
-        <button v-else class="pub-btn">
+        <button v-else
+                class="pub-btn"
+        >
           马上入股
         </button>
       </div>

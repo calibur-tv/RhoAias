@@ -2,7 +2,9 @@
   <div>
     <no-ssr>
       <slot v-if="init" />
-      <div v-else class="v-lazy-shim" />
+      <div v-else
+           class="v-lazy-shim"
+      />
     </no-ssr>
   </div>
 </template>

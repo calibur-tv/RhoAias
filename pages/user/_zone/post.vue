@@ -98,7 +98,7 @@
         <el-radio-button label="回帖" />
       </el-radio-group>
     </header>
-    <flow-list
+    <FlowList
       v-show="active === '发帖'"
       :id="zone"
       func="getUserPost"
@@ -106,7 +106,7 @@
       sort="news"
     >
       <ul slot-scope="{ flow }">
-        <post-flow-item
+        <PostFlowItem
           v-for="item in flow"
           :key="item.id"
           :user-zone="zone"
@@ -114,8 +114,8 @@
           bangumi-id=""
         />
       </ul>
-    </flow-list>
-    <flow-list
+    </FlowList>
+    <FlowList
       v-show="active === '回帖'"
       :id="zone"
       func="getUserPostReply"
@@ -191,7 +191,7 @@
           </nuxt-link>
         </li>
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

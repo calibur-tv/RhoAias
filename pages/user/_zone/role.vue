@@ -1,7 +1,7 @@
 <template>
-  <flow-list :id="zone" func="getUserRole" type="page" sort="news">
+  <FlowList :id="zone" func="getUserRole" type="page" sort="news">
     <ul slot-scope="{ flow }" class="container">
-      <cartoon-role-flow-item
+      <CartoonRoleFlowItem
         v-for="item in flow"
         :key="item.id"
         :item="item"
@@ -9,7 +9,7 @@
         bangumi-id=""
       />
     </ul>
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

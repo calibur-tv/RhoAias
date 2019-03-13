@@ -1,12 +1,8 @@
 <template>
   <div id="bangumi-image-flow">
-    <flow-list :id="id" func="getBangumiImage" type="seenIds" sort="active">
-      <image-waterfall-flow
-        slot-scope="{ flow }"
-        :bangumi-id="id"
-        :list="flow"
-      />
-    </flow-list>
+    <FlowList :id="id" func="getBangumiImage" type="seenIds" sort="active">
+      <ImageWaterfallFlow slot-scope="{ flow }" :bangumi-id="id" :list="flow" />
+    </FlowList>
   </div>
 </template>
 

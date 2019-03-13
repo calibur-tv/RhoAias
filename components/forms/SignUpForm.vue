@@ -72,7 +72,9 @@
 
 <template>
   <div class="sign-up-form">
-    <el-form ref="form" :model="form" :rules="rule" status-icon>
+    <el-form ref="form"
+             :model="form" :rules="rule" status-icon
+    >
       <el-form-item prop="nickname">
         <el-input
           v-model="form.nickname"
@@ -133,11 +135,15 @@
         <a :href="qqRegisterLink">
           <i class="iconfont icon-qq" />
         </a>
-        <a v-if="ua.wechat" :href="wechatRegisterLink">
+        <a v-if="ua.wechat"
+           :href="wechatRegisterLink"
+        >
           <i class="iconfont icon-wechat" />
         </a>
       </span>
-      <a v-if="!inviteCode" class="fr" @click="showLogin">已有账号»</a>
+      <a v-if="!inviteCode"
+         class="fr" @click="showLogin"
+      >已有账号»</a>
     </div>
     <div class="tip">
       提示：由于注册时要根据初始昵称为每个用户分配独立域名，因此注册时的昵称不支持日文和特殊符号和标点符号，可在注册完成后在个人设置页面修改昵称

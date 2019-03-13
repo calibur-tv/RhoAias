@@ -89,24 +89,32 @@
     class="mint-checklist"
     @change="$emit('change', currentValue)"
   >
-    <label v-if="title" class="mint-checklist-title" v-text="title" />
+    <label v-if="title"
+           class="mint-checklist-title" v-text="title"
+    />
     <div
       v-for="option in options"
       :key="option.value || option"
       class="mint-checklist-item"
     >
-      <label slot="title" class="mint-checklist-label">
-        <span :class="{ 'is-right': align === 'right' }" class="mint-checkbox">
+      <label slot="title"
+             class="mint-checklist-label"
+      >
+        <span :class="{ 'is-right': align === 'right' }"
+              class="mint-checkbox"
+        >
           <input
             v-model="currentValue"
             :disabled="option.disabled"
             :value="option.value || option"
             class="mint-checkbox-input"
             type="checkbox"
-          />
+          >
           <span class="mint-checkbox-core" />
         </span>
-        <span class="mint-checkbox-label" v-text="option.label || option" />
+        <span class="mint-checkbox-label"
+              v-text="option.label || option"
+        />
       </label>
     </div>
   </div>

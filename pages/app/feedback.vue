@@ -45,7 +45,7 @@
       <p>详细信息</p>
       <textarea v-model.trim="content" placeholder="请先填写反馈信息" />
     </div>
-    <v-radio v-model="selectedType" :options="options" title="反馈类型" />
+    <VRadio v-model="selectedType" :options="options" title="反馈类型" />
     <button class="btn-submit" @click="submitFeedback">
       提交
     </button>

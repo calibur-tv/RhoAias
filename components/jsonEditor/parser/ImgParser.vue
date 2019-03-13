@@ -27,7 +27,9 @@
       :height="item.height"
       :full="true"
     />
-    <p v-if="item.text" class="img-tip" v-text="item.text" />
+    <p v-if="item.text"
+       class="img-tip" v-text="item.text"
+    />
   </div>
 </template>
 

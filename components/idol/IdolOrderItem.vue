@@ -117,8 +117,10 @@
 <template>
   <li class="idol-order-item">
     <div class="header">
-      <nuxt-link class="avatar" :to="$alias.user(item.buyer.zone)">
-        <img :src="$resize(item.buyer.avatar, { width: 80 })" >
+      <nuxt-link class="avatar"
+                 :to="$alias.user(item.buyer.zone)"
+      >
+        <img :src="$resize(item.buyer.avatar, { width: 80 })">
       </nuxt-link>
       <div class="info">
         <nuxt-link
@@ -131,14 +133,18 @@
         </div>
       </div>
     </div>
-    <nuxt-link class="body" :to="$alias.post(item.product.id)">
+    <nuxt-link class="body"
+               :to="$alias.post(item.product.id)"
+    >
       <p class="intro">
         订单详情：
       </p>
       <p>价格：￥{{ item.amount }}</p>
       <p>分成：偶像占{{ item.income_ratio }}%</p>
       <p>
-        状态：<el-tag size="mini" :type="computeTagColor">
+        状态：<el-tag size="mini"
+                   :type="computeTagColor"
+        >
           {{ computedResult }}
         </el-tag>
       </p>
@@ -146,10 +152,14 @@
     <div class="footer">
       <span>时间：{{ item.created_at.split(' ')[0] }}</span>
       <template v-if="isMine">
-        <button v-if="state === 0" @click="cancelOrder(item.id)">
+        <button v-if="state === 0"
+                @click="cancelOrder(item.id)"
+        >
           取消订单
         </button>
-        <button v-if="state === 1" @click="rollbackOrder(item.id)">
+        <button v-if="state === 1"
+                @click="rollbackOrder(item.id)"
+        >
           终止订单
         </button>
       </template>

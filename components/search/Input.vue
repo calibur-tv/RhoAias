@@ -81,7 +81,9 @@
     action="#"
     @submit.prevent="submit"
   >
-    <button class="search-btn" type="submit">
+    <button class="search-btn"
+            type="submit"
+    >
       <i class="iconfont icon-sousuo" />
     </button>
     <!--
@@ -110,16 +112,18 @@
         aria-label="搜索"
         @blur="handleInputBlur"
         @focus="handleInputFocus"
-      />
+      >
     </div>
-    <ul v-show="displaySuggestion" class="search-suggestion">
+    <ul v-show="displaySuggestion"
+        class="search-suggestion"
+    >
       <li
         v-for="(item, index) in filteredSelect"
         :key="item.id"
         :class="{ active: index === selectedIndex }"
         @click="clickToSearch(index)"
       >
-        <img :src="$resize(item.avatar, { width: 60 })" >
+        <img :src="$resize(item.avatar, { width: 60 })">
         <span v-text="item.name" />
       </li>
     </ul>

@@ -28,7 +28,7 @@
 
 <template>
   <div id="user-bangumi">
-    <flow-list :id="zone" func="getUserFollowBangumis" type="page" sort="news">
+    <FlowList :id="zone" func="getUserFollowBangumis" type="page" sort="news">
       <ul
         v-if="flow.length"
         id="bangumis"
@@ -48,7 +48,7 @@
         :length="flow.length"
         :loading="false"
       /> -->
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

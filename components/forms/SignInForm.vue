@@ -75,8 +75,10 @@
       "
       class="logo"
       alt="sign-logo"
-    />
-    <el-form ref="form" :model="form" :rules="rule">
+    >
+    <el-form ref="form"
+             :model="form" :rules="rule"
+    >
       <el-form-item prop="access">
         <el-input
           v-model="form.access"
@@ -103,7 +105,9 @@
         <a :href="qqRegisterLink">
           <i class="iconfont icon-qq" />
         </a>
-        <a v-if="ua.wechat" :href="wechatRegisterLink">
+        <a v-if="ua.wechat"
+           :href="wechatRegisterLink"
+        >
           <i class="iconfont icon-wechat" />
         </a>
       </div>
@@ -119,8 +123,12 @@
       </el-form-item>
     </el-form>
     <div class="others">
-      <a class="fl" @click="showReset">忘记密码?></a>
-      <a class="fr" @click="showRegister">点击注册»</a>
+      <a class="fl"
+         @click="showReset"
+      >忘记密码?></a>
+      <a class="fr"
+         @click="showRegister"
+      >点击注册»</a>
     </div>
   </div>
 </template>

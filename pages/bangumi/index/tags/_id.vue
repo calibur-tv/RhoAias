@@ -119,7 +119,9 @@
     </div>
     <div v-if="bangumis.total" id="bangumis">
       <div class="hr" />
-      <h3 class="sub-title">番剧列表({{ bangumis.total }})</h3>
+      <h3 class="sub-title">
+        番剧列表({{ bangumis.total }})
+      </h3>
       <ul>
         <li v-for="item in bangumis.data" :key="item.id">
           <nuxt-link :to="$alias.bangumi(item.id)" class="bangumi-a">

@@ -113,25 +113,33 @@ $height: 48px;
 </style>
 
 <template>
-  <div class="mint-radiolist" @change="$emit('change', currentValue)">
-    <label v-if="title" class="mint-radiolist-title" v-text="title" />
+  <div class="mint-radiolist"
+       @change="$emit('change', currentValue)"
+  >
+    <label v-if="title"
+           class="mint-radiolist-title" v-text="title"
+    />
     <div
       v-for="(option, index) in options"
       :key="index"
       class="mint-radio-wrap"
     >
       <label class="mint-radiolist-label">
-        <span :class="{ 'is-right': align === 'right' }" class="mint-radio">
+        <span :class="{ 'is-right': align === 'right' }"
+              class="mint-radio"
+        >
           <input
             v-model="currentValue"
             :disabled="option.disabled"
             :value="option.value || option"
             class="mint-radio-input"
             type="radio"
-          />
+          >
           <span class="mint-radio-core" />
         </span>
-        <span class="mint-radio-label" v-text="option.label || option" />
+        <span class="mint-radio-label"
+              v-text="option.label || option"
+        />
       </label>
     </div>
   </div>

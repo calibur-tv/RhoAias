@@ -129,17 +129,29 @@
 <template>
   <li class="cartoon-role-flow-item">
     <div class="clearfix">
-      <nuxt-link :to="$alias.cartoonRole(item.id)" class="avatar">
-        <v-img :src="item.avatar" width="100" height="100" />
+      <nuxt-link :to="$alias.cartoonRole(item.id)"
+                 class="avatar"
+      >
+        <v-img :src="item.avatar"
+               width="100" height="100"
+        />
       </nuxt-link>
       <div class="summary">
-        <nuxt-link :to="$alias.cartoonRole(item.id)" class="role">
-          <span class="name" v-text="item.name" />
+        <nuxt-link :to="$alias.cartoonRole(item.id)"
+                   class="role"
+        >
+          <span class="name"
+                v-text="item.name"
+          />
           <span class="intro">：{{ item.intro }}</span>
         </nuxt-link>
-        <div v-if="item.lover" class="lover">
+        <div v-if="item.lover"
+             class="lover"
+        >
           <span>守护者：</span>
-          <nuxt-link :to="$alias.user(item.lover.zone)" class="fr">
+          <nuxt-link :to="$alias.user(item.lover.zone)"
+                     class="fr"
+          >
             <span v-text="item.lover.nickname" />
             <v-img
               :src="item.lover.avatar"
@@ -150,17 +162,23 @@
             />
           </nuxt-link>
         </div>
-        <div v-else class="lover" />
+        <div v-else
+             class="lover"
+        />
       </div>
       <div class="footer">
-        <div v-if="userZone" class="stats">
+        <div v-if="userZone"
+             class="stats"
+        >
           <span>粉丝: {{ item.fans_count }}</span>
           ·
           <span>团子: {{ item.star_count }}</span>
           ·
           <span>贡献: {{ item.has_star }}</span>
         </div>
-        <div v-else class="stats">
+        <div v-else
+             class="stats"
+        >
           <span>
             粉丝:
             {{ $utils.shortenNumber(item.fans_count) }}

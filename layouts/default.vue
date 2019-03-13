@@ -2,10 +2,10 @@
   <div id="layout-default">
     <v-header />
     <nuxt class="main-view" />
-    <feedback-drawer />
-    <report-drawer />
-    <sign-drawer />
-    <gift-modal />
+    <FeedbackDrawer />
+    <ReportDrawer />
+    <SignDrawer />
+    <GiftModal />
   </div>
 </template>
 

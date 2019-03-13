@@ -147,10 +147,10 @@
       </no-ssr>
     </div>
     <div class="hr" />
-    <tab-container :headers="headers" :router="true" />
+    <TabContainer :headers="headers" :router="true" />
     <nuxt-child />
     <no-ssr>
-      <creator-menu />
+      <CreatorMenu />
     </no-ssr>
   </div>
 </template>

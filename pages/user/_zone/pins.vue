@@ -1,12 +1,12 @@
 <template>
-  <flow-list :id="zone" func="getUserImage" type="page" sort="news">
-    <image-waterfall-flow
+  <FlowList :id="zone" func="getUserImage" type="page" sort="news">
+    <ImageWaterfallFlow
       slot-scope="{ flow }"
       :list="flow"
       :user-zone="zone"
       bangumi-id=""
     />
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

@@ -7,9 +7,11 @@
 
 <template>
   <div id="idol-product-area">
-    <flow-list :id="idolId" func="getIdolProducts" type="lastId" sort="news">
+    <FlowList :id="idolId"
+              func="getIdolProducts" type="lastId" sort="news"
+    >
       <ul slot-scope="{ flow }">
-        <post-flow-item
+        <PostFlowItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -17,7 +19,7 @@
           user-zone=""
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

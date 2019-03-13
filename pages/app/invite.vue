@@ -108,13 +108,12 @@ $main-color: #f25d8e;
 
 <template>
   <div v-if="user" id="app-invite">
-    <tab-container :headers="headers" @change="handleTabSwitch">
+    <TabContainer :headers="headers" @change="handleTabSwitch">
       <div slot="0" class="my-space">
         <div class="content">
-          <img :src="$resize(user.avatar, { width: 150 })" >
+          <img :src="$resize(user.avatar, { width: 150 })">
           <p>
-            <span class="nickname">{{ user.nickname }}</span
-            >，你的邀请码是
+            <span class="nickname">{{ user.nickname }}</span>，你的邀请码是
           </p>
           <p class="code">
             <strong>{{ user.id }}</strong>
@@ -139,14 +138,11 @@ $main-color: #f25d8e;
       </div>
       <div slot="1" class="invite-users">
         <div v-if="source" class="header">
-          <img :src="$resize(user.avatar, { width: 80 })" >
-          <span v-if="source.total"
-            >总共邀请了&nbsp;<strong>{{ source.total }}</strong
-            >&nbsp;位小伙伴</span
-          >
+          <img :src="$resize(user.avatar, { width: 80 })">
+          <span v-if="source.total">总共邀请了&nbsp;<strong>{{ source.total }}</strong>&nbsp;位小伙伴</span>
           <span v-else>还没有邀请朋友注册</span>
         </div>
-        <flow-list
+        <FlowList
           :id="user.id"
           :display-no-more="false"
           func="getUserInviteUsers"
@@ -155,13 +151,13 @@ $main-color: #f25d8e;
         >
           <ul slot-scope="{ flow }" class="users">
             <li v-for="item in flow" :key="item.id">
-              <img :src="$resize(item.avatar, { width: 60 })" >
+              <img :src="$resize(item.avatar, { width: 60 })">
               <span v-text="item.nickname" />
             </li>
           </ul>
-        </flow-list>
+        </FlowList>
       </div>
-    </tab-container>
+    </TabContainer>
   </div>
 </template>
 

@@ -15,9 +15,9 @@
 
 <template>
   <div id="answer-show" class="answer-show">
-    <question-panel :qaq="qaq" :answer="answer" />
+    <QuestionPanel :qaq="qaq" :answer="answer" />
     <div v-if="answer" class="answer">
-      <answer-flow-item :item="answer" :qaq="qaq" />
+      <AnswerFlowItem :item="answer" :qaq="qaq" />
       <nuxt-link :to="$alias.question(qaq.id)">
         <button v-if="qaq.answer_count > 1" class="read-all-btn">
           查看全部 {{ qaq.answer_count }} 个回答

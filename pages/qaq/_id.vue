@@ -21,26 +21,21 @@
 
 <template>
   <div id="question-show">
-    <question-panel :qaq="qaq" />
+    <QuestionPanel :qaq="qaq" />
     <div v-if="qaq.answer_count" class="answers">
       <div class="answers-title">
         <h2>{{ qaq.answer_count }} 个回答</h2>
       </div>
-      <flow-list
-        :id="id"
-        func="getQuestionAnswers"
-        sort="active"
-        type="seenIds"
-      >
+      <FlowList :id="id" func="getQuestionAnswers" sort="active" type="seenIds">
         <ul slot-scope="{ flow }" class="answer-flow-list">
-          <answer-flow-item
+          <AnswerFlowItem
             v-for="item in flow"
             :key="item.id"
             :item="item"
             :qaq="qaq"
           />
         </ul>
-      </flow-list>
+      </FlowList>
     </div>
     <more-btn v-else :no-more="true" :loading="false" :length="0" />
   </div>

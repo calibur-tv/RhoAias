@@ -12,7 +12,9 @@
       submit-text="确认"
       @submit="onClickSelect"
     >
-      <mt-picker :slots="list" value-key="name" @change="onSlideSelect" />
+      <mt-picker :slots="list"
+                 value-key="name" @change="onSlideSelect"
+      />
     </v-drawer>
   </div>
 </template>

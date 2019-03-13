@@ -11,9 +11,11 @@
 </style>
 
 <template>
-  <div v-if="source" id="answer-flow-list">
+  <div v-if="source"
+       id="answer-flow-list"
+  >
     <ul>
-      <answer-flow-item
+      <AnswerFlowItem
         v-for="item in source.list"
         :key="item.id"
         :item="item"

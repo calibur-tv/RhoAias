@@ -1,7 +1,7 @@
 <template>
-  <flow-list func="getWorldScore" type="seenIds" sort="active">
+  <FlowList func="getWorldScore" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
-      <score-flow-item
+      <ScoreFlowItem
         v-for="item in flow"
         :key="item.id"
         :item="item"
@@ -10,7 +10,7 @@
       />
     </ul>
     <no-content slot="nothing" />
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

@@ -5,7 +5,9 @@
 </style>
 
 <template>
-  <button class="follow-button" @click="toggleFollow">
+  <button class="follow-button"
+          @click="toggleFollow"
+  >
     <i class="iconfont icon-like" /> {{ source.follow ? '已关注' : '关注' }}
   </button>
 </template>

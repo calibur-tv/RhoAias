@@ -79,7 +79,7 @@
 
 <template>
   <div id="bangumi-news">
-    <tab-container
+    <TabContainer
       :headers="showtime"
       :def-index="active"
       class="weekly-tabs"
@@ -94,7 +94,7 @@
                 :alt="item.name"
                 :src="$resize(item.avatar, { width: 120 })"
                 class="face"
-              />
+              >
             </nuxt-link>
             <div class="content">
               <nuxt-link
@@ -133,7 +133,7 @@
           </more-btn>
         </ul>
       </template>
-    </tab-container>
+    </TabContainer>
   </div>
 </template>
 

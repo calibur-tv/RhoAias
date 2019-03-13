@@ -79,10 +79,10 @@
         type="text"
         maxlength="40"
         placeholder="加个标题哟~"
-      />
+      >
       <div class="field-item">
         <span>番剧：</span>
-        <bangumi-picker
+        <BangumiPicker
           v-model="bangumiId"
           :label="false"
           :lazy="true"
@@ -95,9 +95,13 @@
       </div>
       <div class="field-item">
         <span>标签：</span>
-        <div class="tags" @click="openPostTagSelectDrawer = true">
+        <div class="tags"
+             @click="openPostTagSelectDrawer = true"
+        >
           <template v-if="selectedTags.length">
-            <span v-for="tag in displayTags" :key="tag.id" v-text="tag.name" />
+            <span v-for="tag in displayTags"
+                  :key="tag.id" v-text="tag.name"
+            />
           </template>
           <template v-else>
             点击选择标签
@@ -110,7 +114,7 @@
         class="content"
         maxlength="8000"
       />
-      <image-uploader
+      <ImageUploader
         :loading="submitting"
         :limit="exceed"
         :required="false"
@@ -124,7 +128,9 @@
       from="bottom"
       size="70%"
     >
-      <v-checklist v-model="selectedTags" :options="tags" :max="3" />
+      <VChecklist v-model="selectedTags"
+                  :options="tags" :max="3"
+      />
     </v-drawer>
   </v-drawer>
 </template>

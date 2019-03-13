@@ -119,11 +119,17 @@
     class="user-drawer"
   >
     <div class="user-section">
-      <div :style="computeUserDrawerBg" class="bg" />
+      <div :style="computeUserDrawerBg"
+           class="bg"
+      />
       <div class="mask" />
       <div class="user-info">
-        <nuxt-link :to="$alias.user(user.zone)" class="avatar">
-          <v-img :src="user.avatar" :lazy="false" :avatar="true" width="50" />
+        <nuxt-link :to="$alias.user(user.zone)"
+                   class="avatar"
+        >
+          <v-img :src="user.avatar"
+                 :lazy="false" :avatar="true" width="50"
+          />
         </nuxt-link>
         <div class="panel">
           <div class="nickname">
@@ -134,7 +140,9 @@
             />
           </div>
           <div>
-            <user-sex :sex="user.sex" :secret="user.sexSecret" />
+            <UserSex :sex="user.sex"
+                     :secret="user.sexSecret"
+            />
             · <span class="level">Lv{{ user.exp.level }}</span>
           </div>
         </div>
@@ -143,7 +151,9 @@
       ·
       <span class="badge">邀请码：{{ user.id }}</span>
     </div>
-    <ul class="routes container" @click="switchUserDrawer = false">
+    <ul class="routes container"
+        @click="switchUserDrawer = false"
+    >
       <li>
         <nuxt-link :to="$alias.user(user.zone)">
           <i class="iconfont icon-zhuye" /> 个人主页

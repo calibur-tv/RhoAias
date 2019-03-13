@@ -36,12 +36,20 @@
 </style>
 
 <template>
-  <li :key="item.id" class="video-flow-item">
+  <li :key="item.id"
+      class="video-flow-item"
+  >
     <nuxt-link :to="$alias.video(item.id)">
-      <v-img :src="item.poster" width="128" height="80" class="poster" />
+      <v-img :src="item.poster"
+             width="128" height="80" class="poster"
+      />
       <div class="intro">
-        <p class="part oneline">第{{ item.part }}话</p>
-        <span class="name" v-text="item.name" />
+        <p class="part oneline">
+          第{{ item.part }}话
+        </p>
+        <span class="name"
+              v-text="item.name"
+        />
       </div>
     </nuxt-link>
   </li>

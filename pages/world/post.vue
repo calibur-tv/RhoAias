@@ -7,12 +7,12 @@
 </style>
 
 <template>
-  <flow-list func="getWorldPost" type="seenIds" sort="active">
+  <FlowList func="getWorldPost" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
-      <post-flow-item v-for="item in flow" :key="item.id" :item="item" />
+      <PostFlowItem v-for="item in flow" :key="item.id" :item="item" />
     </ul>
     <no-content slot="nothing" />
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

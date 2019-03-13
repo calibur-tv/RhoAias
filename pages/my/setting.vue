@@ -172,7 +172,7 @@
         class="banner-setting"
       >
         <template v-if="bannerSelector.data">
-          <image-cropper
+          <ImageCropper
             :init-image="bannerSelector.data"
             :uploading="bannerSelector.loading"
             :auto-size="true"
@@ -197,7 +197,7 @@
             accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif"
             name="file"
             @change="selectBanner"
-          />
+          >
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@
           size="450px"
           @cancel="cancelAvatarSelect"
         >
-          <image-cropper
+          <ImageCropper
             v-if="avatarSelector.showDrawer"
             :init-image="avatarSelector.data"
             :uploading="avatarSelector.loading"
@@ -238,7 +238,7 @@
             accept="image/png, image/jpeg, image/jpg, image/x-png, image/gif"
             name="file"
             @change="selectAvatar"
-          />
+          >
         </div>
       </div>
     </div>
@@ -265,8 +265,8 @@
           :href="
             ua.wechat
               ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${
-                  user.id
-                }&zone=${user.zone}`
+                user.id
+              }&zone=${user.zone}`
               : 'javascript:;'
           "
         >
@@ -289,7 +289,7 @@
         其它：
       </p>
       <div class="container">
-        <user-setting-form />
+        <UserSettingForm />
       </div>
     </div>
     <v-drawer
@@ -306,8 +306,8 @@
           placeholder="短信验证码"
           auto-complete="off"
         />
-        <br >
-        <br >
+        <br>
+        <br>
         <el-input
           v-model.trim="bindPhone.password"
           type="text"

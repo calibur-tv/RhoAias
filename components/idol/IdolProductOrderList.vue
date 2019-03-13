@@ -2,11 +2,15 @@
 
 <template>
   <div class="idol-product-order-list">
-    <flow-list :id="idolId" func="getIdolProductOrders" type="page" sort="news">
+    <FlowList :id="idolId"
+              func="getIdolProductOrders" type="page" sort="news"
+    >
       <ul slot-scope="{ flow }">
-        <idol-order-item v-for="item in flow" :key="item.id" :item="item" />
+        <IdolOrderItem v-for="item in flow"
+                       :key="item.id" :item="item"
+        />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

@@ -18,22 +18,22 @@
 
 <template>
   <div id="role-trending-listed">
-    <flow-list :sort="current_sort" func="virtualIdolList" type="seenIds">
+    <FlowList :sort="current_sort" func="virtualIdolList" type="seenIds">
       <div slot="header" slot-scope="{ source }" class="role-trending-header">
         <span>总共 {{ source.total }} 个公司</span>
-        <v-popover :actions="actions">
+        <VPopover :actions="actions">
           <span><i class="el-icon-d-caret" />{{ selectedLabel }}</span>
-        </v-popover>
+        </VPopover>
       </div>
       <ul slot-scope="{ flow }">
-        <virtual-idol-item
+        <VirtualIdolItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
           :sort="sort_selected"
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

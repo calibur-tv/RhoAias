@@ -164,7 +164,7 @@
               />
               <div class="info">
                 <h1 class="name" v-text="role.name" />
-                <star-idol-btn :idol="role" @success="handleStarCallback" />
+                <StarIdolBtn :idol="role" @success="handleStarCallback" />
               </div>
             </div>
             <div @click="collapsed = !collapsed">
@@ -181,7 +181,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item title="股市详情" name="2">
-          <idol-stock-chart :idol="role" />
+          <IdolStockChart :idol="role" />
         </el-collapse-item>
         <el-collapse-item title="组织信息" name="3">
           <div v-if="role.boss">
@@ -192,7 +192,7 @@
               <nuxt-link :to="$alias.user(role.boss.zone)">
                 <img
                   :src="$resize(role.boss.avatar, { width: 30, height: 30 })"
-                />
+                >
                 <span>{{ role.boss.nickname }}</span>
               </nuxt-link>
               <span>：{{ role.lover_words || 'TA还什么都没说' }}</span>
@@ -206,7 +206,7 @@
               <nuxt-link :to="$alias.user(role.manager.zone)">
                 <img
                   :src="$resize(role.manager.avatar, { width: 30, height: 30 })"
-                />
+                >
                 <span>{{ role.manager.nickname }}</span>
               </nuxt-link>
             </div>
@@ -231,36 +231,36 @@
             <h3 class="sub-title">
               番剧
             </h3>
-            <bangumi-panel
+            <BangumiPanel
               :id="bangumi.id"
               :avatar="bangumi.avatar"
               :name="bangumi.name"
             >
               <p class="summary" v-text="bangumi.summary" />
-            </bangumi-panel>
+            </BangumiPanel>
           </div>
         </el-collapse-item>
       </el-collapse>
     </div>
     <div class="hr" />
     <div class="container tab-wrap">
-      <tab-container :headers="tabs" def-index="1" @change="handleTabSwitch">
+      <TabContainer :headers="tabs" def-index="1" @change="handleTabSwitch">
         <template slot="0">
-          <idol-product-area :idol-id="id" :state="role.company_state" />
+          <IdolProductArea :idol-id="id" :state="role.company_state" />
         </template>
         <template slot="1">
           <v-lazy>
-            <comment-main :id="id" :master-id="1" type="role" />
+            <CommentMain :id="id" :master-id="1" type="role" />
           </v-lazy>
         </template>
         <template slot="2">
-          <idol-owner-list :id="id" :star="role.star_count" />
+          <IdolOwnerList :id="id" :star="role.star_count" />
         </template>
         <template slot="3">
-          <idol-market-price-draft :is-boss="isBoss" :idol="role" />
+          <IdolMarketPriceDraft :is-boss="isBoss" :idol="role" />
         </template>
         <template slot="4">
-          <idol-product-order-list :idol-id="id" />
+          <IdolProductOrderList :idol-id="id" />
         </template>
         <template slot="5">
           <template v-if="isBoss">
@@ -269,28 +269,28 @@
                 <p slot="title" class="title">
                   信息修改
                 </p>
-                <change-idol-profile :idol="role" />
+                <ChangeIdolProfile :idol="role" />
               </el-collapse-item>
               <el-collapse-item name="1">
                 <p slot="title" class="title">
                   股权变更
                 </p>
-                <create-change-market-price-draft :idol="role" />
+                <CreateChangeMarketPriceDraft :idol="role" />
               </el-collapse-item>
             </el-collapse>
           </template>
           <p v-else>
-            <br >
-            <br >
+            <br>
+            <br>
             只有大股东可以修改公司股价和发行量
-            <br >
-            <br >
-            <br >
+            <br>
+            <br>
+            <br>
           </p>
         </template>
-      </tab-container>
+      </TabContainer>
     </div>
-    <share-btn :share-data="share_data" />
+    <ShareBtn :share-data="share_data" />
   </div>
 </template>
 

@@ -6,7 +6,7 @@
         <el-radio-button label="提问" />
       </el-radio-group>
     </header>
-    <flow-list
+    <FlowList
       v-if="active === '回答'"
       :id="zone"
       func="getUserAnswer"
@@ -14,7 +14,7 @@
       sort="news"
     >
       <ul slot-scope="{ flow }">
-        <question-flow-item
+        <QuestionFlowItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -22,10 +22,10 @@
           bangumi-id=""
         />
       </ul>
-    </flow-list>
-    <flow-list v-else :id="zone" func="getUserQAQ" type="page" sort="news">
+    </FlowList>
+    <FlowList v-else :id="zone" func="getUserQAQ" type="page" sort="news">
       <ul slot-scope="{ flow }">
-        <question-flow-item
+        <QuestionFlowItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -33,7 +33,7 @@
           bangumi-id=""
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

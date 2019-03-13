@@ -1,7 +1,7 @@
 <template>
   <div id="bangumi-show">
-    <bangumi-header :info="info" />
-    <tab-container :headers="headers" :router="true" />
+    <BangumiHeader :info="info" />
+    <TabContainer :headers="headers" :router="true" />
     <nuxt-child />
   </div>
 </template>

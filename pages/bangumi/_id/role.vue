@@ -1,19 +1,19 @@
 <template>
-  <flow-list
+  <FlowList
     :id="id"
     func="virtualIdolList"
     type="seenIds"
     sort="bangumi-activity-1"
   >
     <ul slot-scope="{ flow }">
-      <virtual-idol-item
+      <VirtualIdolItem
         v-for="item in flow"
         :key="item.id"
         :item="item"
         sort="bangumi"
       />
     </ul>
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

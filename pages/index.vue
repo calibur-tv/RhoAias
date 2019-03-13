@@ -71,7 +71,9 @@
         @input-focus="handleSearchFocus"
         @input-blur="handleSearchBlur"
       />
-      <div class="slogan">「&nbsp;{{ slogan }}&nbsp;」</div>
+      <div class="slogan">
+        「&nbsp;{{ slogan }}&nbsp;」
+      </div>
     </main>
     <v-footer v-show="showFooter" />
   </div>

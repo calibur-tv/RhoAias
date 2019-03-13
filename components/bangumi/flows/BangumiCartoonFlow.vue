@@ -136,24 +136,30 @@
     <template v-if="cartoons.list.length">
       <h3 class="sub-title">
         <span>共 {{ cartoons.total }} 集</span>
-        <v-popover :actions="sortActions">
+        <VPopover :actions="sortActions">
           <button><i class="el-icon-d-caret" /> 排序</button>
-        </v-popover>
+        </VPopover>
       </h3>
       <ul class="cartoon-list clearfix">
-        <li v-for="item in cartoons.list" :key="item.id" class="cartoon">
+        <li v-for="item in cartoons.list"
+            :key="item.id" class="cartoon"
+        >
           <nuxt-link :to="$alias.image(item.id)">
             <div class="poster-wrap">
               <img
                 :src="$resize(item.source.url, { width: 290, height: 420 })"
-              />
+              >
               <div class="info">
                 <i class="el-icon-picture-outline" />
-                <span class="image-count" v-text="item.image_count" />
+                <span class="image-count"
+                      v-text="item.image_count"
+                />
               </div>
             </div>
             <div class="intro">
-              <p class="name oneline">【 {{ item.part }} 】{{ item.name }}</p>
+              <p class="name oneline">
+                【 {{ item.part }} 】{{ item.name }}
+              </p>
             </div>
           </nuxt-link>
         </li>

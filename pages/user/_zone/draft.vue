@@ -79,7 +79,7 @@
       </el-radio-group>
     </header>
     <div class="container">
-      <flow-list
+      <FlowList
         v-if="active === '漫评'"
         func="getUserScoreDrafts"
         type="page"
@@ -89,7 +89,7 @@
           <div v-for="item in flow" :key="item.id" class="score-draft">
             <template v-if="item && item.bangumi">
               <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="bangumi">
-                <img :src="$resize(item.bangumi.avatar, { width: 100 })" >
+                <img :src="$resize(item.bangumi.avatar, { width: 100 })">
               </nuxt-link>
               <nuxt-link :to="$alias.editScore(item.id)" class="content">
                 <div class="title oneline">
@@ -109,8 +109,8 @@
             </a>
           </more-btn> -->
         </template>
-      </flow-list>
-      <flow-list
+      </FlowList>
+      <FlowList
         v-else-if="active === '回答'"
         func="getUserAnswerDrafts"
         type="page"
@@ -128,7 +128,7 @@
             />
           </div>
         </template>
-      </flow-list>
+      </FlowList>
     </div>
   </div>
 </template>

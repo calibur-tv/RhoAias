@@ -59,7 +59,7 @@
       <div class="info">
         <img
           src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200/format/jpg"
-        />
+        >
         <div class="text">
           calibur.tv
           <p>天下漫友是一家</p>
@@ -72,7 +72,7 @@
         开发中~TuT
       </button>
     </div>
-    <vue-particles />
+    <VueParticles />
   </div>
 </template>
 

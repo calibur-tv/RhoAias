@@ -179,10 +179,14 @@
   <div id="comment-wrap">
     <!-- 主列表的头部 -->
     <slot name="header">
-      <div v-if="!auto" class="hr" />
+      <div v-if="!auto"
+           class="hr"
+      />
       <h3 class="sub-title">
         评论{{ total ? `(${total})` : '' }} <slot name="header-btn" />
-        <button class="write-btn" @click="writeComment">
+        <button class="write-btn"
+                @click="writeComment"
+        >
           写评论
         </button>
       </h3>
@@ -202,7 +206,7 @@
             :reply="handleSubCommentReply"
             name="comment-item"
           >
-            <comment-item
+            <CommentItem
               :type="type"
               :comment="comment"
               :master-id="masterId"
@@ -227,7 +231,9 @@
         />
       </div>
     </template>
-    <p v-else-if="emptyText" class="no-content" v-text="emptyText" />
+    <p v-else-if="emptyText"
+       class="no-content" v-text="emptyText"
+    />
     <!-- reply detail drawer -->
     <v-drawer
       v-model="openFocusCommentDrawer"
@@ -269,7 +275,9 @@
               </div>
             </div>
             <div class="content">
-              <div class="text-area" v-html="focusComment.content" />
+              <div class="text-area"
+                   v-html="focusComment.content"
+              />
               <div class="image-area">
                 <div
                   v-for="(img, idx) in focusComment.images"
@@ -294,19 +302,23 @@
               >
                 <i class="iconfont icon-icon_good" />
                 {{ focusComment.liked ? '已赞' : '赞' }}
-                <span v-if="focusComment.like_count"
-                  >({{ focusComment.like_count }})</span
-                >
+                <span v-if="focusComment.like_count">({{ focusComment.like_count }})</span>
               </button>
-              <button class="reply-btn fr" @click="handleCommentBtnClick">
+              <button class="reply-btn fr"
+                      @click="handleCommentBtnClick"
+              >
                 回复
               </button>
             </div>
           </div>
           <div class="hr" />
-          <p class="total">{{ focusComment.comments.total }}条回复</p>
+          <p class="total">
+            {{ focusComment.comments.total }}条回复
+          </p>
           <ul class="comments">
-            <li v-for="item in focusComment.comments.list" :key="item.id">
+            <li v-for="item in focusComment.comments.list"
+                :key="item.id"
+            >
               <div class="from-user">
                 <nuxt-link
                   :to="$alias.user(item.from_user_zone)"
@@ -389,9 +401,13 @@
       size="100%"
       header-text="发表评论"
     >
-      <div v-if="openCreateCommentDrawer" class="container">
-        <slot :close="closeCommentDrawer" name="reply-form">
-          <comment-create-form
+      <div v-if="openCreateCommentDrawer"
+           class="container"
+      >
+        <slot :close="closeCommentDrawer"
+              name="reply-form"
+        >
+          <CommentCreateForm
             v-if="openCreateCommentDrawer"
             :id="id"
             :type="type"

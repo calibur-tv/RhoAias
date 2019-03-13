@@ -24,8 +24,10 @@
 
 <template>
   <div class="json-editor-main">
-    <transition-group name="list-complete" tag="div" class="editor-tabs">
-      <json-item
+    <transition-group name="list-complete"
+                      tag="div" class="editor-tabs"
+    >
+      <JsonItem
         v-for="(item, index) in sections"
         :key="item.id"
         :item="item"
@@ -38,11 +40,11 @@
         @sort="handleItemSort"
       />
     </transition-group>
-    <img-preview :item="curPreview" />
-    <txt-preview :item="curPreview" />
-    <list-preview :item="curPreview" />
-    <use-preview :item="curPreview" />
-    <title-preview :item="curPreview" />
+    <ImgPreview :item="curPreview" />
+    <TxtPreview :item="curPreview" />
+    <ListPreview :item="curPreview" />
+    <UsePreview :item="curPreview" />
+    <TitlePreview :item="curPreview" />
   </div>
 </template>
 

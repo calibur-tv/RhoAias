@@ -284,7 +284,9 @@
       </h3>
     </div>
     <div class="capture-wrap">
-      <img v-if="result" :src="result" >
+      <img
+        v-if="result" :src="result"
+      >
       <div v-else class="capture-area">
         <div class="main">
           <div class="border-outline">
@@ -295,16 +297,18 @@
                 <img
                   :src="$resize(user.avatar, { width: 200 })"
                   crossorigin="anonymous"
-                />
+                >
               </div>
             </div>
             <p class="nickname">
               我是<strong>{{ user.nickname }}</strong>
             </p>
-            <p class="info">和我一起在 <strong>calibur.tv</strong> 追番吧</p>
+            <p class="info">
+              和我一起在 <strong>calibur.tv</strong> 追番吧
+            </p>
             <div class="tags">
               <div v-for="(tag, index) in tags" :key="index" class="badge">
-                <img src="~assets/img/invite/icon.png" >
+                <img src="~assets/img/invite/icon.png">
                 <span>{{ tag }}</span>
               </div>
             </div>
@@ -331,6 +335,7 @@
 <script>
 import html2canvas from 'html2canvas'
 import serverAuth from '~/mixins/serverAuth'
+import QRCode from '~/assets/js/qrcode'
 
 export default {
   name: 'PageUserInvite',
@@ -374,17 +379,14 @@ export default {
   },
   methods: {
     generateQrCode() {
-      import('~/assets/js/qrcode').then(ESModule => {
-        const QRCode = ESModule.default
-        new QRCode(this.$refs.qr, {
-          text: this.link,
-          width: 360,
-          height: 360
-        })
-        setTimeout(() => {
-          this.create()
-        }, 3000)
+      new QRCode(this.$refs.qr, {
+        text: this.link,
+        width: 360,
+        height: 360
       })
+      setTimeout(() => {
+        this.create()
+      }, 3000)
     },
     create() {
       html2canvas(document.querySelector('.capture-area'), {

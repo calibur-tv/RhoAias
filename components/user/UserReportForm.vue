@@ -23,13 +23,23 @@
 </style>
 
 <template>
-  <div id="user-report-form" class="container">
-    <v-radio v-model="selectedType" :options="options1" title="违反法律法规" />
-    <v-radio v-model="selectedType" :options="options2" title="侵犯个人权益" />
-    <v-radio v-model="selectedType" :options="options3" title="有害社区环境" />
+  <div id="user-report-form"
+       class="container"
+  >
+    <VRadio v-model="selectedType"
+            :options="options1" title="违反法律法规"
+    />
+    <VRadio v-model="selectedType"
+            :options="options2" title="侵犯个人权益"
+    />
+    <VRadio v-model="selectedType"
+            :options="options3" title="有害社区环境"
+    />
     <div v-if="needContent">
       <p>留言：</p>
-      <textarea v-model.trim="content" placeholder="请说明情况" />
+      <textarea v-model.trim="content"
+                placeholder="请说明情况"
+      />
     </div>
     <el-button
       :loading="loading"

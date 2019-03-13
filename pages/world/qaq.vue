@@ -1,7 +1,7 @@
 <template>
-  <flow-list func="getWorldQAQ" type="seenIds" sort="active">
+  <FlowList func="getWorldQAQ" type="seenIds" sort="active">
     <ul slot-scope="{ flow }">
-      <question-flow-item
+      <QuestionFlowItem
         v-for="item in flow"
         :key="item.id"
         :item="item"
@@ -10,7 +10,7 @@
       />
     </ul>
     <no-content slot="nothing" />
-  </flow-list>
+  </FlowList>
 </template>
 
 <script>

@@ -62,8 +62,12 @@
 </style>
 
 <template>
-  <div v-if="login && display" class="fenxiao-btn-container">
-    <div v-if="showModal" class="modal-content">
+  <div v-if="login && display"
+       class="fenxiao-btn-container"
+  >
+    <div v-if="showModal"
+         class="modal-content"
+    >
       <div class="tips">
         <p>这是你的专属邀请码</p>
         <p>把它分享给其他人，只要有人注册，那么你将会获得5个团子</p>
@@ -72,14 +76,20 @@
         <p>或经过转化之后提现，1团子相当于1人民币</p>
         <p>更重要的是，calibur 的发展需要你的支持，感谢</p>
       </div>
-      <button v-clipboard="shareLink" class="join" @success="handleCopyOK">
+      <button v-clipboard="shareLink"
+              class="join" @success="handleCopyOK"
+      >
         获取分享链接
       </button>
-      <button class="abort" @click="abort">
+      <button class="abort"
+              @click="abort"
+      >
         但是，我拒绝
       </button>
     </div>
-    <button class="fenxiao-btn" @click="showIntroModal">
+    <button class="fenxiao-btn"
+            @click="showIntroModal"
+    >
       分享
     </button>
   </div>

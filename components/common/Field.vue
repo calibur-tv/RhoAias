@@ -56,12 +56,18 @@ $field-height: 48px;
 
 <template>
   <div class="v-field">
-    <div :style="{ width: labelSize }" class="label" v-text="label" />
-    <div v-show="text && !disabled" class="close" @click="text = ''">
+    <div :style="{ width: labelSize }"
+         class="label" v-text="label"
+    />
+    <div v-show="text && !disabled"
+         class="close" @click="text = ''"
+    >
       <span>&times;</span>
     </div>
     <div class="input">
-      <input v-model="text" :type="type" :placeholder="placeholder" >
+      <input
+        v-model="text" :type="type" :placeholder="placeholder"
+      >
     </div>
   </div>
 </template>

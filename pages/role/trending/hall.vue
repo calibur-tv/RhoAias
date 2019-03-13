@@ -31,13 +31,13 @@
 
 <template>
   <div id="role-trending-hall">
-    <flow-list func="getVirtualIdolDealList" type="seenIds" sort="active">
+    <FlowList func="getVirtualIdolDealList" type="seenIds" sort="active">
       <div slot="header" slot-scope="{ source }" class="role-trending-header">
         <span>总共 {{ source.total }} 笔交易</span>
         <span @click="refresh"><i class="el-icon-refresh" />&nbsp;刷新</span>
       </div>
       <ul slot-scope="{ flow }">
-        <deal-idol-item
+        <DealIdolItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -45,7 +45,7 @@
           @delete="deleteDeal"
         />
       </ul>
-    </flow-list>
+    </FlowList>
     <v-drawer
       v-model="showDealDrawer"
       header-text="股份交易"

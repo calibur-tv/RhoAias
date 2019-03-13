@@ -1,9 +1,9 @@
 <template>
   <div>
-    <flow-list func="getWorldImage" type="seenIds" sort="active">
-      <image-waterfall-flow slot-scope="{ flow }" :list="flow" />
+    <FlowList func="getWorldImage" type="seenIds" sort="active">
+      <ImageWaterfallFlow slot-scope="{ flow }" :list="flow" />
       <no-content slot="nothing" />
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

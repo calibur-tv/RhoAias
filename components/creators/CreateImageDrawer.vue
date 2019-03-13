@@ -33,10 +33,14 @@
     header-text="上传图片"
   >
     <div class="tabs">
-      <button :class="{ active: sort === 'image' }" @click="switchTab('image')">
+      <button :class="{ active: sort === 'image' }"
+              @click="switchTab('image')"
+      >
         上传图片
       </button>
-      <button :class="{ active: sort === 'album' }" @click="switchTab('album')">
+      <button :class="{ active: sort === 'album' }"
+              @click="switchTab('album')"
+      >
         新建相册
       </button>
     </div>
@@ -69,7 +73,7 @@
           />
           <div class="field">
             <span>番剧：</span>
-            <bangumi-picker
+            <BangumiPicker
               v-model="image.bangumiId"
               :label="false"
               :lazy="true"
@@ -82,7 +86,7 @@
           </div>
           <div class="field">
             <span>图片：</span>
-            <image-uploader @submit="createImage" />
+            <ImageUploader @submit="createImage" />
           </div>
         </template>
         <template v-else>
@@ -95,7 +99,9 @@
           </div>
           <div class="field">
             <span>图片：</span>
-            <image-uploader :limit="7" @submit="createImage" />
+            <ImageUploader :limit="7"
+                           @submit="createImage"
+            />
           </div>
         </template>
       </template>
@@ -108,7 +114,7 @@
         />
         <div class="field">
           <span>番剧：</span>
-          <bangumi-picker
+          <BangumiPicker
             v-model="album.bangumiId"
             :label="false"
             :lazy="true"
@@ -121,7 +127,7 @@
         </div>
         <div class="field">
           <span>封面：</span>
-          <image-uploader @submit="createAlbum" />
+          <ImageUploader @submit="createAlbum" />
         </div>
       </template>
     </div>

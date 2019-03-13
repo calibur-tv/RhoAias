@@ -171,7 +171,9 @@ $placeholder-color: RGB(241, 243, 244);
     ]"
     :style="blockModeWrapStyle"
   >
-    <div :style="blockModeShimPadding" :class="$style.paddingShim" />
+    <div :style="blockModeShimPadding"
+         :class="$style.paddingShim"
+    />
     <div :class="$style.imageWrap">
       <img
         v-if="!error"
@@ -179,15 +181,19 @@ $placeholder-color: RGB(241, 243, 244);
           $isServer
             ? placeholderImage
             : loaded
-            ? blockModeImageSrc
-            : computePlaceholder
+              ? blockModeImageSrc
+              : computePlaceholder
         "
         @error="handleImageLoadError"
         @load="handleImageLoadSuccess"
-      />
+      >
     </div>
-    <span v-if="error" :class="$style.message" v-text="errorMessage" />
-    <span v-if="retrying" :class="$style.message" v-text="retryMessage" />
+    <span v-if="error"
+          :class="$style.message" v-text="errorMessage"
+    />
+    <span v-if="retrying"
+          :class="$style.message" v-text="retryMessage"
+    />
     <transition name="img-zoom">
       <div
         v-if="displayGifMask"
@@ -218,14 +224,14 @@ $placeholder-color: RGB(241, 243, 244);
           error
             ? errorPlaceholder
             : $isServer
-            ? ''
-            : loaded
-            ? inlineModeImageSrc
-            : computePlaceholder
+              ? ''
+              : loaded
+                ? inlineModeImageSrc
+                : computePlaceholder
         "
         :style="inlineImageStyle"
         @error="handleImageLoadError"
-      />
+      >
     </div>
   </span>
 </template>

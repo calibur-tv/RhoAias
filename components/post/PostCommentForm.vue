@@ -20,7 +20,7 @@
       maxlength="4000"
       @focus="handleAreaFocus"
     />
-    <image-uploader
+    <ImageUploader
       :loading="submitting"
       :limit="exceed"
       :required="false"

@@ -182,7 +182,9 @@
 <template>
   <div id="image-waterfall-flow">
     <not-ssr>
-      <waterfall v-if="list.length" :line-gap="width + 10" :auto-resize="true">
+      <waterfall v-if="list.length"
+                 :line-gap="width + 10" :auto-resize="true"
+      >
         <waterfall-slot
           v-for="(item, index) in list"
           :key="item.id"
@@ -190,7 +192,9 @@
           :width="width"
           :height="computeBoxHeight(item.source)"
         >
-          <div v-if="computeImageHeight(item.source)" class="image">
+          <div v-if="computeImageHeight(item.source)"
+               class="image"
+          >
             <nuxt-link
               :to="$alias.image(item.id)"
               :class="{ 'album-box': item.is_album }"
@@ -206,13 +210,19 @@
                 :width="width"
                 :height="computeImageHeight(item.source)"
               />
-              <div v-if="item.is_album" class="is-album">
+              <div v-if="item.is_album"
+                   class="is-album"
+              >
                 <i class="el-icon-picture-outline" />
-                <span class="image-count" v-text="item.image_count" />
+                <span class="image-count"
+                      v-text="item.image_count"
+                />
               </div>
             </nuxt-link>
             <div class="intro">
-              <p class="name oneline" v-text="item.name" />
+              <p class="name oneline"
+                 v-text="item.name"
+              />
               <div class="social">
                 <span v-if="item.is_creator">
                   <i class="iconfont icon-fantuan" /> {{ item.reward_count }}
@@ -234,7 +244,9 @@
                   :to="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <v-img :lazy="false" :src="item.bangumi.avatar" width="60" />
+                  <v-img :lazy="false"
+                         :src="item.bangumi.avatar" width="60"
+                  />
                 </nuxt-link>
                 <div class="info">
                   <nuxt-link
@@ -267,7 +279,9 @@
                   :to="$alias.bangumi(item.bangumi.id)"
                   class="bangumi-avatar"
                 >
-                  <v-img :lazy="false" :src="item.bangumi.avatar" width="30" />
+                  <v-img :lazy="false"
+                         :src="item.bangumi.avatar" width="30"
+                  />
                 </nuxt-link>
                 <div class="info">
                   <p class="main-info">

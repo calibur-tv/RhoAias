@@ -169,7 +169,9 @@
           class="user-avatar"
           @click.stop
         >
-          <v-img :src="item.user.avatar" width="35" />
+          <v-img :src="item.user.avatar"
+                 width="35"
+          />
         </nuxt-link>
         <nuxt-link
           v-else
@@ -177,10 +179,14 @@
           class="bangumi-avatar"
           @click.stop
         >
-          <v-img :src="item.bangumi.avatar" width="35" />
+          <v-img :src="item.bangumi.avatar"
+                 width="35"
+          />
         </nuxt-link>
         <div class="name">
-          <div v-if="item.user" class="clearfix">
+          <div v-if="item.user"
+               class="clearfix"
+          >
             <nuxt-link
               :to="$alias.user(item.user.zone)"
               class="nickname"
@@ -188,7 +194,9 @@
               v-text="item.user.nickname"
             />
           </div>
-          <div v-else class="clearfix">
+          <div v-else
+               class="clearfix"
+          >
             <span class="nickname">发表在</span>
           </div>
           <template v-if="item.bangumi">
@@ -207,19 +215,31 @@
       </div>
       <div class="body">
         <div class="title">
-          <div v-if="item.top_at" class="top_badge">
+          <div v-if="item.top_at"
+               class="top_badge"
+          >
             置顶
           </div>
-          <div v-if="item.is_nice" class="nice_badge">
+          <div v-if="item.is_nice"
+               class="nice_badge"
+          >
             精
           </div>
-          <div v-if="item.is_creator" class="creator_badge">
+          <div v-if="item.is_creator"
+               class="creator_badge"
+          >
             原创
           </div>
-          <p class="oneline" v-text="item.title" />
+          <p class="oneline"
+             v-text="item.title"
+          />
         </div>
-        <p class="content" v-text="item.desc" />
-        <div v-if="item.images.length" class="images">
+        <p class="content"
+           v-text="item.desc"
+        />
+        <div v-if="item.images.length"
+             class="images"
+        >
           <v-img
             v-if="item.images.length === 1"
             :src="item.images[0].url"
@@ -227,7 +247,9 @@
             height="190"
             class="poster-image"
           />
-          <div v-else class="image-list">
+          <div v-else
+               class="image-list"
+          >
             <v-img
               v-for="(image, index) in imageFilter(item.images)"
               :key="index"

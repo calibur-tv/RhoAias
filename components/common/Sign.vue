@@ -16,19 +16,19 @@
     >
       <div class="container">
         <div v-show="showSignIn">
-          <reset-password-form
+          <ResetPasswordForm
             v-show="showReset"
             @to-login="showReset = false"
             @to-register="showRegister"
           />
-          <sign-in-form
+          <SignInForm
             v-show="!showReset"
             :invite-code="paramsIsOK ? query.uid : ''"
             @to-reset="showReset = true"
             @to-register="showRegister"
           />
         </div>
-        <sign-up-form
+        <SignUpForm
           v-show="showSignUp"
           :invite-code="paramsIsOK ? query.uid : ''"
           @to-login="showLogin"
@@ -36,8 +36,8 @@
       </div>
     </v-drawer>
     <template v-else>
-      <user-drawer />
-      <first-sign-drawer />
+      <UserDrawer />
+      <FirstSignDrawer />
     </template>
   </div>
 </template>

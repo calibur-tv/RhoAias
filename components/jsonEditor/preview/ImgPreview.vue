@@ -40,9 +40,13 @@
     header-text="编辑图片段落"
     submit-text="确定"
   >
-    <div v-if="show" class="image-preview container">
+    <div v-if="show"
+         class="image-preview container"
+    >
       <div class="body">
-        <div v-if="item.url" :style="imageWrapperHeight" class="wrapper">
+        <div v-if="item.url"
+             :style="imageWrapperHeight" class="wrapper"
+        >
           <v-img
             :src="$resize(item.url)"
             :width="item.width"
@@ -83,7 +87,9 @@
           :on-success="imageUploadSuccess"
           :disabled="true"
         >
-          <el-button v-if="item.url" size="small" plain round>
+          <el-button v-if="item.url"
+                     size="small" plain round
+          >
             更换图片
           </el-button>
         </el-upload>

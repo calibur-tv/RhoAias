@@ -106,10 +106,10 @@
         </div>
       </el-col>
       <el-col class="bangumi-score-wrap">
-        <bangumi-score-chart :source="bangumiScore.radar" size="300px" />
+        <BangumiScoreChart :source="bangumiScore.radar" size="300px" />
       </el-col>
     </el-row>
-    <flow-list :id="id" func="getBangumiScore" type="seenIds" sort="active">
+    <FlowList :id="id" func="getBangumiScore" type="seenIds" sort="active">
       <h3
         v-if="source.total"
         slot="header"
@@ -119,7 +119,7 @@
         共 {{ source.total }} 条漫评
       </h3>
       <ul slot-scope="{ flow }">
-        <score-flow-item
+        <ScoreFlowItem
           v-for="item in flow"
           :key="item.id"
           :item="item"
@@ -127,7 +127,7 @@
           user-zone=""
         />
       </ul>
-    </flow-list>
+    </FlowList>
   </div>
 </template>
 

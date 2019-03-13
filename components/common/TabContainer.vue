@@ -56,7 +56,9 @@
         :style="{ width: `${100 / headers.length}%` }"
         @click="handleTabSwitch(index)"
       >
-        <i v-if="computeItemIcon(item)" :class="computeItemIcon(item)" />
+        <i v-if="computeItemIcon(item)"
+           :class="computeItemIcon(item)"
+        />
         <span v-text="computeItemText(item)" />
       </div>
     </header>

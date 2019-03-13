@@ -161,9 +161,9 @@
         <span v-else class="invite-code">邀请码：{{ user.id }}</span>
         <div class="nickname oneline">
           {{ user.nickname }}
-          <user-sex v-if="isMe" :sex="user.sex" :secret="user.sexSecret" />
+          <UserSex v-if="isMe" :sex="user.sex" :secret="user.sexSecret" />
           <template v-else>
-            <user-sex :sex="user.sex" :secret="user.sexSecret" />
+            <UserSex :sex="user.sex" :secret="user.sexSecret" />
             <span class="level">Lv{{ user.level }}</span>
           </template>
         </div>
@@ -178,9 +178,7 @@
                 showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
               "
             />
-            <span class="detail"
-              >{{ exp.have_exp }} / {{ exp.next_level_exp }}</span
-            >
+            <span class="detail">{{ exp.have_exp }} / {{ exp.next_level_exp }}</span>
             <el-progress
               :show-text="false"
               :stroke-width="14"
@@ -237,11 +235,9 @@
         <p>当然，你也有权要求我们删除所有你的内容</p>
       </div>
       <div v-if="user.banned_to" class="faker-tips">
-        <span
-          >该用户已被禁言，禁言至：{{
-            user.banned_to
-          }}，可能是由于以下原因：</span
-        >
+        <span>该用户已被禁言，禁言至：{{
+          user.banned_to
+        }}，可能是由于以下原因：</span>
         <p>1. 破坏社区环境，包括但不限于：无脑刷屏、复制他人内容来发表</p>
         <p>2. 恶意带节奏</p>
         <p>3. 发表于二次元无关的内容</p>
@@ -249,7 +245,7 @@
       </div>
     </div>
     <div class="user-tabs">
-      <tab-container :headers="headers" :router="true" />
+      <TabContainer :headers="headers" :router="true" />
     </div>
     <nuxt-child class="user-main-view" />
   </div>
