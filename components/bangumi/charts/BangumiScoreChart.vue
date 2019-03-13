@@ -15,11 +15,14 @@
 </template>
 
 <script>
-import VeRadar from 'v-charts/lib/radar.common'
-
 export default {
   components: {
-    VeRadar
+    VeRadar: () => {
+      if (typeof window === 'undefined') {
+        return import('~/assets/js/empty')
+      }
+      return import('v-charts/lib/radar.common')
+    }
   },
   props: {
     source: {
