@@ -1,6 +1,4 @@
-import md5 from 'blueimp-md5'
 import qs from 'qs'
-import { AUTH_KEY } from '~/.env'
 
 export default req => {
   const isClient = typeof window !== 'undefined'
@@ -24,16 +22,8 @@ export default req => {
   const requestUrl = isClient ? window.location.href : req.url
   const params = qs.parse(requestUrl.split('?')[1])
 
-  if (params && params.s && params.k && params.t && params.u && params.f) {
-    if (~['wxapp'].indexOf(params.f)) {
-      const now = parseInt(Date.now() / 1000)
-      if (
-        Math.abs(now - params.s) < 30 &&
-        md5(`${params.s}${AUTH_KEY}${params.u}`) === params.k
-      ) {
-        token = params.t
-      }
-    }
+  if (params && params.t && params.f) {
+    token = params.t
   }
   if (isClient) {
     window.__JWT_TOKEN__ = token
