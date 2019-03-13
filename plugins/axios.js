@@ -54,13 +54,16 @@ export default ({ $axios, app }) => {
         code: err.statusCode,
         message: err.message
       })
+      const search = window.location.search
+      const source = /from=/.test(search) ? search.split('from=')[1].split('&')[0] : ''
+      const showToast = ['wxapp'].indexOf(source) === -1
       if (/\/door\/refresh/.test(err.config.url)) {
         Cookies.remove('JWT-TOKEN')
-        setTimeout(() => {
-          window.location.reload()
+        showToast && setTimeout(() => {
+          window.location = window.location.pathname
         }, 1000)
       }
-      M.toast.error(err.message)
+      showToast && M.toast.error(err.message)
     }
     return Promise.reject(err)
   })

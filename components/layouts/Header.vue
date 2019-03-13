@@ -34,7 +34,7 @@
         font-size: 12px;
         font-weight: 600;
         line-height: 48px;
-        padding: 0 3px;
+        padding: 0 5px;
         text-align: center;
 
         &.active {

@@ -9,7 +9,8 @@ export const state = () => ({
   login: false,
   ua: null,
   haveAuthToken: false,
-  pageData: null
+  pageData: null,
+  from: ''
 })
 
 export const mutations = {
@@ -77,6 +78,9 @@ export const mutations = {
       return
     }
     state.user.pocket -= value
+  },
+  SET_SOURCE(state, from) {
+    state.from = from
   }
 }
 
