@@ -181,7 +181,8 @@
           </div>
         </el-collapse-item>
         <el-collapse-item title="股市详情" name="2">
-          <IdolStockChart :idol="role" />
+          <IdolStockTable :idol="role" />
+          <IdolStockChart :source="role.chart" :idol-id="id" />
         </el-collapse-item>
         <el-collapse-item title="组织信息" name="3">
           <div v-if="role.boss">
@@ -257,36 +258,13 @@
           <IdolOwnerList :id="id" :star="role.star_count" />
         </template>
         <template slot="3">
-          <IdolMarketPriceDraft :is-boss="isBoss" :idol="role" />
+          <IdolTimeline :is-boss="isBoss" :idol="role" />
         </template>
         <template slot="4">
           <IdolProductOrderList :idol-id="id" />
         </template>
         <template slot="5">
-          <template v-if="isBoss">
-            <el-collapse v-model="activeName" accordion>
-              <el-collapse-item name="0">
-                <p slot="title" class="title">
-                  信息修改
-                </p>
-                <ChangeIdolProfile :idol="role" />
-              </el-collapse-item>
-              <el-collapse-item name="1">
-                <p slot="title" class="title">
-                  股权变更
-                </p>
-                <CreateChangeMarketPriceDraft :idol="role" />
-              </el-collapse-item>
-            </el-collapse>
-          </template>
-          <p v-else>
-            <br>
-            <br>
-            只有大股东可以修改公司股价和发行量
-            <br>
-            <br>
-            <br>
-          </p>
+          <IdolSetting :idol="role" />
         </template>
       </TabContainer>
     </div>
@@ -302,10 +280,10 @@ import ShareBtn from '~/components/common/ShareBtn'
 import StarIdolBtn from '~/components/idol/StarIdolBtn'
 import TabContainer from '~/components/common/TabContainer'
 import IdolOwnerList from '~/components/idol/IdolOwnerList'
-import IdolMarketPriceDraft from '~/components/idol/IdolMarketPriceDraft'
-import CreateChangeMarketPriceDraft from '~/components/idol/CreateChangeMarketPriceDraft'
-import ChangeIdolProfile from '~/components/idol/ChangeIdolProfile'
+import IdolTimeline from '~/components/idol/IdolTimeline'
+import IdolStockTable from '~/components/idol/IdolStockTable'
 import IdolStockChart from '~/components/idol/IdolStockChart'
+import IdolSetting from '~/components/idol/IdolSetting'
 import { Collapse, CollapseItem } from 'element-ui'
 import IdolProductArea from '~/components/idol/IdolProductArea'
 import IdolProductOrderList from '~/components/idol/IdolProductOrderList'
@@ -322,11 +300,11 @@ export default {
     StarIdolBtn,
     TabContainer,
     IdolOwnerList,
-    IdolMarketPriceDraft,
-    CreateChangeMarketPriceDraft,
-    ChangeIdolProfile,
+    IdolTimeline,
+    IdolStockTable,
     IdolStockChart,
     IdolProductArea,
+    IdolSetting,
     IdolProductOrderList,
     'el-collapse': Collapse,
     'el-collapse-item': CollapseItem
@@ -343,8 +321,7 @@ export default {
       bangumi: null,
       share_data: null,
       collapsed: true,
-      activeNames: ['1', '2', '3'],
-      activeName: ''
+      activeNames: ['1', '2', '3']
     }
   },
   computed: {

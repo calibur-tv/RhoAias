@@ -1,2 +1,0 @@
-exports.ids=[70],exports.modules={484:function(e,t,n){"use strict";n.r(t);var o={name:"WxAppIdolTimeline",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},d=n(1);var component=Object(d.a)(o,function(){var e=this.$createElement;return(this._self._c||e)("div",{attrs:{id:"wx-app-idol-timeline"}},[this._ssrNode("\n  WxAppIdolTimeline\n")])},[],!1,function(e){},null,"7d3ce3b7");t.default=component.exports}};
-//# sourceMappingURL=timeline.chunk.3f48a759.js.map

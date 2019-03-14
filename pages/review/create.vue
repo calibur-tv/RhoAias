@@ -200,7 +200,7 @@ import {
   checkHasReviewed
 } from '~/api/scoreApi'
 import { Rate } from 'element-ui'
-import serverAuth from '~/mixins/serverAuth'
+import mustAuth from '~/mixins/mustAuth'
 
 export default {
   name: 'ScoreCreate',
@@ -211,7 +211,7 @@ export default {
     'el-rate': Rate,
     'mt-switch': Switch
   },
-  mixins: [serverAuth],
+  mixins: [mustAuth],
   data() {
     const labelMap = {
       lol: '笑点',

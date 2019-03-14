@@ -35,7 +35,9 @@
 
 <template>
   <div class="user-nickname" @click.stop="$alias.user(user.zone)">
-    <div class="nickname"><p class="oneline" v-text="user.nickname" /></div>
+    <div class="nickname">
+      <p class="oneline" v-text="user.nickname" />
+    </div>
     <span v-if="isMaster" class="badge master-badge"><span>楼主</span></span>
   </div>
 </template>

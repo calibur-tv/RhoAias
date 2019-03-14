@@ -334,12 +334,12 @@
 
 <script>
 import html2canvas from 'html2canvas'
-import serverAuth from '~/mixins/serverAuth'
+import mustAuth from '~/mixins/mustAuth'
 import QRCode from '~/assets/js/qrcode'
 
 export default {
   name: 'PageUserInvite',
-  mixins: [serverAuth],
+  mixins: [mustAuth],
   data() {
     return {
       created: false,

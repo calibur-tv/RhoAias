@@ -162,7 +162,7 @@ $main-color: #f25d8e;
 </template>
 
 <script>
-import serverAuth from '~/mixins/serverAuth'
+import mustAuth from '~/mixins/mustAuth'
 import TabContainer from '~/components/common/TabContainer'
 import FlowList from '~/components/flow/FlowList'
 
@@ -176,7 +176,7 @@ export default {
   head: {
     title: '邀请码'
   },
-  mixins: [serverAuth],
+  mixins: [mustAuth],
   data() {
     return {
       headers: ['我的邀请码', '我邀请的人']

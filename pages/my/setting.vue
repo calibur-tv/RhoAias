@@ -322,7 +322,7 @@
 <script>
 import ImageCropper from '~/components/common/ImageCropper'
 import UserSettingForm from '~/components/user/UserSettingForm'
-import serverAuth from '~/mixins/serverAuth'
+import mustAuth from '~/mixins/mustAuth'
 import { settingImage, bindPhone, sendMessage } from '~/api/userApi'
 import { uploadToQiniu } from '~/api/imageApi'
 
@@ -332,7 +332,7 @@ export default {
     ImageCropper,
     UserSettingForm
   },
-  mixins: [serverAuth],
+  mixins: [mustAuth],
   data() {
     return {
       avatarSelector: {

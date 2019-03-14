@@ -1,52 +1,6 @@
 <style lang="scss">
 #idol-stock-chart {
-  margin-left: -$container-padding;
-  margin-right: -$container-padding;
-  margin-bottom: -5px;
-
-  .table-wrap {
-    margin-left: $container-padding;
-    margin-right: $container-padding;
-  }
-
-  .table {
-    background-color: $color-gray-light;
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-
-    thead {
-      margin-bottom: 5px;
-      margin-top: 5px;
-      display: block;
-    }
-
-    tbody {
-      margin-bottom: 15px;
-      margin-top: 5px;
-      display: block;
-    }
-
-    tr {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    th,
-    td {
-      font-size: 12px;
-      display: block;
-      width: 100%;
-      font-weight: normal;
-      text-align: center;
-    }
-  }
-
-  .shim {
-    height: 20px;
-  }
+  position: relative;
 
   .control {
     display: flex;
@@ -69,67 +23,28 @@
       }
     }
   }
+
+  .shim {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 130px;
+    line-height: 130px;
+    text-align: center;
+  }
 }
 </style>
 
 <template>
   <div id="idol-stock-chart">
-    <div class="table-wrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>当前市值</th>
-            <th>每股价格</th>
-            <th>持股人数</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              {{ idol.company_state ? `￥${idol.market_price}` : '未上市' }}
-            </td>
-            <td>￥{{ idol.stock_price }}</td>
-            <td>{{ idol.fans_count }}人</td>
-          </tr>
-        </tbody>
-        <thead>
-          <tr>
-            <th>总发行股</th>
-            <th>已认购股</th>
-            <th>我持有股</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ hasLimited ? idol.max_stock_count : '无上限' }}</td>
-            <td>{{ idol.star_count }}</td>
-            <td>{{ hasBuyStock ? idol.has_star : '未入股' }}</td>
-          </tr>
-        </tbody>
-        <thead>
-          <tr>
-            <th>产品支出</th>
-            <th>产品收入</th>
-            <th>公司盈利</th>
-          </tr>
-        </thead>
-        <tbody style="margin-bottom:5px">
-          <tr>
-            <td>{{ idol.company_state ? idol.total_pay : '-' }}</td>
-            <td>{{ idol.company_state ? idol.total_income : '-' }}</td>
-            <td>{{ idol.company_state ? productBalance : '-' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <canvas
-      v-if="idol.chart.length"
-      id="chart-node"
-    />
+    <canvas id="chart-node" />
     <div
-      v-else
+      v-show="!list[index].length"
       class="shim"
-    />
+    >
+      暂无数据
+    </div>
     <div class="control">
       <button
         :class="{ 'active': index === 0 }"
@@ -160,8 +75,12 @@ import { getIdolChart } from '~/api/cartoonRoleApi'
 export default {
   name: 'IdolStockChart',
   props: {
-    idol: {
-      type: Object,
+    source: {
+      type: Array,
+      required: true
+    },
+    idolId: {
+      type: [Number, String],
       required: true
     }
   },
@@ -170,25 +89,10 @@ export default {
       chart: null,
       index: 0,
       list: [
-        this.idol.chart,
+        this.source,
         [],
         []
       ]
-    }
-  },
-  computed: {
-    hasLimited() {
-      return this.idol.max_stock_count !== '0.00'
-    },
-    hasBuyStock() {
-      return this.idol.has_star !== '0.00'
-    },
-    productBalance() {
-      const balance = this.idol.total_pay - this.idol.total_income
-      const percent = `${parseFloat(
-        (balance / this.idol.market_price) * 100
-      ).toFixed(2)}%`
-      return `￥${parseFloat(balance).toFixed(2)}（${percent}）`
     }
   },
   mounted() {
@@ -254,7 +158,7 @@ export default {
     getIdolChartData(days, index) {
       getIdolChart(this, {
         days,
-        idol_id: this.idol.id
+        idol_id: this.idolId
       })
         .then(data => {
           this.list[index] = data
@@ -262,6 +166,9 @@ export default {
         .catch(() => {})
     },
     switchChart(index) {
+      if (!this.chart) {
+        return
+      }
       this.index = index
       this.chart.changeData(this.list[index])
     },
@@ -272,12 +179,10 @@ export default {
           value: parseFloat(_.value).toFixed(2)
         }
       })
-      if (!data.length) {
-        return
-      }
       const chart = new F2.Chart({
         id: 'chart-node',
-        pixelRatio: window.devicePixelRatio
+        pixelRatio: window.devicePixelRatio,
+        padding: ['auto', 0, 'auto', 40]
       })
       this.chart = chart
       chart.source(data, {

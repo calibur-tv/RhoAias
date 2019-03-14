@@ -178,7 +178,7 @@
 </template>
 
 <script>
-import serverAuth from '~/mixins/serverAuth'
+import mustAuth from '~/mixins/mustAuth'
 import FlowList from '~/components/flow/FlowList'
 import DealIdolItem from '~/components/idol/DealIdolItem'
 import VirtualIdolItem from '~/components/idol/VirtualIdolItem'
@@ -199,7 +199,7 @@ export default {
     IdolProductOrderItem,
     'el-input-number': InputNumber
   },
-  mixins: [serverAuth],
+  mixins: [mustAuth],
   head: {
     title: '我的股市'
   },

@@ -3,22 +3,27 @@
 
 <template>
   <div id="wx-app-idol-buy">
-    WxAppIdolBuy
+    <div class="container">
+      <IdolProductOrderList :idol-id="$route.params.id" />
+    </div>
   </div>
 </template>
 
 <script>
+import IdolProductOrderList from '~/components/idol/IdolProductOrderList'
+
 export default {
   name: 'WxAppIdolBuy',
-  components: {},
-  props: {},
-  data() {
-    return {}
+  components: {
+    IdolProductOrderList
   },
-  computed: {},
-  watch: {},
-  created() {},
-  mounted() {},
-  methods: {}
+  async fetch({ store, params }) {
+    await store.dispatch('flow/initData', {
+      func: 'getIdolProductOrders',
+      type: 'page',
+      sort: 'news',
+      id: params.id
+    })
+  }
 }
 </script>
