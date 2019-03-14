@@ -179,9 +179,6 @@
   <div id="comment-wrap">
     <!-- 主列表的头部 -->
     <slot name="header">
-      <div v-if="!auto"
-           class="hr"
-      />
       <h3 class="sub-title">
         评论{{ total ? `(${total})` : '' }} <slot name="header-btn" />
         <button class="write-btn"

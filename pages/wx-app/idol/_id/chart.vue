@@ -10,7 +10,6 @@
 <script>
 export default {
   name: 'WxAppIdolChart',
-  layout: 'wx-app',
   components: {},
   props: {},
   data() {

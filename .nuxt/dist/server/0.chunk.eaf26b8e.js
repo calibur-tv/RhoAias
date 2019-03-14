@@ -1,2 +1,0 @@
-exports.ids=[0],exports.modules={434:function(e,o,r){"use strict";r.r(o),o.default={name:"empty",props:["placeholder"],render:e=>e("div",{class:["empty-component-placeholder"]})}}};
-//# sourceMappingURL=0.chunk.eaf26b8e.js.map

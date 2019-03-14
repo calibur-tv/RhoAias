@@ -1,0 +1,2 @@
+exports.ids=[66],exports.modules={489:function(t,e,o){"use strict";o.r(e);var d={name:"WxAppIdolBuy",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},n=o(1);var component=Object(n.a)(d,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"wx-app-idol-buy"}},[this._ssrNode("\n  WxAppIdolBuy\n")])},[],!1,function(t){},null,"7d97b600");e.default=component.exports}};
+//# sourceMappingURL=buy.chunk.32853d00.js.map

@@ -1,0 +1,2 @@
+exports.ids=[13],exports.modules={506:function(t,e,r){"use strict";r.r(e);var o={fetch:({redirect:t,params:e})=>t(`/bangumi/${e.id}/post`)},d=r(1),component=Object(d.a)(o,void 0,void 0,!1,null,null,"a758ab5a");e.default=component.exports}};
+//# sourceMappingURL=index.chunk.c14ba0e8.js.map

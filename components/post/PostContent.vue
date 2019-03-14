@@ -123,16 +123,6 @@
       <nuxt-link :to="$alias.user(user.zone)" class="avatar">
         <v-img :src="user.avatar" :avatar="true" width="35" />
       </nuxt-link>
-      <VPopover
-        :actions="actions"
-        :report-id="post.id"
-        :is-creator="post.is_creator"
-        report-type="post"
-      >
-        <button class="tool-btn">
-          ···
-        </button>
-      </VPopover>
       <div class="summary">
         <nuxt-link
           :to="$alias.user(user.zone)"
@@ -210,7 +200,6 @@
 </template>
 
 <script>
-import VPopover from '~/components/common/Popover'
 import SocialPanel from '~/components/common/SocialPanel'
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BuyContentBtn from '~/components/idol/BuyContentBtn'
@@ -219,7 +208,6 @@ import { deletePost } from '~/api/postApi'
 export default {
   name: 'PostContent',
   components: {
-    VPopover,
     SocialPanel,
     ImagePreview,
     BuyContentBtn
@@ -238,9 +226,6 @@ export default {
       required: true
     }
   },
-  data() {
-    return {}
-  },
   computed: {
     total() {
       return this.$store.state.comment.total + 1
@@ -248,45 +233,11 @@ export default {
     onlySeeMaster() {
       return !!parseInt(this.$route.query.only, 10)
     },
-    actions() {
-      const result = [
-        {
-          name: this.onlySeeMaster ? '取消只看楼主' : '只看楼主',
-          method: this.switchOnlyMaster
-        }
-      ]
-      if (this.isMaster) {
-        result.push({
-          name: '删除',
-          method: this.deletePost
-        })
-      }
-      return result
-    },
     isMaster() {
       if (!this.$store.state.login) {
         return false
       }
       return this.$store.state.user.id === this.user.id
-    }
-  },
-  methods: {
-    switchOnlyMaster() {
-      window.location = this.$alias.post(this.post.id, {
-        only: this.onlySeeMaster ? 0 : 1
-      })
-    },
-    deletePost() {
-      this.$confirm('删除后无法找回, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(async () => {
-          await deletePost(this, { id: this.post.id })
-          window.location.reload()
-        })
-        .catch(() => {})
     }
   }
 }

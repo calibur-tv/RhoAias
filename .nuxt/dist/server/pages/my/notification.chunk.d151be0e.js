@@ -1,2 +1,0 @@
-exports.ids=[30],exports.modules={456:function(t,e,o){"use strict";o.r(e);var n={name:"MyNotification",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},c=o(1);var component=Object(c.a)(n,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"my-notification"}},[this._ssrNode("\n  MyNotification，需要展示公告\n")])},[],!1,function(t){},null,"c0f4120c");e.default=component.exports}};
-//# sourceMappingURL=notification.chunk.d151be0e.js.map

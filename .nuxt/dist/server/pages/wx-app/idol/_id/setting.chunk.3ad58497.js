@@ -1,2 +1,0 @@
-exports.ids=[68],exports.modules={489:function(t,e,n){"use strict";n.r(e);var o={name:"WxAppIdolSetting",layout:"wx-app",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},r=n(1);var component=Object(r.a)(o,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"wx-app-idol-setting"}},[this._ssrNode("\n  WxAppIdolSetting\n")])},[],!1,function(t){},null,"44318fca");e.default=component.exports}};
-//# sourceMappingURL=setting.chunk.3ad58497.js.map

@@ -10,7 +10,6 @@
 <script>
 export default {
   name: 'WxAppIdolTimeline',
-  layout: 'wx-app',
   components: {},
   props: {},
   data() {

@@ -13,6 +13,15 @@ const _3f2e7690 = () => interopDefault(import('../pages/world/pins.vue' /* webpa
 const _f5aba69c = () => interopDefault(import('../pages/world/post.vue' /* webpackChunkName: "pages/world/post" */))
 const _d69ff482 = () => interopDefault(import('../pages/world/qaq.vue' /* webpackChunkName: "pages/world/qaq" */))
 const _50bff8ea = () => interopDefault(import('../pages/world/review.vue' /* webpackChunkName: "pages/world/review" */))
+const _608b136a = () => interopDefault(import('../pages/wx-app.vue' /* webpackChunkName: "pages/wx-app" */))
+const _77f01921 = () => interopDefault(import('../pages/wx-app/image/_id.vue' /* webpackChunkName: "pages/wx-app/image/_id" */))
+const _3f9aec00 = () => interopDefault(import('../pages/wx-app/post/_id.vue' /* webpackChunkName: "pages/wx-app/post/_id" */))
+const _1fc78758 = () => interopDefault(import('../pages/wx-app/score/_id.vue' /* webpackChunkName: "pages/wx-app/score/_id" */))
+const _53f8a20f = () => interopDefault(import('../pages/wx-app/idol/_id/buy.vue' /* webpackChunkName: "pages/wx-app/idol/_id/buy" */))
+const _04655727 = () => interopDefault(import('../pages/wx-app/idol/_id/chart.vue' /* webpackChunkName: "pages/wx-app/idol/_id/chart" */))
+const _6dba1ce8 = () => interopDefault(import('../pages/wx-app/idol/_id/comment.vue' /* webpackChunkName: "pages/wx-app/idol/_id/comment" */))
+const _2de0474e = () => interopDefault(import('../pages/wx-app/idol/_id/setting.vue' /* webpackChunkName: "pages/wx-app/idol/_id/setting" */))
+const _74282908 = () => interopDefault(import('../pages/wx-app/idol/_id/timeline.vue' /* webpackChunkName: "pages/wx-app/idol/_id/timeline" */))
 const _ece0cb2a = () => interopDefault(import('../pages/about/hello.vue' /* webpackChunkName: "pages/about/hello" */))
 const _6c014a66 = () => interopDefault(import('../pages/about/reward.vue' /* webpackChunkName: "pages/about/reward" */))
 const _0adc80ab = () => interopDefault(import('../pages/app/download.vue' /* webpackChunkName: "pages/app/download" */))
@@ -38,14 +47,6 @@ const _59aaf264 = () => interopDefault(import('../pages/role/trending/newbie.vue
 const _15f12e59 = () => interopDefault(import('../pages/role/trending/product.vue' /* webpackChunkName: "pages/role/trending/product" */))
 const _86774a2a = () => interopDefault(import('../pages/about/invite/_id.vue' /* webpackChunkName: "pages/about/invite/_id" */))
 const _48b185e6 = () => interopDefault(import('../pages/app/notice/_id.vue' /* webpackChunkName: "pages/app/notice/_id" */))
-const _77f01921 = () => interopDefault(import('../pages/wx-app/image/_id.vue' /* webpackChunkName: "pages/wx-app/image/_id" */))
-const _3f9aec00 = () => interopDefault(import('../pages/wx-app/post/_id.vue' /* webpackChunkName: "pages/wx-app/post/_id" */))
-const _1fc78758 = () => interopDefault(import('../pages/wx-app/score/_id.vue' /* webpackChunkName: "pages/wx-app/score/_id" */))
-const _53f8a20f = () => interopDefault(import('../pages/wx-app/idol/_id/buy.vue' /* webpackChunkName: "pages/wx-app/idol/_id/buy" */))
-const _04655727 = () => interopDefault(import('../pages/wx-app/idol/_id/chart.vue' /* webpackChunkName: "pages/wx-app/idol/_id/chart" */))
-const _6dba1ce8 = () => interopDefault(import('../pages/wx-app/idol/_id/comment.vue' /* webpackChunkName: "pages/wx-app/idol/_id/comment" */))
-const _2de0474e = () => interopDefault(import('../pages/wx-app/idol/_id/setting.vue' /* webpackChunkName: "pages/wx-app/idol/_id/setting" */))
-const _74282908 = () => interopDefault(import('../pages/wx-app/idol/_id/timeline.vue' /* webpackChunkName: "pages/wx-app/idol/_id/timeline" */))
 const _5b5baadf = () => interopDefault(import('../pages/bangumi/_id.vue' /* webpackChunkName: "pages/bangumi/_id" */))
 const _36ce4e22 = () => interopDefault(import('../pages/bangumi/_id/index.vue' /* webpackChunkName: "pages/bangumi/_id/index" */))
 const _c8e36e84 = () => interopDefault(import('../pages/bangumi/_id/cartoon.vue' /* webpackChunkName: "pages/bangumi/_id/cartoon" */))
@@ -205,6 +206,52 @@ export function createRouter() {
         name: "world-review"
       }]
     }, {
+      path: "/wx-app",
+      component: _608b136a,
+      props: false,
+      name: "wx-app",
+      children: [{
+        path: "image/:id?",
+        component: _77f01921,
+        props: false,
+        name: "wx-app-image-id"
+      }, {
+        path: "post/:id?",
+        component: _3f9aec00,
+        props: false,
+        name: "wx-app-post-id"
+      }, {
+        path: "score/:id?",
+        component: _1fc78758,
+        props: false,
+        name: "wx-app-score-id"
+      }, {
+        path: "idol/:id?/buy",
+        component: _53f8a20f,
+        props: false,
+        name: "wx-app-idol-id-buy"
+      }, {
+        path: "idol/:id?/chart",
+        component: _04655727,
+        props: false,
+        name: "wx-app-idol-id-chart"
+      }, {
+        path: "idol/:id?/comment",
+        component: _6dba1ce8,
+        props: false,
+        name: "wx-app-idol-id-comment"
+      }, {
+        path: "idol/:id?/setting",
+        component: _2de0474e,
+        props: false,
+        name: "wx-app-idol-id-setting"
+      }, {
+        path: "idol/:id?/timeline",
+        component: _74282908,
+        props: false,
+        name: "wx-app-idol-id-timeline"
+      }]
+    }, {
       path: "/about/hello",
       component: _ece0cb2a,
       props: false,
@@ -329,46 +376,6 @@ export function createRouter() {
       component: _48b185e6,
       props: true,
       name: "app-notice-id"
-    }, {
-      path: "/wx-app/image/:id?",
-      component: _77f01921,
-      props: true,
-      name: "wx-app-image-id"
-    }, {
-      path: "/wx-app/post/:id?",
-      component: _3f9aec00,
-      props: true,
-      name: "wx-app-post-id"
-    }, {
-      path: "/wx-app/score/:id?",
-      component: _1fc78758,
-      props: true,
-      name: "wx-app-score-id"
-    }, {
-      path: "/wx-app/idol/:id?/buy",
-      component: _53f8a20f,
-      props: true,
-      name: "wx-app-idol-id-buy"
-    }, {
-      path: "/wx-app/idol/:id?/chart",
-      component: _04655727,
-      props: true,
-      name: "wx-app-idol-id-chart"
-    }, {
-      path: "/wx-app/idol/:id?/comment",
-      component: _6dba1ce8,
-      props: true,
-      name: "wx-app-idol-id-comment"
-    }, {
-      path: "/wx-app/idol/:id?/setting",
-      component: _2de0474e,
-      props: true,
-      name: "wx-app-idol-id-setting"
-    }, {
-      path: "/wx-app/idol/:id?/timeline",
-      component: _74282908,
-      props: true,
-      name: "wx-app-idol-id-timeline"
     }, {
       path: "/bangumi/:id",
       component: _5b5baadf,

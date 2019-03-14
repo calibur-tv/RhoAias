@@ -10,7 +10,6 @@
 <script>
 export default {
   name: 'WxAppIdolBuy',
-  layout: 'wx-app',
   components: {},
   props: {},
   data() {
