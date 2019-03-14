@@ -1,0 +1,2 @@
+exports.ids=[71],exports.modules={479:function(t,e,o){"use strict";o.r(e);var n={name:"WxAppPost",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},r=o(1);var component=Object(r.a)(n,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"wx-app-post"}},[this._ssrNode("\n  WxAppPost\n")])},[],!1,function(t){},null,"e9d9831e");e.default=component.exports}};
+//# sourceMappingURL=_id.chunk.36dc71e9.js.map

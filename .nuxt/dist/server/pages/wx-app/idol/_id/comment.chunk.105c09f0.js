@@ -1,0 +1,2 @@
+exports.ids=[67],exports.modules={491:function(t,e,o){"use strict";o.r(e);var n={name:"WxAppIdolComment",layout:"wx-app",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},r=o(1);var component=Object(r.a)(n,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"wx-app-idol-comment"}},[this._ssrNode("\n  WxAppIdolComment\n")])},[],!1,function(t){},null,"6e485f4e");e.default=component.exports}};
+//# sourceMappingURL=comment.chunk.105c09f0.js.map
