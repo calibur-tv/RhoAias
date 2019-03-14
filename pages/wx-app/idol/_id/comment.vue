@@ -2,7 +2,7 @@
   <div id="wx-app-idol-comment">
     <div class="container">
       <CommentMain
-        :id="id"
+        :id="$route.params.id"
         :master-id="1"
         :lazy="false"
         type="role"
@@ -18,12 +18,6 @@ export default {
   name: 'WxAppIdolComment',
   components: {
     CommentMain
-  },
-  props: {
-    id: {
-      type: String,
-      require: true
-    }
   },
   async asyncData({ store, query, params, error }) {
     try {
