@@ -4,6 +4,7 @@
       <CommentMain
         :id="id"
         :master-id="1"
+        :lazy="false"
         type="role"
       />
     </div>
