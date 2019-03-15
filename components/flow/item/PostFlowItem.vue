@@ -100,34 +100,8 @@
       @include twoline(18px);
     }
 
-    .images {
-      position: relative;
+    .flow-images {
       margin-bottom: 9px;
-
-      .poster-image {
-        border-radius: 4px;
-
-        img {
-          height: auto;
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-      }
-
-      .image-list {
-        @extend %clearfix;
-
-        .image {
-          float: left;
-          border-radius: 4px;
-
-          &:not(:last-child) {
-            margin-right: 2%;
-          }
-        }
-      }
     }
 
     .tags {
@@ -235,25 +209,7 @@
           <p class="oneline" v-text="item.title" />
         </div>
         <p class="content" v-text="item.desc" />
-        <div v-if="item.images.length" class="images">
-          <v-img
-            v-if="item.images.length === 1"
-            :src="item.images[0].url"
-            width="100%"
-            height="130"
-            class="poster-image"
-          />
-          <div v-else class="image-list">
-            <v-img
-              v-for="(image, index) in imageFilter(item.images)"
-              :key="index"
-              :src="image.url"
-              class="image"
-              width="32%"
-              height="93"
-            />
-          </div>
-        </div>
+        <FlowImages :images="item.images"/>
         <div class="tags">
           <router-link
             v-if="item.bangumi && !bangumiId"
@@ -301,11 +257,13 @@
 
 <script>
 import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
+import FlowImages from '~/components/flow/FlowImages'
 
 export default {
   name: 'PostFlowItem',
   components: {
-    FlowHeaderUser
+    FlowHeaderUser,
+    FlowImages
   },
   props: {
     item: {

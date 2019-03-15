@@ -107,19 +107,9 @@
       }
     }
 
-    .poster-image {
-      position: relative;
-      border-radius: 4px;
+    .flow-images {
       margin-bottom: 8px;
       margin-top: 10px;
-
-      img {
-        height: auto;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
     }
 
     .content {
@@ -235,13 +225,7 @@
         <div class="title">
           <p class="oneline" v-text="item.title" />
         </div>
-        <v-img
-          v-if="item.banner"
-          :src="item.banner.url"
-          width="100%"
-          height="130"
-          class="poster-image"
-        />
+        <FlowImages :images="item.images"/>
         <div class="content" v-text="item.intro" />
       </div>
       <div class="footer">
@@ -269,10 +253,12 @@
 
 <script>
 import { Rate } from 'element-ui'
+import FlowImages from '~/components/flow/FlowImages'
 
 export default {
   name: 'ScoreFlowItem',
   components: {
+    FlowImages,
     'el-rate': Rate
   },
   props: {
