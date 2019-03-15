@@ -14,7 +14,7 @@
 
 <template>
   <div
-    :style="{ width: `${size}px`, height: `${size}px` }"
+    :style="{ width: $px2vw(size), height: $px2vw(size) }"
     class="user-avatar"
     @click.stop="toUser"
   >

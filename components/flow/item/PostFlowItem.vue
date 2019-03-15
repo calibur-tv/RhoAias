@@ -5,17 +5,11 @@
   padding-right: $container-padding;
 
   .header {
-    height: 35px;
-    margin-bottom: 10px;
-
-    .user-avatar {
-      margin-right: 7px;
-      float: left;
-      position: relative;
-    }
+    height: 40px;
+    margin-bottom: 5px;
 
     .bangumi-avatar {
-      margin-right: 10px;
+      margin-right: 5px;
       display: block;
       float: left;
       width: 35px;
@@ -26,6 +20,8 @@
         width: 100%;
         height: auto;
         overflow: hidden;
+        border-radius: 4px;
+        border: 1px solid $color-avatar-border;
       }
     }
 

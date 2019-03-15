@@ -23,7 +23,7 @@
 
     time {
       color: $color-text-light;
-      line-height: 28px;
+      margin-top: 3px;
       @include half-font(10px, top);
     }
   }
