@@ -63,12 +63,8 @@
 </style>
 
 <template>
-  <div v-if="showDialog"
-       class="gift-modal"
-  >
-    <div v-if="user"
-         class="content"
-    >
+  <div v-if="showDialog" class="gift-modal">
+    <div v-if="user" class="content">
       <div class="avatar">
         <img :src="$resize(user.avatar, { width: 200 })">
       </div>
@@ -80,14 +76,10 @@
         <p>更重要的是，calibur 的发展需要你</p>
         <p>请加入我们吧</p>
       </div>
-      <button class="join"
-              @click="joinUs"
-      >
+      <button class="join" @click="joinUs">
         可以，我加入！
       </button>
-      <button class="abort"
-              @click="abortYou"
-      >
+      <button class="abort" @click="abortYou">
         但是，我拒绝！
       </button>
       <p class="expired">

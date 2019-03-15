@@ -70,16 +70,10 @@
 </style>
 
 <template>
-  <div :id="`answer-${item.id}`"
-       class="answer-flow-item"
-  >
+  <div :id="`answer-${item.id}`" class="answer-flow-item">
     <header class="answer-header">
-      <nuxt-link :to="$alias.user(item.user.zone)"
-                 class="avatar"
-      >
-        <v-img :src="item.user.avatar"
-               :avatar="true" width="38" height="38"
-        />
+      <nuxt-link :to="$alias.user(item.user.zone)" class="avatar">
+        <v-img :src="item.user.avatar" :avatar="true" width="38" height="38" />
       </nuxt-link>
       <div class="info">
         <nuxt-link
@@ -87,18 +81,12 @@
           class="nickname"
           v-text="item.user.nickname"
         />
-        <p class="oneline signature"
-           v-text="item.user.signature"
-        />
+        <p class="oneline signature" v-text="item.user.signature" />
       </div>
     </header>
-    <div v-if="item.vote_count"
-         class="answer-meta"
-    >
+    <div v-if="item.vote_count" class="answer-meta">
       <span v-if="item.source_url">
-        <nuxt-link :href="item.source_url"
-                   target="_blank"
-        >
+        <nuxt-link :href="item.source_url" target="_blank">
           原文链接
         </nuxt-link>
         ·
@@ -125,9 +113,7 @@
         :author-id="item.user.id"
         type="answer"
       />
-      <el-button type="text"
-                 size="medium" @click="loadAnswerComment"
-      >
+      <el-button type="text" size="medium" @click="loadAnswerComment">
         <i class="iconfont icon-talk" />
         {{ item.comment_count ? item.comment_count + ' 条评论' : '添加评论' }}
       </el-button>
@@ -136,17 +122,13 @@
         :is-creator="!item.source_url"
         report-type="answer"
       >
-        <el-button type="text"
-                   size="medium"
-        >
+        <el-button type="text" size="medium">
           <i class="el-icon-phone" />
           举报
         </el-button>
       </VPopover>
     </footer>
-    <v-drawer v-model="showCommentModal"
-              from="bottom" size="80%"
-    >
+    <v-drawer v-model="showCommentModal" from="bottom" size="80%">
       <div class="container">
         <CommentMain
           :id="item.id"

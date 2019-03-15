@@ -7,9 +7,7 @@
 
 <template>
   <div id="idol-product-area">
-    <FlowList :id="idolId"
-              func="getIdolProducts" type="lastId" sort="news"
-    >
+    <FlowList :id="idolId" func="getIdolProducts" type="lastId" sort="news">
       <ul slot-scope="{ flow }">
         <PostFlowItem
           v-for="item in flow"

@@ -2,13 +2,9 @@
 
 <template>
   <div class="idol-product-order-list">
-    <FlowList :id="idolId"
-              func="getIdolProductOrders" type="page" sort="news"
-    >
+    <FlowList :id="idolId" func="getIdolProductOrders" type="page" sort="news">
       <ul slot-scope="{ flow }">
-        <IdolOrderItem v-for="item in flow"
-                       :key="item.id" :item="item"
-        />
+        <IdolOrderItem v-for="item in flow" :key="item.id" :item="item" />
       </ul>
     </FlowList>
   </div>

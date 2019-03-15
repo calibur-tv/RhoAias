@@ -49,9 +49,7 @@
     from="bottom"
     size="100%"
   >
-    <div id="create-answer-form"
-         class="container"
-    >
+    <div id="create-answer-form" class="container">
       <h3 class="sub-title">
         转载
       </h3>

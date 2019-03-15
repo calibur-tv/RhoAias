@@ -141,9 +141,7 @@
         </VPopover>
       </h3>
       <ul class="cartoon-list clearfix">
-        <li v-for="item in cartoons.list"
-            :key="item.id" class="cartoon"
-        >
+        <li v-for="item in cartoons.list" :key="item.id" class="cartoon">
           <nuxt-link :to="$alias.image(item.id)">
             <div class="poster-wrap">
               <img
@@ -151,9 +149,7 @@
               >
               <div class="info">
                 <i class="el-icon-picture-outline" />
-                <span class="image-count"
-                      v-text="item.image_count"
-                />
+                <span class="image-count" v-text="item.image_count" />
               </div>
             </div>
             <div class="intro">

@@ -191,22 +191,14 @@
 </style>
 
 <template>
-  <div :class="[{ selected }, `json-item-${index}`]"
-       class="json-item"
-  >
-    <button v-if="sectionCount > 1"
-            class="delete-btn" @click="emitDelete"
-    >
+  <div :class="[{ selected }, `json-item-${index}`]" class="json-item">
+    <button v-if="sectionCount > 1" class="delete-btn" @click="emitDelete">
       <span> <i class="el-icon-delete" /> </span>
     </button>
-    <button v-if="index"
-            class="up-btn" @click="emitSort"
-    >
+    <button v-if="index" class="up-btn" @click="emitSort">
       <span> <i class="el-icon-arrow-up" /> </span>
     </button>
-    <div class="show-area"
-         @click="emitPreview(item.type)"
-    >
+    <div class="show-area" @click="emitPreview(item.type)">
       <div class="capture">
         <template v-if="item.type === 'img'">
           <div
@@ -216,81 +208,53 @@
             }"
             class="poster"
           />
-          <div v-if="!item.url"
-               class="default green"
-          >
+          <div v-if="!item.url" class="default green">
             <i class="iconfont icon-image" />
           </div>
         </template>
-        <div v-else-if="item.type === 'txt'"
-             class="default yellow"
-        >
+        <div v-else-if="item.type === 'txt'" class="default yellow">
           <i class="iconfont icon-text" />
         </div>
-        <div v-else-if="item.type === 'list'"
-             class="default blue"
-        >
+        <div v-else-if="item.type === 'list'" class="default blue">
           <i class="iconfont icon-list" />
         </div>
-        <div v-else-if="item.type === 'use'"
-             class="default pink"
-        >
+        <div v-else-if="item.type === 'use'" class="default pink">
           <i class="iconfont icon-use" />
         </div>
-        <div v-else-if="item.type === 'title'"
-             class="default purple"
-        >
+        <div v-else-if="item.type === 'title'" class="default purple">
           <i class="iconfont icon-title" />
         </div>
       </div>
       <div class="content">
         <template v-if="item.type === 'title'">
-          <div v-if="item.text"
-               class="text line-4" v-html="item.text"
-          />
-          <div v-else
-               class="text"
-          >
+          <div v-if="item.text" class="text line-4" v-html="item.text" />
+          <div v-else class="text">
             点击添加小标题
           </div>
         </template>
         <template v-else-if="item.type === 'txt'">
-          <div v-if="item.text"
-               class="text line-4" v-html="item.text"
-          />
-          <div v-else
-               class="text"
-          >
+          <div v-if="item.text" class="text line-4" v-html="item.text" />
+          <div v-else class="text">
             点击添加文字
           </div>
         </template>
         <template v-else-if="item.type === 'img'">
-          <div v-if="item.text"
-               class="text line-4" v-html="item.text"
-          />
-          <div v-else-if="item.url"
-               class="text"
-          >
+          <div v-if="item.text" class="text line-4" v-html="item.text" />
+          <div v-else-if="item.url" class="text">
             点击编辑图片
           </div>
-          <div v-else
-               class="text"
-          >
+          <div v-else class="text">
             点击上传图片
           </div>
         </template>
         <template v-else-if="item.type === 'list'">
-          <div v-if="item.text"
-               class="text line-4"
-          >
+          <div v-if="item.text" class="text line-4">
             <ol v-if="item.sort === '1'">
               <li
                 v-for="(li, subIndex) in computeList(item.text)"
                 :key="subIndex"
               >
-                <span class="oneline"
-                      v-text="li"
-                />
+                <span class="oneline" v-text="li" />
               </li>
             </ol>
             <ul v-else>
@@ -298,25 +262,17 @@
                 v-for="(li, subIndex) in computeList(item.text)"
                 :key="subIndex"
               >
-                <span class="oneline"
-                      v-text="li"
-                />
+                <span class="oneline" v-text="li" />
               </li>
             </ul>
           </div>
-          <div v-else
-               class="text"
-          >
+          <div v-else class="text">
             点击添加列表
           </div>
         </template>
         <template v-else-if="item.type === 'use'">
-          <blockquote v-if="item.text"
-                      class="text line-4" v-html="item.text"
-          />
-          <div v-else
-               class="text"
-          >
+          <blockquote v-if="item.text" class="text line-4" v-html="item.text" />
+          <div v-else class="text">
             点击添加引用内容
           </div>
         </template>

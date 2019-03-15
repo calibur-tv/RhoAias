@@ -81,9 +81,7 @@
     action="#"
     @submit.prevent="submit"
   >
-    <button class="search-btn"
-            type="submit"
-    >
+    <button class="search-btn" type="submit">
       <i class="iconfont icon-sousuo" />
     </button>
     <!--
@@ -114,9 +112,7 @@
         @focus="handleInputFocus"
       >
     </div>
-    <ul v-show="displaySuggestion"
-        class="search-suggestion"
-    >
+    <ul v-show="displaySuggestion" class="search-suggestion">
       <li
         v-for="(item, index) in filteredSelect"
         :key="item.id"

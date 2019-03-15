@@ -6,9 +6,9 @@
 
   .nickname {
     overflow: hidden;
-    color: #484853;
+    color: $color-text-normal;
     font-size: 16px;
-    line-height: 22px;
+    line-height: 23px;
   }
 
   .badge {
@@ -34,8 +34,8 @@
 </style>
 
 <template>
-  <div class="user-nickname" @click.stop="$alias.user(user.zone)">
-    <div class="nickname">
+  <div class="user-nickname">
+    <div class="nickname" @click.stop="toUser">
       <p class="oneline" v-text="user.nickname" />
     </div>
     <span v-if="isMaster" class="badge master-badge"><span>楼主</span></span>
@@ -54,6 +54,11 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  methods: {
+    toUser() {
+      this.$router.push(this.$alias.user(this.user.zone))
+    }
   }
-  }
+}
 </script>

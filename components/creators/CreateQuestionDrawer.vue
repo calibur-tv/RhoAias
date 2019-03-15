@@ -13,9 +13,7 @@
 </style>
 
 <template>
-  <v-drawer v-model="show"
-            from="bottom" size="100%" header-text="提问"
-  >
+  <v-drawer v-model="show" from="bottom" size="100%" header-text="提问">
     <div class="container">
       <el-form
         id="create-question-form"
@@ -25,18 +23,14 @@
         :disabled="submitting"
         label-width="45px"
       >
-        <el-form-item label="标题"
-                      prop="title"
-        >
+        <el-form-item label="标题" prop="title">
           <el-input
             v-model.trim="form.title"
             maxlength="30"
             placeholder="问题标题"
           />
         </el-form-item>
-        <el-form-item label="番剧"
-                      prop="bangumiId"
-        >
+        <el-form-item label="番剧" prop="bangumiId">
           <BangumiPicker
             v-model="form.bangumiId"
             :label="false"
@@ -44,9 +38,7 @@
             :display="show"
           />
         </el-form-item>
-        <el-form-item label="描述"
-                      prop="content"
-        >
+        <el-form-item label="描述" prop="content">
           <el-input
             v-model.trim="form.content"
             :rows="5"

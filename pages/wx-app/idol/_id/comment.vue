@@ -19,7 +19,7 @@ export default {
   components: {
     CommentMain
   },
-  async asyncData({ store, query, params, error }) {
+  async asyncData({ store, params, error }) {
     try {
       await store.dispatch('comment/getMainComments', {
         id: params.id,
@@ -32,6 +32,6 @@ export default {
         message: e.message
       })
     }
-  },
+  }
 }
 </script>

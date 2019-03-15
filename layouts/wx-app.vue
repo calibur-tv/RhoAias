@@ -22,7 +22,7 @@ export default {
           new VConsole() // eslint-disable-line
         })
       }
-    },
+    }
   }
 }
 </script>

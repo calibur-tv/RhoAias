@@ -9,7 +9,7 @@
     height: 30px;
     line-height: 30px;
     color: #fff;
-    background-color: $color-pink-deep;
+    background-color: $color-pink-normal;
     border-radius: 15px;
     font-size: 13px;
     z-index: 9;
@@ -38,11 +38,7 @@
 <template>
   <div id="post-show">
     <div class="container">
-      <PostContent
-        :post="post"
-        :user="master"
-        :bangumi="bangumi"
-      />
+      <PostContent :post="post" :user="master" :bangumi="bangumi" />
       <div class="hr" />
       <button
         :class="{ isScrollTop }"

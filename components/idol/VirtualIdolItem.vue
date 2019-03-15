@@ -160,9 +160,7 @@
       <div class="header">
         <img :src="$resize(item.avatar, { width: 70, height: 70 })">
         <div class="info">
-          <p class="name oneline"
-             v-text="item.name"
-          />
+          <p class="name oneline" v-text="item.name" />
           <div class="meta">
             ￥{{ item.stock_price }}/股，{{ item.fans_count }}人持股，已认购{{
               item.star_count
@@ -177,9 +175,7 @@
             item.company_state ? `￥${item.market_price}` : '未上市'
           }}</strong>
         </p>
-        <p v-if="item.boss"
-           class="owners"
-        >
+        <p v-if="item.boss" class="owners">
           <span>负责人：</span>
           <span>
             <img
@@ -209,22 +205,14 @@
             暂无数据
           </p>
         </div>
-        <div v-if="sort === 'mine'"
-             class="badges"
-        >
-          <el-tag v-if="item.is_locked"
-                  size="mini" type="danger"
-          >
+        <div v-if="sort === 'mine'" class="badges">
+          <el-tag v-if="item.is_locked" size="mini" type="danger">
             已停牌
           </el-tag>
-          <el-tag v-else
-                  size="mini" type="success"
-          >
+          <el-tag v-else size="mini" type="success">
             挂牌中
           </el-tag>
-          <el-tag size="mini"
-                  type="info"
-          >
+          <el-tag size="mini" type="info">
             {{ item.company_state ? '已上市' : '未上市' }}
           </el-tag>
         </div>
@@ -245,15 +233,11 @@
           >
             发起交易
           </button>
-          <button v-else
-                  class="mine-btn"
-          >
+          <button v-else class="mine-btn">
             查看数据
           </button>
         </template>
-        <button v-else
-                class="pub-btn"
-        >
+        <button v-else class="pub-btn">
           马上入股
         </button>
       </div>

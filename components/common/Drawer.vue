@@ -87,20 +87,12 @@
 <template>
   <not-ssr>
     <transition :name="`fade-${from}`">
-      <div v-show="show"
-           :style="position" class="drawer"
-      >
-        <header v-if="headerText"
-                class="drawer-header"
-        >
-          <button class="close-btn"
-                  @click.stop.prevent="close"
-          >
+      <div v-show="show" :style="position" class="drawer">
+        <header v-if="headerText" class="drawer-header">
+          <button class="close-btn" @click.stop.prevent="close">
             关闭
           </button>
-          <h3 class="oneline"
-              v-text="headerText"
-          />
+          <h3 class="oneline" v-text="headerText" />
           <button
             v-if="submitText"
             class="submit-btn"

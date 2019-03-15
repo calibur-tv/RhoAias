@@ -176,12 +176,8 @@
 <template>
   <li class="score-flow-item">
     <div @click="linkStart">
-      <div v-if="item.bangumi && item.user"
-           class="header trending-header"
-      >
-        <nuxt-link :to="$alias.user(item.user.zone)"
-                   class="user-avatar"
-        >
+      <div v-if="item.bangumi && item.user" class="header trending-header">
+        <nuxt-link :to="$alias.user(item.user.zone)" class="user-avatar">
           <v-img
             :src="item.user.avatar"
             :avatar="true"
@@ -191,12 +187,8 @@
         </nuxt-link>
         <div class="header-content">
           <div class="about">
-            <el-rate v-if="starCount"
-                     v-model="starCount" disabled
-            />
-            <el-rate v-else
-                     v-model="zero" disabled
-            />
+            <el-rate v-if="starCount" v-model="starCount" disabled />
+            <el-rate v-else v-model="zero" disabled />
             <nuxt-link
               :to="$alias.bangumi(item.bangumi.id)"
               class="bangumi-name oneline"
@@ -210,24 +202,14 @@
               v-text="item.user.nickname"
             />
             &nbsp;·&nbsp;
-            <v-time v-model="item.created_at"
-                    class="created-at"
-            />
+            <v-time v-model="item.created_at" class="created-at" />
           </div>
         </div>
       </div>
-      <div v-else-if="!item.bangumi"
-           class="header bangumi-header"
-      >
-        <el-rate v-if="starCount"
-                 v-model="starCount" disabled
-        />
-        <el-rate v-else
-                 v-model="zero" disabled
-        />
-        <nuxt-link :to="$alias.user(item.user.zone)"
-                   class="user"
-        >
+      <div v-else-if="!item.bangumi" class="header bangumi-header">
+        <el-rate v-if="starCount" v-model="starCount" disabled />
+        <el-rate v-else v-model="zero" disabled />
+        <nuxt-link :to="$alias.user(item.user.zone)" class="user">
           <div class="user-avatar">
             <v-img
               :src="item.user.avatar"
@@ -236,38 +218,22 @@
               height="35"
             />
           </div>
-          <div class="nickname oneline"
-               v-text="item.user.nickname"
-          />
+          <div class="nickname oneline" v-text="item.user.nickname" />
         </nuxt-link>
       </div>
-      <div v-else-if="!item.user"
-           class="header user-header"
-      >
-        <el-rate v-if="starCount"
-                 v-model="starCount" disabled
-        />
-        <el-rate v-else
-                 v-model="zero" disabled
-        />
-        <nuxt-link :to="$alias.bangumi(item.bangumi.id)"
-                   class="bangumi"
-        >
+      <div v-else-if="!item.user" class="header user-header">
+        <el-rate v-if="starCount" v-model="starCount" disabled />
+        <el-rate v-else v-model="zero" disabled />
+        <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="bangumi">
           <div class="bangumi-avatar">
-            <v-img :src="item.bangumi.avatar"
-                   width="23" height="23"
-            />
+            <v-img :src="item.bangumi.avatar" width="23" height="23" />
           </div>
-          <div class="nickname oneline"
-               v-text="item.bangumi.name"
-          />
+          <div class="nickname oneline" v-text="item.bangumi.name" />
         </nuxt-link>
       </div>
       <div class="body">
         <div class="title">
-          <p class="oneline"
-             v-text="item.title"
-          />
+          <p class="oneline" v-text="item.title" />
         </div>
         <v-img
           v-if="item.banner"
@@ -276,9 +242,7 @@
           height="130"
           class="poster-image"
         />
-        <div class="content"
-             v-text="item.intro"
-        />
+        <div class="content" v-text="item.intro" />
       </div>
       <div class="footer">
         <div v-if="item.is_creator">

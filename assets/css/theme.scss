@@ -47,7 +47,7 @@
     }
 
     &-confirm {
-      color: $color-pink-deep !important;
+      color: $color-pink-normal !important;
     }
 
     &-btn {
@@ -95,7 +95,7 @@
   }
 
   .el-button.el-button-primary {
-    background-color: #409EFF;
-    border-color: #409EFF;
+    background-color: $color-blue-normal;
+    border-color: $color-blue-normal;
   }
 }

@@ -1,5 +1,4 @@
-<style lang="scss">
-</style>
+<style lang="scss"></style>
 
 <template>
   <div id="wx-app-idol-setting">
@@ -25,7 +24,7 @@ export default {
       idol: null
     }
   },
-  async asyncData({ app, store, params, error }) {
+  async asyncData({ app, params, error }) {
     const { id } = params
     return getCartoonRoleInfo(app, { id })
       .then(data => {

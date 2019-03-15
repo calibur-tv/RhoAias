@@ -283,9 +283,7 @@
         controls="controls"
         controlsList="nodownload"
       />
-      <img
-        :src="$resize(info.poster, { width: 200 })" class="share-poster"
-      >
+      <img :src="$resize(info.poster, { width: 200 })" class="share-poster">
       <div v-if="showRewardDialog" class="need-coin-bg">
         <p>该视频需要投食之后才能播放</p>
       </div>

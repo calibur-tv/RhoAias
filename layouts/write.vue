@@ -57,9 +57,7 @@
 <template>
   <div id="layout-write">
     <header>
-      <button class="calibur"
-              @click="goIndex"
-      >
+      <button class="calibur" @click="goIndex">
         <img
           :src="
             $resize('https://image.calibur.tv/owner/logo-new/logo.png', {
@@ -72,26 +70,16 @@
         <span class="slogan">calibur.tv</span>
       </button>
       <template v-if="user">
-        <button class="avatar"
-                @click="goHome"
-        >
-          <v-img :src="user.avatar"
-                 :avatar="true" :width="24" :height="24"
-          />
+        <button class="avatar" @click="goHome">
+          <v-img :src="user.avatar" :avatar="true" :width="24" :height="24" />
         </button>
-        <button class="primary"
-                @click="emitPublish"
-        >
+        <button class="primary" @click="emitPublish">
           发布
         </button>
-        <button v-if="!published"
-                class="warning" @click="emitSave"
-        >
+        <button v-if="!published" class="warning" @click="emitSave">
           保存
         </button>
-        <button class="success"
-                @click="emitPreview"
-        >
+        <button class="success" @click="emitPreview">
           预览
         </button>
         <!--
@@ -114,9 +102,7 @@
         size="100%"
         class="preview-drawer"
       >
-        <JsonContent v-if="preview"
-                     :content="sections"
-        />
+        <JsonContent v-if="preview" :content="sections" />
       </v-drawer>
     </template>
   </div>

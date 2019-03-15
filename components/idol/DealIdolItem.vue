@@ -114,13 +114,9 @@
       </nuxt-link>
       <div class="intro">
         <nuxt-link :to="$alias.cartoonRole(item.idol.id)">
-          <p class="name oneline"
-             v-text="item.idol.name"
-          />
+          <p class="name oneline" v-text="item.idol.name" />
         </nuxt-link>
-        <nuxt-link v-if="item.user"
-                   :to="$alias.user(item.user.zone)"
-        >
+        <nuxt-link v-if="item.user" :to="$alias.user(item.user.zone)">
           <p class="nickname oneline">
             交易人：{{ item.user.nickname }}
           </p>
@@ -146,24 +142,16 @@
         }}
       </p>
       <div class="badge">
-        <el-tag :type="computePriceColor(item)"
-                size="mini"
-        >
+        <el-tag :type="computePriceColor(item)" size="mini">
           {{ computePriceText(item) }}
         </el-tag>
-        <el-tag v-if="item.idol.is_locked"
-                size="mini" type="danger"
-        >
+        <el-tag v-if="item.idol.is_locked" size="mini" type="danger">
           已停牌
         </el-tag>
-        <el-tag v-else
-                size="mini" type="success"
-        >
+        <el-tag v-else size="mini" type="success">
           挂牌中
         </el-tag>
-        <el-tag size="mini"
-                type="info"
-        >
+        <el-tag size="mini" type="info">
           占比:{{
             parseFloat(
               (item.product_count / item.idol.star_count) * 100
@@ -174,14 +162,10 @@
     </div>
     <div class="footer">
       <span>发起时间：{{ item.created_at.split(' ')[0] }}</span>
-      <button v-if="isMine"
-              class="delete" @click="deleteDeal"
-      >
+      <button v-if="isMine" class="delete" @click="deleteDeal">
         终止交易
       </button>
-      <button v-else
-              class="create" @click="makeDeal"
-      >
+      <button v-else class="create" @click="makeDeal">
         马上交易
       </button>
     </div>

@@ -58,9 +58,7 @@
 
 <template>
   <div class="search-item-bangumi">
-    <nuxt-link :to="$alias.bangumi(item.id)"
-               class="avatar"
-    >
+    <nuxt-link :to="$alias.bangumi(item.id)" class="avatar">
       <img
         :src="$resize(item.avatar, { width: 120, height: 160 })"
         :alt="item.name"
@@ -68,9 +66,7 @@
     </nuxt-link>
     <div class="intro">
       <div class="head">
-        <span v-if="inCommon"
-              class="badge"
-        >番剧</span>
+        <span v-if="inCommon" class="badge">番剧</span>
         <nuxt-link
           :to="$alias.bangumi(item.id)"
           class="name"
@@ -78,9 +74,7 @@
         />
       </div>
       <nuxt-link :to="$alias.bangumi(item.id)">
-        <p class="summary"
-           v-text="item.summary"
-        />
+        <p class="summary" v-text="item.summary" />
       </nuxt-link>
     </div>
   </div>

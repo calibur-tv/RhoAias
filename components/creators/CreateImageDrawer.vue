@@ -33,14 +33,10 @@
     header-text="上传图片"
   >
     <div class="tabs">
-      <button :class="{ active: sort === 'image' }"
-              @click="switchTab('image')"
-      >
+      <button :class="{ active: sort === 'image' }" @click="switchTab('image')">
         上传图片
       </button>
-      <button :class="{ active: sort === 'album' }"
-              @click="switchTab('album')"
-      >
+      <button :class="{ active: sort === 'album' }" @click="switchTab('album')">
         新建相册
       </button>
     </div>
@@ -99,9 +95,7 @@
           </div>
           <div class="field">
             <span>图片：</span>
-            <ImageUploader :limit="7"
-                           @submit="createImage"
-            />
+            <ImageUploader :limit="7" @submit="createImage" />
           </div>
         </template>
       </template>

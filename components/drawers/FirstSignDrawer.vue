@@ -56,9 +56,7 @@
 </style>
 
 <template>
-  <div v-if="show"
-       class="first-sign-drawer"
-  >
+  <div v-if="show" class="first-sign-drawer">
     <h3 class="title">
       欢迎来到<br>
       「calibur.tv」

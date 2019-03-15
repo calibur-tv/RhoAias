@@ -1,8 +1,6 @@
 <template>
   <span class="user-sex">
-    <i v-if="secret"
-       class="iconfont icon-simi" style="color: limegreen"
-    />
+    <i v-if="secret" class="iconfont icon-simi" style="color: limegreen" />
     <i
       v-else-if="convertSex === '未知'"
       class="iconfont icon-unknown"

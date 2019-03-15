@@ -106,13 +106,9 @@ $banner-height: 140px;
         class="share-img"
         src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200"
       >
-      <FollowButton :id="info.id"
-                    type="bangumi"
-      />
+      <FollowButton :id="info.id" type="bangumi" />
       <div class="summary">
-        <p class="title oneline"
-           v-text="info.name"
-        />
+        <p class="title oneline" v-text="info.name" />
         <span>关注数 {{ $utils.shortenNumber(info.follow_users.total) }}</span>
         <span>活跃度 {{ $utils.shortenNumber(info.power) }}</span>
       </div>

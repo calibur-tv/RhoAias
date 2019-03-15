@@ -203,14 +203,10 @@
 
 <template>
   <li class="post-flow-item">
-    <router-link :to="$alias.post(item.id)"
-                 tag="div"
-    >
+    <router-link :to="$alias.post(item.id)" tag="div">
       <div class="header">
         <template v-if="!userZone">
-          <router-link :to="$alias.user(item.user.zone)"
-                       class="user-avatar"
-          >
+          <router-link :to="$alias.user(item.user.zone)" class="user-avatar">
             <v-img
               :src="item.user.avatar"
               :avatar="true"
@@ -232,9 +228,7 @@
             :to="$alias.bangumi(item.bangumi.id)"
             class="bangumi-avatar"
           >
-            <v-img :src="item.bangumi.avatar"
-                   width="35" height="35"
-            />
+            <v-img :src="item.bangumi.avatar" width="35" height="35" />
           </router-link>
           <div class="info">
             <router-link
@@ -248,31 +242,19 @@
       </div>
       <div class="body">
         <div class="title">
-          <div v-if="item.top_at && bangumiId"
-               class="top_badge"
-          >
+          <div v-if="item.top_at && bangumiId" class="top_badge">
             置顶
           </div>
-          <div v-if="item.is_nice"
-               class="nice_badge"
-          >
+          <div v-if="item.is_nice" class="nice_badge">
             精
           </div>
-          <div v-if="item.is_creator"
-               class="creator_badge"
-          >
+          <div v-if="item.is_creator" class="creator_badge">
             原创
           </div>
-          <p class="oneline"
-             v-text="item.title"
-          />
+          <p class="oneline" v-text="item.title" />
         </div>
-        <p class="content"
-           v-text="item.desc"
-        />
-        <div v-if="item.images.length"
-             class="images"
-        >
+        <p class="content" v-text="item.desc" />
+        <div v-if="item.images.length" class="images">
           <v-img
             v-if="item.images.length === 1"
             :src="item.images[0].url"
@@ -280,9 +262,7 @@
             height="130"
             class="poster-image"
           />
-          <div v-else
-               class="image-list"
-          >
+          <div v-else class="image-list">
             <v-img
               v-for="(image, index) in imageFilter(item.images)"
               :key="index"
@@ -301,9 +281,7 @@
             <i class="iconfont icon-tag" />
             <span v-text="item.bangumi.name" />
           </router-link>
-          <router-link v-if="item.idol"
-                       :to="$alias.cartoonRole(item.idol.id)"
-          >
+          <router-link v-if="item.idol" :to="$alias.cartoonRole(item.idol.id)">
             <i class="iconfont icon-tag" />
             <span v-text="item.idol.name" />
           </router-link>

@@ -29,22 +29,16 @@
 </style>
 
 <template>
-  <div v-if="list.length"
-       class="search-history"
-  >
+  <div v-if="list.length" class="search-history">
     <p class="title">
       搜索历史
     </p>
     <ul>
-      <li v-for="(item, index) in list"
-          :key="index" @click="query(item)"
-      >
+      <li v-for="(item, index) in list" :key="index" @click="query(item)">
         <i class="iconfont icon-lishijilu" /> {{ item }}
       </li>
     </ul>
-    <button class="clear-btn"
-            @click="clear"
-    >
+    <button class="clear-btn" @click="clear">
       清除历史记录
     </button>
   </div>

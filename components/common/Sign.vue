@@ -37,7 +37,6 @@
     </v-drawer>
     <template v-else>
       <UserDrawer />
-      <FirstSignDrawer />
     </template>
   </div>
 </template>
@@ -47,7 +46,6 @@ import SignInForm from '~/components/forms/SignInForm'
 import SignUpForm from '~/components/forms/SignUpForm'
 import ResetPasswordForm from '~/components/forms/ResetPasswordForm'
 import UserDrawer from '~/components/layouts/UserDrawer'
-import FirstSignDrawer from '~/components/drawers/FirstSignDrawer'
 
 export default {
   name: 'SignDrawer',
@@ -55,8 +53,7 @@ export default {
     SignUpForm,
     SignInForm,
     ResetPasswordForm,
-    UserDrawer,
-    FirstSignDrawer
+    UserDrawer
   },
   data() {
     return {

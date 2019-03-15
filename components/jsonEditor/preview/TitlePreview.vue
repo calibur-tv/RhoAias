@@ -24,9 +24,7 @@
     header-text="编辑文本段落"
     submit-text="确定"
   >
-    <div v-if="show"
-         class="text-preview"
-    >
+    <div v-if="show" class="text-preview">
       <input
         v-model.trim="text"
         type="text"

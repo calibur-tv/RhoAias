@@ -69,17 +69,13 @@
     header-text="编辑列表段落"
     submit-text="确定"
   >
-    <div v-if="show"
-         class="list-preview"
-    >
+    <div v-if="show" class="list-preview">
       <div class="sort-wrap">
         <span>顺序：{{ sort ? '有序' : '无序' }}</span>
         <mt-switch v-model="sort" />
       </div>
       <div class="content-wrap">
-        <pre class="shim"
-             v-html="item.text"
-        />
+        <pre class="shim" v-html="item.text" />
         <textarea
           v-model.trim="text"
           placeholder="添加文字列表，回车分割"

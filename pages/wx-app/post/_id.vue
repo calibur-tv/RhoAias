@@ -1,13 +1,8 @@
-<style lang="scss">
-</style>
+<style lang="scss"></style>
 
 <template>
   <div id="wx-app-post">
-    <PostContent
-      :post="post"
-      :user="user"
-      :bangumi="bangumi"
-    />
+    <PostContent :post="post" :user="user" :bangumi="bangumi" />
   </div>
 </template>
 
@@ -22,8 +17,8 @@ export default {
   },
   props: {
     id: {
-      type: String,
-      require: true
+      require: true,
+      type: String
     }
   },
   data() {
@@ -33,7 +28,7 @@ export default {
       bangumi: null
     }
   },
-  asyncData({ query, store, params, app, error }) {
+  asyncData({ store, params, app, error }) {
     const { id } = params
     return getPostInfo(app, { id, only: 0 })
       .then(data => {

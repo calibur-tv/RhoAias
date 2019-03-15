@@ -1,162 +1,33 @@
 <style lang="scss">
-.score-header {
-  margin-top: 15px;
+#score-show {
+  .control {
+    text-align: right;
+    margin-bottom: 20px;
 
-  .title {
-    font-size: 24px;
-    line-height: 32px;
-    margin-bottom: 10px;
-    margin-top: 0;
-    font-weight: normal;
-    @extend %breakWord;
-  }
-
-  .author-info {
-    .total {
-      float: right;
-      font-weight: bold;
-      font-size: 23px;
-      letter-spacing: 0;
-      margin-left: 10px;
-      color: #ff9900;
-    }
-
-    .author {
-      overflow: hidden;
-      line-height: 16px;
+    button,
+    a {
       font-size: 12px;
-      margin-bottom: $container-padding;
-
-      .avatar {
-        margin-right: 5px;
-        display: inline-block;
-        vertical-align: middle;
-      }
+      color: $color-text-normal;
+      margin-left: 5px;
     }
   }
 
-  .star-row {
-    font-size: 0;
-    margin-bottom: $container-padding;
+  .bangumi-panel {
+    padding-top: $container-padding;
+    padding-bottom: $container-padding;
 
-    .star-item {
-      display: inline-block;
-      width: 50%;
-      height: 36px;
-      margin-bottom: 10px;
-
-      .label {
-        font-size: 12px;
-        margin-bottom: 3px;
-        color: $color-text-normal;
-      }
+    .summary {
+      font-size: 12px;
+      color: #666;
+      @include twoline(13px);
     }
-  }
-}
-
-.score-body {
-  margin-bottom: 30px;
-  font-size: 16px;
-  color: #222;
-  line-height: 30px;
-  @extend %breakWord;
-}
-
-.score-footer {
-  text-align: center;
-  margin-bottom: 30px;
-
-  .score-like-btn {
-    @include btn-empty(#ffffff, #fa5555);
-  }
-
-  .score-liked-btn {
-    @include btn-empty(#fa5555);
-  }
-}
-
-.control {
-  text-align: right;
-  margin-bottom: 20px;
-
-  button,
-  a {
-    font-size: 12px;
-    color: $color-text-normal;
-    margin-left: 5px;
-  }
-}
-
-.bangumi-panel {
-  padding-top: $container-padding;
-  padding-bottom: $container-padding;
-
-  .summary {
-    font-size: 12px;
-    color: #666;
-    @include twoline(13px);
   }
 }
 </style>
 
 <template>
   <div id="score-show">
-    <v-img
-      v-if="info.banner"
-      :src="info.banner.url"
-      :width="info.banner.width"
-      :height="info.banner.height"
-      :full="true"
-      :lazy="false"
-    />
-    <div class="score-header container">
-      <h1 class="title" v-text="info.title" />
-      <div class="author-info">
-        <div class="total">
-          {{ info.total }}分
-        </div>
-        <div class="author">
-          <nuxt-link :to="$alias.user(user.zone)" target="_blank">
-            <div class="avatar">
-              <v-img :src="user.avatar" :avatar="true" :width="25" />
-            </div>
-            <span class="name" v-text="user.nickname" />
-          </nuxt-link>
-          ·
-          <v-time v-model="info.published_at" />
-          ·
-          <VPopover
-            :report-id="info.id"
-            :is-creator="info.is_creator"
-            report-type="score"
-          >
-            <button class="tool-btn">
-              举报
-            </button>
-          </VPopover>
-        </div>
-      </div>
-      <div class="star-row">
-        <div v-for="(item, index) in columns" :key="index" class="star-item">
-          <div
-            class="label"
-            v-text="`${labelMap[item]}：${info[item] * 2}分`"
-          />
-          <el-rate v-model="info[item]" disabled allow-half />
-        </div>
-      </div>
-    </div>
-    <div class="score-body">
-      <JsonContent :content="info.content" />
-    </div>
-    <div class="score-footer">
-      <SocialPanel
-        :id="info.id"
-        :is-creator="info.is_creator"
-        :is-mine="isMine"
-        type="score"
-      />
-    </div>
+    <ScoreContent :info="info" />
     <div v-if="isMine" class="control container">
       <button @click="deleteScore">
         删除
@@ -189,12 +60,9 @@
 
 <script>
 import CommentMain from '~/components/comments/CommentMain'
-import JsonContent from '~/components/jsonEditor/JsonContent'
-import SocialPanel from '~/components/common/SocialPanel'
-import BangumiPanel from '~/components/panel/BangumiPanel'
-import VPopover from '~/components/common/Popover'
 import ShareBtn from '~/components/common/ShareBtn'
-import { Rate } from 'element-ui'
+import ScoreContent from '~/components/score/ScoreContent'
+import BangumiPanel from '~/components/panel/BangumiPanel'
 import { getScoreInfo, deleteScore } from '~/api/scoreApi'
 
 const labelMap = {
@@ -214,30 +82,15 @@ export default {
   name: 'ScoreShow',
   components: {
     CommentMain,
-    JsonContent,
-    SocialPanel,
+    ScoreContent,
     BangumiPanel,
-    VPopover,
-    ShareBtn,
-    'el-rate': Rate
+    ShareBtn
   },
   data() {
-    const labelMap = {
-      lol: '笑点',
-      cry: '泪点',
-      fight: '燃点',
-      moe: '萌点',
-      sound: '音乐',
-      vision: '画面',
-      story: '情节',
-      role: '人设',
-      express: '内涵',
-      style: '美感'
-    }
     return {
-      labelMap,
-      columns: Object.keys(labelMap),
-      loadingToggleLike: false,
+      info: null,
+      user: null,
+      bangumi: null,
       share_data: null
     }
   },

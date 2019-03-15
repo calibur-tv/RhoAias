@@ -82,9 +82,7 @@
         :alt="item.name"
       >
     </nuxt-link>
-    <nuxt-link v-else
-               :to="$alias.video(item.id)" class="avatar"
-    >
+    <nuxt-link v-else :to="$alias.video(item.id)" class="avatar">
       <img
         :src="$resize(item.poster, { width: 120, height: 86 })"
         :alt="item.name"
@@ -92,9 +90,7 @@
     </nuxt-link>
     <div class="intro">
       <div class="head">
-        <span v-if="inCommon"
-              class="badge"
-        >视频</span>
+        <span v-if="inCommon" class="badge">视频</span>
         <nuxt-link
           :to="$alias.video(item.id)"
           class="name"
@@ -102,9 +98,7 @@
         />
       </div>
       <nuxt-link :to="$alias.video(item.id)">
-        <p class="summary"
-           v-text="item.summary"
-        />
+        <p class="summary" v-text="item.summary" />
       </nuxt-link>
     </div>
   </div>

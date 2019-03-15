@@ -42,13 +42,13 @@ module.exports = {
       id: 'calibur-tv'
     },
     meta: [
-      {charset: 'utf-8'},
+      { charset: 'utf-8' },
       {
         name: 'viewport',
         content: 'width=device-width,initial-scale=1,maximum-scale=1'
       },
-      {'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1'},
-      {name: 'force-rendering', content: 'webkit'},
+      { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
+      { name: 'force-rendering', content: 'webkit' },
       {
         hid: 'description',
         name: 'description',
@@ -58,13 +58,6 @@ module.exports = {
         hid: 'keywords',
         name: 'keywords',
         content: 'calibur，C站, 二次元股市'
-      }
-    ],
-    link: [
-      {
-        rel: 'shortcut icon',
-        type: 'image/x-icon',
-        href: `https://image.calibur.tv/favicon.ico`
       }
     ],
     script: [
@@ -78,7 +71,7 @@ module.exports = {
         type: 'text/javascript',
         async: true
       },
-      {innerHTML: injectScript.iPhoneXViewport, type: 'text/javascript'},
+      { innerHTML: injectScript.iPhoneXViewport, type: 'text/javascript' },
       {
         src: '//qzonestyle.gtimg.cn/qzone/qzact/common/share/share.js',
         type: 'text/javascript'
@@ -94,7 +87,7 @@ module.exports = {
   /*
    ** Customize the progress-bar color
    */
-  loading: {color: '#ff6881'},
+  loading: { color: '#ff6881' },
 
   /*
    ** Global CSS
@@ -109,9 +102,9 @@ module.exports = {
     '~/plugins/element-ui',
     '~/plugins/global-prototype',
     '~/plugins/global-component',
-    {src: '~/plugins/route-change', ssr: false},
-    {src: '~/plugins/client-prototype', ssr: false},
-    {src: '~/plugins/client-namespace', ssr: false}
+    { src: '~/plugins/route-change', ssr: false },
+    { src: '~/plugins/client-prototype', ssr: false },
+    { src: '~/plugins/client-namespace', ssr: false }
   ],
 
   /*
@@ -169,7 +162,7 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    extend(config, {isDev, isClient}) {
+    extend(config, { isDev, isClient }) {
       config.output.filename = '[name].[hash:8].js'
       config.output.chunkFilename = '[name].chunk.[chunkhash:8].js'
       // Run ESLint on save
@@ -187,11 +180,11 @@ module.exports = {
     },
     extractCSS: true,
     plugins: (() => {
-      const result = [new LodashModuleReplacementPlugin({shorthands: true})]
+      const result = [new LodashModuleReplacementPlugin({ shorthands: true })]
       return isDev
         ? result.concat([])
         : result.concat([
-          /*
+            /*
           new SentryPlugin({
             project: 'm',
             include: /\.js(\.map)?$/,
@@ -212,7 +205,7 @@ module.exports = {
             test: /\.(js|css|html)$/
           })
           */
-        ])
+          ])
     })(),
     loaders: {
       cssModules: {

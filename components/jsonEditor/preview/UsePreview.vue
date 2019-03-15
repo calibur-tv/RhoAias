@@ -54,13 +54,9 @@
     header-text="编辑文本段落"
     submit-text="确定"
   >
-    <div v-if="show"
-         class="text-preview"
-    >
+    <div v-if="show" class="text-preview">
       <div class="content-wrap use-wrap">
-        <pre class="shim"
-             v-html="item.text"
-        />
+        <pre class="shim" v-html="item.text" />
         <textarea
           v-model.trim="text"
           placeholder="添加引用的文本"

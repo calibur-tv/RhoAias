@@ -33,9 +33,7 @@
 </style>
 
 <template>
-  <div v-if="source"
-       class="ours-panel"
-  >
+  <div v-if="source" class="ours-panel">
     <div class="buttons">
       <el-button
         v-if="isCreator"
@@ -89,9 +87,7 @@
     </div>
     <div class="users">
       <ul>
-        <li v-for="user in displayUsers"
-            :key="user.id" class="user-face"
-        >
+        <li v-for="user in displayUsers" :key="user.id" class="user-face">
           <img :src="$resize(user.avatar, { width: 60 })">
         </li>
       </ul>

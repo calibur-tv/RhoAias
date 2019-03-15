@@ -6,7 +6,10 @@ import Cookies from 'js-cookie'
 
 export default ({ store }) => {
   const search = window.location.search
-  store.commit('SET_SOURCE', /from=/.test(search) ? search.split('from=')[1].split('&')[0] : '')
+  store.commit(
+    'SET_SOURCE',
+    /from=/.test(search) ? search.split('from=')[1].split('&')[0] : ''
+  )
   const { pageData, ua } = store.state
   window.M = window.M || Object.create(null)
 

@@ -284,9 +284,7 @@
       </h3>
     </div>
     <div class="capture-wrap">
-      <img
-        v-if="result" :src="result"
-      >
+      <img v-if="result" :src="result">
       <div v-else class="capture-area">
         <div class="main">
           <div class="border-outline">

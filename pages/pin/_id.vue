@@ -1,151 +1,15 @@
 <style lang="scss">
-.album-header {
-  margin-top: $container-padding;
-  margin-bottom: $container-padding;
+#image-album {
+  .album-footer {
+    .bangumi-panel {
+      padding-top: $container-padding;
+      padding-bottom: $container-padding;
 
-  .title {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-
-  .user {
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-
-    .author {
-      display: flex;
-      align-items: center;
-
-      .avatar {
-        margin-right: 5px;
-
-        img {
-          border: 1px solid $color-avatar-border;
-        }
-      }
-    }
-
-    .dot {
-      margin: 0 5px;
-    }
-    .flex1 {
-      flex: 1;
-    }
-    .tool-btn {
-      line-height: 30px;
-    }
-  }
-}
-
-.album-body {
-  background-color: #fff;
-
-  .images-wrap {
-    .image-package {
-      position: relative;
-    }
-  }
-
-  .no-image {
-    text-align: center;
-    padding-top: 30px;
-    padding-bottom: 20px;
-    color: $color-text-normal;
-    font-size: 13px;
-  }
-
-  .cartoon-list {
-    margin-top: 20px;
-    position: relative;
-
-    .sub-title {
-      margin-left: 10px;
-
-      .next {
-        float: right;
-        font-size: 13px;
-        margin-right: 10px;
-        margin-left: 15px;
-        color: $color-text-normal;
-      }
-
-      .more {
-        float: right;
-        font-size: 13px;
-        margin-right: 10px;
-        margin-left: 15px;
-        color: $color-text-normal;
-      }
-    }
-
-    li {
-      width: 50%;
-      display: inline-block;
-      text-align: center;
-      margin-bottom: 7px;
-      padding: 0 5px;
-
-      a {
-        border: 1px solid $color-avatar-border;
-        height: 30px;
-        color: $color-link;
-        border-radius: 4px;
-        display: block;
+      .summary {
         font-size: 12px;
-        line-height: 28px;
-
-        &.active {
-          border-color: $color-blue-light;
-          background-color: $color-blue-light;
-          color: #fff;
-        }
+        color: #666;
+        @include twoline(13px);
       }
-    }
-  }
-
-  .reward-panel {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-
-    button {
-      margin: 0 5px;
-      font-size: 13px;
-
-      i {
-        font-size: 12px;
-        line-height: 16px;
-      }
-    }
-
-    .album-rewarded-btn {
-      @include btn-empty(#eb9e05);
-    }
-
-    .album-reward-btn {
-      @include btn-empty(#ffffff, #eb9e05);
-    }
-
-    .album-liked-btn {
-      @include btn-empty(#fa5555);
-    }
-
-    .album-like-btn {
-      @include btn-empty(#ffffff, #fa5555);
-    }
-  }
-}
-
-.album-footer {
-  .bangumi-panel {
-    padding-top: $container-padding;
-    padding-bottom: $container-padding;
-
-    .summary {
-      font-size: 12px;
-      color: #666;
-      @include twoline(13px);
     }
   }
 }
@@ -153,96 +17,7 @@
 
 <template>
   <div id="image-album">
-    <div class="container">
-      <div class="album-header">
-        <h1 class="title oneline">
-          [{{ info.is_creator ? '原创' : '转载' }}] [{{
-            info.is_cartoon ? '漫画' : '相册'
-          }}]
-          {{ info.name }}
-        </h1>
-        <div class="user">
-          <nuxt-link :to="$alias.user(user.zone)" class="author">
-            <v-img
-              :src="user.avatar"
-              :avatar="true"
-              width="30"
-              height="30"
-              class="avatar"
-            />
-            {{ user.nickname }}
-          </nuxt-link>
-          <span class="dot"> · </span>
-          <v-time v-model="info.created_at" />
-          <div class="flex1" />
-          <VPopover
-            :report-id="info.id"
-            :is-creator="info.is_creator"
-            report-type="image"
-          >
-            <button class="tool-btn">
-              ···
-            </button>
-          </VPopover>
-        </div>
-      </div>
-    </div>
-    <div class="album-body">
-      <ImagePreview v-if="info.is_album" :images="images" class="images-wrap">
-        <div v-for="img in images" :key="img.id" class="image-package">
-          <v-img
-            :src="img.url"
-            :full="true"
-            :width="img.width"
-            :height="img.height"
-            class="image"
-          />
-        </div>
-        <p v-if="!info.image_count" class="no-image">
-          还没有上传图片
-        </p>
-      </ImagePreview>
-      <ImagePreview v-else :images="[source]">
-        <div class="image-package">
-          <v-img
-            :src="source.url"
-            :width="source.width"
-            :height="source.height"
-            :full="true"
-            class="image"
-          />
-        </div>
-      </ImagePreview>
-      <div v-if="info.is_cartoon" class="cartoon-list">
-        <h3 class="sub-title">
-          选集（{{ cartoon.length }}）
-          <nuxt-link v-if="nextPartUrl" :to="nextPartUrl" class="next">
-            下一话
-          </nuxt-link>
-          <div v-if="showMoreBtn" class="more" @click="showAll = !showAll">
-            {{ showAll ? '收起' : '展开' }}
-          </div>
-        </h3>
-        <ul>
-          <li v-for="item in sortCartoons" :key="item.id">
-            <nuxt-link
-              :to="$alias.image(item.id)"
-              :class="{ active: item.id === id }"
-              class="oneline"
-              v-text="item.name"
-            />
-          </li>
-        </ul>
-      </div>
-      <div class="container">
-        <SocialPanel
-          :id="info.id"
-          :is-creator="info.is_creator"
-          :is-mine="isMine"
-          type="image"
-        />
-      </div>
-    </div>
+    <ImageContent :info="info" />
     <div class="container">
       <v-lazy>
         <CommentMain :id="id" :master-id="user.id" type="image" />
@@ -270,20 +45,16 @@
 <script>
 import { getImageInfo } from '~/api/imageApi'
 import CommentMain from '~/components/comments/CommentMain'
-import SocialPanel from '~/components/common/SocialPanel'
-import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BangumiPanel from '~/components/panel/BangumiPanel'
-import VPopover from '~/components/common/Popover'
+import ImageContent from '~/components/image/ImageContent'
 import ShareBtn from '~/components/common/ShareBtn'
 
 export default {
   name: 'ImageAlbum',
   components: {
     CommentMain,
-    SocialPanel,
-    ImagePreview,
     BangumiPanel,
-    VPopover,
+    ImageContent,
     ShareBtn
   },
   props: {
@@ -294,45 +65,10 @@ export default {
   },
   data() {
     return {
-      take: 4,
-      page: 0,
-      part: 0,
-      showAll: false,
+      info: null,
+      user: null,
+      bangumi: null,
       share_data: null
-    }
-  },
-  computed: {
-    cartoon() {
-      return this.info.parts
-    },
-    isMine() {
-      return this.$store.state.login
-        ? this.user.id === this.$store.state.user.id
-        : false
-    },
-    showMoreBtn() {
-      return this.take < this.cartoon.length
-    },
-    sortCartoons() {
-      const begin = (this.page - 1) * this.take
-      return this.showAll
-        ? this.cartoon
-        : this.cartoon.slice(begin, begin + this.take)
-    },
-    nextPartUrl() {
-      if (!this.info.is_cartoon || !this.cartoon.length) {
-        return ''
-      }
-      let index = 0
-      this.cartoon.forEach((item, idx) => {
-        if (item.id === this.id) {
-          index = idx
-        }
-      })
-      if (index >= this.cartoon.length - 1) {
-        return ''
-      }
-      return this.$alias.image(this.cartoon[index + 1].id)
     }
   },
   async asyncData({ app, store, params, error }) {
@@ -363,8 +99,6 @@ export default {
           info,
           bangumi,
           user: info.user,
-          source: info.source,
-          images: info.images,
           share_data: info.share_data
         }
       })
@@ -385,22 +119,6 @@ export default {
           type: 'application/json'
         }
       ]
-    }
-  },
-  mounted() {
-    this.computePage()
-  },
-  methods: {
-    computePage() {
-      if (!this.info.is_cartoon) {
-        return
-      }
-      this.cartoon.forEach((meta, index) => {
-        if (meta.id === this.id) {
-          this.part = index + 1
-        }
-      })
-      this.page = Math.ceil(this.part / this.take)
     }
   }
 }

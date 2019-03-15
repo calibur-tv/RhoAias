@@ -96,15 +96,9 @@
 </style>
 
 <template>
-  <div :id="`comment-${comment.id}`"
-       class="comment-item"
-  >
-    <nuxt-link :to="$alias.user(comment.from_user_zone)"
-               class="avatar"
-    >
-      <v-img :src="comment.from_user_avatar"
-             :avatar="true" width="35"
-      />
+  <div :id="`comment-${comment.id}`" class="comment-item">
+    <nuxt-link :to="$alias.user(comment.from_user_zone)" class="avatar">
+      <v-img :src="comment.from_user_avatar" :avatar="true" width="35" />
     </nuxt-link>
     <div class="content">
       <div class="header">
@@ -124,12 +118,8 @@
           >
             <span v-text="comment.from_user_name" />
             <span v-if="comment.is_owner">(楼主)</span>
-            <i v-if="comment.is_leader"
-               class="iconfont icon-leader"
-            />
-            <i v-else-if="comment.is_master"
-               class="iconfont icon-master"
-            />
+            <i v-if="comment.is_leader" class="iconfont icon-leader" />
+            <i v-else-if="comment.is_master" class="iconfont icon-master" />
           </nuxt-link>
           <div class="info">
             <span>第{{ comment.floor_count - 1 }}楼</span> <span>·</span>
@@ -137,13 +127,9 @@
           </div>
         </div>
       </div>
-      <div class="main"
-           v-html="comment.content"
-      />
+      <div class="main" v-html="comment.content" />
       <div class="footer">
-        <SubCommentList :parent-comment="comment"
-                        :type="type"
-        />
+        <SubCommentList :parent-comment="comment" :type="type" />
         <div class="social">
           <button
             :class="[comment.liked ? 'reply-liked-btn' : 'reply-like-btn']"
@@ -153,9 +139,7 @@
             {{ comment.liked ? '已赞' : '赞' }}
             <span v-if="comment.like_count">({{ comment.like_count }})</span>
           </button>
-          <button class="reply-btn fr"
-                  @click="handleCommentBtnClick"
-          >
+          <button class="reply-btn fr" @click="handleCommentBtnClick">
             回复
           </button>
         </div>

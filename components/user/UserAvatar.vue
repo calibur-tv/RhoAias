@@ -2,7 +2,7 @@
 .user-avatar {
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid $color-dark-light;
+  border: 1px solid $color-avatar-border;
 
   img {
     display: block;
@@ -16,7 +16,7 @@
   <div
     :style="{ width: `${size}px`, height: `${size}px` }"
     class="user-avatar"
-    @click.stop="$alias.user(user.zone)"
+    @click.stop="toUser"
   >
     <img :src="$resize(user.avatar, { width: size * 2 })">
   </div>
@@ -33,6 +33,11 @@ export default {
     size: {
       type: Number,
       default: 40
+    }
+  },
+  methods: {
+    toUser() {
+      this.$router.push(this.$alias.user(this.user.zone))
     }
   }
 }

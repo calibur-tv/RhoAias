@@ -73,16 +73,8 @@ async function start() {
     const appVersion = parseCookie(headers, 'x-app-version') || ''
     const authToken = parseAuthToken(headers) || ''
     authToken && ctx.cookies.set('x-auth-token', authToken, cookieOpts)
-    appName && ctx.cookies.set(
-      'x-app-name',
-      appName,
-      cookieOpts
-    )
-    appVersion && ctx.cookies.set(
-      'x-app-version',
-      appVersion,
-      cookieOpts
-    )
+    appName && ctx.cookies.set('x-app-name', appName, cookieOpts)
+    appVersion && ctx.cookies.set('x-app-version', appVersion, cookieOpts)
 
     return new Promise((resolve, reject) => {
       ctx.res.on('close', resolve)

@@ -10,52 +10,60 @@ export default class extends invokerInterface {
 
   getUserInfo(callback) {
     this.JsCallApp('getUserInfo', {})
-    callback && callback({
-      "id": 1,
-      "zone": "bing-yu",
-      "avatar": "https://image.calibur.tv/user/1/avatar/0/1530281203832-e6c.jpeg",
-      "banner": "https://image.calibur.tv/user/1/banner/0/1530281125317-y03.jpeg",
-      "nickname": "冰淤",
-      "signature": "天下漫友是一家",
-      "level": 23,
-      "power": 316,
-      "sex": "男",
-      "sexSecret": false,
-      "share_data": {
-        "title": "冰淤",
-        "desc": "天下漫友是一家",
-        "link": "https://m.calibur.tv/user/bing-yu",
-        "image": "https://image.calibur.tv/user/1/avatar/0/1530281203832-e6c.jpeg-share120jpg"
-      },
-      "faker": false,
-      "banned_to": "",
-      "badge": [
-        {
-          "id": "3",
-          "name": "站长",
-          "icon": "https://image.calibur.tv/admin/1/tag/badge//1550572993150-jjm.png"
+    callback &&
+      callback({
+        id: 1,
+        zone: 'bing-yu',
+        avatar:
+          'https://image.calibur.tv/user/1/avatar/0/1530281203832-e6c.jpeg',
+        banner:
+          'https://image.calibur.tv/user/1/banner/0/1530281125317-y03.jpeg',
+        nickname: '冰淤',
+        signature: '天下漫友是一家',
+        level: 23,
+        power: 316,
+        sex: '男',
+        sexSecret: false,
+        share_data: {
+          title: '冰淤',
+          desc: '天下漫友是一家',
+          link: 'https://m.calibur.tv/user/bing-yu',
+          image:
+            'https://image.calibur.tv/user/1/avatar/0/1530281203832-e6c.jpeg-share120jpg'
         },
-        {
-          "id": "1",
-          "name": "版主",
-          "icon": "https://image.calibur.tv/admin/1/tag/badge//1550572974015-c9x.png"
-        },
-        {
-          "id": "7",
-          "name": "光芒",
-          "icon": "https://image.calibur.tv/admin/1/tag/badge//1550573034437-93t.png"
-        },
-        {
-          "id": "2",
-          "name": "代行者",
-          "icon": "https://image.calibur.tv/admin/1/tag/badge//1550572983550-wxj.png"
+        faker: false,
+        banned_to: '',
+        badge: [
+          {
+            id: '3',
+            name: '站长',
+            icon:
+              'https://image.calibur.tv/admin/1/tag/badge//1550572993150-jjm.png'
+          },
+          {
+            id: '1',
+            name: '版主',
+            icon:
+              'https://image.calibur.tv/admin/1/tag/badge//1550572974015-c9x.png'
+          },
+          {
+            id: '7',
+            name: '光芒',
+            icon:
+              'https://image.calibur.tv/admin/1/tag/badge//1550573034437-93t.png'
+          },
+          {
+            id: '2',
+            name: '代行者',
+            icon:
+              'https://image.calibur.tv/admin/1/tag/badge//1550572983550-wxj.png'
+          }
+        ],
+        banlance: {
+          coin_count: '143.94',
+          light_count: '6.27'
         }
-      ],
-      "banlance": {
-        "coin_count": "143.94",
-        "light_count": "6.27"
-      }
-    })
+      })
   }
 
   setUserInfo(data) {

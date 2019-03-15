@@ -95,13 +95,9 @@
       </div>
       <div class="field-item">
         <span>标签：</span>
-        <div class="tags"
-             @click="openPostTagSelectDrawer = true"
-        >
+        <div class="tags" @click="openPostTagSelectDrawer = true">
           <template v-if="selectedTags.length">
-            <span v-for="tag in displayTags"
-                  :key="tag.id" v-text="tag.name"
-            />
+            <span v-for="tag in displayTags" :key="tag.id" v-text="tag.name" />
           </template>
           <template v-else>
             点击选择标签
@@ -128,9 +124,7 @@
       from="bottom"
       size="70%"
     >
-      <VChecklist v-model="selectedTags"
-                  :options="tags" :max="3"
-      />
+      <VChecklist v-model="selectedTags" :options="tags" :max="3" />
     </v-drawer>
   </v-drawer>
 </template>

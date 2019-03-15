@@ -111,20 +111,12 @@
         @expand="handlePaletteOpen"
         @collapse="handlePaletteClose"
       >
-        <button class="ic-btn el-icon-picture"
-                @click="handleImageClick"
-        />
-        <button class="ic-btn score-btn"
-                @click="handleScoreClick"
-        >
+        <button class="ic-btn el-icon-picture" @click="handleImageClick" />
+        <button class="ic-btn score-btn" @click="handleScoreClick">
           <i class="el-icon-edit" />
         </button>
-        <button class="ic-btn iconfont icon-pinglun"
-                @click="handlePostClick"
-        />
-        <button class="ic-btn el-icon-question"
-                @click="handleQuestionClick"
-        />
+        <button class="ic-btn iconfont icon-pinglun" @click="handlePostClick" />
+        <button class="ic-btn el-icon-question" @click="handleQuestionClick" />
       </PaletteButton>
     </div>
     <template v-if="!isGuest">

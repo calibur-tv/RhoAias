@@ -49,18 +49,12 @@
 
 <template>
   <div class="search-item-user">
-    <nuxt-link :to="$alias.user(item.zone)"
-               class="avatar"
-    >
-      <v-img :src="item.avatar"
-             :avatar="true" width="60" height="60"
-      />
+    <nuxt-link :to="$alias.user(item.zone)" class="avatar">
+      <v-img :src="item.avatar" :avatar="true" width="60" height="60" />
     </nuxt-link>
     <div class="intro">
       <div class="head">
-        <span v-if="inCommon"
-              class="badge"
-        >用户</span>
+        <span v-if="inCommon" class="badge">用户</span>
         <nuxt-link
           :to="$alias.user(item.zone)"
           class="nickname"
@@ -68,9 +62,7 @@
         />
       </div>
       <nuxt-link :to="$alias.user(item.zone)">
-        <p class="signature"
-           v-text="item.signature"
-        />
+        <p class="signature" v-text="item.signature" />
       </nuxt-link>
     </div>
   </div>

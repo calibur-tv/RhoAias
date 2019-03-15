@@ -31,9 +31,7 @@
       />
     </template>
     :
-    <span class="reply-btn comment-content"
-          @click="handleSubCommentClick"
-    >{{
+    <span class="reply-btn comment-content" @click="handleSubCommentClick">{{
       comment.content
     }}</span>
   </div>

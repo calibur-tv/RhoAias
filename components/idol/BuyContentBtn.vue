@@ -11,9 +11,7 @@
 
 <template>
   <span class="buy-content-btn-wrap">
-    <button class="buy-content-btn"
-            @click="showBuyModal"
-    >
+    <button class="buy-content-btn" @click="showBuyModal">
       采购
     </button>
     <v-drawer
@@ -62,9 +60,7 @@
           </div>
           <br>
         </template>
-        <div v-else
-             style="text-align:center"
-        >
+        <div v-else style="text-align:center">
           <br>
           <br>
           <mt-spinner type="triple-bounce" />

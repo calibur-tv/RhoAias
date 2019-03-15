@@ -122,9 +122,7 @@
         </div>
       </div>
     </div>
-    <el-steps v-if="source && source.noMore"
-              space="100px" direction="vertical"
-    >
+    <el-steps v-if="source && source.noMore" space="100px" direction="vertical">
       <template v-if="!idol.ipo_at">
         <el-step
           title="增发提案"
@@ -148,9 +146,7 @@
           status="process"
           description="大股东还未发起提案"
         />
-        <el-step :description="idol.ipo_at"
-                 title="公司上市" status="success"
-        />
+        <el-step :description="idol.ipo_at" title="公司上市" status="success" />
         <el-step
           :description="idol.created_at"
           title="公司注册"
@@ -182,9 +178,7 @@
           "
           title="增发提案"
         />
-        <el-step :description="idol.ipo_at"
-                 title="公司上市" status="success"
-        />
+        <el-step :description="idol.ipo_at" title="公司上市" status="success" />
         <el-step
           :description="idol.created_at"
           title="公司注册"

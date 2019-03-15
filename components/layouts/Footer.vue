@@ -45,9 +45,7 @@
 <template>
   <footer id="footer">
     <div class="panel">
-      <button v-if="haveAuthToken"
-              @click="logout"
-      >
+      <button v-if="haveAuthToken" @click="logout">
         退出
       </button>
       <template v-else>

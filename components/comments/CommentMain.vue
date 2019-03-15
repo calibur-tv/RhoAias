@@ -181,9 +181,7 @@
     <slot name="header">
       <h3 class="sub-title">
         评论{{ total ? `(${total})` : '' }} <slot name="header-btn" />
-        <button class="write-btn"
-                @click="writeComment"
-        >
+        <button class="write-btn" @click="writeComment">
           写评论
         </button>
       </h3>
@@ -220,17 +218,15 @@
         >
           写评论
         </button>
-        <more-btn
+        <FlowState
           :no-more="noMore"
           :loading="loadingMainComment"
           :auto="true"
-          @fetch="loadMoreMainComment(false)"
+          :fetch="autoLoadMoreMainComment"
         />
       </div>
     </template>
-    <p v-else-if="emptyText"
-       class="no-content" v-text="emptyText"
-    />
+    <p v-else-if="emptyText" class="no-content" v-text="emptyText" />
     <!-- reply detail drawer -->
     <v-drawer
       v-model="openFocusCommentDrawer"
@@ -272,9 +268,7 @@
               </div>
             </div>
             <div class="content">
-              <div class="text-area"
-                   v-html="focusComment.content"
-              />
+              <div class="text-area" v-html="focusComment.content" />
               <div class="image-area">
                 <div
                   v-for="(img, idx) in focusComment.images"
@@ -301,9 +295,7 @@
                 {{ focusComment.liked ? '已赞' : '赞' }}
                 <span v-if="focusComment.like_count">({{ focusComment.like_count }})</span>
               </button>
-              <button class="reply-btn fr"
-                      @click="handleCommentBtnClick"
-              >
+              <button class="reply-btn fr" @click="handleCommentBtnClick">
                 回复
               </button>
             </div>
@@ -313,9 +305,7 @@
             {{ focusComment.comments.total }}条回复
           </p>
           <ul class="comments">
-            <li v-for="item in focusComment.comments.list"
-                :key="item.id"
-            >
+            <li v-for="item in focusComment.comments.list" :key="item.id">
               <div class="from-user">
                 <nuxt-link
                   :to="$alias.user(item.from_user_zone)"
@@ -359,10 +349,10 @@
             </li>
           </ul>
         </div>
-        <more-btn
+        <FlowState
           :no-more="focusComment.comments.noMore"
           :loading="loadingSubComment"
-          @fetch="loadMoreSubComment"
+          :fetch="loadMoreSubComment"
         />
       </template>
     </v-drawer>
@@ -398,12 +388,8 @@
       size="100%"
       header-text="发表评论"
     >
-      <div v-if="openCreateCommentDrawer"
-           class="container"
-      >
-        <slot :close="closeCommentDrawer"
-              name="reply-form"
-        >
+      <div v-if="openCreateCommentDrawer" class="container">
+        <slot :close="closeCommentDrawer" name="reply-form">
           <CommentCreateForm
             v-if="openCreateCommentDrawer"
             :id="id"
@@ -422,12 +408,14 @@
 import CommentCreateForm from './CommentCreateForm'
 import CommentItem from './CommentItem'
 import scrollToY from '~/assets/js/scrollToY'
+import FlowState from '~/components/flow/FlowState'
 
 export default {
   name: 'VCommentMain',
   components: {
     CommentCreateForm,
-    CommentItem
+    CommentItem,
+    FlowState
   },
   props: {
     id: {
@@ -568,6 +556,9 @@ export default {
       this.$nextTick(() => {
         this.scrollToReply()
       })
+    },
+    autoLoadMoreMainComment() {
+      this.loadMoreMainComment(false)
     },
     async loadMoreMainComment(firstRequest = false) {
       if (this.loadingMainComment) {

@@ -3,7 +3,7 @@ import timeago from 'timeago.js'
 const instance = timeago()
 
 export default {
-  name: 'v-time',
+  name: 'VTime',
   props: {
     value: {
       default: parseInt(Date.now() / 1000, 10).toString()

@@ -119,37 +119,9 @@
       </div>
       {{ post.title }}
     </h1>
-    <div class="user">
-      <nuxt-link :to="$alias.user(user.zone)" class="avatar">
-        <v-img :src="user.avatar" :avatar="true" width="35" />
-      </nuxt-link>
-      <div class="summary">
-        <nuxt-link
-          :to="$alias.user(user.zone)"
-          class="nickname"
-          v-text="user.nickname"
-        />
-        <div class="info">
-          <span>第1楼</span>
-          <span>·</span>
-          <template v-if="total > 1">
-            <span>共{{ total }}楼</span>
-            <span>·</span>
-          </template>
-          <v-time v-model="post.created_at" />
-          <span v-if="post.view_count" class="fr">
-            <i class="iconfont icon-yuedu" />
-            {{ $utils.shortenNumber(post.view_count) }}
-          </span>
-        </div>
-      </div>
-    </div>
+    <FlowHeaderUser :user="user" :is-followed="false" :time="post.created_at" />
     <div class="content">
-      <ImagePreview
-        :images="post.images"
-        :download="false"
-        class="image-area"
-      >
+      <ImagePreview :images="post.images" :download="false" class="image-area">
         <div
           v-for="(img, index) in post.images"
           :key="index"
@@ -203,14 +175,15 @@
 import SocialPanel from '~/components/common/SocialPanel'
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BuyContentBtn from '~/components/idol/BuyContentBtn'
-import { deletePost } from '~/api/postApi'
+import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
 
 export default {
   name: 'PostContent',
   components: {
     SocialPanel,
     ImagePreview,
-    BuyContentBtn
+    BuyContentBtn,
+    FlowHeaderUser
   },
   props: {
     post: {

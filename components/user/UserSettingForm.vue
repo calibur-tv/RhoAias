@@ -80,12 +80,8 @@
         如果你担心自己的性别和生日被其他用户知道，可以勾选<strong>私密</strong>，这样我们只会在推荐系统中用到你的数据
       </p>
     </div>
-    <el-form-item label="昵称"
-                  prop="nickname"
-    >
-      <el-input v-model="nickname"
-                class="bottom-line"
-      />
+    <el-form-item label="昵称" prop="nickname">
+      <el-input v-model="nickname" class="bottom-line" />
     </el-form-item>
     <el-form-item label="生日">
       <no-ssr>
@@ -123,15 +119,11 @@
       </div>
       <div class="select-btn">
         <VPopover :actions="sexActions">
-          <button type="button"
-                  v-text="selectedSexLabel"
-          />
+          <button type="button" v-text="selectedSexLabel" />
         </VPopover>
       </div>
     </el-form-item>
-    <el-form-item label="签名"
-                  prop="signature"
-    >
+    <el-form-item label="签名" prop="signature">
       <el-input
         v-model="signature"
         :rows="5"

@@ -102,9 +102,7 @@
 
 <template>
   <header id="header">
-    <div :class="{ 'border-header': !noBorderPage }"
-         class="header-text"
-    >
+    <div :class="{ 'border-header': !noBorderPage }" class="header-text">
       <div class="nav-left">
         <router-link to="/">
           <img
@@ -151,13 +149,9 @@
       </div>
       <div class="nav-right">
         <template v-if="haveAuthToken">
-          <div v-if="currentUser"
-               class="nav-avatar"
-          >
+          <div v-if="currentUser" class="nav-avatar">
             <button @click="openUserDrawer">
-              <v-img :src="currentUser.avatar"
-                     :avatar="true" width="24"
-              />
+              <v-img :src="currentUser.avatar" :avatar="true" width="24" />
             </button>
           </div>
           <img
@@ -170,15 +164,11 @@
             class="faker-user-avatar"
           >
         </template>
-        <button v-else
-                class="sign-btn" @click="openSignDrawer"
-        >
+        <button v-else class="sign-btn" @click="openSignDrawer">
           登录
         </button>
         <template v-if="!homePage">
-          <button class="open-search-btn"
-                  @click="openSearchDrawer = true"
-          >
+          <button class="open-search-btn" @click="openSearchDrawer = true">
             <i class="iconfont icon-sousuo" />
           </button>
           <SearchDrawer v-model="openSearchDrawer" />
