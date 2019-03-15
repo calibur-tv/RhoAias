@@ -26,7 +26,7 @@
       width: 35px;
       height: 35px;
       border-radius: 5px;
-      border: 1px solid $color-gray-normal;
+      border: 1px solid $color-avatar-border;
       float: left;
       margin-right: 7px;
     }

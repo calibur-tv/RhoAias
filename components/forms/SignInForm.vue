@@ -3,7 +3,7 @@
   input {
     border: 0;
     padding: 0;
-    border-bottom: 1px solid $color-gray-normal;
+    border-bottom: 1px solid $color-line;
   }
 
   .submit-btn {
@@ -31,7 +31,7 @@
     right: 11px;
     top: 11px;
     font-size: 18px;
-    color: $color-gray-deep;
+    color: $color-text-gray;
   }
 
   .providers {

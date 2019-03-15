@@ -10,11 +10,11 @@
       line-height: 40px;
       text-align: center;
       font-size: 14px;
-      color: $color-text-deep;
+      color: $color-text-gray;
 
       &.is-active {
         position: relative;
-        color: $color-pink-deep !important;
+        color: $color-pink-normal !important;
 
         &:after {
           content: '';
@@ -23,7 +23,7 @@
           left: 50%;
           width: 56px;
           max-width: 100%;
-          border-bottom: 1px solid $color-pink-deep;
+          border-bottom: 1px solid $color-pink-normal;
           transform: translateX(-50%);
         }
 
@@ -35,7 +35,7 @@
           bottom: 1px;
           width: 0;
           height: 0;
-          border: 3px solid $color-pink-deep;
+          border: 3px solid $color-pink-normal;
           border-top-width: 0;
           border-left-color: transparent;
           border-right-color: transparent;

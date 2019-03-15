@@ -2,7 +2,7 @@
 .reset-password-form {
   input {
     border: 0;
-    border-bottom: 1px solid $color-gray-normal;
+    border-bottom: 1px solid $color-line;
   }
 
   .submit-btn {

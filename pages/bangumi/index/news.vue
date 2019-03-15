@@ -50,7 +50,7 @@
 
         .part {
           border-radius: 9px;
-          color: $color-white;
+          color: #fff;
           text-align: center;
           padding: 0 10px;
           height: 18px;
@@ -64,7 +64,7 @@
           }
 
           &.old {
-            background-color: $color-dark-light;
+            background-color: $color-text-light;
           }
         }
       }

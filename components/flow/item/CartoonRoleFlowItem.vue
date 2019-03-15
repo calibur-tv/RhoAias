@@ -58,7 +58,7 @@
     img {
       width: 100%;
       height: auto;
-      border: 1px solid $color-gray-normal;
+      border: 1px solid $color-avatar-border;
     }
   }
 
@@ -94,7 +94,7 @@
         display: inline-block;
 
         img {
-          border: 1px solid $color-gray-normal;
+          border: 1px solid $color-avatar-border;
         }
       }
     }

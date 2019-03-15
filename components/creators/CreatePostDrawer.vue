@@ -36,7 +36,7 @@
       font-size: 12px;
       border-radius: 9px;
       line-height: 18px;
-      background-color: $color-gray-normal;
+      background-color: $color-background-container;
       color: $color-text-normal;
       margin-right: 5px;
     }

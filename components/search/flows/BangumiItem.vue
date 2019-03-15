@@ -2,7 +2,7 @@
 .search-item-bangumi {
   position: relative;
   padding: 12px 0;
-  border-bottom: 1px solid $color-gray-normal;
+  border-bottom: 1px solid $color-line;
   @extend %clearfix;
 
   .avatar {

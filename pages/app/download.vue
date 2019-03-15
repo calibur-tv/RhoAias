@@ -17,6 +17,7 @@
         height: 50px;
         float: left;
         margin-right: 10px;
+        border-radius: 5px;
       }
 
       .text {
@@ -58,7 +59,7 @@
     <div class="content">
       <div class="info">
         <img
-          src="https://image.calibur.tv/owner/logo-new/logo.png?imageMogr2/auto-orient/strip|imageView2/1/w/200/h/200/format/jpg"
+          src="https://image.calibur.tv/owner/logo/icon-1024.png-share120jpg"
         >
         <div class="text">
           calibur.tv

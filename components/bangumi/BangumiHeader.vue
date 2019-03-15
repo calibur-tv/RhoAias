@@ -35,7 +35,7 @@ $banner-height: 140px;
     left: 0;
     bottom: 0;
     right: 0;
-    color: $color-white;
+    color: #fff;
     text-shadow: 0 1px 10px gray;
     padding: $container-padding;
 

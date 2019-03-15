@@ -38,7 +38,7 @@
         text-align: center;
 
         &.active {
-          color: $color-pink-deep;
+          color: $color-pink-normal;
         }
       }
     }
@@ -109,7 +109,7 @@
         <router-link to="/">
           <img
             class="logo"
-            src="https://image.calibur.tv/owner/logo/max.png?imageMogr2/auto-orient/strip|imageView2/1/w/80/h/80"
+            src="https://image.calibur.tv/owner/logo/icon-1024.png-share120jpg"
             alt="logo"
           >
         </router-link>

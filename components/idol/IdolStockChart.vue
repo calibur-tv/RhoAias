@@ -14,11 +14,11 @@
       flex-grow: 1;
       text-align: center;
       color: $color-text-normal;
-      background-color: $color-gray-light;
+      background-color: $color-background-container;
       height: 25px;
 
       &.active {
-        color: $color-text-deep;
+        color: $color-text-normal;
         background-color: transparent;
       }
     }

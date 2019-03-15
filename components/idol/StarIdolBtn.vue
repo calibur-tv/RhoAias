@@ -9,8 +9,8 @@
     font-size: 12px;
 
     &.locked {
-      background-color: $color-dark-light;
-      box-shadow: 0 4px 4px rgba($color-dark-light, 0.3);
+      background-color: $color-gray;
+      box-shadow: 0 4px 4px rgba($color-gray, 0.3);
     }
   }
 }

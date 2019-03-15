@@ -66,7 +66,7 @@ $height: 48px;
         border-color: #26a2ff;
 
         &::after {
-          background-color: $color-white;
+          background-color: #fff;
           transform: scale(1);
         }
       }
@@ -80,7 +80,7 @@ $height: 48px;
   .mint-radio-core {
     box-sizing: border-box;
     display: inline-block;
-    background-color: $color-white;
+    background-color: #fff;
     border-radius: 100%;
     border: 1px solid #ccc;
     position: relative;

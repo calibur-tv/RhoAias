@@ -99,7 +99,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
-      @include border($color-gray-deep, 50%);
+      @include border($color-avatar-border, 50%);
     }
 
     .submit-btn {
@@ -134,7 +134,7 @@
     i {
       font-size: 24px;
       margin-right: 12px;
-      color: $color-gray-deep;
+      color: $color-text-gray;
     }
 
     .icon-qq.is-bind {

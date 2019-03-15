@@ -124,7 +124,7 @@
       }
 
       .meta {
-        border: 1px solid $color-gray-deep;
+        border: 1px solid $color-avatar-border;
         height: 30px;
         color: $color-link;
         border-radius: 4px;
@@ -136,7 +136,7 @@
       .a-active {
         border-color: $color-pink-normal;
         background-color: $color-pink-normal;
-        color: $color-white;
+        color: #fff;
       }
     }
 

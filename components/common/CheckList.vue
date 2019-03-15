@@ -2,8 +2,8 @@
 .mint-checklist {
   &.is-limit {
     .mint-checkbox-core:not(:checked) {
-      background-color: $color-gray-normal;
-      border-color: $color-gray-normal;
+      background-color: $color-background-tag;
+      border-color: $color-background-tag;
     }
   }
 
@@ -44,21 +44,21 @@
         border-color: $color-pink-normal;
 
         &::after {
-          border-color: $color-white;
+          border-color: #fff;
           transform: rotate(45deg) scale(1);
         }
       }
     }
 
     &[disabled] + .mint-checkbox-core {
-      background-color: $color-gray-normal;
+      background-color: $color-background-tag;
       border-color: #ccc;
     }
   }
 
   &-core {
     display: inline-block;
-    background-color: $color-white;
+    background-color: #fff;
     border-radius: 100%;
     border: 1px solid #ccc;
     position: relative;

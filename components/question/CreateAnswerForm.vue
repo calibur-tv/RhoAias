@@ -35,7 +35,7 @@
   bottom: 0;
   width: 100%;
   height: 52px;
-  border-top: 1px solid $color-gray-light;
+  border-top: 1px solid $color-line;
   padding-top: 7px;
   text-align: right;
   background-color: #fff;

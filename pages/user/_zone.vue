@@ -118,7 +118,7 @@
 
     .exp-detail {
       padding: 5px 8px 3px;
-      background-color: $color-gray-normal;
+      background-color: $color-text-gray;
       color: $color-text-normal;
       margin-bottom: 10px;
       border-radius: 4px;

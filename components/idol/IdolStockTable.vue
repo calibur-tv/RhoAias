@@ -1,7 +1,7 @@
 <style lang="scss">
 #idol-stock-table {
   .table {
-    background-color: $color-gray-light;
+    background-color: $color-background-container;
     width: 100%;
     padding: 5px;
     border-radius: 5px;

@@ -46,9 +46,9 @@
       display: block;
       width: 100%;
       height: 100%;
-      background-color: $color-gray-light;
+      background-color: $color-background-container;
       border-radius: 50%;
-      box-shadow: 0 0 0 1px $color-gray-normal;
+      box-shadow: 0 0 0 1px $color-avatar-border;
       font-weight: bold;
       color: #333;
       font-size: 11px;
@@ -56,7 +56,7 @@
   }
 
   .show-area {
-    background-color: $color-gray-normal;
+    background-color: $color-background-container;
     border: 1px solid transparent;
     transition-duration: 0.3s;
     border-radius: 5px;
@@ -86,7 +86,7 @@
         color: #fff;
 
         &.yellow {
-          background-color: gold;
+          background-color: $color-yellow;
         }
 
         &.green {
@@ -155,7 +155,7 @@
       }
 
       blockquote {
-        border-left: 4px solid $color-gray-deep;
+        border-left: 4px solid $color-line;
         padding-left: 10px;
         margin-left: 5px;
       }
@@ -176,7 +176,7 @@
         display: block;
         width: 100%;
         height: 100%;
-        background-color: $color-gray-deep;
+        background-color: $color-background-container;
         color: #fff;
         font-size: 12px;
         border-radius: 10px;

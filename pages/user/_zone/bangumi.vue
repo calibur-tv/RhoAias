@@ -16,7 +16,7 @@
     }
 
     p {
-      color: $color-text-deep;
+      color: $color-text-normal;
       font-size: 12px;
       margin-top: 6px;
       margin-bottom: 5px;

@@ -8,7 +8,7 @@
     height: 40px;
     padding-left: 15px;
     padding-right: 15px;
-    border-bottom: 1px solid $color-gray-light;
+    border-bottom: 1px solid $color-line;
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 500;

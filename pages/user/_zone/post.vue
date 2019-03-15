@@ -27,7 +27,7 @@
 
       .origin {
         display: block;
-        background-color: $color-gray-normal;
+        background-color: $color-background-tag;
         padding: 10px 20px;
         margin: 10px 0;
         border-radius: 5px;
@@ -35,7 +35,7 @@
 
       .reply {
         display: block;
-        border-left: 5px solid $color-gray-normal;
+        border-left: 5px solid $color-line;
         margin: 10px 0;
         padding-left: 10px;
       }

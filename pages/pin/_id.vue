@@ -21,7 +21,7 @@
         margin-right: 5px;
 
         img {
-          border: 1px solid $color-gray-normal;
+          border: 1px solid $color-avatar-border;
         }
       }
     }
@@ -87,7 +87,7 @@
       padding: 0 5px;
 
       a {
-        border: 1px solid $color-gray-deep;
+        border: 1px solid $color-avatar-border;
         height: 30px;
         color: $color-link;
         border-radius: 4px;
@@ -98,7 +98,7 @@
         &.active {
           border-color: $color-blue-light;
           background-color: $color-blue-light;
-          color: $color-white;
+          color: #fff;
         }
       }
     }

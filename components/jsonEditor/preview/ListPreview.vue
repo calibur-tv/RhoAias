@@ -9,7 +9,7 @@
     margin-right: 15px;
     padding-bottom: 8px;
     margin-bottom: 10px;
-    border-bottom: 1px solid $color-gray-light;
+    border-bottom: 1px solid $color-line;
 
     span {
       line-height: 32px;

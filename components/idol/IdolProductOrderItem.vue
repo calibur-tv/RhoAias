@@ -39,7 +39,7 @@
 
     .avatar {
       border-radius: 5px;
-      border: 1px solid $color-gray-normal;
+      border: 1px solid $color-avatar-border;
       height: 35px;
       width: 35px;
       display: block;

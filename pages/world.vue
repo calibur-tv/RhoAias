@@ -85,7 +85,7 @@
     .detail {
       padding: 8px;
       padding-bottom: 3px;
-      background-color: $color-gray-normal;
+      background-color: $color-background-container;
       color: $color-text-normal;
       margin-bottom: 10px;
 

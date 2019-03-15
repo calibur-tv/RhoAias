@@ -23,7 +23,7 @@
         float: left;
         margin-right: 10px;
         margin-bottom: 5px;
-        border: 1px solid $color-gray-normal;
+        border: 1px solid $color-avatar-border;
         border-radius: 5px;
       }
 
@@ -74,7 +74,7 @@
         width: 15px;
         height: 15px;
         border-radius: 50%;
-        border: 1px solid $color-gray-normal;
+        border: 1px solid $color-avatar-border;
       }
 
       span {
