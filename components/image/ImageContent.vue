@@ -150,11 +150,7 @@
           }}]
           {{ info.name }}
         </h1>
-        <FlowHeaderUser
-          :user="info.user"
-          :is-followed="false"
-          :time="info.created_at"
-        />
+        <FlowHeaderUser :user="info.user" :time="info.created_at" />
       </div>
     </div>
     <div class="album-body">

@@ -19,7 +19,7 @@
       padding: 1px 6px;
       border-radius: 4px;
       margin: 4px 5px 0 0;
-      background-color: $color-pink-deep;
+      background-color: $color-pink-normal;
     }
   }
 
@@ -119,7 +119,7 @@
       </div>
       {{ post.title }}
     </h1>
-    <FlowHeaderUser :user="user" :is-followed="false" :time="post.created_at" />
+    <FlowHeaderUser :user="user" :time="post.created_at" />
     <div class="content">
       <ImagePreview :images="post.images" :download="false" class="image-area">
         <div

@@ -67,11 +67,7 @@
     />
     <div class="score-header container">
       <h1 class="title" v-text="info.title" />
-      <FlowHeaderUser
-        :user="info.user"
-        :is-followed="false"
-        :time="info.created_at"
-      >
+      <FlowHeaderUser :user="info.user" :time="info.created_at">
         <div class="total">
           {{ info.total }}分
         </div>

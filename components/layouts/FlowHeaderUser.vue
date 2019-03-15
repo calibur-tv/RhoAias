@@ -33,9 +33,6 @@
 <template>
   <div class="user-panel">
     <UserAvatar :user="user" />
-    <!--
-    <UserFollowBtn :user-id="user.id" :followed="isFollowed" />
-    -->
     <div class="slot">
       <slot />
     </div>
@@ -59,10 +56,6 @@ export default {
   props: {
     user: {
       type: Object,
-      required: true
-    },
-    isFollowed: {
-      type: Boolean,
       required: true
     },
     time: {

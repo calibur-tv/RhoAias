@@ -79,7 +79,7 @@
       }
 
       .nice_badge {
-        background-color: $color-pink-deep;
+        background-color: $color-pink-normal;
       }
 
       .creator_badge {
@@ -206,22 +206,7 @@
     <router-link :to="$alias.post(item.id)" tag="div">
       <div class="header">
         <template v-if="!userZone">
-          <router-link :to="$alias.user(item.user.zone)" class="user-avatar">
-            <v-img
-              :src="item.user.avatar"
-              :avatar="true"
-              width="35"
-              height="35"
-            />
-          </router-link>
-          <div class="info">
-            <router-link
-              :to="$alias.user(item.user.zone)"
-              class="name oneline"
-              v-text="item.user.nickname"
-            />
-            <v-time v-model="item.created_at" />
-          </div>
+          <FlowHeaderUser :user="item.user" :time="item.created_at" />
         </template>
         <template v-else>
           <router-link
@@ -275,7 +260,7 @@
         </div>
         <div class="tags">
           <router-link
-            v-if="item.bangumi && !userZone"
+            v-if="item.bangumi && !bangumiId"
             :to="$alias.bangumi(item.bangumi.id)"
           >
             <i class="iconfont icon-tag" />
@@ -319,8 +304,13 @@
 </template>
 
 <script>
+import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
+
 export default {
   name: 'PostFlowItem',
+  components: {
+    FlowHeaderUser
+  },
   props: {
     item: {
       required: true,
