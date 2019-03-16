@@ -139,7 +139,9 @@ $main-color: #f25d8e;
       <div slot="1" class="invite-users">
         <div v-if="source" class="header">
           <img :src="$resize(user.avatar, { width: 80 })">
-          <span v-if="source.total">总共邀请了&nbsp;<strong>{{ source.total }}</strong>&nbsp;位小伙伴</span>
+          <span
+            v-if="source.total"
+          >总共邀请了&nbsp;<strong>{{ source.total }}</strong>&nbsp;位小伙伴</span>
           <span v-else>还没有邀请朋友注册</span>
         </div>
         <FlowList

@@ -23,6 +23,10 @@
     }
   }
 
+  .buy-content-btn {
+    margin-top: 6px;
+  }
+
   .user {
     position: relative;
     .avatar {
@@ -82,27 +86,6 @@
       }
     }
   }
-
-  .tags {
-    margin-bottom: -10px;
-
-    > * {
-      display: inline-block;
-      padding-left: 5px;
-      padding-right: 5px;
-      height: 18px;
-      font-size: 12px;
-      border-radius: 9px;
-      line-height: 18px;
-      background-color: $color-background-container;
-      color: $color-text-normal;
-      margin-right: 5px;
-    }
-
-    i {
-      margin-right: 2px;
-    }
-  }
 }
 </style>
 
@@ -115,9 +98,21 @@
         </div>
         {{ post.title }}
       </h1>
-      <FlowHeaderUser :user="user" :time="post.created_at" />
+      <FlowHeaderUser :user="user" :time="post.created_at">
+        <BuyContentBtn
+          v-if="!post.idol && post.is_idol_manager && post.is_creator"
+          :id="post.id"
+          :title="post.title"
+          :author="user.nickname"
+          type="post"
+        />
+      </FlowHeaderUser>
       <div class="content">
-        <ImagePreview :images="post.images" :download="false" class="image-area">
+        <ImagePreview
+          :images="post.images"
+          :download="false"
+          class="image-area"
+        >
           <div
             v-for="(img, index) in post.images"
             :key="index"
@@ -133,29 +128,11 @@
         </ImagePreview>
         <div class="text-area" v-html="post.content" />
       </div>
-      <div class="tags">
-        <router-link :to="$alias.bangumi(bangumi.id)">
-          <i class="iconfont icon-tag" />
-          <span v-text="bangumi.name" />
-        </router-link>
-        <router-link v-if="post.idol" :to="$alias.cartoonRole(post.idol.id)">
-          <i class="iconfont icon-tag" />
-          <span v-text="post.idol.name" />
-        </router-link>
-        <BuyContentBtn
-          v-else-if="post.is_idol_manager && post.is_creator"
-          :id="post.id"
-          :title="post.title"
-          :author="user.nickname"
-          type="post"
-        />
-        <span
-          v-for="tag in post.tags"
-          :key="tag.id"
-          class="tag"
-          v-text="tag.name"
-        />
-      </div>
+      <FlowTags
+        :bangumi="bangumi"
+        :idol="post.idol"
+        :tags="post.tags"
+      />
     </div>
   </div>
 </template>
@@ -164,13 +141,15 @@
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
 import BuyContentBtn from '~/components/idol/BuyContentBtn'
 import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
+import FlowTags from '~/components/flow/FlowTags'
 
 export default {
   name: 'PostContent',
   components: {
     ImagePreview,
     BuyContentBtn,
-    FlowHeaderUser
+    FlowHeaderUser,
+    FlowTags
   },
   props: {
     post: {

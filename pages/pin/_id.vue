@@ -81,9 +81,9 @@ export default {
       return this.$store.state.login
         ? this.info.user.id === this.$store.state.user.id
         : false
-    },
+    }
   },
-  async asyncData({ app, store, params, error }) {
+  asyncData({ app, store, params, error }) {
     const { id } = params
     return getImageInfo(app, { id })
       .then(info => {

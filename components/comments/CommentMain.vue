@@ -293,7 +293,9 @@
               >
                 <i class="iconfont icon-icon_good" />
                 {{ focusComment.liked ? '已赞' : '赞' }}
-                <span v-if="focusComment.like_count">({{ focusComment.like_count }})</span>
+                <span
+                  v-if="focusComment.like_count"
+                >({{ focusComment.like_count }})</span>
               </button>
               <button class="reply-btn fr" @click="handleCommentBtnClick">
                 回复

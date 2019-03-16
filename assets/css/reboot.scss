@@ -41,6 +41,12 @@ img {
   display: inline-block;
 }
 
+img,
+span,
+i {
+  vertical-align: middle;
+}
+
 canvas {
   width: 100%;
 }

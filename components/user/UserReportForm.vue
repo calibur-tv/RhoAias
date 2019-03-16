@@ -152,7 +152,7 @@ export default {
       }
       this.loading = true
       try {
-        report(this, {
+        await report(this, {
           id: this.id,
           message: this.content,
           type: this.selectedType === 99 ? 0 : this.selectedType,

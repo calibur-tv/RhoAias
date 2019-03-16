@@ -1,4 +1,5 @@
-<style lang="scss"></style>
+<style lang="scss">
+</style>
 
 <template>
   <div id="wx-app-post">
@@ -14,12 +15,6 @@ export default {
   name: 'WxAppPost',
   components: {
     PostContent
-  },
-  props: {
-    id: {
-      require: true,
-      type: String
-    }
   },
   data() {
     return {

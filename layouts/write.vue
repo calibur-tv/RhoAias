@@ -158,14 +158,14 @@ export default {
     },
     goHome() {
       this.$confirm('要离开写作界面吗?')
-        .then(async () => {
+        .then(() => {
           window.location = this.$alias.user(this.user.zone)
         })
         .catch(() => {})
     },
     goIndex() {
       this.$confirm('要离开写作界面吗?')
-        .then(async () => {
+        .then(() => {
           window.location = '/'
         })
         .catch(() => {})

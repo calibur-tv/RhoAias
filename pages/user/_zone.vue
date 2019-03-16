@@ -178,7 +178,9 @@
                 showExpTips ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
               "
             />
-            <span class="detail">{{ exp.have_exp }} / {{ exp.next_level_exp }}</span>
+            <span
+              class="detail"
+            >{{ exp.have_exp }} / {{ exp.next_level_exp }}</span>
             <el-progress
               :show-text="false"
               :stroke-width="14"

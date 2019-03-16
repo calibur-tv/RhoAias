@@ -55,6 +55,7 @@ export default {
       }
     },
     handleImageUploadError(err, file) {
+      console.log(err)
       this.uploadPending--
       this.uploadImageList.forEach((item, index) => {
         if (item.uid === file.uid) {

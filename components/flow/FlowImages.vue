@@ -48,62 +48,28 @@
 </style>
 
 <template>
-  <div
-    v-if="images.length"
-    class="flow-images"
-  >
-    <div
-      v-if="images.length >= 3"
-      class="three-images"
-    >
+  <div v-if="images.length" class="flow-images">
+    <div v-if="images.length >= 3" class="three-images">
       <div class="item">
-        <v-img
-          :src="images[0].url"
-          width="100%"
-          height="120"
-        />
+        <v-img :src="images[0].url" width="100%" height="120" />
       </div>
-      <div class="h-shim"/>
+      <div class="h-shim" />
       <div class="wrap">
-        <v-img
-          :src="images[1].url"
-          width="100%"
-          height="58"
-        />
-        <div class="w-shim"/>
-        <v-img
-          :src="images[2].url"
-          width="100%"
-          height="58"
-        />
+        <v-img :src="images[1].url" width="100%" height="58" />
+        <div class="w-shim" />
+        <v-img :src="images[2].url" width="100%" height="58" />
       </div>
     </div>
-    <div
-      v-else-if="images.length === 2"
-      class="two-images"
-    >
+    <div v-else-if="images.length === 2" class="two-images">
       <div class="item">
-        <v-img
-          :src="images[0].url"
-          width="100%"
-          height="120"
-        />
+        <v-img :src="images[0].url" width="100%" height="120" />
       </div>
-      <div class="h-shim"/>
+      <div class="h-shim" />
       <div class="item">
-        <v-img
-          :src="images[1].url"
-          width="100%"
-          height="120"
-        />
+        <v-img :src="images[1].url" width="100%" height="120" />
       </div>
     </div>
-    <v-img
-      v-else
-      :src="images[0].url"
-      width="100%"
-      height="120"
-    />
+    <v-img v-else :src="images[0].url" width="100%" height="120" />
   </div>
 </template>
 

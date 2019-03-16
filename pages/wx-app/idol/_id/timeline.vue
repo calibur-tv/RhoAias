@@ -1,4 +1,5 @@
-<style lang="scss"></style>
+<style lang="scss">
+</style>
 
 <template>
   <div id="wx-app-idol-timeline">
@@ -30,7 +31,7 @@ export default {
       return this.idol.boss ? this.idol.boss.id === this.currentUserId : false
     }
   },
-  async asyncData({ app, params, error }) {
+  asyncData({ app, params, error }) {
     const { id } = params
     return getCartoonRoleInfo(app, { id })
       .then(data => {

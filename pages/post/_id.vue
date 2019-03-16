@@ -12,7 +12,6 @@
     bottom: 50px;
     width: 74px;
     height: 30px;
-    line-height: 30px;
     color: #fff;
     background-color: $color-pink-normal;
     border-radius: 15px;

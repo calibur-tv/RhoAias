@@ -104,28 +104,8 @@
       margin-bottom: 9px;
     }
 
-    .tags {
-      height: 20px;
+    .flow-tags {
       margin-bottom: 10px;
-      margin-top: -2px;
-      overflow: hidden;
-
-      > * {
-        display: inline-block;
-        padding-left: 5px;
-        padding-right: 5px;
-        height: 18px;
-        font-size: 12px;
-        border-radius: 9px;
-        line-height: 18px;
-        background-color: $color-background-tag;
-        color: $color-text-normal;
-        margin-right: 5px;
-      }
-
-      i {
-        margin-right: 2px;
-      }
     }
   }
 
@@ -173,7 +153,7 @@
 
 <template>
   <li class="post-flow-item">
-    <router-link :to="$alias.post(item.id)" tag="div">
+    <nuxt-link :to="$alias.post(item.id)" tag="div">
       <div class="header">
         <template v-if="!userZone">
           <FlowHeaderUser :user="item.user" :time="item.created_at" />
@@ -209,28 +189,12 @@
           <p class="oneline" v-text="item.title" />
         </div>
         <p class="content" v-text="item.desc" />
-        <FlowImages :images="item.images"/>
-        <div class="tags">
-          <router-link
-            v-if="item.bangumi && !bangumiId"
-            :to="$alias.bangumi(item.bangumi.id)"
-          >
-            <i class="iconfont icon-tag" />
-            <span v-text="item.bangumi.name" />
-          </router-link>
-          <router-link v-if="item.idol" :to="$alias.cartoonRole(item.idol.id)">
-            <i class="iconfont icon-tag" />
-            <span v-text="item.idol.name" />
-          </router-link>
-          <template v-if="item.tags.length">
-            <span
-              v-for="tag in item.tags"
-              :key="tag.id"
-              class="tag"
-              v-text="tag.name"
-            />
-          </template>
-        </div>
+        <FlowImages :images="item.images" />
+        <FlowTags
+          :bangumi="item.bangumi"
+          :idol="item.idol"
+          :tags="item.tags"
+        />
       </div>
       <div class="footer">
         <div v-if="item.is_creator">
@@ -250,7 +214,7 @@
           <span>{{ $utils.shortenNumber(item.comment_count) }}</span>
         </div>
       </div>
-    </router-link>
+    </nuxt-link>
     <div class="hr" />
   </li>
 </template>
@@ -258,12 +222,14 @@
 <script>
 import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
 import FlowImages from '~/components/flow/FlowImages'
+import FlowTags from '~/components/flow/FlowTags'
 
 export default {
   name: 'PostFlowItem',
   components: {
     FlowHeaderUser,
-    FlowImages
+    FlowImages,
+    FlowTags
   },
   props: {
     item: {

@@ -222,7 +222,9 @@
           持有：{{ item.has_star }}股，占比 {{ computedPercent }}
         </span>
         <template v-else>
-          <span v-if="item.ipo_at">上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
+          <span
+            v-if="item.ipo_at"
+          >上市时间：{{ item.ipo_at.split(' ')[0] }}</span>
           <span v-else>注册时间：{{ item.created_at.split(' ')[0] }}</span>
         </template>
         <template v-if="sort === 'mine'">

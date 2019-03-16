@@ -250,7 +250,10 @@
             href="javascript:;"
             @success="$toast.success('复制成功')"
           >点击复制链接</a>
-          <a v-if="info.baidu_cloud_pwd" href="javascript:;">密码：{{ info.baidu_cloud_pwd }}</a>
+          <a
+            v-if="info.baidu_cloud_pwd"
+            href="javascript:;"
+          >密码：{{ info.baidu_cloud_pwd }}</a>
         </template>
         <template v-else>
           <p>应版权方要求 (⇀‸↼‶)，该视频暂不提供站内播放</p>
@@ -271,7 +274,9 @@
       </template>
       <template v-else-if="showLevelThrottle">
         <p>该视频需要你的等级至少 {{ need_min_level }} 才能播放</p>
-        <a href="https://www.calibur.tv/post/2282">&nbsp;&nbsp;为什么要限流？</a>
+        <a
+          href="https://www.calibur.tv/post/2282"
+        >&nbsp;&nbsp;为什么要限流？</a>
         <a href="https://www.calibur.tv/post/2279">&nbsp;&nbsp;如何升级？</a>
       </template>
       <video
@@ -482,12 +487,12 @@ export default {
       return this.useOtherSiteSource
         ? false
         : this.videoSrc
-        ? this.videoSrc
-            .split('?')[0]
-            .split('.')
-            .pop()
-            .toLowerCase() === 'flv'
-        : false
+          ? this.videoSrc
+              .split('?')[0]
+              .split('.')
+              .pop()
+              .toLowerCase() === 'flv'
+          : false
     },
     nextPartVideo() {
       let nextId = 0
@@ -515,7 +520,7 @@ export default {
       return this.$store.state.user
     }
   },
-  async asyncData({ app, store, params, error }) {
+  asyncData({ app, store, params, error }) {
     const { id } = params
     return getVideoInfo(app, { id })
       .then(data => {

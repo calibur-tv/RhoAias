@@ -6,7 +6,7 @@
 
 <template>
   <button class="follow-button" @click="toggleFollow">
-    <i class="iconfont icon-like" /> {{ source.follow ? '已关注' : '关注' }}
+    <i class="iconfont icon-like" /> <span>{{ source.follow ? '已关注' : '关注' }}</span>
   </button>
 </template>
 

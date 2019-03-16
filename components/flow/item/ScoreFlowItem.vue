@@ -165,7 +165,7 @@
     <div @click="linkStart">
       <div class="header clearfix">
         <div v-if="!bangumiId && !userZone" class="trending-header">
-          <UserAvatar :user="item.user" :size="35"/>
+          <UserAvatar :user="item.user" :size="35" />
           <div class="header-content">
             <div class="about">
               <el-rate v-if="starCount" v-model="starCount" disabled />
@@ -190,15 +190,9 @@
         <div v-else-if="!userZone" class="bangumi-header">
           <el-rate v-if="starCount" v-model="starCount" disabled />
           <el-rate v-else v-model="zero" disabled />
-          <nuxt-link
-            :to="$alias.user(item.user.zone)"
-            class="user"
-          >
-            <UserAvatar :user="item.user" :size="22"/>
-            <div
-              class="nickname oneline"
-              v-text="item.user.nickname"
-            />
+          <nuxt-link :to="$alias.user(item.user.zone)" class="user">
+            <UserAvatar :user="item.user" :size="22" />
+            <div class="nickname oneline" v-text="item.user.nickname" />
           </nuxt-link>
         </div>
         <div v-else-if="!bangumiId" class="user-header">
@@ -216,7 +210,7 @@
         <div class="title">
           <p class="oneline" v-text="item.title" />
         </div>
-        <FlowImages :images="item.images"/>
+        <FlowImages :images="item.images" />
         <div class="content" v-text="item.intro" />
       </div>
       <div class="footer">

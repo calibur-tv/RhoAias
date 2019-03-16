@@ -3,8 +3,16 @@
   display: inline-block;
 
   .buy-content-btn {
-    color: $color-text-normal;
-    font-size: 12px;
+    background-color: $color-red;
+    border: 1px solid $color-red;
+    color: #fff;
+    font-size: 13px;
+    height: 28px;
+    line-height: 26px;
+    border-radius: 14px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: center;
   }
 }
 </style>
@@ -83,7 +91,7 @@ export default {
   },
   props: {
     id: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     title: {

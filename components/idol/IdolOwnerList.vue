@@ -67,7 +67,9 @@
       <ul slot-scope="{ flow }" class="owner-list">
         <li v-for="item in flow" :key="item.id">
           <nuxt-link :to="$alias.user(item.zone)">
-            <span class="score">持有{{ item.score }}股，占比{{
+            <span
+              class="score"
+            >持有{{ item.score }}股，占比{{
               computedPercent(item.score)
             }}</span>
             <div class="user">

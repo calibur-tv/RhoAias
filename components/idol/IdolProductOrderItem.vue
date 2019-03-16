@@ -233,7 +233,7 @@ export default {
         })
         .catch(() => {})
     },
-    async rejectOrder(order_id) {
+    rejectOrder(order_id) {
       this.$confirm('确认要拒绝吗？', '拒绝采购', {
         confirmButtonText: '拒绝',
         cancelButtonText: '取消',
