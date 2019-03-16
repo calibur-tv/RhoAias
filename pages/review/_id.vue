@@ -1,6 +1,11 @@
 <style lang="scss">
 #score-show {
-  .control {
+  .score-footer {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .author-console {
     text-align: right;
     margin-bottom: 20px;
 
@@ -28,18 +33,21 @@
 <template>
   <div id="score-show">
     <ScoreContent :info="info" />
-    <div v-if="isMine" class="control container">
+    <div class="score-footer">
+      <SocialPanel
+        :id="info.id"
+        :is-creator="info.is_creator"
+        :is-mine="isMine"
+        type="score"
+      />
+    </div>
+    <div v-if="isMine" class="container author-console">
       <button @click="deleteScore">
         删除
       </button>
       <nuxt-link :to="$alias.editScore(info.id)">
         <button>编辑</button>
       </nuxt-link>
-    </div>
-    <div class="container">
-      <v-lazy>
-        <CommentMain :id="info.id" :master-id="user.id" type="score" />
-      </v-lazy>
     </div>
     <div class="hr" />
     <div class="container bangumi-panel">
@@ -54,6 +62,12 @@
         <p class="summary" v-text="bangumi.summary" />
       </BangumiPanel>
     </div>
+    <div class="hr" />
+    <div class="container">
+      <v-lazy>
+        <CommentMain :id="info.id" :master-id="user.id" type="score" />
+      </v-lazy>
+    </div>
     <ShareBtn :share-data="share_data" />
   </div>
 </template>
@@ -62,6 +76,7 @@
 import CommentMain from '~/components/comments/CommentMain'
 import ShareBtn from '~/components/common/ShareBtn'
 import ScoreContent from '~/components/score/ScoreContent'
+import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import { getScoreInfo, deleteScore } from '~/api/scoreApi'
 
@@ -78,13 +93,21 @@ const labelMap = {
   style: '美感'
 }
 const columns = Object.keys(labelMap)
+
 export default {
   name: 'ScoreShow',
   components: {
+    SocialPanel,
     CommentMain,
     ScoreContent,
     BangumiPanel,
     ShareBtn
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {

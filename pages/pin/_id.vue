@@ -1,42 +1,45 @@
 <style lang="scss">
-#image-album {
-  .album-footer {
-    .bangumi-panel {
-      padding-top: $container-padding;
-      padding-bottom: $container-padding;
+#pin-show {
+  .bangumi-panel {
+    padding-top: $container-padding;
+    padding-bottom: $container-padding;
 
-      .summary {
-        font-size: 12px;
-        color: #666;
-        @include twoline(13px);
-      }
+    .summary {
+      font-size: 12px;
+      color: #666;
+      @include twoline(13px);
     }
   }
 }
 </style>
 
 <template>
-  <div id="image-album">
+  <div id="pin-show">
     <ImageContent :info="info" />
+    <SocialPanel
+      :id="info.id"
+      :is-creator="info.is_creator"
+      :is-mine="isMine"
+      type="image"
+    />
+    <div class="hr" />
+    <div class="bangumi-panel container">
+      <h3 class="sub-title">
+        所属番剧：
+      </h3>
+      <BangumiPanel
+        :id="bangumi.id"
+        :name="bangumi.name"
+        :avatar="bangumi.avatar"
+      >
+        <p class="summary" v-text="bangumi.summary" />
+      </BangumiPanel>
+    </div>
+    <div class="hr" />
     <div class="container">
       <v-lazy>
         <CommentMain :id="id" :master-id="user.id" type="image" />
       </v-lazy>
-      <div class="hr" />
-      <div class="album-footer">
-        <div class="bangumi-panel">
-          <h3 class="sub-title">
-            所属番剧：
-          </h3>
-          <BangumiPanel
-            :id="bangumi.id"
-            :name="bangumi.name"
-            :avatar="bangumi.avatar"
-          >
-            <p class="summary" v-text="bangumi.summary" />
-          </BangumiPanel>
-        </div>
-      </div>
     </div>
     <ShareBtn :share-data="share_data" />
   </div>
@@ -45,13 +48,15 @@
 <script>
 import { getImageInfo } from '~/api/imageApi'
 import CommentMain from '~/components/comments/CommentMain'
+import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import ImageContent from '~/components/image/ImageContent'
 import ShareBtn from '~/components/common/ShareBtn'
 
 export default {
-  name: 'ImageAlbum',
+  name: 'PinShow',
   components: {
+    SocialPanel,
     CommentMain,
     BangumiPanel,
     ImageContent,
@@ -70,6 +75,13 @@ export default {
       bangumi: null,
       share_data: null
     }
+  },
+  computed: {
+    isMine() {
+      return this.$store.state.login
+        ? this.info.user.id === this.$store.state.user.id
+        : false
+    },
   },
   async asyncData({ app, store, params, error }) {
     const { id } = params

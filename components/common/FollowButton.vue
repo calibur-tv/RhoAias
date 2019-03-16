@@ -1,6 +1,6 @@
 <style lang="scss">
 .follow-button {
-  @include btn-empty($color-pink-deep);
+  @include btn-empty($color-pink-normal);
 }
 </style>
 

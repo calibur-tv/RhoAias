@@ -60,7 +60,7 @@
         left: 5px;
         top: 2px;
         z-index: 1;
-        color: #ffcf00;
+        color: $color-yellow;
       }
 
       .is-album {
@@ -99,10 +99,6 @@
       .social {
         color: $color-text-light;
         margin-top: 5px;
-
-        span:not(:last-child) {
-          margin-right: 8px;
-        }
 
         .done {
           color: $color-pink-deep;

@@ -95,7 +95,7 @@
       font-size: 14px;
 
       &.create {
-        color: $color-pink-deep;
+        color: $color-pink-normal;
       }
 
       &.delete {

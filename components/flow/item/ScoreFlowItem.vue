@@ -5,8 +5,6 @@
   padding-right: $container-padding;
 
   .header {
-    margin-bottom: 10px;
-
     .el-rate {
       display: inline-block;
       vertical-align: middle;
@@ -14,90 +12,89 @@
       margin-left: 10px;
       float: right;
     }
-  }
 
-  .trending-header {
-    .user-avatar {
-      margin-right: 5px;
-      float: left;
-    }
-
-    .header-content {
-      overflow: hidden;
-
-      .about {
-        overflow: hidden;
-
-        .bangumi-name {
-          overflow: hidden;
-          display: block;
-          line-height: 20px;
-          font-size: 12px;
-          vertical-align: middle;
-          color: #333;
-        }
-      }
-
-      .meta {
-        color: #999;
-        font-size: 11px;
-        line-height: 11px;
-        margin-top: -3px;
-
-        a {
-          color: #999;
-          font-size: 11px;
-        }
-      }
-    }
-  }
-
-  .bangumi-header {
-    .user {
-      display: block;
-      overflow: hidden;
-
+    .trending-header {
       .user-avatar {
         margin-right: 5px;
         float: left;
       }
 
-      .nickname {
+      .header-content {
         overflow: hidden;
-        display: block;
-        line-height: 23px;
-        vertical-align: middle;
-        color: #333;
-        font-size: 11px;
+
+        .about {
+          overflow: hidden;
+
+          .bangumi-name {
+            overflow: hidden;
+            display: block;
+            line-height: 20px;
+            font-size: 12px;
+            vertical-align: middle;
+            color: #333;
+          }
+        }
+
+        .meta {
+          color: #999;
+          font-size: 11px;
+          line-height: 11px;
+
+          a {
+            color: #999;
+            font-size: 11px;
+          }
+        }
       }
     }
-  }
 
-  .user-header {
-    .bangumi {
-      display: block;
-      overflow: hidden;
-
-      .bangumi-avatar {
-        margin-right: 5px;
-        float: left;
-        border-radius: 4px;
+    .bangumi-header {
+      .el-rate {
+        float: right;
       }
 
-      .nickname {
-        overflow: hidden;
+      .user {
         display: block;
-        line-height: 23px;
-        vertical-align: middle;
-        color: #333;
-        font-size: 11px;
+        overflow: hidden;
+
+        .user-avatar {
+          margin-right: 5px;
+          float: left;
+        }
+
+        .nickname {
+          color: $color-text-gray;
+          font-size: 14px;
+          line-height: 23px;
+        }
+      }
+    }
+
+    .user-header {
+      .bangumi {
+        display: block;
+        overflow: hidden;
+
+        .bangumi-avatar {
+          margin-right: 5px;
+          border-radius: 4px;
+          float: left;
+          font-size: 0;
+          overflow: hidden;
+        }
+
+        .nickname {
+          color: $color-text-gray;
+          font-size: 14px;
+          line-height: 23px;
+        }
       }
     }
   }
 
   .body {
     .title {
-      margin-top: 12px;
+      margin-top: 8px;
 
       .oneline {
         color: #4c4c4c;
@@ -166,60 +163,54 @@
 <template>
   <li class="score-flow-item">
     <div @click="linkStart">
-      <div v-if="item.bangumi && item.user" class="header trending-header">
-        <nuxt-link :to="$alias.user(item.user.zone)" class="user-avatar">
-          <v-img
-            :src="item.user.avatar"
-            :avatar="true"
-            width="35"
-            height="35"
-          />
-        </nuxt-link>
-        <div class="header-content">
-          <div class="about">
-            <el-rate v-if="starCount" v-model="starCount" disabled />
-            <el-rate v-else v-model="zero" disabled />
-            <nuxt-link
-              :to="$alias.bangumi(item.bangumi.id)"
-              class="bangumi-name oneline"
-              v-text="item.bangumi.name"
-            />
-          </div>
-          <div class="meta">
-            <nuxt-link
-              :to="$alias.user(item.user.zone)"
-              class="author"
-              v-text="item.user.nickname"
-            />
-            &nbsp;·&nbsp;
-            <v-time v-model="item.created_at" class="created-at" />
+      <div class="header clearfix">
+        <div v-if="!bangumiId && !userZone" class="trending-header">
+          <UserAvatar :user="item.user" :size="35"/>
+          <div class="header-content">
+            <div class="about">
+              <el-rate v-if="starCount" v-model="starCount" disabled />
+              <el-rate v-else v-model="zero" disabled />
+              <nuxt-link
+                :to="$alias.bangumi(item.bangumi.id)"
+                class="bangumi-name oneline"
+                v-text="item.bangumi.name"
+              />
+            </div>
+            <div class="meta">
+              <nuxt-link
+                :to="$alias.user(item.user.zone)"
+                class="author"
+                v-text="item.user.nickname"
+              />
+              &nbsp;·&nbsp;
+              <v-time v-model="item.created_at" class="created-at" />
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else-if="!item.bangumi" class="header bangumi-header">
-        <el-rate v-if="starCount" v-model="starCount" disabled />
-        <el-rate v-else v-model="zero" disabled />
-        <nuxt-link :to="$alias.user(item.user.zone)" class="user">
-          <div class="user-avatar">
-            <v-img
-              :src="item.user.avatar"
-              :avatar="true"
-              width="35"
-              height="35"
+        <div v-else-if="!userZone" class="bangumi-header">
+          <el-rate v-if="starCount" v-model="starCount" disabled />
+          <el-rate v-else v-model="zero" disabled />
+          <nuxt-link
+            :to="$alias.user(item.user.zone)"
+            class="user"
+          >
+            <UserAvatar :user="item.user" :size="22"/>
+            <div
+              class="nickname oneline"
+              v-text="item.user.nickname"
             />
-          </div>
-          <div class="nickname oneline" v-text="item.user.nickname" />
-        </nuxt-link>
-      </div>
-      <div v-else-if="!item.user" class="header user-header">
-        <el-rate v-if="starCount" v-model="starCount" disabled />
-        <el-rate v-else v-model="zero" disabled />
-        <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="bangumi">
-          <div class="bangumi-avatar">
-            <v-img :src="item.bangumi.avatar" width="23" height="23" />
-          </div>
-          <div class="nickname oneline" v-text="item.bangumi.name" />
-        </nuxt-link>
+          </nuxt-link>
+        </div>
+        <div v-else-if="!bangumiId" class="user-header">
+          <el-rate v-if="starCount" v-model="starCount" disabled />
+          <el-rate v-else v-model="zero" disabled />
+          <nuxt-link :to="$alias.bangumi(item.bangumi.id)" class="bangumi">
+            <div class="bangumi-avatar">
+              <v-img :src="item.bangumi.avatar" width="23" height="23" />
+            </div>
+            <div class="nickname oneline" v-text="item.bangumi.name" />
+          </nuxt-link>
+        </div>
       </div>
       <div class="body">
         <div class="title">
@@ -254,10 +245,12 @@
 <script>
 import { Rate } from 'element-ui'
 import FlowImages from '~/components/flow/FlowImages'
+import UserAvatar from '~/components/user/UserAvatar'
 
 export default {
   name: 'ScoreFlowItem',
   components: {
+    UserAvatar,
     FlowImages,
     'el-rate': Rate
   },

@@ -47,11 +47,6 @@
     line-height: 30px;
     @extend %breakWord;
   }
-
-  .score-footer {
-    text-align: center;
-    margin-bottom: 30px;
-  }
 }
 </style>
 
@@ -85,20 +80,11 @@
     <div class="score-body">
       <JsonContent :content="info.content" />
     </div>
-    <div class="score-footer">
-      <SocialPanel
-        :id="info.id"
-        :is-creator="info.is_creator"
-        :is-mine="isMine"
-        type="score"
-      />
-    </div>
   </div>
 </template>
 
 <script>
 import JsonContent from '~/components/jsonEditor/JsonContent'
-import SocialPanel from '~/components/common/SocialPanel'
 import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
 import { Rate } from 'element-ui'
 
@@ -106,7 +92,6 @@ export default {
   name: 'ScoreContent',
   components: {
     JsonContent,
-    SocialPanel,
     FlowHeaderUser,
     'el-rate': Rate
   },
@@ -133,18 +118,6 @@ export default {
       labelMap,
       columns: Object.keys(labelMap)
     }
-  },
-  computed: {
-    currentUserId() {
-      return this.$store.state.login ? this.$store.state.user.id : 0
-    },
-    isMine() {
-      return this.currentUserId === this.info.user.id
-    }
-  },
-  watch: {},
-  created() {},
-  mounted() {},
-  methods: {}
+  }
 }
 </script>

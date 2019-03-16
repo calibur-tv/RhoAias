@@ -204,29 +204,19 @@
           </li>
         </ul>
       </div>
-      <div class="container">
-        <SocialPanel
-          :id="info.id"
-          :is-creator="info.is_creator"
-          :is-mine="isMine"
-          type="image"
-        />
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ImagePreview from '~/components/common/ImagePreview/ImagePreview'
-import SocialPanel from '~/components/common/SocialPanel'
 import FlowHeaderUser from '~/components/layouts/FlowHeaderUser'
 
 export default {
   name: 'ImageContent',
   components: {
     FlowHeaderUser,
-    ImagePreview,
-    SocialPanel
+    ImagePreview
   },
   props: {
     info: {
@@ -245,11 +235,6 @@ export default {
   computed: {
     cartoon() {
       return this.info.parts
-    },
-    isMine() {
-      return this.$store.state.login
-        ? this.info.user.id === this.$store.state.user.id
-        : false
     },
     showMoreBtn() {
       return this.take < this.cartoon.length

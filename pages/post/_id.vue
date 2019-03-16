@@ -1,5 +1,10 @@
 <style lang="scss">
 #post-show {
+  .content-footer {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
   .comment-post-btn {
     position: fixed;
     left: 50%;
@@ -37,17 +42,30 @@
 
 <template>
   <div id="post-show">
-    <div class="container">
-      <PostContent :post="post" :user="master" :bangumi="bangumi" />
-      <div class="hr" />
-      <button
-        :class="{ isScrollTop }"
-        class="comment-post-btn"
-        @click="handleReplyBtnClick"
+    <PostContent :post="post" :user="master" :bangumi="bangumi" />
+    <div class="content-footer">
+      <SocialPanel
+        :id="post.id"
+        :is-creator="post.is_creator"
+        :is-mine="isMaster"
+        type="post"
+      />
+    </div>
+    <div class="hr" />
+    <div class="container bangumi-panel">
+      <h3 class="sub-title">
+        所属番剧：
+      </h3>
+      <BangumiPanel
+        :id="bangumi.id"
+        :avatar="bangumi.avatar"
+        :name="bangumi.name"
       >
-        <i class="iconfont icon-talk" />
-        <span>回复</span>
-      </button>
+        <p class="summary" v-text="bangumi.summary" />
+      </BangumiPanel>
+    </div>
+    <div class="hr" />
+    <div class="container">
       <CommentMain
         :id="id"
         :only-see-master="onlySeeMaster"
@@ -72,20 +90,15 @@
         />
       </CommentMain>
     </div>
-    <div class="hr" />
-    <div class="container bangumi-panel">
-      <h3 class="sub-title">
-        所属番剧：
-      </h3>
-      <BangumiPanel
-        :id="bangumi.id"
-        :avatar="bangumi.avatar"
-        :name="bangumi.name"
-      >
-        <p class="summary" v-text="bangumi.summary" />
-      </BangumiPanel>
-    </div>
     <ShareBtn :share-data="share_data" />
+    <button
+      :class="{ isScrollTop }"
+      class="comment-post-btn"
+      @click="handleReplyBtnClick"
+    >
+      <i class="iconfont icon-talk" />
+      <span>回复</span>
+    </button>
   </div>
 </template>
 
@@ -94,6 +107,7 @@ import PostContent from '~/components/post/PostContent'
 import CommentMain from '~/components/comments/CommentMain'
 import PostCommentItem from '~/components/post/PostCommentItem'
 import PostCommentForm from '~/components/post/PostCommentForm'
+import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import ShareBtn from '~/components/common/ShareBtn'
 import { getPostInfo } from '~/api/postApi'
@@ -101,6 +115,7 @@ import { getPostInfo } from '~/api/postApi'
 export default {
   name: 'PostShow',
   components: {
+    SocialPanel,
     CommentMain,
     PostCommentItem,
     BangumiPanel,
@@ -127,6 +142,12 @@ export default {
   computed: {
     onlySeeMaster() {
       return !!parseInt(this.$route.query.only, 10)
+    },
+    isMaster() {
+      if (!this.$store.state.login) {
+        return false
+      }
+      return this.$store.state.user.id === this.master.id
     }
   },
   asyncData({ query, store, params, app, error }) {

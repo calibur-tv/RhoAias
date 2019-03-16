@@ -146,7 +146,6 @@
         </mt-swipe>
       </no-ssr>
     </div>
-    <div class="hr" />
     <TabContainer :headers="headers" :router="true" />
     <nuxt-child />
     <no-ssr>
