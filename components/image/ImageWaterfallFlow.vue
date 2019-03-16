@@ -211,16 +211,20 @@
               <p class="name oneline" v-text="item.name" />
               <div class="social">
                 <span v-if="item.is_creator">
-                  <i class="iconfont icon-fantuan" /> {{ item.reward_count }}
+                  <i class="iconfont icon-fantuan" />
+                  <span>{{ item.reward_count }}</span>
                 </span>
                 <span v-else>
-                  <i class="iconfont icon-like" /> {{ item.like_count }}
+                  <i class="iconfont icon-like" />
+                  <span>{{ item.like_count }}</span>
                 </span>
                 <span>
-                  <i class="iconfont icon-mark" /> {{ item.mark_count }}
+                  <i class="iconfont icon-mark" />
+                  <span>{{ item.mark_count }}</span>
                 </span>
                 <span>
-                  <i class="iconfont icon-talk" /> {{ item.comment_count }}
+                  <i class="iconfont icon-talk" />
+                  <span>{{ item.comment_count }}</span>
                 </span>
               </div>
             </div>

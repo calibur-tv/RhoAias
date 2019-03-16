@@ -47,8 +47,18 @@
       margin-bottom: 25vh;
     }
 
-    .not-work {
-      background-color: $color-text-light;
+    .wx-app {
+      img {
+        width: 200px;
+        height: 200px;
+      }
+
+      p {
+        text-align: center;
+        font-size: 12px;
+        line-height: 24px;
+        margin-top: 20px;
+      }
     }
   }
 }
@@ -57,21 +67,29 @@
 <template>
   <div id="app-download">
     <div class="content">
-      <div class="info">
-        <img
-          src="https://image.calibur.tv/owner/logo/icon-1024.png-share120jpg"
-        >
-        <div class="text">
-          calibur.tv
-          <p>天下漫友是一家</p>
+      <template v-if="info.download_ur">
+        <div class="info">
+          <img
+            src="https://image.calibur.tv/owner/logo/icon-1024.png-share120jpg"
+          >
+          <div class="text">
+            calibur.tv
+            <p>天下漫友是一家</p>
+          </div>
         </div>
+        <a :href="info.download_url" target="_blank">
+          <button>立即下载</button>
+        </a>
+      </template>
+      <div
+        v-else
+        class="wx-app"
+      >
+        <img
+          src="~assets/img/wx-app-qrcode.jpg"
+        >
+        <p>APP研发中<br>可先通过微信扫码获取小程序</p>
       </div>
-      <a v-if="info.download_url" :href="info.download_url" target="_blank">
-        <button>立即下载</button>
-      </a>
-      <button v-else class="not-work">
-        开发中~TuT
-      </button>
     </div>
     <VueParticles />
   </div>
