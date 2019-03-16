@@ -156,7 +156,7 @@
             @click="toggleLike"
           >
             <i class="iconfont icon-icon_good" />
-            {{ post.liked ? '已赞' : '赞' }}
+            <span>{{ post.liked ? '已赞' : '赞' }}</span>
             <span v-if="post.like_count">({{ post.like_count }})</span>
           </button>
           <button class="reply-btn fr" @click="handleCommentBtnClick">

@@ -56,7 +56,9 @@
     <no-ssr>
       <el-collapse v-model="activeName" accordion>
         <el-collapse-item name="1">
-          <h4 slot="title">团子与光玉</h4>
+          <h4 slot="title">
+            团子与光玉
+          </h4>
           <h5>什么是团子：</h5>
           <p>团子是 calibur.tv 的一个虚拟币系统，与人民币的汇率保持 1 比 1 恒定，暂不支持氪金获得</p>
           <h5>如何获得团子：</h5>
