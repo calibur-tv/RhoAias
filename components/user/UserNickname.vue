@@ -24,6 +24,7 @@
     margin-left: 5px;
 
     span {
+      @include half-font(11px, top);
       width: 200%;
       text-align: center;
       height: 200%;

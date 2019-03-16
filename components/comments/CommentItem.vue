@@ -2,92 +2,162 @@
 .comment-item {
   position: relative;
   margin-top: $container-padding;
-  padding-bottom: $container-padding;
-  @include border-bottom();
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -$container-padding;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background-color: $color-line;
+    transform: scaleY(0.5);
+  }
 
   .avatar {
+    margin-right: 10px;
     float: left;
-    margin-right: 9px;
   }
 
   .content {
     overflow: hidden;
+    padding-right: 20px;
+    user-select: text;
 
     .header {
-      .tools-btn {
-        float: right;
-        line-height: 16px;
-        font-size: 12px;
-        color: #535353;
-        padding-top: 9px;
-        padding-left: 4px;
+      margin-bottom: 5px;
+
+      .user-nickname {
+        overflow: hidden;
+
+        .oneline {
+          font-size: 16px;
+          line-height: 20px;
+          font-weight: 500;
+          color: $color-text-gray;
+        }
       }
 
-      .user {
-        .nickname {
-          font-size: 14px;
-          height: 20px;
-          line-height: 20px;
+      .right-btn {
+        float: right;
+        margin-left: 15px;
+
+        .tool-btn-wrap {
           display: block;
-          color: #333;
-          margin-bottom: 1px;
+          position: relative;
+          width: 20px;
+          height: 20px;
 
-          span {
-            margin-right: 2px;
+          button {
+            position: absolute;
+            left: -10px;
+            top: -10px;
+            width: 40px;
+            height: 40px;
           }
 
-          .icon-leader {
-            color: $color-pink-deep;
-            font-size: 14px;
-          }
-
-          .icon-master {
-            color: $color-blue-normal;
-            font-size: 13px;
+          img {
+            width: 20px;
+            height: 20px;
           }
         }
 
-        .info {
-          color: #999;
-          line-height: 14px;
+        .user-follow-button {
           font-size: 12px;
-
-          span {
-            margin-right: 5px;
-          }
+          height: 20px;
+          line-height: 18px;
+          border-radius: 10px;
+          padding-left: 12px;
+          padding-right: 12px;
         }
       }
     }
 
     .main {
-      font-size: 16px;
-      margin: 10px 0 4px;
-      color: #333;
-      line-height: 24px;
+      font-size: 15px;
+      color: $color-text-normal;
+      line-height: 21px;
       min-height: 65px;
 
       .image-area {
         margin: 10px 0;
+        position: relative;
 
-        img {
-          width: 100%;
-          height: auto;
+        .image {
+          border-radius: 2px;
+
+          &:not(:nth-child(3n)) {
+            margin-right: 2%;
+          }
+
+          &:nth-child(n + 4) {
+            margin-top: 2%;
+          }
+        }
+
+        .mask {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 100%;
+          width: 32%;
+          border-radius: 2px;
+          background-color: rgba(#2f2f2f, 0.6);
+          overflow: hidden;
+          pointer-events: none;
+
+          span {
+            font-size: 15px;
+            color: #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+          }
         }
       }
     }
 
     .footer {
-      .social {
-        font-size: 12px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: $color-text-light;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
 
-        .reply-liked-btn {
-          color: $color-blue-deep;
-        }
+      .info {
+        font-size: 12px;
+        line-height: 20px;
+        color: $color-text-light;
+      }
+
+      .social {
+        position: relative;
+        width: 20px;
+        height: 20px;
 
         button {
-          color: #666;
-          padding-left: 3px;
-          padding-top: 11px;
+          display: block;
+          height: 40px;
+          width: 80px;
+          position: absolute;
+          left: -50px;
+          top: -10px;
+          padding: 10px;
+          text-align: right;
+
+          &.is-active {
+            color: $color-red;
+          }
+        }
+
+        i {
+          font-size: 20px;
         }
       }
     }
@@ -96,67 +166,94 @@
 </style>
 
 <template>
-  <div :id="`comment-${comment.id}`" class="comment-item">
-    <nuxt-link :to="$alias.user(comment.from_user_zone)" class="avatar">
-      <v-img :src="comment.from_user_avatar" :avatar="true" width="35" />
-    </nuxt-link>
+  <div class="comment-item">
+    <div class="avatar">
+      <UserAvatar :size="35" :user="computeFromUser" />
+    </div>
     <div class="content">
       <div class="header">
-        <VPopover
-          :actions="actions"
-          :report-id="comment.id"
-          :report-type="type + '_comment'"
-        >
-          <button class="tools-btn">
-            ···
-          </button>
-        </VPopover>
-        <div class="user">
-          <nuxt-link
-            :to="$alias.user(comment.from_user_zone)"
-            class="nickname oneline"
-          >
-            <span v-text="comment.from_user_name" />
-            <span v-if="comment.is_owner">(楼主)</span>
-            <i v-if="comment.is_leader" class="iconfont icon-leader" />
-            <i v-else-if="comment.is_master" class="iconfont icon-master" />
-          </nuxt-link>
-          <div class="info">
-            <span>第{{ comment.floor_count - 1 }}楼</span> <span>·</span>
-            <v-time v-model="comment.created_at" />
+        <div class="right-btn">
+          <div v-if="canDelete" class="tool-btn-wrap">
+            <button @click.stop="deleteComment">
+              <img src="~assets/img/comment/dots.png">
+            </button>
+          </div>
+        </div>
+        <UserNickname :user="computeFromUser" :is-master="comment.is_owner" />
+      </div>
+      <div class="main">
+        <div
+          class="text-area"
+          @click="handleCommentBtnClick"
+          v-html="comment.content"
+        />
+        <div v-if="imageCount" class="image-area">
+          <div v-if="imageCount === 1">
+            <VImg
+              v-for="(item, index) in comment.images"
+              :key="index"
+              :src="item.url"
+              :size="item.size"
+              :type="item.type"
+              :blur="true"
+              :height="98"
+              width="auto"
+              class="image"
+            />
+          </div>
+          <div v-else>
+            <div>
+              <VImg
+                v-for="(item, index) in filterImages"
+                :key="index"
+                :src="item.url"
+                :size="item.size"
+                :type="item.type"
+                :blur="true"
+                width="32%"
+                class="image"
+              />
+            </div>
+            <div v-if="imageCount > 3" class="mask">
+              <span>共{{ imageCount }}张图片</span>
+            </div>
           </div>
         </div>
       </div>
-      <div class="main" v-html="comment.content" />
+      <slot name="extra" />
       <div class="footer">
-        <SubCommentList :parent-comment="comment" :type="type" />
+        <div class="info">
+          <span>{{ comment.floor_count }}楼</span>
+          <VTime v-model="comment.created_at" />
+        </div>
         <div class="social">
           <button
-            :class="[comment.liked ? 'reply-liked-btn' : 'reply-like-btn']"
-            @click="toggleLike"
+            :class="{ 'is-active': comment.liked }"
+            @click.stop="toggleLike"
           >
+            <span v-if="comment.like_count">{{
+              $utils.shortenNumber(comment.like_count)
+            }}</span>
             <i class="iconfont icon-icon_good" />
-            {{ comment.liked ? '已赞' : '赞' }}
-            <span v-if="comment.like_count">({{ comment.like_count }})</span>
-          </button>
-          <button class="reply-btn fr" @click="handleCommentBtnClick">
-            回复
           </button>
         </div>
       </div>
+      <SubCommentList :parent-comment="comment" :type="type" />
     </div>
   </div>
 </template>
 
 <script>
 import SubCommentList from './SubCommentList'
-import VPopover from '~/components/common/Popover'
+import UserAvatar from '~/components/user/UserAvatar'
+import UserNickname from '~/components/user/UserNickname'
 
 export default {
   name: 'CommentCommentItem',
   components: {
-    VPopover,
-    SubCommentList
+    SubCommentList,
+    UserAvatar,
+    UserNickname
   },
   props: {
     comment: {
@@ -188,20 +285,21 @@ export default {
     canDelete() {
       return this.isMine || this.currentUserId === this.masterId
     },
-    actions() {
-      const result = []
-      if (this.canDelete) {
-        result.push({
-          name: '删除',
-          method: this.deleteComment
-        })
+    computeFromUser() {
+      return {
+        id: this.comment.from_user_id,
+        avatar: this.comment.from_user_avatar,
+        nickname: this.comment.from_user_name,
+        zone: this.comment.from_user_zone
       }
-      result.push({
-        name: this.comment.liked ? '取消赞' : '点赞',
-        method: this.toggleLike
-      })
-
-      return result
+    },
+    imageCount() {
+      return this.comment.images.length
+    },
+    filterImages() {
+      return this.inDetail
+        ? this.comment.images
+        : this.comment.images.slice(0, 3)
     }
   },
   methods: {
@@ -249,8 +347,8 @@ export default {
     handleCommentBtnClick() {
       this.$channel.$emit('reply-comment', {
         id: this.comment.id,
-        targetUserId: this.comment.from_user_id,
-        targetUserName: this.comment.from_user_name
+        targetUserId: this.computeFromUser.id,
+        targetUserName: this.computeFromUser.nickname
       })
     }
   }

@@ -1,18 +1,3 @@
-<style lang="scss">
-#pin-show {
-  .bangumi-panel {
-    padding-top: $container-padding;
-    padding-bottom: $container-padding;
-
-    .summary {
-      font-size: 12px;
-      color: #666;
-      @include twoline(13px);
-    }
-  }
-}
-</style>
-
 <template>
   <div id="pin-show">
     <ImageContent :info="info" />
@@ -23,17 +8,8 @@
       type="image"
     />
     <div class="hr" />
-    <div class="bangumi-panel container">
-      <h3 class="sub-title">
-        所属番剧：
-      </h3>
-      <BangumiPanel
-        :id="bangumi.id"
-        :name="bangumi.name"
-        :avatar="bangumi.avatar"
-      >
-        <p class="summary" v-text="bangumi.summary" />
-      </BangumiPanel>
+    <div class="container">
+      <BangumiPanel :bangumi="bangumi" />
     </div>
     <div class="hr" />
     <div class="container">

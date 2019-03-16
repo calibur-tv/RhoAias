@@ -1,19 +1,40 @@
 <style lang="scss">
 #comment-wrap {
-  .sub-title {
-    margin-top: 15px;
-    margin-bottom: 15px;
+  margin-right: -$container-padding;
 
-    .write-btn {
-      float: right;
-      font-weight: bold;
-      font-size: 13px;
+  .title {
+    margin-top: $container-padding;
+    margin-bottom: $container-padding;
+    font-size: 17px;
+    line-height: 24px;
+
+    span {
+      @include half-font(11px, top);
+      display: inline-block;
+      color: $color-text-light;
+      margin: 1px 0 0 -2px;
     }
   }
 
-  #comment-list-footer {
-    margin-left: -$container-padding;
-    margin-right: -$container-padding;
+  .comment-fixed-btn {
+    position: fixed;
+    left: 50%;
+    margin-left: -37px;
+    bottom: 50px;
+    width: 74px;
+    height: 30px;
+    color: #fff;
+    background-color: $color-pink-normal;
+    border-radius: 15px;
+    font-size: 13px;
+    z-index: 9;
+    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.25);
+    transform: translateY(200px);
+    transition: 0.4s;
+
+    &.isScrollTop {
+      transform: translateY(0);
+    }
   }
 
   .focus-comment-drawer {
@@ -135,10 +156,7 @@
   }
 
   .reply-comment-drawer-wrap {
-    #reply-comment-textarea {
-      position: fixed;
-      left: 0;
-      top: 60px;
+    textarea {
       width: 100%;
       height: 250px;
       background-color: transparent;
@@ -149,13 +167,6 @@
       z-index: 101;
       padding-left: $container-padding;
       padding-right: $container-padding;
-      display: none;
-      opacity: 0;
-
-      &.fade-in {
-        opacity: 1;
-        transition-delay: 400ms;
-      }
     }
   }
 
@@ -165,12 +176,33 @@
     font-size: 13px;
   }
 
-  .no-content {
+  .comment-nothing {
     text-align: center;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-size: 12px;
-    color: #99a2aa;
+    margin: 40px 0;
+    padding-bottom: 20px;
+
+    img {
+      width: 140px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 19px;
+      color: $color-text-light;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 70px;
+      height: 28px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 13px;
+      color: #fff;
+      line-height: 28px;
+      background-color: $color-red;
+    }
   }
 }
 </style>
@@ -178,14 +210,9 @@
 <template>
   <div id="comment-wrap">
     <!-- 主列表的头部 -->
-    <slot name="header">
-      <h3 class="sub-title">
-        评论{{ total ? `(${total})` : '' }} <slot name="header-btn" />
-        <button class="write-btn" @click="writeComment">
-          写评论
-        </button>
-      </h3>
-    </slot>
+    <h3 class="title">
+      评论 <span v-if="total">{{ total }}</span>
+    </h3>
     <!-- 主列表的 list -->
     <template v-if="list.length">
       <div id="comment-list-wrap">
@@ -210,23 +237,28 @@
           </slot>
         </div>
       </div>
-      <div id="comment-list-footer">
-        <button
-          v-if="bottomAppendComment"
-          class="append-comment-btn"
-          @click="writeComment"
-        >
-          写评论
-        </button>
-        <FlowState
-          :no-more="noMore"
-          :loading="loadingMainComment"
-          :auto="true"
-          :fetch="autoLoadMoreMainComment"
-        />
-      </div>
+      <FlowState
+        :no-more="noMore"
+        :loading="loadingMainComment"
+        :auto="true"
+        :fetch="autoLoadMoreMainComment"
+      />
+      <button
+        :class="{ isScrollTop }"
+        class="comment-fixed-btn"
+        @click="writeComment"
+      >
+        <i class="iconfont icon-talk" />
+        <span>回复</span>
+      </button>
     </template>
-    <p v-else-if="emptyText" class="no-content" v-text="emptyText" />
+    <div v-else class="comment-nothing">
+      <img src="~assets/img/no-comment.png">
+      <p>还没有人发言呢！</p>
+      <button @click="writeComment">
+        抢沙发
+      </button>
+    </div>
     <!-- reply detail drawer -->
     <v-drawer
       v-model="openFocusCommentDrawer"
@@ -292,7 +324,7 @@
                 @click="toggleFocusCommentLike"
               >
                 <i class="iconfont icon-icon_good" />
-                {{ focusComment.liked ? '已赞' : '赞' }}
+                <span>{{ focusComment.liked ? '已赞' : '赞' }}</span>
                 <span
                   v-if="focusComment.like_count"
                 >({{ focusComment.like_count }})</span>
@@ -368,20 +400,17 @@
             : `回复：${replyForm.targetUserName}`
         "
         :backdrop="false"
-        class="reply-comment-drawer"
         from="right"
         size="100%"
-        submit-text="发布"
-        @cancel="handleReplyDrawerClose"
+        submit-text="发送"
         @submit="handleReplySubmit"
-      />
-      <textarea
-        id="reply-comment-textarea"
-        v-model.trim="replyForm.content"
-        :class="{ 'fade-in': replyForm.open }"
-        placeholder="100字以内任意发挥"
-        maxlength="100"
-      />
+      >
+        <textarea
+          v-model.trim="replyForm.content"
+          placeholder="100字以内任意发挥"
+          maxlength="100"
+        />
+      </v-drawer>
     </div>
     <!-- comment drawer -->
     <v-drawer
@@ -442,10 +471,6 @@ export default {
       type: Boolean,
       default: false
     },
-    emptyText: {
-      type: String,
-      default: '暂无评论，快来抢沙发吧╮(￣▽￣)╭！'
-    },
     masterId: {
       required: true,
       type: Number
@@ -478,7 +503,9 @@ export default {
         replying: false,
         liking: false
       },
-      openCreateCommentDrawer: false
+      openCreateCommentDrawer: false,
+      lastScroll: 0,
+      isScrollTop: true
     }
   },
   computed: {
@@ -532,13 +559,15 @@ export default {
         this.handleSubCommentReply({ id, targetUserId, targetUserName })
       }
     )
-    document.getElementById('comment-wrap').addEventListener('click', e => {
-      if (/reply-btn/.test(e.target.className) && this.$el.contains(e.target)) {
-        const area = document.getElementById('reply-comment-textarea')
-        area.style.display = 'block'
-        area.focus()
-      }
-    })
+    window.addEventListener(
+      'scroll',
+      this.$utils.throttle(() => {
+        const scrollTop =
+          document.documentElement.scrollTop || document.body.scrollTop
+        this.isScrollTop = this.lastScroll > scrollTop
+        this.lastScroll = scrollTop
+      }, 200)
+    )
   },
   methods: {
     async lazyLoadComment() {
@@ -640,9 +669,6 @@ export default {
         this.replyForm.liking = false
       }
     },
-    handleReplyDrawerClose() {
-      document.getElementById('reply-comment-textarea').style.display = 'none'
-    },
     async handleReplySubmit() {
       if (!this.currentUserId) {
         this.$channel.$emit('sign-in')
@@ -669,7 +695,6 @@ export default {
         this.$store.commit('UPDATE_USER_EXP', result.exp)
       } finally {
         this.replyForm.replying = false
-        this.handleReplyDrawerClose()
       }
     },
     writeComment() {

@@ -134,7 +134,6 @@
           :id="item.id"
           :master-id="item.user.id"
           :auto="true"
-          empty-text="还没有评论"
           type="answer"
           @delete-main-comment="handleCommentChange(-1)"
           @create-main-comment="handleCommentChange(1)"

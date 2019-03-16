@@ -2,6 +2,9 @@
 $panel-height: 92px;
 
 .bangumi-panel {
+  padding-top: $container-padding;
+  padding-bottom: $container-padding;
+
   .avatar {
     display: block;
     float: left;
@@ -13,7 +16,6 @@ $panel-height: 92px;
   }
 
   .content {
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -25,6 +27,13 @@ $panel-height: 92px;
       display: block;
     }
 
+    .summary {
+      font-size: 12px;
+      color: #666;
+      margin-top: -3px;
+      @include twoline(13px);
+    }
+
     .controls {
       text-align: right;
     }
@@ -34,18 +43,16 @@ $panel-height: 92px;
 
 <template>
   <div :class="$style.bangumiPanel">
-    <nuxt-link :class="$style.avatar" :to="$alias.bangumi(id)">
-      <v-img :src="avatar" width="80" height="92" />
+    <nuxt-link :class="$style.avatar" :to="$alias.bangumi(bangumi.id)">
+      <v-img :src="bangumi.avatar" width="80" height="92" />
     </nuxt-link>
     <div :class="$style.content">
-      <nuxt-link :to="$alias.bangumi(id)">
-        <h5 :class="$style.name" class="oneline" v-text="name" />
+      <nuxt-link :to="$alias.bangumi(bangumi.id)">
+        <h5 :class="$style.name" class="oneline" v-text="bangumi.name" />
       </nuxt-link>
-      <div :class="$style.summary">
-        <slot />
-      </div>
-      <div v-if="showFollow" :class="$style.controls">
-        <FollowButton :id="id" type="bangumi" />
+      <p :class="$style.summary" v-text="bangumi.summary" />
+      <div :class="$style.controls">
+        <FollowButton :id="bangumi.id" type="bangumi" />
       </div>
     </div>
   </div>
@@ -60,21 +67,9 @@ export default {
     FollowButton
   },
   props: {
-    id: {
-      required: true,
-      type: Number
-    },
-    avatar: {
-      required: true,
-      type: String
-    },
-    name: {
-      required: true,
-      type: String
-    },
-    showFollow: {
-      default: true,
-      type: Boolean
+    bangumi: {
+      type: Object,
+      required: true
     }
   }
 }

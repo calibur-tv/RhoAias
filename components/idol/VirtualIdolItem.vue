@@ -139,7 +139,7 @@
       font-size: 14px;
 
       &.pub-btn {
-        color: $color-pink-deep;
+        color: $color-pink-normal;
       }
 
       &.mine-btn {
@@ -147,7 +147,7 @@
       }
 
       &.can-deal {
-        color: $color-blue-deep;
+        color: $color-blue-normal;
       }
     }
   }

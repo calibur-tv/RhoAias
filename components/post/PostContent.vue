@@ -110,7 +110,6 @@
       <div class="content">
         <ImagePreview
           :images="post.images"
-          :download="false"
           class="image-area"
         >
           <div

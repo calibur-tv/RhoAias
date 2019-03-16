@@ -87,17 +87,6 @@
       font-size: 13px;
       margin-bottom: 10px;
     }
-
-    .bangumi {
-      padding-top: 5px;
-      padding-bottom: 15px;
-
-      .summary {
-        font-size: 12px;
-        color: #666;
-        @include twoline(13px);
-      }
-    }
   }
 
   .tab-wrap {
@@ -228,20 +217,12 @@
               <p><strong>QQ群号：</strong>{{ role.qq_group || '106402736' }}</p>
             </div>
           </div>
-          <div class="bangumi">
-            <h3 class="sub-title">
-              番剧
-            </h3>
-            <BangumiPanel
-              :id="bangumi.id"
-              :avatar="bangumi.avatar"
-              :name="bangumi.name"
-            >
-              <p class="summary" v-text="bangumi.summary" />
-            </BangumiPanel>
-          </div>
         </el-collapse-item>
       </el-collapse>
+    </div>
+    <div class="hr" />
+    <div class="container">
+      <BangumiPanel :bangumi="bangumi" />
     </div>
     <div class="hr" />
     <div class="container tab-wrap">

@@ -58,8 +58,8 @@
           text-align: center;
 
           &.active {
-            border-bottom: 2px solid $color-pink-deep;
-            color: $color-pink-deep;
+            border-bottom: 2px solid $color-pink-normal;
+            color: $color-pink-normal;
           }
         }
       }
@@ -120,12 +120,12 @@
         />
       </template>
     </div>
-    <more-btn
+    <FlowState
       v-if="list"
       :no-more="noMore"
       :loading="loading"
       :length="list.length"
-      @fetch="loadMore"
+      :fetch="loadMore"
     />
     <p v-else class="error">
       错误的搜索类型
@@ -141,11 +141,13 @@ import VideoItem from '~/components/search/flows/VideoItem'
 import PostItem from '~/components/flow/item/PostFlowItem'
 import RoleItem from '~/components/flow/item/CartoonRoleFlowItem'
 import ScoreItem from '~/components/flow/item/ScoreFlowItem'
+import FlowState from '~/components/flow/FlowState'
 
 export default {
   name: 'SearchIndex',
   components: {
     vSearch,
+    FlowState,
     UserItem,
     BangumiItem,
     VideoItem,

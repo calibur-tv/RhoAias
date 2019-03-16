@@ -4,38 +4,6 @@
     text-align: center;
     margin-bottom: 30px;
   }
-
-  .comment-post-btn {
-    position: fixed;
-    left: 50%;
-    margin-left: -37px;
-    bottom: 50px;
-    width: 74px;
-    height: 30px;
-    color: #fff;
-    background-color: $color-pink-normal;
-    border-radius: 15px;
-    font-size: 13px;
-    z-index: 9;
-    box-shadow: 0 2px 5px rgba(26, 26, 26, 0.25);
-    transform: translateY(200px);
-    transition: 0.4s;
-
-    &.isScrollTop {
-      transform: translateY(0);
-    }
-  }
-
-  .bangumi-panel {
-    padding-top: $container-padding;
-    padding-bottom: $container-padding;
-
-    .summary {
-      font-size: 12px;
-      color: #666;
-      @include twoline(13px);
-    }
-  }
 }
 </style>
 
@@ -51,17 +19,8 @@
       />
     </div>
     <div class="hr" />
-    <div class="container bangumi-panel">
-      <h3 class="sub-title">
-        所属番剧：
-      </h3>
-      <BangumiPanel
-        :id="bangumi.id"
-        :avatar="bangumi.avatar"
-        :name="bangumi.name"
-      >
-        <p class="summary" v-text="bangumi.summary" />
-      </BangumiPanel>
+    <div class="container">
+      <BangumiPanel :bangumi="bangumi" />
     </div>
     <div class="hr" />
     <div class="container">
@@ -74,13 +33,6 @@
         type="post"
       >
         <div slot="header" />
-        <PostCommentItem
-          slot="comment-item"
-          slot-scope="{ comment }"
-          :post="comment"
-          :master-id="master.id"
-          :preview="post.preview_images"
-        />
         <PostCommentForm
           :id="id"
           slot="reply-form"
@@ -90,21 +42,12 @@
       </CommentMain>
     </div>
     <ShareBtn :share-data="share_data" />
-    <button
-      :class="{ isScrollTop }"
-      class="comment-post-btn"
-      @click="handleReplyBtnClick"
-    >
-      <i class="iconfont icon-talk" />
-      <span>回复</span>
-    </button>
   </div>
 </template>
 
 <script>
 import PostContent from '~/components/post/PostContent'
 import CommentMain from '~/components/comments/CommentMain'
-import PostCommentItem from '~/components/post/PostCommentItem'
 import PostCommentForm from '~/components/post/PostCommentForm'
 import SocialPanel from '~/components/common/SocialPanel'
 import BangumiPanel from '~/components/panel/BangumiPanel'
@@ -116,7 +59,6 @@ export default {
   components: {
     SocialPanel,
     CommentMain,
-    PostCommentItem,
     BangumiPanel,
     PostCommentForm,
     ShareBtn,
@@ -133,9 +75,7 @@ export default {
       post: null,
       bangumi: null,
       master: null,
-      share_data: null,
-      lastScroll: 0,
-      isScrollTop: true
+      share_data: null
     }
   },
   computed: {
@@ -212,22 +152,6 @@ export default {
           type: 'application/json'
         }
       ]
-    }
-  },
-  mounted() {
-    window.addEventListener(
-      'scroll',
-      this.$utils.throttle(() => {
-        const scrollTop =
-          document.documentElement.scrollTop || document.body.scrollTop
-        this.isScrollTop = this.lastScroll > scrollTop
-        this.lastScroll = scrollTop
-      }, 200)
-    )
-  },
-  methods: {
-    handleReplyBtnClick() {
-      this.$channel.$emit(`open-create-comment-drawer-post-${this.id}`)
     }
   }
 }

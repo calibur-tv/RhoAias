@@ -16,17 +16,6 @@
       margin-left: 5px;
     }
   }
-
-  .bangumi-panel {
-    padding-top: $container-padding;
-    padding-bottom: $container-padding;
-
-    .summary {
-      font-size: 12px;
-      color: #666;
-      @include twoline(13px);
-    }
-  }
 }
 </style>
 
@@ -50,17 +39,8 @@
       </nuxt-link>
     </div>
     <div class="hr" />
-    <div class="container bangumi-panel">
-      <h3 class="sub-title">
-        所属番剧：
-      </h3>
-      <BangumiPanel
-        :id="bangumi.id"
-        :avatar="bangumi.avatar"
-        :name="bangumi.name"
-      >
-        <p class="summary" v-text="bangumi.summary" />
-      </BangumiPanel>
+    <div class="container">
+      <BangumiPanel :bangumi="bangumi" />
     </div>
     <div class="hr" />
     <div class="container">

@@ -15,25 +15,122 @@
 }
 </style>
 
+<style lang="scss" module>
+.item {
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  &.in-detail {
+    &:first-child {
+      &:before {
+        content: none;
+      }
+    }
+    &:before {
+      left: -$container-padding;
+    }
+
+    .avatar {
+      margin-right: 10px;
+    }
+
+    .main .header {
+      margin-bottom: 3px;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: -20px;
+    height: 1px;
+    background-color: $color-line;
+    transform: scaleY(0.5);
+  }
+
+  .avatar {
+    float: left;
+    margin-right: 8px;
+
+    img {
+      pointer-events: none;
+    }
+  }
+
+  .main {
+    overflow: hidden;
+
+    .header {
+      font-size: 16px;
+      margin-bottom: 7px;
+
+      span {
+        line-height: 15px;
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .nickname {
+        color: $color-text-normal;
+        font-weight: 500;
+      }
+
+      .to-user {
+        color: $color-link;
+      }
+    }
+
+    .content {
+      line-height: 21px;
+      color: $color-text-normal;
+      font-size: 15px;
+      user-select: text;
+    }
+  }
+}
+</style>
+
 <template>
-  <div class="sub-comment-item">
-    <nuxt-link
-      :to="$alias.user(comment.from_user_zone)"
-      class="nickname"
-      v-text="comment.from_user_name"
-    />
-    <template v-if="comment.to_user_zone">
-      回复
-      <nuxt-link
-        :to="$alias.user(comment.to_user_zone)"
-        class="nickname"
-        v-text="comment.to_user_name"
+  <div :class="$style.item">
+    <div
+      :class="$style.avatar"
+      @click.stop="$alias.user(comment.from_user_zone)"
+    >
+      <VImg
+        :src="comment.from_user_avatar"
+        :width="22"
+        :height="22"
+        :avatar="true"
       />
-    </template>
-    :
-    <span class="reply-btn comment-content" @click="handleSubCommentClick">{{
-      comment.content
-    }}</span>
+    </div>
+    <div :class="$style.main">
+      <div :class="$style.header" class="oneline">
+        <template v-if="showToUser">
+          <span
+            :class="$style.nickname"
+            @click.stop="$alias.user(comment.from_user_zone)"
+          >{{ comment.from_user_name }}:</span>
+          <span
+            :class="$style.toUser"
+            @click.stop="$alias.user(comment.to_user_zone)"
+          >@{{ comment.to_user_name }}</span>
+        </template>
+        <span
+          v-else
+          :class="$style.nickname"
+          @click.stop="$alias.user(comment.from_user_zone)"
+          v-text="comment.from_user_name"
+        />
+      </div>
+      <p
+        :class="$style.content"
+        @click="handleSubCommentClick"
+        v-text="comment.content"
+      />
+    </div>
   </div>
 </template>
 
@@ -69,6 +166,11 @@ export default {
     },
     isMine() {
       return this.currentUserId === this.comment.from_user_id
+    },
+    showToUser() {
+      return (
+        this.comment.to_user_id && this.comment.to_user_id !== this.parentUserId
+      )
     },
     canDelete() {
       return this.isMine || this.currentUserId === this.parentUserId

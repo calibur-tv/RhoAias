@@ -175,9 +175,9 @@
       <ImagePreview v-else :images="[info.source]">
         <div class="image-package">
           <v-img
-            :src="source.url"
-            :width="source.width"
-            :height="source.height"
+            :src="info.source.url"
+            :width="info.source.width"
+            :height="info.source.height"
             :full="true"
             class="image"
           />
@@ -185,7 +185,7 @@
       </ImagePreview>
       <div v-if="info.is_cartoon" class="cartoon-list">
         <h3 class="sub-title">
-          选集（{{ info.parts.length }}）
+          <span>选集（{{ info.parts.length }}）</span>
           <nuxt-link v-if="nextPartUrl" :to="nextPartUrl" class="next">
             下一话
           </nuxt-link>
@@ -197,7 +197,7 @@
           <li v-for="item in sortCartoons" :key="item.id">
             <nuxt-link
               :to="$alias.image(item.id)"
-              :class="{ active: item.id === id }"
+              :class="{ active: item.id === info.id }"
               class="oneline"
               v-text="item.name"
             />

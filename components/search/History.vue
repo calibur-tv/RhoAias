@@ -35,7 +35,8 @@
     </p>
     <ul>
       <li v-for="(item, index) in list" :key="index" @click="query(item)">
-        <i class="iconfont icon-lishijilu" /> {{ item }}
+        <i class="iconfont icon-lishijilu" />
+        <span>{{ item }}</span>
       </li>
     </ul>
     <button class="clear-btn" @click="clear">

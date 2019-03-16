@@ -337,40 +337,13 @@
         type="video"
         @reward-callback="handleRewardAction"
       />
-      <h3 class="sub-title">
-        番剧简介
-      </h3>
-      <BangumiPanel
-        v-if="bangumi"
-        :id="bangumi.id"
-        :avatar="bangumi.avatar"
-        :name="bangumi.name"
-        :show-follow="false"
-        class="bangumi-panel"
-      >
-        <button :class="{ active: buyed }" @click="handleClickBuy">
-          {{ buyed ? '已承包' : '10个团子承包整个季度' }}
-        </button>
-      </BangumiPanel>
-      <h3 class="sub-title">
-        视频反馈
-      </h3>
-      <p class="tip">
-        1：大家可以加入QQ群 <strong>106402736</strong>、<strong>806818950</strong>
-        获得最新的资源更新提醒
-      </p>
-      <p class="tip">
-        2：安卓用户建议大家使用最新版 QQ
-        浏览器在线播放，不要使用系统自带的浏览器
-      </p>
-      <p class="tip">
-        3：iOS用户建议使用自带的 Safari 播放
-      </p>
-      <div>
-        <button class="video-report-btn" @click="handleVideoReportClick">
-          视频报错
-        </button>
-      </div>
+    </div>
+    <div class="hr" />
+    <div class="container">
+      <BangumiPanel v-if="bangumi" :bangumi="bangumi" />
+    </div>
+    <div class="hr" />
+    <div class="container">
       <v-lazy>
         <CommentMain :id="id" :master-id="info.user_id" type="video" />
       </v-lazy>
