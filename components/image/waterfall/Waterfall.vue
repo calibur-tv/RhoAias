@@ -192,7 +192,7 @@ export default {
       if (this.rectTop !== '') {
         return this.rectTop
       }
-      const top = this.$el.getBoundingClientRect().top
+      const top = this.$utils.getOffsetTop(this.$el)
       this.rectTop = top
       return top
     }
