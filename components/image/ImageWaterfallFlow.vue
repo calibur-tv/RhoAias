@@ -1,11 +1,11 @@
 <style lang="scss">
 #image-waterfall-flow {
-  margin-right: -5px;
   background-color: #fff;
+  padding-top: $container-padding;
 
-  .vue-waterfall {
+  .waterfall-wrap {
     @media screen and (max-width: 469.98px) {
-      width: 310px;
+      width: 300px;
     }
     @media screen and (min-width: 470px) {
       width: 470px;
@@ -14,13 +14,6 @@
       width: 630px;
     }
     margin: 0 auto;
-  }
-
-  .vue-waterfall-slot {
-    padding-right: 10px;
-    padding-bottom: 10px;
-    margin-left: 3px;
-    margin-top: 10px;
   }
 
   .image {
@@ -52,6 +45,16 @@
           rgba(0, 0, 0, 0.6) 65%,
           rgba(0, 0, 0, 0.9)
         );
+      }
+
+      .image-wrap {
+        max-height: 240px;
+        overflow: hidden;
+      }
+
+      .image {
+        max-width: 100%;
+        height: auto;
       }
 
       .is-creator {
@@ -177,16 +180,24 @@
 
 <template>
   <div id="image-waterfall-flow">
-    <not-ssr>
-      <waterfall v-if="list.length" :line-gap="width + 10" :auto-resize="true">
-        <waterfall-slot
+    <div class="waterfall-wrap">
+      <Waterfall
+        v-if="list.length"
+        :line-count="2"
+        :margin-right="10"
+        :margin-bottom="10"
+        :max-height="346"
+        :append-height="106"
+        line-width="50%"
+      >
+        <WaterfallSlot
           v-for="(item, index) in list"
           :key="item.id"
-          :order="index"
-          :width="width"
-          :height="computeBoxHeight(item.source)"
+          :index="index"
+          :width="item.source.width"
+          :height="item.source.height"
         >
-          <div v-if="computeImageHeight(item.source)" class="image">
+          <div class="image">
             <nuxt-link
               :to="$alias.image(item.id)"
               :class="{ 'album-box': item.is_album }"
@@ -196,12 +207,13 @@
                 v-if="item.is_creator"
                 class="is-creator iconfont icon-huangguan"
               />
-              <v-img
-                :src="item.source.url"
-                :lazy="false"
-                :width="width"
-                :height="computeImageHeight(item.source)"
-              />
+              <div class="image-wrap">
+                <img
+                  :src="$resize(item.source.url, { width: 400, mode: 2 })"
+                  :width="item.source.width"
+                  class="image"
+                >
+              </div>
               <div v-if="item.is_album" class="is-album">
                 <i class="el-icon-picture-outline" />
                 <span class="image-count" v-text="item.image_count" />
@@ -287,28 +299,21 @@
               </template>
             </div>
           </div>
-        </waterfall-slot>
-      </waterfall>
-    </not-ssr>
+        </WaterfallSlot>
+      </Waterfall>
+    </div>
   </div>
 </template>
 
 <script>
+import Waterfall from './waterfall/Waterfall'
+import WaterfallSlot from './waterfall/WaterfallSlot'
+
 export default {
   name: 'ImageWaterfallFlow',
   components: {
-    waterfall: () => {
-      if (typeof window === 'undefined') {
-        return import('~/assets/js/empty')
-      }
-      return import('vue-waterfall/lib/waterfall')
-    },
-    'waterfall-slot': () => {
-      if (typeof window === 'undefined') {
-        return import('~/assets/js/empty')
-      }
-      return import('vue-waterfall/lib/waterfall-slot')
-    }
+    Waterfall,
+    WaterfallSlot
   },
   props: {
     list: {
@@ -323,25 +328,6 @@ export default {
     userZone: {
       type: String,
       default: ''
-    },
-    width: {
-      type: Number,
-      default: 145
-    }
-  },
-  methods: {
-    computeBoxHeight(image) {
-      return this.computeImageHeight(image) + 106
-    },
-    computeImageHeight(image) {
-      if (!image) {
-        return 0
-      }
-      const result = parseInt((image.height / image.width) * this.width, 10)
-      if (result > 240) {
-        return 240
-      }
-      return result
     }
   }
 }

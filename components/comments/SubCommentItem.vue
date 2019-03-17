@@ -95,9 +95,10 @@
 
 <template>
   <div :class="$style.item">
-    <div
+    <nuxt-link
       :class="$style.avatar"
-      @click.stop="$alias.user(comment.from_user_zone)"
+      :to="$alias.user(comment.from_user_zone)"
+      tag="div"
     >
       <VImg
         :src="comment.from_user_avatar"
@@ -105,23 +106,30 @@
         :height="22"
         :avatar="true"
       />
-    </div>
+    </nuxt-link>
     <div :class="$style.main">
       <div :class="$style.header" class="oneline">
         <template v-if="showToUser">
-          <span
+          <nuxt-link
             :class="$style.nickname"
-            @click.stop="$alias.user(comment.from_user_zone)"
-          >{{ comment.from_user_name }}:</span>
-          <span
+            :to="$alias.user(comment.from_user_zone)"
+            tag="span"
+          >
+            {{ comment.from_user_name }}:
+          </nuxt-link>
+          <nuxt-link
             :class="$style.toUser"
-            @click.stop="$alias.user(comment.to_user_zone)"
-          >@{{ comment.to_user_name }}</span>
+            :to="$alias.user(comment.to_user_zone)"
+            tag="span"
+          >
+            @{{ comment.to_user_name }}
+          </nuxt-link>
         </template>
-        <span
+        <nuxt-link
           v-else
           :class="$style.nickname"
-          @click.stop="$alias.user(comment.from_user_zone)"
+          :to="$alias.user(comment.from_user_zone)"
+          tag="span"
           v-text="comment.from_user_name"
         />
       </div>
