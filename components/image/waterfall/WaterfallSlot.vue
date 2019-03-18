@@ -46,13 +46,13 @@ export default {
       style: {}
     }
   },
-  mounted() {
-    this.notify()
-  },
   methods: {
     notify() {
       this.$parent.$emit('render', this)
     }
+  },
+  mounted() {
+    this.notify()
   }
 }
 </script>

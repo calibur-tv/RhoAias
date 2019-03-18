@@ -47,14 +47,10 @@
         );
       }
 
-      .image-wrap {
-        max-height: 240px;
-        overflow: hidden;
-      }
-
       .image {
-        max-width: 100%;
-        height: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
 
       .is-creator {
@@ -186,8 +182,8 @@
         :line-count="2"
         :margin-right="10"
         :margin-bottom="10"
-        :max-height="346"
-        :append-height="106"
+        :extra-height="106"
+        :vw-viewport="375"
         line-width="50%"
       >
         <WaterfallSlot
@@ -207,13 +203,14 @@
                 v-if="item.is_creator"
                 class="is-creator iconfont icon-huangguan"
               />
-              <div class="image-wrap">
-                <img
-                  :src="$resize(item.source.url, { width: 400, mode: 2 })"
-                  :width="item.source.width"
-                  class="image"
-                >
-              </div>
+              <div
+                :style="{
+                  backgroundColor: `${getRandomColor()}`,
+                  backgroundImage: `url(${$resize(item.source.url, { width: 400, mode: 2 })})`,
+                  paddingTop: `${item.source.height / item.source.width * 100}%`
+                }"
+                class="image"
+              />
               <div v-if="item.is_album" class="is-album">
                 <i class="el-icon-picture-outline" />
                 <span class="image-count" v-text="item.image_count" />
@@ -328,6 +325,19 @@ export default {
     userZone: {
       type: String,
       default: ''
+    }
+  },
+  methods: {
+    getRandomColor() {
+      const colors = [
+        'rgba(21,174,103,.5)',
+        'rgba(245,163,59,.5)',
+        'rgba(255,230,135,.5)',
+        'rgba(194,217,78,.5)',
+        'rgba(195,123,177,.5)',
+        'rgba(125,205,244,.5)'
+      ]
+      return colors[~~(Math.random() * colors.length)]
     }
   }
 }

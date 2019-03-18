@@ -43,6 +43,16 @@ const throttle = (func, wait, options) => {
   }
 }
 
+const getOffsetTop = elem => {
+  let offsetTop = 0
+  do {
+    if (!isNaN(elem.offsetTop)) {
+      offsetTop += elem.offsetTop
+    }
+  } while ((elem = elem.offsetParent))
+  return offsetTop
+}
+
 const on = (elem, type, listener, useCapture = false) => {
   elem.addEventListener(type, listener, useCapture)
 }
@@ -72,17 +82,17 @@ export default {
       default: 0,
       validator: val => val >= 0
     },
-    appendHeight: {
+    extraHeight: {
       type: Number,
       default: 0,
       validator: val => val >= 0
     },
-    maxHeight: {
+    vwViewport: {
       type: Number,
       default: 0,
       validator: val => val >= 0
     },
-    scale: {
+    lazyScale: {
       type: Number,
       default: 1.3,
       validator: val => val >= 1
@@ -94,7 +104,8 @@ export default {
       lineHeight: new Array(this.lineCount).fill(0),
       lastScrollTop: 0,
       rectTop: '',
-      windowHeight: this.$isServer ? 0 : window.innerHeight
+      windowHeight: this.$isServer ? 0 : window.innerHeight,
+      windowWidth: this.$isServer ? 0 : window.innerWidth
     }
   },
   computed: {
@@ -116,7 +127,7 @@ export default {
       const shim = (this.lineCount - 1) * this.marginRight
       if (/vw$/.test(lineWidth)) {
         return +parseFloat(
-          ((window.innerWidth - shim) * lineWidth.replace('vw', '')) / 100
+          ((this.windowWidth - shim) * lineWidth.replace('vw', '')) / 100
         ).toFixed(2)
       }
       if (/%$/.test(lineWidth)) {
@@ -173,7 +184,7 @@ export default {
     computedItemHeight(item) {
       return (
         +parseFloat((item.height / item.width) * this.imageWidth).toFixed(2) +
-        this.appendHeight
+        (this.extraHeight * this.windowWidth) / this.vwViewport
       )
     },
     computeContainerHeight() {
@@ -183,16 +194,16 @@ export default {
       this.$children.forEach(this.checkInView)
     },
     checkInView(item) {
-      const { lastScrollTop, windowHeight, scale } = this
+      const { lastScrollTop, windowHeight, lazyScale } = this
       item.display =
-        item.top < (lastScrollTop + windowHeight) * scale &&
-        item.bottom > lastScrollTop / scale
+        item.top < (lastScrollTop + windowHeight) * lazyScale &&
+        item.bottom > lastScrollTop / lazyScale
     },
     getContainerRectTop() {
       if (this.rectTop !== '') {
         return this.rectTop
       }
-      const top = this.$utils.getOffsetTop(this.$el)
+      const top = getOffsetTop(this.$el)
       this.rectTop = top
       return top
     }
