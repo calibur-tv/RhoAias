@@ -16,12 +16,13 @@
     margin: 0 auto;
   }
 
-  .image {
+  .image-item {
+    position: relative;
     width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: 1px solid $color-avatar-border;
     overflow: hidden;
-    box-shadow: 0 1px 3px 0 rgba(80, 80, 80, 0.11);
-    background-color: #f2f3f5;
-    border-radius: 4px;
 
     .image-box {
       position: relative;
@@ -83,90 +84,97 @@
       }
     }
 
-    .intro {
-      height: 55px;
-      padding: 5px 15px;
+    .panel {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 106px;
       background-color: #fff;
 
-      .name,
-      .social {
-        height: 20px;
-        font-size: 12px;
-        line-height: 20px;
-      }
+      .intro {
+        height: 55px;
+        padding: 5px 15px;
 
-      .social {
-        color: $color-text-light;
-        margin-top: 5px;
-
-        .done {
-          color: $color-pink-deep;
+        .name,
+        .social {
+          height: 20px;
+          font-size: 12px;
+          line-height: 20px;
         }
-      }
-    }
 
-    .about {
-      display: flex;
-      align-items: center;
-      height: 51px;
-      padding: 10px 15px;
-      border-top: 1px solid #f2f2f2;
+        .social {
+          color: $color-text-light;
+          margin-top: 5px;
 
-      .user-avatar {
-        border-radius: 50%;
-        overflow: hidden;
-        width: 30px;
-        height: 30px;
-        border: 1px solid #e5e9ef;
-      }
-
-      .bangumi-avatar {
-        width: 30px;
-        height: 30px;
-      }
-
-      .user-avatar,
-      .bangumi-avatar {
-        display: block;
-        margin-right: 10px;
-        overflow: hidden;
-        float: left;
-      }
-
-      .main-name {
-        line-height: 30px;
-        font-size: 12px;
-        word-wrap: break-word;
-        color: $color-text-normal;
-      }
-
-      .main-name-user {
-        flex: 1;
-        max-height: 30px;
-        line-height: 14px;
-        font-size: 12px;
-        word-wrap: break-word;
-        color: $color-text-normal;
-      }
-
-      .info {
-        overflow: hidden;
-        font-size: 12px;
-        line-height: 15px;
-
-        .main-info {
-          margin-bottom: 2px;
-
-          span {
-            color: $color-text-light;
-            float: left;
+          .done {
+            color: $color-pink-deep;
           }
         }
+      }
 
-        a {
-          color: $color-text-normal;
-          font-size: 12px;
+      .about {
+        display: flex;
+        align-items: center;
+        height: 51px;
+        padding: 10px 15px;
+
+        .user-avatar {
+          border-radius: 50%;
+          overflow: hidden;
+          width: 30px;
+          height: 30px;
+          border: 1px solid #e5e9ef;
+        }
+
+        .bangumi-avatar {
+          width: 30px;
+          height: 30px;
+        }
+
+        .user-avatar,
+        .bangumi-avatar {
           display: block;
+          margin-right: 10px;
+          overflow: hidden;
+          float: left;
+        }
+
+        .main-name {
+          line-height: 30px;
+          font-size: 12px;
+          word-wrap: break-word;
+          color: $color-text-normal;
+        }
+
+        .main-name-user {
+          flex: 1;
+          max-height: 30px;
+          line-height: 14px;
+          font-size: 12px;
+          word-wrap: break-word;
+          color: $color-text-normal;
+        }
+
+        .info {
+          overflow: hidden;
+          font-size: 12px;
+          line-height: 15px;
+
+          .main-info {
+            margin-bottom: 2px;
+
+            span {
+              color: $color-text-light;
+              float: left;
+            }
+          }
+
+          a {
+            color: $color-text-normal;
+            font-size: 12px;
+            display: block;
+          }
         }
       }
     }
@@ -184,6 +192,7 @@
         :margin-bottom="10"
         :extra-height="106"
         :vw-viewport="375"
+        :max-height="436"
         line-width="50%"
       >
         <WaterfallSlot
@@ -193,7 +202,7 @@
           :width="item.source.width"
           :height="item.source.height"
         >
-          <div class="image">
+          <div class="image-item">
             <nuxt-link
               :to="$alias.image(item.id)"
               :class="{ 'album-box': item.is_album }"
@@ -216,84 +225,86 @@
                 <span class="image-count" v-text="item.image_count" />
               </div>
             </nuxt-link>
-            <div class="intro">
-              <p class="name oneline" v-text="item.name" />
-              <div class="social">
-                <span v-if="item.is_creator">
-                  <i class="iconfont icon-fantuan" />
-                  <span>{{ item.reward_count }}</span>
-                </span>
-                <span v-else>
-                  <i class="iconfont icon-like" />
-                  <span>{{ item.like_count }}</span>
-                </span>
-                <span>
-                  <i class="iconfont icon-mark" />
-                  <span>{{ item.mark_count }}</span>
-                </span>
-                <span>
-                  <i class="iconfont icon-talk" />
-                  <span>{{ item.comment_count }}</span>
-                </span>
+            <div class="panel">
+              <div class="intro">
+                <p class="name oneline" v-text="item.name" />
+                <div class="social">
+                  <span v-if="item.is_creator">
+                    <i class="iconfont icon-fantuan" />
+                    <span>{{ item.reward_count }}</span>
+                  </span>
+                  <span v-else>
+                    <i class="iconfont icon-like" />
+                    <span>{{ item.like_count }}</span>
+                  </span>
+                  <span>
+                    <i class="iconfont icon-mark" />
+                    <span>{{ item.mark_count }}</span>
+                  </span>
+                  <span>
+                    <i class="iconfont icon-talk" />
+                    <span>{{ item.comment_count }}</span>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div class="about">
-              <template v-if="userZone">
-                <nuxt-link
-                  :to="$alias.bangumi(item.bangumi.id)"
-                  class="bangumi-avatar"
-                >
-                  <v-img :lazy="false" :src="item.bangumi.avatar" width="60" />
-                </nuxt-link>
-                <div class="info">
+              <div class="about">
+                <template v-if="userZone">
                   <nuxt-link
                     :to="$alias.bangumi(item.bangumi.id)"
-                    class="main-name oneline"
-                    v-text="item.bangumi.name"
-                  />
-                </div>
-              </template>
-              <template v-else-if="bangumiId">
-                <nuxt-link
-                  :to="$alias.user(item.user.zone)"
-                  class="user-avatar"
-                >
-                  <v-img
-                    :src="item.user.avatar"
-                    :lazy="false"
-                    width="30"
-                    height="30"
-                  />
-                </nuxt-link>
-                <nuxt-link
-                  :to="$alias.user(item.user.zone)"
-                  class="main-name-user"
-                  v-text="item.user.nickname"
-                />
-              </template>
-              <template v-else>
-                <nuxt-link
-                  :to="$alias.bangumi(item.bangumi.id)"
-                  class="bangumi-avatar"
-                >
-                  <v-img :lazy="false" :src="item.bangumi.avatar" width="30" />
-                </nuxt-link>
-                <div class="info">
-                  <p class="main-info">
-                    <span>UP：</span>
+                    class="bangumi-avatar"
+                  >
+                    <v-img :lazy="false" :src="item.bangumi.avatar" width="60" />
+                  </nuxt-link>
+                  <div class="info">
                     <nuxt-link
-                      :to="$alias.user(item.user.zone)"
-                      class="oneline"
-                      v-text="item.user.nickname"
+                      :to="$alias.bangumi(item.bangumi.id)"
+                      class="main-name oneline"
+                      v-text="item.bangumi.name"
                     />
-                  </p>
+                  </div>
+                </template>
+                <template v-else-if="bangumiId">
+                  <nuxt-link
+                    :to="$alias.user(item.user.zone)"
+                    class="user-avatar"
+                  >
+                    <v-img
+                      :src="item.user.avatar"
+                      :lazy="false"
+                      width="30"
+                      height="30"
+                    />
+                  </nuxt-link>
+                  <nuxt-link
+                    :to="$alias.user(item.user.zone)"
+                    class="main-name-user"
+                    v-text="item.user.nickname"
+                  />
+                </template>
+                <template v-else>
                   <nuxt-link
                     :to="$alias.bangumi(item.bangumi.id)"
-                    class="oneline"
-                    v-text="item.bangumi.name"
-                  />
-                </div>
-              </template>
+                    class="bangumi-avatar"
+                  >
+                    <v-img :lazy="false" :src="item.bangumi.avatar" width="30" />
+                  </nuxt-link>
+                  <div class="info">
+                    <p class="main-info">
+                      <span>UP：</span>
+                      <nuxt-link
+                        :to="$alias.user(item.user.zone)"
+                        class="oneline"
+                        v-text="item.user.nickname"
+                      />
+                    </p>
+                    <nuxt-link
+                      :to="$alias.bangumi(item.bangumi.id)"
+                      class="oneline"
+                      v-text="item.bangumi.name"
+                    />
+                  </div>
+                </template>
+              </div>
             </div>
           </div>
         </WaterfallSlot>

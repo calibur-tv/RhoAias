@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 </style>
 
@@ -46,13 +47,13 @@ export default {
       style: {}
     }
   },
+  mounted() {
+    this.notify()
+  },
   methods: {
     notify() {
       this.$parent.$emit('render', this)
     }
-  },
-  mounted() {
-    this.notify()
   }
 }
 </script>
