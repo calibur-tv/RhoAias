@@ -121,25 +121,23 @@
 
         .user-avatar {
           border-radius: 50%;
-          overflow: hidden;
-          width: 30px;
-          height: 30px;
         }
 
         .bangumi-avatar {
-          width: 30px;
-          height: 30px;
           border-radius: 3px;
         }
 
         .user-avatar,
         .bangumi-avatar {
+          overflow: hidden;
+          width: 30px;
+          height: 30px;
           display: block;
           margin-right: 10px;
-          overflow: hidden;
-          float: left;
           border: 1px solid #e5e9ef;
           text-align: center;
+          float: left;
+          font-size: 0;
 
           img {
             width: 30px;
@@ -267,7 +265,7 @@
                   :to="$alias.user(item.user.zone)"
                   class="user-avatar"
                 >
-                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                  <img :src="$resize(item.user.avatar, { width: 60 })">
                 </nuxt-link>
                 <nuxt-link
                   :to="$alias.user(item.user.zone)"

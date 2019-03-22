@@ -12,7 +12,6 @@
     "17a38cd409695f1e6d4e.css",
     "1b2af8384abe6d100517.css",
     "20020d13012d198a7740.css",
-    "20630bb974d95bd68757.css",
     "20fac6a212ff928e4f2a.css",
     "2209e7cf6fb089372b41.css",
     "26230e778c7f5b8c24a9.css",
@@ -25,6 +24,7 @@
     "3a4699c5002200eaaaf4.css",
     "409f5d1f8799260064ed.css",
     "42005c68546fdf04b101.css",
+    "49c4e59cba62eb8f22b8.css",
     "4df9a4fa7bc6b668056f.css",
     "54fef36389b4a1925425.css",
     "5a5358029bc617a2c920.css",
@@ -58,8 +58,8 @@
     "aa71da4a0e173c101be3.css",
     "ac3e590513daaab5e796.css",
     "ae7776f0450da7534608.css",
-    "app.chunk.05646cb0.js",
-    "app.chunk.05646cb0.js.map",
+    "app.chunk.14c9d185.js",
+    "app.chunk.14c9d185.js.map",
     "bc33cad02244c28605b2.css",
     "c4258dd63855a06706be.css",
     "c4dd9877ef49d4f2fc1f.css",
@@ -123,8 +123,8 @@
     "pages/bangumi/_id/cartoon.chunk.8497db66.js.map",
     "pages/bangumi/_id/index.chunk.167cd306.js",
     "pages/bangumi/_id/index.chunk.167cd306.js.map",
-    "pages/bangumi/_id/pins.chunk.693d7581.js",
-    "pages/bangumi/_id/pins.chunk.693d7581.js.map",
+    "pages/bangumi/_id/pins.chunk.ec503406.js",
+    "pages/bangumi/_id/pins.chunk.ec503406.js.map",
     "pages/bangumi/_id/post.chunk.b3ebc9eb.js",
     "pages/bangumi/_id/post.chunk.b3ebc9eb.js.map",
     "pages/bangumi/_id/qaq.chunk.f3a854ba.js",
@@ -209,8 +209,8 @@
     "pages/user/_zone/index.chunk.01beb0d9.js.map",
     "pages/user/_zone/mark.chunk.7b2c3771.js",
     "pages/user/_zone/mark.chunk.7b2c3771.js.map",
-    "pages/user/_zone/pins.chunk.83a02b9c.js",
-    "pages/user/_zone/pins.chunk.83a02b9c.js.map",
+    "pages/user/_zone/pins.chunk.b3e06c4e.js",
+    "pages/user/_zone/pins.chunk.b3e06c4e.js.map",
     "pages/user/_zone/post.chunk.fbad0194.js",
     "pages/user/_zone/post.chunk.fbad0194.js.map",
     "pages/user/_zone/qaq.chunk.b778b7ec.js",
@@ -225,8 +225,8 @@
     "pages/world.chunk.405ab3b9.js.map",
     "pages/world/index.chunk.2a8ff4a5.js",
     "pages/world/index.chunk.2a8ff4a5.js.map",
-    "pages/world/pins.chunk.e4e3937d.js",
-    "pages/world/pins.chunk.e4e3937d.js.map",
+    "pages/world/pins.chunk.2df35240.js",
+    "pages/world/pins.chunk.2df35240.js.map",
     "pages/world/post.chunk.eb522599.js",
     "pages/world/post.chunk.eb522599.js.map",
     "pages/world/qaq.chunk.93515682.js",
@@ -251,8 +251,8 @@
     "pages/wx-app/post/_id.chunk.b26c9f07.js.map",
     "pages/wx-app/score/_id.chunk.b2459c1e.js",
     "pages/wx-app/score/_id.chunk.b2459c1e.js.map",
-    "runtime.0901af9c.js",
-    "runtime.0901af9c.js.map",
+    "runtime.d4c4d834.js",
+    "runtime.d4c4d834.js.map",
     "vendors.app.chunk.01251924.js",
     "vendors.app.chunk.01251924.js.map",
     "vendors.pages/app/download.chunk.c7f27b40.js",
@@ -273,12 +273,12 @@
     "vendors.pages/world.chunk.8bcf273b.js.map"
   ],
   "initial": [
-    "runtime.0901af9c.js",
+    "runtime.d4c4d834.js",
     "commons.app.chunk.aca2d3c9.js",
     "5acab7f4b5543e5efbbc.css",
     "vendors.app.chunk.01251924.js",
     "07f2120a5cc27fff4812.css",
-    "app.chunk.05646cb0.js"
+    "app.chunk.14c9d185.js"
   ],
   "async": [
     "0014ab06873e26365c84.css",
@@ -289,7 +289,6 @@
     "17a38cd409695f1e6d4e.css",
     "1b2af8384abe6d100517.css",
     "20020d13012d198a7740.css",
-    "20630bb974d95bd68757.css",
     "20fac6a212ff928e4f2a.css",
     "2209e7cf6fb089372b41.css",
     "26230e778c7f5b8c24a9.css",
@@ -302,6 +301,7 @@
     "3a4699c5002200eaaaf4.css",
     "409f5d1f8799260064ed.css",
     "42005c68546fdf04b101.css",
+    "49c4e59cba62eb8f22b8.css",
     "4df9a4fa7bc6b668056f.css",
     "54fef36389b4a1925425.css",
     "5a5358029bc617a2c920.css",
@@ -361,7 +361,7 @@
     "pages/bangumi/_id.chunk.f79facfc.js",
     "pages/bangumi/_id/cartoon.chunk.8497db66.js",
     "pages/bangumi/_id/index.chunk.167cd306.js",
-    "pages/bangumi/_id/pins.chunk.693d7581.js",
+    "pages/bangumi/_id/pins.chunk.ec503406.js",
     "pages/bangumi/_id/post.chunk.b3ebc9eb.js",
     "pages/bangumi/_id/qaq.chunk.f3a854ba.js",
     "pages/bangumi/_id/review.chunk.3ee802c2.js",
@@ -404,7 +404,7 @@
     "pages/user/_zone/draft.chunk.07b56476.js",
     "pages/user/_zone/index.chunk.01beb0d9.js",
     "pages/user/_zone/mark.chunk.7b2c3771.js",
-    "pages/user/_zone/pins.chunk.83a02b9c.js",
+    "pages/user/_zone/pins.chunk.b3e06c4e.js",
     "pages/user/_zone/post.chunk.fbad0194.js",
     "pages/user/_zone/qaq.chunk.b778b7ec.js",
     "pages/user/_zone/review.chunk.99bf582d.js",
@@ -412,7 +412,7 @@
     "pages/video/_id.chunk.5c605b3d.js",
     "pages/world.chunk.405ab3b9.js",
     "pages/world/index.chunk.2a8ff4a5.js",
-    "pages/world/pins.chunk.e4e3937d.js",
+    "pages/world/pins.chunk.2df35240.js",
     "pages/world/post.chunk.eb522599.js",
     "pages/world/qaq.chunk.93515682.js",
     "pages/world/review.chunk.9edca1d4.js",
@@ -3295,7 +3295,7 @@
       141
     ],
     "1c9b58db": [
-      20,
+      19,
       138,
       139
     ],
@@ -3428,7 +3428,7 @@
       95
     ],
     "24ca8ede": [
-      15,
+      14,
       98,
       99
     ],
@@ -3444,7 +3444,7 @@
       107
     ],
     "1ba0a2ca": [
-      13,
+      12,
       108,
       109
     ],
@@ -3455,7 +3455,7 @@
       89
     ],
     "19de01fb": [
-      22,
+      21,
       142,
       143
     ],
@@ -3497,17 +3497,17 @@
       87
     ],
     "34b44956": [
-      16,
+      15,
       156,
       157
     ],
     "331e9377": [
-      16,
+      15,
       156,
       157
     ],
     "4122bd9e": [
-      16,
+      15,
       156,
       157
     ],
@@ -3597,7 +3597,7 @@
       113
     ],
     "a36f69e0": [
-      19,
+      18,
       116,
       117
     ],
@@ -3629,32 +3629,32 @@
       159
     ],
     "d48cd0b4": [
-      21,
+      20,
       162,
       163
     ],
     "43e1444f": [
-      21,
+      20,
       162,
       163
     ],
     "1b1742ac": [
-      17,
+      16,
       170,
       171
     ],
     "cf783e14": [
-      17,
+      16,
       170,
       171
     ],
     "1d2e3c72": [
-      17,
+      16,
       170,
       171
     ],
     "7974f067": [
-      17,
+      16,
       170,
       171
     ],
@@ -3739,7 +3739,7 @@
       82
     ],
     "5c239c18": [
-      23,
+      22,
       218,
       219
     ],
@@ -4052,12 +4052,12 @@
       82
     ],
     "55f3e525": [
-      17,
+      16,
       170,
       171
     ],
     "03cfb4ea": [
-      17,
+      16,
       170,
       171
     ],
@@ -4072,7 +4072,7 @@
       141
     ],
     "27c12497": [
-      20,
+      19,
       138,
       139
     ],
@@ -4245,7 +4245,7 @@
       95
     ],
     "33cec0a2": [
-      15,
+      14,
       98,
       99
     ],
@@ -4279,7 +4279,7 @@
       107
     ],
     "25baacf4": [
-      13,
+      12,
       108,
       109
     ],
@@ -4295,7 +4295,7 @@
       115
     ],
     "faf3a082": [
-      22,
+      21,
       142,
       143
     ],
@@ -4449,17 +4449,17 @@
       261
     ],
     "0d961612": [
-      16,
+      15,
       156,
       157
     ],
     "76765e3b": [
-      16,
+      15,
       156,
       157
     ],
     "21fb26ed": [
-      16,
+      15,
       156,
       157
     ],
@@ -4554,7 +4554,7 @@
       113
     ],
     "542c4e68": [
-      19,
+      18,
       116,
       117
     ],
@@ -4586,27 +4586,27 @@
       159
     ],
     "4ddd3b2c": [
-      21,
+      20,
       162,
       163
     ],
     "660c090b": [
-      21,
+      20,
       162,
       163
     ],
     "04440b70": [
-      17,
+      16,
       170,
       171
     ],
     "2dd53183": [
-      17,
+      16,
       170,
       171
     ],
     "46051a2b": [
-      17,
+      16,
       170,
       171
     ],
@@ -4696,7 +4696,7 @@
       82
     ],
     "15c7f690": [
-      23,
+      22,
       218,
       219
     ],
@@ -5117,7 +5117,7 @@
       82
     ],
     "97721cde": [
-      16,
+      15,
       156,
       157
     ],
@@ -5128,7 +5128,7 @@
       85
     ],
     "0557306f": [
-      21,
+      20,
       162,
       163
     ],
@@ -5149,7 +5149,7 @@
       89
     ],
     "733b8060": [
-      19,
+      18,
       116,
       117
     ],
@@ -5187,12 +5187,12 @@
       113
     ],
     "d3eee89c": [
-      23,
+      22,
       218,
       219
     ],
     "44318fca": [
-      12,
+      11,
       240,
       241
     ],
@@ -5222,19 +5222,19 @@
       233
     ],
     "468c0219": [
-      14,
+      13,
       230,
       231,
       89
     ],
     "5429c3d2": [
-      11,
+      23,
       208,
       209,
       89
     ],
     "e9d2c7e6": [
-      11,
+      23,
       122,
       123,
       89
@@ -5260,7 +5260,7 @@
       82
     ],
     "c50e0102": [
-      11,
+      23,
       224,
       225,
       89
@@ -5272,7 +5272,7 @@
       89
     ],
     "e264ea8e": [
-      22,
+      21,
       142,
       143
     ],
@@ -5307,7 +5307,7 @@
       179
     ],
     "16d3a148": [
-      15,
+      14,
       98,
       99
     ],
@@ -5339,7 +5339,7 @@
       89
     ],
     "0a5d4a3b": [
-      20,
+      19,
       138,
       139
     ],
@@ -5433,7 +5433,7 @@
       239
     ],
     "141cfdac": [
-      14,
+      13,
       214,
       215,
       89
@@ -5444,7 +5444,7 @@
       237
     ],
     "b9b275ac": [
-      13,
+      12,
       108,
       109
     ],
@@ -5455,7 +5455,7 @@
       89
     ],
     "7d97b600": [
-      18,
+      17,
       234,
       235,
       89
@@ -5704,7 +5704,7 @@
       94
     ],
     "73db4fee": [
-      15,
+      14,
       98,
       99
     ],
@@ -5732,7 +5732,7 @@
       107
     ],
     "b95c0202": [
-      13,
+      12,
       108,
       109
     ],
@@ -5775,7 +5775,7 @@
       137
     ],
     "7ea2b6d0": [
-      20,
+      19,
       138,
       139
     ],
@@ -5785,7 +5785,7 @@
       141
     ],
     "26cb7026": [
-      22,
+      21,
       142,
       143
     ],
@@ -5811,12 +5811,12 @@
       87
     ],
     "68c386a6": [
-      16,
+      15,
       156,
       157
     ],
     "4ea9f9f8": [
-      21,
+      20,
       162,
       163
     ],
@@ -5913,7 +5913,7 @@
       82
     ],
     "53476c42": [
-      23,
+      22,
       218,
       219
     ],
@@ -5969,7 +5969,7 @@
       94
     ],
     "3e54b2f6": [
-      19,
+      18,
       116,
       117
     ],
@@ -5994,7 +5994,7 @@
       94
     ],
     "325bfe0b": [
-      16,
+      15,
       156,
       157
     ],
@@ -6023,7 +6023,7 @@
       94
     ],
     "2a0591d2": [
-      17,
+      16,
       170,
       171
     ],
@@ -6094,7 +6094,7 @@
       94
     ],
     "4d087991": [
-      21,
+      20,
       162,
       163
     ],
@@ -6105,7 +6105,7 @@
       82
     ],
     "ced9f8dc": [
-      17,
+      16,
       170,
       171
     ],
@@ -6152,7 +6152,7 @@
       94
     ],
     "2b25153c": [
-      16,
+      15,
       156,
       157
     ],
@@ -6294,7 +6294,7 @@
       169
     ],
     "1e417abc": [
-      17,
+      16,
       170,
       171
     ],
@@ -6341,7 +6341,7 @@
   "assetsMapping": {
     "88.chunk.0b9133cc.js": "bba68bf6",
     "89.chunk.ec09c03e.js": "bba68bf6",
-    "app.chunk.05646cb0.js": "1a3ae26b",
+    "app.chunk.14c9d185.js": "1a3ae26b",
     "commons.app.chunk.aca2d3c9.js": "0859c165",
     "pages/about/hello.chunk.e09e08ac.js": "169b6e62",
     "pages/about/invite/_id.chunk.061fbad6.js": "11ae97d7",
@@ -6355,7 +6355,7 @@
     "pages/bangumi/_id.chunk.f79facfc.js": "1d3e997a",
     "pages/bangumi/_id/cartoon.chunk.8497db66.js": "6c49dca2",
     "pages/bangumi/_id/index.chunk.167cd306.js": "d98239f4",
-    "pages/bangumi/_id/pins.chunk.693d7581.js": "59929e6c",
+    "pages/bangumi/_id/pins.chunk.ec503406.js": "59929e6c",
     "pages/bangumi/_id/post.chunk.b3ebc9eb.js": "59927028",
     "pages/bangumi/_id/qaq.chunk.f3a854ba.js": "1f966b95",
     "pages/bangumi/_id/review.chunk.3ee802c2.js": "38faf8b8",
@@ -6398,7 +6398,7 @@
     "pages/user/_zone/draft.chunk.07b56476.js": "2747993a",
     "pages/user/_zone/index.chunk.01beb0d9.js": "278c486b",
     "pages/user/_zone/mark.chunk.7b2c3771.js": "6ca31014",
-    "pages/user/_zone/pins.chunk.83a02b9c.js": "6ca48ac5",
+    "pages/user/_zone/pins.chunk.b3e06c4e.js": "6ca48ac5",
     "pages/user/_zone/post.chunk.fbad0194.js": "6ca4a1e7",
     "pages/user/_zone/qaq.chunk.b778b7ec.js": "5e57e63a",
     "pages/user/_zone/review.chunk.99bf582d.js": "4e3c6a42",
@@ -6406,7 +6406,7 @@
     "pages/video/_id.chunk.5c605b3d.js": "aca57236",
     "pages/world.chunk.405ab3b9.js": "2887285e",
     "pages/world/index.chunk.2a8ff4a5.js": "20b50dd8",
-    "pages/world/pins.chunk.e4e3937d.js": "07be20fc",
+    "pages/world/pins.chunk.2df35240.js": "07be20fc",
     "pages/world/post.chunk.eb522599.js": "07be381e",
     "pages/world/qaq.chunk.93515682.js": "c5b1a5ba",
     "pages/world/review.chunk.9edca1d4.js": "13eeaf56",
@@ -6419,7 +6419,7 @@
     "pages/wx-app/image/_id.chunk.008dfffd.js": "5cade10d",
     "pages/wx-app/post/_id.chunk.b26c9f07.js": "297a2ce4",
     "pages/wx-app/score/_id.chunk.b2459c1e.js": "0feb02c4",
-    "runtime.0901af9c.js": "6fca0322",
+    "runtime.d4c4d834.js": "6fca0322",
     "vendors.app.chunk.01251924.js": "7ea1d828",
     "vendors.pages/app/download.chunk.c7f27b40.js": "abbf0f8c",
     "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.137289b0.js": "65eab28c",
