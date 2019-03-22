@@ -124,12 +124,12 @@
           overflow: hidden;
           width: 30px;
           height: 30px;
-          border: 1px solid #e5e9ef;
         }
 
         .bangumi-avatar {
           width: 30px;
           height: 30px;
+          border-radius: 3px;
         }
 
         .user-avatar,
@@ -138,6 +138,13 @@
           margin-right: 10px;
           overflow: hidden;
           float: left;
+          border: 1px solid #e5e9ef;
+          text-align: center;
+
+          img {
+            width: 30px;
+            height: 30px;
+          }
         }
 
         .main-name {
@@ -185,143 +192,128 @@
 <template>
   <div id="image-waterfall-flow">
     <div class="waterfall-wrap">
-      <Waterfall
-        v-if="list.length"
-        :line-count="2"
-        :margin-right="10"
-        :margin-bottom="10"
-        :extra-height="106"
-        :vw-viewport="375"
-        :max-height="436"
+      <FlowRender
         line-width="50%"
+        :line-count="2"
+        :margin-bottom="10"
+        :margin-right="10"
+        :vw-viewport="375"
+        :extra-height="106"
+        :max-height="436"
+        :list="items"
       >
-        <WaterfallSlot
-          v-for="(item, index) in list"
-          :key="item.id"
-          :index="index"
-          :width="item.source.width"
-          :height="item.source.height"
-        >
-          <div class="image-item">
-            <nuxt-link
-              :to="$alias.image(item.id)"
-              :class="{ 'album-box': item.is_album }"
-              class="image-box"
-            >
-              <i
-                v-if="item.is_creator"
-                class="is-creator iconfont icon-huangguan"
-              />
-              <div
-                :style="{
-                  backgroundColor: `${getRandomColor()}`,
-                  backgroundImage: `url(${$resize(item.source.url, { width: 400, mode: 2 })})`,
-                  paddingTop: `${item.source.height / item.source.width * 100}%`
-                }"
-                class="image"
-              />
-              <div v-if="item.is_album" class="is-album">
-                <i class="el-icon-picture-outline" />
-                <span class="image-count" v-text="item.image_count" />
-              </div>
-            </nuxt-link>
-            <div class="panel">
-              <div class="intro">
-                <p class="name oneline" v-text="item.name" />
-                <div class="social">
-                  <span v-if="item.is_creator">
-                    <i class="iconfont icon-fantuan" />
-                    <span>{{ item.reward_count }}</span>
-                  </span>
-                  <span v-else>
-                    <i class="iconfont icon-like" />
-                    <span>{{ item.like_count }}</span>
-                  </span>
-                  <span>
-                    <i class="iconfont icon-mark" />
-                    <span>{{ item.mark_count }}</span>
-                  </span>
-                  <span>
-                    <i class="iconfont icon-talk" />
-                    <span>{{ item.comment_count }}</span>
-                  </span>
-                </div>
-              </div>
-              <div class="about">
-                <template v-if="userZone">
-                  <nuxt-link
-                    :to="$alias.bangumi(item.bangumi.id)"
-                    class="bangumi-avatar"
-                  >
-                    <v-img :lazy="false" :src="item.bangumi.avatar" width="60" />
-                  </nuxt-link>
-                  <div class="info">
-                    <nuxt-link
-                      :to="$alias.bangumi(item.bangumi.id)"
-                      class="main-name oneline"
-                      v-text="item.bangumi.name"
-                    />
-                  </div>
-                </template>
-                <template v-else-if="bangumiId">
-                  <nuxt-link
-                    :to="$alias.user(item.user.zone)"
-                    class="user-avatar"
-                  >
-                    <v-img
-                      :src="item.user.avatar"
-                      :lazy="false"
-                      width="30"
-                      height="30"
-                    />
-                  </nuxt-link>
-                  <nuxt-link
-                    :to="$alias.user(item.user.zone)"
-                    class="main-name-user"
-                    v-text="item.user.nickname"
-                  />
-                </template>
-                <template v-else>
-                  <nuxt-link
-                    :to="$alias.bangumi(item.bangumi.id)"
-                    class="bangumi-avatar"
-                  >
-                    <v-img :lazy="false" :src="item.bangumi.avatar" width="30" />
-                  </nuxt-link>
-                  <div class="info">
-                    <p class="main-info">
-                      <span>UP：</span>
-                      <nuxt-link
-                        :to="$alias.user(item.user.zone)"
-                        class="oneline"
-                        v-text="item.user.nickname"
-                      />
-                    </p>
-                    <nuxt-link
-                      :to="$alias.bangumi(item.bangumi.id)"
-                      class="oneline"
-                      v-text="item.bangumi.name"
-                    />
-                  </div>
-                </template>
+        <div slot="item" slot-scope="{ item }" class="image-item">
+          <nuxt-link
+            :to="$alias.image(item.id)"
+            :class="{ 'album-box': item.is_album }"
+            class="image-box"
+          >
+            <i
+              v-if="item.is_creator"
+              class="is-creator iconfont icon-huangguan"
+            />
+            <div
+              :style="{
+                backgroundColor: `${getRandomColor()}`,
+                backgroundImage: `url(${$resize(item.url, { width: 400, mode: 2 })})`,
+                paddingTop: `${item.height / item.width * 100}%`
+              }"
+              class="image"
+            />
+            <div v-if="item.is_album" class="is-album">
+              <i class="el-icon-picture-outline" />
+              <span class="image-count" v-text="item.image_count" />
+            </div>
+          </nuxt-link>
+          <div class="panel">
+            <div class="intro">
+              <p class="name oneline" v-text="item.name" />
+              <div class="social">
+                <span v-if="item.is_creator">
+                  <i class="iconfont icon-fantuan" />
+                  <span>{{ item.reward_count }}</span>
+                </span>
+                <span v-else>
+                  <i class="iconfont icon-like" />
+                  <span>{{ item.like_count }}</span>
+                </span>
+                <span>
+                  <i class="iconfont icon-mark" />
+                  <span>{{ item.mark_count }}</span>
+                </span>
+                <span>
+                  <i class="iconfont icon-talk" />
+                  <span>{{ item.comment_count }}</span>
+                </span>
               </div>
             </div>
+            <div class="about">
+              <template v-if="userZone">
+                <nuxt-link
+                  :to="$alias.bangumi(item.bangumi.id)"
+                  class="bangumi-avatar"
+                >
+                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                </nuxt-link>
+                <div class="info">
+                  <nuxt-link
+                    :to="$alias.bangumi(item.bangumi.id)"
+                    class="main-name oneline"
+                    v-text="item.bangumi.name"
+                  />
+                </div>
+              </template>
+              <template v-else-if="bangumiId">
+                <nuxt-link
+                  :to="$alias.user(item.user.zone)"
+                  class="user-avatar"
+                >
+                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                </nuxt-link>
+                <nuxt-link
+                  :to="$alias.user(item.user.zone)"
+                  class="main-name-user"
+                  v-text="item.user.nickname"
+                />
+              </template>
+              <template v-else>
+                <nuxt-link
+                  :to="$alias.bangumi(item.bangumi.id)"
+                  class="bangumi-avatar"
+                >
+                  <img :src="$resize(item.bangumi.avatar, { width: 60 })">
+                </nuxt-link>
+                <div class="info">
+                  <p class="main-info">
+                    <span>UP：</span>
+                    <nuxt-link
+                      :to="$alias.user(item.user.zone)"
+                      class="oneline"
+                      v-text="item.user.nickname"
+                    />
+                  </p>
+                  <nuxt-link
+                    :to="$alias.bangumi(item.bangumi.id)"
+                    class="oneline"
+                    v-text="item.bangumi.name"
+                  />
+                </div>
+              </template>
+            </div>
           </div>
-        </WaterfallSlot>
-      </Waterfall>
+        </div>
+      </FlowRender>
     </div>
   </div>
 </template>
 
 <script>
-import Waterfall from './waterfall/Waterfall'
-import WaterfallSlot from './waterfall/WaterfallSlot'
+import FlowRender from 'vue-flow-render'
 
 export default {
   name: 'ImageWaterfallFlow',
   components: {
-    Waterfall,
-    WaterfallSlot
+    FlowRender
   },
   props: {
     list: {
@@ -336,6 +328,13 @@ export default {
     userZone: {
       type: String,
       default: ''
+    }
+  },
+  computed: {
+    items() {
+      return this.list.map(_ => {
+        return Object.assign(_, { ..._.source })
+      })
     }
   },
   methods: {
