@@ -214,7 +214,6 @@
             />
             <div
               :style="{
-                backgroundColor: `${getRandomColor()}`,
                 backgroundImage: `url(${$resize(item.url, { width: 400, mode: 2 })})`,
                 paddingTop: `${item.height / item.width * 100}%`
               }"
@@ -335,19 +334,6 @@ export default {
       return this.list.map(_ => {
         return Object.assign(_, { ..._.source })
       })
-    }
-  },
-  methods: {
-    getRandomColor() {
-      const colors = [
-        'rgba(21,174,103,.5)',
-        'rgba(245,163,59,.5)',
-        'rgba(255,230,135,.5)',
-        'rgba(194,217,78,.5)',
-        'rgba(195,123,177,.5)',
-        'rgba(125,205,244,.5)'
-      ]
-      return colors[~~(Math.random() * colors.length)]
     }
   }
 }
