@@ -86,9 +86,6 @@ import { getBanners } from '~/api/carouselApi'
 
 export default {
   name: 'Index',
-  head: {
-    title: 'calibur 二次元股市'
-  },
   components: {
     vSearch,
     vFooter

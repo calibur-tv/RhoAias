@@ -11232,22 +11232,6 @@ vue-no-ssr@^1.1.1:
   resolved "https://registry.yarnpkg.com/vue-no-ssr/-/vue-no-ssr-1.1.1.tgz#875f3be6fb0ae41568a837f3ac1a80eaa137b998"
   integrity sha512-ZMjqRpWabMPqPc7gIrG0Nw6vRf1+itwf0Itft7LbMXs2g3Zs/NFmevjZGN1x7K3Q95GmIjWbQZTVerxiBxI+0g==
 
-vue-picflow@^0.1.2:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/vue-picflow/-/vue-picflow-0.1.4.tgz#73fb3179ca8cd16703089d6d3a1a87ccefb56958"
-  integrity sha512-4iE8nsqEovUdT+mROvKm+4c1UGM1MObO8l9SrbHPQQGjIAdGohTLZpewn3RQQpl9q/kZNTscb4iVjlmdWIBdFQ==
-  dependencies:
-    vue "^2.6.6"
-    vue-picflow "^0.1.2"
-
-vue-picflow@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/vue-picflow/-/vue-picflow-0.1.5.tgz#8e9e4f1df2a111d0bed36af64e7bd0eb7227f262"
-  integrity sha512-4R3T7pIYe8iDTR8JINUxBpE+gr2kDrFUqGr5odyrVrLLvT9fCxj+FeOwzembiKUlXWpA5N2shJZH0mwCy+qJmg==
-  dependencies:
-    vue "^2.6.6"
-    vue-picflow "^0.1.2"
-
 vue-router@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
