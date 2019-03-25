@@ -11,26 +11,6 @@ const port = process.env.PORT || 3001
 const config = require('../nuxt.config.js')
 const isDev = !(app.env === 'production')
 
-const parseAuthToken = headers => {
-  const appName = headers['x-app-name'] || ''
-  const inApp = ['Geass', 'Innocence'].indexOf(appName) !== -1
-  return inApp ? headers['x-auth-token'] : parseCookie(headers, 'JWT-TOKEN')
-}
-
-const parseCookie = (headers, key) => {
-  if (!headers || !headers.cookie) {
-    return ''
-  }
-  let result = ''
-  headers.cookie.split('; ').forEach(item => {
-    const temp = item.split('=')
-    if (temp[0] === key) {
-      result = temp[1]
-    }
-  })
-  return result
-}
-
 async function start() {
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config)
@@ -55,11 +35,6 @@ async function start() {
   }
 
   app.use(ctx => {
-    const { headers } = ctx.req
-    const cookieOpts = {
-      httpOnly: false,
-      overwrite: true
-    }
     ctx.status = 200 // koa defaults to 404 when it sees that status is unset
     ctx.set('X-XSS-Protection', '1; mode=block')
     ctx.set('X-Content-Type-Options', 'nosniff')
@@ -69,12 +44,6 @@ async function start() {
       'Content-Security-Policy',
       `script-src 'self' 'unsafe-inline' 'unsafe-eval' *.calibur.tv hm.baidu.com *.geetest.com zz.bdstatic.com push.zhanzhang.baidu.com res2.wx.qq.com qzonestyle.gtimg.cn;`
     )
-    const appName = parseCookie(headers, 'x-app-name') || ''
-    const appVersion = parseCookie(headers, 'x-app-version') || ''
-    const authToken = parseAuthToken(headers) || ''
-    authToken && ctx.cookies.set('x-auth-token', authToken, cookieOpts)
-    appName && ctx.cookies.set('x-app-name', appName, cookieOpts)
-    appVersion && ctx.cookies.set('x-app-version', appVersion, cookieOpts)
 
     return new Promise((resolve, reject) => {
       ctx.res.on('close', resolve)

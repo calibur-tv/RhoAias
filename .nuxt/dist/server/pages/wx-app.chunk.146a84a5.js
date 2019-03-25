@@ -1,2 +1,0 @@
-exports.ids=[64],exports.modules={504:function(t,e,n){"use strict";n.r(e);var o={name:"WxApp",layout:"wx-app",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},r=n(1);var component=Object(r.a)(o,function(){var t=this.$createElement;return(this._self._c||t)("nuxt-child")},[],!1,function(t){},null,"04b5284e");e.default=component.exports}};
-//# sourceMappingURL=wx-app.chunk.146a84a5.js.map

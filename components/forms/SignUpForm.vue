@@ -133,9 +133,11 @@
         <a :href="qqRegisterLink">
           <i class="iconfont icon-qq" />
         </a>
-        <a v-if="ua.wechat" :href="wechatRegisterLink">
-          <i class="iconfont icon-wechat" />
-        </a>
+        <not-ssr>
+          <a v-if="ua.wechat" :href="wechatRegisterLink">
+            <i class="iconfont icon-wechat" />
+          </a>
+        </not-ssr>
       </span>
       <a v-if="!inviteCode" class="fr" @click="showLogin">已有账号»</a>
     </div>

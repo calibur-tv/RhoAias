@@ -84,6 +84,13 @@
         float: right;
         position: relative;
         margin-top: 11px;
+
+        img {
+          border-radius: 50%;
+          display: block;
+          width: 24px;
+          height: 24px;
+        }
       }
 
       .faker-user-avatar {
@@ -148,25 +155,27 @@
         </router-link>
       </div>
       <div class="nav-right">
-        <template v-if="haveAuthToken">
-          <div v-if="currentUser" class="nav-avatar">
-            <button @click="openUserDrawer">
-              <v-img :src="currentUser.avatar" :avatar="true" width="24" />
-            </button>
-          </div>
-          <img
-            v-else
-            :src="
-              $resize('https://image.calibur.tv/default/user-avatar', {
-                width: 48
-              })
-            "
-            class="faker-user-avatar"
-          >
-        </template>
-        <button v-else class="sign-btn" @click="openSignDrawer">
-          登录
-        </button>
+        <not-ssr>
+          <template v-if="haveAuthToken">
+            <div v-if="currentUser" class="nav-avatar">
+              <button @click="openUserDrawer">
+                <img :src="$resize(currentUser.avatar, { width: 48 })" alt="">
+              </button>
+            </div>
+            <img
+              v-else
+              :src="
+                $resize('https://image.calibur.tv/default/user-avatar', {
+                  width: 48
+                })
+              "
+              class="faker-user-avatar"
+            >
+          </template>
+          <button v-else class="sign-btn" @click="openSignDrawer">
+            登录
+          </button>
+        </not-ssr>
         <template v-if="!homePage">
           <button class="open-search-btn" @click="openSearchDrawer = true">
             <i class="iconfont icon-sousuo" />

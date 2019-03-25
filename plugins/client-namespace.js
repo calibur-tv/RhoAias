@@ -2,7 +2,6 @@ import sentry from '~/assets/js/sentry'
 import Toast from '~/assets/js/Toast'
 import SNSShare from '~/assets/js/SNS/share'
 import Invoker from '~/assets/js/Invoker'
-import Cookies from 'js-cookie'
 
 export default ({ store }) => {
   const search = window.location.search
@@ -10,17 +9,21 @@ export default ({ store }) => {
     'SET_SOURCE',
     /from=/.test(search) ? search.split('from=')[1].split('&')[0] : ''
   )
-  const { pageData, ua } = store.state
+  store.commit('SET_UA', window.navigator.userAgent)
+  const { OAuthData, ua } = store.state
   window.M = window.M || Object.create(null)
 
   M.sentry = sentry
   M.toast = new Toast()
-  const SNS = new SNSShare({ config: pageData, ua })
+  const SNS = new SNSShare({ config: OAuthData, ua })
   M.shareData = SNS.initShareData()
-  pageData && SNS.initShareSDK()
+  OAuthData && SNS.initShareSDK()
 
-  const appName = Cookies.get('x-app-name') || ''
-  const appVersion = Cookies.get('x-app-version') || ''
+  const pageData =
+    JSON.parse(
+      document.querySelector('script[data-name="page-data"]').textContent
+    ) || {}
+  const { appName, appVersion } = pageData
 
   M.invoker = new Invoker({ appName, appVersion })
 }

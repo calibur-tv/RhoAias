@@ -103,9 +103,11 @@
         <a :href="qqRegisterLink">
           <i class="iconfont icon-qq" />
         </a>
-        <a v-if="ua.wechat" :href="wechatRegisterLink">
-          <i class="iconfont icon-wechat" />
-        </a>
+        <not-ssr>
+          <a v-if="ua.wechat" :href="wechatRegisterLink">
+            <i class="iconfont icon-wechat" />
+          </a>
+        </not-ssr>
       </div>
       <el-form-item>
         <el-button

@@ -2,14 +2,23 @@ import Vue from 'vue'
 import { getLoginUser } from '~/api/userApi'
 import { getUpToken } from '~/api/imageApi'
 import { getPageData } from '~/api/carouselApi'
-import parseToken from '~/assets/js/parseToken'
 
 export const state = () => ({
   user: null,
   login: false,
-  ua: null,
+  ua: {
+    ios: false,
+    android: false,
+    wechat: false,
+    qq: false,
+    tencent: false,
+    alipay: false,
+    weibo: false,
+    pc: false,
+    others: false
+  },
   haveAuthToken: false,
-  pageData: null,
+  OAuthData: null,
   from: ''
 })
 
@@ -28,7 +37,7 @@ export const mutations = {
   SET_AUTH_TOKEN(state, token) {
     state.haveAuthToken = !!token
   },
-  SET_UA(state, { ua }) {
+  SET_UA(state, ua) {
     state.ua = {
       ios: /iphone|ipad|ipod/.test(ua),
       android: /android/.test(ua),
@@ -43,8 +52,8 @@ export const mutations = {
       others: /windows phone|blackberry/.test(ua)
     }
   },
-  SET_PAGE_DATA(state, data) {
-    state.pageData = data
+  SET_OAUTH_DATA(state, data) {
+    state.OAuthData = data
   },
   UPDATE_USER_INFO(state, { key, value }) {
     Vue.set(state.user, key, value)
@@ -85,15 +94,12 @@ export const mutations = {
 }
 
 export const actions = {
-  async nuxtServerInit({ commit }, { req }) {
-    const headers = req.headers
-    const ua = (headers['user-agent'] || '').toLowerCase()
+  async getOauthData({ commit }) {
+    const ua = (window.navigator.userAgent || '').toLowerCase()
     if (/mqqbrowser|qq|micromessenger/.test(ua)) {
-      const data = await getPageData(this, `https://m.calibur.tv${req.url}`)
-      commit('SET_PAGE_DATA', data)
+      const data = await getPageData(this, window.location.href)
+      commit('SET_OAUTH_DATA', data)
     }
-    commit('SET_UA', { ua })
-    commit('SET_AUTH_TOKEN', parseToken(req))
   },
   async initAuth({ state, commit }) {
     if (state.user) {

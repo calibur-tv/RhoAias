@@ -15,6 +15,7 @@ import FeedbackDrawer from '~/components/drawers/FeedbackDrawer'
 import ReportDrawer from '~/components/drawers/ReportDrawer'
 import SignDrawer from '~/components/common/Sign'
 import GiftModal from '~/components/common/GiftModal'
+import clientAuth from '~/mixins/clientAuth'
 
 export default {
   name: 'DefaultLayout',
@@ -25,8 +26,8 @@ export default {
     SignDrawer,
     GiftModal
   },
+  mixins: [clientAuth],
   mounted() {
-    this.$store.dispatch('initAuth')
     this.$store.dispatch('bangumi/getAllBangumi')
   }
 }

@@ -34,7 +34,6 @@
   }
 
   .signed {
-    height: 112px;
     text-align: center;
     font-size: 14px;
     margin-top: 110px;
@@ -54,23 +53,27 @@
 <template>
   <div id="invite-user">
     <div class="container">
-      <p v-if="haveAuthToken" class="signed">
-        你已经是注册用户了 (￣3￣)
-        <br>
-        把这个网址链接发给小伙伴，或者告诉TA你的邀请码就行啦
-        <br>
-        快来邀请小伙伴一起注册 calibur 吧
-        <br>
-        点击查看<nuxt-link to="/my/invite">
-          我的邀请码
-        </nuxt-link>
-      </p>
-      <div v-else-if="isGuest" class="sign-wrap">
-        <h3 class="sub-title">
-          欢迎来到 calibur.tv
-        </h3>
-        <SignUpForm :invite-code="id" />
-      </div>
+      <not-ssr>
+        <div>
+          <p v-if="haveAuthToken" class="signed">
+            你已经是注册用户了 (￣3￣)
+            <br>
+            把这个网址链接发给小伙伴，或者告诉TA你的邀请码就行啦
+            <br>
+            快来邀请小伙伴一起注册 calibur 吧
+            <br>
+            点击查看<nuxt-link to="/my/invite">
+              我的邀请码
+            </nuxt-link>
+          </p>
+          <div v-else-if="isGuest" class="sign-wrap">
+            <h3 class="sub-title">
+              欢迎来到 calibur.tv
+            </h3>
+            <SignUpForm :invite-code="id" />
+          </div>
+        </div>
+      </not-ssr>
     </div>
   </div>
 </template>

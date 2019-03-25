@@ -84,8 +84,20 @@ import vSearch from '~/components/search/Input'
 import vFooter from '~/components/layouts/Footer'
 import { getBanners } from '~/api/carouselApi'
 
+const shuffle = array => {
+  for (let i = array.length; i; i--) {
+    const j = Math.floor(Math.random() * i)
+    ;[array[i - 1], array[j]] = [array[j], array[i - 1]]
+  }
+
+  return array
+}
+
 export default {
   name: 'Index',
+  head: {
+    title: 'calibur 二次元股市'
+  },
   components: {
     vSearch,
     vFooter
@@ -114,6 +126,9 @@ export default {
       banners: data,
       banner1: data[0]
     }
+  },
+  created() {
+    this.banners = shuffle(this.banners)
   },
   mounted() {
     this.loopBanner()

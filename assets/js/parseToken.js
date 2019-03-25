@@ -26,6 +26,12 @@ export default req => {
     token = params.token
   }
   if (isClient) {
+    const pageData =
+      JSON.parse(
+        document.querySelector('script[data-name="page-data"]').textContent
+      ) || {}
+    token = pageData.authToken
+
     window.__JWT_TOKEN__ = token
   }
 

@@ -249,6 +249,12 @@
         绑定：
       </p>
       <div class="providers">
+        <a href="javascript:;" @click="bindUserPhone">
+          <i
+            :class="{ 'is-bind': user.providers.bind_phone }"
+            class="iconfont icon-phone"
+          />
+        </a>
         <a
           :href="
             `https://api.calibur.tv/callback/oauth2/qq?from=bind&id=${
@@ -261,26 +267,22 @@
             class="iconfont icon-qq"
           />
         </a>
-        <a
-          :href="
-            ua.wechat
-              ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${
-                user.id
-              }&zone=${user.zone}`
-              : 'javascript:;'
-          "
-        >
-          <i
-            :class="{ 'is-bind': user.providers.bind_wechat }"
-            class="iconfont icon-wechat"
-          />
-        </a>
-        <a href="javascript:;" @click="bindUserPhone">
-          <i
-            :class="{ 'is-bind': user.providers.bind_phone }"
-            class="iconfont icon-phone"
-          />
-        </a>
+        <not-ssr>
+          <a
+            :href="
+              ua.wechat
+                ? `https://api.calibur.tv/callback/oauth2/weixin?from=bind&id=${
+                  user.id
+                }&zone=${user.zone}`
+                : 'javascript:;'
+            "
+          >
+            <i
+              :class="{ 'is-bind': user.providers.bind_wechat }"
+              class="iconfont icon-wechat"
+            />
+          </a>
+        </not-ssr>
       </div>
     </div>
     <div class="hr" />

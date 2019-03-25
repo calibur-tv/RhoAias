@@ -45,17 +45,9 @@
 <template>
   <footer id="footer">
     <div class="panel">
-      <button v-if="haveAuthToken" @click="logout">
-        退出
-      </button>
-      <template v-else>
-        <button @click="login">
-          登录
-        </button>
-        <button @click="register">
-          注册
-        </button>
-      </template>
+      <nuxt-link to="/about/hello">
+        欢迎
+      </nuxt-link>
       <button @click="$channel.$emit('open-feedback')">
         反馈
       </button>
@@ -71,11 +63,6 @@ import { logout } from '~/api/userApi'
 
 export default {
   name: 'VFooter',
-  computed: {
-    haveAuthToken() {
-      return this.$store.state.haveAuthToken
-    }
-  },
   methods: {
     logout() {
       this.$cookie.remove('JWT-TOKEN')

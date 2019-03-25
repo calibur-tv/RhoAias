@@ -3,10 +3,12 @@
 </template>
 
 <script>
+import clientAuth from '~/mixins/clientAuth'
+
 export default {
   name: 'WxAppLayout',
+  mixins: [clientAuth],
   mounted() {
-    this.$store.dispatch('initAuth')
     this.showDebugBar()
   },
   methods: {

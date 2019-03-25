@@ -113,7 +113,9 @@ module.exports = {
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '~/modules/cache',
+    '~/modules/auth'
   ],
 
   axios: {
