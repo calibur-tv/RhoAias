@@ -21,5 +21,5 @@ module.exports = {
       }
     ]
   },
-  pages: isDev ? [] : []
+  pages: isDev ? ['/about/hello'] : ['/about/hello']
 }
