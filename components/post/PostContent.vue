@@ -119,7 +119,7 @@
           >
             <v-img
               :src="img.url"
-              :full="true"
+              mode="contain"
               :width="img.width"
               :height="img.height"
             />

@@ -162,7 +162,7 @@
         <div v-for="img in info.images" :key="img.id" class="image-package">
           <v-img
             :src="img.url"
-            :full="true"
+            mode="contain"
             :width="img.width"
             :height="img.height"
             class="image"
@@ -178,7 +178,7 @@
             :src="info.source.url"
             :width="info.source.width"
             :height="info.source.height"
-            :full="true"
+            mode="contain"
             class="image"
           />
         </div>

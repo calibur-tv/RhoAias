@@ -25,7 +25,7 @@
       :src="item.url"
       :width="item.width"
       :height="item.height"
-      :full="true"
+      mode="contain"
     />
     <p v-if="item.text" class="img-tip" v-text="item.text" />
   </div>

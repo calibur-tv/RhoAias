@@ -47,7 +47,7 @@
             :src="$resize(item.url)"
             :width="item.width"
             :height="item.height"
-            :full="true"
+            mode="contain"
           />
           <el-input
             v-model.trim="desc"

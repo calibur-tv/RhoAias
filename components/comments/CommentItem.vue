@@ -189,27 +189,22 @@
         />
         <div v-if="imageCount" class="image-area">
           <div v-if="imageCount === 1">
-            <VImg
+            <v-img
               v-for="(item, index) in comment.images"
               :key="index"
               :src="item.url"
-              :size="item.size"
-              :type="item.type"
-              :blur="true"
-              :height="98"
-              width="auto"
+              :height="106"
+              width=""
               class="image"
             />
           </div>
           <div v-else>
             <div>
-              <VImg
+              <v-img
                 v-for="(item, index) in filterImages"
                 :key="index"
                 :src="item.url"
-                :size="item.size"
-                :type="item.type"
-                :blur="true"
+                :rect="true"
                 width="32%"
                 class="image"
               />

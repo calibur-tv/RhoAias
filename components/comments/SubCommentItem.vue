@@ -100,7 +100,7 @@
       :to="$alias.user(comment.from_user_zone)"
       tag="div"
     >
-      <VImg
+      <v-img
         :src="comment.from_user_avatar"
         :width="22"
         :height="22"

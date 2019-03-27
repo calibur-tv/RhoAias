@@ -125,7 +125,7 @@
       <ul>
         <li v-for="item in bangumis.data" :key="item.id">
           <nuxt-link :to="$alias.bangumi(item.id)" class="bangumi-a">
-            <v-img :src="item.avatar" width="60" height="60" class="face" />
+            <v-img :src="item.avatar" width="60" class="face" />
             <div class="content">
               <p class="name" v-text="item.name" />
               <p class="body" v-text="item.summary" />

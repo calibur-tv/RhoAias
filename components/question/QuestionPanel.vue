@@ -112,7 +112,7 @@
               :src="img.url"
               :width="img.width"
               :height="img.height"
-              :full="true"
+              mode="contain"
               class="image"
             />
           </div>

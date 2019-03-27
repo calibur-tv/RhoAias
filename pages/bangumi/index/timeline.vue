@@ -54,7 +54,7 @@
         <h3 class="sub-title" v-text="col.date" />
         <li v-for="item in col.list" :key="item.id" class="bangumi">
           <nuxt-link :to="$alias.bangumi(item.id)" class="bangumi-a">
-            <v-img :src="item.avatar" width="60" height="60" class="face" />
+            <v-img :src="item.avatar" width="60" class="face" />
             <div class="content">
               <p class="name oneline" v-text="item.name" />
               <p class="body" v-text="item.summary" />

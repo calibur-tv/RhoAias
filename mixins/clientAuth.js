@@ -6,7 +6,7 @@ export default {
       return
     }
     this.$store.commit('SET_AUTH_TOKEN', parseToken())
-    this.$store.commit('SET_UA', window.navigator.userAgent)
+    this.$store.commit('SET_UA', window.navigator.userAgent.toLowerCase())
     this.$store.dispatch('initAuth')
     this.$store.dispatch('getOauthData')
   }

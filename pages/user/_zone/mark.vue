@@ -183,7 +183,7 @@
         <ul slot-scope="{ flow }" class="images">
           <li v-for="item in flow" :key="item.id">
             <a :href="item.deleted_at ? 'javascript:;' : $alias.image(item.id)">
-              <v-img :src="item.url" :width="140" :height="180" />
+              <v-img :src="item.url" width="140" height="180" />
               <div v-if="item.deleted_at" class="delete-mask">该相册已删除</div>
             </a>
           </li>
@@ -235,7 +235,7 @@
           <li v-for="item in flow" :key="item.id">
             <a :href="item.deleted_at ? 'javascript:;' : $alias.video(item.id)">
               <div class="poster">
-                <v-img :src="item.poster" :width="120" :height="80" />
+                <v-img :src="item.poster" width="120" height="80" />
                 <div v-if="item.deleted_at" class="delete-mask">
                   视频已失效
                 </div>

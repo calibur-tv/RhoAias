@@ -9,7 +9,7 @@ export default ({ store }) => {
     'SET_SOURCE',
     /from=/.test(search) ? search.split('from=')[1].split('&')[0] : ''
   )
-  store.commit('SET_UA', window.navigator.userAgent)
+  store.commit('SET_UA', window.navigator.userAgent.toLowerCase())
   const { OAuthData, ua } = store.state
   window.M = window.M || Object.create(null)
 

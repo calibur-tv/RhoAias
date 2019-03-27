@@ -57,8 +57,8 @@
       :src="info.banner.url"
       :width="info.banner.width"
       :height="info.banner.height"
-      :full="true"
       :lazy="false"
+      mode="contain"
     />
     <div class="score-header container">
       <h1 class="title" v-text="info.title" />
