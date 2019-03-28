@@ -55,10 +55,9 @@
     <v-img
       v-if="info.banner"
       :src="info.banner.url"
-      :width="info.banner.width"
-      :height="info.banner.height"
+      :img-width="info.banner.width"
+      :img-height="info.banner.height"
       :lazy="false"
-      mode="contain"
     />
     <div class="score-header container">
       <h1 class="title" v-text="info.title" />

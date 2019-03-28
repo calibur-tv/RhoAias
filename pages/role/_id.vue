@@ -147,8 +147,8 @@
             <div class="clearfix">
               <v-img
                 :src="role.avatar"
-                :width="75"
-                :height="75"
+                width="75"
+                height="75"
                 class="avatar"
               />
               <div class="info">

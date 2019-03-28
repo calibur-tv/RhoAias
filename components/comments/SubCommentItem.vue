@@ -102,9 +102,9 @@
     >
       <v-img
         :src="comment.from_user_avatar"
-        :width="22"
-        :height="22"
         :avatar="true"
+        width="22"
+        height="22"
       />
     </nuxt-link>
     <div :class="$style.main">

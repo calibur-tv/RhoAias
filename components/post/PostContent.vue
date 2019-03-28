@@ -119,9 +119,8 @@
           >
             <v-img
               :src="img.url"
-              mode="contain"
-              :width="img.width"
-              :height="img.height"
+              :img-width="img.width"
+              :img-height="img.height"
             />
           </div>
         </ImagePreview>

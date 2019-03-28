@@ -37,7 +37,7 @@
       >
         <li v-for="item in flow" :key="item.id">
           <nuxt-link :to="$alias.bangumi(item.id)" class="clearfix">
-            <v-img :src="item.avatar" class="avatar" width="40" />
+            <v-img :src="item.avatar" class="avatar" width="40" height="40" />
             <p class="name" v-text="item.name" />
           </nuxt-link>
         </li>

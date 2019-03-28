@@ -23,9 +23,8 @@
   <div class="json-content-img-parser">
     <v-img
       :src="item.url"
-      :width="item.width"
-      :height="item.height"
-      mode="contain"
+      :img-width="item.width"
+      :img-height="item.height"
     />
     <p v-if="item.text" class="img-tip" v-text="item.text" />
   </div>

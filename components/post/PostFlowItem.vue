@@ -169,7 +169,7 @@
           class="user-avatar"
           @click.stop
         >
-          <v-img :src="item.user.avatar" width="35" />
+          <v-img :src="item.user.avatar" width="35" height="35" />
         </nuxt-link>
         <nuxt-link
           v-else
@@ -177,7 +177,7 @@
           class="bangumi-avatar"
           @click.stop
         >
-          <v-img :src="item.bangumi.avatar" width="35" />
+          <v-img :src="item.bangumi.avatar" width="35" height="35" />
         </nuxt-link>
         <div class="name">
           <div v-if="item.user" class="clearfix">

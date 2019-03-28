@@ -286,6 +286,7 @@
                   :src="focusComment.from_user_avatar"
                   :avatar="true"
                   width="35"
+                  height="35"
                 />
               </nuxt-link>
               <div class="summary">
@@ -309,9 +310,8 @@
                 >
                   <v-img
                     :src="img.url"
-                    :width="img.width"
-                    :height="img.height"
-                    mode="contain"
+                    :img-width="img.width"
+                    :img-height="img.height"
                   />
                 </div>
               </div>
@@ -349,6 +349,7 @@
                     :src="item.from_user_avatar"
                     :avatar="true"
                     width="35"
+                    height="35"
                   />
                 </nuxt-link>
                 <div class="summary">

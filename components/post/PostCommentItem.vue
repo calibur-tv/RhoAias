@@ -98,7 +98,7 @@
 <template>
   <div :id="`comment-${post.id}`" class="post-reply-item">
     <nuxt-link :to="$alias.user(post.from_user_zone)" class="avatar">
-      <v-img :src="post.from_user_avatar" :avatar="true" width="35" />
+      <v-img :src="post.from_user_avatar" :avatar="true" width="35" height="35" />
     </nuxt-link>
     <div class="content">
       <div class="header">
@@ -140,9 +140,8 @@
           >
             <v-img
               :src="img.url"
-              :width="img.width"
-              :height="img.height"
-              mode="contain"
+              :img-width="img.width"
+              :img-height="img.height"
             />
           </div>
         </ImagePreview>

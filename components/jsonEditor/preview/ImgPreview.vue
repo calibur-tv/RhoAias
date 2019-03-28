@@ -45,9 +45,8 @@
         <div v-if="item.url" :style="imageWrapperHeight" class="wrapper">
           <v-img
             :src="$resize(item.url)"
-            :width="item.width"
-            :height="item.height"
-            mode="contain"
+            :img-width="item.width"
+            :img-height="item.height"
           />
           <el-input
             v-model.trim="desc"

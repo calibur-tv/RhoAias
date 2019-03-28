@@ -234,7 +234,7 @@ $placeholder-color: RGB(241, 243, 244);
 import utils from './utils'
 
 export default {
-  name: 'v-img',
+  name: 'VImg',
   props: {
     src: {
       required: true,

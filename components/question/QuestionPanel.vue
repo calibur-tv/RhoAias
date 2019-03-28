@@ -110,9 +110,8 @@
           >
             <v-img
               :src="img.url"
-              :width="img.width"
-              :height="img.height"
-              mode="contain"
+              :img-width="img.width"
+              :img-height="img.height"
               class="image"
             />
           </div>

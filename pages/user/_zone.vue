@@ -153,7 +153,7 @@
       />
     </div>
     <div class="user-panel container">
-      <v-img :src="user.avatar" :avatar="true" width="80" class="avatar" />
+      <v-img :src="user.avatar" :avatar="true" width="80" height="80" class="avatar" />
       <div class="info">
         <button v-if="isMe" @click="handleDaySign">
           {{ daySigned ? '已签到' : '签到' }}

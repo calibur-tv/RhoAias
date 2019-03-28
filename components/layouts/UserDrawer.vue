@@ -123,7 +123,7 @@
       <div class="mask" />
       <div class="user-info">
         <nuxt-link :to="$alias.user(user.zone)" class="avatar">
-          <v-img :src="user.avatar" :lazy="false" :avatar="true" width="50" />
+          <v-img :src="user.avatar" :lazy="false" :avatar="true" width="50" height="50" />
         </nuxt-link>
         <div class="panel">
           <div class="nickname">

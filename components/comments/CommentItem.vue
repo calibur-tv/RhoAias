@@ -193,8 +193,9 @@
               v-for="(item, index) in comment.images"
               :key="index"
               :src="item.url"
-              :height="106"
-              width=""
+              :img-width="item.width"
+              :img-height="item.height"
+              height="106"
               class="image"
             />
           </div>
