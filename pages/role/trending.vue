@@ -98,7 +98,7 @@
         <div />
       </nuxt-link>
     </div>
-    <TabContainer :headers="tabs" :router="true" />
+    <VueLayoutTab :headers="tabs" :routable="true" align="center" />
     <div class="todo">
       <nuxt-link v-if="orderCount" to="/role/trending/mine">
         <i class="iconfont icon-nitification" />
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import TabContainer from '~/components/common/TabContainer'
+import VueLayoutTab from 'vue-layout-tab'
 import {
   getStockMarketMeta,
   getUserWorkSchedule,
@@ -129,7 +129,7 @@ import {
 export default {
   name: 'RoleTrending',
   components: {
-    TabContainer
+    VueLayoutTab
   },
   data() {
     return {

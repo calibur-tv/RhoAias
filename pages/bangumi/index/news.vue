@@ -1,9 +1,27 @@
 <style lang="scss">
 #bangumi-news {
-  .weekly-tabs {
-    > header {
-      padding: 0 10px 15px;
-      border-bottom-width: 0;
+  .container {
+    padding-top: $container-padding;
+  }
+
+  .tab {
+    &-header {
+      &-anchor {
+        bottom: 20%;
+        height: 60%;
+        background-color: $color-red;
+        border-radius: 10px;
+      }
+
+      &-item {
+        &.is-active {
+          color: #fff;
+
+          &:after {
+            content: none;
+          }
+        }
+      }
     }
   }
 
@@ -79,10 +97,11 @@
 
 <template>
   <div id="bangumi-news">
-    <TabContainer
+    <VueLayoutTab
       :headers="showtime"
-      :def-index="active"
-      class="weekly-tabs"
+      :default-index="active"
+      :animated="true"
+      :swipe="true"
       @change="changeActive"
     >
       <template v-for="(weekly, index) in showtime" :slot="`${index}`">
@@ -133,18 +152,18 @@
           </more-btn>
         </ul>
       </template>
-    </TabContainer>
+    </VueLayoutTab>
   </div>
 </template>
 
 <script>
 import { getReleasedBangumis } from '~/api/bangumiApi'
-import TabContainer from '~/components/common/TabContainer'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'BangumiNews',
   components: {
-    TabContainer
+    VueLayoutTab
   },
   data() {
     return {

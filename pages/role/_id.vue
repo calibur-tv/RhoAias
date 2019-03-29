@@ -226,7 +226,7 @@
     </div>
     <div class="hr" />
     <div class="container tab-wrap">
-      <TabContainer :headers="tabs" def-index="1" @change="handleTabSwitch">
+      <VueLayoutTab :headers="tabs" :default-index="1" @change="handleTabSwitch">
         <template slot="0">
           <IdolProductArea :idol-id="id" :state="role.company_state" />
         </template>
@@ -247,7 +247,7 @@
         <template slot="5">
           <IdolSetting :idol="role" />
         </template>
-      </TabContainer>
+      </VueLayoutTab>
     </div>
     <ShareBtn :share-data="share_data" />
   </div>
@@ -259,7 +259,6 @@ import CommentMain from '~/components/comments/CommentMain'
 import BangumiPanel from '~/components/panel/BangumiPanel'
 import ShareBtn from '~/components/common/ShareBtn'
 import StarIdolBtn from '~/components/idol/StarIdolBtn'
-import TabContainer from '~/components/common/TabContainer'
 import IdolOwnerList from '~/components/idol/IdolOwnerList'
 import IdolTimeline from '~/components/idol/IdolTimeline'
 import IdolStockTable from '~/components/idol/IdolStockTable'
@@ -268,6 +267,7 @@ import IdolSetting from '~/components/idol/IdolSetting'
 import { Collapse, CollapseItem } from 'element-ui'
 import IdolProductArea from '~/components/idol/IdolProductArea'
 import IdolProductOrderList from '~/components/idol/IdolProductOrderList'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'RoleShow',
@@ -279,7 +279,7 @@ export default {
     BangumiPanel,
     ShareBtn,
     StarIdolBtn,
-    TabContainer,
+    VueLayoutTab,
     IdolOwnerList,
     IdolTimeline,
     IdolStockTable,

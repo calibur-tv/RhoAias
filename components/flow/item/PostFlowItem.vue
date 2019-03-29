@@ -15,7 +15,7 @@
       width: 35px;
       height: 35px;
 
-      img {
+      .v-img {
         display: block;
         width: 100%;
         height: auto;

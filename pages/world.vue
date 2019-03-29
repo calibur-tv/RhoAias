@@ -146,7 +146,11 @@
         </mt-swipe>
       </no-ssr>
     </div>
-    <TabContainer :headers="headers" :router="true" />
+    <VueLayoutTab
+      :headers="headers"
+      :routable="true"
+      align="center"
+    />
     <nuxt-child />
     <no-ssr>
       <CreatorMenu />
@@ -157,15 +161,15 @@
 <script>
 import { Swipe, SwipeItem } from 'mint-ui'
 import { getCarousel } from '~/api/carouselApi'
-import TabContainer from '~/components/common/TabContainer'
 import CreatorMenu from '~/components/common/Creator'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'TheWorld',
   components: {
     'mt-swipe': Swipe,
     'mt-swipe-item': SwipeItem,
-    TabContainer,
+    VueLayoutTab,
     CreatorMenu
   },
   data() {

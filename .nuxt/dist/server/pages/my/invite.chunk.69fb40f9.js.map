@@ -1,0 +1,1 @@
+{"version":3,"file":"pages/my/invite.chunk.69fb40f9.js","sources":["webpack:///./mixins/mustAuth.js"],"sourcesContent":["export default {\n  async fetch({ store, error }) {\n    const result = await store.dispatch('initAuth')\n    if (!result) {\n      error({\n        statusCode: '401',\n        message: '继续操作前请先登录'\n      })\n    }\n  }\n}\n"],"mappings":"AAAA","sourceRoot":""}

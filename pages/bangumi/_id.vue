@@ -1,15 +1,18 @@
 <template>
   <div id="bangumi-show">
     <BangumiHeader :info="info" />
-    <TabContainer :headers="headers" :router="true" />
+    <VueLayoutTab
+      :headers="headers"
+      :routable="true"
+    />
     <nuxt-child />
   </div>
 </template>
 
 <script>
 import BangumiHeader from '~/components/bangumi/BangumiHeader'
-import TabContainer from '~/components/common/TabContainer'
 import { getBangumiInfo } from '~/api/bangumiApi'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'BangumiShowLayout',
@@ -18,7 +21,7 @@ export default {
   },
   components: {
     BangumiHeader,
-    TabContainer
+    VueLayoutTab
   },
   props: {
     id: {

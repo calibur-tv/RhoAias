@@ -108,7 +108,7 @@ $main-color: #f25d8e;
 
 <template>
   <div v-if="user" id="app-invite">
-    <TabContainer :headers="headers" @change="handleTabSwitch">
+    <VueLayoutTab :headers="headers" align="center" @change="handleTabSwitch">
       <div slot="0" class="my-space">
         <div class="content">
           <img :src="$resize(user.avatar, { width: 150 })">
@@ -159,20 +159,20 @@ $main-color: #f25d8e;
           </ul>
         </FlowList>
       </div>
-    </TabContainer>
+    </VueLayoutTab>
   </div>
 </template>
 
 <script>
 import mustAuth from '~/mixins/mustAuth'
-import TabContainer from '~/components/common/TabContainer'
 import FlowList from '~/components/flow/FlowList'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'PageUserInvite',
   layout: 'empty',
   components: {
-    TabContainer,
+    VueLayoutTab,
     FlowList
   },
   head: {

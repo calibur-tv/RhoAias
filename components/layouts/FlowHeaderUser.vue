@@ -1,5 +1,5 @@
 <style lang="scss">
-.user-panel {
+.flow-header-user {
   @extend %clearfix;
   margin-bottom: 20px;
 
@@ -31,7 +31,7 @@
 </style>
 
 <template>
-  <div class="user-panel">
+  <div class="flow-header-user">
     <UserAvatar :user="user" />
     <div class="slot">
       <slot />

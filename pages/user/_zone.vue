@@ -131,11 +131,6 @@
     padding-left: 8px;
     padding-right: 8px;
   }
-
-  .tab-header {
-    margin-top: 12px;
-    text-align: center;
-  }
 }
 </style>
 
@@ -247,7 +242,7 @@
       </div>
     </div>
     <div class="user-tabs">
-      <TabContainer :headers="headers" :router="true" />
+      <VueLayoutTab :headers="headers" :routable="true" />
     </div>
     <nuxt-child class="user-main-view" />
   </div>
@@ -255,14 +250,14 @@
 
 <script>
 import UserSex from '~/components/user/UserSex'
-import TabContainer from '~/components/common/TabContainer'
 import { Progress } from 'element-ui'
 import { getUserInfo, daySignAction } from '~/api/userApi'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'UserShow',
   components: {
-    TabContainer,
+    VueLayoutTab,
     UserSex,
     'el-progress': Progress
   },

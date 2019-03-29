@@ -1,17 +1,17 @@
 <template>
   <div id="bangumi-index-layout">
-    <TabContainer :headers="headers" :router="true" />
+    <VueLayoutTab :headers="headers" :routable="true" align="center" />
     <nuxt-child />
   </div>
 </template>
 
 <script>
-import TabContainer from '~/components/common/TabContainer'
+import VueLayoutTab from 'vue-layout-tab'
 
 export default {
   name: 'BangumiIndexLayout',
   components: {
-    TabContainer
+    VueLayoutTab
   },
   data() {
     return {

@@ -11286,6 +11286,13 @@ vue-jest@^3.0.3:
     tsconfig "^7.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-layout-tab@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/vue-layout-tab/-/vue-layout-tab-0.1.2.tgz#8f9be96e2c2b0773d283d4f551aa730f2c98a32f"
+  integrity sha512-Spy9tbjZGIfp6felJx0cu+3gPkQFnfBq1l21zN9ETyNA1QVlS+tNcFrj6ME2r4uojz2hn06A5JQ9VSEoN5d/mg==
+  dependencies:
+    vue "^2.6.6"
+
 vue-lazyload@1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"

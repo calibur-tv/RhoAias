@@ -6,9 +6,10 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import LazyComponent from '~/components/common/LazyComponent'
 import { Upload, Form, FormItem, Input, Button } from 'element-ui'
 import VueClipboards from 'vue-clipboards'
+import resizeImage from '~/assets/js/resizeImage'
 import VueImageLazier from 'vue-image-lazier'
 import 'vue-image-lazier/dist/vue-image-lazier.css'
-import resizeImage from '~/assets/js/resizeImage'
+import 'vue-layout-tab/dist/vue-layout-tab.css'
 
 Vue.use(VueClipboards)
 Vue.use(Upload)
