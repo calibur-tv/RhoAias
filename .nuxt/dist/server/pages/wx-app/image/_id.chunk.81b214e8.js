@@ -1,2 +1,0 @@
-exports.ids=[70],exports.modules={498:function(t,e,n){"use strict";n.r(e);var o={name:"WxAppImage",components:{},props:{},data:()=>({}),computed:{},watch:{},created(){},mounted(){},methods:{}},r=n(1);var component=Object(r.a)(o,function(){var t=this.$createElement;return(this._self._c||t)("div",{attrs:{id:"wx-app-image"}},[this._ssrNode("\n  WxAppPost\n")])},[],!1,function(t){},null,"2925f2d0");e.default=component.exports}};
-//# sourceMappingURL=_id.chunk.81b214e8.js.map

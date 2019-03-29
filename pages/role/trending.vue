@@ -71,6 +71,10 @@
       margin: 5px 0;
     }
   }
+
+  .tab-header-item {
+    padding: 0 10px;
+  }
 }
 </style>
 
