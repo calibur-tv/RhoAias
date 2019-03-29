@@ -23,6 +23,9 @@ import PostFlowItem from '~/components/flow/item/PostFlowItem'
 
 export default {
   name: 'RoleTrendingProduct',
+  head: {
+    title: '产品区'
+  },
   components: {
     FlowList,
     PostFlowItem
