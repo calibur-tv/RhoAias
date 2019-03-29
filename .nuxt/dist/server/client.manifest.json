@@ -57,8 +57,8 @@
     "aa71da4a0e173c101be3.css",
     "aad8a5129546f29f8d86.css",
     "ac3e590513daaab5e796.css",
-    "app.chunk.a95e42bc.js",
-    "app.chunk.a95e42bc.js.map",
+    "app.chunk.206ea6db.js",
+    "app.chunk.206ea6db.js.map",
     "b478fa2b4d0403837995.css",
     "b86d81dc38939bf93418.css",
     "bc33cad02244c28605b2.css",
@@ -250,14 +250,14 @@
     "pages/wx-app/post/_id.chunk.dd3ad793.js.map",
     "pages/wx-app/score/_id.chunk.21326ee0.js",
     "pages/wx-app/score/_id.chunk.21326ee0.js.map",
-    "runtime.5a6d4e9c.js",
-    "runtime.5a6d4e9c.js.map",
+    "runtime.e256fc58.js",
+    "runtime.e256fc58.js.map",
     "vendors.app.chunk.6bd113bf.js",
     "vendors.app.chunk.6bd113bf.js.map",
     "vendors.pages/app/download.chunk.d987245a.js",
     "vendors.pages/app/download.chunk.d987245a.js.map",
-    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.59c67219.js",
-    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.59c67219.js.map",
+    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.c9bbb2aa.js",
+    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.c9bbb2aa.js.map",
     "vendors.pages/my/invite.chunk.3f46c1d0.js",
     "vendors.pages/my/invite.chunk.3f46c1d0.js.map",
     "vendors.pages/my/setting.chunk.d958b3e6.js",
@@ -272,12 +272,12 @@
     "vendors.pages/world.chunk.97a22e76.js.map"
   ],
   "initial": [
-    "runtime.5a6d4e9c.js",
+    "runtime.e256fc58.js",
     "commons.app.chunk.c85e6b54.js",
     "b478fa2b4d0403837995.css",
     "vendors.app.chunk.6bd113bf.js",
     "5b47168ebfe359cfab75.css",
-    "app.chunk.a95e42bc.js"
+    "app.chunk.206ea6db.js"
   ],
   "async": [
     "0014ab06873e26365c84.css",
@@ -424,7 +424,7 @@
     "pages/wx-app/post/_id.chunk.dd3ad793.js",
     "pages/wx-app/score/_id.chunk.21326ee0.js",
     "vendors.pages/app/download.chunk.d987245a.js",
-    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.59c67219.js",
+    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.c9bbb2aa.js",
     "vendors.pages/my/invite.chunk.3f46c1d0.js",
     "vendors.pages/my/setting.chunk.d958b3e6.js",
     "vendors.pages/role/_id.chunk.6cc0242f.js",
@@ -1668,7 +1668,7 @@
       251,
       252
     ],
-    "540d6310": [
+    "6e401886": [
       58,
       251,
       252
@@ -2770,7 +2770,7 @@
       251,
       252
     ],
-    "1b3d69f7": [
+    "0e240f3c": [
       58,
       251,
       252
@@ -6298,7 +6298,7 @@
   "assetsMapping": {
     "88.chunk.71e7b9a4.js": "bba68bf6",
     "89.chunk.910b18cc.js": "bba68bf6",
-    "app.chunk.a95e42bc.js": "1a3ae26b",
+    "app.chunk.206ea6db.js": "1a3ae26b",
     "commons.app.chunk.c85e6b54.js": "0859c165",
     "pages/about/hello.chunk.6a536eeb.js": "169b6e62",
     "pages/about/invite/_id.chunk.d60f9f5c.js": "11ae97d7",
@@ -6376,10 +6376,10 @@
     "pages/wx-app/image/_id.chunk.394e48e4.js": "5cade10d",
     "pages/wx-app/post/_id.chunk.dd3ad793.js": "297a2ce4",
     "pages/wx-app/score/_id.chunk.21326ee0.js": "0feb02c4",
-    "runtime.5a6d4e9c.js": "6fca0322",
+    "runtime.e256fc58.js": "6fca0322",
     "vendors.app.chunk.6bd113bf.js": "7ea1d828",
     "vendors.pages/app/download.chunk.d987245a.js": "abbf0f8c",
-    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.59c67219.js": "65eab28c",
+    "vendors.pages/bangumi/_id/pins.pages/user/_zone/pins.pages/world/pins.chunk.c9bbb2aa.js": "65eab28c",
     "vendors.pages/my/invite.chunk.3f46c1d0.js": "7beee3c8",
     "vendors.pages/my/setting.chunk.d958b3e6.js": "0378f171",
     "vendors.pages/role/_id.chunk.6cc0242f.js": "7aef7a25",
