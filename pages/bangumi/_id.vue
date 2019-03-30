@@ -39,7 +39,7 @@ export default {
       if (!this.info) {
         return []
       }
-      const { has_video, has_cartoon } = this.info
+      const { has_video, has_cartoon, has_score } = this.info
       const result = [
         {
           label: '帖子',
@@ -58,24 +58,25 @@ export default {
           route: 'bangumi-id-cartoon'
         })
       }
-      return result.concat([
-        {
-          label: '股市',
-          route: 'bangumi-id-role'
-        },
-        {
-          label: '相册',
-          route: 'bangumi-id-pins'
-        },
-        {
+      result.push({
+        label: '股市',
+        route: 'bangumi-id-role'
+      })
+      result.push({
+        label: '相册',
+        route: 'bangumi-id-pins'
+      })
+      if (has_score) {
+        result.push({
           label: '漫评',
           route: 'bangumi-id-review'
-        },
-        {
-          label: '问答',
-          route: 'bangumi-id-qaq'
-        }
-      ])
+        })
+      }
+      result.push({
+        label: '问答',
+        route: 'bangumi-id-qaq'
+      })
+      return result
     }
   },
   asyncData({ app, params, store, error }) {

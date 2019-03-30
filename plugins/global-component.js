@@ -19,7 +19,8 @@ Vue.use(Input)
 Vue.use(Button)
 Vue.use(VueImageLazier, {
   filter: resizeImage,
-  contentWidth: 400
+  contentWidth: 400,
+  vwViewport: 375
 })
 Vue.component(LazyComponent.name, LazyComponent)
 Vue.component(CollapseTransition.name, CollapseTransition)
