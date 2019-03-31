@@ -11261,10 +11261,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"
   integrity sha512-KmvZVtmM26BQOMK1rwUZsrqxEGeKiYSZGA7SNWE6uExx8UX/cj9hq2MRV/wWC3Cq6AoeDGk57rL9YMFRel/q+g==
 
-vue-image-lazier@^0.1.15:
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/vue-image-lazier/-/vue-image-lazier-0.1.15.tgz#aa6b2ebcb4b43c7752b160f69f01427a9eeb2904"
-  integrity sha512-wsPT95QACSIGIAFtOwW5OtX9cdv1Fxfdnk6Kz9Zt4RtymTVMfxPKXbcfxlc+4HON0wn6LdHTtX5NVvi+5e/fhg==
+vue-image-lazier@^0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/vue-image-lazier/-/vue-image-lazier-0.1.16.tgz#96331e4e071fd2fcefe54a120794c9dc1132f092"
+  integrity sha512-E49DMsT6mecKYXXEISAmHtBjW29GjWfB1kJBJ8Dv6/kjWjsxFzUQUS16PnKK4HCP0xAny6jMEjV36EFirmtYSA==
   dependencies:
     core-js "2"
     throttle-debounce "^2.1.0"
