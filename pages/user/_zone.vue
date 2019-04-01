@@ -131,6 +131,11 @@
     padding-left: 8px;
     padding-right: 8px;
   }
+
+  .tab-header {
+    margin: 15px auto 0 auto;
+    text-align: center;
+  }
 }
 </style>
 

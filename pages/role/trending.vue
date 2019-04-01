@@ -71,10 +71,6 @@
       margin: 5px 0;
     }
   }
-
-  .tab-header-item {
-    padding: 0 10px;
-  }
 }
 </style>
 
@@ -102,7 +98,7 @@
         <div />
       </nuxt-link>
     </div>
-    <VueLayoutTab :headers="tabs" :routable="true" align="center" />
+    <VueLayoutTab :headers="tabs" :routable="true" />
     <div class="todo">
       <nuxt-link v-if="orderCount" to="/role/trending/mine">
         <i class="iconfont icon-nitification" />
