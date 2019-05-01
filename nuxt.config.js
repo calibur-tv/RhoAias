@@ -142,11 +142,13 @@ module.exports = {
           }
         }
       }
+      /*
       routes.push({
         name: 'error-fallback',
         path: '*',
         component: resolve('pages/error/404.vue')
       })
+      */
     },
     scrollBehavior: function(to, from, savedPosition) {
       if (savedPosition) {
